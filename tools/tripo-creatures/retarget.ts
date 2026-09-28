@@ -55,6 +55,30 @@ export function limitGroundCorrectionSpeed(times: readonly number[], required: r
   return values;
 }
 
+/** Refine support against the final interpolated pose. The callback must exclude any existing floor correction. */
+export function sampleGroundSupport(times: readonly number[], requiredAt: (time: number) => number): { times: number[]; required: number[] } {
+  if (times.length < 2 || !times.every((time, index) => Number.isFinite(time) && (!index || time > times[index - 1]!))) throw new Error('Invalid support sample times');
+  const cache = new Map<number, number>(), refined: number[] = [];
+  const read = (time: number): number => {
+    const found = cache.get(time); if (found !== undefined) return found;
+    const value = requiredAt(time); if (!Number.isFinite(value)) throw new Error('Nonfinite floor correction');
+    cache.set(time, value); return value;
+  };
+  const refine = (left: number, right: number, depth: number): void => {
+    const middle = (left + right) / 2, a = read(left), b = read(right);
+    // A limb crossing an inflection can have its midpoint on the chord but dip elsewhere.
+    const dips = [.25, .5, .75].some(alpha => read(left + (right - left) * alpha) > a * (1 - alpha) + b * alpha + .00025);
+    if (depth < 10 && dips) { refine(left, middle, depth + 1); refine(middle, right, depth + 1); }
+    else refined.push(left);
+  };
+  for (let i = 1; i < times.length; i++) for (let part = 0; part < 4; part++) {
+    const start = times[i - 1]!, width = times[i]! - start;
+    refine(start + width * part / 4, start + width * (part + 1) / 4, 0);
+  }
+  refined.push(times[times.length - 1]!);
+  return { times: refined, required: refined.map(time => read(time) + (time > times[0]! && time < times[times.length - 1]! ? .0005 : 0)) };
+}
+
 /**
  * Transfer compatible anatomy through world space, then reconstruct target-local tracks.
  * The caller supplies verified rest poses and a facing basis. Source and target bind poses
@@ -235,7 +259,7 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
       if (ground && spec.groundingMaxSpeedMps !== undefined) {
         // A fast hand or crown can dip below both baked key poses. Sample the exact
         // interpolated target tracks, preserving their authored keys, before limiting support.
-        const cached = new Map<number, number>(), refined: number[] = [];
+        const cached = new Map<number, number>();
         const qa = new Quaternion(), qb = new Quaternion();
         const requiredAt = (frame: number): number => {
           const found = cached.get(frame); if (found !== undefined) return found;
@@ -251,19 +275,8 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
           const required = profile.grounding!.floor - deformedBounds(doc).min[1]!;
           cached.set(frame, required); return required;
         };
-        const refine = (left: number, right: number, depth: number): void => {
-          const middle = (left + right) / 2, a = requiredAt(left), b = requiredAt(right);
-          // A limb sweeping across an inflection can have a midpoint on the chord
-          // while dipping below it elsewhere. Probe both quarters as well.
-          const dips = [.25, .5, .75].some(alpha => requiredAt(left + (right - left) * alpha) > a * (1 - alpha) + b * alpha + .00025);
-          if (depth < 10 && dips) {
-            refine(left, middle, depth + 1); refine(middle, right, depth + 1);
-          } else refined.push(left);
-        };
-        for (let frame = 0; frame < steps * 4; frame++) refine(frame / 4, (frame + 1) / 4, 0);
-        refined.push(steps);
-        const supportTimes = refined.map(frame => frame * seconds / steps);
-        const required = refined.map(frame => requiredAt(frame) + (frame > 0 && frame < steps ? .0005 : 0));
+        const sampled = sampleGroundSupport(Array.from({ length: steps + 1 }, (_, frame) => frame), requiredAt);
+        const supportTimes = sampled.times.map(frame => frame * seconds / steps), required = sampled.required;
         const limited = limitGroundCorrectionSpeed(supportTimes, required, spec.groundingMaxSpeedMps);
         maximumGroundCorrection = Math.max(...limited.map(Math.abs));
         if (maximumGroundCorrection > (profile.grounding!.maxCorrection ?? Infinity)) throw new Error(`${name} exceeds allowed ground correction: ${maximumGroundCorrection}`);
