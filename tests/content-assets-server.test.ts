@@ -242,12 +242,8 @@ describe("content assets on a running server", () => {
     overlay.leave();
     expect(contentAssetOverride(MAP)).toBeNull();
 
-    // Removing the file does not unpublish the skin, but the next publish that carries it says so.
-    await call("/admin/files", { method: "DELETE", token: session, body: { paths: [MAP] } });
-    const stale = await publish(draft => { (draft.creatureSkins as any[]).find(row => row.id === "frost").name = "Frost deer"; });
-    expect(stale.status).toBe(422);
-    onDisk.add(MAP);
-    const fromHost = await publish(draft => { (draft.creatureSkins as any[]).find(row => row.id === "frost").name = "Frost deer"; });
-    expect(fromHost.status, JSON.stringify(fromHost.body)).toBe(200);
+    // A map the running catalog already names was checked when it arrived; editing the skin again does not probe it.
+    const renamed = await publish(draft => { (draft.creatureSkins as any[]).find(row => row.id === "frost").name = "Frost deer"; });
+    expect(renamed.status, JSON.stringify(renamed.body)).toBe(200);
   });
 });

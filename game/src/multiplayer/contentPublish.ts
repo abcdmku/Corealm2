@@ -159,7 +159,7 @@ export function createContentPublisher(ports: PublishPorts) {
       throw error;
     });
     // A skin whose map no client can load draws the model's own maps everywhere, and a sound with no file plays nothing: refuse both here.
-    const unloadable = await Promise.all([missingSkinMaps(ports.assets, sources), missingAudioFiles(ports.assets, sources, before.audio)]).then(found => found.flat()).catch(error => {
+    const unloadable = await Promise.all([missingSkinMaps(ports.assets, sources, before.creatureSkins), missingAudioFiles(ports.assets, sources, before.audio)]).then(found => found.flat()).catch(error => {
       if (error instanceof AssetManifestFailure) throw new PublishFailure(502, "asset_manifest_unavailable", error.message);
       throw error;
     });

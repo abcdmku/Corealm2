@@ -110,9 +110,14 @@ export function skinMapFiles(sources: Readonly<Record<string, unknown>>): { path
     : []);
 }
 
-/** One error per skin map that is nowhere a client could load it from. */
-export async function missingSkinMaps(host: AssetHost, sources: Readonly<Record<string, unknown>>): Promise<ContentDiagnostic[]> {
-  const files = skinMapFiles(sources);
+/**
+ * One error per skin map that is nowhere a client could load it from. Maps the running catalog
+ * already names (the base game's, or a skin published before) were checked when they arrived, so
+ * only new paths are probed, as `missingAudioFiles` does.
+ */
+export async function missingSkinMaps(host: AssetHost, sources: Readonly<Record<string, unknown>>, running?: unknown): Promise<ContentDiagnostic[]> {
+  const known = new Set(skinMapFiles({ creatureSkins: running }).map(file => file.path));
+  const files = skinMapFiles(sources).filter(file => !known.has(file.path));
   const missing = new Set(await host.missingFiles([...new Set(files.map(file => file.path))]));
   return files.filter(file => missing.has(file.path)).map(file => ({ path: file.at, severity: "error" as const,
     message: `The skin map ${file.path} is neither in this server's files nor on its asset host. Upload it first, then publish the skin.` }));
