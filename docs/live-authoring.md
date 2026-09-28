@@ -64,3 +64,27 @@ server adds) and image job kinds (`skin` | `icon`, `itemId`, `outputs`) in `devd
 | Models | manifest overlay merge in `render/assets.ts` (client) and the server's asset registry / footprints / publish pools, `dev/AssetCandidates.tsx` + a browser-side model measurement module, `workspaces/assets/**` upload UI |
 | Item icons | new icon art module (256 master → 48 derivative, portable), icon job kind on top of the image jobs runner (coordinate), item icon panel in `workspaces/items/**`, icon provenance in item meta (`icon` block) |
 | Server-side follow, bulk, checks | `multiplayer/contentSwap.ts` (server refreshers for npcs, quests, spells, sets, fuels), `catalogHost.ts` applies, bulk actions client-side via `patchMeta` + `transact` (retire `/__devdocs/bulk`), thumbnail cache via `putFiles`, publish check for `audio/` paths |
+
+## Wave 3 design (world geometry)
+
+Scoping (September 27): nothing in the world bake computes on the GPU. Chromium hosts two bakes only
+because they run `boot.ts`; the server pack already bakes in Node (about 40 s). Plan:
+
+1. `geometryRevision(catalog)`: a hash of the code revision plus the geometry views of `world`,
+   `worldTerrain`, `resources`, `items` and creature presentation, with a narrowness test.
+2. The server loads `<data>/world/<geometryRevision>.pack` when it matches the active catalog, else the
+   embedded pack, and says which.
+3. A baker bundle the server spawns as a child process (three, gltf-transform, recast, `bake/`),
+   fetching GLBs from the asset host and the server's model overlay; writes the pack.
+4. A Node port of the world-record bake (terrain, assembly, spawns, site cuts, scatter tiles) with a
+   parity test against the Chromium bake. Highest risk: scatter signature parity.
+5. Clients take the navmesh from the pack's navData with the fingerprint the server names.
+6. The file store accepts `generated/world/*.world`, `generated/world/manifest.json`,
+   `generated/corealm-navmesh.nav` (per-file cap about 32 MiB).
+7. `WorldDescriptor` gains `worldRevision` / `worldDataUrl`; joining a world whose geometry differs
+   from the build reloads onto it, and the entry installs the server's catalog before boot builds terrain.
+8. Publish: tables that change geometry start a bake job (status in devdocs); on success the server
+   restarts each world on the new pack, snaps saved positions to the new navmesh and tells clients to
+   reload. The last good revision stays until the new one passes the release gates.
+9. `CATALOG_TABLE_APPLIES` / `CLIENT_TABLE_FOLLOWS` get a `rebake` state for `worldTerrain`, regions
+   and resource placements. The world map image stays stale until regenerated; devdocs says so.
