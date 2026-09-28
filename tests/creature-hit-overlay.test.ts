@@ -109,6 +109,52 @@ describe('support-safe additive creature recoil',()=>{
     expect(result.clip!.tracks.every(t=>t.name.endsWith('.quaternion'))).toBe(true);
     expect(result.excludedBoneNames).toEqual(expect.arrayContaining(['Wolf_ROOT','Wolf_Spine','Wolf_FrontLeg','Wolf_Ankle']));
   });
+  it.each([true,false])('recognizes rebuilt crustacean claw branches without moving walking supports, six legs=%s',(frontLegs)=>{
+    const root=new THREE.Group(),contact=bone('ContactRoot',root),carapace=bone('Carapace',contact);
+    const supports=[contact,carapace],claws:THREE.Bone[]=[];
+    for(const side of ['L','R'])for(const limb of [...(frontLegs?['Front']:[]),'Middle','Rear','Claw']) {
+      const upper=bone(`${limb}_${side}_Upper`,carapace),knee=bone(`${limb}_${side}_Knee`,upper),tip=bone(`${limb}_${side}_Tip`,knee);
+      upper.position.set(side==='L'?-.3:.3,.2,limb==='Front'?.3:limb==='Rear'?-.3:0);
+      knee.position.set(side==='L'?-.2:.2,limb==='Claw'?.2:-.1,.1);tip.position.set(0,-.25,.1);
+      (limb==='Claw'?claws:supports).push(upper,knee,tip);
+    }
+    const all=[...supports,...claws],idle=new THREE.AnimationClip('Idle',1,all.map(joint=>rotation(joint.name,[0,0,0])));
+    const hit=new THREE.AnimationClip('Hit',1,[...all.map(joint=>rotation(joint.name,[0,.3,0])),
+      new THREE.VectorKeyframeTrack('Carapace.position',[0,1],[0,0,0,0,-3,0])]);
+    const result=createMaskedHitOverlay(root,hit,idle);
+    expect(result.status).toBe('native-masked');
+    expect(result.boneNames.sort()).toEqual(claws.map(joint=>joint.name).sort());
+    expect(result.protectedBoneNames.sort()).toEqual(supports.map(joint=>joint.name).sort());
+    expect(result.clip!.tracks.every(track=>track.name.endsWith('.quaternion'))).toBe(true);
+    for(const phase of [.2,.65]) {
+      root.position.set(2,phase,3);root.rotation.y=.4;
+      all.forEach((joint,index)=>joint.quaternion.setFromAxisAngle(new THREE.Vector3(1,0,0),phase*(index%3-1)));
+      root.updateMatrixWorld(true);
+      const before=supports.map(joint=>joint.matrixWorld.elements.slice()),clawBefore=claws[0]!.quaternion.clone();
+      applyMaskedHitOverlay(root,result,.5);root.updateMatrixWorld(true);
+      expect(supports.map(joint=>joint.matrixWorld.elements)).toEqual(before);
+      expect(claws[0]!.quaternion.angleTo(clawBefore)).toBeGreaterThan(.2);
+    }
+    // A support branch attached inside a claw makes that claw unsafe even if its own
+    // names still match. The complete topology must be re-reviewed rather than guessed.
+    bone('UnexpectedFoot',claws[0]!);
+    expect(createMaskedHitOverlay(root,hit,idle).status).toBe('no-safe-mask');
+  });
+  it('keeps restored Delver head recoil independent of every leg and the shell support parent',()=>{
+    const root=new THREE.Group(),contact=bone('ContactRoot',root),shell=bone('Carapace',contact),head=bone('Head',shell),tail=bone('Tail',shell);
+    const supports=[contact,shell];
+    for(const side of ['L','R'])for(const limb of ['Front','Middle','Rear']) {
+      const upper=bone(`${limb}_${side}_Upper`,shell),knee=bone(`${limb}_${side}_Knee`,upper),tip=bone(`${limb}_${side}_Tip`,knee);
+      supports.push(upper,knee,tip);
+    }
+    const all=[...supports,head,tail],idle=new THREE.AnimationClip('Idle',1,all.map(joint=>rotation(joint.name,[0,0,0])));
+    const hit=new THREE.AnimationClip('Hit',1,all.map(joint=>rotation(joint.name,[0,.3,0])));
+    const result=createMaskedHitOverlay(root,hit,idle);
+    expect(result.status).toBe('native-masked');expect(result.boneNames).toEqual(['Head']);
+    root.updateMatrixWorld(true);const before=supports.map(joint=>joint.matrixWorld.elements.slice());
+    applyMaskedHitOverlay(root,result,.5);root.updateMatrixWorld(true);
+    expect(supports.map(joint=>joint.matrixWorld.elements)).toEqual(before);
+  });
   it('adds the native delta relative to Idle@0 without changing support world transforms',()=>{
     const f=fixture(),result=createMaskedHitOverlay(f.root,f.hit,f.idle);
     f.hips.position.set(2,.1,3);f.spine.quaternion.setFromAxisAngle(new THREE.Vector3(0,1,0),.4);f.leg.quaternion.setFromAxisAngle(new THREE.Vector3(0,0,1),.25);

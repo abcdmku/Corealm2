@@ -98,6 +98,25 @@ function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   else if(edge('Bone013','Bone012') && edge('Bone023','Bone022') && edge('Bone029','Bone028') && named('Bone022(mirrored)')) roots=bones.filter(b=>b.name==='Bone012');
   else if(edge('Bone007','Bone006') && edge('Bone026','Bone025') && edge('Bone031','Bone030') && named('Bone030(mirrored)')) roots=bones.filter(b=>b.name==='Bone006');
   else if(named('CATRigLLegAnkle') && named('CATRigLArmPalm')) roots=bones.filter(b=>/^CATRigHub003(?:_\d+)?$/.test(b.name));
+  else if(edge('Carapace','ContactRoot') && ['L','R'].every(side=>
+    ['Middle','Rear','Claw'].every(limb=>edge(`${limb}_${side}_Upper`,'Carapace')
+      && edge(`${limb}_${side}_Knee`,`${limb}_${side}_Upper`)
+      && edge(`${limb}_${side}_Tip`,`${limb}_${side}_Knee`)))
+    && (!bones.some(b=>/^Front_[LR]_(?:Upper|Knee|Tip)$/.test(b.name)) || ['L','R'].every(side=>
+      edge(`Front_${side}_Upper`,'Carapace') && edge(`Front_${side}_Knee`,`Front_${side}_Upper`)
+      && edge(`Front_${side}_Tip`,`Front_${side}_Knee`)))
+    && ['L','R'].every(side=>{
+      let safe=true;
+      named(`Claw_${side}_Upper`)!.traverse(node=>{
+        if((node as THREE.Bone).isBone && ![`Claw_${side}_Upper`,`Claw_${side}_Knee`,`Claw_${side}_Tip`].includes(node.name))safe=false;
+      });
+      return safe;
+    })) {
+    // Rebuilt crab and rift rigs give each claw its own three-joint branch beside
+    // the walking limbs. Their "Knee" is an expressive claw hinge. Carapace carries
+    // all planted legs, so neither it nor ContactRoot may enter the additive recoil.
+    roots=bones.filter(b=>/^Claw_[LR]_Upper$/.test(b.name));
+  }
   // Supplied bodies with their own rigs. Each keeps the bone that carries its legs, feet or ground
   // roots fixed and lets the branches beside it recoil.
   else if(named('Carapace') && named('Claw_L') && named('Claw_R') && bones.some(b=>/Leg_/.test(b.name)))
