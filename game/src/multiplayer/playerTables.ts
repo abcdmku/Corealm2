@@ -1,7 +1,7 @@
 import type { PlayerCharacter, WorldKey } from "../contracts.js";
 import type {
   AdminActor, AdminSessionRecord, ApiScope, ApiTokenRecord, AuditEntry, AuditFilter, AuditWrite, AuditWriter,
-  BanRecord, ItemHolder, PlayerDetail, PlayerPage, PlayerSummary, RoleRecord, ServerAdminStorage, ServerRole,
+  BanRecord, ItemHolder, PlayerDetail, PlayerPage, PlayerSummary, RoleRecord, ServerAdminStorage, ServerRole, StoredMeta,
 } from "./adminStorage.js";
 
 /**
@@ -59,6 +59,7 @@ export class MemoryAdminStorage implements ServerAdminStorage {
   private readonly entries: AuditEntry[] = [];
   private setupHash: string | null = null;
   private readonly overrides = new Map<string, unknown>();
+  private readonly authoring = new Map<string, StoredMeta>();
   constructor(private readonly source: () => Iterable<MemoryPlayerRow> = () => []) {}
   private log(by: AdminActor, entry: AuditWrite): void {
     this.entries.push({ id: this.entries.length + 1, at: by.at, accountId: by.accountId, credential: by.credential, action: entry.action,
@@ -209,5 +210,13 @@ export class MemoryAdminStorage implements ServerAdminStorage {
       for (const [place, slots] of places) for (const slot of slots) if (slot && wanted.has(slot.itemId)) found.push({ accountId: row.accountId, name: row.name, itemId: slot.itemId, place, world: null });
     }
     return found.sort((a, b) => a.accountId.localeCompare(b.accountId) || a.itemId.localeCompare(b.itemId)).slice(0, limit);
+  }
+  async authoringMeta(collection: string): Promise<StoredMeta | null> { return this.authoring.get(collection) ?? null; }
+  async authoringMetaAll(): Promise<StoredMeta[]> { return [...this.authoring.values()].sort((a, b) => a.collection.localeCompare(b.collection)); }
+  async replaceAuthoringMeta(collection: string, expected: string | null, next: { records: string; revision: string }, by: AdminActor, entry: AuditWrite): Promise<boolean> {
+    if ((this.authoring.get(collection)?.revision ?? null) !== expected) return false;
+    this.authoring.set(collection, { collection, ...next });
+    this.log(by, entry);
+    return true;
   }
 }

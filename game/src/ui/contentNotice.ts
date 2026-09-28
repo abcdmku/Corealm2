@@ -1,9 +1,9 @@
 /**
  * "The server's content was updated": a line at the top of the screen with a Refresh button.
  *
- * A server tells its clients when an admin publishes content. The session keeps playing on the
- * catalog it joined with, and what changed reaches it the next time the page loads, so this only
- * offers the reload. It never interrupts play and never reloads on its own.
+ * A server tells its clients when an admin publishes content, and the page applies the new catalog
+ * where the player stands (`multiplayer/clientContentSwap.ts`). This line shows only when that
+ * catalog could not be loaded: a reload joins on it. It never interrupts play and never reloads on its own.
  */
 import "./styles/social.css";
 

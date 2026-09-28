@@ -9,6 +9,11 @@ import { runTransaction, TransactionError } from "../devdocs/src/model/draft.js"
 import { applyBase, baseErrorLines, baseRecord, completeBaseBodies, previewBase, type BasePreview } from "../devdocs/src/api/baseGame.js";
 import { audienceOf, chooseIdentity, exchangeSession, normalizeServerUrl, readDescriptor, AdminFailure, type AdminSession } from "../devdocs/src/api/session.js";
 
+// Server mode adopts each snapshot's compiled catalog into the page. The fake catalogs here carry two
+// tables, so the adoption is recorded instead of replacing this process's catalog.
+vi.mock("../game/src/content/resolvedCatalog.js", async importOriginal => ({ ...await importOriginal<object>(), adoptCatalog: vi.fn() }));
+vi.mock("../game/src/content/creatureRuntime.js", async importOriginal => ({ ...await importOriginal<object>(), reindexCreatures: vi.fn() }));
+
 /*
   Server mode against a fake game server: the exact requests it sends, the auth header it carries,
   and every refusal the admin API documents mapped onto a state the editor already has. The error
@@ -186,7 +191,11 @@ describe("reads", () => {
     const server = fakeServer();
     await createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch }).collections();
     const admin = server.calls.filter(call => call.url.startsWith(`${SESSION.server}/admin/`));
-    expect(admin.map(call => call.url)).toEqual([`${SESSION.server}/admin/content/sources`, `${SESSION.server}/admin/content/catalog/${REVISION}`]);
+    // The sources, their catalog, and the one-time probe of the feature routes a server may lack.
+    expect(admin.map(call => call.url).sort()).toEqual([
+      `${SESSION.server}/admin/content/catalog/${REVISION}`, `${SESSION.server}/admin/content/sources`,
+      `${SESSION.server}/admin/files`, `${SESSION.server}/admin/imagegen`, `${SESSION.server}/admin/meta/items/$all`,
+    ]);
     for (const call of admin) expect(call.headers.Authorization).toBe("Bearer cas_secret");
     // Both asset hosts are public files and must not carry the admin session.
     expect(server.calls.find(call => call.url.startsWith("https://play.test/dev-assets/"))?.headers.Authorization).toBeUndefined();
@@ -327,10 +336,11 @@ describe("refusals", () => {
 describe("capabilities", () => {
   beforeEach(() => setBackend(createRepoBackend()));
 
-  it("repo mode has every surface and server mode has the content ones", () => {
-    expect(createRepoBackend().capabilities).toEqual({ write: true, meta: true, requests: true, git: true, bulk: true, assets: true, formulas: true, publish: false });
+  it("repo mode has every surface and server mode has the content ones", async () => {
+    expect(createRepoBackend().capabilities).toEqual({ write: true, meta: true, requests: true, git: true, bulk: true, assets: true, formulas: true, files: true, imagegen: true, publish: false });
     const server = createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: fakeServer().fetch });
-    expect(server.capabilities).toEqual({ write: true, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, publish: true });
+    await server.collections();
+    expect(server.capabilities).toEqual({ write: true, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, files: false, imagegen: false, publish: true });
   });
 
   it("`can` follows the installed backend", () => {

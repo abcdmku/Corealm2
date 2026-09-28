@@ -57,9 +57,9 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
 }
 
 /**
- * Which changed tables a running process picks up when a publish moves it onto a new catalog.
+ * Which changed tables a running server picks up when a publish moves it onto a new catalog.
  *
- * About 144 modules copy content tables as they load, and a publish cannot reach those copies. What
+ * About 144 modules copy content tables as they load, and a publish cannot reach every copy. What
  * `swapCatalog` in `contentSwap.ts` can reach is declared here, table by table, and the publish reply
  * reads this map to tell the author which of their changed tables are live and which wait for the
  * next start. A test holds every table of the compiled catalog against it.
@@ -70,29 +70,46 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
  *  - `swapCatalog` refills the index that serves it (`compiledCreatures` and `species` through
  *    `reindexCreatures`, `world` through `reindexWorldContent`, `reindexHabitats` and each world's
  *    spawn plan, which takes effect creature by creature at the next respawn);
- *  - nothing reads the table while the game runs: it is an input the compiler folds into one of the
- *    tables above, so its whole effect arrives through them.
+ *  - nothing on the server reads the table while the game runs: it is an input the compiler folds
+ *    into the tables above, or only a page reads it.
  *
- * `restart` means a module derives something from the table at import and keeps it. The next start
- * builds every world's entities from it again, a saved world's included: a save keeps only what play
- * made or moves (creatures, loot piles, recovery caches, campfires), never a structure, station or node.
+ * `restart` means a server module derives something from the table at import and keeps it. The next
+ * start builds every world's entities from it again, a saved world's included: a save keeps only what
+ * play made or moves (creatures, loot piles, recovery caches, campfires), never a structure, station or node.
+ *
+ * Players' pages are a separate question, answered by `CLIENT_TABLE_FOLLOWS` in `clientContentSwap.ts`:
+ * a page loads the new client catalog at every `content-updated` and shows most of it at once, even
+ * where the server's own rules wait for a restart. Each line below says what a player sees, and when.
  */
 export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">> = {
-  // Registry rows.
+  // Names, icons, stats, stock: the page's tooltips and shop windows change at once, and the next craft, kill or purchase uses the new row.
   items: "live", recipes: "live", shops: "live", enemies: "live",
-  // Refilled indexes.
-  compiledCreatures: "live", species: "live", world: "live",
-  // Compiler inputs with no reader at run time.
+  // The creature list and its look. New spawns roll from the new rows at their next respawn; a page resolves a new variant at once.
+  compiledCreatures: "live", species: "live",
+  // Encounters, placements and habitats: creatures move over at their next respawn. Region shapes and terrain do not (see worldRegions).
+  world: "live",
+  // Compiler inputs, seen only through the tables above.
   creatureDefinitions: "live", creatureProfiles: "live", lootTables: "live", encounters: "live", placements: "live",
-  // Derived at import: resource nodes and their entities, spells, region geometry and everything built on it, tier tables, tuning, audio.
-  resources: "restart", spells: "restart", spellRunes: "restart", elementalSpells: "restart",
-  worldRegions: "restart", worldTerrain: "restart", resourcePlacements: "restart", npcs: "restart", quests: "restart", dialogue: "restart",
-  progression: "restart", materials: "restart", equipmentFamilies: "restart", recipeTemplates: "restart",
-  campfireFuels: "restart", equipmentSets: "restart",
+  equipmentFamilies: "live", recipeTemplates: "live",
+  // Only a page reads these. Skin rows are read through on every lookup (`creatureSkinById`): an individual rolled with a new skin
+  // draws it once its maps load, from the server's asset store. The audio table is refilled on the page, so the next cue plays the new file.
+  creatureSkins: "live", audio: "live",
+  // Resource nodes are world entities, built at start. Their names and tooltips change on a page at once; a node's yield and timing after a restart.
+  resources: "restart",
+  // The spell registry and the cast rules. The spellbook's names and descriptions change on a page at once; casting uses the new numbers after a restart.
+  spells: "restart", spellRunes: "restart", elementalSpells: "restart",
+  // The world's shape. Terrain, navmesh and map tiles are baked, and a page draws the baked pack: both move with a new bake (live-authoring wave 3).
+  worldRegions: "restart", worldTerrain: "restart", resourcePlacements: "restart",
+  // NPC entities, their names over their heads and the conversations they hold are built at start. A page's journal and names in it change at once.
+  npcs: "restart", dialogue: "restart",
+  // Quest rules run on the server. A page's journal prose changes at once; stages, predicates and rewards after a restart.
+  quests: "restart",
+  // Tier tables behind gathering, smelting and crafting. A page's crafting and gathering guides change at once; the rules after a restart.
+  progression: "restart", materials: "restart", campfireFuels: "restart",
+  // Set bonuses. The equipment panel shows the new sets at once; the bonus applies after a restart.
+  equipmentSets: "restart",
+  // Balance numbers the server reads at import. A page keeps the build's gather and recipe XP previews (`content/index.ts` offers no refresh yet).
   "balance/recipes": "restart", "balance/sets": "restart", "balance/formation": "restart", "balance/campfires": "restart",
-  audio: "restart",
-  // Skins are texture files as well as rows: a new one must reach the asset host and the page's build.
-  creatureSkins: "restart",
 };
 
 /** The active server catalog, parsed, ready for `installCatalog`. */

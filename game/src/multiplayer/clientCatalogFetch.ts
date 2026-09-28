@@ -1,5 +1,4 @@
 import { CATALOG_REVISION, parseClientCatalog, type ClientCatalog } from "../content/clientCatalog.js";
-import { overlayClientCatalog, type OverlayRegistry } from "../content/clientCatalogOverlay.js";
 import type { SessionCatalog } from "../contracts.js";
 import { endpoint as checkedEndpoint, SessionFailure } from "./protocol.js";
 
@@ -68,27 +67,32 @@ export async function fetchClientCatalog({ url, revision }: CatalogAddress, port
 }
 
 /**
- * Keeps the content registry on the revision of the world the page is connected to. Entering a
- * world loads its client catalog from the session, whatever carries it, and overlays it. Leaving
- * undoes the overlay, so the page is back on the build's own tables. A load that finishes after the
- * player left, or joined elsewhere, is dropped.
+ * Keeps the page on the revision of the world it is connected to. Entering a world loads its client
+ * catalog from the session, whatever carries it, and applies it (`followClientCatalog` on a page).
+ * A publish on the server enters the new revision the same way: the new catalog is loaded first and
+ * then swapped in, so the page never shows the build's rows in between. Leaving undoes it, so the
+ * page is back on the build's own tables. A load that finishes after the player left, or entered
+ * another revision, is dropped. A load that fails leaves the page on the build's tables and says so.
  */
-export function createServerCatalogOverlay(registry: OverlayRegistry, ports: { failed?(error: unknown): void } = {}) {
+export function createServerCatalogOverlay(apply: (catalog: ClientCatalog) => () => void, ports: { failed?(error: unknown): void } = {}) {
   let applied: { revision: string; undo(): void } | null = null, request = 0;
-  const leave = (): void => { request++; applied?.undo(); applied = null; };
+  const undo = (): void => { const was = applied; applied = null; was?.undo(); };
   return {
-    /** The revision the registry shows now, or null while it shows the build's tables. */
+    /** The revision the page shows now, or null while it shows the build's tables. */
     get revision(): string | null { return applied?.revision ?? null; },
-    leave,
+    leave(): void { request++; undo(); },
     async enter(source: SessionCatalog): Promise<void> {
-      if (applied?.revision === source.revision) return;
-      leave(); const mine = request;
+      // Already showing it. A load of another revision still under way is dropped.
+      if (applied?.revision === source.revision) { request++; return; }
+      const mine = ++request;
       try {
         const catalog = await source.load();
         // The source answers for its own transport, so what it hands back is checked here, once, for both.
         if (catalog.revision !== source.revision) throw new SessionFailure("INVALID_MESSAGE", "The catalog is not the revision this session joined");
-        if (mine === request) applied = { revision: source.revision, undo: overlayClientCatalog(registry, catalog) };
-      } catch (error) { if (mine === request) ports.failed?.(error); }
+        if (mine !== request) return;
+        undo();
+        applied = { revision: source.revision, undo: apply(catalog) };
+      } catch (error) { if (mine === request) { undo(); ports.failed?.(error); } }
     },
   };
 }

@@ -8,6 +8,7 @@ import { toneVariant } from "../components/ui/badge.js";
 import { cn } from "../lib/utils.js";
 import { EMPTY, PANEL } from "../ui/layout.js";
 import { FormError, LoadError, Notice, PANEL_HEAD, Skeleton, SPIN } from "./panelParts.js";
+import { isMetaConflict, metaQueryKey, readMeta, writeMeta } from "../model/meta.js";
 
 export interface NotesPanelProps {
   collection: string;
@@ -19,53 +20,7 @@ const AUTHORED_STATUSES = ["draft", "candidate", "rejected"] as const;
 type RequestKind = (typeof REQUEST_KINDS)[number];
 type AuthoredStatus = (typeof AUTHORED_STATUSES)[number];
 type MetaOperation = MetaPatch["operation"];
-type MetaQueryKey = readonly ["meta", string, string];
 type Tone = "accent" | "ok" | "warn" | "danger" | "info" | undefined;
-
-export const metaQueryKey = (collection: string, entityId: string): MetaQueryKey => ["meta", collection, entityId];
-
-export function metaPath(collection: string, entityId: string): string {
-  return `/__devdocs/meta/${encodeURIComponent(collection)}/${encodeURIComponent(entityId)}`;
-}
-
-class MetaApiError extends Error {
-  readonly status: number;
-  readonly revision?: string;
-
-  constructor(message: string, status: number, revision?: string) {
-    super(message);
-    this.name = "MetaApiError";
-    this.status = status;
-    this.revision = revision;
-  }
-}
-
-function isObject(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
-}
-
-async function responseBody(response: Response): Promise<Record<string, unknown>> {
-  const value = await response.json().catch(() => ({}));
-  return isObject(value) ? value : {};
-}
-
-async function getMeta(path: string): Promise<MetaResponse> {
-  const response = await fetch(path);
-  const body = await responseBody(response);
-  if (!response.ok) throw new MetaApiError(typeof body.error === "string" ? body.error : `Request failed (${response.status})`, response.status, typeof body.revision === "string" ? body.revision : undefined);
-  return body as unknown as MetaResponse;
-}
-
-async function patchMeta(path: string, patch: MetaPatch): Promise<MetaResponse> {
-  const response = await fetch(path, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(patch),
-  });
-  const body = await responseBody(response);
-  if (!response.ok) throw new MetaApiError(typeof body.error === "string" ? body.error : `Request failed (${response.status})`, response.status, typeof body.revision === "string" ? body.revision : undefined);
-  return body as unknown as MetaResponse;
-}
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -148,7 +103,6 @@ interface SaveContext {
 export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
   const queryClient = useQueryClient();
   const key = useMemo(() => metaQueryKey(collection, entityId), [collection, entityId]);
-  const path = useMemo(() => metaPath(collection, entityId), [collection, entityId]);
   const [noteText, setNoteText] = useState("");
   const [noteLabel, setNoteLabel] = useState("");
   const [flagAsRequest, setFlagAsRequest] = useState(false);
@@ -159,7 +113,7 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
 
   const query = useQuery<MetaResponse, Error>({
     queryKey: key,
-    queryFn: () => getMeta(path),
+    queryFn: () => readMeta(collection, entityId),
     enabled: Boolean(collection && entityId),
     staleTime: 10_000,
     refetchOnWindowFocus: false,
@@ -176,7 +130,7 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
   }, [collection, entityId]);
 
   const mutation = useMutation<MetaResponse, Error, { revision: string; operation: MetaOperation }, SaveContext>({
-    mutationFn: ({ revision, operation }) => patchMeta(path, { revision, operation }),
+    mutationFn: ({ revision, operation }) => writeMeta(collection, entityId, { revision, operation }),
     onMutate: async ({ operation }) => {
       await queryClient.cancelQueries({ queryKey: key });
       const previous = queryClient.getQueryData<MetaResponse>(key);
@@ -187,7 +141,7 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
     },
     onError: (error, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(key, context.previous);
-      if (error instanceof MetaApiError && error.status === 409) {
+      if (isMetaConflict(error)) {
         setConflict(true);
         setFeedback("This metadata changed elsewhere. Reload it before saving again.");
         toast.error("Metadata changed elsewhere. Reload before saving.");

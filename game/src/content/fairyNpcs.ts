@@ -21,9 +21,11 @@ export interface FairyNpcCandidate extends NpcDef {
   bindHeightMetres: number;
 }
 
-export const FAIRY_NPC_CANDIDATES: readonly FairyNpcCandidate[] = parseCollection(npcRecordSchema, RESOLVED_TABLES["npcs"], { name: "npcs" })
+const fairyCandidates = (): FairyNpcCandidate[] => parseCollection(npcRecordSchema, RESOLVED_TABLES["npcs"], { name: "npcs" })
   .filter((row) => row.catalog === "fairy")
   .map((row) => stripExtras(row, ["catalog"]));
+const candidates = fairyCandidates();
+export const FAIRY_NPC_CANDIDATES: readonly FairyNpcCandidate[] = candidates;
 
 /** Authored village stands. Root registers these only after the NPC lab acceptance. */
 export const FAIRY_NPC_STANDS: NpcStandDef[] = [
@@ -92,6 +94,11 @@ export const FAIRY_NPC_STANDS: NpcStandDef[] = [
 export const FAIRY_NPC_DIALOGUE: readonly DialogueNodeDef[] = parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
   .filter((row) => row.catalog === "fairy")
   .map((row) => stripExtras(row, ["catalog"]));
+
+/** After the catalog moved (a joined server's client catalog, or leaving it): the same array, refilled. Dialogue is not reached: a page's is empty. */
+export function reindexFairyNpcs(): void {
+  candidates.splice(0, candidates.length, ...fairyCandidates());
+}
 
 export function fairyNpcCandidate(npcId: string): FairyNpcCandidate | undefined {
   return FAIRY_NPC_CANDIDATES.find(npc => npc.id === npcId);

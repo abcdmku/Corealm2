@@ -7,7 +7,8 @@ import { cn } from "../../../lib/utils.js";
 import { canReviewArt, useArtDigest, useArtReview } from "../../../model/artReview.js";
 import { VerdictBar, VerdictDot } from "../../../ui/FocusLayout.js";
 import { CreatureArt } from "./CreatureArt.js";
-import { Note, Row, Rows, Section, errorText } from "./parts.js";
+import { Blocked, Note, Row, Rows, Section, errorText } from "./parts.js";
+import { filesBlock, imagegenBlock, metaBlock } from "../gates.js";
 import { SkinFilesDrawer } from "./SkinFilesDrawer.js";
 import { UploadView } from "./UploadView.js";
 import { IDENTITY_RECOLOR, isIdentityRecolor, type RecolorParams } from "./recolor.js";
@@ -84,7 +85,8 @@ export function SkinsPanel(props: SkinsPanelProps) {
 
 function SkinList({ skins, skinsLoading, skinsError, worn, pool, readOnly, onWear, onPool, leadId, jobs, setMode, onOpenFiles }: SkinsPanelProps & { onOpenFiles: (skinId: string) => void }) {
   const active = jobs.filter(isActiveJob);
-  return <Section title="This model's skins" aside={<Button variant="secondary" size="xs" disabled={readOnly} title="Upload hand-made maps as a new skin" onClick={() => setMode("upload")}>Upload skin</Button>}>
+  const blocked = filesBlock();
+  return <Section title="This model's skins" aside={<Button variant="secondary" size="xs" disabled={readOnly || Boolean(blocked)} title={blocked ?? "Upload hand-made maps as a new skin"} onClick={() => setMode("upload")}>Upload skin</Button>}>
     {skinsError && <Note tone="error">{skinsError}</Note>}
     {active.length > 0 && <Note tone="warn">{active.length} generating: <Button variant="link" size="inline" onClick={() => setMode("generate")}>see jobs</Button></Note>}
     <div className="grid grid-cols-2 gap-1.5">
@@ -104,6 +106,7 @@ function SkinList({ skins, skinsLoading, skinsError, worn, pool, readOnly, onWea
     </div>
     {!skinsLoading && !skins.length && <Note>No skins for this model yet. Generate a regional look, upload hand-painted maps, or bake a recolor to mix into a variation pool.</Note>}
     <Note>Click a tile to see its raw map files.</Note>
+    <Blocked reason={blocked} />
     {worn && <WornSkinVerdict skinId={worn} readOnly={readOnly} />}
   </Section>;
 }
@@ -116,9 +119,13 @@ function SkinVerdictDot({ skinId }: { skinId: string }) {
 /** The verdict on the skin the selected definition wears; tiles show every skin's verdict as a dot. */
 function WornSkinVerdict({ skinId, readOnly }: { skinId: string; readOnly: boolean }) {
   const review = useArtReview("creatureSkins", skinId);
-  return <div className="flex items-center justify-between gap-2 pt-1">
-    <span className="text-[11px] text-faint">Worn skin</span>
-    <VerdictBar size="xs" value={review.verdict()} disabled={readOnly || !canReviewArt()} onChange={verdict => review.review({ verdict })} />
+  const blocked = metaBlock();
+  return <div className="flex flex-col gap-1 pt-1">
+    <div className="flex items-center justify-between gap-2">
+      <span className="text-[11px] text-faint">Worn skin</span>
+      <VerdictBar size="xs" value={review.verdict()} disabled={readOnly || !canReviewArt()} onChange={verdict => review.review({ verdict })} />
+    </div>
+    <Blocked reason={blocked} />
   </div>;
 }
 
@@ -163,6 +170,7 @@ function RecolorView({ assetId, bodyName, skins, onPreviewMaps, setMode }: Skins
   const baked = useRef<Baked[] | undefined>(undefined);
   const urls = useRef<string[]>([]);
   const effective: RecolorParams = masked ? { ...params, near } : params;
+  const blocked = filesBlock();
 
   const release = () => { for (const url of urls.current) URL.revokeObjectURL(url); urls.current = []; };
   // Leaving the recolor view puts the saved look back on the stage.
@@ -196,7 +204,7 @@ function RecolorView({ assetId, bodyName, skins, onPreviewMaps, setMode }: Skins
   }, [decoded, key, onPreviewMaps]);
 
   async function save() {
-    if (!baked.current || !name.trim()) return;
+    if (!baked.current || !name.trim() || blocked) return;
     setSaving(true); setSaveError("");
     try {
       const response = await saveSkin({
@@ -239,9 +247,10 @@ function RecolorView({ assetId, bodyName, skins, onPreviewMaps, setMode }: Skins
     {!loadError && <Note>{!decoded ? "Loading maps…" : `${decoded.length} ${decoded.length === 1 ? "map" : "maps"}: ${decoded.map(map => `${map.material} ${map.image.width}²`).join(", ")}${baking ? " · baking…" : isIdentityRecolor(effective) ? " · move a slider to preview" : " · previewing on the stage"}`}</Note>}
     {masked && <Note>The saved record keeps hue, saturation and brightness; the colour mask lives only in the baked maps.</Note>}
     {saveError && <Note tone="error">{saveError}</Note>}
+    <Blocked reason={blocked} />
     <div className="flex items-center justify-end gap-2">
       <Button variant="ghost" size="xs" disabled={isIdentityRecolor(params) && !masked} onClick={() => { setParams(IDENTITY_RECOLOR); setMasked(false); }}>Reset</Button>
-      <Button variant="default" size="xs" disabled={!baked.current || baking || saving || !name.trim()} onClick={() => void save()}>{saving ? "Saving…" : "Save as skin"}</Button>
+      <Button variant="default" size="xs" disabled={!baked.current || baking || saving || !name.trim() || Boolean(blocked)} title={blocked} onClick={() => void save()}>{saving ? "Saving…" : "Save as skin"}</Button>
     </div>
   </Section>;
 }
@@ -263,6 +272,7 @@ function GenerateView({ assetId, bodyName, worn, prompt: initialPrompt, jobs, al
   const [everyModel, setEveryModel] = useState(false);
   const shownJobs = everyModel ? allJobs : jobs;
   const wornName = worn ? skins.find(skin => skin.id === worn)?.name ?? worn : "the model's own maps";
+  const blocked = imagegenBlock();
 
   async function generate() {
     setBusy(true); setError("");
@@ -283,9 +293,10 @@ function GenerateView({ assetId, bodyName, worn, prompt: initialPrompt, jobs, al
       </Rows>
       <Textarea aria-label="Prompt" rows={7} className="text-xs" value={prompt} onChange={event => setPrompt(event.target.value)} />
       {error && <Note tone="error">{error}</Note>}
+      <Blocked reason={blocked} />
       <div className="flex items-center justify-end gap-2">
         <Button variant="ghost" size="xs" disabled={prompt === initialPrompt} onClick={() => setPrompt(initialPrompt)}>Reset prompt</Button>
-        <Button variant="default" size="xs" disabled={busy || readOnly || !prompt.trim() || !name.trim()} onClick={() => void generate()}>{busy ? "Sending…" : "Generate"}</Button>
+        <Button variant="default" size="xs" disabled={busy || readOnly || Boolean(blocked) || !prompt.trim() || !name.trim()} title={blocked} onClick={() => void generate()}>{busy ? "Sending…" : "Generate"}</Button>
       </div>
     </Section>
     <Section title="Jobs" aside={<>
@@ -293,19 +304,19 @@ function GenerateView({ assetId, bodyName, worn, prompt: initialPrompt, jobs, al
         <Button variant="segment" size="xs" aria-pressed={!everyModel} onClick={() => setEveryModel(false)}>This model</Button>
         <Button variant="segment" size="xs" aria-pressed={everyModel} onClick={() => setEveryModel(true)}>All {allJobs.length}</Button>
       </Segmented>
-      <Button variant="ghost" size="xs" onClick={refreshJobs}>Refresh</Button>
+      <Button variant="ghost" size="xs" disabled={jobsUnavailable} onClick={refreshJobs}>Refresh</Button>
     </>}>
-      {jobsUnavailable && <Note tone="warn">Image generation is not available on this devdocs server yet.</Note>}
+      {jobsUnavailable && <Note>{blocked ?? "Image generation is not available here."} No jobs to show.</Note>}
       {jobsError && <Note tone="error">{jobsError}</Note>}
       {!jobsUnavailable && !shownJobs.length && <Note>{everyModel ? "No jobs yet." : "No jobs for this model."}</Note>}
-      {shownJobs.length > 0 && <JobList jobs={shownJobs} assetId={assetId} worn={worn} readOnly={readOnly} onWear={onWear} onRetried={refreshJobs} />}
+      {shownJobs.length > 0 && <JobList jobs={shownJobs} assetId={assetId} worn={worn} readOnly={readOnly} retryBlocked={blocked} onWear={onWear} onRetried={refreshJobs} />}
     </Section>
   </>;
 }
 
 const STATUS_TONE: Readonly<Record<ImagegenJob["status"], "default" | "info" | "ok" | "danger">> = { queued: "default", running: "info", done: "ok", failed: "danger" };
 
-function JobList({ jobs, assetId, worn, readOnly, onWear, onRetried }: { jobs: readonly ImagegenJob[]; assetId: string; worn: string | undefined; readOnly: boolean; onWear: (skinId: string) => void; onRetried: () => void }) {
+function JobList({ jobs, assetId, worn, readOnly, retryBlocked, onWear, onRetried }: { jobs: readonly ImagegenJob[]; assetId: string; worn: string | undefined; readOnly: boolean; retryBlocked: string | undefined; onWear: (skinId: string) => void; onRetried: () => void }) {
   const [retrying, setRetrying] = useState<string>();
   const [retryError, setRetryError] = useState("");
   const retry = async (job: ImagegenJob) => {
@@ -334,7 +345,7 @@ function JobList({ jobs, assetId, worn, readOnly, onWear, onRetried }: { jobs: r
       <span role="cell">{job.status === "done" && job.skinId && job.assetId === assetId
         ? <Button variant="secondary" size="xs" aria-pressed={worn === job.skinId} disabled={readOnly || worn === job.skinId} onClick={() => onWear(job.skinId!)}>{worn === job.skinId ? "Worn" : "Wear"}</Button>
         : job.status === "failed"
-          ? <Button variant="secondary" size="xs" disabled={readOnly || retrying === job.id} title="Run the job again, reusing any maps it already painted" onClick={() => void retry(job)}>{retrying === job.id ? "Retrying…" : "Retry"}</Button>
+          ? <Button variant="secondary" size="xs" disabled={readOnly || Boolean(retryBlocked) || retrying === job.id} title={retryBlocked ?? "Run the job again, reusing any maps it already painted"} onClick={() => void retry(job)}>{retrying === job.id ? "Retrying…" : "Retry"}</Button>
           : null}</span>
     </div>)}
   </div></>;

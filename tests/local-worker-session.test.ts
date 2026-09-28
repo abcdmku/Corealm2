@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import type { WorldSession, WorldUpdate } from "../game/src/contracts.js";
 import { RESOLVED_CATALOG } from "../game/src/content/resolvedCatalog.js";
 import { createServerCatalogOverlay } from "../game/src/multiplayer/clientCatalogFetch.js";
+import { overlayClientCatalog } from "../game/src/content/clientCatalogOverlay.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { descriptor, discoverWorlds, LOCAL_ENDPOINT, localWorld } from "../game/src/multiplayer/protocol.js";
 import { ProviderRegistry, SessionController } from "../game/src/multiplayer/providers.js";
@@ -97,8 +98,8 @@ describe("local play over a message port", () => {
 
     // The overlay takes the catalog through the session, and the session asks the worker for it.
     const names: string[] = [];
-    const overlay = createServerCatalogOverlay({ register(tables) { names.push(...(tables.items ?? []).slice(0, 1).map(item => item.id)); },
-      allItems: () => [], allResources: () => [], allRecipes: () => [], allSpells: () => [], allEnemies: () => [], allShops: () => [] });
+    const overlay = createServerCatalogOverlay(catalog => overlayClientCatalog({ register(tables) { names.push(...(tables.items ?? []).slice(0, 1).map(item => item.id)); },
+      allItems: () => [], allResources: () => [], allRecipes: () => [], allSpells: () => [], allEnemies: () => [], allShops: () => [] }, catalog));
     await overlay.enter(session.catalog!);
     expect([overlay.revision, worker.requests.includes("catalog"), names.length]).toEqual([RESOLVED_CATALOG.revision, true, 1]);
 

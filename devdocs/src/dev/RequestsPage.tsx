@@ -17,7 +17,7 @@ export interface RequestsPageProps {
   navigate: (collection?: string, recordId?: string) => void;
 }
 
-/** JSON shape returned by the read-only /__devdocs/requests handler. */
+/** The open request queue across collections, from `backend().get("requests")` in either mode. */
 interface RequestsResponse {
   revisions: Record<string, string>;
   requests: RequestEntry[];

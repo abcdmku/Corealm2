@@ -8,7 +8,7 @@ import { collectionQuery } from "../api/client.js";
 import { contentRows, rowName } from "../model/rows.js";
 import { Thumb } from "../ui/Thumb.js";
 import AssetCandidates from "./AssetCandidates.js";
-import { metaPath, metaQueryKey } from "./NotesPanel.js";
+import { isMetaConflict, metaQueryKey, readMeta, writeMeta } from "../model/meta.js";
 import { Button, Badge, Textarea, ChoiceGroup } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
 import { cn } from "../lib/utils.js";
@@ -45,18 +45,6 @@ interface SaveVariables {
 
 interface SaveContext {
   previous?: MetaResponse;
-}
-
-class MetaApiError extends Error {
-  readonly status: number;
-  readonly revision?: string;
-
-  constructor(message: string, status: number, revision?: string) {
-    super(message);
-    this.name = "MetaApiError";
-    this.status = status;
-    this.revision = revision;
-  }
 }
 
 function isObject(value: unknown): value is Record<string, unknown> {
@@ -114,40 +102,6 @@ function itemPath(id: string): string {
   return `#/items/${encodeURIComponent(id)}`;
 }
 
-async function responseBody(response: Response): Promise<Record<string, unknown>> {
-  const value = await response.json().catch(() => ({}));
-  return isObject(value) ? value : {};
-}
-
-async function getMeta(path: string): Promise<MetaResponse> {
-  const response = await fetch(path);
-  const body = await responseBody(response);
-  if (!response.ok) {
-    throw new MetaApiError(
-      typeof body.error === "string" ? body.error : `Request failed (${response.status})`,
-      response.status,
-      typeof body.revision === "string" ? body.revision : undefined,
-    );
-  }
-  return body as unknown as MetaResponse;
-}
-
-async function patchMeta(path: string, patch: MetaPatch): Promise<MetaResponse> {
-  const response = await fetch(path, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(patch),
-  });
-  const body = await responseBody(response);
-  if (!response.ok) {
-    throw new MetaApiError(
-      typeof body.error === "string" ? body.error : `Request failed (${response.status})`,
-      response.status,
-      typeof body.revision === "string" ? body.revision : undefined,
-    );
-  }
-  return body as unknown as MetaResponse;
-}
 
 function optimisticResponse(current: MetaResponse, operation: PieceOperation): MetaResponse {
   const currentPieces = current.data.pieces ?? {};
@@ -182,10 +136,9 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
   const setQuery = useQuery(collectionQuery("equipmentSets"));
   const itemsQuery = useQuery(collectionQuery("items"));
   const metaKey = useMemo(() => metaQueryKey(collection, recordId), [collection, recordId]);
-  const path = useMemo(() => metaPath(collection, recordId), [collection, recordId]);
   const metaQuery = useQuery<MetaResponse, Error>({
     queryKey: metaKey,
-    queryFn: () => getMeta(path),
+    queryFn: () => readMeta(collection, recordId),
     enabled: Boolean(recordId),
     staleTime: 10_000,
     refetchOnWindowFocus: false,
@@ -211,7 +164,7 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
   }, [setRow]);
 
   const mutation = useMutation<MetaResponse, Error, SaveVariables, SaveContext>({
-    mutationFn: ({ revision, operation }) => patchMeta(path, { revision, operation }),
+    mutationFn: ({ revision, operation }) => writeMeta(collection, recordId, { revision, operation }),
     onMutate: async ({ operation }) => {
       await queryClient.cancelQueries({ queryKey: metaKey });
       const previous = queryClient.getQueryData<MetaResponse>(metaKey);
@@ -221,7 +174,7 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
     },
     onError: (error, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(metaKey, context.previous);
-      if (error instanceof MetaApiError && error.status === 409) {
+      if (isMetaConflict(error)) {
         setConflict(true);
         setFeedback("This metadata changed elsewhere. Reload it before saving again.");
         toast.error("Metadata changed elsewhere. Reload before saving.");

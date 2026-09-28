@@ -372,7 +372,7 @@ describe("what devdocs reads before and after it signs in", () => {
   it("tells anyone where to sign in and which endpoint a token is for, and tells a session the rest", async () => {
     const served = await serve();
     const info = await served.call("/admin/info");
-    expect([info.status, info.body]).toEqual([200, { name: "Corealm server", description: null, endpoint: served.endpoint, assetBaseUrl: ASSETS, identityUrl: IDENTITY,
+    expect([info.status, info.body]).toEqual([200, { name: "Corealm server", description: null, endpoint: served.endpoint, assetBaseUrl: ASSETS, contentAssetUrl: null, identityUrl: IDENTITY,
       authentication: "account", catalogRevision: RESOLVED_CATALOG.revision, baseVersion: "0.0.0", worlds: [{ providerId: "reference", worldId: "north", name: "north", seed: 1337, capacity: 4 }, { providerId: "reference", worldId: "south", name: "south", seed: 1337, capacity: 4 }] }]);
     expect((await served.call("/admin/me", { token: served.owner })).body.server).toEqual({ name: "Corealm server", endpoint: served.endpoint, assetBaseUrl: ASSETS, identityUrl: IDENTITY, catalogRevision: RESOLVED_CATALOG.revision });
     const stats = (await served.call("/admin/stats", { token: served.owner })).body;

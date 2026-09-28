@@ -2,18 +2,9 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 import { parseValue } from "../../../game/src/content/schema/core.js";
-import {
-  MetaFileSchema,
-  metaCollectionName,
-  metaFileName,
-  type MetaFile,
-} from "../../../tools/content/meta.js";
-import {
-  formatRequests,
-  listRequests,
-  type CollectionRequestEntry,
-  type RequestsReport,
-} from "../../../tools/content/requests.js";
+import { MetaFileSchema, requestsReport, type MetaFile, type RequestsReport } from "../../../game/src/content/metaOps.js";
+import { metaCollectionName, metaFileName } from "../../../tools/content/meta.js";
+import { formatRequests } from "../../../tools/content/requests.js";
 import { contentRevision } from "../../../tools/content/format.js";
 import { repoRoot } from "../../../tools/lib/paths.js";
 import {
@@ -128,17 +119,7 @@ async function readMetadata(contentRoot: string, collection: string): Promise<{ 
 
 async function readReport(contentRoot: string): Promise<RequestsReport> {
   const collections = await metadataFiles(contentRoot);
-  const loaded = await Promise.all(collections.map(async (collection) => ({
-    collection,
-    snapshot: await readMetadata(contentRoot, collection),
-  })));
-  const report: RequestsReport = { revisions: {}, requests: [] };
-  for (const { collection, snapshot } of loaded) {
-    report.revisions[collection] = snapshot.revision;
-    const entries = listRequests(snapshot.records).map((entry): CollectionRequestEntry => ({ collection, ...entry }));
-    report.requests.push(...entries);
-  }
-  return report;
+  return requestsReport(await Promise.all(collections.map(async (collection) => ({ collection, ...await readMetadata(contentRoot, collection) }))));
 }
 
 /** Creates the GET-only requests listing handler, with metadata rooted under `contentRoot`. */

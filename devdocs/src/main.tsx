@@ -42,6 +42,10 @@ async function open(held: import("./api/session.js").AdminSession): Promise<void
     // Drafts live in the draft store, which outlives the unmount, so an expiry costs no work.
     onUnauthorized: () => { clearSession(); void signIn(); },
   }));
+  // The first read probes what this server offers (metadata, files, image jobs); the workspace list
+  // is decided at mount from those capabilities, so wait for it. A failed read still mounts.
+  const { backend } = await import("./api/backend.js");
+  await backend().collections().catch(() => undefined);
   await mount();
 }
 

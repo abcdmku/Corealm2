@@ -14,6 +14,7 @@ import type { Creature, CreatureData } from "../../creatures/shared.js";
 import { presentationOf, withPresentation } from "./model.js";
 import { Note, Row, Rows, Section, errorText } from "./parts.js";
 import type { CreatureSkin } from "./skinApi.js";
+import { metaBlock } from "../gates.js";
 
 const AVAILABILITY = [{ value: "world", label: "World" }, { value: "lab", label: "Lab only" }] as const;
 
@@ -87,7 +88,8 @@ export function VariantPanel({ draft, data, skins, review, navigate, onNewSkin, 
     {working.baseId && !working.presentation && <Note>Wears its base's presentation. Changing region, scale or look gives it its own copy.</Note>}
     <DraftBar draft={draft} />
     <div className="flex flex-wrap items-center gap-2">
-      <VerdictBar size="xs" value={review.verdict()} disabled={review.isPending} onChange={verdict => review.review({ verdict })} />
+      <VerdictBar size="xs" value={review.verdict()} disabled={review.isPending || Boolean(metaBlock())} onChange={verdict => review.review({ verdict })} />
+      {metaBlock() && <span className="text-[11px] text-faint" data-blocked="">Verdicts read only here</span>}
       {working.baseId && !readOnly && (confirmDelete
         ? <span className="ml-auto flex items-center gap-1"><Button variant="destructive" size="xs" onClick={() => void remove()}>Delete {working.id}</Button><Button variant="ghost" size="xs" onClick={() => setConfirmDelete(false)}>Keep</Button></span>
         : <Button variant="ghost" size="xs" className="ml-auto" onClick={() => setConfirmDelete(true)}>Delete…</Button>)}

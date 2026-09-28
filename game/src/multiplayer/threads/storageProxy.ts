@@ -16,7 +16,8 @@ import type { Handlers, Rpc } from "./rpc.js";
 const WORLD_METHODS = ["load", "openWorld", "claimPlayer", "releasePlayer", "commit", "editStoredPlayer"] as const satisfies readonly (keyof WorldStorage)[];
 const ADMIN_METHODS = ["listRoles", "roleOf", "setRole", "revokeRole", "setSetupCodeHash", "claimSetupCode", "listBans", "banOf", "setBan", "removeBan",
   "createAdminSession", "adminSession", "revokeAdminSession", "revokeAdminSessionsFor", "listApiTokens", "createApiToken", "useApiToken", "revokeApiToken",
-  "record", "audit", "settings", "setSettings", "listPlayers", "player", "itemHolders"] as const satisfies readonly (keyof ServerAdminStorage)[];
+  "record", "audit", "settings", "setSettings", "listPlayers", "player", "itemHolders",
+  "authoringMeta", "authoringMetaAll", "replaceAuthoringMeta"] as const satisfies readonly (keyof ServerAdminStorage)[];
 const CATALOG_METHODS = ["activeRevision", "catalog", "sources", "revisionInfo", "store", "activate", "history", "activeBase", "storeBase", "baseSources"] as const satisfies readonly (keyof CatalogStorage)[];
 
 export interface StorageSet { world: WorldStorage; admin: ServerAdminStorage; catalog: CatalogStorage }

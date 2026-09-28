@@ -26,7 +26,6 @@ import type {
   EntityId, ItemId, ItemStack, QuestId, QuestObjectiveRef, RecipeId, RegionId, SkillId,
 } from "../contracts.js";
 
-const questData = RESOLVED_TABLES["quests"];
 import { parseCollection } from "./schema/core.js";
 import { questPresentationSchema, questSchema } from "./schema/story.js";
 
@@ -165,16 +164,21 @@ export interface QuestDef extends QuestPresentation {
  * has no rules at all. The rows are parsed against whichever shape they are, so a projected row
  * that still carried a predicate would fail here rather than reach a player.
  */
-const authored = Array.isArray(questData) && questData.length > 0
-  && (questData as Record<string, unknown>[]).every((row) => typeof row === "object" && row !== null && "rewards" in row);
+function questRows(): { rows: QuestPresentation[]; authored: boolean } {
+  const questData = RESOLVED_TABLES["quests"];
+  const authored = Array.isArray(questData) && questData.length > 0
+    && (questData as Record<string, unknown>[]).every((row) => typeof row === "object" && row !== null && "rewards" in row);
+  return { authored, rows: authored
+    ? parseCollection(questSchema, questData, { name: "quests" })
+    : parseCollection(questPresentationSchema, questData, { name: "quests" }) };
+}
+const quests: QuestPresentation[] = [];
 
 /** Quest records retain their authored journal order. */
-export const QUESTS: readonly QuestPresentation[] = authored
-  ? parseCollection(questSchema, questData, { name: "quests" })
-  : parseCollection(questPresentationSchema, questData, { name: "quests" });
+export const QUESTS: readonly QuestPresentation[] = quests;
 
-const BY_ID = new Map<QuestId, QuestPresentation>(QUESTS.map((row) => [row.id, row]));
-const RULES = new Map<QuestId, QuestDef>(authored ? (QUESTS as readonly QuestDef[]).map((row) => [row.id, row]) : []);
+const BY_ID = new Map<QuestId, QuestPresentation>();
+const RULES = new Map<QuestId, QuestDef>();
 
 export function quest(id: QuestId): QuestPresentation | undefined {
   return BY_ID.get(id);
@@ -190,7 +194,18 @@ export function questRules(id: QuestId): QuestDef | undefined {
 }
 
 /** Every authored quest, rules and all, in journal order. Empty on a client catalog. */
-export const QUEST_RULES: readonly QuestDef[] = [...RULES.values()];
+const questRuleRows: QuestDef[] = [];
+export const QUEST_RULES: readonly QuestDef[] = questRuleRows;
+
+/** Fills the arrays and maps above; again after the catalog moved (a joined server's client catalog, or leaving it). */
+export function reindexQuests(): void {
+  const { rows, authored } = questRows();
+  quests.splice(0, quests.length, ...rows);
+  BY_ID.clear(); RULES.clear();
+  for (const row of rows) { BY_ID.set(row.id, row); if (authored) RULES.set(row.id, row as QuestDef); }
+  questRuleRows.splice(0, questRuleRows.length, ...RULES.values());
+}
+reindexQuests();
 
 export function questsForRegion(regionId: RegionId): QuestPresentation[] {
   return QUESTS.filter((row) => row.regionId === regionId);

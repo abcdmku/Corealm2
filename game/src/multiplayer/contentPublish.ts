@@ -6,7 +6,7 @@ import { CONTENT_COLLECTIONS } from "../content/compiler/collections.js";
 import type { ContentDiagnostic } from "../content/compiler/contracts.js";
 import type { CompiledWorld } from "../content/worldData.js";
 import type { AdminActor, ServerAdminStorage } from "./adminStorage.js";
-import { AssetManifestFailure, type AssetHost } from "./assetManifest.js";
+import { AssetManifestFailure, missingSkinMaps, type AssetHost } from "./assetManifest.js";
 import { baseMarkerOf, CATALOG_TABLE_APPLIES, type BaseCatalog, type CatalogHost } from "./catalogHost.js";
 import type { BaseMarker, BaseWrite } from "./catalogStorage.js";
 import { mergeBase, BaseDecisionError, type BaseConflict, type BaseDecision, type BaseMergeCounts } from "../content/compiler/baseMerge.js";
@@ -148,6 +148,12 @@ export function createContentPublisher(ports: PublishPorts) {
       if (error instanceof AssetManifestFailure) throw new PublishFailure(502, "asset_manifest_unavailable", error.message);
       throw error;
     });
+    // A skin whose map no client can load draws the model's own maps everywhere: refuse it here.
+    const unloadable = await missingSkinMaps(ports.assets, sources).catch(error => {
+      if (error instanceof AssetManifestFailure) throw new PublishFailure(502, "asset_manifest_unavailable", error.message);
+      throw error;
+    });
+    if (unloadable.length) throw new PublishFailure(422, "content_invalid", "Content failed validation. Nothing was stored and the running catalog is unchanged.", { problems: unloadable.slice(0, MAX_LISTED) });
     timings.manifestMs = performance.now() - mark;
     // The compile is about a tenth of a second on the full catalog. It runs between two ticks of the event loop, outside the tick hold.
     await tick(); mark = performance.now();

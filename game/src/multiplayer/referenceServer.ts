@@ -13,6 +13,7 @@ import { createCatalogHost, seedCatalog, serveCatalog, type BaseCatalog, type Ca
 import { MemoryCatalogStorage, UNKNOWN_BASE_VERSION, type CatalogStorage } from "./catalogStorage.js";
 import { createAssetHost, type AssetHostOptions } from "./assetManifest.js";
 import { createContentPublisher } from "./contentPublish.js";
+import { contentAssetUrlFor, type ContentAssetStore } from "./contentAssets.js";
 import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
 import type { HeadlessWorldPorts } from "./headlessWorld.js";
 import { MAX_MESSAGE_BYTES, SessionFailure } from "./protocol.js";
@@ -63,6 +64,12 @@ export interface ReferenceServerOptions {
    * the manifest shipped with this server. With neither, asset ids are not checked.
    */
   assets?: AssetHostOptions;
+  /**
+   * This server's own files (`contentAssets.ts`). Serves `/content-assets/*`, names them in every
+   * world descriptor (`contentAssetUrl`), and lets a publish reference them. Its `/admin/files`
+   * route goes in `adminRoutes`.
+   */
+  contentAssets?: ContentAssetStore;
   build(world: WorldDescriptor): Promise<HeadlessWorldPorts>;
   authentication: AuthenticationAdapter;
   /**
@@ -143,10 +150,17 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     const ban = accounts && await accounts.banOf(playerId, now());
     if (ban) throw new SessionFailure("BANNED", banMessage(ban));
   }
+  const store = options.contentAssets ?? null;
+  /** Where a world's clients find this server's files: the store's own URL, else beside the world's socket. */
+  const contentAssetUrl = (endpoint: string): string => store!.publicUrl ?? contentAssetUrlFor(endpoint);
+  const unboundEndpoint = (endpoint: string): boolean => new URL(endpoint).port === "0";
+  // A listener on port 0 learns its endpoint after binding, and its worlds their file URL with it.
+  const worldsIn = store ? options.worlds.map(world => store.publicUrl !== null || !unboundEndpoint(world.endpoint)
+    ? { ...world, contentAssetUrl: contentAssetUrl(world.endpoint) } : world) : options.worlds;
   const beforeAdmission = async (player: AuthenticatedPlayer, world: WorldDescriptor): Promise<void> => { await refuseBanned(player.playerId); await options.beforeAdmission?.(player, world); };
-  const threaded: ThreadedHost | null = options.threads ? await createThreadedHost({ ...options.threads, worlds: options.worlds, catalogRevision: catalog.revision,
+  const threaded: ThreadedHost | null = options.threads ? await createThreadedHost({ ...options.threads, worlds: worldsIn, catalogRevision: catalog.revision,
     authentication: options.authentication, beforeAdmission, allowedOrigins: options.allowedOrigins, now, log }) : null;
-  const local = threaded ? null : await createWorldHost<WebSocketLink>({ worlds: options.worlds, storage: options.storage, build: options.build, authentication: options.authentication,
+  const local = threaded ? null : await createWorldHost<WebSocketLink>({ worlds: worldsIn, storage: options.storage, build: options.build, authentication: options.authentication,
     catalogRevision: catalog.revision, now, log, beforeAdmission });
   const host: HostControl = threaded ? threaded.control : localHostControl(local!);
   /** Live objects, with threads off. With threads on a world is in another thread and this is empty: read `status()`. */
@@ -192,9 +206,11 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       await threaded?.refresh();
       // A capacity an admin lowered under the players already in is still a full world, not an invalid one.
       response.end(JSON.stringify(host.status().map(world => ({ ...world.descriptor,
+        ...(store ? { contentAssetUrl: world.descriptor.contentAssetUrl ?? contentAssetUrl(world.descriptor.endpoint) } : {}),
         population: Math.min(world.population, world.capacity), availability: host.closed || !world.available ? "unavailable" : world.population >= world.capacity ? "full" : "available" })))); return;
     }
     if (await serveCatalog(request, response, catalog)) return;
+    if (store && await store.http(request, response)) return;
     if (adminApi ? await adminApi(request, response) : adminUnavailable(request, response)) return;
     if (await options.http?.(request, response, { worlds, metrics, events, catalog })) return;
     response.writeHead(404).end();
@@ -260,12 +276,13 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   function serverInfo() {
     const { descriptor } = first();
     return { name: settings.name, description: settings.description, endpoint: descriptor.endpoint, assetBaseUrl: descriptor.assetBaseUrl ?? null,
+      contentAssetUrl: store ? descriptor.contentAssetUrl ?? contentAssetUrl(descriptor.endpoint) : null,
       identityUrl: options.identityUrl ?? null, authentication: descriptor.authentication ?? "guest", catalogRevision: catalog.revision, baseVersion: catalog.base?.version ?? null,
       host: options.host ?? "127.0.0.1", registerWithDirectory: settings.registerWithDirectory,
       worlds: host.status().map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId,
         name: world.descriptor.name, seed: world.descriptor.seed, capacity: world.capacity })) };
   }
-  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host, running: () => RESOLVED_CATALOG, bundled: options.bundledBase ?? null }) : null;
+  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, ...(store ? { contentAssets: store } : {}), now }), now, log, host, running: () => RESOLVED_CATALOG, bundled: options.bundledBase ?? null }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log, routes: options.adminRoutes,
     ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: host.status()[0]?.descriptor.assetBaseUrl }),
@@ -305,7 +322,13 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   const unbound = host.status().filter(world => new URL(world.descriptor.endpoint).port === "0");
   const bound = unbound.length ? `ws://127.0.0.1:${address.port}/` : null;
   if (threaded) await threaded.start(bound);
-  else { if (bound !== null) for (const hosted of worlds.values()) if (new URL(hosted.runtime.descriptor.endpoint).port === "0") hosted.runtime.descriptor.endpoint = bound; local!.start(); }
+  else {
+    if (bound !== null) for (const hosted of worlds.values()) if (unboundEndpoint(hosted.runtime.descriptor.endpoint)) {
+      hosted.runtime.descriptor.endpoint = bound;
+      if (store) hosted.runtime.descriptor.contentAssetUrl = contentAssetUrl(bound);
+    }
+    local!.start();
+  }
   const heartbeat = setInterval(() => { for (const ws of sockets.clients) ws.ping(); }, 10_000);
   // A MessagePort peer has no ping and is never silent. A socket that stopped answering is dropped here, and the core saves its player.
   const silence = setInterval(() => {

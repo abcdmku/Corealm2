@@ -39,9 +39,16 @@ export interface ElementalSpellDef {
   watch: string;
 }
 
-export const ELEMENTAL_SPELLS: readonly ElementalSpellDef[] = parseCollection(
+const elementalRows = (): ElementalSpellDef[] => parseCollection(
   ElementalSpellSchema, RESOLVED_TABLES["elementalSpells"], { name: "elementalSpells" },
 );
+const elemental = elementalRows();
+export const ELEMENTAL_SPELLS: readonly ElementalSpellDef[] = elemental;
+
+/** After the catalog moved: the same array, refilled. */
+export function reindexElementalSpells(): void {
+  elemental.splice(0, elemental.length, ...elementalRows());
+}
 
 export function elementalSpell(id: string): ElementalSpellDef {
   const spell = ELEMENTAL_SPELLS.find((entry) => entry.id === id);

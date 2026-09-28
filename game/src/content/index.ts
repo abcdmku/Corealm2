@@ -27,7 +27,11 @@ import type {
 
 // ---------------------------------------------------------------- resources
 
-const RECIPE_BALANCE = parseValue(recipesBalanceSchema, RESOLVED_TABLES["balance/recipes"], "balance/recipes");
+let RECIPE_BALANCE = parseValue(recipesBalanceSchema, RESOLVED_TABLES["balance/recipes"], "balance/recipes");
+/** After the page follows a server's catalog (or leaves it): gather, heal, recipe XP and tool bonuses read its recipe balance. */
+export function reindexRecipeBalance(): void {
+  RECIPE_BALANCE = parseValue(recipesBalanceSchema, RESOLVED_TABLES["balance/recipes"], "balance/recipes");
+}
 
 export type GatheringResourceArchetype = "ore" | "tree" | "fishing_spot";
 

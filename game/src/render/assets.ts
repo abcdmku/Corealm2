@@ -11,7 +11,7 @@ import { GameplayWork } from "./gameplayWork.js";
 import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
-import { assetBaseUrl, assetManifestUrl } from "../app/config.js";
+import { assetBaseUrl, assetManifestUrl, contentAssetOverride } from "../app/config.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { mirrorAnimationClip } from "./skinning.js";
 import { configureAssetDelivery, deliveryUrl, usesMobileAssets } from './assetDelivery.js';
@@ -841,8 +841,11 @@ export class AssetRegistry {
         }
         const entry = request.entry;
         const baseUrl = this.urls.assetBaseUrl ?? assetBaseUrl();
-        const url = `${baseUrl}${entry.file.replace(/^\/+/, "")}`;
-        const gltf = entry.compactFile ? await (async () => {
+        const file = entry.file.replace(/^\/+/, "");
+        // A model the joined server stores replaces the host's, and the host's compact copy with it.
+        const served = contentAssetOverride(`assets/${file}`);
+        const url = served ?? `${baseUrl}${file}`;
+        const gltf = entry.compactFile && !served ? await (async () => {
           const response = await fetch(`${baseUrl}${entry.compactFile}`);
           if (!response.ok || !response.body) throw new Error(`Model download failed: ${entry.id} (${response.status})`);
           const bytes = await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();

@@ -66,3 +66,8 @@ export function useFileDrop(onFile: (file: File) => void, disabled = false): { o
     },
   };
 }
+
+/** Why the controls beside it are disabled, in one line. Nothing when they are not. */
+export function Blocked({ reason, className }: { reason: string | undefined; className?: string }) {
+  return reason ? <p className={cn("text-[11px] leading-snug text-faint", className)} data-blocked="">{reason}</p> : null;
+}

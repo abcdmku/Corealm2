@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import type { MetaResponse } from "../../shared/metaContracts.js";
 import type { MetaCandidate } from "../../../tools/content/meta.js";
 import { AssetViewer } from "../viewer/AssetViewer.js";
-import { metaPath, metaQueryKey } from "./NotesPanel.js";
+import { metaQueryKey, readMeta } from "../model/meta.js";
 import type { AssetActionResponse, AssetCandidateView, AssetCandidatesResponse } from "../../server/handlers/assets.js";
 import { Button, Badge, Input, Textarea, ChoiceGroup } from "../components/ui/index.js";
 import { buttonVariants } from "../components/ui/index.js";
@@ -88,12 +88,6 @@ async function readCandidates(url: string): Promise<AssetCandidatesResponse> {
   return normalizeResponse(value);
 }
 
-async function readTargetMeta(collection: string, entityId: string): Promise<MetaResponse> {
-  const response = await fetch(metaPath(collection, entityId), { headers: { Accept: "application/json" } });
-  const value = await response.json().catch(() => undefined);
-  if (!response.ok) throw new Error(isObject(value) && typeof value.error === "string" ? value.error : `Could not load asset metadata (${response.status})`);
-  return value as MetaResponse;
-}
 
 async function sendAction(variables: ActionVariables): Promise<AssetActionResponse> {
   const response = await fetch(`/__devdocs/assets/${encodeURIComponent(variables.candidateId)}/${variables.action}`, {
@@ -173,7 +167,7 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
     return `/__devdocs/assets/candidates${query ? `?${query}` : ""}`;
   }, [collection, entityId]);
   const candidatesQuery = useQuery<AssetCandidatesResponse, Error>({ queryKey: ["asset-candidates", collection ?? "*", entityId ?? "*"], queryFn: () => readCandidates(queryUrl), staleTime: 2_000, refetchOnWindowFocus: false, retry: false });
-  const metaQuery = useQuery<MetaResponse, Error>({ queryKey: target ? metaQueryKey(collection!, entityId!) : ["asset-meta", "none"], queryFn: () => readTargetMeta(collection!, entityId!), enabled: target, staleTime: 2_000, refetchOnWindowFocus: false, retry: false });
+  const metaQuery = useQuery<MetaResponse, Error>({ queryKey: target ? metaQueryKey(collection!, entityId!) : ["asset-meta", "none"], queryFn: () => readMeta(collection!, entityId!), enabled: target, staleTime: 2_000, refetchOnWindowFocus: false, retry: false });
   const [file, setFile] = useState<File>();
   const [uploadBody, setUploadBody] = useState<CandidateBody | "">(slot ? "male" : "");
   const [source, setSource] = useState("");

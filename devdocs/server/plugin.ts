@@ -24,7 +24,8 @@ import { createValidateHandler, isValidatePath } from "./handlers/validate.js";
 import { createGitHandler, isGitPath } from "./handlers/git.js";
 import { createBulkHandler, isBulkPath } from './handlers/bulk.js';
 import { createThumbnailsHandler, isThumbnailsPath, THUMBNAIL_MAX_REQUEST_BYTES, type ThumbnailsHandlerOptions } from './handlers/thumbnails.js';
-import { createSkinsHandler, isSkinsPath, SKIN_MAX_REQUEST_BYTES } from './handlers/skins.js';
+import { SKIN_MAX_REQUEST_BYTES } from './handlers/skins.js';
+import { createFilesHandler, isFilesPath, FILES_MAX_REQUEST_BYTES } from './handlers/files.js';
 import { createImagegenHandler, isImagegenPath } from './handlers/imagegen.js';
 import { isCatalogPath, readCompiledCatalog } from './handlers/catalog.js';
 
@@ -52,7 +53,7 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
   const handleMeta = createMetaHandler(options);
   const handleAssets = createAssetsHandler(options);
   const handleThumbnails = createThumbnailsHandler(options);
-  const handleSkins = createSkinsHandler({ referencePools: readRepoReferencePools, ...options });
+  const handleFiles = createFilesHandler();
   const handleImagegen = createImagegenHandler({ referencePools: readRepoReferencePools, ...options });
 
   server.middlewares.use((request, response, next) => {
@@ -67,11 +68,11 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
     const git = isGitPath(request.url);
     const bulk = isBulkPath(request.url);
     const assets = isAssetsPath(request.url);
-    const skins = isSkinsPath(request.url);
+    const files = isFilesPath(request.url);
     const imagegen = isImagegenPath(request.url);
     const catalog = isCatalogPath(request.url);
 
-    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets && !thumbnails && !skins && !imagegen && !catalog) {
+    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets && !thumbnails && !files && !imagegen && !catalog) {
       next();
       return;
     }
@@ -82,8 +83,10 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
       if (icon) return readIconMaster(requestFromIncoming(request));
       if (catalog) return readCompiledCatalog(requestFromIncoming(request), options.contentRoot);
       if (thumbnails) return handleThumbnails({ ...requestFromIncoming(request), body: request.method === 'PUT' ? await readJsonBody(request, THUMBNAIL_MAX_REQUEST_BYTES) : undefined });
-      if (skins || imagegen) return (skins ? handleSkins : handleImagegen)({ ...requestFromIncoming(request), // Only a save or a new job carries a body; a retry (`POST /__devdocs/imagegen/<id>`) has none.
-        body: request.method === 'POST' && (skins || request.url?.split(/[?#]/, 1)[0] === '/__devdocs/imagegen') ? await readJsonBody(request, SKIN_MAX_REQUEST_BYTES) : undefined });
+      if (files) return handleFiles({ ...requestFromIncoming(request), body: request.method === 'POST' ? await readJsonBody(request, FILES_MAX_REQUEST_BYTES) : undefined });
+      // Only a new job carries a body; a retry (`POST /__devdocs/imagegen/<id>`) has none.
+      if (imagegen) return handleImagegen({ ...requestFromIncoming(request),
+        body: request.method === 'POST' && request.url?.split(/[?#]/, 1)[0] === '/__devdocs/imagegen' ? await readJsonBody(request, SKIN_MAX_REQUEST_BYTES) : undefined });
       if (assets) return handleAssets({ ...requestFromIncoming(request), body: ['POST', 'PUT'].includes(request.method ?? '') ? await readJsonBody(request, ASSET_UPLOAD_MAX_REQUEST_BYTES) : undefined });
 
       if (git) return handleGit(requestFromIncoming(request));

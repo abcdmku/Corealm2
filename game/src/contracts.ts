@@ -233,8 +233,10 @@ export interface WorldSession {
   command(command: GameCommand): Promise<CommandOutcome>;
   subscribe(listener: (update: WorldUpdate) => void): () => void;
   subscribeStatus?(listener: (phase: SessionPhase, failure?: SessionError) => void): () => void;
-  /** The server published content while this session was open. The session stays on the catalog it joined with. */
+  /** The server published content while this session was open; `catalogAt` loads the new revision for the page to follow. */
   subscribeContent?(listener: (revision: string) => void): () => void;
+  /** A catalog the server published after the join, by revision. Absent for sessions that cannot fetch one. */
+  catalogAt?(revision: string): SessionCatalog;
   close(): Promise<void>;
 }
 export interface SessionCredentials {

@@ -3,7 +3,7 @@ import { COMPILED_PROGRESSION } from './compiler/runtime.js';
 import { campfireFuelByLog } from './campfireData.js';
 import { resourceById } from './resourceData.js';
 /** Campfire gameplay needs only progression rows with fuel and gathering unlocks. */
-export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] = COMPILED_PROGRESSION.progression
+const tierRows = (): GatheringProductionTierDef[] => COMPILED_PROGRESSION.progression
   .filter(row => row.campfireFuelId && row.magic && row.smelting)
   .map(row => {
     const resourceDefs = row.resourceIds.map(resourceById);
@@ -17,6 +17,12 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
       items: items as GatheringProductionTierDef['items'], magic: row.magic as GatheringProductionTierDef['magic'],
       smelting: row.smelting!, campfire: campfireFuelByLog(row.campfireFuelId!) };
   });
+const tiers = tierRows();
+export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] = tiers;
+/** After the catalog moved, once `reindexResources` and `reindexCampfireFuels` ran: the same array, refilled. */
+export function reindexGatheringTiers(): void {
+  tiers.splice(0, tiers.length, ...tierRows());
+}
 export { CAMPFIRE_FUELS } from './campfireData.js';
 export function gatheringProductionTier(tier: number): GatheringProductionTierDef | undefined {
   return GATHERING_PRODUCTION_TIERS.find(row => row.tier === tier);

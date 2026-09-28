@@ -1,15 +1,21 @@
 import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { discriminated, enumOf, obj, opt, parseValue, refine, str, unknown as unknownSchema, type Infer, type ParseContext } from "../../../game/src/content/schema/core.js";
+import { parseValue } from "../../../game/src/content/schema/core.js";
 import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
-import { contentRevision, formatContentJson } from "../../../tools/content/format.js";
+import {
+  applyMetaOperation, canonicalMetaFile, emptyMetaRecord, META_CONFLICT_MESSAGE, metaCollection, metaDigest, MetaActionError, MetaFileSchema, parseMetaPatch,
+  type MetaDigestResponse, type MetaPatch, type MetaResponse,
+} from "../../../game/src/content/metaOps.js";
+import { formatContentJson } from "../../../game/src/content/compiler/canonical.js";
+import { contentRevision } from "../../../tools/content/format.js";
 import { withFileLock } from "../../../tools/content/locks.js";
-import { ART_VERDICTS, emptyMetaRecord, MetaFileSchema, REQUEST_KINDS, type ArtVerdict, type MetaFile, type MetaRecord, type MetaSnapshot } from "../../../tools/content/meta.js";
-import { openRequest } from "../../../tools/content/requests.js";
+import type { MetaSnapshot } from "../../../tools/content/meta.js";
 import { atomicReplaceFile } from "../../../tools/lib/atomic-replace-file.js";
 import { repoRoot } from "../../../tools/lib/paths.js";
 import { readRuntimeCatalogs } from '../catalogs.js';
 import { isLoopbackDevdocsRequest, type DevdocsJsonResponse, type DevdocsRequest } from "./collections.js";
+
+export type { MetaDigestEntry, MetaDigestResponse, MetaPatch, MetaResponse } from "../../../game/src/content/metaOps.js";
 
 export interface MetaHandlerOptions {
   contentRoot?: string;
@@ -18,26 +24,8 @@ export interface MetaHandlerOptions {
   now?: () => string;
 }
 export type MetaHandlerRequest = DevdocsRequest & { body?: unknown };
-export interface MetaResponse { collection: string; entityId: string; revision: string; data: MetaRecord }
-export interface MetaDigestEntry { status: MetaRecord["status"]; openRequests: number; notes: number; candidates: number; art?: ArtVerdict; artChecks?: Record<string, ArtVerdict> }
-export interface MetaDigestResponse { collection: string; revision: string; records: Record<string, MetaDigestEntry> }
 export type MetaHandler = (request: MetaHandlerRequest) => Promise<DevdocsJsonResponse | undefined>;
 
-const nonblank = refine(str({ nonEmpty: true }), value => value.trim().length > 0, "must not be blank");
-const authoringStatus = enumOf(["draft", "candidate", "rejected"] as const);
-const operationSchema = discriminated("kind", {
-  status: obj({ kind: enumOf(["status"] as const), status: authoringStatus }),
-  note: obj({ kind: enumOf(["note"] as const), text: nonblank, label: opt(str()) }),
-  "request.open": obj({ kind: enumOf(["request.open"] as const), requestId: nonblank, requestKind: enumOf(REQUEST_KINDS), text: nonblank, label: opt(str()) }),
-  "request.close": obj({ kind: enumOf(["request.close"] as const), requestId: nonblank }),
-  piece: refine(obj({ kind: enumOf(["piece"] as const), slot: enumOf(["head", "body", "legs", "hands", "feet"] as const), note: opt(str()), status: opt(authoringStatus) }),
-    value => value.note !== undefined || value.status !== undefined, "piece requires note or status"),
-  // `verdict: "clear"` removes a verdict; an absent verdict leaves it. `key` absent targets the record.
-  art: refine(obj({ kind: enumOf(["art"] as const), key: opt(str({ pattern: /^[a-z]+:[A-Za-z0-9_.-]+$/ })), verdict: opt(enumOf([...ART_VERDICTS, "clear"] as const)), note: opt(str()) }),
-    value => value.note !== undefined || value.verdict !== undefined, "art requires verdict or note"),
-});
-const patchSchema = obj({ revision: str({ pattern: /^[a-f0-9]{64}$/ }), operation: operationSchema });
-export type MetaPatch = Infer<typeof patchSchema>;
 const META_PATH = "/__devdocs/meta";
 
 function json(status: number, data: unknown, headers: Readonly<Record<string, string>> = {}): DevdocsJsonResponse {
@@ -115,63 +103,6 @@ async function entity(root: string, spec: ContentCollection, entityId: string): 
   }
   return undefined;
 }
-function ownRecord(records: MetaFile, entityId: string): MetaRecord {
-  if (!Object.hasOwn(records, entityId)) {
-    Object.defineProperty(records, entityId, { value: emptyMetaRecord(), enumerable: true, writable: true, configurable: true });
-  }
-  return records[entityId]!;
-}
-class ActionError extends Error {
-  constructor(readonly status: number, message: string) { super(message); }
-}
-
-function applyOperation(records: MetaFile, collection: string, entityId: string, authored: Record<string, unknown>, operation: MetaPatch["operation"], actor: string, at: string): MetaFile {
-  const record = ownRecord(records, entityId);
-  if (operation.kind === "request.open") {
-    try { return openRequest(records, { entityId, requestId: operation.requestId, kind: operation.requestKind,
-      text: operation.text, actor, at, ...(operation.label === undefined ? {} : { label: operation.label }) }); }
-    catch (error) { throw new ActionError(400, error instanceof Error ? error.message : "Unable to open request"); }
-  }
-  if (operation.kind === "note") {
-    record.notes.push({ at, by: actor, text: operation.text, ...(operation.label === undefined ? {} : { label: operation.label }) });
-    record.history.push({ at, by: actor, action: "note.add" });
-  } else if (operation.kind === "status") {
-    record.status = operation.status;
-    record.history.push({ at, by: actor, action: "status.set", detail: operation.status });
-  } else if (operation.kind === "request.close") {
-    const requests = record.notes.filter(note => note.request?.id === operation.requestId);
-    if (requests.length === 0) throw new ActionError(404, "Unknown request for this entity");
-    if (requests.length !== 1) throw new ActionError(400, "Duplicate request id");
-    const request = requests[0]!.request!;
-    if (request.state !== "closed") {
-      request.state = "closed";
-      request.closedAt = at;
-      record.history.push({ at, by: actor, action: "request.close", detail: operation.requestId });
-    }
-  } else if (operation.kind === "art") {
-    const art = record.art ??= {};
-    const target = operation.key === undefined ? art : ((art.checks ??= {})[operation.key] ??= {});
-    if (operation.verdict === "clear") delete target.verdict;
-    else if (operation.verdict !== undefined) target.verdict = operation.verdict;
-    if (operation.note !== undefined) { if (operation.note.trim()) target.note = operation.note; else delete target.note; }
-    if (operation.key !== undefined && !target.verdict && !target.note) delete art.checks![operation.key];
-    art.at = at; art.by = actor;
-    if (!art.verdict && !art.note && !Object.keys(art.checks ?? {}).length) delete record.art;
-    record.history.push({ at, by: actor, action: "art.review", detail: `${operation.key ?? "record"}${operation.verdict ? ` ${operation.verdict}` : ""}` });
-  } else {
-    if (collection !== "equipmentSets") throw new ActionError(400, "Piece notes are available only for equipment sets");
-    const members = authored.members as Record<string, unknown>;
-    if (!Object.hasOwn(members, operation.slot)) throw new ActionError(400, "Piece is not a member of this set");
-    record.pieces ??= {};
-    const current = record.pieces[operation.slot] ?? {};
-    record.pieces[operation.slot] = { ...current,
-      ...(operation.note === undefined ? {} : { note: operation.note }),
-      ...(operation.status === undefined ? {} : { status: operation.status }) };
-    record.history.push({ at, by: actor, action: "piece.update", detail: operation.slot });
-  }
-  return records;
-}
-
 /** Human metadata operations only. Asset approvals and candidate promotion use their review route. */
 export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler {
   const root = path.resolve(options.contentRoot ?? path.join(repoRoot, "game", "content"));
@@ -186,14 +117,13 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
     const method = (request.method ?? "GET").toUpperCase();
     if (method !== "GET" && method !== "PATCH") return json(405, { error: "Method not allowed" }, { Allow: "GET, PATCH" });
     // Both the authored and resolved inspection pages share one metadata record.
-    const collection = target.collection.startsWith('compiled-') ? target.collection.slice('compiled-'.length) : target.collection;
-    const spec = CONTENT_COLLECTIONS.find(row => row.name === collection) ?? (collection==='assets'?{name:'assets',file:'',schema:unknownSchema(),shape:'array' as const,idKey:'id'}:undefined);
+    const spec = metaCollection(target.collection);
     if (!spec) return failure(404, "Unknown collection");
     let patch: MetaPatch | undefined;
     if (method === "PATCH") {
-      const ctx: ParseContext = { issues: [] };
-      patch = patchSchema.parse(request.body, "patch", ctx);
-      if (ctx.issues.length) return json(400, { error: "Invalid metadata patch", diagnostics: ctx.issues });
+      const parsed = parseMetaPatch(request.body);
+      if ("issues" in parsed) return json(400, { error: "Invalid metadata patch", diagnostics: parsed.issues });
+      patch = parsed.patch;
     }
     try {
       const file = metadataFile(root, spec.name);
@@ -205,15 +135,7 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
         // A per-collection digest so browsers can badge status and open requests without one
         // request per record. Notes and history stay on the per-entity route.
         const current = await snapshot(file, spec.name);
-        const records = Object.fromEntries(Object.entries(current.records).map(([id, record]) => [id, {
-          status: record.status,
-          openRequests: record.notes.filter(note => note.request && note.request.state !== "closed").length,
-          notes: record.notes.length,
-          candidates: (record.candidates ?? []).filter(candidate => candidate.status === "candidate" || candidate.status === "draft").length,
-          ...(record.art?.verdict ? { art: record.art.verdict } : {}),
-          ...(record.art?.checks ? { artChecks: Object.fromEntries(Object.entries(record.art.checks).flatMap(([key, check]) => check.verdict ? [[key, check.verdict]] : [])) } : {}),
-        }]));
-        return json(200, { collection: spec.name, revision: current.revision, records } satisfies MetaDigestResponse);
+        return json(200, { collection: spec.name, revision: current.revision, records: metaDigest(current.records) } satisfies MetaDigestResponse);
       }
       if (method === "GET") {
         if (!await entity(root, spec, target.entityId)) return failure(404, "Unknown entity");
@@ -223,20 +145,17 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
         const authored = await entity(root, spec, target.entityId);
         if (!authored) return failure(404, "Unknown entity");
         const current = await snapshot(file, spec.name);
-        if (current.revision !== patch!.revision) return json(409, {
-          error: "Metadata changed since it was read. Reload before saving.", revision: current.revision,
-        });
+        if (current.revision !== patch!.revision) return json(409, { error: META_CONFLICT_MESSAGE, revision: current.revision });
         const at = now();
-        const updated = applyOperation(current.records, spec.name, target.entityId, authored, patch!.operation, actor, at);
-        const validated = parseValue(MetaFileSchema, updated, `${spec.name}.meta`);
-        const ordered = Object.fromEntries(Object.keys(validated).sort().map(id => [id, validated[id]]));
-        const text = formatContentJson(ordered);
+        const updated = applyMetaOperation(current.records, spec.name, target.entityId, authored, patch!.operation, actor, at);
+        const records = canonicalMetaFile(updated, spec.name);
+        const text = formatContentJson(records);
         await mkdir(path.dirname(file), {recursive:true});
         await atomicReplaceFile(file, text);
-        return response({ records: validated, revision: contentRevision(text) });
+        return response({ records, revision: contentRevision(text) });
       });
     } catch (error) {
-      if (error instanceof ActionError) return failure(error.status, error.message);
+      if (error instanceof MetaActionError) return failure(error.status, error.message);
       return failure(500, "Unable to access metadata");
     }
   };
@@ -246,4 +165,4 @@ export function metaHandler(request: MetaHandlerRequest, options: MetaHandlerOpt
   return createMetaHandler(options)(request);
 }
 
-export { metadataFile, snapshot as readMetadataSnapshot, applyOperation as applyMetaOperation };
+export { metadataFile, snapshot as readMetadataSnapshot, applyMetaOperation };

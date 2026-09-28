@@ -31,9 +31,14 @@ export const CLIENT_TABLES = [
 const QUEST_FIELDS = ['id', 'name', 'regionId', 'giverNpcId', 'requirements', 'prerequisiteQuestIds'] as const;
 /** A stage without its rules. `hint`, `completion`, `grants` and `onFlag` stay on the server. */
 const QUEST_STAGE_FIELDS = ['index', 'objective', 'refs'] as const;
-/** Presentation fields of a species row. `stats`, `attack`, `habitat` and `respawnMs` stay on the server. */
+/**
+ * Presentation fields of a species row. `stats`, `attack`, `habitat` and `respawnMs` stay on the server.
+ * `skinId` and `variation` are the look: the skin a definition wears and the range its individuals
+ * roll size, skin and colour from. A host rolls each individual and replicates the result in
+ * `entity.view`; a page needs them to preview a crowd the way the host rolls it.
+ */
 const CREATURE_FIELDS = ['id', 'assetId', 'scale', 'regionId', 'activity', 'description', 'bodyFamily', 'rigFamily',
-  'movement', 'nativeSize', 'nativeBase', 'nativeVisualRadius', 'nativeBodyRadius'] as const;
+  'movement', 'nativeSize', 'nativeBase', 'nativeVisualRadius', 'nativeBodyRadius', 'skinId', 'variation'] as const;
 
 /** What a player sees of a creature's combat block: what it is called and how strong it looks. Nothing it rolls or decides with. */
 const ENEMY_FIELDS = ['id', 'name', 'family', 'tier'] as const;
@@ -99,6 +104,10 @@ export function parseClientCatalog(value: unknown, revision: string): ClientCata
   if (!record(value) || value.version !== 1 || value.revision !== revision || !CATALOG_REVISION.test(revision) || !record(value.tables)) throw new Error('Invalid client catalog');
   const tables = value.tables;
   for (const name of ['items', 'recipes', 'resources', 'spells', 'shops', 'regions', 'creatures'] as const) if (!identified(tables[name])) throw new Error(`Invalid client catalog table ${name}`);
+  // A page lays each table it is sent over its own and indexes the rows by id, so a row without one is refused here rather than half applied.
+  for (const name of ['npcs', 'quests', 'compiledCreatures', 'species', 'creatureSkins', 'elementalSpells', 'equipmentSets'] as const) {
+    if (name in tables && !identified(tables[name])) throw new Error(`Invalid client catalog table ${name}`);
+  }
   if (!identified(tables.enemies) || !tables.enemies.every(row => typeof row.name === 'string' && typeof row.family === 'string' && Number.isFinite(row.tier))) throw new Error('Invalid client catalog table enemies');
   return value as unknown as ClientCatalog;
 }

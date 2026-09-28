@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Redo2, Undo2 } from "lucide-react";
-import { describeBlocker, type PublishSummary } from "../api/backend.js";
+import { can, describeBlocker, type PublishSummary } from "../api/backend.js";
+import { MAX_PUBLISH_NOTE_CHARS, onPublishNote, publishNote, setPublishNote } from "../api/publishNote.js";
 import type { AppProps } from "../model/contracts.js";
 import { canonical, draftStore, lineDiff, useDraftState, type RecordEntry } from "../model/store.js";
 import { viewForCollection } from "./workspaces.js";
-import { Button, Kbd } from "../components/ui/index.js";
+import { Button, Input, Kbd } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
 import { BLOCK_TITLE, PANEL } from "./layout.js";
 
@@ -62,6 +63,7 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
         <Button variant="ghost" size="icon-sm" aria-label="Undo" title={undoLabel ? `Undo ${undoLabel} (Ctrl+Z)` : "Nothing to undo"} disabled={!undoLabel} onClick={() => draftStore.undo()}><Undo2 /></Button>
         <Button variant="ghost" size="icon-sm" aria-label="Redo" title={redoLabel ? `Redo ${redoLabel} (Ctrl+Shift+Z)` : "Nothing to redo"} disabled={!redoLabel} onClick={() => draftStore.redo()}><Redo2 /></Button>
         <Button variant="secondary" size="sm" aria-label="Reset draft" disabled={state.saving || !count} onClick={() => draftStore.resetAll()}>Discard all</Button>
+        {can("publish") && !conflicts.length && <PublishNote disabled={state.saving || !count} />}
         {!conflicts.length && <Button variant="default" size="sm" aria-label="Save changes" disabled={state.saving || !count} onClick={() => void draftStore.saveAll()}>{state.saving ? "Saving…" : "Save all"} <Kbd className="border-transparent bg-black/15 text-current">Ctrl S</Kbd></Button>}
       </span>
     </div>
@@ -75,6 +77,14 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
     {conflicts.map(entry => <Conflict key={entry.key} entry={entry} onOpen={() => open(entry)} />)}
     </div>}
   </div>;
+}
+
+/** A short note sent with the next publish; it is kept on the publish's audit row and shown in Server › History. */
+function PublishNote({ disabled }: { disabled: boolean }) {
+  const note = useSyncExternalStore(onPublishNote, publishNote);
+  return <Input aria-label="Publish note" className="h-7 w-48 text-xs" value={note} maxLength={MAX_PUBLISH_NOTE_CHARS} disabled={disabled} placeholder="Publish note (optional)"
+    title="Saved with this publish and shown in Server › History" onChange={event => setPublishNote(event.target.value)}
+    onKeyDown={event => { if (event.key === "Enter" && !disabled) { event.preventDefault(); void draftStore.saveAll(); } }} />;
 }
 
 /** What the last publish changed on the running server: applied now, waiting for a restart, and reached. */

@@ -5,11 +5,15 @@ import type { CreatureSkin } from './schema/creatureSkins.js';
  * The `creatureSkins` table of the catalog this process runs on, by id.
  *
  * Read through the installed table rather than copied at import, so a live publish (which refills
- * `RESOLVED_TABLES` in place and replaces the array) is picked up on the next lookup. A catalog
- * without the table (a client projection that does not carry it) has no skins.
+ * `RESOLVED_TABLES` in place and replaces the array) is picked up on the next lookup. A page that
+ * follows a server refills the array itself, so it calls `reindexCreatureSkins`. A catalog
+ * without the table has no skins.
  */
 let indexed: unknown = null;
 let byId = new Map<string, CreatureSkin>();
+
+/** After the catalog's `creatureSkins` array was refilled in place. */
+export function reindexCreatureSkins(): void { indexed = null; }
 
 export function creatureSkinById(id: string): CreatureSkin | undefined {
   const rows = RESOLVED_TABLES.creatureSkins;

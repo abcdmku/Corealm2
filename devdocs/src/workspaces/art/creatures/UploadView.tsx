@@ -5,7 +5,8 @@ import { collectionQuery } from "../../../api/client.js";
 import { Button, Input } from "../../../components/ui/index.js";
 import { cn } from "../../../lib/utils.js";
 import type { AlbedoMap } from "../../../viewer/albedo.js";
-import { FilePick, Note, Row, Rows, Section, errorText, useFileDrop } from "./parts.js";
+import { Blocked, FilePick, Note, Row, Rows, Section, errorText, useFileDrop } from "./parts.js";
+import { filesBlock } from "../gates.js";
 import { SkinApiUnavailable, imageFileToPng, loadAlbedo, mapsToBase64, saveSkin, type CreatureSkin } from "./skinApi.js";
 import { formatBytes, isUploadType, sizeWarning, type PixelSize } from "./skinFiles.js";
 
@@ -41,6 +42,7 @@ export function UploadView({ assetId, bodyName, skins, readOnly, target, worn, p
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [saved, setSaved] = useState<CreatureSkin>();
+  const blocked = filesBlock();
 
   const urls = useRef(new Set<string>());
   const track = (url: string) => { urls.current.add(url); return url; };
@@ -73,7 +75,7 @@ export function UploadView({ assetId, bodyName, skins, readOnly, target, worn, p
   const clear = (material: string) => setPicks(current => { const { [material]: _, ...rest } = current; return rest; });
 
   async function save() {
-    if (!model || !Object.keys(picks).length || !name.trim()) return;
+    if (!model || !Object.keys(picks).length || !name.trim() || blocked) return;
     setSaving(true); setSaveError("");
     try {
       const maps = model.map(map => ({ material: map.material, png: picks[map.material]?.png ?? map.png }));
@@ -102,10 +104,11 @@ export function UploadView({ assetId, bodyName, skins, readOnly, target, worn, p
     </div>
     {pickError && <Note tone="error">{pickError}</Note>}
     {saveError && <Note tone="error">{saveError}</Note>}
+    <Blocked reason={blocked} />
     <div className="flex items-center justify-end gap-2">
       <span className="mr-auto text-[11px] text-faint">{model ? `${count} of ${model.length} uploaded${count && count < model.length ? ", the rest from the model" : ""}` : ""}</span>
       <Button variant="ghost" size="xs" disabled={!count || saving} onClick={() => setPicks({})}>Clear</Button>
-      <Button variant="default" size="xs" disabled={!count || saving || readOnly || !name.trim()} onClick={() => void save()}>{saving ? "Saving…" : "Save skin"}</Button>
+      <Button variant="default" size="xs" disabled={!count || saving || readOnly || Boolean(blocked) || !name.trim()} title={blocked} onClick={() => void save()}>{saving ? "Saving…" : "Save skin"}</Button>
     </div>
     {saved && <div className="flex flex-col gap-1.5 rounded-md border border-border bg-muted p-2" data-saved-skin={saved.id}>
       <span className="text-[11px] text-foreground">Saved <span className="font-semibold">{saved.name}</span> <code className="font-mono text-faint">{saved.id}</code></span>

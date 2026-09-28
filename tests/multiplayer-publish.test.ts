@@ -140,7 +140,7 @@ describe("publishing content into a running server", () => {
     expect(compiled.ok).toBe(true);
     expect(Object.keys(CATALOG_TABLE_APPLIES).sort()).toEqual(Object.keys(compiled.ok ? compiled.catalog.tables : {}).sort());
     expect(Object.entries(CATALOG_TABLE_APPLIES).filter(([, applies]) => applies === "live").map(([name]) => name).sort()).toEqual(
-      ["compiledCreatures", "creatureDefinitions", "creatureProfiles", "encounters", "enemies", "items", "lootTables", "placements", "recipes", "shops", "species", "world"]);
+      ["audio", "compiledCreatures", "creatureDefinitions", "creatureProfiles", "creatureSkins", "encounters", "enemies", "equipmentFamilies", "items", "lootTables", "placements", "recipeTemplates", "recipes", "shops", "species", "world"]);
   });
 
   it("starts on the seeded revision and refuses a credential without content:publish", async () => {

@@ -1,5 +1,5 @@
 import { itemUpgrade } from "../content/itemUpgrades.js";
-import { assetBaseUrl } from "../app/config.js";
+import { assetBaseUrl, contentAssetOverride } from "../app/config.js";
 /** Raster inventory icons and item shape names used by equipment previews. */
 import type { EquipSlot, ItemCategory, ItemDef } from "../contracts.js";
 
@@ -71,7 +71,8 @@ export function itemIconUrl(def: ItemDef | undefined): string | undefined {
   const baseId = itemUpgrade(def.id).baseId;
   const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(baseId);
   const artworkId = match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : baseId;
-  return `${itemIconBase()}${encodeURIComponent(artworkId)}.png`;
+  // A joined server's own icon wins over the asset host's.
+  return contentAssetOverride(`assets/icons/items/${ITEM_ICON_GAME_SIZE}/${artworkId}.png`) ?? `${itemIconBase()}${encodeURIComponent(artworkId)}.png`;
 }
 
 /** Every inventory item, including runes, uses its audited 48px artwork. */

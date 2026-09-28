@@ -13,7 +13,8 @@ import { titleCase, type Creature, type CreatureData } from "../../creatures/sha
 import { AddVariantDrawer } from "./AddVariant.js";
 import { BodyVerdict, Unreviewed } from "./BodyIndex.js";
 import { lookLabel, presentationOf, skinPrompt, withPresentation, type BodyEntry } from "./model.js";
-import { Legend, Pairs, Section, formatScale } from "./parts.js";
+import { Blocked, Legend, Pairs, Section, formatScale } from "./parts.js";
+import { metaBlock } from "../gates.js";
 import { useCreatureSkins, useImagegenJobs } from "./skinApi.js";
 import { SkinsPanel, type SkinsMode } from "./SkinsPanel.js";
 import { VariantPanel } from "./VariantPanel.js";
@@ -162,8 +163,8 @@ export function BodyFocus({ entry, list, data, lookNameRepeats, bodyDigest, stat
           <code className="truncate font-mono text-[11px] text-faint">{entry.assetId}</code>
           <span className="truncate text-[11px] text-muted-foreground">{[entry.body.families.map(titleCase).join(", "), `${looks.length} ${looks.length === 1 ? "variant" : "variants"}`].filter(Boolean).join(" · ")}</span>
         </div>
-        <span className="text-[11px] text-faint">Body</span>
-        <VerdictBar value={body.verdict()} hotkeys={!adding} disabled={body.isPending} onChange={verdict => body.review({ verdict })} />
+        <span className="text-[11px] text-faint" title={metaBlock()}>Body{metaBlock() ? " · verdicts read only" : ""}</span>
+        <VerdictBar value={body.verdict()} hotkeys={!adding && !metaBlock()} disabled={body.isPending || Boolean(metaBlock())} onChange={verdict => body.review({ verdict })} />
       </>}
       stage={<>
         <AssetViewer source={{ mode: "actor", creatureId: variant.creatureId, ...(actorDraft ? { draft: actorDraft } : {}) }} label={`${variant.name} model`} stage controls={false} state={activeState} onSnapshot={onSnapshot} />
@@ -281,6 +282,7 @@ function ReviewPanel({ entry, variant, state, readout, body, variantReview, data
   entry: BodyEntry; variant: CreatureLook; state: string; readout: StageReadout; body: Review; variantReview: Review; data: CreatureData; lookNameRepeats: ReadonlySet<string>;
 }) {
   const stateKey = `state:${state}`;
+  const blocked = metaBlock();
   const manifest = useMemo(() => {
     const rows = data.index.collections.get("assets")?.data;
     return Array.isArray(rows) ? rows.find(row => (row as { id?: string }).id === entry.assetId) as ManifestRow | undefined : undefined;
@@ -291,9 +293,10 @@ function ReviewPanel({ entry, variant, state, readout, body, variantReview, data
   const tint = readout.appearance?.creatureId === variant.creatureId ? readout.appearance.tint : undefined;
   return <>
     <Section title={`State · ${humanize(state)}`}>
-      <VerdictBar size="xs" value={body.verdict(stateKey)} disabled={body.isPending} onChange={verdict => body.review({ key: stateKey, verdict })} />
-      <Textarea key={`${entry.assetId}:${stateKey}:${body.isPending}`} aria-label={`Note on ${humanize(state)}`} rows={2} className="text-xs" placeholder={`Note on ${humanize(state).toLowerCase()}…`}
-        defaultValue={body.note(stateKey) ?? ""} disabled={body.isPending}
+      <Blocked reason={blocked} />
+      <VerdictBar size="xs" value={body.verdict(stateKey)} disabled={body.isPending || Boolean(blocked)} onChange={verdict => body.review({ key: stateKey, verdict })} />
+      <Textarea key={`${entry.assetId}:${stateKey}:${body.isPending}`} aria-label={`Note on ${humanize(state)}`} rows={2} className="text-xs" placeholder={blocked ? "Notes need a metadata store" : `Note on ${humanize(state).toLowerCase()}…`}
+        defaultValue={body.note(stateKey) ?? ""} disabled={body.isPending || Boolean(blocked)}
         onBlur={event => { if (event.target.value !== (body.note(stateKey) ?? "")) body.review({ key: stateKey, note: event.target.value }); }} />
     </Section>
     <Section title="Variant">
@@ -307,7 +310,7 @@ function ReviewPanel({ entry, variant, state, readout, body, variantReview, data
         ["Scale", `×${formatScale(variant.scale)}`],
         ["Look", variant.inherited ? `Inherited from ${variant.baseId}` : variant.baseId ? `Own, variant of ${variant.baseId}` : "Own"],
       ]} />
-      <VerdictBar size="xs" value={variantReview.verdict()} disabled={variantReview.isPending} onChange={verdict => variantReview.review({ verdict })} />
+      <VerdictBar size="xs" value={variantReview.verdict()} disabled={variantReview.isPending || Boolean(blocked)} onChange={verdict => variantReview.review({ verdict })} />
     </Section>
     <Section title="Appearance">
       <Pairs rows={[

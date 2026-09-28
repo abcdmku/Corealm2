@@ -3,7 +3,13 @@ import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collecti
 import { ALL_PROCEDURAL_GEAR_ASSETS } from "../../../game/src/render/proceduralGear.js";
 import { applyOperations } from "../../shared/applyOperations.js";
 import type { ApiDiagnostic, CollectionResponse, CollectionSummary, ContentTransactionRequest } from "../../shared/contracts.js";
-import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type PublishBlocker, type PublishSummary, type TransactionRefusal } from "./backend.js";
+import type { ContentAssetIndex } from "../../../game/src/multiplayer/contentAssetsContract.js";
+import type { MetaPatch, MetaResponse } from "../../shared/metaContracts.js";
+import type { ImagegenJob, ImagegenRequest } from "../../shared/skinContracts.js";
+import { adoptGameCatalog, installedCatalogOf, refreshGameCatalog, setGameCatalogSource } from "../model/liveCatalog.js";
+import { setContentFiles } from "../viewer/registry.js";
+import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type DevdocsCapabilities, type PublishBlocker, type PublishSummary, type TransactionRefusal } from "./backend.js";
+import { publishNote, setPublishNote } from "./publishNote.js";
 import { adminFailure, AdminFailure, type AdminSession, type ServerDescriptor } from "./session.js";
 
 /**
@@ -21,6 +27,14 @@ import { adminFailure, AdminFailure, type AdminSession, type ServerDescriptor } 
  * run and `publish` is the save, both taking whole collections with the revision they were read at.
  * The result is translated back into the transaction shape the draft store already understands, so
  * conflicts and compile errors land in the same places they do in repo mode.
+ *
+ * The compiled catalog each snapshot reads is also adopted into the page (`liveCatalog.ts`), so the
+ * stage, thumbnails and derived numbers run on the server's content rather than the bundled build's,
+ * and a publish, base update or rollback shows at once.
+ *
+ * The feature routes a server may or may not have (`/admin/meta`, `/admin/files`, `/admin/imagegen`)
+ * are probed alongside the first snapshot, and `capabilities` says what answered. An older server
+ * simply lacks them, and the editor shows those controls disabled with a reason.
  */
 
 /** Compiled tables the editor browses beside their sources, as `readRuntimeCatalogs` serves them in repo mode. */
@@ -62,11 +76,18 @@ function diagnostics(problems: unknown): ApiDiagnostic[] {
   }));
 }
 
+/** The feature routes a server may lack. Everything else server mode has is fixed. */
+type Offered = Pick<DevdocsCapabilities, "meta" | "files" | "imagegen">;
+const FIXED = { write: true, git: false, bulk: false, assets: false, formulas: false, publish: true } as const;
+
 export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   const call = ports.fetch ?? globalThis.fetch.bind(globalThis);
   const { session, descriptor } = ports;
   let assetBaseUrl = descriptor.assetBaseUrl;
   let pending: Promise<Snapshot> | undefined;
+  let offered: Offered = { meta: false, files: false, imagegen: false };
+  let probing: Promise<void> | undefined;
+  const contentAssetBase = `${session.server}/content-assets/`;
 
   async function admin<T>(path: string, init: RequestInit = {}): Promise<T> {
     const response = await call(`${session.server}${path}`, {
@@ -110,6 +131,34 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     } catch { return []; }
   }
 
+  /**
+   * Whether the server answers a feature route with the shape it documents. Not through `admin()`:
+   * a route an older server lacks falls through to the devdocs build (HTML) or a 404, and neither
+   * may sign the author out.
+   */
+  async function answers(path: string, shape: (body: Record<string, unknown>) => boolean): Promise<Record<string, unknown> | undefined> {
+    try {
+      const response = await call(`${session.server}${path}`, { credentials: "omit", headers: { Authorization: `Bearer ${session.token}`, Accept: "application/json" } });
+      if (!response.ok) return undefined;
+      const body: unknown = await response.json();
+      return record(body) && shape(body) ? body : undefined;
+    } catch { return undefined; }
+  }
+  function adoptFiles(index: unknown): void {
+    if (record(index) && record(index.files)) setContentFiles(contentAssetBase, index.files as ContentAssetIndex["files"]);
+  }
+  function probe(): Promise<void> {
+    return probing ??= (async () => {
+      const [meta, files, imagegen] = await Promise.all([
+        answers("/admin/meta/items/$all", body => record(body.records)),
+        answers("/admin/files", body => record(body.files) && typeof body.revision === "string"),
+        answers("/admin/imagegen", body => Array.isArray(body.jobs)),
+      ]);
+      offered = { meta: Boolean(meta), files: Boolean(files), imagegen: Boolean(imagegen) };
+      if (files) adoptFiles(files);
+    })();
+  }
+
   async function read(): Promise<Snapshot> {
     const sourcesBody = await admin<{ revision?: unknown; revisions?: unknown; sources?: unknown }>("/admin/content/sources");
     const revision = typeof sourcesBody.revision === "string" && REVISION_PATTERN.test(sourcesBody.revision) ? sourcesBody.revision : "";
@@ -122,13 +171,25 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     const [catalog, assets] = await Promise.all([
       admin<Record<string, unknown>>(`/admin/content/catalog/${revision}`).catch(() => ({} as Record<string, unknown>)),
       manifest(),
+      probe(),
     ]);
     const inner = record(catalog.catalog) ? catalog.catalog : catalog;
     const tables = record(inner.tables) ? inner.tables : {};
+    const installed = installedCatalogOf(inner, revision);
+    // The page runs the game's content modules on this server's catalog from the first read on. A
+    // catalog the page cannot take leaves it on the one it has; the content reads still work.
+    if (installed) try { adoptGameCatalog(installed); } catch (error) { console.warn("Could not adopt the server's catalog", error); }
     return { revision, sources, revisions, tables, assets };
   }
   function snapshot(): Promise<Snapshot> { return pending ??= read().catch(error => { pending = undefined; throw error; }); }
   const invalidate = (): void => { pending = undefined; };
+  // A refresh reads the server again; reading adopts the catalog it brings, so there is nothing to hand back.
+  setGameCatalogSource(async () => { invalidate(); await snapshot(); return undefined; });
+  /** The content moved on the server: read it again, adopting its catalog, before answering. */
+  const reread = (): Promise<void> => refreshGameCatalog();
+
+  const meta = (path: string): string => `/admin/meta/${path.split("/").map(encodeURIComponent).join("/")}`;
+  const needs = (capability: keyof Offered, what: string): void => { if (!offered[capability]) throw new BackendUnavailable(what); };
 
   function derived(current: Snapshot, name: string): CollectionResponse | undefined {
     const table = current.tables[name.slice("compiled-".length)];
@@ -144,16 +205,20 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     kind: "server",
     label: descriptor.name,
     get assetBaseUrl() { return assetBaseUrl; },
-    // No checkout behind a live server: no git, no request queue, no authoring notes beside the
-    // content, no asset import, and formulas ship compiled into the release rather than being edited.
-    capabilities: { write: true, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, files: false, imagegen: false, publish: true },
+    // No checkout behind a live server: no git, no bulk metadata actions, no asset import, and
+    // formulas ship compiled into the release rather than being edited. Metadata (and the request
+    // queue kept in it), stored files and image jobs are there when the server offers their routes.
+    get capabilities(): DevdocsCapabilities { return { ...FIXED, ...offered, requests: offered.meta }; },
 
     async get<T>(path: string): Promise<T> {
       if (path === "collections") return await this.collections() as T;
       if (path.startsWith("collections/")) return await this.collection(decodeURIComponent(path.slice("collections/".length))) as T;
-      if (path.startsWith("meta/")) throw new BackendUnavailable("Authoring metadata");
+      if (path.startsWith("meta/") || path === "requests") {
+        await probe();
+        needs("meta", path === "requests" ? "The request queue" : "Authoring metadata");
+        return admin<T>(path === "requests" ? "/admin/meta/requests" : meta(path.slice("meta/".length)));
+      }
       if (path.startsWith("git/")) throw new BackendUnavailable("Working-tree status");
-      if (path === "requests") throw new BackendUnavailable("The request queue");
       throw new BackendUnavailable(`\`${path}\``);
     },
 
@@ -194,9 +259,10 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
 
       let result: Record<string, unknown>;
       try {
+        const note = request.operation === "save" ? publishNote().trim() : "";
         result = await admin<Record<string, unknown>>(path, {
           method: "POST", headers: { "content-type": "application/json" },
-          body: JSON.stringify({ base: current.revision, collections }),
+          body: JSON.stringify({ base: current.revision, collections, ...(note ? { note } : {}) }),
         });
       } catch (error) {
         if (!(error instanceof AdminFailure)) throw error;
@@ -207,7 +273,7 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
       // the revisions stand still, exactly as the repo transaction's dry run leaves them.
       const moved = request.operation === "save" && record(result.revisions) ? result.revisions as Record<string, unknown> : {};
       const nextRevisions = { ...current.revisions, ...Object.fromEntries(Object.entries(moved).filter(([, value]) => typeof value === "string" && REVISION_PATTERN.test(value)) as [string, string][]) };
-      if (request.operation === "save") invalidate();
+      if (request.operation === "save") { setPublishNote(""); await reread(); }
       const affected = record(result.affected) ? result.affected : {};
       return {
         ok: true,
@@ -231,16 +297,47 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
         ...(init.body === undefined ? {} : { headers: { "content-type": "application/json" }, body: JSON.stringify(init.body) }),
         ...(init.signal ? { signal: init.signal } : {}),
       });
-      if (init.method === "POST" && (path === "/admin/content/base/apply" || path === "/admin/content/rollback")) invalidate();
+      if (init.method === "POST" && (path === "/admin/content/base/apply" || path === "/admin/content/rollback")) await reread();
       return result;
     },
-    // Filled in by the live-authoring round: /admin/meta, /admin/files and /admin/imagegen.
-    patchMeta: () => Promise.reject(new BackendUnavailable("Authoring metadata")),
-    putFiles: () => Promise.reject(new BackendUnavailable("Storing files")),
+
+    async patchMeta(collection: string, entityId: string, patch: MetaPatch): Promise<MetaResponse> {
+      await probe();
+      needs("meta", "Authoring metadata");
+      return admin<MetaResponse>(meta(`${collection}/${entityId}`), { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify(patch) });
+    },
+
+    /** Stores the files in the server's asset store (`POST /admin/files`) and reports what it holds for each path sent. */
+    async putFiles(files: Record<string, string>): Promise<{ files: Record<string, { sha256: string; bytes: number }> }> {
+      await probe();
+      needs("files", "Storing files");
+      const index = await admin<ContentAssetIndex>("/admin/files", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ files }) });
+      adoptFiles(index);
+      const stored: Record<string, { sha256: string; bytes: number }> = {};
+      for (const path of Object.keys(files)) {
+        const entry = index.files?.[path];
+        if (!entry) throw new AdminFailure(502, "invalid_response", `The server did not store ${path}.`);
+        stored[path] = { sha256: entry.sha256, bytes: entry.bytes };
+      }
+      return { files: stored };
+    },
+
     imagegen: {
-      start: () => Promise.reject(new BackendUnavailable("Image generation")),
-      list: () => Promise.resolve([]),
-      retry: () => Promise.reject(new BackendUnavailable("Image generation")),
+      async start(request: ImagegenRequest): Promise<ImagegenJob> {
+        await probe();
+        needs("imagegen", "Image generation");
+        return (await admin<{ job: ImagegenJob }>("/admin/imagegen", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(request) })).job;
+      },
+      async list(): Promise<ImagegenJob[]> {
+        await probe();
+        if (!offered.imagegen) return [];
+        return (await admin<{ jobs: ImagegenJob[] }>("/admin/imagegen")).jobs;
+      },
+      async retry(jobId: string): Promise<ImagegenJob> {
+        await probe();
+        needs("imagegen", "Image generation");
+        return (await admin<{ job: ImagegenJob }>(`/admin/imagegen/${encodeURIComponent(jobId)}`, { method: "POST" })).job;
+      },
     },
   };
 }

@@ -129,7 +129,20 @@ export interface ServerAdminStorage {
   player(accountId: string, now: number): Promise<PlayerDetail | null>;
   /** Stored characters that hold any of these items in their inventory, bank or equipment, and stored recovery caches in any world, without loading a character. At most `limit` rows. */
   itemHolders(itemIds: readonly string[], limit: number): Promise<ItemHolder[]>;
+
+  /** One collection's authoring metadata (notes, requests, verdicts), or null when nothing was ever written. */
+  authoringMeta(collection: string): Promise<StoredMeta | null>;
+  /** Every collection that has authoring metadata, by name. */
+  authoringMetaAll(): Promise<StoredMeta[]>;
+  /**
+   * Store `next` only if the stored revision is still `expected` (null: nothing stored yet), with its
+   * audit row, in one transaction. False when another write got there first.
+   */
+  replaceAuthoringMeta(collection: string, expected: string | null, next: { records: string; revision: string }, by: AdminActor, entry: AuditWrite): Promise<boolean>;
 }
+
+/** Canonical JSON of a collection's keyed metadata records, and the sha256 of that text a patch names as its revision. */
+export interface StoredMeta { collection: string; records: string; revision: string }
 
 const SETUP_CODE_KEY = "setup_code_hash";
 /** Admin settings share `server_settings` with the setup code, apart from it by prefix. */
@@ -142,7 +155,8 @@ CREATE TABLE IF NOT EXISTS admin_sessions (token_hash TEXT PRIMARY KEY, account_
 CREATE TABLE IF NOT EXISTS api_tokens (id TEXT PRIMARY KEY, token_hash TEXT NOT NULL UNIQUE, label TEXT NOT NULL, scopes TEXT NOT NULL,
   created_by TEXT NOT NULL, created_at INTEGER NOT NULL, last_used_at INTEGER, expires_at INTEGER) STRICT;
 CREATE TABLE IF NOT EXISTS audit_log (id INTEGER PRIMARY KEY AUTOINCREMENT, at INTEGER NOT NULL, account_id TEXT, credential TEXT NOT NULL,
-  action TEXT NOT NULL, target TEXT, "before" TEXT, "after" TEXT) STRICT;`;
+  action TEXT NOT NULL, target TEXT, "before" TEXT, "after" TEXT) STRICT;
+CREATE TABLE IF NOT EXISTS authoring_meta (collection TEXT PRIMARY KEY, records TEXT NOT NULL, revision TEXT NOT NULL, updated_at INTEGER NOT NULL) STRICT;`;
 
 const scopeList = (value: unknown): ApiScope[] => {
   const parsed: unknown = JSON.parse(String(value));
@@ -403,5 +417,25 @@ export class SqliteAdminStorage implements ServerAdminStorage {
       WHERE json_type(w.owned,'$.recoveryCache.items')='array' AND json_extract(slot.value,'$.itemId') IN (SELECT value FROM json_each(?1))`;
     return this.db.prepare(`${held("$.inventory.slots", "inventory")} UNION ALL ${held("$.bank.slots", "bank")} UNION ALL ${held("$.equipment", "equipment")} UNION ALL ${cached} ORDER BY 1, 3 LIMIT ?2`)
       .all(JSON.stringify(itemIds), limit).map(row => ({ accountId: String(row.account_id), name: String(row.name), itemId: String(row.item_id), place: String(row.place) as ItemHolder["place"], world: worldOf(row.world_key) }));
+  }
+
+  async authoringMeta(collection: string): Promise<StoredMeta | null> {
+    const row = this.db.prepare("SELECT collection,records,revision FROM authoring_meta WHERE collection=?").get(collection);
+    return row ? { collection: String(row.collection), records: String(row.records), revision: String(row.revision) } : null;
+  }
+  async authoringMetaAll(): Promise<StoredMeta[]> {
+    return this.db.prepare("SELECT collection,records,revision FROM authoring_meta ORDER BY collection").all()
+      .map(row => ({ collection: String(row.collection), records: String(row.records), revision: String(row.revision) }));
+  }
+  async replaceAuthoringMeta(collection: string, expected: string | null, next: { records: string; revision: string }, by: AdminActor, entry: AuditWrite): Promise<boolean> {
+    return this.transact(() => {
+      const current = this.db.prepare("SELECT revision FROM authoring_meta WHERE collection=?").get(collection);
+      if ((current === undefined ? null : String(current.revision)) !== expected) return false;
+      this.db.prepare(`INSERT INTO authoring_meta (collection,records,revision,updated_at) VALUES (?,?,?,?)
+        ON CONFLICT(collection) DO UPDATE SET records=excluded.records, revision=excluded.revision, updated_at=excluded.updated_at`)
+        .run(collection, next.records, next.revision, by.at);
+      this.log(by, entry);
+      return true;
+    });
   }
 }

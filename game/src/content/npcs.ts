@@ -15,7 +15,6 @@ import { RESOLVED_TABLES } from './resolvedCatalog.js';
  * Nothing here imports a system. Content is data; the quest and dialogue systems read it.
  */
 import type { EntityId, QuestId, RegionId } from "../contracts.js";
-const npcData = RESOLVED_TABLES["npcs"];
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { npcRecordSchema } from "./schema/people.js";
 import { FAIRY_NPC_CANDIDATES } from './fairyNpcs.js';
@@ -43,10 +42,19 @@ export interface NpcDef {
 }
 
 /** Fairy rows retain the same object identity as their dedicated export. */
-export const NPCS: readonly NpcDef[] = parseCollection(npcRecordSchema, npcData, { name: "npcs" })
+const npcRows = (): NpcDef[] => parseCollection(npcRecordSchema, RESOLVED_TABLES["npcs"], { name: "npcs" })
   .map(row => FAIRY_NPC_CANDIDATES.find(candidate => candidate.id === row.id) ?? stripExtras(row, ["catalog"]));
+const npcs = npcRows();
+export const NPCS: readonly NpcDef[] = npcs;
 
 const BY_ID = new Map<EntityId, NpcDef>(NPCS.map((row) => [row.id, row]));
+
+/** After the catalog moved, and after `reindexFairyNpcs`: the same array and map, refilled. */
+export function reindexNpcs(): void {
+  npcs.splice(0, npcs.length, ...npcRows());
+  BY_ID.clear();
+  for (const row of npcs) BY_ID.set(row.id, row);
+}
 
 export function npc(id: EntityId): NpcDef | undefined {
   return BY_ID.get(id);

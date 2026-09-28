@@ -1,5 +1,5 @@
 import type { ApiError, CollectionResponse, CollectionSummary, ContentTransactionRequest } from "../../shared/contracts.js";
-import { refreshGameCatalog } from "../model/liveCatalog.js";
+import { installedCatalogOf, refreshGameCatalog, setGameCatalogSource } from "../model/liveCatalog.js";
 import type { MetaResponse } from "../../shared/metaContracts.js";
 import type { ImagegenJob } from "../../shared/skinContracts.js";
 import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type TransactionRefusal, type TransactionSuccess } from "./backend.js";
@@ -26,7 +26,14 @@ async function send<T>(path: string, method: string, body?: unknown): Promise<T>
     ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
 }
 
+/** The compiled catalog the last save produced, from `game/content/compiled/catalog.json`. */
+async function readCatalog() {
+  const response = await fetch(`${PREFIX}catalog`, { cache: "no-store" });
+  return response.ok ? installedCatalogOf(await response.json()) : undefined;
+}
+
 export function createRepoBackend(): DevdocsBackend {
+  setGameCatalogSource(readCatalog);
   return {
     kind: "repo",
     label: "Local editor",

@@ -37,3 +37,28 @@ export function downloadName(owner: string, material: string, suffix = ""): stri
 /** Image files the upload accepts; each is converted to PNG before saving. */
 export const UPLOAD_TYPES = ["image/png", "image/jpeg", "image/webp"] as const;
 export const isUploadType = (type: string): boolean => (UPLOAD_TYPES as readonly string[]).includes(type);
+
+/** A lowercase skin id from free text: `Mossy Frog!` -> `mossy-frog`. */
+export function slugId(text: string): string {
+  return text.normalize("NFKD").toLowerCase().replace(/[^a-z0-9_.-]+/g, "-").replace(/-+/g, "-").replace(/^[-.]+|[-.]+$/g, "").slice(0, 80) || "skin";
+}
+
+/**
+ * File names for material names. Material names are free text (`Wild horse · source coat`); a map
+ * path allows `[A-Za-z0-9_.-]`, so each gets a slug, deduplicated within the skin.
+ */
+export function materialFileNames(materials: readonly string[]): Map<string, string> {
+  const used = new Set<string>(), names = new Map<string, string>();
+  for (const material of materials) {
+    const base = material.normalize("NFKD").replace(/[^A-Za-z0-9_.-]+/g, "_").replace(/_+/g, "_").replace(/^[_.]+|[_.]+$/g, "").slice(0, 80) || "material";
+    let name = base;
+    for (let n = 2; used.has(name.toLowerCase()); n++) name = `${base}_${n}`;
+    used.add(name.toLowerCase());
+    names.set(material, name);
+  }
+  return names;
+}
+
+/** A skin map as the record names it (`skins/<asset>/<skin>/<file>.png`) and as it is stored (`assets/...`). */
+export const skinMapPath = (assetId: string, skinId: string, file: string): string => `skins/${assetId}/${skinId}/${file}.png`;
+export const storedPathOfSkinMap = (path: string): string => `assets/${path.replace(/^\/+/, "")}`;

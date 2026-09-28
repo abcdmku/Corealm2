@@ -6,9 +6,11 @@ import { Badge, Button, Segmented } from "../../../components/ui/index.js";
 import { cn } from "../../../lib/utils.js";
 import { Drawer } from "../../../ui/Drawer.js";
 import { albedoMaps, modelFile, uvLayout, type ModelFile } from "../../../viewer/albedo.js";
-import { FilePick, Note, Pairs, errorText, useFileDrop } from "./parts.js";
+import { Blocked, FilePick, Note, Pairs, errorText, useFileDrop } from "./parts.js";
+import { filesBlock } from "../gates.js";
+import { can } from "../../../api/backend.js";
 import { SkinApiUnavailable, fetchSkinMap, imageFileToPng, mapsToBase64, saveSkin, type CreatureSkin } from "./skinApi.js";
-import { downloadName, formatBytes, isUploadType, repoPathOfSkinMap, shortSha, sizeWarning, type PixelSize } from "./skinFiles.js";
+import { downloadName, formatBytes, isUploadType, repoPathOfSkinMap, shortSha, sizeWarning, storedPathOfSkinMap, type PixelSize } from "./skinFiles.js";
 
 /*
   The raw file view: every material map of one skin (or of the model itself) as the actual image,
@@ -60,6 +62,8 @@ export function SkinFilesDrawer({ assetId, modelName, skin, readOnly, onClose, o
   const [replacement, setReplacement] = useState<Replacement>();
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const blocked = filesBlock();
+  const locked = readOnly || Boolean(blocked);
 
   // Object URLs made here are released with the view; the stage goes back to the saved look.
   const owned = useRef(new Set<string>());
@@ -109,7 +113,7 @@ export function SkinFilesDrawer({ assetId, modelName, skin, readOnly, onClose, o
   const discard = () => { setReplacement(undefined); setSaveError(""); onPreviewMaps(undefined); };
 
   async function saveReplacement() {
-    if (!skin || !replacement) return;
+    if (!skin || !replacement || blocked) return;
     setSaving(true); setSaveError("");
     try {
       await saveSkin({ assetId, skinId: skin.id, name: skin.name, kind: "upload", merge: true, maps: await mapsToBase64([replacement]) });
@@ -125,7 +129,7 @@ export function SkinFilesDrawer({ assetId, modelName, skin, readOnly, onClose, o
 
   const title = skin ? skin.name : "Model's own maps";
   const pending = replacement && replacement.material === material ? replacement : undefined;
-  const drop = useFileDrop(file => { if (material) void pick(file, material); }, !skin || readOnly || saving);
+  const drop = useFileDrop(file => { if (material) void pick(file, material); }, !skin || locked || saving);
 
   return <Drawer wide title={<span className="flex min-w-0 items-center gap-2"><span className="truncate">{title}</span><span className="font-normal text-faint">files</span></span>} label={`${title} files`} onClose={onClose}
     className="min-[1800px]:w-[min(64rem,50vw)]"
@@ -158,7 +162,7 @@ export function SkinFilesDrawer({ assetId, modelName, skin, readOnly, onClose, o
         {pending.warning && <Note tone="warn">{pending.warning}</Note>}
         <div className="flex items-center justify-end gap-2">
           <Button variant="ghost" size="xs" disabled={saving} onClick={discard}>Discard</Button>
-          <Button variant="default" size="xs" disabled={saving || readOnly} onClick={() => void saveReplacement()}>{saving ? "Saving…" : "Save replacement"}</Button>
+          <Button variant="default" size="xs" disabled={saving || locked} title={blocked} onClick={() => void saveReplacement()}>{saving ? "Saving…" : "Save replacement"}</Button>
         </div>
       </div>}
       {saveError && <Note tone="error">{saveError}</Note>}
@@ -166,8 +170,8 @@ export function SkinFilesDrawer({ assetId, modelName, skin, readOnly, onClose, o
       {shown && <div className="flex flex-wrap items-center gap-1.5">
         <Button variant="secondary" size="xs" asChild><a href={shown.url} download={downloadName(skin?.id ?? assetId, shown.material)}>Download map</a></Button>
         <UvDownload assetId={assetId} owner={skin?.id ?? assetId} map={shown} />
-        {skin && <FilePick name={`Replacement map for ${shown.material}`} label="Replace this map…" disabled={readOnly || saving} title="Pick a PNG, JPEG or WebP; it previews on the stage before saving" onFile={file => void pick(file, shown.material)} />}
-        <span className="text-[11px] text-faint">{skin ? (readOnly ? "Read only" : "or drop an image on the map") : "Model maps are read only; upload a skin to replace them."}</span>
+        {skin && <FilePick name={`Replacement map for ${shown.material}`} label="Replace this map…" disabled={locked || saving} title={blocked ?? "Pick a PNG, JPEG or WebP; it previews on the stage before saving"} onFile={file => void pick(file, shown.material)} />}
+        {skin && blocked ? <Blocked reason={blocked} /> : <span className="text-[11px] text-faint">{skin ? (readOnly ? "Read only" : "or drop an image on the map") : "Model maps are read only; upload a skin to replace them."}</span>}
       </div>}
     </div>
   </Drawer>;
@@ -193,7 +197,9 @@ function UvDownload({ assetId, owner, map }: { assetId: string; owner: string; m
 function MapFacts({ assetId, skin, map, glb, modelName }: { assetId: string; skin: CreatureSkin | undefined; map: FileMap; glb: ModelFile | undefined; modelName: string }) {
   const rows: [string, React.ReactNode][] = [["Material", <code key="m" className="font-mono">{map.material}</code>], ["Pixels", `${map.width} × ${map.height}${map.width === map.height ? "" : ` (aspect ${(map.width / map.height).toFixed(3)})`}`]];
   if (skin && map.path) {
-    rows.push(["File", <code key="f" className="font-mono" title={repoPathOfSkinMap(map.path)}>{repoPathOfSkinMap(map.path)}</code>]);
+    // The checkout's file in repo mode; the path a live server stores it under otherwise.
+    const file = can("git") ? repoPathOfSkinMap(map.path) : storedPathOfSkinMap(map.path);
+    rows.push(["File", <code key="f" className="font-mono" title={file}>{file}</code>]);
     rows.push(["File size", formatBytes(map.blob.size)]);
     rows.push(["SHA-256", map.sha256 ? <code key="s" className="font-mono" title={map.sha256}>{shortSha(map.sha256)}</code> : "Not recorded"]);
     const uploaded = skin.kind === "upload" || skin.uploaded?.includes(map.material);

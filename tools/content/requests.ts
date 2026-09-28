@@ -1,123 +1,22 @@
 /** Agent request operations. Completion and asset approval belong to the human review UI. */
 import { pathToFileURL } from "node:url";
 import path from "node:path";
-import { parseValue } from "../../game/src/content/schema/core.js";
 import {
-  MetaFileSchema, REQUEST_KINDS, REQUEST_STATES, emptyMetaRecord, listMetaCollections, readMetaSnapshot, withMetaUpdate,
-  type MetaFile, type MetaNote, type MetaRequest, type RequestKind, type RequestState,
-  type MetaSnapshot,
+  REQUEST_KINDS, REQUEST_STATES, emptyMetaRecord, listMetaCollections, readMetaSnapshot, withMetaUpdate,
+  type MetaFile, type RequestKind, type MetaSnapshot,
 } from "./meta.js";
+import { claimRequest, listRequests, openRequest, replyToRequest, type RequestsReport } from "../../game/src/content/metaOps.js";
 import { CONTENT_COLLECTIONS, parseContentCollection } from "../../game/src/content/compiler/collections.js";
 import { readContentJson } from "./format.js";
 
-export interface RequestEntry {
-  entityId: string;
-  note: Omit<MetaNote, "request">;
-  request: MetaRequest;
-}
+// The request operations are pure and shared with a live server's metadata store.
+export {
+  claimRequest, listRequests, openRequest, replyToRequest,
+  type CollectionRequestEntry, type OpenRequestInput, type RequestActionInput, type RequestEntry, type RequestsReport,
+} from "../../game/src/content/metaOps.js";
 
 function nonempty(value: string, field: string): void {
   if (!value.trim()) throw new Error(`${field} must not be blank`);
-}
-
-function validateAction(actor: string, at: string): void {
-  nonempty(actor, "actor");
-  if (!Number.isFinite(Date.parse(at)) || new Date(at).toISOString() !== at) {
-    throw new Error("at must be an ISO timestamp, such as 2026-09-13T12:00:00.000Z");
-  }
-}
-
-function entries(records: MetaFile): RequestEntry[] {
-  const result: RequestEntry[] = [];
-  const seen = new Set<string>();
-  for (const [entityId, record] of Object.entries(records)) {
-    for (const { request, ...note } of record.notes) {
-      if (!request) continue;
-      if (seen.has(request.id)) throw new Error(`Duplicate request id: ${request.id}`);
-      seen.add(request.id);
-      result.push({ entityId, note, request });
-    }
-  }
-  return result;
-}
-
-function copy(records: MetaFile): MetaFile {
-  const parsed = parseValue(MetaFileSchema, records, "requests.meta");
-  entries(parsed);
-  return parsed;
-}
-
-export function listRequests(records: MetaFile, options: { states?: readonly RequestState[] } = {}): RequestEntry[] {
-  const states = options.states ?? ["open", "claimed"];
-  return entries(copy(records)).filter(({ request }) => states.includes(request.state));
-}
-
-export interface OpenRequestInput {
-  entityId: string;
-  requestId: string;
-  kind: RequestKind;
-  text: string;
-  actor: string;
-  at: string;
-  label?: string;
-}
-
-/** The caller must initialize metadata for a valid content entity before opening its first request. */
-export function openRequest(records: MetaFile, input: OpenRequestInput): MetaFile {
-  validateAction(input.actor, input.at);
-  nonempty(input.requestId, "requestId");
-  nonempty(input.text, "text");
-  const next = copy(records);
-  if (!Object.hasOwn(next, input.entityId)) throw new Error(`Unknown entity: ${input.entityId}`);
-  if (entries(next).some(({ request }) => request.id === input.requestId)) throw new Error(`Duplicate request id: ${input.requestId}`);
-  const record = next[input.entityId]!;
-  record.notes.push({
-    at: input.at, by: input.actor, text: input.text,
-    ...(input.label === undefined ? {} : { label: input.label }),
-    request: { id: input.requestId, kind: input.kind, state: "open" },
-  });
-  record.history.push({ at: input.at, by: input.actor, action: "request.open", detail: input.requestId });
-  return copy(next);
-}
-
-export interface RequestActionInput { requestId: string; actor: string; at: string }
-
-function target(records: MetaFile, requestId: string): RequestEntry {
-  const entry = entries(records).find(({ request }) => request.id === requestId);
-  if (!entry) throw new Error(`Unknown request: ${requestId}`);
-  return entry;
-}
-
-export function claimRequest(records: MetaFile, input: RequestActionInput): MetaFile {
-  validateAction(input.actor, input.at);
-  const next = copy(records);
-  const entry = target(next, input.requestId);
-  const request = entry.request;
-  if (request.state === "claimed" && request.claimedBy === input.actor) return next;
-  if (request.state !== "open") throw new Error(`Request ${request.id} is ${request.state}${request.claimedBy ? ` by ${request.claimedBy}` : ""}`);
-  request.state = "claimed";
-  request.claimedBy = input.actor;
-  request.claimedAt = input.at;
-  next[entry.entityId]!.history.push({ at: input.at, by: input.actor, action: "request.claim", detail: input.requestId });
-  return next;
-}
-
-export function replyToRequest(records: MetaFile, input: RequestActionInput & { text: string }): MetaFile {
-  validateAction(input.actor, input.at);
-  nonempty(input.text, "text");
-  const next = copy(records);
-  const entry = target(next, input.requestId);
-  const request = entry.request;
-  if (request.state !== "claimed" || request.claimedBy !== input.actor) {
-    throw new Error(`Only the current claimer may reply to claimed request ${request.id}`);
-  }
-  request.state = "replied";
-  request.reply = input.text;
-  request.repliedAt = input.at;
-  next[entry.entityId]!.history.push({
-    at: input.at, by: input.actor, action: "request.reply", detail: JSON.stringify({ requestId: input.requestId, text: input.text }),
-  });
-  return next;
 }
 
 export interface RequestsCliOptions {
@@ -172,9 +71,6 @@ export function parseRequestsArgs(args: readonly string[]): RequestsCliOptions {
   for (const flag of used) if (!allowed.has(flag)) throw new Error(`${flag} is not valid for ${result.action}`);
   return result;
 }
-
-export interface CollectionRequestEntry extends RequestEntry { collection: string }
-export interface RequestsReport { revisions: Record<string, string>; requests: CollectionRequestEntry[] }
 
 export function formatRequests(report: RequestsReport, format: "json" | "markdown"): string {
   if (format === "json") return `${JSON.stringify(report, null, 2)}\n`;

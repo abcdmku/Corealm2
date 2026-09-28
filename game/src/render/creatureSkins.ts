@@ -2,6 +2,7 @@ import * as THREE from "three";
 import type { Node } from "three/webgpu";
 import { abs, clamp, float, fract, max, min, mix, sRGBTransferEOTF, sRGBTransferOETF, step, uniform, varyingProperty, vec3, vec4 } from "three/tsl";
 import { cloneNodeMaterial, composeSurface, ensureNodeMaterial } from "./nodeMaterials.js";
+import { contentAssetOverride } from "../app/config.js";
 import type { CreatureSkin } from "../content/schema/creatureSkins.js";
 import type { CreatureLookColour } from "../content/creatureVariation.js";
 
@@ -220,8 +221,10 @@ export class CreatureLooks {
     this.loads.clear();
   }
 
+  /** A map the joined server stores comes from the server, pinned to its hash; any other from the asset host. */
   private urlOf(path: string): string {
-    return `${this.options.baseUrl()}${path.replace(/^\/+/, "")}`;
+    const relative = path.replace(/^\/+/, "");
+    return contentAssetOverride(`assets/${relative}`) ?? `${this.options.baseUrl()}${relative}`;
   }
 
   private load(path: string): MapLoad {

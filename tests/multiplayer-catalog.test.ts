@@ -7,7 +7,7 @@ import { basename, dirname, join, resolve } from "node:path";
 import { WORLD_PROTOCOL_VERSION, type SessionCatalog, type WorldDescriptor } from "../game/src/contracts.js";
 import { RESOLVED_CATALOG } from "../game/src/content/resolvedCatalog.js";
 import { clientCatalog, serializeClientCatalog } from "../game/src/content/clientCatalog.js";
-import type { OverlayRegistry } from "../game/src/content/clientCatalogOverlay.js";
+import { overlayClientCatalog, type OverlayRegistry } from "../game/src/content/clientCatalogOverlay.js";
 import type { ContentTables } from "../game/src/content/index.js";
 import { activeServerCatalog, seedCatalog, type BaseCatalog } from "../game/src/multiplayer/catalogHost.js";
 import { MemoryCatalogStorage, type CatalogStorage, type CatalogWrite } from "../game/src/multiplayer/catalogStorage.js";
@@ -234,7 +234,7 @@ describe("the client's copy of a server catalog", () => {
     let release: ((response: Response) => void) | undefined;
     const { ports } = page({ [source(A).url]: () => new Response(catalog(A, "Server sword")), [source(B).url]: () => new Promise<Response>(resolve => { release = resolve; }) });
     const held = registry(), failures: unknown[] = [];
-    const overlay = createServerCatalogOverlay(held, { failed: error => failures.push(error) });
+    const overlay = createServerCatalogOverlay(catalog => overlayClientCatalog(held, catalog), { failed: error => failures.push(error) });
     await overlay.enter(session(A, ports));
     expect([overlay.revision, held.names()]).toEqual([A, ["Server sword"]]);
     overlay.leave();

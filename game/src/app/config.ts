@@ -248,8 +248,34 @@ export function identityUrl(): string | undefined {
   return url.href.replace(/\/+$/, "");
 }
 
+/**
+ * The joined server's own files (`multiplayer/contentAssetsContract.ts`): a path its index lists is
+ * loaded from the server, pinned to the file's hash, before the asset host is asked. Set on joining
+ * a world whose descriptor has a `contentAssetUrl` (`app/contentAssetOverlay.ts`), cleared on
+ * leaving. Local play and devdocs never set it.
+ */
+let contentAssets: { base: string; files: ReadonlyMap<string, string> } | null = null;
+
+/** `base` is the server's `contentAssetUrl`; `files` its index, path to sha256. Null clears it. */
+export function setContentAssetOverlay(overlay: { base: string; files: Readonly<Record<string, { sha256: string }>> } | null): void {
+  contentAssets = overlay && { base: overlay.base.endsWith("/") ? overlay.base : `${overlay.base}/`,
+    files: new Map(Object.entries(overlay.files).map(([path, entry]) => [path, entry.sha256])) };
+}
+
+/** The server URL of a public path (`assets/...`, `audio/...`) the joined server stores, or null. */
+export function contentAssetOverride(path: string): string | null {
+  if (!contentAssets) return null;
+  const clean = path.replace(/^\/+/, "").split(/[?#]/, 1)[0]!;
+  const sha = contentAssets.files.get(clean);
+  return sha === undefined ? null : `${contentAssets.base}${clean.split("/").map(encodeURIComponent).join("/")}?v=${sha}`;
+}
+
 export function publicUrl(path: string): string {
-  return `${publicBaseUrl()}${path.replace(/^\/+/, "")}`;
+  return contentAssetOverride(path) ?? `${publicBaseUrl()}${path.replace(/^\/+/, "")}`;
+}
+/** A file under `assets/` by its path there, such as `skins/<asset>/<skin>/<material>.png`. */
+export function assetUrl(path: string): string {
+  return publicUrl(`assets/${path.replace(/^\/+/, "")}`);
 }
 /** The assets directory, including its trailing slash. */
 export function assetBaseUrl(): string {

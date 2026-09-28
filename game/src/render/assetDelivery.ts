@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { contentAssetOverride } from '../app/config.js';
 
 let variants: Record<string, string> = {};
 let base = '';
@@ -19,6 +20,9 @@ export function deliveryUrl(url: string): string {
   if (!base || /^(?:data|blob):/.test(url)) return url;
   const absolute = new URL(url, document.baseURI).href;
   const key = absolute.startsWith(base) ? absolute.slice(base.length) : '';
+  // A file the joined server stores replaces the host's and every host variant of it.
+  const served = key ? contentAssetOverride(`assets/${key}`) : null;
+  if (served) return served;
   const target = variants[key] ? new URL(variants[key], base).href : url;
   // These shared maps gate world construction. ImageLoader creates offscreen images, so
   // Chrome can leave them behind model fetches even though the loading screen needs them.

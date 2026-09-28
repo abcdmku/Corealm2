@@ -11,6 +11,7 @@ import { Thumb } from "../../../ui/Thumb.js";
 import { AssetViewer, type ViewerSnapshot, type ViewerSource } from "../../../viewer/AssetViewer.js";
 import { SET_SLOTS, thresholdText, type ItemsData, type SetRecord } from "../../items/data.js";
 import type { ViewProps } from "../../types.js";
+import { metaBlock } from "../gates.js";
 import { HAND_SLOTS, PIECE_LABEL, orderSets, setIcon, styleLadder, tierHands, tintHex, type PieceKey } from "./outfits.js";
 
 /*
@@ -102,6 +103,7 @@ export function OutfitFocus({ id, data, navigate }: { id: string; data: ItemsDat
     </div>
     <div className="ml-auto flex items-center gap-2">
       <Button variant="ghost" size="sm" onClick={() => navigate("art/outfits")}>Ladder</Button>
+      {!editable && <span className="text-[11px] text-faint" title={metaBlock()} data-blocked="">Verdicts read only</span>}
       <VerdictBar value={review.verdict()} onChange={setVerdict} hotkeys disabled={!editable} />
     </div>
   </>;

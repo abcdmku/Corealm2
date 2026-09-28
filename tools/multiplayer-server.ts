@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, stat, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
@@ -291,12 +291,21 @@ async function main(argv: readonly string[]): Promise<number> {
   let sharedPack: Uint8Array | null = null;
   if (database && packBytes) { sharedPack = new Uint8Array(new SharedArrayBuffer(packBytes.byteLength)); sharedPack.set(packBytes); }
   const adminUiArchive = embedded.asset(ADMIN_UI_ASSET);
+  // The server's own files: what its authors add from devdocs, served beside the asset host's.
+  const { createContentAssetStore } = await import("../game/src/multiplayer/contentAssets.js");
+  const contentAssets = createContentAssetStore({ dir: resolve(directory, "content-assets"),
+    audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
+  // Notes, review requests and art verdicts, kept in the server's own database beside its content.
+  const { catalogEntities, createMetaRoute } = await import("../game/src/multiplayer/adminMeta.js");
+  const adminRoutes = [contentAssets.route, createMetaRoute({ storage: storage.admin, entity: catalogEntities(storage.catalog) })];
   const server = await startReferenceServer({
     worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog, bundledBase: shipped, log: event => logger.emit(event),
     allowedOrigins: config.allowedOrigins.length ? config.allowedOrigins : undefined,
     // A publish checks asset ids against the host the clients load from, or against the manifest this server ships with.
     assets: { ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
-      ...(manifest === null ? {} : { bundledManifest: async () => JSON.parse(manifest) }) },
+      ...(manifest === null ? {} : { bundledManifest: async () => JSON.parse(manifest) }),
+      ...(embedded.sea ? {} : { bundledFile: (path: string) => stat(resolve(process.cwd(), "game/public", path)).then(found => found.isFile(), () => false) }) },
+    adminRoutes, contentAssets,
     ...(config.ownerAccount ? { ownerAccount: config.ownerAccount } : {}),
     ...(config.identityUrl ? { identityUrl: config.identityUrl } : {}),
     settings: { ...(config.name ? { name: config.name } : {}), ...(config.description ? { description: config.description } : {}), registerWithDirectory: config.registerWithDirectory },

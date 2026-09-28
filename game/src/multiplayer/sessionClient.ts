@@ -154,6 +154,10 @@ export class ClientWorldSession implements WorldSession {
   subscribeContent(listener: (revision: string) => void): () => void {
     this.contentListeners.add(listener); return () => this.contentListeners.delete(listener);
   }
+  /** The client catalog of a revision this server published after the join, from where `catalog` comes from. */
+  catalogAt(revision: string): SessionCatalog {
+    return this.transport.catalog(this.world, revision);
+  }
   private failPending(): void {
     for (const [sequence, pending] of this.pending) { if (pending.timer) clearTimeout(pending.timer); pending.resolve({ status: "unknown", sequence,
       error: { code: "UNKNOWN_OUTCOME", message: "Connection lost before authoritative acknowledgement" } }); }

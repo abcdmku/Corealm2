@@ -57,7 +57,7 @@ export function assetBase(value: unknown): string {
  * nothing, which also admits `LOCAL_ENDPOINT`.
  */
 export function descriptor(value: unknown, transport: "any" | "socket" = "any"): WorldDescriptor {
-  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication", "description", "baseVersion"])
+  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "contentAssetUrl", "authentication", "description", "baseVersion"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
     || !integer(value.protocolVersion) || (value.fixture !== "authored" && value.fixture !== "lab") || !integer(value.seed)
     || (value.catalogRevision !== undefined && (typeof value.catalogRevision !== "string" || !CATALOG_REVISION.test(value.catalogRevision)))
@@ -70,7 +70,8 @@ export function descriptor(value: unknown, transport: "any" | "socket" = "any"):
     throw new SessionFailure("INVALID_MESSAGE", "Invalid world descriptor");
   }
   return { ...value, endpoint: transport === "any" && value.endpoint === LOCAL_ENDPOINT ? LOCAL_ENDPOINT : endpoint(value.endpoint),
-    ...(value.assetBaseUrl === undefined ? {} : { assetBaseUrl: assetBase(value.assetBaseUrl) }) } as unknown as WorldDescriptor;
+    ...(value.assetBaseUrl === undefined ? {} : { assetBaseUrl: assetBase(value.assetBaseUrl) }),
+    ...(value.contentAssetUrl === undefined ? {} : { contentAssetUrl: assetBase(value.contentAssetUrl) }) } as unknown as WorldDescriptor;
 }
 /** `{type:"content-updated", revision}`: what a server sends every connected peer after a publish or a rollback. */
 export function contentUpdated(value: unknown): string {

@@ -43,15 +43,16 @@ server catalog instead.
 | `npcs` | whole | Names, outfits and where they stand. |
 | `spells`, `spellRunes`, `elementalSpells` | whole | The spellbook and cast effects. |
 | `balance/recipes`, `balance/sets`, `balance/campfires` | whole | Displayed XP, set thresholds and campfire timings. |
-| `audio` | whole | Cue and loop tables. The current client still plays from the copy in its build. |
+| `audio` | whole | Cue and loop tables. A page that follows a server refills its audio catalog from them. |
 | `world.regions` | as `regions` | Region geometry for the map. |
 | `worldTerrain` | whole | Coast dimensions and mountain boundary profiles used by terrain generation and devdocs. |
-| `species` | as `creatures`: id, asset id, scale, region, activity, description, rig and native size fields, plus name, family and tier | Presentation only. `stats`, `attack`, `habitat` and `respawnMs` stay on the server. |
+| `species` | as `creatures`: id, asset id, scale, region, activity, description, rig and native size fields, skin id and variation range, plus name, family and tier | Presentation only. `stats`, `attack`, `habitat` and `respawnMs` stay on the server. |
 | `enemies` | id, name, family, tier | The death screen, effects and hunt text need a name and a level. |
 | `enemies` combat and AI fields, `lootRolls`, `gold` | no | Server only. |
 | `lootTables` | no | Server only. |
 | `compiledCreatures` | id, asset id, profile id, scale, availability, level; `presentation` cut down like a `creatures` row; `enemy` as id, name, family, tier | The page's creature modules index models by creature id. The definition, adjustments, inherited fields and the combat block stay on the server. |
 | `species` | the `creatures` fields, with `stats` as id, name, family, tier | The same rows under the name the page's modules read. |
+| `creatureSkins` | whole | The texture files a creature's look draws with. |
 | `creatureDefinitions`, `creatureProfiles` | no | Authoring data. |
 | `world.encounters`, `world.placements`, `world.resources`, `world.groupsByRegion`, `world.habitats`, `world.creatureByGroup` | no | Spawn tables. |
 | `worldRegions`, `encounters`, `placements`, `resourcePlacements`, `equipmentFamilies`, `recipeTemplates`, `balance/formation` | no | Compiler inputs. |
@@ -146,19 +147,28 @@ the asset ids of the server's asset host. [Multiplayer hosting](multiplayer-host
 has the endpoint reference. This section says what a publish changes in the running game.
 
 The reply lists the compiled tables that changed, split into `live` and `onRestart`. The split is one
-map, `CATALOG_TABLE_APPLIES` in `game/src/multiplayer/contentSwap.ts`, next to the code that moves the
-process onto a new catalog. A test compiles the shipped content and fails if a table is missing from it.
+map, `CATALOG_TABLE_APPLIES` in `game/src/multiplayer/catalogHost.ts`, which says per table what a
+player sees and when. A test compiles the shipped content and fails if a table is missing from it.
+
+Players' pages follow the server separately. A page loads the new client catalog at every
+`content-updated`, refills its tables in place and rebuilds what its modules indexed from them
+(`game/src/multiplayer/clientContentSwap.ts`, `CLIENT_TABLE_FOLLOWS`). Names, tooltips, the journal,
+the spellbook, sets, creature looks, skins and sounds change on the page at once, even where the
+server's own rules wait for a restart. World geometry (`regions`, `worldTerrain`, resource clusters)
+moves only with a new world bake, and `balance/recipes` previews keep the build's numbers. Leaving
+the server puts the build's tables back.
 
 | Table | Applies | How |
 | --- | --- | --- |
 | `items`, `recipes`, `shops`, `enemies` | live | The content registry holds them and is registered again. The next kill rolls the new loot, the next purchase reads the new stock and price, the next craft reads the new recipe. |
-| `lootTables`, `creatureDefinitions`, `creatureProfiles` | live | Nothing reads them while the game runs. The compiler folds them into `enemies`, so their effect arrives there. |
+| `lootTables`, `creatureDefinitions`, `creatureProfiles`, `equipmentFamilies`, `recipeTemplates` | live | Nothing reads them while the game runs. The compiler folds them into `enemies`, `items` and `recipes`, so their effect arrives there. |
+| `creatureSkins`, `audio` | live | Only pages read them, and a page follows the server's catalog. |
 | `compiledCreatures`, `species` | live | The creature indexes are refilled. |
 | `world`, `encounters`, `placements` | live, at the next respawn | Each world builds the changed spawn groups again. See below. |
 | `resources`, `resourcePlacements` | on restart | Resource nodes are stamped onto world entities when the world is built. |
 | `spells`, `spellRunes`, `elementalSpells` | on restart | The spell tables are derived as their modules load. |
 | `worldRegions`, `worldTerrain`, `npcs`, `quests`, `dialogue` | on restart | Region geometry, terrain boundaries, settlements, quest and dialogue graphs are built at load. |
-| `progression`, `materials`, `equipmentFamilies`, `recipeTemplates`, `campfireFuels`, `equipmentSets`, `balance/*`, `audio` | on restart | Tier tables and tuning are read at load. The `items` and `recipes` the compiler generates from them are live. |
+| `progression`, `materials`, `campfireFuels`, `equipmentSets`, `balance/*` | on restart | Tier tables and tuning are read at load. The `items` and `recipes` the compiler generates from them are live. |
 
 A spawn change touches only the groups whose placement, encounter, habitat or creature changed. Loot
 is left out of that comparison, so a loot edit never moves a spawn. For each changed group the world
@@ -172,7 +182,7 @@ spawn, on copies, so the living world is never edited in place:
 - A creature of a new or grown placement appears at once.
 
 A model change reaches clients through the creature's replicated view as it respawns, and through the
-client catalog the next time a client loads. Trees were scattered around the habitats of the catalog
+client catalog as soon as each page loads it. Trees were scattered around the habitats of the catalog
 the server started with and stay where they are until the next start. New spawn points avoid their
 trunks, but a moved habitat may have trees inside its wander area until then. Coastal and regional
 pack groups are generated from region tables at load and are not rebuilt by a publish.

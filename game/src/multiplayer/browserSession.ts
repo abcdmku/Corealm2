@@ -1,6 +1,8 @@
-import type { WorldConfiguration, WorldUpdate, SemanticEntity, WorldDescriptor, SessionCredentials, WorldProvider, SessionPhase, RemotePlayer } from "../contracts.js";
+import type { WorldConfiguration, WorldUpdate, SemanticEntity, WorldDescriptor, SessionCredentials, WorldProvider, SessionPhase, RemotePlayer, SessionCatalog, WorldSession } from "../contracts.js";
 import { content } from "../content/index.js";
 import { createServerCatalogOverlay } from "./clientCatalogFetch.js";
+import { followClientCatalog, unfollowedChanges } from "./clientContentSwap.js";
+import { createContentAssetOverlay } from "../app/contentAssetOverlay.js";
 import type { Store } from "../state/store.js";
 import { composeSessionState } from "../state/store.js";
 import type { GameLoop } from "../app/loop.js";
@@ -206,8 +208,18 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   };
   const outfit = npcOutfitParts("remote-player", "base_male");
   await Promise.all(["base_male", ...outfit].map((id) => ports.assets.load(id, { priority: "visible-spawn" })));
-  // Names, icons, item stats and shop stock follow the joined server's catalog revision, and only while connected.
-  const serverCatalog = createServerCatalogOverlay(content, { failed: error => console.warn("[corealm] The server's content catalog could not be loaded; showing this build's names and stats.", error) });
+  // The page shows the joined server's content (`clientContentSwap.ts` names what follows), and only while connected.
+  const serverCatalog = createServerCatalogOverlay(catalog => {
+    const unfollowed = unfollowedChanges(catalog);
+    if (unfollowed.length) console.warn(`[corealm] This server's ${unfollowed.join(", ")} differ from this build's. The page keeps the build's until the world is baked again (see CLIENT_TABLE_FOLLOWS).`);
+    return followClientCatalog(content, catalog);
+  }, { failed: error => console.warn("[corealm] The server's content catalog could not be loaded; showing this build's content.", error) });
+  // A publish moves the session's catalog on; the join reply's revision is only where it started.
+  let published: { session: object; catalog: SessionCatalog } | null = null;
+  // The server's own files (skin maps, icons, audio) ahead of the asset host. Its index is loaded before
+  // each catalog is applied, so a row the catalog brings never looks for a file the page does not know yet.
+  const contentFiles = createContentAssetOverlay({ failed: error => console.warn("[corealm] The server's own files are unavailable; using the asset host's.", error) });
+  const contentAssetUrl = (world: WorldSession["world"]): string | undefined => world && "contentAssetUrl" in world ? (world as WorldDescriptor).contentAssetUrl : undefined;
   selector.attach({
     validate(world){
       if(world.fixture!==(options.fixture||options.lab?"lab":"authored"))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
@@ -252,11 +264,19 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       ports.movement.setDirectInputSink(online ? steer : null); steering = false;
       lastSteer = -Infinity; lastDirection = [0, 0];
       const session=phase === "connected" ? selector.controller.session : null;
-      // A publish on the server offers a refresh and nothing more. Play carries on with the catalog this session joined with.
-      contentUpdates?.(); contentUpdates = session?.subscribeContent?.(() => contentNotice.show()) ?? null;
+      // A publish on the server is applied where the player stands. Only a catalog that could not be loaded offers the refresh, which joins on it.
+      contentUpdates?.(); contentUpdates = session?.subscribeContent?.(revision => {
+        const next = session.catalogAt?.(revision) ?? null;
+        if (!next) { contentNotice.show(); return; }
+        published = { session, catalog: next };
+        void contentFiles.refresh().then(() => serverCatalog.enter(next)).then(() => { if (connected && serverCatalog.revision !== revision) contentNotice.show(); });
+      }) ?? null;
       if (phase === "offline") contentNotice.clear();
       if (phase === "connected" && session?.world?.providerId === workerLocal?.id) sayLocalNotice(); else if (phase !== "connected") localNotice?.clear();
-      if (session?.catalog) void serverCatalog.enter(session.catalog); else if (phase === "offline") serverCatalog.leave();
+      if (session?.catalog) {
+        const catalog = published?.session === session ? published.catalog : session.catalog;
+        void contentFiles.enter(contentAssetUrl(session.world)).then(() => serverCatalog.enter(catalog));
+      } else if (phase === "offline") { published = null; serverCatalog.leave(); contentFiles.leave(); }
       ports.api.setCommandSession(session ? {
         id:session.id,world:session.world,playerId:session.playerId,
         subscribe:listener=>session.subscribe(listener),close:()=>session.close(),

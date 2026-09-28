@@ -5,10 +5,10 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { LayoutGrid, List, Table2 } from "lucide-react";
 import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
 import { can } from "../api/backend.js";
-import { apiGet, collectionQuery } from "../api/client.js";
+import { collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
-import type { MetaDigestResponse as MetaDigest } from "../../shared/metaContracts.js";
+import { readMetaDigest } from "../model/meta.js";
 import { contentRows, rowId } from "../model/rows.js";
 import { summaryContext, useReferenceIndex } from "../model/refs.js";
 import { facetsFor, prefersGrid, summarize, titleCase, type RecordSummary } from "../model/summaries.js";
@@ -81,7 +81,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const lastToggled = useRef<string | undefined>(undefined);
   const facets = useMemo(() => facetsFor(collection), [collection]);
-  const meta = useQuery({ queryKey: ["meta-digest", collection], queryFn: () => apiGet<MetaDigest>(`meta/${collection.split("/").map(encodeURIComponent).join("/")}/$all`), enabled: can("meta") && !isGeneratedCollection(collection), staleTime: 15_000, refetchOnWindowFocus: false, retry: false });
+  const meta = useQuery({ queryKey: ["meta-digest", collection], queryFn: () => readMetaDigest(collection), enabled: can("meta") && !isGeneratedCollection(collection), staleTime: 15_000, refetchOnWindowFocus: false, retry: false });
   const entries = useMemo<Entry[]>(() => rows.map(row => {
     const id = rowId(row, idKey);
     const summary = summarize(collection, row, ctx);

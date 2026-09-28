@@ -4,7 +4,7 @@ import { ArrowRight, Check, CircleAlert, Eye, LoaderCircle, RefreshCw } from "lu
 import { toast } from "sonner";
 import type { ApiDiagnostic, BulkAction, BulkRequest, BulkResponse } from "../../shared/contracts.js";
 import { collectionQuery } from "../api/client.js";
-import { metaQueryKey } from "./NotesPanel.js";
+import { metaQueryKey } from "../model/meta.js";
 import type { ContentRow } from "../model/contracts.js";
 import { rowId } from "../model/rows.js";
 import { Button, Badge, Input, Textarea, ChoiceGroup } from "../components/ui/index.js";

@@ -2,6 +2,7 @@ import type { AudioCueDefinition, AudioLoopDefinition, AudioVariant, RegionAudio
 import audioData from "../../content/data/audio/catalog.json";
 import { parseValue } from "../content/schema/core.js";
 import { audioCatalogSchema } from "../content/schema/audio.js";
+import { RESOLVED_TABLES } from "../content/resolvedCatalog.js";
 import { defineAudioCatalog } from "./catalog.js";
 
 /**
@@ -50,6 +51,21 @@ const regions = asRegions(parsedAudioData.regions);
 
 /** Runtime catalogue: JSON supplies the choices; URLs stay relative to the public file tree. */
 export const COREALM_AUDIO_CATALOG = defineAudioCatalog({ cues, loops, regions });
+
+/**
+ * After the catalog moved (a joined server's client catalog, or leaving it): the three tables of
+ * `COREALM_AUDIO_CATALOG`, refilled in place from the catalog's `audio` table, so the engine's next
+ * cue or loop reads the server's choice of file. A sound already playing finishes as it started.
+ */
+export function reindexAudio(): void {
+  if (!("audio" in RESOLVED_TABLES)) return;
+  const next = parseValue(audioCatalogSchema, RESOLVED_TABLES.audio, "audio") as unknown as typeof audioData;
+  const refill = (target: Record<string, unknown>, source: Record<string, unknown>): void => {
+    for (const key of Object.keys(target)) delete target[key];
+    Object.assign(target, source);
+  };
+  refill(cues, mapCues(next.cues)); refill(loops, mapLoops(next.loops)); refill(regions, asRegions(next.regions));
+}
 
 export const FUTURE_REGION_MUSIC_FILES = [
   "desert.mp3", "jungle.mp3", "goblin-village.mp3", "mire-swamp.mp3", "swamp.mp3",

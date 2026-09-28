@@ -13,16 +13,15 @@ import { RESOLVED_TABLES } from './resolvedCatalog.js';
  */
 import type { ItemId, SpellElement, SpellRung } from "../contracts.js";
 import type { SpellDef } from "./index.js";
-const spellData = RESOLVED_TABLES["spells"];
-const runeData = RESOLVED_TABLES["spellRunes"];
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { SpellRecordSchema, SpellRuneSchema } from "./schema/spells.js";
 
-const spellRecords = parseCollection(SpellRecordSchema, spellData, { name: "spells" });
-
-export const SPELLS: readonly SpellDef[] = spellRecords
-  .filter((spell) => spell.catalog === "SPELLS")
+const spellsOf = (catalog: "SPELLS" | "ADVANCED_SPELLS"): SpellDef[] => parseCollection(SpellRecordSchema, RESOLVED_TABLES["spells"], { name: "spells" })
+  .filter((spell) => spell.catalog === catalog)
   .map((spell) => stripExtras(spell, ["catalog"]));
+const basic = spellsOf("SPELLS");
+
+export const SPELLS: readonly SpellDef[] = basic;
 
 /** One rung's spells, weakest first. `sort` runs on the copy `filter` returns, never on `SPELLS`. */
 function spellsOfRung(rung: SpellRung): readonly SpellDef[] {
@@ -37,12 +36,8 @@ function spellsOfRung(rung: SpellRung): readonly SpellDef[] {
  * boot. Built once here instead. `content.spellsOfElement()` is the same idea on the other axis,
  * and lives on the registry because its key is a value the caller picks at runtime.
  */
-export const SPELLS_BY_RUNG: Readonly<Record<SpellRung, readonly SpellDef[]>> = {
-  lash: spellsOfRung("lash"),
-  bolt: spellsOfRung("bolt"),
-  burst: spellsOfRung("burst"),
-  surge: spellsOfRung("surge"),
-};
+const byRung: Record<SpellRung, SpellDef[]> = { lash: [], bolt: [], burst: [], surge: [] };
+export const SPELLS_BY_RUNG: Readonly<Record<SpellRung, readonly SpellDef[]>> = byRung;
 
 /**
  * PRD 2.4 magic accuracy: attackLevel is Magic, and styleFactor is 1.15 rather than melee's 1.00.
@@ -80,9 +75,9 @@ export interface SpellRuneDef {
   description: string;
 }
 
-export const SPELL_RUNES: readonly SpellRuneDef[] = parseCollection(SpellRuneSchema, runeData, {
-  name: "spellRunes", idKey: "itemId",
-});
+const runeRows = (): SpellRuneDef[] => parseCollection(SpellRuneSchema, RESOLVED_TABLES["spellRunes"], { name: "spellRunes", idKey: "itemId" });
+const runes = runeRows();
+export const SPELL_RUNES: readonly SpellRuneDef[] = runes;
 
 export const ARC_ESSENCE_ID: ItemId = "arc_essence";
 
@@ -125,12 +120,24 @@ export function rungForRank(rank: number): SpellRung {
   return rank <= 1 ? "bolt" : rank <= 3 ? "burst" : "surge";
 }
 
-export const ADVANCED_SPELLS: readonly SpellDef[] = spellRecords
-  .filter((spell) => spell.catalog === "ADVANCED_SPELLS")
-  .map((spell) => stripExtras(spell, ["catalog"]));
+const advanced = spellsOf("ADVANCED_SPELLS");
+export const ADVANCED_SPELLS: readonly SpellDef[] = advanced;
 
 /** Every spell the world registers: the sixteen basics first, then the twenty invocations. */
-export const ALL_SPELLS: readonly SpellDef[] = [...SPELLS, ...ADVANCED_SPELLS];
+const all: SpellDef[] = [];
+export const ALL_SPELLS: readonly SpellDef[] = all;
+
+/** Fills the derived arrays; again after the catalog moved (a joined server's client catalog, or leaving it), every array refilled in place. */
+export function reindexSpells(fromCatalog = true): void {
+  if (fromCatalog) {
+    basic.splice(0, basic.length, ...spellsOf("SPELLS"));
+    advanced.splice(0, advanced.length, ...spellsOf("ADVANCED_SPELLS"));
+    runes.splice(0, runes.length, ...runeRows());
+  }
+  for (const rung of Object.keys(byRung) as SpellRung[]) byRung[rung].splice(0, byRung[rung].length, ...spellsOfRung(rung));
+  all.splice(0, all.length, ...basic, ...advanced);
+}
+reindexSpells(false);
 
 export function isAdvancedSpell(spell: Pick<SpellDef, "rank">): boolean {
   return (spell.rank ?? 0) > 0;
