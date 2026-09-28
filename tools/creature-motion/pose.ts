@@ -23,12 +23,20 @@ export function sample(sampler: ReturnType<Animation["listSamplers"]>[number], s
   const output = sampler.getOutput()!;
   const values = output.getArray()!;
   const width = output.getElementSize();
+  if (!times.length) throw new Error("Cannot sample an empty motion track");
+  if (sampler.getInterpolation() === "CUBICSPLINE") throw new Error("Unexpected cubic source clip; add tangent-aware sampling before rebuilding it.");
+  const key = (index: number) => Array.from(values.slice(index * width, (index + 1) * width), Number);
+  // Match runtime interpolation at endpoints. A held death needs its final value,
+  // including the last serialized value when an old malformed track repeats its end time.
+  if (seconds >= Number(times[times.length - 1])) return key(times.length - 1);
+  if (seconds < Number(times[0])) return key(0);
   // Dense contact bakes contain thousands of keys. A linear scan for every
   // joint/vertex audit sample made this offline gate quadratic in key count.
-  let right = 1, high = times.length;
+  // Use upper_bound so an exact STEP key takes effect at its own timestamp.
+  let right = 0, high = times.length;
   while (right < high) {
     const middle = (right + high) >>> 1;
-    if (Number(times[middle]) < seconds) right = middle + 1;
+    if (Number(times[middle]) <= seconds) right = middle + 1;
     else high = middle;
   }
   right = Math.min(right, times.length - 1);
@@ -36,7 +44,6 @@ export function sample(sampler: ReturnType<Animation["listSamplers"]>[number], s
   const a = Array.from(values.slice(left * width, (left + 1) * width), Number);
   const b = Array.from(values.slice(right * width, (right + 1) * width), Number);
   if (sampler.getInterpolation() === "STEP" || left === right) return a;
-  if (sampler.getInterpolation() === "CUBICSPLINE") throw new Error("Unexpected cubic source clip; add tangent-aware sampling before rebuilding it.");
   const alpha = Math.max(0, Math.min(1, (seconds - Number(times[left])) / (Number(times[right]) - Number(times[left]))));
   if (width === 4) return new Quaternion().fromArray(a).slerp(new Quaternion().fromArray(b), alpha).toArray();
   return a.map((v, i) => v + (b[i]! - v) * alpha);

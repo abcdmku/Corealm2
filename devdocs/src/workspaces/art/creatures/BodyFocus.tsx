@@ -167,9 +167,9 @@ export function BodyFocus({ entry, list, data, lookNameRepeats, bodyDigest, stat
         <VerdictBar value={body.verdict()} hotkeys={!adding && !metaBlock()} disabled={body.isPending || Boolean(metaBlock())} onChange={verdict => body.review({ verdict })} />
       </>}
       stage={<>
-        <AssetViewer source={{ mode: "actor", creatureId: variant.creatureId, ...(actorDraft ? { draft: actorDraft } : {}) }} label={`${variant.name} model`} stage controls={false} state={activeState} onSnapshot={onSnapshot} />
+        <AssetViewer source={{ mode: "actor", creatureId: variant.creatureId, ...(actorDraft ? { draft: actorDraft } : {}) }} label={`${variant.name} model`} stage controls={false} compactPlayback state={activeState} onStateChange={setState} onSnapshot={onSnapshot} />
         <CrowdControls crowd={crowd} setCrowd={setCrowd} reroll={() => setSeed(value => value + 1)} />
-        <div className="pointer-events-none absolute bottom-2 left-3 flex flex-col text-[11px] text-muted-foreground [text-shadow:0_1px_2px_#000]">
+        <div className="pointer-events-none absolute bottom-11 left-3 flex flex-col text-[11px] text-muted-foreground [text-shadow:0_1px_2px_#000]">
           <span className="text-xs font-semibold text-foreground">{lookLabel(variant, lookNameRepeats)}</span>
           <span>{humanize(activeState)} · Level {working?.level ?? base?.level ?? variant.level} · ×{formatScale(shownScale)}{draft.dirty ? " · unsaved" : ""}{previewMaps ? " · unsaved maps" : ""}</span>
         </div>

@@ -1,6 +1,6 @@
 import type { Accessor, Document, Node } from "@gltf-transform/core";
 import { Matrix3, Matrix4, Quaternion, Vector3 } from "three";
-import { addChannel, applyClip, duration, restorePose, storedPose } from "../creature-motion/pose.js";
+import { addChannel, applyClip, duration, removeClip, restorePose, storedPose } from "../creature-motion/pose.js";
 import { deformedBounds } from "../creature-motion/validate-deformation.js";
 
 const mapping: Record<string, string> = {
@@ -26,6 +26,223 @@ const rotation = (node: Node) => {
   new Matrix4().fromArray(node.getWorldMatrix()).decompose(new Vector3(), q, new Vector3());
   return q.normalize();
 };
+
+export interface CreatureMotionProfile {
+  /** Exact, unique node names. No name guessing or anatomical skin replacement occurs. */
+  mapping: Record<string, string>;
+  directionChildren?: Record<string, string>;
+  sourceDirectionChildren?: Record<string, string>;
+  /** Verified rotation from donor world axes to target world axes. Both worlds are Y-up. */
+  sourceToTargetRotation: [number, number, number, number];
+  root: { target: string; source?: string; translationScale: number; horizontal?: "preserve" | "in-place" };
+  clips: Record<string, { source: string; loop?: boolean; duration?: number; holdLastSeconds?: number }>;
+  replaceAnimations?: boolean;
+  samplesPerSecond?: number;
+  grounding?: { floor: number; maxCorrection?: number };
+}
+
+/**
+ * Transfer compatible anatomy through world space, then reconstruct target-local tracks.
+ * The caller supplies verified rest poses and a facing basis. Source and target bind poses
+ * need not have equal arm angles, bone rolls, proportions, parent transforms, or node names.
+ * Geometry, skin weights, inverse binds, materials, and the serialized target rest stay intact.
+ */
+export function retargetCreatureMotion(doc: Document, donor: Document, profile: CreatureMotionProfile) {
+  const reachableNodes = (document: Document) => {
+    const nodes = new Set<Node>();
+    const visit = (node: Node) => { if (nodes.has(node)) return; nodes.add(node); for (const child of node.listChildren()) visit(child); };
+    for (const scene of document.getRoot().listScenes()) for (const child of scene.listChildren()) visit(child);
+    return nodes;
+  };
+  const uniqueNodes = (document: Document, label: string) => {
+    const result = new Map<string, Node>();
+    const duplicates = new Set<string>();
+    for (const node of reachableNodes(document)) {
+      if (result.has(node.getName())) duplicates.add(node.getName());
+      result.set(node.getName(), node);
+    }
+    return (name: string) => {
+      if (duplicates.has(name)) throw new Error(`Ambiguous ${label} node ${name}`);
+      const node = result.get(name);
+      if (!node) throw new Error(`Missing ${label} node ${name}`);
+      return node;
+    };
+  };
+  if (doc === donor) throw new Error("Source and target documents must differ");
+  const target = uniqueNodes(doc, "target"), source = uniqueNodes(donor, "source");
+  const fps = profile.samplesPerSecond ?? 30;
+  if (!(fps > 0 && fps <= 240 && Number.isFinite(fps))) throw new Error("Invalid motion sample rate");
+  if (!(profile.root.translationScale > 0 && Number.isFinite(profile.root.translationScale))) throw new Error("Invalid root translation scale");
+  const basis = new Quaternion().fromArray(profile.sourceToTargetRotation);
+  if (!profile.sourceToTargetRotation.every(Number.isFinite) || Math.abs(basis.length() - 1) > 1e-5) throw new Error("Source-to-target basis must be a normalized quaternion");
+  if (new Vector3(0, 1, 0).applyQuaternion(basis).distanceTo(new Vector3(0, 1, 0)) > 1e-5) throw new Error("Source-to-target basis must preserve the verified Y-up axis");
+  if (profile.grounding && (!Number.isFinite(profile.grounding.floor) || (profile.grounding.maxCorrection !== undefined && !(profile.grounding.maxCorrection >= 0)))) throw new Error("Invalid motion grounding policy");
+  if (doc.getRoot().listAnimations().length && !profile.replaceAnimations) throw new Error("Replacing target animations requires replaceAnimations");
+  const targetRoot = target(profile.root.target), sourceRoot = source(profile.root.source ?? profile.mapping[profile.root.target]!);
+  if (!profile.mapping[profile.root.target]) throw new Error("The target motion root must be mapped");
+  const targetRootBind = position(targetRoot), sourceRootBind = position(sourceRoot);
+  const assertRotationSpace = (node: Node) => {
+    const matrix = new Matrix4().fromArray(node.getWorldMatrix()), elements = matrix.elements;
+    const axes = [new Vector3(elements[0], elements[1], elements[2]), new Vector3(elements[4], elements[5], elements[6]), new Vector3(elements[8], elements[9], elements[10])];
+    const lengths = axes.map(axis => axis.length()), largest = Math.max(...lengths), smallest = Math.min(...lengths);
+    if (!(smallest > 1e-10) || largest - smallest > largest * 1e-5 || matrix.determinant() <= 0) throw new Error(`Motion node ${node.getName()} has nonuniform, reflected, or singular world scale; normalize its rig basis before retargeting`);
+    axes.forEach(axis => axis.normalize());
+    if (Math.max(Math.abs(axes[0]!.dot(axes[1]!)), Math.abs(axes[0]!.dot(axes[2]!)), Math.abs(axes[1]!.dot(axes[2]!))) > 1e-5) throw new Error(`Motion node ${node.getName()} has a sheared world transform; normalize its rig basis before retargeting`);
+  };
+  const targetRotation = (node: Node) => { assertRotationSpace(node); return rotation(node); };
+  const sourceRotation = (node: Node) => {
+    const affine = new Matrix3().setFromMatrix4(new Matrix4().fromArray(node.getWorldMatrix()));
+    const largest = Math.max(...affine.elements.map(Math.abs));
+    if (!affine.elements.every(Number.isFinite) || !(largest > 0)) throw new Error(`Donor node ${node.getName()} has a nonfinite or singular world transform`);
+    // Uniform normalization improves convergence for studio rigs authored in centimetres.
+    // The polar factor is unchanged by a positive scalar, unlike quaternion decomposition
+    // of a sheared matrix, which does not produce a valid bone orientation.
+    affine.multiplyScalar(1 / largest);
+    if (!(affine.determinant() > 1e-12)) throw new Error(`Donor node ${node.getName()} has a reflected or singular world transform`);
+    let polar = affine;
+    for (let iteration = 0; iteration < 32; iteration++) {
+      const inverseTranspose = polar.clone().invert().transpose(), next = polar.clone();
+      let error = 0;
+      for (let i = 0; i < 9; i++) {
+        next.elements[i] = .5 * (polar.elements[i]! + inverseTranspose.elements[i]!);
+        error = Math.max(error, Math.abs(next.elements[i]! - polar.elements[i]!));
+      }
+      polar = next;
+      if (error < 1e-10) return new Quaternion().setFromRotationMatrix(new Matrix4().setFromMatrix3(polar)).normalize();
+    }
+    throw new Error(`Donor node ${node.getName()} polar rotation did not converge`);
+  };
+  const depth = (node: Node): number => node.getParentNode() ? 1 + depth(node.getParentNode()!) : 0;
+  const pairs = Object.entries(profile.mapping).map(([name, sourceName]) => {
+    const node = target(name), sourceNode = source(sourceName);
+    // A quaternion cannot invert an affine shear or nonuniform ancestor scale.
+    // Reject before creating wrappers or replacing clips instead of baking wrong directions.
+    for (let ancestor: Node | null = node; ancestor; ancestor = ancestor.getParentNode()) assertRotationSpace(ancestor);
+    for (let ancestor: Node | null = sourceNode; ancestor; ancestor = ancestor.getParentNode()) sourceRotation(ancestor);
+    const sourceBind = basis.clone().multiply(sourceRotation(sourceNode)), targetBind = targetRotation(node);
+    const childName = profile.directionChildren?.[name];
+    let sourceChild: Node | undefined, targetLocalDirection: Vector3 | undefined;
+    if (childName) {
+      const sourceChildName = profile.sourceDirectionChildren?.[sourceName] ?? profile.mapping[childName];
+      if (!sourceChildName) throw new Error(`Missing donor direction child for ${name}`);
+      const targetDirection = position(target(childName)).sub(position(node));
+      sourceChild = source(sourceChildName);
+      const sourceDirection = position(sourceChild).sub(position(sourceNode)).applyQuaternion(basis);
+      if (targetDirection.lengthSq() < 1e-12 || sourceDirection.lengthSq() < 1e-12) throw new Error(`Zero-length anatomical segment ${name}`);
+      targetLocalDirection = targetDirection.clone().normalize().applyQuaternion(targetBind.clone().invert());
+      targetBind.premultiply(new Quaternion().setFromUnitVectors(targetDirection.normalize(), sourceDirection.normalize()));
+    }
+    return { node, sourceNode, sourceChild, targetLocalDirection, offset: sourceBind.invert().multiply(targetBind) };
+  }).sort((a, b) => depth(a.node) - depth(b.node));
+  if (!pairs.length) throw new Error("Motion mapping is empty");
+  const takes = Object.entries(profile.clips).map(([name, spec]) => {
+    const matches = donor.getRoot().listAnimations().filter(clip => clip.getName() === spec.source);
+    if (matches.length !== 1) throw new Error(`Expected one donor take ${spec.source}, found ${matches.length}`);
+    const clip = matches[0]!, sourceSeconds = duration(clip), seconds = spec.duration ?? sourceSeconds;
+    const hold = spec.holdLastSeconds ?? 0;
+    if (!(sourceSeconds > 0 && seconds > 0 && Number.isFinite(seconds) && hold >= 0 && Number.isFinite(hold))) throw new Error(`Invalid duration for ${name}`);
+    if (spec.loop && hold) throw new Error(`Loop ${name} cannot hold its last frame`);
+    return { name, spec, clip, sourceSeconds, seconds, hold };
+  });
+  if (!takes.length) throw new Error("No output motion clips requested");
+
+  const targetPose = storedPose(doc), sourcePose = storedPose(donor);
+  const scene = doc.getRoot().getDefaultScene() ?? doc.getRoot().listScenes()[0];
+  if (!scene || doc.getRoot().listScenes().length !== 1) throw new Error("Motion target requires one scene");
+  const children = [...scene.listChildren()];
+  let ground: Node | undefined;
+  if (profile.grounding) {
+    if (doc.getRoot().listNodes().some(node => node.getName() === "corealm_retarget_ground")) throw new Error("Target already has a corealm_retarget_ground wrapper; rebuild from its original source");
+    ground = doc.createNode("corealm_retarget_ground");
+    for (const child of children) { scene.removeChild(child); ground.addChild(child); }
+    scene.addChild(ground);
+  }
+  // Every scene node receives a complete pose, including unmapped accessories and old clip
+  // targets. Entering Idle after Death must not retain the previous clip's root/limb values.
+  const active = reachableNodes(doc), outputPose = storedPose(doc).filter(({ node }) => active.has(node));
+  const baked: { name: string; times: number[]; tracks: Map<Node, { t: number[]; r: number[]; s: number[] }>; report: {
+    name: string; sourceTake: string; sourceSeconds: number; seconds: number; samples: number; loop: boolean;
+    heldSeconds: number; maximumGroundCorrection: number; removedHorizontalTravel: number[];
+  } }[] = [];
+  let completed = false;
+  try {
+    for (const { name, spec, clip, sourceSeconds, seconds, hold } of takes) {
+      const steps = Math.max(1, Math.ceil(seconds * fps));
+      const times = Array.from({ length: steps + 1 }, (_, frame) => frame * seconds / steps);
+      const tracks = new Map(outputPose.map(({ node }) => [node, { t: [] as number[], r: [] as number[], s: [] as number[] }]));
+      restorePose(sourcePose); applyClip(clip, 0); const startRoot = position(sourceRoot);
+      restorePose(sourcePose); applyClip(clip, sourceSeconds); const endRoot = position(sourceRoot);
+      const removeTravel = spec.loop && profile.root.horizontal === "in-place";
+      const removed = removeTravel ? endRoot.clone().sub(startRoot).applyQuaternion(basis).multiplyScalar(profile.root.translationScale) : new Vector3();
+      let maximumGroundCorrection = 0;
+      for (let frame = 0; frame <= steps; frame++) {
+        const phase = frame / steps;
+        restorePose(sourcePose); applyClip(clip, phase * sourceSeconds); restorePose(outputPose);
+        for (const pair of pairs) {
+          const desired = basis.clone().multiply(sourceRotation(pair.sourceNode)).multiply(pair.offset);
+          if (pair.sourceChild && pair.targetLocalDirection) {
+            const direction = position(pair.sourceChild).sub(position(pair.sourceNode)).applyQuaternion(basis);
+            if (direction.lengthSq() < 1e-12) throw new Error(`Donor ${pair.sourceNode.getName()} collapses its anatomical segment in ${name}`);
+            // Studio stretch can shear descendants. Match the actual animated segment,
+            // retaining the polar rotation's twist without copying donor scale or length.
+            const predicted = pair.targetLocalDirection.clone().applyQuaternion(desired).normalize();
+            desired.premultiply(new Quaternion().setFromUnitVectors(predicted, direction.normalize())).normalize();
+          }
+          const parent = pair.node.getParentNode();
+          pair.node.setRotation((parent ? targetRotation(parent).invert().multiply(desired) : desired).normalize().toArray());
+        }
+        const displacement = position(sourceRoot).sub(sourceRootBind).applyQuaternion(basis).multiplyScalar(profile.root.translationScale);
+        if (removeTravel) {
+          const baseline = startRoot.clone().lerp(endRoot, phase).sub(sourceRootBind).applyQuaternion(basis).multiplyScalar(profile.root.translationScale);
+          displacement.x -= baseline.x; displacement.z -= baseline.z;
+        }
+        const desiredRoot = targetRootBind.clone().add(displacement), parent = targetRoot.getParentNode();
+        targetRoot.setTranslation((parent ? desiredRoot.applyMatrix4(new Matrix4().fromArray(parent.getWorldMatrix()).invert()) : desiredRoot).toArray());
+        if (ground && profile.grounding) {
+          const lift = profile.grounding.floor - deformedBounds(doc).min[1]!;
+          maximumGroundCorrection = Math.max(maximumGroundCorrection, Math.abs(lift));
+          if (maximumGroundCorrection > (profile.grounding.maxCorrection ?? Infinity)) throw new Error(`${name} exceeds allowed ground correction: ${maximumGroundCorrection}`);
+          ground.setTranslation([0, lift, 0]);
+        }
+        for (const { node } of outputPose) {
+          const values = tracks.get(node)!;
+          values.t.push(...node.getTranslation()); values.r.push(...node.getRotation()); values.s.push(...node.getScale());
+        }
+      }
+      if (spec.loop) for (const values of tracks.values()) {
+        values.t.splice(values.t.length - 3, 3, ...values.t.slice(0, 3));
+        values.r.splice(values.r.length - 4, 4, ...values.r.slice(0, 4));
+        values.s.splice(values.s.length - 3, 3, ...values.s.slice(0, 3));
+      }
+      if (hold) {
+        times.push(seconds + hold);
+        for (const values of tracks.values()) { values.t.push(...values.t.slice(-3)); values.r.push(...values.r.slice(-4)); values.s.push(...values.s.slice(-3)); }
+      }
+      baked.push({ name, times, tracks, report: { name, sourceTake: spec.source, sourceSeconds, seconds: seconds + hold, samples: times.length,
+        loop: Boolean(spec.loop), heldSeconds: hold, maximumGroundCorrection, removedHorizontalTravel: [removed.x, 0, removed.z] } });
+    }
+    // No old clip is discarded until all donor samples and grounding limits have succeeded.
+    for (const clip of [...doc.getRoot().listAnimations()]) removeClip(doc, clip.getName());
+    for (const { name, times, tracks } of baked) {
+      const clip = doc.createAnimation(name);
+      for (const [node, values] of tracks) {
+        addChannel(doc, clip, node, "translation", times, values.t);
+        addChannel(doc, clip, node, "rotation", times, values.r);
+        addChannel(doc, clip, node, "scale", times, values.s);
+      }
+    }
+    completed = true;
+  } finally {
+    restorePose(sourcePose); restorePose(targetPose); ground?.setTranslation([0, 0, 0]);
+    if (!completed && ground) {
+      for (const child of children) { ground.removeChild(child); scene.addChild(child); }
+      scene.removeChild(ground); ground.dispose();
+    }
+  }
+  return { mappedJoints: pairs.length, poseNodes: outputPose.length, sourceToTargetRotation: profile.sourceToTargetRotation,
+    translationScale: profile.root.translationScale, clips: baked.map(item => item.report), requiresVisualReview: true,
+    method: "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips" };
+}
 
 function rotateGeometry(doc: Document, rotation: Matrix4) {
   const transforms = new Map<Accessor, { semantic: string; local: Matrix4; normal: Matrix3 }>();
@@ -212,65 +429,18 @@ export function retargetHumanoid(doc: Document, library: Document) {
   const yaw = -Math.atan2(forward.x, forward.z);
   armature.setRotation(new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), yaw).toArray());
   const bindBounds = deformedBounds(doc);
-  const targetPose = storedPose(doc), sourcePose = storedPose(library);
-  const hips = target("Hips"), sourceHips = source("pelvis");
-  const targetHipBind = position(hips), sourceHipBind = position(sourceHips);
   const targetLeg = position(target("LeftUpLeg")).distanceTo(position(target("LeftLeg"))) + position(target("LeftLeg")).distanceTo(position(target("LeftFoot")));
   const sourceLeg = position(source("thigh_l")).distanceTo(position(source("calf_l"))) + position(source("calf_l")).distanceTo(position(source("foot_l")));
   const translationScale = targetLeg / sourceLeg;
-  const pairs = Object.entries(mapping).filter(([name]) => byName.has(name)).map(([name, sourceName]) => {
-    const node = target(name), sourceNode = source(sourceName), sourceBind = rotation(sourceNode), targetBind = rotation(node);
-    const childName = directionChildren[name], childSource = childName && mapping[childName];
-    if (childName && childSource) {
-      const targetDirection = position(target(childName)).sub(position(node)).normalize();
-      const sourceDirection = position(source(childSource)).sub(position(sourceNode)).normalize();
-      targetBind.premultiply(new Quaternion().setFromUnitVectors(targetDirection, sourceDirection));
-    }
-    return { name, node, sourceNode, offset: sourceBind.invert().multiply(targetBind) };
-  });
-  const depth = (node: Node): number => node.getParentNode() ? 1 + depth(node.getParentNode()!) : 0;
-  pairs.sort((a, b) => depth(a.node) - depth(b.node));
-  const scene = doc.getRoot().getDefaultScene() ?? doc.getRoot().listScenes()[0]!;
-  const ground = doc.createNode("corealm_motion_ground");
-  for (const child of [...scene.listChildren()]) { scene.removeChild(child); ground.addChild(child); }
-  scene.addChild(ground);
   const takes: Record<string, string> = { Idle: "Idle_Loop", Walk: "Walk_Loop", Run: "Jog_Fwd_Loop", Attack: "Punch_Jab",
-    Hit: "Hit_Chest", HitLeft: "Hit_Chest", HitRight: "Hit_Chest", Death: "Death01" };
-  const report = [];
-  for (const [name, take] of Object.entries(takes)) {
-    const original = library.getRoot().listAnimations().find(clip => clip.getName() === take);
-    if (!original) throw new Error(`Missing native take ${take}`);
-    const seconds = duration(original), steps = Math.ceil(seconds * 30), times: number[] = [];
-    const rotations = new Map(pairs.map(pair => [pair.node, [] as number[]])), translations: number[] = [], grounding: number[] = [];
-    let maximumLift = 0;
-    for (let frame = 0; frame <= steps; frame++) {
-      const time = frame * seconds / steps;
-      restorePose(sourcePose); applyClip(original, time); restorePose(targetPose); ground.setTranslation([0, 0, 0]);
-      for (const pair of pairs) {
-        const desired = rotation(pair.sourceNode).multiply(pair.offset);
-        const parent = pair.node.getParentNode();
-        pair.node.setRotation((parent ? rotation(parent).invert().multiply(desired) : desired).normalize().toArray());
-      }
-      const worldHips = position(sourceHips).sub(sourceHipBind).multiplyScalar(translationScale).add(targetHipBind);
-      hips.setTranslation(worldHips.applyMatrix4(new Matrix4().fromArray(hips.getParentNode()!.getWorldMatrix()).invert()).toArray());
-      const lift = -deformedBounds(doc).min[1]! + .001;
-      maximumLift = Math.max(maximumLift, Math.abs(lift));
-      times.push(time); translations.push(...hips.getTranslation()); grounding.push(0, lift, 0);
-      for (const pair of pairs) rotations.get(pair.node)!.push(...pair.node.getRotation());
-    }
-    if (["Idle", "Walk", "Run"].includes(name)) {
-      for (const values of rotations.values()) values.splice(values.length - 4, 4, ...values.slice(0, 4));
-      translations.splice(translations.length - 3, 3, ...translations.slice(0, 3));
-      grounding.splice(grounding.length - 3, 3, ...grounding.slice(0, 3));
-    }
-    const clip = doc.createAnimation(name);
-    for (const [node, values] of rotations) addChannel(doc, clip, node, "rotation", times, values);
-    addChannel(doc, clip, hips, "translation", times, translations);
-    addChannel(doc, clip, ground, "translation", times, grounding);
-    report.push({ name, sourceTake: take, seconds, samples: steps + 1, maximumGroundCorrection: maximumLift,
-      ...(name.startsWith("Hit") ? { directional: false, note: "Native frontal hit; left/right are explicit runtime aliases" } : {}) });
-  }
-  restorePose(targetPose); restorePose(sourcePose); ground.setTranslation([0, 0, 0]);
-  return { restoredJoints, mappedJoints: pairs.length, yawDegrees: yaw * 180 / Math.PI, translationScale,
-    bindBounds, clips: report, method: "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding" };
+    Hit: "Hit_Chest", Death: "Death01" };
+  const report = retargetCreatureMotion(doc, library, {
+    mapping: Object.fromEntries(Object.entries(mapping).filter(([name]) => byName.has(name)).map(([name, donor]) => [target(name).getName(), donor])),
+    directionChildren: Object.fromEntries(Object.entries(directionChildren).filter(([name, child]) => byName.has(name) && byName.has(child))
+      .map(([name, child]) => [target(name).getName(), target(child).getName()])),
+    sourceToTargetRotation: [0, 0, 0, 1], root: { target: target("Hips").getName(), source: "pelvis", translationScale, horizontal: "in-place" },
+    clips: Object.fromEntries(Object.entries(takes).map(([name, take]) => [name, { source: take, loop: ["Idle", "Walk", "Run"].includes(name) }])),
+    grounding: { floor: .001 },
+  });
+  return { ...report, restoredJoints, yawDegrees: yaw * 180 / Math.PI, bindBounds };
 }

@@ -11,7 +11,7 @@ import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from '
 
 export function emptyViewerSnapshot(): ViewerSnapshot {
   return { states: [], state: null, appearance: null, ready: false, clip: null, time: 0, duration: 0, playing: true, speed: 1, clips: [], materials: [], size: null,
-    manifestSize: null, body: null, parts: [], attachments: [], missingBones: [], meshCount: 0, boneSample: [], wireframe: false, bounds: false };
+    manifestSize: null, body: null, parts: [], attachments: [], missingBones: [], meshCount: 0, boneSample: [], motion: null, currentBounds: null, wireframe: false, bounds: false };
 }
 
 /** States for a model that does not list its own: player poses for outfits, clip groups for creatures. */
@@ -22,10 +22,7 @@ function defaultStates(source: ViewerSource, model: ViewerModel): ViewerStateInf
     return { name: pose, clip, available: clip !== null };
   });
   return CREATURE_STATES.map(state => {
-    const group = state === 'hitLeft' || state === 'hitRight' ? 'hit' : state;
-    const side = state === 'hitLeft' ? /left/i : state === 'hitRight' ? /right/i : undefined;
-    const inGroup = names.filter(name => model.clipGroups.get(name) === group);
-    const clip = (side ? inGroup.find(name => side.test(name)) : inGroup.find(name => !/left|right/i.test(name)) ?? inGroup[0]) ?? null;
+    const clip = names.find(name => model.clipGroups.get(name) === state) ?? null;
     return { name: state, clip, available: clip !== null };
   });
 }
@@ -40,6 +37,7 @@ export class ViewerCore {
   private readonly stage = new THREE.Group();
   private readonly grid = new THREE.GridHelper(10, 20, 0x677563, 0x39443a);
   private environment?: THREE.RenderTarget;
+  private readonly initialized: Promise<void>;
   private ready = false;
   private readonly resize: ResizeObserver;
   private readonly box = new THREE.Box3Helper(new THREE.Box3(), 0xb8d57d);
@@ -75,7 +73,7 @@ export class ViewerCore {
     this.container.append(this.renderer.domElement);
     this.scene.background = new THREE.Color(0x202821);
     this.scene.environmentIntensity = .65;
-    void this.renderer.init().then(() => {
+    this.initialized = this.renderer.init().then(() => {
       if (this.disposed) return;
       const room = new RoomEnvironment();
       const pmrem = new PMREMGenerator(this.renderer);
@@ -154,7 +152,7 @@ export class ViewerCore {
       });
       mesh.material = Array.isArray(mesh.material) ? clones : clones[0]!;
     });
-    this.snapshot = { ...this.snapshot, ready: true, body: model.body ?? null, parts: model.parts, attachments: model.attachments,
+    this.snapshot = { ...this.snapshot, body: model.body ?? null, parts: model.parts, attachments: model.attachments,
       missingBones: model.missingBones, manifestSize: model.manifestSize ?? null, materials: materialRows, meshCount,
       clips: model.clips.map(clip => ({ name: clip.name, duration: clip.duration, group: model.clipGroups.get(clip.name) ?? 'Other clips' })) };
     this.snapshot.appearance = model.appearance ?? null;
@@ -187,9 +185,16 @@ export class ViewerCore {
     this.resetCamera();
     this.setWireframe(this.snapshot.wireframe);
     this.setBounds(this.snapshot.bounds);
+    await this.initialized;
+    if (this.disposed || epoch !== this.epoch) return;
     try { await this.renderer.compileAsync(this.scene, this.camera); }
     catch { /* The first draw compiles what is left. */ }
     finally { if (epoch === this.epoch) this.compiling = false; }
+    if (this.disposed || epoch !== this.epoch) return;
+    // A ready snapshot must describe pixels already drawn, not an asset still compiling.
+    this.renderer.render(this.scene, this.camera);
+    this.snapshot.ready = true;
+    this.lastFrame = 0;
     this.emit();
   }
 
@@ -234,12 +239,17 @@ export class ViewerCore {
     if (!state?.available || !this.model) return;
     this.snapshot.state = name;
     if (!this.model.setState?.(name) && state.clip) this.selectClip(state.clip);
+    if (this.snapshot.ready && this.ready && !this.compiling) this.renderer.render(this.scene, this.camera);
     this.emit();
   }
   setPlaying(playing: boolean): void { this.snapshot.playing = playing; this.emit(); }
   setSpeed(speed: number): void { this.snapshot.speed = Math.min(4, Math.max(.1, speed)); this.emit(); }
   scrub(time: number): void {
-    if (this.action) { this.action.time = Math.min(this.snapshot.duration, Math.max(0, time)); this.mixer?.update(0); }
+    if (!Number.isFinite(time)) return;
+    this.snapshot.playing = false;
+    if (this.model?.seek) this.model.seek(Math.max(0, time));
+    else if (this.action) { this.action.time = Math.min(this.snapshot.duration, Math.max(0, time)); this.mixer?.update(0); }
+    if (this.ready && !this.compiling) this.renderer.render(this.scene, this.camera);
     this.emit();
   }
   setWireframe(enabled: boolean): void {
@@ -254,6 +264,9 @@ export class ViewerCore {
       this.snapshot.clip = playback.clip;
       this.snapshot.time = playback.time;
       this.snapshot.duration = playback.duration;
+      this.snapshot.motion = this.model.motion();
+      const bounds = this.measure(this.model);
+      this.snapshot.currentBounds = bounds.isEmpty() ? null : { min: bounds.min.toArray(), max: bounds.max.toArray() };
     } else this.snapshot.time = this.action?.time ?? 0;
     const boneSample: number[] = [];
     this.model?.animationRoot.traverse(object => {
@@ -294,7 +307,7 @@ export class ViewerCore {
     if (this.parked) { this.lastFrame = 0; this.frame = requestAnimationFrame(this.tick); return; }
     const delta = this.lastFrame ? Math.min((now - this.lastFrame) / 1000, .1) : 0;
     this.lastFrame = now;
-    if (this.snapshot.playing) { this.mixer?.update(delta * this.snapshot.speed); this.model?.update?.(delta * this.snapshot.speed); }
+    if (this.snapshot.ready && !this.compiling && this.snapshot.playing) { this.mixer?.update(delta * this.snapshot.speed); this.model?.update?.(delta * this.snapshot.speed); }
     this.controls.update();
     if (this.box.visible && this.model) this.box.box.copy(this.measure(this.model));
     if (this.ready && !this.compiling) this.renderer.render(this.scene, this.camera);

@@ -21,4 +21,26 @@ describe('dense motion sampler', () => {
     addChannel(doc, clip, node, 'translation', [0], [2, 3, 4]);
     for (const time of [-1, 0, 1]) expect(sample(clip.listSamplers()[0]!, time)).toEqual([2, 3, 4]);
   });
+
+  it('selects the current STEP key at exact boundaries and holds the actual last key', () => {
+    const doc = new Document(); doc.createBuffer();
+    const node = doc.createNode('body'), clip = doc.createAnimation('Death');
+    addChannel(doc, clip, node, 'translation', [0, .5, 1], [0, 2, 0, 0, 1, 0, 0, .125, 0]);
+    const sampler = clip.listSamplers()[0]!.setInterpolation('STEP');
+    for (const [time, y] of [[-1, 2], [0, 2], [.49, 2], [.5, 1], [.99, 1], [1, .125], [2, .125]]) {
+      expect(sample(sampler, time!)).toEqual([0, y, 0]);
+    }
+  });
+
+  it('matches the runtime last value for malformed duplicate terminal timestamps', () => {
+    const doc = new Document(); doc.createBuffer();
+    const node = doc.createNode('ground'), clip = doc.createAnimation('Death');
+    addChannel(doc, clip, node, 'translation', [0, 1, 1], [0, 0, 0, 0, .5, 0, 0, .125, 0]);
+    const sampler = clip.listSamplers()[0]!;
+    for (const interpolation of ['LINEAR', 'STEP'] as const) {
+      sampler.setInterpolation(interpolation);
+      expect(sample(sampler, 1)).toEqual([0, .125, 0]);
+      expect(sample(sampler, 2)).toEqual([0, .125, 0]);
+    }
+  });
 });

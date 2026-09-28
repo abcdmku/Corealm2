@@ -7,10 +7,10 @@ import { KHRONOS_EXTENSIONS } from "@gltf-transform/extensions";
 import sharp from "sharp";
 import { Quaternion, Vector3 } from "three";
 import { deformedBounds } from "../creature-motion/validate-deformation.js";
-import { duration } from "../creature-motion/pose.js";
+import { duration, removeClip } from "../creature-motion/pose.js";
 import { applyGeometryBasisRotation, repairHumanoidWeights, restoreGeometryBasis, retargetHumanoid } from "./retarget.js";
+import { validateCreatureDocument } from "./validation.js";
 
-const REQUIRED = ["Idle", "Walk", "Run", "Attack", "Hit", "Death"];
 const hash = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS);
 interface Spec {
@@ -22,6 +22,15 @@ interface Spec {
 }
 interface HeldCandidate { id: string; status: "held-for-source-provenance-audit"; candidateFile: string; sourceFile: string; candidateSha256: string; sourceSha256: string }
 interface Batch { output: string; entries: Spec[]; heldCandidates?: HeldCandidate[] }
+
+/** Import the single gameplay Hit; retired directional takes and aliases never reach validation. */
+export function normalizeImportedCreatureClips(doc: Document, aliases: Readonly<Record<string, string>> = {}): void {
+  for (const clip of doc.getRoot().listAnimations()) {
+    const name = clip.getName(), alias = aliases[name];
+    if (/^Hit(?:Left|Right)$/i.test(name) || (alias && /^Hit(?:Left|Right)$/i.test(alias))) removeClip(doc, name);
+    else if (alias) clip.setName(alias);
+  }
+}
 
 async function inspect(doc: Document) {
   const root = doc.getRoot(), problems: string[] = [];
@@ -41,7 +50,8 @@ async function inspect(doc: Document) {
   const clips = root.listAnimations().map(clip => ({ name: clip.getName(), seconds: duration(clip), channels: clip.listChannels().length }));
   const weightCoverage = [];
   for (const node of root.listNodes().filter(node => node.getMesh())) {
-    const skin = node.getSkin(); if (!skin) { problems.push(`${node.getName()}: no skin`); continue; }
+    // Rigid attachments may accompany a skinned body. The final gate checks the body itself.
+    const skin = node.getSkin(); if (!skin) continue;
     const joints = skin.listJoints(), inverse = skin.getInverseBindMatrices();
     if (!inverse || inverse.getCount() !== joints.length) problems.push("Inverse-bind count mismatch");
     const coverage = new Map<number, number>(); let count = 0;
@@ -57,11 +67,12 @@ async function inspect(doc: Document) {
           Math.abs(ws.reduce((sum, w) => sum + w, 0) - 1) > .002) { problems.push(`Invalid skin vertex ${vertex}`); break; }
       }
     }
-    const dominant = Math.max(0, ...coverage.values()) / Math.max(1, count);
-    weightCoverage.push({ mesh: node.getName(), vertices: count, joints: [...coverage].map(([joint, vertices]) => ({ name: joints[joint]!.getName(), vertices })) });
-    if (joints.length > 1 && dominant > .98) problems.push(`${Math.round(dominant * 1000) / 10}% of vertices use one joint; exported limb weights are unusable`);
+    weightCoverage.push({ mesh: node.getName(), vertices: count, joints: [...coverage].map(([joint, vertices]) => ({ name: joints[joint]?.getName() ?? `invalid:${joint}`, vertices })) });
   }
-  return { triangles, textures, skins, materialMaps, clips, weightCoverage, bounds: deformedBounds(doc), problems };
+  let bounds: ReturnType<typeof deformedBounds> | null = null;
+  try { bounds = deformedBounds(doc); }
+  catch (error) { problems.push(error instanceof Error ? error.message : String(error)); }
+  return { triangles, textures, skins, materialMaps, clips, weightCoverage, bounds, problems };
 }
 
 /** Derive a matte bark/lichen material from the authored color atlas without altering that atlas. */
@@ -207,7 +218,6 @@ export async function importCreatures(batch: Batch) {
       const file = "game/public/assets/models/animation/animation_library_1.glb", motion = await readFile(file);
       retarget = { ...retargetHumanoid(doc, await io.readBinary(motion)), sourceFile: file, sourceSha256: hash(motion) };
     }
-    const bind = deformedBounds(doc);
     if (!source.skins.length) reasons.push("Export omitted skeleton");
     if (!spec.orientationVerified) reasons.push("Facing axis unverified");
     const baseColors = new Set(source.materialMaps.map(material => material.baseColor).filter(Boolean));
@@ -217,15 +227,15 @@ export async function importCreatures(batch: Batch) {
       reasons.push(`Missing ${sourceBaseColorMinimumPx / 1024}K source base color`);
     }
     if (spec.requirePbrMaps && working.materialMaps.some(material => !material.normal || !material.metallicRoughness)) reasons.push("Required PBR maps missing");
-    for (const clip of doc.getRoot().listAnimations()) if (spec.clipAliases?.[clip.getName()]) clip.setName(spec.clipAliases[clip.getName()]!);
-    for (const name of REQUIRED) {
-      const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name);
-      if (!clip || !clip.listChannels().length || duration(clip) <= 0) reasons.push(`Missing usable ${name} clip`);
-    }
+    normalizeImportedCreatureClips(doc, spec.clipAliases);
+    const motionValidation = validateCreatureDocument(doc);
+    reasons.push(...motionValidation.problems);
     const record = { id: spec.id, name: spec.name, modelId: spec.modelId, sourceImageId: spec.sourceImageId, sourceFile,
       downloadedFilename: path.basename(spec.source), sourceSha256: sourceHash, sourceBytes: bytes.length,
-      imageReview: spec.imageReview, sourceBaseColorMinimumPx, source, basisRepair, materialTreatment, weightRepair, retarget, readyForLab: false, reasons, runtime: null as unknown };
+      imageReview: spec.imageReview, sourceBaseColorMinimumPx, source, basisRepair, materialTreatment, weightRepair, retarget,
+      motionValidation, readyForDevdocs: false, reasons, runtime: null as unknown };
     if (!reasons.length) {
+      const bind = deformedBounds(doc);
       const root = doc.getRoot(), scene = root.getDefaultScene() ?? root.listScenes()[0];
       if (!scene || root.listScenes().length !== 1) throw new Error("Expected one scene");
       const wrapper = doc.createNode(`corealm_${spec.id}`), scale = spec.heightMeters / (bind.max[1]! - bind.min[1]!);
@@ -240,16 +250,19 @@ export async function importCreatures(batch: Batch) {
         texture.setImage(await (jpeg ? resized.jpeg({ quality: 92, chromaSubsampling: "4:4:4" }) : resized.png()).toBuffer()).setMimeType(jpeg ? "image/jpeg" : "image/png");
       }
       const runtime = await inspect(doc), candidate = await io.writeBinary(doc), file = `models/${spec.id}.glb`;
+      if (!runtime.bounds || runtime.problems.length) throw new Error(`Invalid normalized candidate ${spec.id}: ${runtime.problems.join(", ")}`);
+      const runtimeBounds = runtime.bounds;
       await mkdir(path.join(output, "models"), { recursive: true }); await writeFile(path.join(output, file), candidate);
       const vec = (v: number[]) => ({ x: v[0], y: v[1], z: v[2] });
       assets.push({ id: spec.id, file: original.file, pack: "corealm-tripo-creatures", category: "character", is: spec.name,
         tags: ["creature", "tripo"], bytes: candidate.length, sha256: hash(candidate), triangles: runtime.triangles,
-        size: vec(runtime.bounds.max.map((v, i) => v - runtime.bounds.min[i]!)), base: vec(runtime.bounds.min), groundY: 0,
+        size: vec(runtimeBounds.max.map((v, i) => v - runtimeBounds.min[i]!)), base: vec(runtimeBounds.min), groundY: 0,
         animations: runtime.clips.map(clip => clip.name), materials: runtime.materialMaps.map(material => material.name),
         sourceProvenance: { generator: "Tripo Studio", modelId: spec.modelId, sourceImageId: spec.sourceImageId, sourceFile, sourceSha256: sourceHash, basisRepair, materialTreatment, weightRepair, retarget },
-        metadata: { runtimeTexturePolicy: { maxDimension: 2048, originalsPreserved: true }, materialTreatment, animationAcceptance: "pending-production-lab" },
-        acceptance: { exported: true, labAccepted: false, worldIntegrated: false } });
-      files[spec.id] = file; record.readyForLab = true; record.runtime = { ...runtime, file, sha256: hash(candidate), bytes: candidate.length, scale };
+        metadata: { runtimeTexturePolicy: { maxDimension: 2048, originalsPreserved: true }, materialTreatment,
+          motionValidation, animationAcceptance: "pending-devdocs-review" },
+        acceptance: { exported: true, devdocsAccepted: false, worldIntegrated: false } });
+      files[spec.id] = file; record.readyForDevdocs = true; record.runtime = { ...runtime, file, sha256: hash(candidate), bytes: candidate.length, scale };
     }
     imports.push(record);
   }

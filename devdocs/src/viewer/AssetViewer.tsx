@@ -19,6 +19,9 @@ export interface AssetViewerProps {
   controls?: boolean;
   /** Controlled state (a creature state or player pose from `snapshot.states`); changing it never reloads the model. */
   state?: string;
+  onStateChange?: (state: string) => void;
+  /** Keep playback controls visible below a full-height Art stage without the record-view controls. */
+  compactPlayback?: boolean;
 }
 
 /** The renderer a closed viewer left behind, waiting for the next one to open. */
@@ -28,7 +31,7 @@ export function AssetViewer(props: AssetViewerProps) {
   return <ViewerPanel key={JSON.stringify(props.source)} {...props} />;
 }
 
-function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true, state }: AssetViewerProps) {
+function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true, state, onStateChange, compactPlayback = false }: AssetViewerProps) {
   const section = useRef<HTMLElement>(null);
   // Dev-only automation hook: `element.dispatchEvent(new CustomEvent('viewer:set-source', { detail: source }))`
   // shows another source (an actor draft, say) in this viewer until the page passes a new one.
@@ -38,6 +41,8 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
   const core = useRef<ViewerCore | null>(null);
   const callback = useRef(onSnapshot);
   callback.current = onSnapshot;
+  const stateCallback = useRef(onStateChange);
+  stateCallback.current = onStateChange;
   const [snapshot, setSnapshot] = useState(emptyViewerSnapshot);
   const [error, setError] = useState<string | null>(null);
   const [retry, setRetry] = useState(0);
@@ -100,9 +105,30 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
   useEffect(() => {
     const element = section.current;
     if (!element) return;
-    const listener = (event: Event) => { const name = (event as CustomEvent<unknown>).detail; if (typeof name === 'string') core.current?.setState(name); };
+    const listener = (event: Event) => {
+      const name = (event as CustomEvent<unknown>).detail;
+      if (typeof name !== 'string' || !latestSnapshot.current.states.some(state => state.name === name && state.available)) return;
+      core.current?.setState(name);
+      stateCallback.current?.(name);
+    };
     element.addEventListener('viewer:set-state', listener);
     return () => element.removeEventListener('viewer:set-state', listener);
+  }, []);
+
+  useEffect(() => {
+    const element = section.current;
+    if (!element) return;
+    const seek = (event: Event) => {
+      const time = (event as CustomEvent<unknown>).detail;
+      if (typeof time === 'number' && Number.isFinite(time)) core.current?.scrub(time);
+    };
+    const play = (event: Event) => {
+      const playing = (event as CustomEvent<unknown>).detail;
+      if (typeof playing === 'boolean') core.current?.setPlaying(playing);
+    };
+    element.addEventListener('viewer:set-time', seek);
+    element.addEventListener('viewer:set-playing', play);
+    return () => { element.removeEventListener('viewer:set-time', seek); element.removeEventListener('viewer:set-playing', play); };
   }, []);
 
   useEffect(() => {
@@ -114,13 +140,14 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
   }, []);
 
   useEffect(() => {
-    if (state && snapshot.ready && snapshot.state !== state) core.current?.setState(state);
-  }, [state, snapshot.ready, snapshot.state]);
+    if (state && snapshot.ready && latestSnapshot.current.state !== state) core.current?.setState(state);
+  }, [state, snapshot.ready]);
 
   const groups = [...new Set(snapshot.clips.map(clip => clip.group))];
-  // An actor plays through the game's own motion system: pick a state, not a raw clip, and no scrubbing.
+  // An actor plays and seeks through the game's own motion system.
   const actor = source.mode === 'actor';
   const shownItems = source.mode === 'outfit' ? [...source.itemIds, source.mainHandId, source.offHandId].filter((id): id is string => Boolean(id)) : [];
+  const chooseState = (name: string) => { core.current?.setState(name); stateCallback.current?.(name); };
   const choosePose = (value: CharacterPose) => {
     selectedPose.current = value;
     setPose(value);
@@ -159,10 +186,21 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
         <strong className="font-semibold">Model unavailable</strong><span className="text-muted-foreground [overflow-wrap:anywhere]">{error}</span><Button size="sm" onClick={() => setRetry(value => value + 1)}>Retry model</Button>
       </div>}
     </div>
+    {compactPlayback && <div className="viewer-compact-playback flex shrink-0 items-center gap-2 border-t border-border-subtle bg-background/90 px-2 py-1">
+      <Button size="xs" disabled={!snapshot.ready || Boolean(error)} onClick={() => core.current?.setPlaying(!snapshot.playing)}>{snapshot.playing ? 'Pause' : 'Play'}</Button>
+      <NativeSelect aria-label="Playback speed" className="h-6 w-16 text-[11px]" value={String(snapshot.speed)} disabled={!snapshot.ready}
+        onChange={event => core.current?.setSpeed(Number(event.target.value))}>
+        {[.25, .5, 1, 1.5, 2].map(speed => <option key={speed} value={speed}>{speed}×</option>)}
+      </NativeSelect>
+      <input aria-label="Animation time" type="range" min={0} max={snapshot.duration || 1} step={.001} value={snapshot.time}
+        disabled={!snapshot.ready || !snapshot.clip || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:opacity-50"
+        onChange={event => core.current?.scrub(Number(event.target.value))} />
+      <output className="shrink-0 font-mono text-[10px] tabular-nums">{snapshot.time.toFixed(2)} / {snapshot.duration.toFixed(2)} s</output>
+    </div>}
     <div className={cn('viewer-playback flex flex-wrap items-center gap-x-3 gap-y-1.5', chrome)}>
       <Button size="sm" disabled={!snapshot.clip || Boolean(error)} onClick={() => core.current?.setPlaying(!snapshot.playing)}>{snapshot.playing ? 'Pause' : 'Play'}</Button>
       {actor ? <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>State <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="State" value={snapshot.state ?? ''} disabled={!snapshot.ready || Boolean(error)}
-        onChange={event => core.current?.setState(event.target.value)}>
+        onChange={event => chooseState(event.target.value)}>
         {snapshot.states.map(entry => <option key={entry.name} value={entry.name} disabled={!entry.available}>{entry.name}{entry.clip ? ` · ${entry.clip}` : ''}{entry.synthetic ? ' (synthesised)' : ''}</option>)}
       </NativeSelect></label>
       : <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>Animation <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="Animation" value={snapshot.clip ?? ''} disabled={!snapshot.clips.length || Boolean(error)}
@@ -176,7 +214,7 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
     </div>
     <div className={cn('flex items-center gap-3', chrome)}>
       <input aria-label="Animation time" type="range" min={0} max={snapshot.duration || 1} step={.001} value={snapshot.time}
-        disabled={!snapshot.clip || actor || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:cursor-default disabled:opacity-50" onChange={event => { core.current?.setPlaying(false); core.current?.scrub(Number(event.target.value)); }} />
+        disabled={!snapshot.clip || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:cursor-default disabled:opacity-50" onChange={event => core.current?.scrub(Number(event.target.value))} />
       <output className="font-mono text-[11px] text-muted-foreground tabular-nums">{snapshot.time.toFixed(2)} / {snapshot.duration.toFixed(2)} s</output>
     </div>
     <div className={cn('flex flex-wrap items-center gap-x-4 gap-y-1.5', chrome)}>

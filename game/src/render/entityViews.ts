@@ -4611,10 +4611,6 @@ export class EntityViews {
     const candidates = this.clipCandidates(group.assetId, record.entityId, selected, speed);
     if (selected !== motion) candidates.push(...this.clipCandidates(group.assetId, record.entityId, motion, speed)
       .filter(name => !candidates.includes(name)));
-    if (motion === "hit" && impactSide && impactSide !== "front") {
-      const directional = impactSide === "left" ? "HitLeft" : "HitRight";
-      if (this.assets.entry(group.assetId)?.animations?.includes(directional)) candidates.unshift(directional);
-    }
     const clip = this.firstFittingClip(
       group.assetId,
       candidates, root,
@@ -4909,6 +4905,34 @@ export class EntityViews {
 
   clearLocomotion(entityId: EntityId): void {
     this.locomotionIntents.delete(entityId);
+  }
+
+  /** Start an isolated art preview without a previous action or recoil leaking into it. */
+  resetMotionPreview(entityId: EntityId): void {
+    const record = this.records.get(entityId);
+    if (!record?.playback || record.spent) return;
+    this.locomotionIntents.delete(entityId);
+    record.playback.hitOverlay = null;
+    this.setMotion(record, "idle", true, true);
+    this.seekMotionPreview(entityId, 0);
+  }
+
+  /** Seek the production clock for devdocs; rigs and palette rendering sample the same state. */
+  seekMotionPreview(entityId: EntityId, seconds: number, layer: "base" | "hit" = "base"): boolean {
+    const record = this.records.get(entityId);
+    const state = record?.playback;
+    if (!record || !state || !Number.isFinite(seconds)) return false;
+    state.previousClip = null;
+    state.transitionElapsed = state.transitionSeconds;
+    if (layer === "hit") {
+      if (!state.hitOverlay) return false;
+      state.hitOverlay.time = Math.max(0, Math.min(state.hitOverlay.clip.duration, seconds));
+    } else {
+      state.hitOverlay = null;
+      state.time = Math.max(0, Math.min(state.clip.duration, seconds));
+    }
+    this.sampleRig(record);
+    return true;
   }
 
   cancelAttack(entityId: EntityId): void {

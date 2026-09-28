@@ -176,7 +176,11 @@ through `CharacterRig` on either body in every pose, with the pose's gathering t
 3. Capture evidence with `tools/devdocs-shot.ts` (`--click "[data-state=<name>]"` selects a state,
    `--width 1440 --height 900`) and inspect the screenshot. For semantic checks read the viewer's
    `data-viewer-*` attributes and its `<script data-viewer-state>` JSON (states, current state,
-   tint, scale, size, parts, attachments), or dispatch `viewer:set-state` on it.
+   tint, scale, size, parts, attachments, actual motion and current bounds), or dispatch
+   `viewer:set-state` on it. Creature states are idle, walk, run, attack, hit and death.
+   Pause and scrub the production clip with the stage controls; `viewer:set-time` (seconds)
+   pauses and seeks the selected state, and `viewer:set-playing` resumes it. Inspect the attack
+   contact, held Death endpoint and return to Idle as well as intermediate poses.
 4. Record the verdict (approved, needs polish, replace) and a note on the record or the aspect.
    Verdicts live in `game/content/meta` and feed `#/art/queue`; they never change shipped content.
 5. Then use the feature lab only for what devdocs cannot show: movement through the world,
@@ -187,6 +191,14 @@ cannot show something an asset needs (a new state, attachment or material respon
 devdocs viewer (`devdocs/src/viewer/`) through production code instead.
 Headless Chromium has no WebGPU, so devdocs screenshots run on the WebGL2 fallback; confirm
 material-sensitive work on a hardware browser.
+
+For local creature repair candidates, dispatch `viewer:preview-catalog` on `window` with
+`{ url: catalogUrl, requestId }` as its detail. Wait for the matching `viewer:catalog-ready`
+event (which returns IDs or an error), then change the Art route without reloading the page.
+This reaches the live registry even during hot reload. The hook verifies candidate hashes and
+replaces the production registry's asset URLs. Confirm the displayed clip durations and rig
+match the candidate before recording evidence. Passing numerical validation is not approval.
+Compare repaired motion with good native studio takes using the same stage and phase controls.
 
 ## Keep the harness small
 

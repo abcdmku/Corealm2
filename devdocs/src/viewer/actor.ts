@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { SemanticEntity } from '../../../game/src/contracts.js';
 import type { AssetRegistry } from '../../../game/src/render/assets.js';
-import { EntityViews } from '../../../game/src/render/entityViews.js';
+import { EntityViews, type EntityMotionSnapshot } from '../../../game/src/render/entityViews.js';
 import { MaterialLibrary } from '../../../game/src/render/materials.js';
 import { viewerRegistry } from './registry.js';
 import { creatureClipGroups, initialCreatureClip } from './clips.js';
@@ -15,6 +15,7 @@ export interface ActorPlayback { clip: string | null; time: number; duration: nu
 /** A `ViewerModel` driven by the game's `EntityViews` rather than the core's mixer. */
 export interface ActorModel extends ViewerModel {
   playback(): ActorPlayback;
+  motion(): EntityMotionSnapshot | null;
   /** The drawn actor's current bounds in stage space. Its instanced fallback batches are not the actor. */
   bounds(): THREE.Box3;
 }
@@ -23,9 +24,6 @@ export function isActorModel(model: ViewerModel): model is ActorModel { return '
 const ORIGIN = new THREE.Vector3();
 /** Seconds of idle between repeats of a one-shot state, so a reviewer sees attack and hit again and again. */
 const REPLAY_GAP = .7;
-const HIT_SIDE = { hit: 'front', hitLeft: 'left', hitRight: 'right' } as const;
-type HitState = keyof typeof HIT_SIDE;
-const isHit = (state: string): state is HitState => state in HIT_SIDE;
 
 let library: MaterialLibrary | undefined;
 /** Tier variants and dead-state materials are cached here across records, like the game's one scene library. */
@@ -102,6 +100,25 @@ export class ActorStage {
     return this.views.setLocomotion(id, motion);
   }
 
+  /** An isolated state starts from the production idle pose, with no previous action or recoil. */
+  previewState(name: string): boolean {
+    if (!CREATURE_STATES.includes(name as CreatureState)) return false;
+    this.setAlive(true);
+    for (const entity of this.entities) this.views.resetMotionPreview(entity.id);
+    let played: boolean;
+    if (name === 'death') { this.setAlive(false); played = true; }
+    else if (name === 'idle' || name === 'walk' || name === 'run') played = this.locomote(name);
+    else if (name === 'attack') played = this.playAction('attack');
+    else played = name === 'hit' && this.playAction('hit');
+    if (played) this.seek(0, name === 'hit' ? 'hit' : 'base');
+    this.update(0);
+    return played;
+  }
+
+  seek(seconds: number, layer: 'base' | 'hit'): boolean {
+    return this.entities.map(entity => this.views.seekMotionPreview(entity.id, seconds, layer))[0]!;
+  }
+
   /** Every individual's current bounds in stage space, together. Instanced fallback batches are not the actors. */
   bounds(): THREE.Box3 {
     const box = new THREE.Box3();
@@ -117,50 +134,29 @@ export class ActorStage {
    * itself (the clip it would choose, or none), then the actor is settled back on idle.
    */
   probeStates(): ViewerStateInfo[] {
-    const id = this.entity.id;
+    this.previewState('idle');
     const idle = this.snapshot()?.clip ?? null;
     const states = new Map<CreatureState, ViewerStateInfo>();
     states.set('idle', { name: 'idle', clip: idle, available: idle !== null });
     for (const motion of ['walk', 'run'] as const) {
-      const played = this.locomoteOne(id, motion);
+      const played = this.previewState(motion);
       const clip = played ? this.snapshot()?.clip ?? null : null;
       // `run` on a rig with no run cycle is its walk, which the game plays; say so.
       const fallback = motion === 'run' && clip !== null && clip === states.get('walk')?.clip && !/run/i.test(clip);
       states.set(motion, { name: motion, clip, available: clip !== null, ...(fallback ? { synthetic: true } : {}) });
     }
-    this.locomoteOne(id, 'idle');
-    const attack = this.views.playAction(id, 'attack') ? this.snapshot()?.clip ?? null : null;
+    const attack = this.previewState('attack') ? this.snapshot()?.clip ?? null : null;
     states.set('attack', { name: 'attack', clip: attack, available: attack !== null });
-    this.views.cancelAttack(id);
-    const front = this.hitClip('front');
-    for (const [name, side] of Object.entries(HIT_SIDE) as [HitState, typeof HIT_SIDE[HitState]][]) {
-      const clip = side === 'front' ? front : this.hitClip(side);
-      // A procedural recoil (`missingCreatureHit`) or a side falling back to the front hit.
-      const synthetic = clip !== null && (clip === 'Hit_Fallback' || (side !== 'front' && clip === front));
-      states.set(name, { name, clip, available: clip !== null, ...(synthetic ? { synthetic: true } : {}) });
-    }
-    const death = this.deathClip();
+    this.previewState('hit');
+    const hit = this.snapshot()?.hitOverlay?.clip.replace(/_MaskedOverlay$/, '') ?? null;
+    states.set('hit', { name: 'hit', clip: hit, available: hit !== null, ...(hit === 'Hit_Fallback' ? { synthetic: true } : {}) });
+    this.previewState('death');
+    const dead = this.snapshot();
+    const death = dead?.motion === 'death' && dead.timeScale !== 0 ? dead.clip : null;
     // Without a death clip the game freezes the last pose instead of falling.
     states.set('death', { name: 'death', clip: death, available: true, ...(death ? {} : { synthetic: true }) });
-    this.locomoteOne(id, 'idle');
-    this.update(0);
+    this.previewState('idle');
     return CREATURE_STATES.map(name => states.get(name)!);
-  }
-
-  private hitClip(side: 'front' | 'left' | 'right'): string | null {
-    if (!this.views.playAction(this.entity.id, 'hit', { impactSide: side })) return null;
-    const overlay = this.snapshot()?.hitOverlay;
-    // Let the overlay run out so the next probe (and the first frame) starts clean.
-    if (overlay) this.update(overlay.duration + .05);
-    return overlay ? overlay.clip.replace(/_MaskedOverlay$/, '') : null;
-  }
-
-  /** The asset's own death clip if it fits, or the humanoid library's; EntityViews picks the same. */
-  private deathClip(): string | null {
-    const assetId = this.entity.view!.assetId;
-    const own = this.assets.entry(assetId)?.animations ?? [];
-    if (own.length) return own.find(name => /^death/i.test(name)) ?? null;
-    return this.assets.clip('Death01') ? 'Death01' : null;
   }
 
   /** The dye and tier colour the game multiplied into this actor's materials, as `#rrggbb`, or null. */
@@ -303,30 +299,26 @@ export async function actorModel(stage: ActorStage, creatureId: string): Promise
   const names = clips.map(clip => clip.name);
   let current: string = 'idle';
   let replayIn = Infinity;
-  const trigger = (name: string): boolean => {
-    if (name === 'death') { stage.setAlive(true); stage.locomote('idle'); stage.update(0); stage.setAlive(false); return true; }
-    stage.setAlive(true);
-    if (name === 'idle' || name === 'walk' || name === 'run') return stage.locomote(name);
-    stage.locomote('idle');
-    if (name === 'attack') return stage.playAction('attack');
-    if (isHit(name)) return stage.playAction('hit', { impactSide: HIT_SIDE[name] });
-    return false;
-  };
+  const trigger = (name: string): boolean => stage.previewState(name);
   return {
     root: stage.scene.entityGroup, animationRoot: stage.scene.entityGroup, clips, clipGroups: creatureClipGroups(names),
     initialClip: initialCreatureClip(names), manifestSize: assets.entry(assetId)?.size, parts: [], attachments: [], missingBones: [],
     appearance, states, initialState: 'idle',
     setState(name) {
+      if (!states.some(state => state.name === name && state.available)) return false;
       current = name;
       replayIn = Infinity;
-      trigger(name);
-      stage.update(0);
-      return true;
+      return trigger(name);
+    },
+    seek(seconds) {
+      if (!Number.isFinite(seconds) || !trigger(current)) return false;
+      replayIn = Infinity;
+      return stage.seek(seconds, current === 'hit' ? 'hit' : 'base');
     },
     update(dt) {
       stage.update(dt);
       // Attack and hit loop: once the one-shot has finished, idle for REPLAY_GAP and play it again.
-      if (current !== 'attack' && !isHit(current)) return;
+      if (current !== 'attack' && current !== 'hit') return;
       const snapshot = stage.snapshot();
       const busy = current === 'attack' ? snapshot?.motion === 'attack' : Boolean(snapshot?.hitOverlay);
       if (busy) { replayIn = Infinity; return; }
@@ -337,10 +329,11 @@ export async function actorModel(stage: ActorStage, creatureId: string): Promise
     playback() {
       const snapshot = stage.snapshot();
       const overlay = snapshot?.hitOverlay;
-      if (overlay && isHit(current)) return { clip: overlay.clip, time: overlay.time, duration: overlay.duration };
+      if (overlay && current === 'hit') return { clip: overlay.clip, time: overlay.time, duration: overlay.duration };
       return { clip: snapshot?.clip ?? null, time: snapshot?.time ?? 0, duration: snapshot?.duration ?? 0 };
     },
     bounds() { return stage.bounds(); },
+    motion() { return stage.snapshot(); },
     dispose() { stage.dispose(); },
   };
 }

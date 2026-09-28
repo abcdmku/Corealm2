@@ -50,15 +50,15 @@ const brief = (states: { name: string; clip: string | null; available: boolean; 
 
 describe('devdocs actor stage', () => {
   it('lists every creature state with the clip the game plays for it', async () => {
-    const { model: full } = await model(['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'Death']);
-    expect(brief(full.states!)).toEqual({ idle: 'Idle', walk: 'Walk', run: 'Run', attack: 'Attack', hit: 'Hit', hitLeft: 'HitLeft', hitRight: 'Hit*', death: 'Death' });
+    const { model: full } = await model(['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']);
+    expect(brief(full.states!)).toEqual({ idle: 'Idle', walk: 'Walk', run: 'Run', attack: 'Attack', hit: 'Hit', death: 'Death' });
     expect(full.initialState).toBe('idle');
     full.dispose();
   });
 
   it('marks the procedural recoil, the walk-for-run fallback and a missing attack', async () => {
     const { model: sparse } = await model(['Idle', 'Walk']);
-    expect(brief(sparse.states!)).toEqual({ idle: 'Idle', walk: 'Walk', run: 'Walk*', attack: 'n/a', hit: 'Hit_Fallback*', hitLeft: 'Hit_Fallback*', hitRight: 'Hit_Fallback*', death: '-*' });
+    expect(brief(sparse.states!)).toEqual({ idle: 'Idle', walk: 'Walk', run: 'Walk*', attack: 'n/a', hit: 'Hit_Fallback*', death: '-*' });
     sparse.dispose();
   });
 
@@ -79,6 +79,49 @@ describe('devdocs actor stage', () => {
     actor.setState!('idle');
     actor.update!(.3);
     expect(stage.snapshot()).toMatchObject({ motion: 'idle', clip: 'Idle' });
+    actor.dispose();
+  });
+
+  it('seeks the production clock reproducibly and clears recoil when changing states', async () => {
+    const { stage, model: actor } = await model(['Idle', 'Walk', 'Attack', 'Hit', 'Death']);
+    actor.setState!('hit');
+    expect(actor.seek!(.25)).toBe(true);
+    expect(actor.motion()).toMatchObject({ motion: 'idle', time: 0, hitOverlay: { time: .25 } });
+    const pose = actor.root.getObjectByName('Fixture_Head')!.quaternion.toArray();
+    actor.update!(.1);
+    actor.seek!(.25);
+    expect(actor.root.getObjectByName('Fixture_Head')!.quaternion.toArray()).toEqual(pose);
+
+    actor.setState!('walk');
+    expect(stage.snapshot()).toMatchObject({ motion: 'walk', clip: 'Walk', time: 0, hitOverlay: null });
+    actor.seek!(.4);
+    expect(actor.playback()).toMatchObject({ clip: 'Walk', time: .4 });
+    actor.setState!('attack');
+    actor.update!(.8);
+    actor.seek!(.2);
+    expect(stage.snapshot()).toMatchObject({ motion: 'attack', clip: 'Attack', time: .2, hitOverlay: null });
+    actor.setState!('death');
+    actor.seek!(50);
+    expect(stage.snapshot()).toMatchObject({ motion: 'death', clip: 'Death', time: .5 });
+    actor.setState!('idle');
+    expect(stage.snapshot()).toMatchObject({ motion: 'idle', clip: 'Idle', time: 0, hitOverlay: null });
+    expect(actor.seek!(Number.NaN)).toBe(false);
+    expect(actor.setState!('unknown')).toBe(false);
+    actor.dispose();
+  });
+
+  it('reports a rejected death clip as the production frozen-pose fallback', async () => {
+    const assets = fixtureAssets(['Idle', 'Death']);
+    const original = assets.clipOf.bind(assets);
+    const incompatible = new THREE.AnimationClip('Death', 1, [
+      new THREE.VectorKeyframeTrack('Absent_Bone.position', [0, 1], [0, 0, 0, 0, -1, 0]),
+    ]);
+    assets.clipOf = (asset, name) => name === 'Death' ? incompatible : original(asset, name);
+    const stage = new ActorStage(assets, ENTITY);
+    await stage.build();
+    const actor = await actorModel(stage, 'fixture_creature');
+    expect(actor.states!.find(state => state.name === 'death')).toEqual({ name: 'death', clip: null, available: true, synthetic: true });
+    expect(actor.motion()).toMatchObject({ motion: 'idle', time: 0, hitOverlay: null });
     actor.dispose();
   });
 });
@@ -150,6 +193,8 @@ describe('devdocs actor crowd and draft', () => {
     expect(crowd.map(entity => stage.snapshot(entity.id)?.clip)).toEqual(['Walk', 'Walk', 'Walk']);
     actor.setState!('attack');
     expect(crowd.map(entity => stage.snapshot(entity.id)?.motion)).toEqual(['attack', 'attack', 'attack']);
+    actor.seek!(.4);
+    expect(crowd.map(entity => stage.snapshot(entity.id)?.time)).toEqual([.4, .4, .4]);
     const size = actor.bounds().getSize(new THREE.Vector3());
     expect(size.x).toBeGreaterThan(2.5);
     actor.dispose();

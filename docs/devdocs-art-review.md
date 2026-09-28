@@ -7,7 +7,7 @@ in devdocs. The lab remains for game integration and for interactions between as
 ## Goals
 
 1. Every creature body and every variant that wears it, on one screen, rendered as the game renders it:
-   presentation asset, scale, tint and motion states (idle, walk, run, attack, hit left/right, death).
+   presentation asset, scale, tint and six motion states (idle, walk, run, attack, hit, death).
 2. Every equipment set and every worn tier, on either body, in every player pose.
 3. A verdict (approved, needs polish, replace) and a note on the whole record or any aspect of it,
    stored in dev metadata so a queue can list what still needs work.
@@ -56,7 +56,7 @@ themselves. Container queries drop the list below 72rem and stack the inspector 
 ## Built (September 27, 2026)
 
 - **Art > Creatures** (`#/art/creatures[/<assetId|creatureId>]`): a contact sheet of every body (177), then a
-  focus page per body: the actor stage, states 1–8 (idle, walk, run, attack, hit, hit left/right, death;
+  focus page per body: the actor stage, states 1–6 (idle, walk, run, attack, hit, death;
   synthesised ones marked `*`), a variant filmstrip (`[`/`]`) with tinted per-definition thumbnails, and
   verdicts on the body, each state and each variant.
 - **Art > Outfits** (`#/art/outfits[/<setId>]`): the tier ladder (melee, magic, boss) with piece icons and

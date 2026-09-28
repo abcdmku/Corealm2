@@ -1,9 +1,10 @@
 import type * as THREE from 'three';
 import type { CharacterPose } from '../../../game/src/render/characterRig.js';
 import type { CreatureVariation } from '../../../game/src/content/creatureVariation.js';
+import type { EntityMotionSnapshot } from '../../../game/src/render/entityViews.js';
 
-/** What a creature can be shown doing. The game's motion vocabulary plus directional hits. */
-export const CREATURE_STATES = ['idle', 'walk', 'run', 'attack', 'hit', 'hitLeft', 'hitRight', 'death'] as const;
+/** What a creature can be shown doing. All impacts share the authored Hit state. */
+export const CREATURE_STATES = ['idle', 'walk', 'run', 'attack', 'hit', 'death'] as const;
 export type CreatureState = (typeof CREATURE_STATES)[number];
 
 export type ViewerSource =
@@ -47,6 +48,10 @@ export interface ViewerStateInfo {
 /** How the game dresses a creature definition's model. */
 export interface ViewerAppearance { creatureId: string; assetId: string; scale: number; tint: string | null }
 export interface ViewerSnapshot {
+  /** The production actor's actual selected clip, clock and overlay, for art review. */
+  motion?: EntityMotionSnapshot | null;
+  /** Current deformed bounds, distinct from the initial camera-fit size. */
+  currentBounds?: { min: number[]; max: number[] } | null;
   /** Every state this model supports, in display order. */
   states: ViewerStateInfo[];
   /** The state last set with `setState`, or the initial state. */
@@ -90,5 +95,7 @@ export interface ViewerModel {
   setState?(name: string): boolean;
   /** Per-frame hook for models the core does not drive with its own mixer. */
   update?(dt: number): void;
+  /** Sample the selected state through its production playback clock. */
+  seek?(seconds: number): boolean;
   dispose(): void;
 }
