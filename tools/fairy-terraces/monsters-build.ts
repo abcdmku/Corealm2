@@ -1,5 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { NodeIO } from '@gltf-transform/core';
@@ -10,8 +12,11 @@ import sharp from 'sharp';
 import { startServer } from '../animals/serve.mjs';
 import { deformedBounds } from '../creature-motion/validate-deformation.js';
 import { applyClip, duration, restorePose, storedPose } from '../creature-motion/pose.js';
+import { repairStudioFairy } from '../tripo-creatures/profiles/studio-fairy.js';
+import type { AssetEntry } from '../../game/src/render/assets.js';
 
 const output = 'test-results/fairy-terraces-assets/monsters';
+const git = promisify(execFile);
 await mkdir(`${output}/models`, { recursive: true });
 const sources = JSON.parse(await readFile('.asset-cache/fairy-terraces/unity/sources.json', 'utf8'));
 const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
@@ -34,7 +39,7 @@ for (const trial of [false, true]) for (const number of (trial ? ['10','11','14'
   const texture = textures.find((p:string)=>p.endsWith(`Monster${number}_Color02.png`)) ?? textures.find((p:string)=>p.endsWith(`Monster${number}_02.png`)) ?? textures[0];
   const prefix = '/' + pack.directory;
   specs.push({id, number, trial, model:`${prefix}/${model}`, texture:`${prefix}/${texture}`,
-    animationBase:!trial && Number(number)>=7 ? `/${output}/sources/Assets/Stylized3DMonster/Monster${number}/Anim` : undefined,
+    animationBase:!trial && Number(number)>=7 ? `${prefix}/Assets/Stylized3DMonster/Monster${number}/Anim` : undefined,
     source: { package:pack.package, archive:pack.archive, archiveSha256:pack.sha256, model, texture },
     pack:`pixelius-fairy-${trial ? 'trial-vol01' : number}`});
 }
@@ -84,6 +89,28 @@ try {
     const start=Date.now();
     const result = await page.evaluate(spec=>(window as any).convertFairyMonster(spec),spec);
     const doc = await io.readBinary(Buffer.from(result.base64,'base64'));
+    const donorPins: { id: string; sourceSha256: string; sourceGitBlob: string }[] = [];
+    const repair = result.requiredMotionRepair ? await repairStudioFairy(doc, {
+      assetId: spec.id, entry: manifest.assets.find((asset: AssetEntry) => asset.id === spec.id),
+      readAsset: async id => {
+        const asset = manifest.assets.find((entry: AssetEntry) => entry.id === id);
+        if (!asset) throw new Error(`Missing required studio donor ${id}`);
+        const file = path.join('game/public/assets', asset.file);
+        const sha256 = createHash('sha256').update(await readFile(file)).digest('hex');
+        if (asset.sha256 && asset.sha256 !== sha256) throw new Error(`Changed studio donor ${id}`);
+        const { stdout } = await git('git', ['rev-parse', `HEAD:game/public/assets/${asset.file}`]);
+        const sourceGitBlob = stdout.trim();
+        const pinned = await git('git', ['cat-file', 'blob', sourceGitBlob], { encoding: 'buffer', maxBuffer: 128 * 1024 * 1024 });
+        if (createHash('sha256').update(pinned.stdout).digest('hex') !== sha256) throw new Error(`Uncommitted studio donor ${id}`);
+        donorPins.push({ id, sourceSha256: sha256, sourceGitBlob });
+        return io.read(file);
+      },
+    }) : undefined;
+    for (const name of ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']) {
+      if (!doc.getRoot().listAnimations().some(clip => clip.getName() === name && duration(clip) > 0)) throw new Error(`${spec.id}: missing repaired ${name}`);
+    }
+    result.clips = doc.getRoot().listAnimations().map(clip => ({ name: clip.getName(), seconds: duration(clip), tracks: clip.listChannels().length }));
+    result.motionRepair = repair;
     await doc.transform(dedup(),prune(),resample({tolerance:1e-6}),textureCompress({encoder:sharp,targetFormat:'webp',resize:[1024,1024],quality:90}));
     const original=storedPose(doc), sampled:any={}; let triangles=0;
     for(const mesh of doc.getRoot().listMeshes())for(const p of mesh.listPrimitives())triangles+=(p.getIndices()?.getCount()??p.getAttribute('POSITION')!.getCount())/3;
@@ -101,8 +128,10 @@ try {
       animations:doc.getRoot().listAnimations().map(a=>a.getName()),materials:doc.getRoot().listMaterials().map(m=>m.getName()),
       ...(result.walk>0?{impliedWalkMps:result.walk}:{}),...(result.run>0?{impliedRunMps:result.run}:{}),
       walkClipSeconds:result.clips.find((c:any)=>c.name==='Walk').seconds,runClipSeconds:result.clips.find((c:any)=>c.name==='Run').seconds,
-      attackSeconds:result.clips.find((c:any)=>c.name==='Attack').seconds,contactNormalized:spec.trial?.5:.4,
-      sourceProvenance:{...spec.source,modifications:result.modifications},acceptance:{assetAudit:true,labAccepted:false,worldIntegrated:false}};
+      attackSeconds:result.clips.find((c:any)=>c.name==='Attack').seconds,contactNormalized:repair?.motion?.contactNormalized ?? .4,
+      sourceProvenance:{...spec.source,modifications:result.modifications},
+      ...(repair ? {groundY:repair.motion?.groundY,motionRepair:{...repair,donors:donorPins}} : {}),
+      acceptance:{assetAudit:true,labAccepted:false,worldIntegrated:false}};
     applyHoverMetadata(asset);
     await writeFile(`${output}/models/${spec.id}.glb`,bytes);
     await writeFile(`${output}/${spec.id}.audit.json`,JSON.stringify({asset,...result,base64:undefined,sampled},null,2)+'\n');

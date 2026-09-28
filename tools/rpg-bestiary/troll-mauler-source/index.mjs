@@ -6,12 +6,14 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {readSourceGlb} from '../humanoid-source/read-glb.mjs';
 const dir=path.dirname(fileURLToPath(import.meta.url));
 /** Complete original Troll Mauler. Texture embedding is delegated through explicit bindings. */
-export async function buildTrollMauler(id='troll_mauler',{includeExperimentalMotions=false}={}){
+export async function buildTrollMauler(id='troll_mauler'){
  const src=readSourceGlb(path.join(dir,'derived/troll-mauler.glb'));
  const provenance=JSON.parse(fs.readFileSync(path.join(dir,'derived/source.json'),'utf8'));
  provenance.legacyOcclusionLayers=JSON.parse(fs.readFileSync(path.join(dir,'legacy-material-slots.json'),'utf8'));
  provenance.legacyColorRecipe=JSON.parse(fs.readFileSync(path.join(dir,'derived/legacy-color-recipe.json'),'utf8'));
  const json=structuredClone(src.json);
+ // Preserve the production cloth's verified alpha cutout when rebuilding the archive source.
+ for(const material of json.materials??[])if(material.name==='cloth'){material.alphaMode='MASK';material.alphaCutoff=.5;}
  for(const material of json.materials??[]){delete material.normalTexture;delete material.occlusionTexture;delete material.emissiveTexture;if(material.pbrMetallicRoughness){delete material.pbrMetallicRoughness.baseColorTexture;delete material.pbrMetallicRoughness.metallicRoughnessTexture;}}
  delete json.images;delete json.textures;delete json.samplers;
  json.buffers=[{byteLength:src.bin.length,uri:`data:application/octet-stream;base64,${src.bin.toString('base64')}`}];
@@ -20,7 +22,7 @@ export async function buildTrollMauler(id='troll_mauler',{includeExperimentalMot
  const object=new THREE.Group();object.name=id;const floorRoot=new THREE.Group();floorRoot.name=`${id}_ground`;object.add(floorRoot);floorRoot.add(gltf.scene);object.updateMatrixWorld(true);
  const bounds=new THREE.Box3().setFromObject(object,true);gltf.scene.position.y-=bounds.min.y;object.updateMatrixWorld(true);
  const sourceIdle=gltf.animations.find(c=>c.name==='Idle');if(!sourceIdle)throw new Error('Pinned source Idle missing');
- const clips=includeExperimentalMotions?gltf.animations:[sourceIdle];
+ const clips=[sourceIdle];
  const floorCorrections={};
  for(const clip of clips){
   const mixer=new THREE.AnimationMixer(object),act=mixer.clipAction(clip);act.setLoop(THREE.LoopOnce,1);act.clampWhenFinished=true;act.play();
@@ -36,5 +38,5 @@ export async function buildTrollMauler(id='troll_mauler',{includeExperimentalMot
  const textureBindings=provenance.textureBindings.map(b=>({...b,...Object.fromEntries(Object.entries(b).filter(([k])=>k.endsWith('Path')).map(([k,v])=>[k,path.join(dir,'derived',path.basename(v))]))}));
  for(const binding of textureBindings){const composed=provenance.legacyColorRecipe.outputs.find(o=>o.materialName===binding.materialName);if(composed){binding.originalBaseColorPath=binding.baseColorPath;binding.baseColorPath=path.join(dir,'derived',composed.path);}}
  for(const b of textureBindings)if(!materialNames.has(b.materialName))throw new Error(`Missing material ${b.materialName}`);
- return {object,clips,meta:{family:'troll',heightM:bounds.max.y-bounds.min.y,retainedSourceVertices:vertices,triangles,textureBindings,provenance,nativeClips:provenance.nativeClips,floorCorrections,missingClips:includeExperimentalMotions?[]:['Walk','Run','Attack','Hit','HitLeft','HitRight','Death'],attackContactPhase:includeExperimentalMotions?.55:null,experimentalMotionBlocker:'Four-influence refit across92 poses limits body deviation to11.4mm; original cloth retains66.9mm worst deviation. Authored motions excluded by default pending visual/deformation/contact acceptance.',rig:'Original 33-bone Troll Mauler armature; original body, loincloth and eyes',acceptance:'CPU source candidate; authored motions remain experimental; no production visual or gameplay acceptance'}};
+ return {object,clips,meta:{family:'troll',heightM:bounds.max.y-bounds.min.y,retainedSourceVertices:vertices,triangles,textureBindings,provenance,nativeClips:provenance.nativeClips,floorCorrections,requiredMotionRepair:{profile:'studio',implementation:'tools/tripo-creatures/profiles/studio-troll.ts',missingStates:['Walk','Run','Attack','Hit','Death']},sourceWeightApproximation:'Original 33-bone rig and existing four-influence fit retained. Native Idle body deviation up to11.0mm and cloth up to31.6mm versus original Blender source; new motion requires devdocs deformation review.',rig:'Original 33-bone Troll Mauler armature; original body, loincloth and eyes',acceptance:'native-source-only-needs-studio-motion-repair-and-devdocs-review'}};
 }

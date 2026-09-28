@@ -38,7 +38,7 @@ function deriveMissing(object,idle,walk,roleBaseline=false) {
   const rootP=Array.from(idle.tracks.find(track=>track.name==='Bip001.position').createInterpolant().evaluate(0));
   const baseQ=new THREE.Quaternion().fromArray(rootQ);
   const clips=[run];
-  for(const [name,side] of [['Hit',0],['HitLeft',1],['HitRight',-1]]) {
+  for(const [name,side] of [['Hit',0]]) {
     const duration=.58,clip=staticPoseClip(idle,name,duration),times=[0,.1,.27,.58],envelope=[0,1,.45,0];
     // Only the temporary role IK input retains the old lean. Its arm curves
     // must be solved against the same pose as the frozen role candidates.
@@ -57,8 +57,10 @@ function floorCorrect(object,ground,clips) {
   const mixer=new THREE.AnimationMixer(object),base=ground.position.clone();
   for(const clip of clips) {
     restore();const action=mixer.clipAction(clip);action.setLoop(THREE.LoopOnce,1);action.clampWhenFinished=true;action.play();
-    const count=Math.ceil(clip.duration*120),times=Array.from(new Set([...Array.from({length:count+1},(_,i)=>i/count*clip.duration),...clip.tracks.flatMap(track=>Array.from(track.times))])).sort((a,b)=>a-b),values=[];
-    for(const time of times){mixer.setTime(time);object.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(object,true);values.push(base.x,base.y+Math.max(0,-box.min.y)+.0005,base.z);}
+    // Distinct doubles can encode to the same glTF float. Deduplicate the actual
+    // serialized times and reset a clamped action before sampling its last pose.
+    const count=Math.ceil(clip.duration*120),times=Array.from(new Set([...Array.from({length:count+1},(_,i)=>i/count*clip.duration),...clip.tracks.flatMap(track=>Array.from(track.times))].map(Math.fround))).sort((a,b)=>a-b),values=[];
+    for(const time of times){restore();action.reset();action.setLoop(THREE.LoopOnce,1);action.clampWhenFinished=true;action.play();mixer.setTime(Math.min(time,clip.duration));object.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(object,true);values.push(base.x,base.y+Math.max(0,-box.min.y)+.0005,base.z);}
     action.stop();mixer.uncacheClip(clip);clip.tracks.push(new THREE.VectorKeyframeTrack('SkeletonGround.position',times,values));
   }
   mixer.stopAllAction();restore();object.updateMatrixWorld(true);
@@ -94,7 +96,7 @@ export function buildSkeletonSource(id='skeleton_soldier') {
   if(id!=='skeleton_soldier'){
     const variant=buildSkeletonVariant(object,source,id==='skeleton_archer'?'archer':'mage',clips);clips=variant.clips;variantMeta=variant.meta;
     const roleIdle=clips.find(clip=>clip.name==='Idle');
-    for(const [name,side] of [['Hit',0],['HitLeft',1],['HitRight',-1]]) {
+    for(const [name,side] of [['Hit',0]]) {
       const clip=clips.find(clip=>clip.name===name);
       for(const track of jointRecoil(object,roleIdle,side,clip))replaceTrack(clip,track);
     }
@@ -110,7 +112,7 @@ export function buildSkeletonSource(id='skeleton_soldier') {
     attackContactStatus:'Provisional contact phase pending production review of original Attack take',
     textureBindings:[{materialName:'DS_Skeleton_standard',baseColorPath:path.join(materials,'DemoSkeleton.png'),flipY:true},{materialName:'DS_equipment_standard',baseColorPath:path.join(materials,'DemoEquipment.png'),flipY:true}],
     provenance:{publisher:'Polygon Blacksmith',package:'Dungeon Skeletons Demo.unitypackage',sha256:PACKAGE_HASH,license:'Standard Unity Asset Store EULA; local entitlement cache',mesh:'models/DungeonSkeleton_demo.FBX',textureNotes:'Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.'},
-    animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:HIT_PROVENANCE,HitLeft:HIT_PROVENANCE,HitRight:HIT_PROVENANCE,Death:'PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo'},
+    animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:HIT_PROVENANCE,Death:'PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo'},
     acceptance:'Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.',...variantMeta,...(unhorned?{helmetModification:unhorned}:{})};
   if(id!=='skeleton_soldier'){
     for(const name of ['Idle','Walk','Run'])meta.animationProvenance[name]+='; Corealm-derived role arm poses over source rig.';

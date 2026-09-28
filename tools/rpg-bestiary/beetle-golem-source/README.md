@@ -1,6 +1,6 @@
 # Beetle Golem source adapter
 
-`beetle.mjs` exports synchronous `buildBeetleGolem(id = 'stone_golem')`, returning `{object, clips, meta}`. This is the complete original body, with no grafts, recolor variants or added body parts.
+`beetle.mjs` exports synchronous `buildBeetleGolem(id = 'beetle_golem_source')`, returning `{object, clips, meta}`. This is the complete original body, with no grafts, recolor variants or added body parts. The expansion selector `beetle_golem_source` emits an inactive donor-only candidate, `creature_beetle_golem_source`; it must not replace an active redesigned descendant. The retired `beetle_golem` and `stone_golem` source destinations are rejected. The retained Mossbound boss derives from this archive but has its own authored design.
 
 Source: [Beetle Golem Animated](https://opengameart.org/content/beetle-golem-animated). Model and original rig by killyoverdrive; animation by Dm3d. License CC BY-SA 3.0. The original model page is https://opengameart.org/content/beetle-golem-0. The adapted creature asset retains CC BY-SA 3.0, and the returned metadata includes full attribution and the license URL.
 
@@ -11,13 +11,13 @@ Native source facts:
 - One creature mesh with 312 control vertices, 620 triangles and 29 bones. The presentation floor, lights and camera are excluded.
 - Two original packed 1024-square PNGs: color and tangent-space normal. Exact packed bytes are retained in `derived/original-map-*.png`, with hashes in the source inventory. Image rows are flipped once for glTF while retaining original UVs.
 - Eleven separate native actions retained in `derived/source.json`, including both attacks, both hurt reactions, normal/heavy idle, walk, death and sleep actions. The old combined animation timeline remains in the untouched original blend.
-- Runtime clips map Idle to Idle_Normal, Walk to Walk, Attack to Attack1, Hit/HitLeft to Hurt1, HitRight to Hurt2 and Death to Death. Run derives from faster Walk because no native Run exists. All actions are sampled at 48 Hz with their original 24 fps timing.
+- Runtime clips map Idle to Idle_Normal, Walk to Walk, Attack to Attack1, Hit to Hurt1 and Death to Death. The unused Hurt2 take remains in the source archive. Run derives from faster Walk because no native Run exists. All actions are sampled at 48 Hz with their original 24 fps timing.
 
 The helper normalizes height to 2.55 m and adds sampled floor correction. It reconstructs the source rig from original inverse binds and local pose matrices. Comparing the full native-weight reconstruction against Blender's evaluated original mesh over 33,480 vertex samples gives a maximum error of 0.000000982 m. This verifies the coordinate, bind and pose conversion separately from the runtime weight approximation.
 
 The source has up to eleven positive influences on a vertex. The current renderer supports four. Fifty-seven control vertices require reduction. A fit using four of their existing source influences gives 1.38 mm RMS and 21.29 mm maximum position error over 491,040 checked vertex samples. This limitation is recorded in metadata; the original weights remain in source JSON for audit. No replacement joints are created.
 
-All eight runtime clips pass whole-geometry CPU floor checks. Minimum sampled clearance is 2.79 mm. Native aerial motion is retained. Attack contact timing remains provisional.
+The six runtime clips pass whole-geometry CPU floor checks. Minimum sampled clearance is 2.79 mm. Native aerial motion is retained. Attack contact timing remains provisional.
 
 The source is deliberately low polygon and relies on its original normal map and baked color detail. Modern Blender loads its legacy material without shader nodes, so the helper explicitly maps the original color and normal channels and uses roughness 0.55 / metalness 0. No roughness, metallic or emissive maps were present. Browser material appearance, normal orientation, gait and attack contact still need the root's production lab review.
 

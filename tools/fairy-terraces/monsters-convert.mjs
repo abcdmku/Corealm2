@@ -14,41 +14,6 @@ function rootJoint(root) {
   })();
 }
 
-/** The free-trial package has only Idle and Walk. These are new, explicitly authored reactions. */
-function trialCombat(idle, root, pivot, name) {
-  const duration = { Attack: 1.1, Hit: .48, Death: 1.5 }[name];
-  const frames = Math.ceil(duration * 30), tracks = [];
-  const bones = [];
-  root.traverse(n => { if (n.isBone) bones.push(n); });
-  const torso = bones.filter(n => /spine|chest|neck|head|arm|hand/i.test(n.name));
-  const choose = torso.length ? torso : [pivot];
-  for (const track of idle.tracks) {
-    const width = track.getValueSize();
-    const values = [], times = [];
-    const initial = Array.from(track.values.slice(0, width));
-    const nodeName = track.name.split('.')[0];
-    const node = root.getObjectByName(nodeName);
-    for (let i = 0; i <= frames; i++) {
-      const phase = i / frames;
-      const envelope = name === 'Death' ? phase * phase * (3 - 2 * phase)
-        : Math.sin(Math.PI * phase) ** 2;
-      const value = initial.slice();
-      if (track.name.endsWith('.quaternion') && choose.includes(node)) {
-        const factor = /arm|hand/i.test(nodeName) ? 1.2 : .45;
-        const turn = name === 'Attack' ? factor : name === 'Hit' ? -.4 : .95;
-        new THREE.Quaternion().fromArray(value).multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), envelope * turn)).toArray(value);
-      }
-      if (track.name === `${pivot.name}.quaternion` && name === 'Death') {
-        new THREE.Quaternion().fromArray(value).multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), envelope * 1.3)).toArray(value);
-      }
-      times.push(phase * duration); values.push(...value);
-    }
-    const Type = track.name.endsWith('.quaternion') ? THREE.QuaternionKeyframeTrack : THREE.VectorKeyframeTrack;
-    tracks.push(new Type(track.name, times, values).optimize());
-  }
-  return new THREE.AnimationClip(name, duration, tracks);
-}
-
 function sealFloor(object, clips, pivot) {
   const saved = [];
   object.traverse(node => saved.push([node, node.position.clone(), node.quaternion.clone(), node.scale.clone()]));
@@ -63,8 +28,9 @@ function sealFloor(object, clips, pivot) {
     action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
     const frames = Math.ceil(clip.duration * 60); let maxLift = 0;
     for (let i = 0; i <= frames; i++) {
-      const time = clip.duration * i / frames;
-      mixer.setTime(time); object.updateMatrixWorld(true);
+      const time = Math.fround(clip.duration * i / frames);
+      restore(); action.reset(); action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
+      mixer.setTime(Math.min(time, clip.duration)); object.updateMatrixWorld(true);
       const minimum = new THREE.Box3().setFromObject(object, true).min.y;
       const lift = Math.max(0, .016 - minimum);
       const local = new THREE.Vector3().fromArray(interpolate.evaluate(time));
@@ -105,7 +71,8 @@ window.convertFairyMonster = async function(spec) {
   } else if (spec.trial) {
     clips = ['Idle', 'Walk'].map(name => cleanClip(chooseTake(name), name, root, pivot));
     const run = clips[1].clone(); run.name = 'Run'; clips.push(run);
-    for (const name of ['Attack', 'Hit', 'Death']) clips.push(trialCombat(clips[0], root, pivot, name));
+    // The trial archive has no combat. The Node importer requires the studio repair
+    // profile after export; never synthesize rotations on unrelated local axes here.
   } else clips = verbs.map(([name, suffix]) => cleanClip(chooseTake(suffix), name, root, pivot));
   // FBX stores displacement on the wrapper root as well as the pelvis on some bodies.
   // Simulation owns travel, so neither horizontal channel may move the drawn root away.
@@ -133,7 +100,7 @@ window.convertFairyMonster = async function(spec) {
   const run = !hovering && feet.length ? measureStance(object, clips.find(c => c.name === 'Run'), feet) : null;
   const bytes = await new GLTFExporter().parseAsync(object, {binary:true, animations:clips, onlyVisible:true, maxTextureSize:1024});
   const array = new Uint8Array(bytes); let raw = ''; for(let i=0;i<array.length;i+=32768)raw+=String.fromCharCode(...array.subarray(i,i+32768));
-  return { base64: btoa(raw), sourceNames, bounds: {min:box.min.toArray(),max:box.max.toArray()}, rootJoint:pivot.name, groundCorrections,
+  return { base64: btoa(raw), sourceNames, requiredMotionRepair: spec.trial ? 'studio-fairy' : null, bounds: {min:box.min.toArray(),max:box.max.toArray()}, rootJoint:pivot.name, groundCorrections,
     walk:walk?.mps ?? null, run:run?.mps ?? null, gaitFootBones:hovering ? [] : feet, clips:clips.map(c=>({name:c.name,seconds:c.duration,tracks:c.tracks.length})),
-    modifications:spec.trial ? 'Original body, atlas, Idle and Walk. Run reuses the source Walk. New skeleton attack, recoil and collapse poses authored because this free-trial package has no combat clips. Uniform body size and in-place root travel. Source materials use albedo with scalar roughness; the source packages contain no normal maps.' : 'Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps.' };
+    modifications:spec.trial ? 'Original body, atlas, Idle and Walk. Run reuses the source Walk. Combat requires the anatomy-specific studio repair after native export because this free-trial package has no combat clips. Uniform body size and in-place root travel. Source materials use albedo with scalar roughness; the source packages contain no normal maps.' : 'Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps.' };
 };

@@ -134,7 +134,10 @@ function roleAnimations(object,source,role,clips,equipment,bindHandQ) {
       for(const name of changed)rotations[name].push(...source.getObjectByName(name).quaternion.toArray());
       if(role==='archer') {
         const draw=attack?interpolate(phase,[[0,0],[.2,.24],[.47,1],[.5,1],[.515,0],[1,0]])[0]:0,nock=v(0,0,-.08-.33*draw);
-        equipment.strings.forEach((node,j)=>{const anchor=v(0,j===0?-.52:.52,-.08),delta=anchor.clone().sub(nock);node.position.copy(anchor).add(nock).multiplyScalar(.5);node.quaternion.setFromUnitVectors(v(0,1,0),delta.clone().normalize());node.scale.y=delta.length();record(node,'position');record(node,'quaternion');record(node,'scale');});
+        equipment.strings.forEach((node,j)=>{const anchor=v(0,j===0?-.52:.52,-.08),delta=anchor.clone().sub(nock);node.position.copy(anchor).add(nock).multiplyScalar(.5);
+          // Every anchor and nock lies in the bow's YZ plane. A fixed X-axis bend
+          // keeps the lower string continuous when its direction reaches -Y.
+          node.quaternion.setFromAxisAngle(v(1,0,0),Math.atan2(delta.z,delta.y));node.scale.y=delta.length();record(node,'position');record(node,'quaternion');record(node,'scale');});
         equipment.arrow.position.copy(nock);equipment.arrow.scale.setScalar(attack&&phase<.5?1:0);record(equipment.arrow,'position');record(equipment.arrow,'scale');
         equipment.release.position.copy(nock);record(equipment.release,'position');
       } else {equipment.crystal.scale.setScalar(attack?1+.32*Math.sin(Math.PI*THREE.MathUtils.clamp(phase/.56,0,1)):1);record(equipment.crystal,'scale');}
@@ -142,6 +145,18 @@ function roleAnimations(object,source,role,clips,equipment,bindHandQ) {
     const replaced=new Set([...changed.map(name=>name+'.quaternion'),...extra.keys()]);clip.tracks=clip.tracks.filter(track=>!replaced.has(track.name));
     for(const name of changed)clip.tracks.push(new THREE.QuaternionKeyframeTrack(name+'.quaternion',times,rotations[name]));
     for(const [name,values] of extra)clip.tracks.push(name.endsWith('.quaternion')?new THREE.QuaternionKeyframeTrack(name,times,values):new THREE.VectorKeyframeTrack(name,times,values));
+    if(role==='archer') {
+      // Reconstruct strings from the interpolated nock at a finer cadence. A fast
+      // release otherwise interpolates length and angle along different curves.
+      const nock=clip.tracks.find(track=>track.name===equipment.arrow.name+'.position').createInterpolant();
+      const count=Math.ceil(clip.duration*240),dense=[...new Set([...times,...Array.from({length:count+1},(_,i)=>clip.duration*i/count)].map(Math.fround))].sort((a,b)=>a-b);
+      for(const [j,node]of equipment.strings.entries()) {
+        const positions=[],quaternions=[],scales=[],anchor=v(0,j===0?-.52:.52,-.08);
+        for(const time of dense){const point=v().fromArray(nock.evaluate(time)),delta=anchor.clone().sub(point);positions.push(...anchor.clone().add(point).multiplyScalar(.5).toArray());quaternions.push(...new THREE.Quaternion().setFromAxisAngle(v(1,0,0),Math.atan2(delta.z,delta.y)).toArray());scales.push(1,delta.length(),1);}
+        clip.tracks=clip.tracks.filter(track=>!track.name.startsWith(node.name+'.'));
+        clip.tracks.push(new THREE.VectorKeyframeTrack(node.name+'.position',dense,positions),new THREE.QuaternionKeyframeTrack(node.name+'.quaternion',dense,quaternions),new THREE.VectorKeyframeTrack(node.name+'.scale',dense,scales));
+      }
+    }
     restore();object.updateMatrixWorld(true);return clip;
   });
 }

@@ -2,7 +2,11 @@
 
 `game/src/content/rpgBestiary.ts` currently exposes 17 named creatures across seven families: the retained goblin, skeleton, zombie, wraith and golem families, plus the user-approved whole-source spider and fantasy bee. Historical rejected rows remain filtered out. The active rows carry region, habitat, stats, existing elemental drops, marks, respawn, attack intent, provenance and measured neutral bounds. `rpgBestiaryLevel(id)` delegates to the game's stat-derived level formula.
 
-The user's rejection of animal-head humanoids and horned/demonic designs overrides historical source7 reviews. Those assets are withdrawn. Current work adapts complete freely licensed or entitled source bodies and rigs. The exact spider and repaired fantasy bee passed production lifecycle checks and were promoted by root; retained15 still require current gallery and family lifecycle acceptance. `STATUS.md` records the current evidence. `export-expansion.mjs` stages complete forest and earth sources separately without adding them to active content or the public manifest.
+The user's rejection of animal-head humanoids and horned/demonic designs overrides historical source7 reviews. Those assets are withdrawn. Current work adapts complete freely licensed or entitled source bodies and rigs. The exact spider and repaired fantasy bee passed production lifecycle checks and were promoted by root; retained15 still require current gallery and family lifecycle acceptance. `STATUS.md` records the current evidence. `export-expansion.mjs` stages source candidates without changing active content or the public manifest.
+
+The retained gavlig studio golem uses expansion selector `kiln_marrow`: `node tools/rpg-bestiary/export-expansion.mjs kiln_marrow --out test-results/creature-audit/studio-animals/source-integration`. Its native source takes pass through the required studio motion repair before export. The old `lava_golem` selector is rejected; the active asset with that name is a separate Tripo creature.
+
+Raw Earth and Beetle archives use donor-only selectors `earth_elemental_source` and `beetle_golem_source`, producing distinct inactive candidate IDs. Their retained active descendants have authored designs and must not be replaced by raw archive exports. The colliding `shale_elemental` and `beetle_golem` selectors are retired. The original Forest Monster has no retained active body, so `mossback_sentinel` is retired from this exporter; its source module remains available for explicit donor study.
 
 ```powershell
 python tools/rpg-bestiary/source-inventory.py

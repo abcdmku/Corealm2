@@ -2,7 +2,7 @@
  * Source FBX catalogue. Clip names are runtime contracts: Idle, Walk, Run, Attack, Death.
  * Every source walk and run remains distinct. Multi-motion takes use explicit Unity frame ranges.
  * Missing attack takes are recorded below; tools/rebuild-creature-motion.ts replaces them with
- * articulated species clips in a staged review build and supplies Hit/HitLeft/HitRight for combat.
+ * articulated species clips in a staged review build and supplies one Hit for combat.
  * The converter never layers root lunges over these source motions.
  */
 export const ANIMALS = [

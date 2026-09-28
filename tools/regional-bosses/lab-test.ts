@@ -41,18 +41,15 @@ try {
       const state = gallery.getState(), shaders = (window as any).__renderDistanceLab?.shaders();
       return state.ready && d.getDrawnBounds(state.entityIds[0]) && (!shaders || (!shaders.waiting && !shaders.queued && !shaders.compiling));
     }, undefined, { timeout: 15_000 });
-    const reactions = hitOnly && (id === 'tempest_roc' || id === 'tideworn') ? ['hit', 'hit-right'] : ['hit'];
-    for (const label of (orbitOnly ? [] : hitOnly ? reactions : ['idle', 'walk', 'run', 'attack', 'hit'])) {
-      const motion = label === 'hit-right' ? 'hit' : label;
-      const impactSide = label === 'hit-right' ? 'right' : 'front';
+    for (const motion of (orbitOnly ? [] : hitOnly ? ['hit'] : ['idle', 'walk', 'run', 'attack', 'hit'])) {
+      const impactSide = 'front';
       const entry = catalog.assets.find((a: any) => a.id === `creature_boss_${id}`);
-      const clip = entry.metadata.redesign.measurement.clips.find((clip: any) => clip.name.toLowerCase() === (label === 'hit-right' ? 'hitright' : motion));
+      const clip = entry.metadata.redesign.measurement.clips.find((clip: any) => clip.name.toLowerCase() === motion);
       const duration = clip.duration as number;
       // Full-cycle Attack sampling already reaches its end. Allow the production action
       // state to settle before checking Hit, rather than recording its protected Attack.
       if (motion === 'hit' && !hitOnly) await page.waitForTimeout(150);
-      if (impactSide === 'right') await page.evaluate(() => (window as any).__creatureGallery.play('hit', 'right'));
-      else await page.locator(`#creature-gallery-${motion}`).click();
+      await page.locator(`#creature-gallery-${motion}`).click();
       await page.waitForTimeout(35);
       const initialMotion = await page.evaluate(() => {
         const g = (window as any).__creatureGallery;
@@ -78,10 +75,10 @@ try {
         assert(Math.abs(sample.camera.target.x - sample.player.x) < .1 && Math.abs(sample.camera.target.z - sample.player.z) < .1, `${id} player-follow focus`);
         const clearance = sample.bounds.min[1] - sample.ground;
         samples.push({ ...sample, clearance });
-        if (!(clearance > -.10 && clearance < .15)) await page.screenshot({ path: `${out}/${id}-${label}-failure.png` });
+        if (!(clearance > -.10 && clearance < .15)) await page.screenshot({ path: `${out}/${id}-${motion}-failure.png` });
         assert(clearance > -.10 && clearance < .15, `${id} ${motion} floor clearance ${clearance}`);
         assert(sample.drawn.height > 1 && sample.drawn.height < 7, `${id} ${motion} collapsed/exploded rig`);
-        if (i === 1 || (motion === 'attack' && (i === 3 || i === 6))) await page.screenshot({ path: `${out}/${id}-${label}-${i}.png` });
+        if (i === 1 || (motion === 'attack' && (i === 3 || i === 6))) await page.screenshot({ path: `${out}/${id}-${motion}-${i}.png` });
       }
       assert(new Set(samples.map(s => JSON.stringify(s.motion))).size > 1, `${id} ${motion} frozen`);
       const observedMs = samples.at(-1)!.capturedAtMs - samples[0].capturedAtMs;
@@ -94,8 +91,7 @@ try {
       if (motion === 'hit') {
         const overlays = samples.map(s => s.motion.hitOverlay).filter(Boolean);
         assert(overlays.length >= 3, `${id} did not enter a sustained hit reaction`);
-        assert(overlays.every(o => o.active && /^Hit/.test(o.clip) && o.bones.length > 0 && o.maskStatus === 'native-masked'), `${id} native hit bones missing`);
-        if (impactSide === 'right') assert(overlays.every(o => o.clip.startsWith('HitRight')), `${id} right-side reaction not selected`);
+        assert(overlays.every(o => o.active && o.clip === 'Hit_MaskedOverlay' && o.bones.length > 0 && o.maskStatus === 'native-masked'), `${id} native Hit bones missing`);
         assert(overlays.some(o => o.weight > .5) && overlays.some(o => o.time > o.duration * .6), `${id} hit progression missing`);
         assert.equal(samples.at(-1)!.motion.hitOverlay, null, `${id} hit reaction did not finish`);
       }

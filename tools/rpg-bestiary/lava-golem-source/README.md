@@ -1,10 +1,12 @@
-# Lava Golem source candidate
+# Kiln Marrow studio source
 
-`lava-golem.mjs` exports synchronous `buildLavaGolem(id = 'lava_golem')`, returning `{object, clips, meta}`.
+`lava-golem.mjs` exports synchronous `buildLavaGolem(id = 'kiln_marrow')`, returning `{object, clips, meta}`. The archive family remains `lava_golem`; the emitted studio body is `creature_kiln_marrow`. The retired `lava_golem` selector is rejected because that active asset now uses a separate Tripo body.
+
+Stage the complete candidate with `node tools/rpg-bestiary/export-expansion.mjs kiln_marrow --out test-results/creature-audit/studio-animals/source-integration`. This leaves the production manifest unchanged.
 
 The complete authored body has 5,502 triangles and a 71-bone rig. No anatomy, horns, grafts or added body parts were introduced. Uniform scale 1.5 gives about 2.8 meters of height. The original source has three native actions at 60 fps: `idle` frames 0–300, `walk` frames 0–100 and `smash` frames 0–120.
 
-Eight output clips include those native Idle, Walk and Attack takes. Run is a 1.45-times Walk derivative. Hit, HitLeft and HitRight use the native idle pose with authored spine recoil. Death is an explicitly authored forward collapse with a spine curl. The source contains no native run, hit or death animations. Attack contact phase 0.52 remains provisional until production review.
+The source factory returns only native Idle, Walk and Attack, with a required motion repair marker. The exporter consumes that marker through `tools/tripo-creatures/profiles/studio-animals.ts`, adapting the genuine studio `fantasy_monster_02` Run, Hit and Death takes to the retained rig. Detached ankle controls follow their corresponding shin endpoints, and Death holds its terminal pose. The resulting candidate has six states: Idle, Walk, Run, Attack, Hit and Death. Attack contact phase 0.52 remains provisional until production review.
 
 ## Source and materials
 
@@ -18,6 +20,6 @@ The author's glow PNG is extracted directly from its original packed bytes. `tex
 
 ## Validation
 
-Blender runs in background mode with automatic source scripts disabled. It bakes evaluated constraints and retains four normalized influences where the source has more. CPU validation samples all eight final clips at 49 points each and includes the whole mesh. The lowest floor is above 0.00267 meters; the authored death reduces height from 2.82 to 1.28 meters. Reports are under `test-results/lava-golem-source/`.
+Blender runs in background mode with automatic source scripts disabled. It bakes evaluated constraints and retains four normalized influences where the source has more. The studio repair preserves mesh data, inverse binds and native Idle, Walk and Attack samples. Contact speeds are measured from the repaired rig through the canonical contact sampler. CPU validation checks finite transforms, deformation, contact and held terminal poses; these checks do not establish visual acceptance.
 
-Official static preview inspection found a hunched rock biped with an integrated blunt face, slab shoulders, stone hands/feet and glowing fissures. No horned, demonic or animal-head motif was present. No production 3D browser or GPU was used. Material appearance, gait, attack contact and authored death still require parent browser acceptance.
+Review every resulting state and body in the devdocs Art workspace through production rendering, then record the screenshot verdict before promotion. Current disposable evidence lives under `test-results/creature-audit/`.

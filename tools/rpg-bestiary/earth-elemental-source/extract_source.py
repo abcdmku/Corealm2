@@ -1,6 +1,7 @@
 """Extract original FBX 6100 with isolated ufbx wheel, keeping native wrapper references alive."""
 import sys,json,re,hashlib,math
 from pathlib import Path
+from PIL import Image
 sys.path.insert(0,'test-results/earth-elemental-source/python-runtime')
 import ufbx
 SRC=Path('test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1')
@@ -44,5 +45,10 @@ for name,take,first,last in ranges:
  result['clips'].append({'name':name,'take':take,'firstFrame':float(first),'lastFrame':float(last),'fps':24,'times':times,'tracks':tracks})
 result['weightReduction']={'sourceMaximum':8,'runtimeMaximum':4,'maxDiscardedFraction':maxLoss,'affectedControlVertices':lostVertices}
 result['sourceFiles']=[{'file':str(p).replace('\\','/'),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in [SRC/'earth elemental.fbx',SRC/'earth elemental.fbx.meta',SRC/'textures/low poly text.png',SRC/'textures/low poly normal.png']]
+# FBX UVs use bottom-origin V. Convert rows once during explicit extraction;
+# subsequent model exports consume these files without the original cache.
+for original,converted in [('low poly text.png','source-color-gltf.png'),('low poly normal.png','source-normal-gltf.png')]:
+ with Image.open(SRC/'textures'/original) as image:
+  image.transpose(Image.Transpose.FLIP_TOP_BOTTOM).save(OUT/converted)
 (OUT/'source.json').write_text(json.dumps(result,separators=(',',':')))
 print(json.dumps({'nodes':len(nodes),'triangles':len(result['meshes'][0]['positions'])//9,'clips':[x['name'] for x in result['clips']],'weights':result['weightReduction']}),flush=True)
