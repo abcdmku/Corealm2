@@ -38,10 +38,19 @@ export interface ContentAssetIndex {
   files: Readonly<Record<ContentAssetPath, ContentAssetEntry>>;
 }
 
+/**
+ * Models a server adds: extra `assets/manifest.json` entries, stored as this one file. A client's and
+ * the server's asset registry merge it over the host manifest by id (an entry here wins), and a
+ * publish accepts its ids. Entries carry the same measurements the build writes (size, bounds,
+ * groundY, animations, materials, clip timings), measured when the model is uploaded.
+ */
+export const CONTENT_MANIFEST_OVERLAY = "assets/manifest.overlay.json";
+export interface ContentManifestOverlay { assets: readonly import("../render/assets.js").AssetEntry[] }
+
 /** Base64 file contents by path. */
 export interface PutContentAssets { files: Record<ContentAssetPath, string> }
 
 /** Where a server-authored file may live, and what it may be. */
 // Audio lives at the public root (`audio/...`) in the base, everything else under `assets/`.
 // A segment never starts with a dot, so `.` and `..` cannot appear.
-export const CONTENT_ASSET_PATH = /^(?:assets\/(?:skins|icons|models|textures|thumbnails|vfx)|audio)\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:png|jpg|jpeg|webp|glb|ogg|mp3|wav|json)$/;
+export const CONTENT_ASSET_PATH = /^(?:assets\/manifest\.overlay\.json$|(?:assets\/(?:skins|icons|models|textures|thumbnails|vfx)|audio)\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:png|jpg|jpeg|webp|glb|ogg|mp3|wav|json)$)/;

@@ -37,18 +37,30 @@ export interface SaveSkinRequest {
 }
 export interface SaveSkinResponse { skin: CreatureSkin; revision: string }
 
+export type ImagegenKind = "skin" | "icon";
+
 export interface ImagegenRequest {
+  /**
+   * `skin` repaints a creature model's albedo maps (`references` required). `icon` paints an item's
+   * inventory art following docs/item-icons.md (`itemId` required; `references` optional: the
+   * current icon or concept art). Default `skin`.
+   */
+  kind?: ImagegenKind;
+  itemId?: string;
+  /** The model for a skin; for an icon, the item's model if it has one, else "". */
   assetId: string;
   /** Name for the resulting skin. */
   name: string;
   prompt: string;
-  /** The current albedo maps to repaint, material name -> PNG. */
+  /** For a skin: the current albedo maps to repaint, material name -> PNG. For an icon: reference images by any name. */
   references: Record<string, PngBase64>;
 }
 
 export type ImagegenStatus = "queued" | "running" | "done" | "failed";
 export interface ImagegenJob {
   id: string;
+  kind: ImagegenKind;
+  itemId?: string;
   assetId: string;
   name: string;
   prompt: string;
@@ -59,6 +71,8 @@ export interface ImagegenJob {
   finishedAt?: string;
   /** Set when done: the saved skin. */
   skinId?: string;
+  /** Set when done: every file written, by public path (skin maps, or the 256 master and 48 icon). */
+  outputs?: string[];
   error?: string;
   /** The last lines of the generator's output, for a failed or slow job. */
   log?: string;

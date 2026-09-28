@@ -234,7 +234,7 @@ export function createImagegenService(options: ImagegenOptions = {}): ImagegenSe
       const created = new Date();
       const id = jobId(created);
       const files = Object.fromEntries(materialFileNames(materials));
-      const job: StoredJob = { id, assetId: request.assetId!, name: request.name.trim(), prompt: request.prompt, materials, status: "queued", createdAt: created.toISOString(), files, pid: process.pid };
+      const job: StoredJob = { id, assetId: request.assetId!, name: request.name.trim(), prompt: request.prompt, kind: "skin", materials, status: "queued", createdAt: created.toISOString(), files, pid: process.pid };
       await mkdir(dir(id), { recursive: true });
       await Promise.all(materials.map((material, index) => writeFile(path.join(dir(id), `reference-${files[material]}.png`), references[index]!)));
       await writeFile(path.join(dir(id), "prompt.txt"), `${request.prompt}\n`);
