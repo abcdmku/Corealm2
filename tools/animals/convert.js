@@ -292,71 +292,47 @@ function trackTargets(clip) {
 /** Clips that play on LoopRepeat, and therefore have to join back to their own first frame. */
 const LOOPING_CLIPS = new Set(["Idle", "Walk", "Run"]);
 
-/** Angle between two quaternions, in degrees, sign-insensitive. */
+/** Shortest angle in radians, independent of quaternion sign or rounding in its length. */
 function quatAngle(v, i, j) {
+  const length = Math.hypot(v[i], v[i + 1], v[i + 2], v[i + 3])
+    * Math.hypot(v[j], v[j + 1], v[j + 2], v[j + 3]);
   const dot = Math.abs(v[i] * v[j] + v[i + 1] * v[j + 1] + v[i + 2] * v[j + 2] + v[i + 3] * v[j + 3]);
-  return (2 * Math.acos(Math.min(1, dot)) * 180) / Math.PI;
+  return 2 * Math.acos(Math.min(1, dot / length));
 }
 
 /**
- * Makes a looping clip end on the pose it starts on, so the repeat is invisible.
- *
- * A cycle authored in Unity closes because the artist made the last frame return to the first. The
- * ranges we cut with do not always preserve that: an `_exp` take packs several motions end to end
- * and its recorded walk range stops at the last DISTINCT frame, not at the repeat of the first. The
- * mixer then plays the closing pose and jumps straight to the opening one in a single display
- * frame. Measured on the shipped rigs: the deer walk crosses 5 degrees in that one frame against a
- * 1 degree per frame cycle, and the frog 12 against 2. That reads as the legs snapping mid-stride,
- * once per cycle, which is exactly the report.
- *
- * The repair is to append the FIRST keyframe of every track back onto the end. The wrap then joins
- * a pose to itself and is exact by construction, and the seam becomes ordinary interpolated motion
- * instead of a teleport.
- *
- * How much time that seam gets is measured, not guessed. The gap is divided by the clip's own
- * median per-frame motion to say how many frames' worth of movement it represents, and it is given
- * that many frames to cross so the limb keeps the speed it had. Capped at four frames because
- * beyond that the clip was never a cycle and stretching the seam only hides it, and skipped
- * entirely under 1.5 frames, where the cycle already closes to within its own frame rate.
- *
- * Returns whether it changed anything, so the build log can say which clips needed it.
+ * Append the opening pose without changing any native keys. A cut range can end before the source
+ * returns to its first pose; giving that return one frame made the frog's slow limbs snap.
+ * Each track gets enough time to close at no more than its fastest native interval speed. Actual
+ * timestamps matter because tracks can have sparse, uneven keys. All tracks share the longest
+ * required interval, rounded up to source frames. There is no cap that can reintroduce a snap.
+ * This bounds closing speed; the resulting cycle still needs visual review.
+ * Returns the number of frames appended, or zero when the source already closes.
  */
 function closeLoop(clip, fps) {
-  // Two readings of the same seam, because either one alone misses cases.
-  //
-  // `seamFrames` is the gap in units of the clip's own frame rate, which is what decides how much
-  // time the repair gets. It can only be taken from a track that actually moves; a bone drifting a
-  // fraction of a degree per frame has no frame rate to divide by and would report a ratio in the
-  // hundreds from rounding noise alone.
-  //
-  // `maxGap` is the raw angle, and it is the one that catches the deer. Its seam sits on a slow
-  // bone whose per-frame motion is under that noise floor, so the ratio test skipped it - but
-  // `resample` later thins exactly those near-constant tracks, the surviving frames get further
-  // apart, and the 5 degree gap is left standing in the shipped file. Measured on the ratio alone
-  // the deer walk reads 1.32 frames and looks fine; measured in the GLB it pops at 6x a frame.
-  let seamFrames = 0;
-  let maxGap = 0;
+  let closingSeconds = 0;
   for (const track of clip.tracks) {
-    if (track.getValueSize() !== 4 || !/\.quaternion$/.test(track.name)) continue;
+    const size = track.getValueSize();
+    const rotation = size === 4 && /\.quaternion$/.test(track.name);
+    if (!rotation && !(size === 3 && /\.(position|scale)$/.test(track.name))) continue;
     const values = track.values;
-    const count = Math.floor(values.length / 4);
-    if (count < 3) continue;
-    const gap = quatAngle(values, 0, (count - 1) * 4);
-    if (gap < 0.05) continue;
-    maxGap = Math.max(maxGap, gap);
-    const steps = [];
-    for (let i = 1; i < count; i += 1) steps.push(quatAngle(values, (i - 1) * 4, i * 4));
-    steps.sort((a, b) => a - b);
-    const median = steps[Math.floor(steps.length / 2)];
-    if (median <= 0.5) continue;
-    seamFrames = Math.max(seamFrames, gap / median);
+    const distance = rotation ? (i, j) => quatAngle(values, i, j)
+      : (i, j) => Math.hypot(values[i] - values[j], values[i + 1] - values[j + 1], values[i + 2] - values[j + 2]);
+    const count = track.times.length;
+    if (count < 2) continue;
+    const gap = distance(0, (count - 1) * size);
+    if (gap <= 1e-6) continue;
+    let maximumSpeed = 0;
+    for (let i = 1; i < count; i += 1) {
+      const seconds = track.times[i] - track.times[i - 1];
+      if (seconds > 0) maximumSpeed = Math.max(maximumSpeed, distance((i - 1) * size, i * size) / seconds);
+    }
+    if (maximumSpeed > 0) closingSeconds = Math.max(closingSeconds, gap / maximumSpeed);
   }
 
-  // Two degrees is below what reads as a pop on any of these rigs and above the float noise a
-  // closed cycle carries: the clips the pack really does close measure 0.0.
-  if (seamFrames <= 1.5 && maxGap <= 2) return seamFrames;
+  if (closingSeconds === 0) return 0;
 
-  const frames = Math.min(4, Math.max(1, Math.round(seamFrames)));
+  const frames = Math.max(1, Math.ceil(closingSeconds * fps));
   const end = clip.duration + frames / fps;
   for (const track of clip.tracks) {
     const size = track.getValueSize();
@@ -371,7 +347,7 @@ function closeLoop(clip, fps) {
     track.values = values;
   }
   clip.resetDuration();
-  return Math.max(seamFrames, 1);
+  return frames;
 }
 
 async function loadTexture(url, { linear = false } = {}) {
