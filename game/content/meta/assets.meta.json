@@ -3048,6 +3048,88 @@
       }
     }
   },
+  "creature_chalk_warden": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:03:33.060Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3. Evidence: test-results/creature-audit/candidate-review/studio-v2/creature_chalk_warden/evidence.json.",
+      "at": "2026-09-28T20:03:33.060Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 4319f590fbbed402626de76f4a4c7c255eddb4ec51da77a6b6396f7d9a4761d3."
+        }
+      }
+    }
+  },
   "creature_cinder_penitent": {
     "status": "draft",
     "notes": [],
@@ -10052,6 +10134,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 5f975e04fcbf439d5af50c69fbddab84143e469dc978c8887b266fb63aba4f31."
+        }
+      }
+    }
+  },
+  "fairy_monster_16": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:03:45.394Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88. Evidence: test-results/creature-audit/candidate-review/studio-v3/fairy_monster_16/evidence.json.",
+      "at": "2026-09-28T20:03:45.394Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88."
         }
       }
     }
