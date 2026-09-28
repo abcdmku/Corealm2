@@ -274,9 +274,14 @@ async function main(argv: readonly string[]): Promise<number> {
   const manifest = embedded.text(ASSET_MANIFEST_ASSET);
   // The server's own files: what its authors add from devdocs, served beside the asset host's.
   const { createContentAssetStore } = await import("../game/src/multiplayer/contentAssets.js");
-  const { serverModelOverlay } = await import("../game/src/multiplayer/assetManifest.js");
-  const contentAssets = createContentAssetStore({ dir: resolve(directory, "content-assets"),
-    audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
+  const { serverModelOverlay, activeFileReferences, createAssetHost } = await import("../game/src/multiplayer/assetManifest.js");
+  // A file the active content still names cannot be deleted; an icon only counts when the asset host lacks it.
+  const hostOnly = createAssetHost({ ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
+    ...(embedded.sea ? {} : { bundledFile: (path: string) => stat(resolve(process.cwd(), "game/public", path)).then(found => found.isFile(), () => false) }) });
+  const contentAssets: ReturnType<typeof createContentAssetStore> = createContentAssetStore({ dir: resolve(directory, "content-assets"),
+    audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event),
+    references: activeFileReferences({ sources: async () => JSON.parse((await storage.catalog.sources())?.sources ?? "null"),
+      files: { index: () => contentAssets.index(), read: path => contentAssets.read(path) }, host: hostOnly }) });
   const revision = await (async () => {
     await seedCatalog(storage.catalog, shipped, event => logger.emit(event), { follow: config.followRepoCatalog });
     // Both run before any content module loads: stored content this build cannot run must never reach world assembly.
@@ -318,7 +323,7 @@ async function main(argv: readonly string[]): Promise<number> {
   const { createImagegenRoute } = await import("../game/src/multiplayer/adminImagegen.js");
   let publisher: Awaited<ReturnType<typeof startReferenceServer>>["publisher"] = null;
   const imagegen = createImagegenRoute({ config: config.imagegen ?? null, dir: resolve(directory, "imagegen-jobs"), store: contentAssets,
-    catalog: storage.catalog, publisher: () => publisher, audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
+    catalog: storage.catalog, publisher: () => publisher, admin: storage.admin, audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
   adminRoutes.push(imagegen.route);
   // Item icons: the job paints an original; both inventory sizes land in the file store as a candidate.
   const { createIconKind, serverIconStore } = await import("../game/src/multiplayer/itemIconJobs.js");
@@ -359,7 +364,7 @@ async function main(argv: readonly string[]): Promise<number> {
     adminUi: adminUiArchive ? archiveAdminUi(adminUiArchive) : directoryAdminUi(resolve(base, config.adminUiDir)),
     build: world => pack ? authoredWorld(pack, world.seed) : createMultiplayerLabWorld(world.seed), authentication,
     ...(database ? { threads: { launch: launchThreads, database, mode: config.threadMode === "on" ? "on" as const : "auto" as const,
-      catalog: { kind: "storage" as const }, build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
+      catalog: { kind: "storage" as const }, contentAssetsDir: resolve(directory, "content-assets"), build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
   }).catch(async error => { await storage.close(); throw error; });
   publisher = server.publisher;
   await bakes?.start();

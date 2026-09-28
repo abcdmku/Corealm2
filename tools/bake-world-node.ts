@@ -1,3 +1,4 @@
+import "./lib/worldMathFirst.js";
 /**
  * Bakes the client world records, their manifest and the client navmesh in plain Node, without a browser.
  *

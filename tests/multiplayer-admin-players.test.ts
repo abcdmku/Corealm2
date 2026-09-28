@@ -441,7 +441,7 @@ describe("the admin UI at /admin/", () => {
     const { createHash } = await import("node:crypto");
     expect(page.headers["content-security-policy"]).toBe(["default-src 'self'", `script-src 'self' 'wasm-unsafe-eval' 'sha256-${createHash("sha256").update(INLINE).digest("base64")}'`,
       "style-src 'self' 'unsafe-inline'", "img-src 'self' data: blob: https://cdn.test", "font-src 'self' data:", "connect-src 'self' blob: data: https://identity.test https://cdn.test",
-      "media-src 'self' blob: https://cdn.test", "worker-src 'self' blob:", "object-src 'none'", "base-uri 'self'", "form-action 'none'", "frame-ancestors 'none'"].join("; "));
+      "media-src 'self' blob: https://cdn.test", "frame-src https://cdn.test", "worker-src 'self' blob:", "object-src 'none'", "base-uri 'self'", "form-action 'none'", "frame-ancestors 'none'"].join("; "));
 
     const asset = await raw(served.server.port, "/admin/assets/index-Bx7k2QpL.js");
     expect([asset.status, asset.headers["content-type"], asset.headers["cache-control"], asset.text]).toEqual([200, "text/javascript; charset=utf-8", "public, max-age=31536000, immutable", "console.log('devdocs')"]);

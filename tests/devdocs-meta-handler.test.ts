@@ -122,7 +122,7 @@ describe("devdocs metadata handler", () => {
       { kind: "piece", slot: "body", status: "approved" }, { kind: "piece", slot: "body" },
       { kind: "note", text: " " }, { kind: "note", text: "x", by: "Agent", at },
       { kind: "request.open", requestId: "x", requestKind: "text", text: "x", state: "closed" },
-      { kind: "request.claim", requestId: "x" }, { kind: "history", history: [] },
+      { kind: "request.claim", requestId: "x", claimedBy: "Agent" }, { kind: "request.reply", requestId: "x", text: " " }, { kind: "history", history: [] },
       { kind: "status", status: "draft", approvals: { male: true } },
     ]) expect((await patch(handler, initial.revision, operation))?.status).toBe(400);
     for (const extra of [{ candidates: [] }, { history: [] }, { approvals: { male: true } }, { notes: [] }, { sourceRefs: [] }]) {

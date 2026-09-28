@@ -117,6 +117,8 @@ export interface ThreadedHosting {
   /** What the host was configured with, for the admin console. */
   mode?: ThreadMode;
   peerEncoding?: PeerEncoding; holdTimeoutMs?: number; restart?: boolean; restartLimit?: number; restartWindowMs?: number; reportMs?: number;
+  /** The server's file store directory: world threads read its model overlay (footprints, attack timing) themselves. */
+  contentAssetsDir?: string;
 }
 /** What `PATCH /admin/players/<id>` did. `live` names the world whose player was edited. */
 export interface PlayerEditOutcome { applied: "live" | "stored"; world: WorldKey | null; changed: boolean; warnings: string[] }

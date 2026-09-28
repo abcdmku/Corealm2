@@ -90,6 +90,8 @@ export function adminUiPolicy(options: AdminUiOptions, html: string): string {
     // Model previews fetch GLBs from the asset host and textures out of them as blob URLs.
     `connect-src ${list("'self'", "blob:", "data:", identity, assets)}`,
     `media-src ${list("'self'", "blob:", assets)}`,
+    // The World workspace's Render map frames the game from the asset host to capture the server's world.
+    ...(assets ? [`frame-src ${assets}`] : []),
     "worker-src 'self' blob:", "object-src 'none'", "base-uri 'self'", "form-action 'none'", "frame-ancestors 'none'",
   ].join("; ");
 }

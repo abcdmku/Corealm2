@@ -18,13 +18,13 @@ import { mapFacing } from "../world/mapOrientation.js";
  * The cluster root is `.is-passive` (the square's open corners must not eat world clicks); the
  * disc and the corner buttons opt back in individually.
  */
-import { publicUrl } from "../app/config.js";
 import type { GameApi, ObservedEntity, Vec3 } from "../contracts.js";
 import { worldMapForRegion } from "../contracts.js";
 import {
   WORLD_MAP_IMAGE_BOUNDS,
   WORLD_MAP_MINIMAP_RENDITION,
 } from "../generated/worldMapFingerprint.js";
+import { worldMapUrl } from "../world/serverWorldMap.js";
 import type { MapTerrainSource } from "./panels.js";
 import { reportResult } from "./contextMenu.js";
 import type { Tooltip } from "./tooltips.js";
@@ -498,9 +498,7 @@ export class Minimap {
       this.setImageState("retrying");
     };
     image.crossOrigin = "anonymous";
-    const imageUrl = new URL(publicUrl(WORLD_MAP_MINIMAP_RENDITION.path), document.baseURI);
-    imageUrl.searchParams.set("v", WORLD_MAP_MINIMAP_RENDITION.sha256);
-    image.src = imageUrl.href;
+    image.src = worldMapUrl(WORLD_MAP_MINIMAP_RENDITION);
   }
 
   private syncMap(): void {

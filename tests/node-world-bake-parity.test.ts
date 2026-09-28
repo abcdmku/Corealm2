@@ -1,3 +1,5 @@
+// First: the world Math must be in place before any content module derives a value.
+import "../tools/lib/worldMathFirst.js";
 import { beforeAll, describe, expect, it } from "vitest";
 import { readFile } from "node:fs/promises";
 import path from "node:path";

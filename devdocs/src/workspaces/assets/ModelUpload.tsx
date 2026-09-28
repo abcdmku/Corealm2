@@ -13,7 +13,8 @@ import { Button, Input, NativeSelect, buttonVariants } from "../../components/ui
 import { cn } from "../../lib/utils.js";
 import { PANEL, PANEL_BODY, PANEL_HEADER } from "../../ui/layout.js";
 import { FormError, SPIN } from "../../dev/panelParts.js";
-import { saveModel } from "./modelStore.js";
+import { attackTiming, saveModel } from "./modelStore.js";
+import { bundleModelFiles, uploadedModelFile, type BundledModel } from "./modelFiles.js";
 
 /** The pack a new upload lands in unless the author names another. */
 export function defaultUploadPack(): string { return backend().kind === "server" ? "server-uploads" : "devdocs-uploads"; }
@@ -21,16 +22,18 @@ export function defaultUploadPack(): string { return backend().kind === "server"
 const LABEL = "flex min-w-0 flex-col gap-0.5 text-[11px] text-muted-foreground";
 
 /**
- * Upload a GLB: measure it here with the build's measurement, preview it in the production viewer,
- * choose its id, category, pack and tags, then store it where players load it (`modelStore.ts`).
+ * Upload a model: one GLB, or a glTF with its .bin and textures, or a GLB with separate textures
+ * (`modelFiles.ts` packs them into one GLB and keeps the textures beside it). Measure it here with the
+ * build's measurement and its attack timing, preview it in the production viewer, choose its id,
+ * category, pack and tags, then store it where players load it (`modelStore.ts`).
  * With `replacing`, the id is fixed and the choices start from that model's entry.
  */
 export function ModelUpload({ replacing, onClose, onSaved }: { replacing?: AssetEntry; onClose(): void; onSaved(entry: AssetEntry): void }) {
   const queryClient = useQueryClient();
   const titleId = useId();
-  const [file, setFile] = useState<File>();
-  const [bytes, setBytes] = useState<ArrayBuffer>();
-  const [measurement, setMeasurement] = useState<ModelMeasurement>();
+  const [picked, setPicked] = useState<File[]>([]);
+  const [model, setModel] = useState<BundledModel>();
+  const [measurement, setMeasurement] = useState<ModelMeasurement & { attack: Awaited<ReturnType<typeof attackTiming>> }>();
   const [measureError, setMeasureError] = useState<string>();
   const [id, setId] = useState(replacing?.id ?? "");
   const [category, setCategory] = useState<AssetCategory>(replacing?.category ?? "character");
@@ -39,29 +42,32 @@ export function ModelUpload({ replacing, onClose, onSaved }: { replacing?: Asset
   const [tags, setTags] = useState(replacing?.tags.join(", ") ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>();
-  const preview = useMemo(() => file ? URL.createObjectURL(file) : undefined, [file]);
+  const preview = useMemo(() => model ? URL.createObjectURL(new Blob([model.preview.slice()], { type: "model/gltf-binary" })) : undefined, [model]);
+  const main = picked.find(file => /.gl(?:b|tf)$/i.test(file.name));
+  const resources = model ? Object.keys(model.resources) : [];
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
-  async function choose(selected: File | undefined) {
-    setFile(selected); setBytes(undefined); setMeasurement(undefined); setMeasureError(undefined); setError(undefined);
-    if (!selected) return;
-    if (!selected.name.toLowerCase().endsWith(".glb")) { setMeasureError("Choose a .glb file: one binary glTF with its textures inside."); return; }
+  async function choose(selected: File[]) {
+    setPicked(selected); setModel(undefined); setMeasurement(undefined); setMeasureError(undefined); setError(undefined);
+    if (!selected.length) return;
     try {
-      const read = await selected.arrayBuffer();
-      const measured = await measureModel(read);
-      setBytes(read); setMeasurement(measured);
-      if (!replacing && !id) setId(selected.name.replace(/\.glb$/i, "").toLowerCase().replace(/[^a-z0-9_-]+/g, "_").replace(/^[^a-z0-9]+/, "").slice(0, 96));
-    } catch (failure) { setMeasureError(`That file is not a model this game can read: ${failure instanceof Error ? failure.message : String(failure)}`); }
+      const bundled = bundleModelFiles(await Promise.all(selected.map(async file => ({ name: file.name, bytes: new Uint8Array(await file.arrayBuffer()) }))));
+      const bytes = bundled.glb.slice().buffer;
+      const [measured, attack] = await Promise.all([measureModel(bytes), attackTiming(bytes)]);
+      setModel(bundled); setMeasurement({ ...measured, attack });
+      const named = selected.find(file => /\.gl(?:b|tf)$/i.test(file.name))!.name;
+      if (!replacing && !id) setId(named.replace(/\.gl(?:b|tf)$/i, "").toLowerCase().replace(/[^a-z0-9_-]+/g, "_").replace(/^[^a-z0-9]+/, "").slice(0, 96));
+    } catch (failure) { setMeasureError(`That is not a model this game can read: ${failure instanceof Error ? failure.message : String(failure)}`); }
   }
 
   const tagList = tags.split(",").map(tag => tag.trim()).filter(Boolean);
-  const problem = !measurement ? "Choose a GLB first." : !ASSET_ID.test(id) ? "The id is lowercase letters, digits, - and _." : !pack.trim() ? "Name a pack." : !is.trim() ? "Say what the model is, in one word." : undefined;
+  const problem = !measurement ? "Choose a model first." : !ASSET_ID.test(id) ? "The id is lowercase letters, digits, - and _." : !pack.trim() ? "Name a pack." : !is.trim() ? "Say what the model is, in one word." : undefined;
 
   async function save() {
-    if (problem || !bytes) { setError(problem); return; }
+    if (problem || !model) { setError(problem); return; }
     setSaving(true); setError(undefined);
     try {
-      const entry = await saveModel(bytes, { id, category, pack: pack.trim(), is: is.trim().toLowerCase(), tags: tagList });
+      const entry = await saveModel(model, { id, category, pack: pack.trim(), is: is.trim().toLowerCase(), tags: tagList });
       await queryClient.invalidateQueries({ queryKey: ["collection", "assets"] });
       toast.success(`${replacing ? "Replaced" : "Added"} ${entry.id}`);
       onSaved(entry);
@@ -81,9 +87,10 @@ export function ModelUpload({ replacing, onClose, onSaved }: { replacing?: Asset
     <div className={cn(PANEL_BODY, "grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_20rem]")}>
       <div className="flex min-w-0 flex-col gap-2">
         <label className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "relative max-w-72 self-start overflow-hidden")}>
-          <FileUp size={13} /><span className="truncate">{file?.name ?? "Choose GLB…"}</span>
-          <input className="absolute inset-0 size-full cursor-pointer opacity-0" type="file" accept=".glb,model/gltf-binary" aria-label="Model GLB file" onChange={event => void choose(event.target.files?.[0])} />
+          <FileUp size={13} /><span className="truncate">{main ? `${main.name}${picked.length > 1 ? ` + ${picked.length - 1}` : ""}` : "Choose model files…"}</span>
+          <input className="absolute inset-0 size-full cursor-pointer opacity-0" type="file" multiple accept=".glb,.gltf,.bin,.png,.jpg,.jpeg,.webp,model/gltf-binary,model/gltf+json" aria-label="Model files" onChange={event => void choose([...event.target.files ?? []])} />
         </label>
+        <p className="text-[11px] text-faint">One .glb, or a .gltf with its .bin and textures, or a .glb with its texture files. Pick them together.</p>
         {measureError && <FormError>{measureError}</FormError>}
         {measurement && <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 font-mono text-[11px]" data-role="measurement">
           <dt className="text-faint">Size</dt><dd>{measurement.size.x} × {measurement.size.y} × {measurement.size.z} m</dd>
@@ -92,6 +99,9 @@ export function ModelUpload({ replacing, onClose, onSaved }: { replacing?: Asset
           <dt className="text-faint">Clips</dt><dd className="truncate" title={measurement.animations.join(", ")}>{measurement.animations.length ? measurement.animations.join(", ") : "none"}</dd>
           <dt className="text-faint">Materials</dt><dd className="truncate" title={measurement.materials.join(", ")}>{measurement.materials.length ? measurement.materials.join(", ") : "none"}</dd>
           {measurement.walkClipSeconds !== undefined && <><dt className="text-faint">Walk cycle</dt><dd>{measurement.walkClipSeconds} s</dd></>}
+          {measurement.attack && <><dt className="text-faint">Attack</dt><dd>{measurement.attack.attackSeconds} s, contact at {Math.round(measurement.attack.contactNormalized * 100)}%</dd></>}
+          {resources.length > 0 && <><dt className="text-faint">Textures</dt><dd className="truncate" title={resources.join(", ")}>{resources.join(", ")}</dd></>}
+          {model && model.unused.length > 0 && <><dt className="text-faint">Not used</dt><dd className="truncate" title={model.unused.join(", ")}>{model.unused.join(", ")}</dd></>}
         </dl>}
         <div className="grid grid-cols-2 gap-2 max-md:grid-cols-1">
           <label className={LABEL}>Id<Input aria-label="Model id" value={id} readOnly={Boolean(replacing)} onChange={event => setId(event.target.value)} placeholder="animal_moonhart" /></label>
@@ -102,12 +112,12 @@ export function ModelUpload({ replacing, onClose, onSaved }: { replacing?: Asset
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button size="sm" onClick={() => void save()} disabled={saving || Boolean(problem)} title={problem}>{saving ? <LoaderCircle size={13} className={SPIN} /> : <UploadCloud size={13} />}{saving ? "Saving…" : replacing ? "Replace model" : "Add model"}</Button>
-          {id && ASSET_ID.test(id) && <code className="text-[11px] text-faint">assets/models/{category}/{id}.glb</code>}
+          {id && ASSET_ID.test(id) && <code className="text-[11px] text-faint">assets/{uploadedModelFile(category, id, resources.length > 0)}</code>}
         </div>
         {error && <FormError>{error}</FormError>}
       </div>
       <div className="min-w-0 [&_.viewer-viewport]:h-60!">
-        {preview && measurement ? <AssetViewer source={{ mode: "glb", url: preview, manifestSize: measurement.size }} label="Upload preview" /> : <p className="py-8 text-center text-xs text-faint">The preview appears once a GLB is measured.</p>}
+        {preview && measurement ? <AssetViewer source={{ mode: "glb", url: preview, manifestSize: measurement.size }} label="Upload preview" /> : <p className="py-8 text-center text-xs text-faint">The preview appears once the model is measured.</p>}
       </div>
     </div>
   </section>;

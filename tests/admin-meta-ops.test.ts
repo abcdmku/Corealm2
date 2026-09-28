@@ -37,6 +37,29 @@ describe("pure authoring metadata operations", () => {
       .toThrow("Piece notes are available only for equipment sets");
   });
 
+  it("claims and replies to a request, claiming an open one on reply, and refuses another claimer", () => {
+    const opened = applyMetaOperation({}, "npcs", "smith", {}, { kind: "request.open", requestId: "r1", requestKind: "text", text: "Shorter." }, "acc_a", at);
+    const later = "2026-09-27T13:00:00.000Z";
+    const claimed = applyMetaOperation(structuredClone(opened), "npcs", "smith", {}, { kind: "request.claim", requestId: "r1" }, "acc_b", later);
+    expect(claimed.smith!.notes[0]!.request).toEqual({ id: "r1", kind: "text", state: "claimed", claimedBy: "acc_b", claimedAt: later });
+    expect(() => applyMetaOperation(structuredClone(claimed), "npcs", "smith", {}, { kind: "request.claim", requestId: "r1" }, "acc_c", later))
+      .toThrow(new MetaActionError(400, "Request r1 is claimed by acc_b"));
+    expect(() => applyMetaOperation(structuredClone(claimed), "npcs", "smith", {}, { kind: "request.reply", requestId: "r1", text: "Done." }, "acc_c", later))
+      .toThrow(new MetaActionError(400, "Only the current claimer may reply to claimed request r1"));
+
+    const replied = applyMetaOperation(structuredClone(opened), "npcs", "smith", {}, { kind: "request.reply", requestId: "r1", text: "Trimmed it." }, "acc_b", later);
+    expect(replied.smith!.notes[0]!.request).toEqual({ id: "r1", kind: "text", state: "replied", claimedBy: "acc_b", claimedAt: later, reply: "Trimmed it.", repliedAt: later });
+    expect(replied.smith!.history.map(entry => entry.action)).toEqual(["request.open", "request.claim", "request.reply"]);
+    // A replied request leaves the queue; the requester closes it.
+    expect(requestsReport([{ collection: "npcs", records: replied, revision }]).requests).toEqual([]);
+    expect(applyMetaOperation(replied, "npcs", "smith", {}, { kind: "request.close", requestId: "r1" }, "acc_a", later).smith!.notes[0]!.request!.state).toBe("closed");
+
+    expect(() => applyMetaOperation(structuredClone(opened), "npcs", "other", {}, { kind: "request.claim", requestId: "r1" }, "acc_b", later))
+      .toThrow(new MetaActionError(404, "Unknown request for this entity"));
+    expect(parseMetaPatch({ revision, operation: { kind: "request.reply", requestId: "r1", text: "ok" } })).toEqual({ patch: { revision, operation: { kind: "request.reply", requestId: "r1", text: "ok" } } });
+    expect("issues" in parseMetaPatch({ revision, operation: { kind: "request.reply", requestId: "r1", text: " " } })).toBe(true);
+  });
+
   it("parses patches, maps inspection collections, and writes ids in order", () => {
     expect(parseMetaPatch({ revision, operation: { kind: "note", text: "ok" } })).toEqual({ patch: { revision, operation: { kind: "note", text: "ok" } } });
     expect("issues" in parseMetaPatch({ revision: "stale", operation: { kind: "note", text: "ok" } })).toBe(true);

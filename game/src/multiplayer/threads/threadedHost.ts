@@ -42,6 +42,8 @@ export interface ThreadedHostOptions {
   /** The catalog this server runs, stamped on every descriptor. */
   catalogRevision: string;
   catalog: CatalogSource; build: WorldBuild;
+  /** The server's file store directory, for each world thread's model overlay. */
+  contentAssetsDir?: string;
   authentication: AuthenticationAdapter;
   /** What the host was configured with. `"auto"` means threads were chosen because this server has more than one world. */
   mode?: ThreadMode;
@@ -229,7 +231,8 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
     const channel = new MessageChannel();
     database.rpc.note("attach", [channel.port1], [channel.port1 as never]);
     const data: WorldThreadData = { role: "world", world: thread.input, authentication: advertised, database: channel.port2, shape: { entityPatches: database.storage.world.entityPatches === true, editStoredPlayer: typeof database.storage.world.editStoredPlayer === "function" },
-      catalog: options.catalog, build: currentBuild, peerEncoding: options.peerEncoding ?? "bytes", reportMs };
+      catalog: options.catalog, build: currentBuild, peerEncoding: options.peerEncoding ?? "bytes", reportMs,
+      ...(options.contentAssetsDir ? { contentAssetsDir: options.contentAssetsDir } : {}) };
     const worker = options.launch(data, [channel.port2], `corealm-world-${thread.input.worldId}`);
     const handlers = handlersFor(thread), rpc = createRpc(worker as unknown as Endpoint, handlers, (error, method) => log({ event: "thread.message_failed", level: "error", world: thread.input.worldId, method, message: error instanceof Error ? error.message : String(error) }));
     let gone = false;

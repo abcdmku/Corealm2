@@ -1,3 +1,4 @@
+import { installWorldMath } from "../../world/worldMath.js";
 import { existsSync } from "node:fs";
 import { copyFile, link, mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import { dirname, join, posix } from "node:path";
@@ -93,7 +94,9 @@ async function expectedRecords(): Promise<{ tiles: string[]; keys: string[] }> {
 export async function runBaker(jobFile: string): Promise<number> {
   try {
     const job = JSON.parse(await readFile(jobFile, "utf8")) as BakerJob;
-    // Before any content module: every one of them reads its tables as it loads.
+    // Before any content module: every one of them reads its tables, and derives values with the
+    // world's Math, as it loads.
+    installWorldMath();
     installCatalog(JSON.parse(await readFile(job.catalogFile, "utf8")) as InstalledCatalog);
     const manifestText = await readFile(join(job.assetsDir, "manifest.json"), "utf8");
     const manifest = JSON.parse(manifestText) as { assets: { id: string; file: string; bytes?: number }[] };

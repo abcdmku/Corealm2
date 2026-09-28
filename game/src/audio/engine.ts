@@ -147,6 +147,12 @@ export class AudioEngine {
     const at = this.context.currentTime;
     const [x, y, z] = this.listenerPosition;
     const [fx, fy, fz] = this.listenerForward;
+    // Firefox has no AudioParam pose on the listener, only the older setters.
+    if (!listener.positionX) {
+      listener.setPosition(x, y, z);
+      listener.setOrientation(fx, fy, fz, 0, 1, 0);
+      return;
+    }
     listener.positionX.setValueAtTime(x, at); listener.positionY.setValueAtTime(y, at); listener.positionZ.setValueAtTime(z, at);
     listener.forwardX.setValueAtTime(fx, at); listener.forwardY.setValueAtTime(fy, at); listener.forwardZ.setValueAtTime(fz, at);
     listener.upX.setValueAtTime(0, at); listener.upY.setValueAtTime(1, at); listener.upZ.setValueAtTime(0, at);

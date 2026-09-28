@@ -196,6 +196,19 @@ describe("AudioEngine buses and unlock", () => {
     expect(context.gains.slice(0, 3).map((gain) => gain.gain.value)).toEqual([1, 0, 0.25]);
   });
 
+  it("poses a listener without AudioParams (Firefox) through its setters", async () => {
+    const context = new FakeContext();
+    const calls: string[] = [];
+    Object.defineProperty(context, "listener", { value: {
+      setPosition: (...xyz: number[]) => calls.push(`position ${xyz.join(",")}`),
+      setOrientation: (...values: number[]) => calls.push(`orientation ${values.join(",")}`),
+    } });
+    const { engine } = createEngine(context);
+    expect(await engine.playCue("ui.click", { position: [10, 2, 3], maxDistance: 34 })).toBe(true);
+    engine.setListenerPose([1, 2, 3], [2, 0, 0]);
+    expect(calls.slice(-2)).toEqual(["position 1,2,3", "orientation 1,0,0,0,1,0"]);
+  });
+
   it("keeps gesture listeners until resume works, then removes them", async () => {
     const { engine, context } = createEngine();
     const target = new EventTarget();

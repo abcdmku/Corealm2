@@ -91,11 +91,18 @@ export const FAIRY_NPC_STANDS: NpcStandDef[] = [
   },
 ];
 
-export const FAIRY_NPC_DIALOGUE: readonly DialogueNodeDef[] = parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
+const fairyDialogue = (): DialogueNodeDef[] => parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
   .filter((row) => row.catalog === "fairy")
   .map((row) => stripExtras(row, ["catalog"]));
+const dialogueRows = fairyDialogue();
+export const FAIRY_NPC_DIALOGUE: readonly DialogueNodeDef[] = dialogueRows;
 
-/** After the catalog moved (a joined server's client catalog, or leaving it): the same array, refilled. Dialogue is not reached: a page's is empty. */
+/** The same array, refilled from the moved catalog. Called by `reindexDialogue` (server only), which shares these rows. */
+export function reindexFairyDialogue(): void {
+  dialogueRows.splice(0, dialogueRows.length, ...fairyDialogue());
+}
+
+/** After the catalog moved (a joined server's client catalog, or leaving it): the same array, refilled. Dialogue is not reached here: a page's is empty (see `reindexFairyDialogue`). */
 export function reindexFairyNpcs(): void {
   candidates.splice(0, candidates.length, ...fairyCandidates());
 }

@@ -10,7 +10,7 @@ import { createWorldCreatureResolver, setMeasuredFootprints } from "../game/src/
 import type { ResolvedCreature } from "../game/src/content/creatureCompiler.js";
 import { tierSilhouetteScale } from "../game/src/core/math.js";
 import { seedCatalog } from "../game/src/multiplayer/catalogHost.js";
-import { createAssetHost } from "../game/src/multiplayer/assetManifest.js";
+import { activeFileReferences, createAssetHost } from "../game/src/multiplayer/assetManifest.js";
 import { createContentAssetStore, type ContentAssetStore } from "../game/src/multiplayer/contentAssets.js";
 import { CONTENT_MANIFEST_OVERLAY, type ContentAssetIndex } from "../game/src/multiplayer/contentAssetsContract.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
@@ -23,13 +23,16 @@ import placementWorld from "./fixtures/placementWorld.js";
 import type { DevdocsBackend } from "../devdocs/src/api/backend.js";
 import { setContentFiles } from "../devdocs/src/viewer/registry.js";
 import { removeModel, saveModel } from "../devdocs/src/workspaces/assets/modelStore.js";
+import { bundleModelFiles, type BundledModel } from "../devdocs/src/workspaces/assets/modelFiles.js";
+import { AdminFailure } from "../devdocs/src/api/session.js";
+import { CREATURE_MOTION_TIMING } from "../game/src/content/creatureMotionTiming.js";
 
 const OWNER = "acc_OOOOOOOOOOOOOOOOOOOOOO";
 const ACTOR = { accountId: OWNER, credential: "session", at: 0 };
 const DEER = "game/public/assets/models/animal/animal_deer.glb";
 const dirs: string[] = [];
 afterAll(async () => { for (const dir of dirs) await rm(dir, { recursive: true, force: true }); setManifestOverlay(null); setMeasuredFootprints([]); });
-async function deerBytes(): Promise<ArrayBuffer> { const bytes = await readFile(DEER); return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer; }
+async function deerModel(): Promise<BundledModel> { return bundleModelFiles([{ name: "animal_deer.glb", bytes: new Uint8Array(await readFile(DEER)) }]); }
 
 describe("footprints of a server's models", () => {
   it("resolves a creature on a model with no generated footprint from its measured size, and refuses one never measured", () => {
@@ -76,7 +79,10 @@ describe("a server's own models, uploaded from devdocs and published", () => {
       setContentFiles(url("/content-assets/"), (stored.body as ContentAssetIndex).files);
       return { files: stored.body.files };
     },
-    admin: (path: string, init: { method?: string; body?: unknown } = {}) => call(path, init).then(result => result.body),
+    admin: (path: string, init: { method?: string; body?: unknown } = {}) => call(path, init).then(result => {
+      if (result.status >= 400) throw new AdminFailure(result.status, result.body.error.code, result.body.error.message, result.body.error);
+      return result.body;
+    }),
   }) as unknown as DevdocsBackend;
 
   beforeAll(async () => {
@@ -86,7 +92,8 @@ describe("a server's own models, uploaded from devdocs and published", () => {
     storage = new SqliteWorldStorage(file, { log: () => {} });
     await seedCatalog(storage.catalog, { version: "0.1.0", catalog: RESOLVED_CATALOG, sources: Object.fromEntries(await readContentSources()) }, () => {});
     const dir = await mkdtemp(join(tmpdir(), "corealm-models-")); dirs.push(dir);
-    store = createContentAssetStore({ dir, audit: (by, entry) => storage.admin.record(by, entry) });
+    store = createContentAssetStore({ dir, audit: (by, entry) => storage.admin.record(by, entry),
+      references: activeFileReferences({ sources: async () => JSON.parse((await storage.catalog.sources())?.sources ?? "null"), files: { index: () => store.index(), read: path => store.read(path) } }) });
     server = await startReferenceServer({ worlds: [world], storage, admin: storage.admin, catalog: storage.catalog, build: placementWorld,
       ownerAccount: OWNER, log: () => {}, adminRoutes: [store.route], contentAssets: store,
       assets: { bundledManifest: async () => JSON.parse(await readFile("game/public/assets/manifest.json", "utf8")) },
@@ -104,11 +111,13 @@ describe("a server's own models, uploaded from devdocs and published", () => {
     expect(refused.status).toBe(422);
     expect(JSON.stringify(refused.body)).toContain("animal_moonhart");
 
-    const entry = await saveModel(await deerBytes(), { id: "animal_moonhart", category: "character", pack: "server-uploads", is: "animal", tags: ["deer", "fairy"] }, devdocs());
+    const entry = await saveModel(await deerModel(), { id: "animal_moonhart", category: "character", pack: "server-uploads", is: "animal", tags: ["deer", "fairy"] }, devdocs());
     const index = await store.index();
     expect(Object.keys(index.files).sort()).toEqual([CONTENT_MANIFEST_OVERLAY, "assets/models/character/animal_moonhart.glb"]);
     const overlay = JSON.parse((await store.read(CONTENT_MANIFEST_OVERLAY))!.bytes.toString("utf8"));
     expect(overlay.assets).toEqual([entry]);
+    // The deer's attack clip timed at upload: its length and the contact point its extras author, as the build times the deer.
+    expect({ seconds: entry.attackSeconds, contactNormalized: entry.contactNormalized }).toEqual(CREATURE_MOTION_TIMING.animal_deer);
     // Devdocs merged the stored overlay into its registries.
     expect(manifestOverlayEntries().map(row => row.id)).toEqual(["animal_moonhart"]);
 
@@ -125,10 +134,37 @@ describe("a server's own models, uploaded from devdocs and published", () => {
     expect((await publish(onModel("animal_nowhere"))).status).toBe(422);
   });
 
+  it("keeps both authors' models when two edit the overlay at once, and times the server's combat on them", async () => {
+    // Author A reads the index; author B saves a model before A's overlay write lands.
+    const racing = devdocs();
+    let raced = false;
+    const a = { ...racing, admin: async (path: string, init: { method?: string; body?: any } = {}) => {
+      if (!raced && init.method === "POST" && init.body?.expect) { raced = true; await saveModel(await deerModel(), { id: "animal_starhart", category: "character", pack: "server-uploads", is: "animal", tags: [] }, devdocs()); }
+      return racing.admin(path, init as never);
+    } } as DevdocsBackend;
+    await saveModel(await deerModel(), { id: "animal_dawnhart", category: "character", pack: "server-uploads", is: "animal", tags: [] }, a);
+    expect(raced).toBe(true);
+    const overlay = JSON.parse((await store.read(CONTENT_MANIFEST_OVERLAY))!.bytes.toString("utf8")) as { assets: { id: string }[] };
+    expect(overlay.assets.map(entry => entry.id)).toEqual(["animal_moonhart", "animal_starhart", "animal_dawnhart"]);
+    // A stale write is refused outright by the store.
+    const stale = await call("/admin/files", { method: "POST", body: { files: { [CONTENT_MANIFEST_OVERLAY]: Buffer.from("{}").toString("base64") }, expect: "0".repeat(32) } });
+    expect(stale.status).toBe(409);
+    expect(stale.body.error.code).toBe("stale");
+    // deer_t5 stands on animal_moonhart: its files and the overlay cannot be deleted, and devdocs' remove changes nothing.
+    await expect(removeModel("animal_moonhart", devdocs())).rejects.toMatchObject({ status: 409, code: "file_referenced",
+      details: { references: { "assets/models/character/animal_moonhart.glb": ["creatureDefinitions/deer_t5"] } } });
+    expect((await call("/admin/files", { method: "DELETE", body: { paths: [CONTENT_MANIFEST_OVERLAY] } })).body.error.references[CONTENT_MANIFEST_OVERLAY]).toEqual(["creatureDefinitions/deer_t5"]);
+    expect(Object.keys((await store.index()).files)).toContain("assets/models/character/animal_moonhart.glb");
+    // The publish read the overlay: its models' attack timing is where the server's combat reads it.
+    await publish(onModel("animal_deer"));
+    expect(CREATURE_MOTION_TIMING.animal_dawnhart).toEqual({ seconds: 1.08, contactNormalized: 0.43 });
+    await removeModel("animal_starhart", devdocs());
+    await removeModel("animal_dawnhart", devdocs());
+  });
+
   it("drops a removed model from the overlay, the store and the next publish's accepted ids", async () => {
     await publish(onModel("animal_deer"));
     await removeModel("animal_moonhart", devdocs());
-    // The removal deleted the GLB without adopting the index; the next putFiles would. Read the store.
     const index = await store.index();
     expect(Object.keys(index.files)).toEqual([CONTENT_MANIFEST_OVERLAY]);
     expect(JSON.parse((await store.read(CONTENT_MANIFEST_OVERLAY))!.bytes.toString("utf8"))).toEqual({ assets: [] });

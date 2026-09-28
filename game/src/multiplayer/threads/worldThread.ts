@@ -38,6 +38,8 @@ export interface WorldThreadData {
   authentication: "account" | "guest";
   database: MessagePort; shape: StorageShape;
   catalog: CatalogSource; build: WorldBuild;
+  /** The server's file store directory. Its model overlay gives creatures on uploaded models their footprint and attack timing. */
+  contentAssetsDir?: string;
   peerEncoding: PeerEncoding;
   /** How often metrics go to the main thread, in milliseconds. */
   reportMs: number;
@@ -72,6 +74,13 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
     if (text === null) throw new Error("The database holds no active server catalog for this world to run");
     installCatalog(JSON.parse(text) as InstalledCatalog);
   } else await import(data.catalog.specifier);
+  // A thread runs its own combat, so it reads the server's model overlay itself, now and before each publish swap.
+  const loadModelOverlay = async (): Promise<void> => {
+    if (!data.contentAssetsDir) return;
+    const [{ createContentAssetStore }, { serverModelOverlay }] = await Promise.all([import("../contentAssets.js"), import("../assetManifest.js")]);
+    await serverModelOverlay(createContentAssetStore({ dir: data.contentAssetsDir }));
+  };
+  await loadModelOverlay();
   const [{ createWorldHost }, { localHostControl }, { RESOLVED_CATALOG }] = await Promise.all([import("../worldHost.js"), import("../localHostControl.js"), import("../../content/resolvedCatalog.js")]);
 
   const outbox = createOutbox(data.peerEncoding, (batch: OutboundBatch, transfer) => main.note("peer.out", [batch], transfer));
@@ -165,7 +174,7 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
     editSaved: (pending: number) => control.editSaved(pending),
     planStoredEdit: (lastWorld: WorldKey | null, character: never, ops: PlayerOp[]) => control.planStoredEdit(lastWorld, character, ops),
     adoptStored: (accountId: string, character: never) => control.adoptStored(accountId, character),
-    publishStage: (catalog: InstalledCatalog) => control.publishStage(catalog),
+    publishStage: async (catalog: InstalledCatalog) => { await loadModelOverlay(); return control.publishStage(catalog); },
     publishCheck: (removedItems: string[], spawnGroupIds: string[]) => control.publishCheck(removedItems, spawnGroupIds),
     publishCommit: () => control.publishCommit(),
     publishAbort: () => control.publishAbort(),

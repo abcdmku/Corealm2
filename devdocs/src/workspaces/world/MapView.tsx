@@ -17,7 +17,8 @@ import type { ViewProps } from "../types.js";
 import { Inspector } from "./Inspector.js";
 import { MapCanvas, type MapHandle, type Tool, type View } from "./MapCanvas.js";
 import { Rail } from "./Rail.js";
-import { MapStaleNote, useWorldStatusView, WorldStatusStrip } from "./WorldStatusStrip.js";
+import { MapRenderNote } from "./MapRenderNote.js";
+import { useWorldStatusView, WorldStatusStrip } from "./WorldStatusStrip.js";
 import {
   DRAFT_COLLECTIONS, LAYERS, addLandmark, addLocation, addResourceNode, addSpawn, deriveFeatures, moveSelection, parseSelection, patchPlacement, patchResource, regionBounds, regionById, round, safeAnchors, sameSelection, selectionId, selectionPoint, worldBounds,
   type Bounds, type Draft, type Feature, type Layer, type Point, type Selection,
@@ -261,7 +262,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
         </span>}
       </div>
       <WorldStatusStrip status={worldStatus} />
-      {worldStatus.view.mapStale && <MapStaleNote />}
+      {worldStatus.view.mapStale && <MapRenderNote revision={worldStatus.revision} baking={worldStatus.view.poll} />}
       <MapCanvas ref={map} features={features} roads={derived.roads} layers={layers} selection={selection} anchors={anchors} editable={editable} tool={tool}
         onSelect={select} onMove={onMove} onResize={onResize} onMoveAnchor={onMoveAnchor} onNudge={onNudge} onPlace={onPlace} onViewChange={onViewChange} onEscape={onEscape} />
       {pending && <RecordPicker collection={pending.tool === "spawn" ? "creatureDefinitions" : pending.tool === "resource" ? "resources" : "assets"} ctx={ctx} open onOpenChange={open => { if (!open) { setPending(undefined); setTool(undefined); } }} onPick={finishAdd}

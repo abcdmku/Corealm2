@@ -9,7 +9,7 @@ import { ARCHETYPES, EQUIP_SLOTS, GAME_EVENT_TYPES, INTERACTION_IDS } from "../c
 import type { AgentMode } from "../contracts.js";
 import { ALL_SPELLS } from "../content/spells.js";
 import { UTILITY_SPELLS } from '../content/utilityMagic.js';
-import { BOOL, ENUM, INT, NUM, STR, VEC3, obj, type ToolSpec } from "./toolkit.js";
+import { BOOL, ENUM, INT, NUM, STR, VEC3, obj, type JsonSchema, type ToolSpec } from "./toolkit.js";
 
 export const MANUAL_TOPICS = [
   "overview", "modes", "control", "tools", "rules", "terminology", "events", "errors", "efficiency", "all",
@@ -30,7 +30,21 @@ export const MAX_TIMEOUT_MS = 600_000;
 const MODES: readonly AgentMode[] = ["guide", "assist", "play"];
 const NUM_RADIUS = NUM("Metres. Default 40 for loot, 140 for gathering. Max 140.", { minimum: 1, maximum: 140 });
 const NUM_FRACTION = NUM("Fraction of max health, 0 to 1", { minimum: 0, maximum: 1 });
-const SPELL_IDS = ALL_SPELLS.map((spell) => spell.id);
+/**
+ * An enum over the spell table, read at every access. The spell arrays are refilled in place when
+ * the catalog moves (a live publish, joining or leaving a server), and a tool's schema is this same
+ * object (`defineTool` spreads the spec shallowly), so `listTools` and argument validation follow
+ * the new spell ids without re-registering anything.
+ */
+function spellEnum(values: () => readonly (string | null)[], description: () => string): JsonSchema {
+  const nullable = values().includes(null);
+  return {
+    type: nullable ? ["string", "null"] : "string",
+    get enum() { return [...values()]; },
+    get description() { return description(); },
+  };
+}
+const spellIds = () => ALL_SPELLS.map((spell) => spell.id);
 const SECTIONS = CONTEXT_SECTIONS;
 
 export const TOOL_SPECS = {
@@ -246,8 +260,7 @@ export const TOOL_SPECS = {
       // Enumerated from the content table rather than typed out, because a hand-written list is
       // the thing that goes stale first, and the enum makes a bad id a schema rejection here
       // instead of a NOT_FOUND three calls later.
-      spellId: ENUM(
-        ALL_SPELLS.map((spell) => spell.id),
+      spellId: spellEnum(spellIds, () =>
         "Optional. With a wand or staff, forces this spell; omit it to use the standing choice or "
         + "the strongest compatible spell automatically. With a non-magic weapon, supplying it "
         + "returns a loadout error. Advanced invocations (rank 1 to 5) fire once on the next cast "
@@ -277,7 +290,7 @@ export const TOOL_SPECS = {
       + "so it is allowed in every mode.",
     inputSchema: obj({
         op: ENUM(["read", "select", "castUtility", "activateTeleport", "teleport", "imbue"], "Read spells, cast utility magic, activate a nearby platform, teleport to an unlocked town, or imbue a carried tome at a nearby awakened Essence Altar."),
-        spellId: ENUM([...ALL_SPELLS.map((spell) => spell.id), ...UTILITY_SPELLS.map(spell => spell.id), null], "Spell id for selection or utility casting."),
+        spellId: spellEnum(() => [...spellIds(), ...UTILITY_SPELLS.map(spell => spell.id), null], () => "Spell id for selection or utility casting."),
         entityId: STR('Enemy target for a utility spell'),
         position: VEC3,
         townId: STR('Town platform id for activation or teleport'),
@@ -461,7 +474,7 @@ export const TOOL_SPECS = {
       + "main-hand weapon and the standing spell like corealm_attack; pass spellId to force one.",
     inputSchema: obj({
       entityId: STR("Enemy entity id", { minLength: 1 }),
-      spellId: ENUM(SPELL_IDS, "Optional spell to force"),
+      spellId: spellEnum(spellIds, () => "Optional spell to force"),
       retreatBelow: NUM_FRACTION,
       loot: BOOL("Take the drops afterwards. Default true."),
       timeoutMs: INT("Give up after this long. Default 180000, max 600000.", { minimum: 1000, maximum: MAX_TIMEOUT_MS }),

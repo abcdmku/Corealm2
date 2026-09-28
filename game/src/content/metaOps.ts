@@ -291,6 +291,9 @@ const operationSchema = discriminated("kind", {
   note: obj({ kind: enumOf(["note"] as const), text: nonblank, label: opt(str()) }),
   "request.open": obj({ kind: enumOf(["request.open"] as const), requestId: nonblank, requestKind: enumOf(REQUEST_KINDS), text: nonblank, label: opt(str()) }),
   "request.close": obj({ kind: enumOf(["request.close"] as const), requestId: nonblank }),
+  "request.claim": obj({ kind: enumOf(["request.claim"] as const), requestId: nonblank }),
+  // Replying to an open request claims it first, as the replier.
+  "request.reply": obj({ kind: enumOf(["request.reply"] as const), requestId: nonblank, text: nonblank }),
   piece: refine(obj({ kind: enumOf(["piece"] as const), slot: enumOf(["head", "body", "legs", "hands", "feet"] as const), note: opt(str()), status: opt(authoringStatus) }),
     value => value.note !== undefined || value.status !== undefined, "piece requires note or status"),
   // `verdict: "clear"` removes a verdict; an absent verdict leaves it. `key` absent targets the record.
@@ -363,6 +366,16 @@ function ownRecord(records: MetaFile, entityId: string): MetaRecord {
 export function applyMetaOperation(records: MetaFile, collection: string, entityId: string, authored: Record<string, unknown> | undefined,
   operation: MetaOperation, actor: string, at: string): MetaFile {
   const record = ownRecord(records, entityId);
+  if (operation.kind === "request.claim" || operation.kind === "request.reply") {
+    const requests = record.notes.filter(note => note.request?.id === operation.requestId);
+    if (requests.length === 0) throw new MetaActionError(404, "Unknown request for this entity");
+    const input = { requestId: operation.requestId, actor, at };
+    try {
+      if (operation.kind === "request.claim") return claimRequest(records, input);
+      const claimed = requests[0]!.request!.state === "open" ? claimRequest(records, input) : records;
+      return replyToRequest(claimed, { ...input, text: operation.text });
+    } catch (error) { throw new MetaActionError(400, error instanceof Error ? error.message : "Unable to update request"); }
+  }
   if (operation.kind === "request.open") {
     try {
       return openRequest(records, { entityId, requestId: operation.requestId, kind: operation.requestKind,

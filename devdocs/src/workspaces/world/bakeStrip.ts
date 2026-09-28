@@ -19,7 +19,7 @@ export interface StripView {
   history: { revision: string; label: string; tone: StripTone; when: string }[];
   /** Read the status again soon: a bake is queued or running. */
   poll: boolean;
-  /** The map image is the base world's and this server runs another. */
+  /** The map image does not show the world this server runs: the base world's, or an earlier bake's. */
   mapStale: boolean;
 }
 
@@ -47,8 +47,11 @@ function stepStates(bake: ServerWorldBake): { name: BakeStepName; state: StepSta
 const BAKE_LABEL: Record<WorldBakeStatus, string> = { queued: "Bake queued", baking: "Baking the world", ready: "Baked", failed: "Bake failed", superseded: "Superseded" };
 const BAKE_TONE: Record<WorldBakeStatus, StripTone> = { queued: "info", baking: "info", ready: "ok", failed: "danger", superseded: "warn" };
 
-/** What the strip shows, in repo mode (`undefined` status) or for a server's status at `now`. */
-export function stripView(status: WorldStatus | undefined, now: number): StripView {
+/**
+ * What the strip shows, in repo mode (`undefined` status) or for a server's status at `now`.
+ * `mapRevision` is the world the server's own rendered map shows, if it has one it can use.
+ */
+export function stripView(status: WorldStatus | undefined, now: number, mapRevision?: string): StripView {
   if (!status) return {
     world: { label: "Repository world", tone: "info" },
     note: "Geometry edits (terrain, regions, resource placements) need `npm run world:build` before they ship. The repository has no server bake.",
@@ -78,6 +81,6 @@ export function stripView(status: WorldStatus | undefined, now: number): StripVi
       revision: short(entry.revision), label: BAKE_LABEL[entry.status], tone: BAKE_TONE[entry.status], when: entry.finishedAt ?? entry.queuedAt,
     })),
     poll: Boolean(running),
-    mapStale: !status.base,
+    mapStale: !status.base && mapRevision !== status.revision,
   };
 }

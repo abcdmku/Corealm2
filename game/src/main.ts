@@ -3,6 +3,10 @@
 // import of this file content-free: `tests/client-catalog-page-graph.test.ts` checks it.
 import { installPageCatalog, pageCatalogKind, type InstalledPageCatalog } from "./content/catalogEntry.js";
 import { createBootRecovery } from "./app/bootRecovery.js";
+import { installWorldMath } from "./world/worldMath.js";
+
+// Before anything derives world data, so this page derives the bake's inputs bit for bit on any engine.
+installWorldMath();
 
 // The game owns right-click interactions; never let Chromium replace them with its menu.
 document.addEventListener("contextmenu", (event) => event.preventDefault());

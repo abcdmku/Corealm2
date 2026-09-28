@@ -4,6 +4,7 @@ import { can } from "../../api/backend.js";
 import { bakeWorld, worldStatusQuery } from "../../api/worldBake.js";
 import { Badge, Button, type BadgeTone } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
+import { noteRunningWorld, useServerWorldMap } from "../../model/serverWorldMap.js";
 import { duration, stripView, type StepState, type StripTone, type StripView } from "./bakeStrip.js";
 
 /*
@@ -16,11 +17,15 @@ const TONE: Record<StripTone, BadgeTone> = { ok: "ok", info: "info", warn: "warn
 const STEP_TONE: Record<StepState, BadgeTone> = { done: "ok", running: "info", failed: "danger", waiting: "outline" };
 
 /** The world status on a server, undefined in repo mode or while it loads. */
-export function useWorldStatusView(): { view: StripView; loaded: boolean; error?: string } {
+export function useWorldStatusView(): { view: StripView; loaded: boolean; error?: string; revision?: string } {
   const server = can("publish");
   const query = useQuery({ ...worldStatusQuery(), enabled: server });
   const [now, setNow] = useState(() => Date.now());
-  const view = stripView(server ? query.data ?? undefined : undefined, now);
+  const serverMap = useServerWorldMap();
+  const view = stripView(server ? query.data ?? undefined : undefined, now, serverMap?.worldRevision);
+  const revision = server ? query.data?.revision : undefined;
+  // The map devdocs draws follows the world the server runs (`model/serverWorldMap.ts`).
+  useEffect(() => { if (server && query.data) noteRunningWorld(query.data.revision); }, [server, query.data]);
   // The elapsed time moves while a bake runs even when a poll brings nothing new.
   useEffect(() => {
     if (!view.poll) return;
@@ -29,7 +34,7 @@ export function useWorldStatusView(): { view: StripView; loaded: boolean; error?
   }, [view.poll]);
   if (!server) return { view, loaded: true };
   if (query.isError) return { view, loaded: false, error: query.error instanceof Error ? query.error.message : String(query.error) };
-  return { view, loaded: Boolean(query.data) };
+  return { view, loaded: Boolean(query.data), ...(revision ? { revision } : {}) };
 }
 
 /** `npm run world:build` in a sentence, as code. */
@@ -83,13 +88,6 @@ export function WorldStatusStrip({ status }: { status: ReturnType<typeof useWorl
 function when(at: string): string {
   const time = Date.parse(at);
   return Number.isFinite(time) ? new Date(time).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : at;
-}
-
-/** Over the map, when the server runs a world the shipped map image does not show. */
-export function MapStaleNote() {
-  return <p className="pointer-events-none absolute bottom-2 left-2 z-10 max-w-[calc(100%-1rem)] truncate rounded-sm border border-border bg-card px-2 py-1 text-[11px] text-muted-foreground" role="note">
-    The map image shows the base world; terrain edits appear in game.
-  </p>;
 }
 
 const STRIP = "relative flex h-8 min-w-0 shrink-0 items-center gap-2 border-b border-border-subtle bg-background px-2.5 text-xs whitespace-nowrap";

@@ -1,10 +1,9 @@
 import { Scene, type Group, type Mesh } from "three";
 import { GAME_BOOT_PROFILE } from "../../app/bootProfile.js";
+import { gameWorldPorts, worldSettings } from "../../app/gameWorldPorts.js";
 import { buildDungeonSpec } from "../../app/dungeonSpec.js";
 import { resolveFairyDressing } from "../../app/fairyDressing.js";
-import { fishingSiteAnchors } from "../../app/fishingAccess.js";
 import { registerHabitatClearances } from "../../app/habitatClearances.js";
-import { miningAccessPositions } from "../../app/miningAccess.js";
 import { mobSpawnPlacementPorts } from "../../app/mobSpawns.js";
 import { createRealmTerrain } from "../../app/realmTerrain.js";
 import { registerExclusions } from "../../app/worldExclusions.js";
@@ -14,7 +13,6 @@ import type { RegionId } from "../../contracts.js";
 import { REGIONS } from "../../content/regions.js";
 import { RESOLVED_TABLES } from "../../content/resolvedCatalog.js";
 import { WORLD_HABITATS, type HabitatDef } from "../../content/worldHabitats.js";
-import { WORLD_SITES, type WorldSite } from "../../content/worldSites.js";
 import type { AssetEntry, AssetManifest } from "../../render/assets.js";
 import { buildDungeon, dungeonNavigationBlockers } from "../../render/dungeon.js";
 import { buildMineCutFace } from "../../render/mineCutFace.js";
@@ -34,7 +32,7 @@ import type { WorldDataManifest } from "../worldDataFormat.js";
 import { generationScope } from "../worldDataFormat.js";
 import { WorldRecordWriter, type WorldRecordEntry } from "./worldRecordWriter.js";
 import { exportClientNavmesh, type ClientNavmesh } from "./clientNavmesh.js";
-import { withCorrectlyRoundedMath } from "./correctlyRoundedMath.js";
+import { withWorldMath } from "../worldMath.js";
 
 /**
  * The client world records, baked in plain Node.
@@ -90,7 +88,7 @@ export interface WorldRecordBake {
  */
 export async function bakeWorldRecords(input: WorldRecordBakeInput): Promise<WorldRecordBake> {
   if (input.tables !== RESOLVED_TABLES) throw new Error("bakeWorldRecords bakes the installed catalog. Install the tables first (world/bake/installAndBake.ts), in a process of their own.");
-  return withCorrectlyRoundedMath(() => bake(input));
+  return withWorldMath(() => bake(input));
 }
 
 async function bake(input: WorldRecordBakeInput): Promise<WorldRecordBake> {
@@ -118,7 +116,7 @@ async function bake(input: WorldRecordBakeInput): Promise<WorldRecordBake> {
   const dungeonRegion = REGIONS.find(region => region.dungeon);
   const doorThresholds = dungeonRegion?.dungeon ? authoredThresholds(dungeonRegion.dungeon, heightAt(dungeonRegion.id, ...dungeonRegion.dungeon.entrance)) : [];
   const built = await cachedWorldValue(writer, "assembly/semantic",
-    () => profile.buildSemanticWorld(seed, heightAt, gameWorldPorts({ scene, fairyScene: fairyRealm.scene, terrainAt, heightAt, assets, dungeonGates: doorThresholds.length > 0 })),
+    () => profile.buildSemanticWorld(seed, heightAt, gameWorldPorts({ scene, fairyScene: fairyRealm.scene, terrainAt, heightAt, assets, dungeonGates: doorThresholds.length > 0, authoredAccess: true })),
     (value): value is ReturnType<typeof profile.buildSemanticWorld> => value !== null);
   const worldHabitats: HabitatDef[] = [...WORLD_HABITATS];
   if (terrainSpec.lavaChannels?.length) built.solids.push(...lavaObstacles(terrainSpec.lavaChannels, meshHeightAt));
@@ -188,57 +186,5 @@ async function bake(input: WorldRecordBakeInput): Promise<WorldRecordBake> {
   const manifest: WorldDataManifest = { format: "corealm-world", version: 1, revision: input.geometryRevision,
     scope: generationScope(profile.kind, seed, ""), tiles, records: writer.records };
   return { manifest, navmesh, timings };
-}
-
-/** Boot's world sites: the authored settings, then every habitat as a setting of its own dressing. */
-export function worldSettings(habitats: readonly HabitatDef[]): WorldSite[] {
-  return [...WORLD_SITES, ...habitats.map((habitat): WorldSite => ({
-    id: habitat.id, locationId: habitat.groupId, regionId: habitat.regionId, centre: [0, 0], rotationY: 0, kind: "habitat",
-    workRadius: 0, extent: [0, 0], terrain: { floorRadius: 0, backRise: 0, backDistance: 0, bermWidth: 0, approachAngle: 0 },
-    resourceSlots: [], dressing: habitat.dressing,
-  }))];
-}
-
-/** The ports boot hands `buildSemanticWorld` for the authored game. */
-export function gameWorldPorts(options: {
-  scene: WorldScene; fairyScene: WorldScene; terrainAt: (x: number, z: number) => WorldScene;
-  heightAt: (regionId: RegionId, x: number, z: number) => number;
-  assets: Pick<WorldBakeAssets, "baseY" | "assetSize" | "assetCenterXZ">; dungeonGates: boolean;
-}) {
-  const { scene, terrainAt, assets } = options;
-  const meshHeightAt = (x: number, z: number) => terrainAt(x, z).meshHeightAt(x, z);
-  const roadPolylines = [...scene.getRoadPolylines(), ...options.fairyScene.getRoadPolylines()];
-  const roadDistance = (x: number, z: number): number => {
-    let best = Infinity;
-    for (const line of roadPolylines) {
-      for (let index = 0; index < line.length - 1; index += 1) {
-        const a = line[index]!, b = line[index + 1]!;
-        const dx = b[0] - a[0], dz = b[2] - a[2];
-        const lengthSq = dx * dx + dz * dz;
-        const t = lengthSq <= 1e-9 ? 0 : Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[2]) * dz) / lengthSq));
-        best = Math.min(best, Math.hypot(x - (a[0] + dx * t), z - (a[2] + dz * t)));
-      }
-    }
-    return best;
-  };
-  let fishingAnchors: ReturnType<typeof fishingSiteAnchors> | undefined;
-  const getFishingAnchors = () => fishingAnchors ??= fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(), meshHeightAt);
-  return {
-    heightAt: options.heightAt,
-    dungeonGates: options.dungeonGates,
-    get accessPositions() {
-      return new Map([...getFishingAnchors().banks, ...miningAccessPositions(WORLD_SITES, meshHeightAt, {
-        assetSize: id => assets.assetSize(id), assetCenterXZ: id => assets.assetCenterXZ(id) })]);
-    },
-    get fishingSchools() { return getFishingAnchors().schools; },
-    baseY: (assetId: string): number => assets.baseY(assetId),
-    assetSize: (assetId: string) => assets.assetSize(assetId),
-    assetCenterXZ: (assetId: string) => assets.assetCenterXZ(assetId),
-    roadDistance,
-    minibossCanStand: (regionId: RegionId, x: number, z: number) => {
-      const sample = terrainAt(x, z).sampleWorld(x, z);
-      return sample.playable && sample.semanticRegion === regionId && sample.waterBodyId === null && sample.slope !== null && sample.slope <= .5;
-    },
-  };
 }
 

@@ -17,6 +17,10 @@
  *
  * (`/admin/assets/` is the devdocs build's own folder, so the API is `/admin/files`.)
  *
+ * POST and DELETE take an optional `expect: <index revision>` and answer 409 `stale` when the index
+ * moved since it was read (two authors saving the model overlay). DELETE answers 409
+ * `file_referenced`, naming the records, for a path the active content still uses.
+ *
  * The world descriptor names where the index lives (`WorldDescriptor.contentAssetUrl`).
  */
 

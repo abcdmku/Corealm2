@@ -1,7 +1,7 @@
 import { mapToWorld, worldToMap } from "../../../../game/src/world/mapOrientation.js";
 import { forwardRef, memo, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { WORLD_MAP_DETAIL_RENDITIONS, WORLD_MAP_IMAGE_BOUNDS, WORLD_MAP_MINIMAP_RENDITION, WORLD_MAP_TILED_LEVELS } from "../../../../game/src/generated/worldMapFingerprint.js";
-import { gameUrl } from "../../model/gameUrl.js";
+import { useServerWorldMap, worldMapFileUrl } from "../../model/serverWorldMap.js";
 import { cn } from "../../lib/utils.js";
 import { glyphColor, glyphIcon } from "./glyphs.js";
 import { LAYERS, round, sameSelection, type Bounds, type Feature, type Layer, type Point, type Road, type Selection } from "./model.js";
@@ -65,6 +65,7 @@ type Drag =
 
 export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanvas({ features, roads, layers, selection, anchors, editable, tool, onSelect, onMove, onResize, onMoveAnchor, onNudge, onPlace, onViewChange, onEscape }, ref) {
   const frame = useRef<HTMLDivElement>(null);
+  const serverMap = useServerWorldMap();
   const svg = useRef<SVGSVGElement>(null);
   const tip = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 800, height: 600 });
@@ -260,8 +261,8 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
     <svg ref={svg} style={liveRadius && drag.current?.kind === "resize" ? { cursor: drag.current.cursor } : undefined} className={cn("block size-full touch-none select-none", tool ? "cursor-crosshair" : dragging ? "cursor-grabbing" : "cursor-grab active:cursor-grabbing")} role="img" aria-label="World map" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid slice"
       onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={pointerCancel} onPointerLeave={() => { if (!drag.current) setHover(undefined); }}>
       <g transform="scale(-1 1)">
-      <image href={gameUrl(useTiles ? DETAIL.at(-1)!.path : rendition.path)} x={IMAGE.x} y={IMAGE.y} width={IMAGE.width} height={IMAGE.height} preserveAspectRatio="none" />
-      {tiles.map(tile => <image key={tile.path} href={gameUrl(tile.path)} x={IMAGE.x + tile.column * TILES.tileMetres} y={IMAGE.y + tile.row * TILES.tileMetres} width={TILES.tileMetres} height={TILES.tileMetres} preserveAspectRatio="none" />)}
+      <image href={worldMapFileUrl(useTiles ? DETAIL.at(-1)!.path : rendition.path, serverMap)} x={IMAGE.x} y={IMAGE.y} width={IMAGE.width} height={IMAGE.height} preserveAspectRatio="none" />
+      {tiles.map(tile => <image key={tile.path} href={worldMapFileUrl(tile.path, serverMap)} x={IMAGE.x + tile.column * TILES.tileMetres} y={IMAGE.y + tile.row * TILES.tileMetres} width={TILES.tileMetres} height={TILES.tileMetres} preserveAspectRatio="none" />)}
       {layers.regions && <RegionLayer features={perLayer.regions} marker={marker} selectedKey={selectedKey} />}
       {layers.roads && <RoadLayer roads={roads} />}
       {layers.spawns && <AreaLayer features={perLayer.spawns} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} editable={editable && !tool} liveRadius={liveRadius} override={overrideFor("spawns", liveMove, features)} />}

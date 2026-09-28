@@ -72,7 +72,8 @@ describe("image jobs on a server without an imagegen block", () => {
   let served: Served;
   beforeAll(async () => {
     const route = createImagegenRoute({ config: null, dir: await tempDir(), store: { put: async () => { throw new Error("unused"); } },
-      catalog: { activeRevision: async () => null, sources: async () => null }, publisher: () => null });
+      catalog: { activeRevision: async () => null, sources: async () => null }, publisher: () => null,
+      admin: { listApiTokens: async () => [], roleOf: async () => null, banOf: async () => null } });
     expect(route.service).toBeNull();
     served = await serve(route.route);
   }, 60_000);
@@ -91,7 +92,10 @@ describe("image jobs on a server", () => {
   let served: Served, store: ContentAssetStore, route: ImagegenRoute, jobsDir: string;
   let publisher: Pick<ContentPublisher, "publish"> | null = null;
   const painted: string[] = [];
+  /** When set, painting waits for it: a test changes the world while a job is in flight. */
+  let hold: Promise<void> | null = null;
   const generator: ImagegenGenerator = { generator: "fake painter", run: async input => {
+    await hold;
     painted.push(input.name);
     expect(input.task).toContain(`material "${MATERIAL}" on the 3D model "${ASSET}", 16x8 pixels`);
     await sharp({ create: { width: 32, height: 16, channels: 3, background: { r: 30, g: 60, b: 200 } } }).png().toFile(input.output);
@@ -104,7 +108,7 @@ describe("image jobs on a server", () => {
     store = createContentAssetStore({ dir: await tempDir(), audit: (by, entry) => storage.admin.record(by, entry) });
     jobsDir = await tempDir();
     route = createImagegenRoute({ config: parseImagegenConfig({}), dir: jobsDir, store, catalog: storage.catalog, publisher: () => publisher, generator,
-      audit: (by, entry) => storage.admin.record(by, entry) });
+      admin: storage.admin, audit: (by, entry) => storage.admin.record(by, entry) });
     served = await serve(route.route, { sources: Object.fromEntries(await readContentSources()), store, storage });
   }, 120_000);
   afterAll(async () => { await served?.close(); });
@@ -163,5 +167,36 @@ describe("image jobs on a server", () => {
     expect(audit.filter(entry => entry.action.startsWith("imagegen.")).map(entry => [entry.action, entry.target, entry.accountId]))
       .toEqual(expect.arrayContaining([["imagegen.create", job.id, OWNER], ["imagegen.retry", job.id, OWNER]]));
     expect(audit.some(entry => entry.action === "content.files.put")).toBe(true);
+  }, 120_000);
+  it("fails a job whose creator's token was revoked while it painted, and publishes it as the admin who retries", async () => {
+    const created = await served.call("/admin/tokens", { method: "POST", token: served.session, body: { label: "painter", scopes: ["content:read", "content:publish"] } });
+    const [secret, tokenId] = [created.body.token as string, created.body.id as string];
+    let release!: () => void;
+    hold = new Promise(resolve => { release = resolve; });
+    const posted = await served.call("/admin/imagegen", { method: "POST", token: secret, body: { ...await request(), name: "Ash Deer" } });
+    expect(posted.status, JSON.stringify(posted.body)).toBe(200);
+    const job = posted.body.job as ImagegenJob;
+    expect((await served.call(`/admin/tokens/${tokenId}`, { method: "DELETE", token: served.session })).status).toBe(200);
+    release(); hold = null;
+    await route.service!.idle();
+
+    const failed = (await served.call(`/admin/imagegen/${job.id}`, { token: served.session })).body.job as ImagegenJob;
+    expect(failed.status).toBe("failed");
+    expect(failed.error).toBe(`The API token that started this job (${tokenId}) was revoked. The painted images are kept: Retry as a current admin to publish them.`);
+    const skinsOf = async () => ((await served.call("/admin/content/sources", { token: served.session })).body.sources as { creatureSkins: CreatureSkin[] }).creatureSkins;
+    expect((await skinsOf()).some(skin => skin.id === "ash-deer")).toBe(false);
+
+    const paintedBefore = painted.length;
+    const previous = publisher!, publishedBy: { credential: string }[] = [];
+    publisher = { publish: (body, by) => { publishedBy.push(by); return previous.publish(body, by); } };
+    expect((await served.call(`/admin/imagegen/${job.id}`, { method: "POST", token: served.session })).body.job.status).toBe("queued");
+    await route.service!.idle();
+    const done = (await served.call(`/admin/imagegen/${job.id}`, { token: served.session })).body.job as ImagegenJob;
+    expect(done, done.log).toMatchObject({ status: "done", skinId: "ash-deer" });
+    expect(painted.length).toBe(paintedBefore);
+    expect((await skinsOf()).find(skin => skin.id === "ash-deer")?.name).toBe("Ash Deer");
+    // The retry's caller published it: the session, not the revoked token.
+    expect(publishedBy.map(by => by.credential)).toEqual(["session"]);
+    publisher = previous;
   }, 120_000);
 });

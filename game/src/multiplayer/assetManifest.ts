@@ -4,6 +4,7 @@ import type { ContentDiagnostic } from "../content/compiler/contracts.js";
 import { CONTENT_MANIFEST_OVERLAY, type ContentAssetIndex } from "./contentAssetsContract.js";
 import { parseManifestOverlay } from "../render/manifestOverlay.js";
 import { setMeasuredFootprints } from "../content/worldCreatureResolver.js";
+import { CREATURE_MOTION_TIMING } from "../content/creatureMotionTiming.js";
 import type { AssetEntry } from "../render/assets.js";
 
 /**
@@ -56,15 +57,141 @@ export interface ServerFiles {
  * stored content at start. A store without an overlay adds none and clears the footprints.
  */
 export async function serverModelOverlay(files: ServerFiles): Promise<AssetEntry[]> {
-  const index = await files.index();
-  const stored = Object.hasOwn(index.files, CONTENT_MANIFEST_OVERLAY) && files.read ? await files.read(CONTENT_MANIFEST_OVERLAY) : null;
-  let entries: AssetEntry[] = [];
-  if (stored) {
-    try { entries = parseManifestOverlay(JSON.parse(Buffer.from(stored.bytes).toString("utf8"))); }
-    catch { throw new AssetManifestFailure(`This server's ${CONTENT_MANIFEST_OVERLAY} is not JSON`); }
-  }
+  const entries = await readModelOverlay(files);
   setMeasuredFootprints(entries);
+  setOverlayMotionTiming(entries);
   return entries;
+}
+
+/** The store's overlay entries, parsed, without side effects. */
+async function readModelOverlay(files: ServerFiles, index?: ContentAssetIndex): Promise<AssetEntry[]> {
+  const listed = index ?? await files.index();
+  const stored = Object.hasOwn(listed.files, CONTENT_MANIFEST_OVERLAY) && files.read ? await files.read(CONTENT_MANIFEST_OVERLAY) : null;
+  if (!stored) return [];
+  try { return parseManifestOverlay(JSON.parse(Buffer.from(stored.bytes).toString("utf8"))); }
+  catch { throw new AssetManifestFailure(`This server's ${CONTENT_MANIFEST_OVERLAY} is not JSON`); }
+}
+
+/**
+ * Attack timing of the creature models a server added, where the server's combat reads the build's
+ * (`CREATURE_MOTION_TIMING`, keyed by asset id): each overlay entry with a measured `attackSeconds`
+ * and `contactNormalized` (recorded at upload) is timed like a build model. An overlay entry that
+ * replaces a build model's id wins; the build's timing comes back when the entry goes.
+ */
+const replacedTiming = new Map<string, { seconds: number; contactNormalized: number } | undefined>();
+export function setOverlayMotionTiming(entries: readonly AssetEntry[]): void {
+  for (const [id, original] of replacedTiming) {
+    if (original) CREATURE_MOTION_TIMING[id] = original; else delete CREATURE_MOTION_TIMING[id];
+  }
+  replacedTiming.clear();
+  for (const entry of entries) {
+    const { attackSeconds: seconds, contactNormalized } = entry;
+    if (!(typeof seconds === "number" && seconds > 0 && typeof contactNormalized === "number" && contactNormalized > 0 && contactNormalized < 1)) continue;
+    if (!replacedTiming.has(entry.id)) replacedTiming.set(entry.id, CREATURE_MOTION_TIMING[entry.id]);
+    CREATURE_MOTION_TIMING[entry.id] = { seconds, contactNormalized };
+  }
+}
+
+/** The icon an item draws (`ui/itemIcons.ts` `itemIconUrl`): its base id, with the crafted sets that swapped art. */
+function itemArtworkId(id: string): string {
+  const base = /^(.+)__r(?:10|[1-9])(?:__[a-z]+)?$/.exec(id)?.[1] ?? id;
+  const swapped = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(base);
+  return swapped ? `${swapped[1] === "dragonhide" ? "starhide" : "dragonhide"}_${swapped[2]}` : base;
+}
+
+const rowLabel = (collection: string, row: unknown, index: number): string => {
+  const id = row && typeof row === "object" ? (row as { id?: unknown }).id : undefined;
+  return `${collection}/${typeof id === "string" ? id : index}`;
+};
+
+export interface FileReferencePorts {
+  /** The ACTIVE catalog's source collections (`CatalogStorage.sources()`), or null before the first seed. */
+  sources(): Promise<Readonly<Record<string, unknown>> | null>;
+  files: ServerFiles;
+  /**
+   * The asset host alone (`createAssetHost` without `contentAssets`): an item icon the host also
+   * serves may be removed, since players fall back to it. Absent, every stored icon of an item is kept.
+   */
+  host?: Pick<AssetHost, "missingFiles">;
+}
+
+/**
+ * The files of this server's store that the active content still names, with the records naming
+ * each, for the store's remove guard (`ContentAssetStoreOptions.references`):
+ *
+ * - skin maps (`creatureSkins[].maps`) and `audio/...` files the audio table names;
+ * - item icons (`assets/icons/items/<size>/<artwork>.png`) of existing items, when the asset host
+ *   does not also have that icon;
+ * - model files of overlay entries whose id a row names (and, for a model stored in its own folder,
+ *   every file in that folder), and the overlay itself while any of its models is named.
+ *
+ * Only paths the store holds are listed. Every call reads the active sources again.
+ */
+export function activeFileReferences(ports: FileReferencePorts): () => Promise<Map<string, string[]>> {
+  return async () => {
+    const index = await ports.files.index();
+    const stored = new Set(Object.keys(index.files));
+    const found = new Map<string, string[]>();
+    const add = (path: string, by: string): void => {
+      if (!stored.has(path)) return;
+      const list = found.get(path) ?? found.set(path, []).get(path)!;
+      if (!list.includes(by)) list.push(by);
+    };
+    const sources = await ports.sources();
+    if (!sources) return found;
+
+    const skins = Array.isArray(sources.creatureSkins) ? sources.creatureSkins : [];
+    skins.forEach((row, at) => {
+      const maps = row && typeof row === "object" ? (row as { maps?: unknown }).maps : undefined;
+      if (maps && typeof maps === "object") for (const map of Object.values(maps)) if (typeof map === "string") add(`assets/${map.replace(/^\/+/, "")}`, rowLabel("creatureSkins", row, at));
+    });
+
+    if (sources.audio && typeof sources.audio === "object") for (const [group, entries] of Object.entries(sources.audio)) {
+      const named = entries && typeof entries === "object" ? Object.entries(entries) : [["", entries] as const];
+      for (const [name, value] of named) for (const path of audioFiles(value)) add(path, `audio/${group}${name ? `/${name}` : ""}`);
+    }
+
+    const items = Array.isArray(sources.items) ? sources.items : [];
+    const byArtwork = new Map<string, string[]>();
+    items.forEach((row, at) => {
+      const id = row && typeof row === "object" ? (row as { id?: unknown }).id : undefined;
+      if (typeof id !== "string") return;
+      const artwork = itemArtworkId(id);
+      (byArtwork.get(artwork) ?? byArtwork.set(artwork, []).get(artwork)!).push(rowLabel("items", row, at));
+    });
+    const icons = [...stored].flatMap(path => {
+      const artwork = /^assets\/icons\/items\/\d+\/([^/]+)\.png$/.exec(path)?.[1];
+      return artwork && byArtwork.has(artwork) ? [{ path, artwork }] : [];
+    });
+    const onlyHere = new Set(ports.host ? await ports.host.missingFiles(icons.map(icon => icon.path)) : icons.map(icon => icon.path));
+    for (const icon of icons) if (onlyHere.has(icon.path)) for (const by of byArtwork.get(icon.artwork)!) add(icon.path, by);
+
+    const overlay = await readModelOverlay(ports.files, index);
+    if (overlay.length) {
+      const ids = new Set(overlay.map(entry => entry.id));
+      const users = new Map<string, Set<string>>();
+      const walk = (value: unknown, label: string): void => {
+        if (typeof value === "string") { if (ids.has(value)) (users.get(value) ?? users.set(value, new Set()).get(value)!).add(label); }
+        else if (Array.isArray(value)) value.forEach(entry => walk(entry, label));
+        else if (value && typeof value === "object") Object.values(value).forEach(entry => walk(entry, label));
+      };
+      for (const [collection, rows] of Object.entries(sources)) {
+        if (Array.isArray(rows)) rows.forEach((row, at) => walk(row, rowLabel(collection, row, at)));
+        else walk(rows, collection);
+      }
+      for (const entry of overlay) {
+        const by = users.get(entry.id);
+        if (!by) continue;
+        const file = `assets/${entry.file}`, folder = file.slice(0, file.lastIndexOf("/") + 1);
+        const own = folder.endsWith(`/${entry.id}/`) ? [...stored].filter(path => path.startsWith(folder)) : [file];
+        for (const label of by) {
+          for (const path of new Set([file, ...own])) add(path, label);
+          add(CONTENT_MANIFEST_OVERLAY, label);
+        }
+      }
+    }
+    return found;
+  };
 }
 
 export const ASSET_MANIFEST_MAX_BYTES = 32 * 1024 * 1024;

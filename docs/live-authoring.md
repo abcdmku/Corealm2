@@ -110,11 +110,16 @@ authoring on the Art stage, server file store and model overlay, image jobs (rea
 bake with the real baker (a sea-level edit, about 4.5 minutes, player rejoined on the new world), and a
 page reloading onto a server-baked world. Node world bake is byte-identical to the Chromium bake.
 
-Open items:
-- Browsers whose `Math.sin/cos/atan2/...` are not correctly rounded (Chromium's are) can compute
-  different scatter signatures than the bake. This predates live authoring (release pages check the
-  shipped records the same way); Firefox and Safari are untested.
-- The world map image is not re-rendered by a server bake.
-- Server-added models reach a page at join, after its scene is built; only creatures use them today.
-- Deploying to a live server needs a base update (the `creatureSkins` table is new), the reverse proxy
-  forwarding `/content-assets/`, and an `imagegen` block in `corealm-server.json` to offer image jobs.
+Follow-ups done (September 28): every page and every Node bake runs one deterministic world Math
+(`game/src/world/worldMath.ts`: correctly rounded transcendentals where the engine's are not, V8's
+hypot, fdlibm pow everywhere), so Chromium, Firefox and WebKit derive identical world data; Firefox
+boots and plays on the baked world, and its listener pose uses the older setters. The world map is
+re-rendered for a server world from devdocs (World > Render map, in the author's browser) and served
+from the server's files. Server models install before a page builds its scene; world threads read
+the model overlay's timings; uploaded creature models record attack timing; multi-file glTF models
+upload. The file store refuses deleting a file content still uses and takes `expect` revisions.
+Image jobs re-check the author's credential before publishing. Review requests can be claimed and
+answered on a server. The packaged baker runs with release-tree assets (proven on a copy of Ravenwood).
+
+Still open: a server world larger than the build's map frame is cropped on its map; `cbrt`, hyperbolic
+functions and `**` are not part of the world Math (none feed world data today).

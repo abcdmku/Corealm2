@@ -34,7 +34,8 @@ const BASE64 = /^[A-Za-z0-9+/]*={0,2}$/;
 const isBase64 = (text: string): boolean => text.length % 4 === 0 && BASE64.test(text);
 
 export class ContentAssetFailure extends Error {
-  constructor(readonly status: number, readonly code: string, message: string) { super(message); this.name = "ContentAssetFailure"; }
+  /** `details` go beside `code` and `message` in the error body: `revision` for `stale`, `references` for `file_referenced`. */
+  constructor(readonly status: number, readonly code: string, message: string, readonly details: Readonly<Record<string, unknown>> = {}) { super(message); this.name = "ContentAssetFailure"; }
 }
 
 /** The one path check: the contract's pattern, which already refuses `.` and `..` segments and backslashes. */
@@ -59,16 +60,25 @@ export interface ContentAssetStoreOptions {
   /** The server's audit helper, `ServerAdminStorage.record`. */
   audit?(by: AdminActor, entry: AuditWrite): Promise<void>;
   log?(event: Record<string, unknown>): void;
+  /**
+   * The stored paths the ACTIVE catalog still names, each with the records that name it
+   * (`assetManifest.ts` `activeFileReferences`). Removing any of them is refused (409
+   * `file_referenced`), so a delete never leaves a skin, sound, icon or model pointing at nothing.
+   */
+  references?(): Promise<ReadonlyMap<ContentAssetPath, readonly string[]>>;
 }
+
+/** `expect` is the index revision the caller read; a write after the index moved is refused (409 `stale`). */
+export interface ContentAssetWriteOptions { expect?: string }
 
 export interface ContentAssetStore {
   readonly publicUrl: string | null;
   index(): Promise<ContentAssetIndex>;
   /** Base64 contents by path. Checks every file before writing any. */
-  put(files: Readonly<Record<string, string>>, actor: AdminActor): Promise<ContentAssetIndex>;
+  put(files: Readonly<Record<string, string>>, actor: AdminActor, options?: ContentAssetWriteOptions): Promise<ContentAssetIndex>;
   /** `put` for a caller that already holds the bytes, such as a world bake writing `generated/...`. Same checks, same audit. */
   putBytes(files: Readonly<Record<string, Uint8Array>>, actor: AdminActor): Promise<ContentAssetIndex>;
-  remove(paths: readonly string[], actor: AdminActor): Promise<ContentAssetIndex>;
+  remove(paths: readonly string[], actor: AdminActor, options?: ContentAssetWriteOptions): Promise<ContentAssetIndex>;
   read(path: string): Promise<{ bytes: Buffer; entry: ContentAssetEntry } | null>;
   /** `GET|POST|DELETE /admin/files`. */
   route: AdminRoute;
@@ -109,7 +119,12 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
     return next;
   }
 
-  async function put(files: Readonly<Record<string, string>>, actor: AdminActor): Promise<ContentAssetIndex> {
+  function checkExpected(before: ContentAssetIndex, write: ContentAssetWriteOptions | undefined): void {
+    if (write?.expect !== undefined && write.expect !== before.revision)
+      throw new ContentAssetFailure(409, "stale", "This server's files changed since they were read. Read them again and retry.", { revision: before.revision });
+  }
+
+  async function put(files: Readonly<Record<string, string>>, actor: AdminActor, write_?: ContentAssetWriteOptions): Promise<ContentAssetIndex> {
     const decoded: [string, Buffer][] = [];
     const paths = Object.keys(files);
     if (!paths.length) throw new ContentAssetFailure(400, "invalid_request", "files names at least one file");
@@ -121,20 +136,21 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
       if (!isBase64(text)) throw new ContentAssetFailure(400, "invalid_request", `files[${JSON.stringify(path)}] must be base64`);
       decoded.push([path, Buffer.from(text, "base64")]);
     }
-    return write(decoded, actor);
+    return write(decoded, actor, write_);
   }
   async function putBytes(files: Readonly<Record<string, Uint8Array>>, actor: AdminActor): Promise<ContentAssetIndex> {
     const paths = Object.keys(files);
     if (!paths.length) throw new ContentAssetFailure(400, "invalid_request", "files names at least one file");
     return write(paths.map(path => { contentAssetPath(path); const bytes = files[path]!; return [path, Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)]; }), actor);
   }
-  async function write(decoded: readonly [string, Buffer][], actor: AdminActor): Promise<ContentAssetIndex> {
+  async function write(decoded: readonly [string, Buffer][], actor: AdminActor, expected?: ContentAssetWriteOptions): Promise<ContentAssetIndex> {
     for (const [path, bytes] of decoded) {
       if (!bytes.length) throw new ContentAssetFailure(400, "invalid_request", `${path} is empty`);
       if (bytes.length > maxContentAssetBytes(path)) throw new ContentAssetFailure(413, "payload_too_large", `${path} is larger than ${mibOf(maxContentAssetBytes(path))}`);
     }
     return serial(async () => {
       const before = await index(), at = new Date(now()).toISOString();
+      checkExpected(before, expected);
       const files: Record<string, ContentAssetEntry> = { ...before.files };
       const changed: Record<string, string> = {};
       for (const [path, bytes] of decoded) {
@@ -154,13 +170,22 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
     });
   }
 
-  async function remove(paths: readonly string[], actor: AdminActor): Promise<ContentAssetIndex> {
+  async function remove(paths: readonly string[], actor: AdminActor, expected?: ContentAssetWriteOptions): Promise<ContentAssetIndex> {
     if (!paths.length || paths.length > MAX_REMOVE_PATHS) throw new ContentAssetFailure(400, "invalid_request", `paths names 1 to ${MAX_REMOVE_PATHS} files`);
     for (const path of paths) contentAssetPath(path);
     return serial(async () => {
       const before = await index();
       const missing = paths.filter(path => !before.files[path]);
       if (missing.length) throw new ContentAssetFailure(404, "not_found", `This server stores no ${missing.join(", ")}`);
+      checkExpected(before, expected);
+      const named = options.references ? await options.references() : null;
+      const held = named ? paths.filter(path => named.get(path)?.length) : [];
+      if (held.length) {
+        const references = Object.fromEntries(held.map(path => [path, [...named!.get(path)!]]));
+        const listed = (path: string): string => { const by = references[path]!; return `${path} (${by.slice(0, 3).join(", ")}${by.length > 3 ? ", …" : ""})`; };
+        throw new ContentAssetFailure(409, "file_referenced",
+          `The active content still uses ${held.map(listed).join("; ")}. Publish content that no longer names it first.`, { references });
+      }
       const files = { ...before.files };
       for (const path of paths) delete files[path];
       // The index goes first: a file it no longer names is never served, even if the delete below fails.
@@ -183,9 +208,18 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
 
   const route: AdminRoute = async context => {
     if (context.rest[0] !== "files") return false;
-    const fail = (error: unknown): never => {
-      if (error instanceof ContentAssetFailure) context.fail(error.status, error.code, error.message);
-      throw error;
+    /** A failure with details is answered here, since `context.fail` carries only a code and message. */
+    const fail = (error: unknown): null => {
+      if (!(error instanceof ContentAssetFailure)) throw error;
+      if (!Object.keys(error.details).length) context.fail(error.status, error.code, error.message);
+      context.json(error.status, { error: { code: error.code, message: error.message, ...error.details } });
+      return null;
+    };
+    const answer = (result: ContentAssetIndex | null): void => { if (result) context.json(200, result); };
+    const expected = (body: Record<string, unknown>): ContentAssetWriteOptions => {
+      if (body.expect === undefined) return {};
+      if (typeof body.expect !== "string" || !/^[a-f0-9]{32}$/.test(body.expect)) context.fail(400, "invalid_request", "expect is the index revision the caller read");
+      return { expect: body.expect as string };
     };
     if (context.rest.length !== 1) context.fail(404, "not_found", "No such admin endpoint");
     if (context.method === "GET") {
@@ -195,14 +229,14 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
       const { actor } = await context.scoped("content:publish");
       const body = await context.body(MAX_CONTENT_ASSET_BODY_BYTES);
       const files = body.files;
-      if (Object.keys(body).some(key => key !== "files") || !files || typeof files !== "object" || Array.isArray(files))
-        context.fail(400, "invalid_request", "The body is {files: {<path>: <base64>}}");
-      context.json(200, await put(files as Record<string, string>, actor).catch(fail));
+      if (Object.keys(body).some(key => key !== "files" && key !== "expect") || !files || typeof files !== "object" || Array.isArray(files))
+        context.fail(400, "invalid_request", "The body is {files: {<path>: <base64>}, expect?: <index revision>}");
+      answer(await put(files as Record<string, string>, actor, expected(body)).catch(fail));
     } else if (context.method === "DELETE") {
       const { actor } = await context.scoped("content:publish");
       const body = await context.body();
-      if (Object.keys(body).some(key => key !== "paths") || !Array.isArray(body.paths)) context.fail(400, "invalid_request", "The body is {paths: string[]}");
-      context.json(200, await remove(body.paths as string[], actor).catch(fail));
+      if (Object.keys(body).some(key => key !== "paths" && key !== "expect") || !Array.isArray(body.paths)) context.fail(400, "invalid_request", "The body is {paths: string[], expect?: <index revision>}");
+      answer(await remove(body.paths as string[], actor, expected(body)).catch(fail));
     } else context.fail(405, "method_not_allowed", "GET, POST or DELETE");
     return true;
   };

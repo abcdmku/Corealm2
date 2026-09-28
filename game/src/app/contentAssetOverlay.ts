@@ -15,6 +15,19 @@ async function readManifestOverlay(request: typeof fetch): Promise<ReturnType<ty
 }
 
 /**
+ * Before boot, on a page reloading onto a server's baked world (`content/catalogEntry.ts`): install
+ * the models that server adds when its file index lists an overlay, so every registry the scene
+ * builds resolves them from its first frame. `config.ts`'s file overlay must already be on that
+ * server. Resolves to how many models it installed.
+ */
+export async function installServerModelOverlay(files: Readonly<Record<string, unknown>>, request: typeof fetch = fetch): Promise<number> {
+  if (!files[CONTENT_MANIFEST_OVERLAY]) return 0;
+  const entries = await readManifestOverlay(request);
+  setManifestOverlay(entries.length ? { entries } : null);
+  return entries.length;
+}
+
+/**
  * Keeps `config.ts`'s overlay on the files of the world the page is in: `enter` with the joined
  * world's `contentAssetUrl` loads `index.json`, `refresh` reloads it after a `content-updated`, and
  * `leave` clears it. A load that finishes after the page left, or joined elsewhere, is dropped. A

@@ -19,6 +19,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { argValue } from "../lib/paths.js";
 import { changedCollections } from "../../game/src/content/compiler/changes.js";
+import { CATALOG_TABLE_APPLIES } from "../../game/src/multiplayer/catalogHost.js";
 import { readContentSources } from "./compile.js";
 import { contentRoot } from "./format.js";
 import { ContentServer, explainRefusal, redact, safeId, ServerRefusal, type PublishReply } from "./serverSync.js";
@@ -103,7 +104,11 @@ export function publishReport(result: PublishResult): string {
     `sent:      ${result.sent.join(", ")}`,
   ];
   if (reply.live.length > 0) lines.push(`live now:  ${reply.live.join(", ")}`);
-  lines.push(`on restart: ${reply.onRestart.length ? reply.onRestart.join(", ") : "nothing"}`);
+  // `onRestart` holds every table that is not live; the ones that reshape the baked world move with a server world bake instead.
+  const rebuild = reply.onRestart.filter(name => CATALOG_TABLE_APPLIES[name] === "rebake");
+  const restart = reply.onRestart.filter(name => CATALOG_TABLE_APPLIES[name] !== "rebake");
+  lines.push(`on restart: ${restart.length ? restart.join(", ") : "nothing"}`);
+  if (rebuild.length > 0) lines.push(`world rebuild: ${rebuild.join(", ")}`);
   for (const [name, ids] of Object.entries(reply.affected)) {
     if (ids.length > 0) lines.push(`  ${name}: ${ids.slice(0, 20).map(safeId).join(", ")}${ids.length > 20 ? ` and ${ids.length - 20} more` : ""}`);
   }

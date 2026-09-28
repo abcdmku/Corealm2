@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { WORLD_MAP_DETAIL_RENDITIONS } from "../../../game/src/generated/worldMapFingerprint.js";
-import { gameUrl } from "../model/gameUrl.js";
+import { useServerWorldMap, worldMapFileUrl } from "../model/serverWorldMap.js";
 import { IMAGE_BOX, boxFraction, cropPosition, xAtFraction, zAtFraction } from "../model/worldMap.js";
 import { useReferenceIndex } from "../model/refs.js";
 import { contentRows } from "../model/rows.js";
@@ -28,6 +28,7 @@ const IMAGE = WORLD_MAP_DETAIL_RENDITIONS.find(rendition => rendition.id === "de
 */
 export function PointsMap({ points, onOpen, onOpenAt, className, labels, caption }: { points: readonly MapPoint[]; onOpen?: (point: MapPoint) => void; onOpenAt?: (x: number, z: number) => void; className?: string; labels?: "always" | "hover"; /** Names the map when it is not the overworld ("Fairy realm"). */ caption?: string }) {
   const { index } = useReferenceIndex();
+  const serverMap = useServerWorldMap();
   // Region outlines from the world file, for the realms that have no drawn map.
   const regions = useMemo(() => {
     const world = index.collections.get("worldRegions");
@@ -63,7 +64,7 @@ export function PointsMap({ points, onOpen, onOpenAt, className, labels, caption
   const grid = `${(40 / view.spanX) * 100}%`;
   const style = drawn ? {
     aspectRatio: String(ASPECT),
-    backgroundImage: `url(${gameUrl(IMAGE.path)})`,
+    backgroundImage: `url(${worldMapFileUrl(IMAGE.path, serverMap)})`,
     backgroundSize: `${(IMAGE_BOX.spanX / view.spanX) * 100}% ${(IMAGE_BOX.spanZ / view.spanZ) * 100}%`,
     backgroundPosition: `${offset.u * 100}% ${offset.v * 100}%`,
   } : {

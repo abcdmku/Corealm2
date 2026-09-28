@@ -18,6 +18,11 @@ export function setContentFiles(base: string, files: Readonly<Record<string, { s
   for (const listener of listeners) listener();
 }
 
+/** A newer index of the same server, such as the answer to a `POST` or `DELETE /admin/files`. */
+export function adoptContentIndex(files: Readonly<Record<string, { sha256: string }>>): void {
+  setContentFiles(contentFiles.base, files);
+}
+
 /** Runs after each new file index, e.g. to reload the server's model overlay when its hash moved. */
 export function onContentFiles(listener: () => void): () => void {
   listeners.add(listener);

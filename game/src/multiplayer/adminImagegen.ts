@@ -2,7 +2,7 @@ import type { ImagegenJob, ImagegenKind } from "../../../devdocs/shared/skinCont
 import type { CreatureSkin } from "../content/schema/creatureSkins.js";
 import { collectionRevision } from "../content/compiler/revision.js";
 import type { AdminRoute, AdminRouteContext } from "./adminApi.js";
-import type { AdminActor, AuditWrite } from "./adminStorage.js";
+import type { AdminActor, AuditWrite, ServerAdminStorage } from "./adminStorage.js";
 import type { CatalogStorage } from "./catalogStorage.js";
 import type { ContentAssetStore } from "./contentAssets.js";
 import { PublishFailure, type ContentPublisher } from "./contentPublish.js";
@@ -17,14 +17,15 @@ import {
  *   GET  /admin/imagegen          content:read     { jobs: ImagegenJob[] }  newest first
  *   POST /admin/imagegen          content:publish  ImagegenRequest -> { job }
  *   GET  /admin/imagegen/<jobId>  content:read     { job }
- *   POST /admin/imagegen/<jobId>  content:publish  { job }  retry a failed job; painted images are reused
+ *   POST /admin/imagegen/<jobId>  content:publish  { job }  retry a failed job as the caller; painted images are reused
  *
  * Offered only when the server's config has an `imagegen` block; without one every path answers
  * 404 `not_offered`, which devdocs' capability probe reads as absent. Jobs live in
  * `<data>/imagegen-jobs/<jobId>/`. A finished skin job stores its maps in the server's file store
  * (`assets/skins/<asset>/<skin>/<material>.png`) and publishes the `creatureSkins` row as the admin
- * who started the job, with the note `Image job <id>`. A failed store or publish keeps the painted
- * maps, so Retry publishes without painting again.
+ * who started the job, with the note `Image job <id>`, after checking that admin's credential still
+ * stands (`ownerStanding`). A failed check, store or publish keeps the painted maps, so Retry
+ * publishes without painting again, as whoever retried.
  */
 
 /** The `imagegen` block of `corealm-server.json`. Every field is optional; `{}` offers Codex CLI at medium effort. */
@@ -72,6 +73,8 @@ export interface ImagegenRouteOptions {
    * null until then, and a finished job fails (Retry publishes) if it is still null.
    */
   publisher(): Pick<ContentPublisher, "publish"> | null;
+  /** Where a job's owner is looked up again before its finishing publish (`ownerStanding`). */
+  admin: Pick<ServerAdminStorage, "listApiTokens" | "roleOf" | "banOf">;
   /** The server's audit helper, `ServerAdminStorage.record`. */
   audit?(by: AdminActor, entry: AuditWrite): Promise<void>;
   log?(event: Record<string, unknown>): void;
@@ -96,6 +99,31 @@ function publishError(error: unknown): Error {
   const problems = Array.isArray(error.details.problems) ? error.details.problems as { path?: string; message?: string }[] : [];
   const listed = problems.slice(0, 3).map(problem => `${problem.path ? `${problem.path}: ` : ""}${problem.message ?? ""}`).join("; ");
   return new Error(`Publish refused (${error.code}): ${error.message}${listed ? ` ${listed}` : ""}`);
+}
+
+/**
+ * Whether the admin who owns a job can still write, as the admin API would judge a fresh request:
+ * a token must still exist, be unexpired and hold `content:publish`; a session's account must still
+ * hold a role and not be banned. A job runs for minutes, so its creator's access can end meanwhile.
+ * (The actor carries no session hash, so a single signed-out session whose account keeps its role
+ * still passes.)
+ */
+export function ownerStanding(admin: ImagegenRouteOptions["admin"], now: () => number = Date.now): (owner: AdminActor) => Promise<string | null> {
+  return async owner => {
+    const at = now();
+    if (owner.credential.startsWith("token:")) {
+      const id = owner.credential.slice("token:".length);
+      const token = (await admin.listApiTokens()).find(record => record.id === id);
+      if (!token) return `The API token that started this job (${id}) was revoked`;
+      if (token.expiresAt !== null && token.expiresAt <= at) return `The API token that started this job (${id}) has expired`;
+      if (!token.scopes.includes("content:publish")) return `The API token that started this job (${id}) no longer holds content:publish`;
+      return null;
+    }
+    if (!owner.accountId) return "The credential that started this job names no account";
+    if (!await admin.roleOf(owner.accountId)) return `The admin who started this job (${owner.accountId}) no longer holds a role on this server`;
+    if (await admin.banOf(owner.accountId, at)) return `The admin who started this job (${owner.accountId}) is banned from this server`;
+    return null;
+  };
 }
 
 /** The server's skin kind: maps into the file store, then the row published as the job's creator. */
@@ -145,6 +173,7 @@ export function createImagegenRoute(options: ImagegenRouteOptions): ImagegenRout
     ...(config.timeoutMinutes ? { timeoutMs: config.timeoutMinutes * 60_000 } : {}),
     ...(options.now ? { now: () => new Date(options.now!()) } : {}),
     kinds: { skin: serverSkinKind(options) },
+    standing: ownerStanding(options.admin, options.now),
   }) : null;
 
   const failed = (context: AdminRouteContext) => (error: unknown): never => {
@@ -183,7 +212,8 @@ export function createImagegenRoute(options: ImagegenRouteOptions): ImagegenRout
       context.json(200, { job });
     } else if (method === "POST") {
       const { actor } = await context.scoped("content:publish");
-      const job = await jobs.retry(id).catch(failed(context));
+      // The caller finishes the retried job: its creator's access may be what failed it.
+      const job = await jobs.retry(id, actor).catch(failed(context));
       if (!job) context.fail(404, "not_found", "Unknown job");
       await audit(actor, "imagegen.retry", job);
       context.json(200, { job });

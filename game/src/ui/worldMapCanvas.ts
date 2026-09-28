@@ -12,7 +12,6 @@
  * was a single 1 MB 4800x6600 file that had to arrive in full before anything sharpened, and every
  * frame resampled all 31.7 megapixels of it.
  */
-import { publicUrl } from "../app/config.js";
 import { worldToMap } from "../world/mapOrientation.js";
 import type { Vec3 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
@@ -22,6 +21,7 @@ import {
   WORLD_MAP_IMAGE_BOUNDS,
   WORLD_MAP_TILED_LEVELS,
 } from "../generated/worldMapFingerprint.js";
+import { worldMapUrl } from "../world/serverWorldMap.js";
 import type { MapTerrainSource } from "./panels.js";
 import { uiWork } from "./uiWork.js";
 
@@ -558,9 +558,7 @@ export class WorldMapCanvas {
       this.scheduleRender();
     };
     image.crossOrigin = "anonymous";
-    const imageUrl = new URL(publicUrl(rendition.path), document.baseURI);
-    imageUrl.searchParams.set("v", rendition.sha256);
-    image.src = imageUrl.href;
+    image.src = worldMapUrl(rendition);
   }
 
   /**
@@ -805,9 +803,7 @@ export class WorldMapCanvas {
       this.scheduleRender();
     };
     image.crossOrigin = "anonymous";
-    const imageUrl = new URL(publicUrl(tile.path), document.baseURI);
-    imageUrl.searchParams.set("v", tile.sha256);
-    image.src = imageUrl.href;
+    image.src = worldMapUrl(tile);
   }
 
   /**

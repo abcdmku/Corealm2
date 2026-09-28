@@ -3,7 +3,8 @@ import { ImageOff } from "lucide-react";
 import { Badge, Button, Checkbox, Textarea } from "../../components/ui/index.js";
 import { Row, Section, Static } from "../../ui/field/index.js";
 import { cn } from "../../lib/utils.js";
-import { ITEM_ICON_GAME_SIZE, ITEM_ICON_MASTER_SIZE } from "../../../../game/src/content/itemIconArt.js";
+import { serverFileSha } from "../../model/serverFiles.js";
+import { ITEM_ICON_GAME_SIZE, ITEM_ICON_MASTER_SIZE, itemIconPublicPaths } from "../../../../game/src/content/itemIconArt.js";
 import {
   deriveUpload, iconArtworkId, iconBlock, iconUrls, itemIconPrompt, repoIcons, reviewIcon, startIconJob, storeUpload, useIconState,
   type IconFacts, type IconUpload,
@@ -28,17 +29,23 @@ function Note({ tone = "muted", children }: { tone?: "muted" | "error"; children
   return <p className={cn("text-[11px] leading-snug", tone === "error" ? "text-destructive" : "text-faint")} role={tone === "error" ? "alert" : undefined}>{children}</p>;
 }
 
-/** One size at its real pixel size, on the inventory's slot colour so the 48 reads as it will in play. */
-function Tile({ src, size, label }: { src: string | undefined; size: number; label: string }) {
-  const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(false), [src]);
-  return <figure className="m-0 flex flex-col items-center gap-1" data-icon-size={size}>
+/**
+ * One size at its real pixel size, on the inventory's slot colour so the 48 reads as it will in play.
+ * With `fallback` (the 48 icon), a master that does not load shows the 48 upscaled with crisp pixels:
+ * a base item on a live server has no master there, only the host's 48.
+ */
+function Tile({ src, fallback, size, label }: { src: string | undefined; fallback?: string; size: number; label: string }) {
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => setAttempt(0), [src, fallback]);
+  const sources = [src, fallback].filter((value): value is string => Boolean(value));
+  const shown = sources[attempt], upscaled = shown !== undefined && shown === fallback && shown !== src;
+  return <figure className="m-0 flex flex-col items-center gap-1" data-icon-size={size} data-upscaled={upscaled ? "" : undefined}>
     <span className="grid place-items-center rounded-sm border border-border-subtle bg-[#1d1916]" style={{ width: size + 8, height: size + 8 }}>
-      {src && !failed
-        ? <img src={src} alt={label} width={size} height={size} style={{ width: size, height: size, imageRendering: "auto" }} onError={() => setFailed(true)} />
+      {shown
+        ? <img key={shown} src={shown} alt={label} width={size} height={size} style={{ width: size, height: size, imageRendering: upscaled ? "pixelated" : "auto" }} onError={() => setAttempt(attempt + 1)} />
         : <span className="grid place-items-center text-faint [&_svg]:size-5" style={{ width: size, height: size }} title={`No ${label}`}><ImageOff /></span>}
     </span>
-    <figcaption className="text-[10.5px] text-faint">{label}</figcaption>
+    <figcaption className="text-[10.5px] text-faint">{upscaled ? `${label} (48 upscaled)` : label}</figcaption>
   </figure>;
 }
 
@@ -66,7 +73,7 @@ export function ItemIconPanel({ itemId, facts, title = "Icon" }: { itemId: strin
   </span>}>
     <div className="flex flex-wrap items-end gap-4 py-1" data-item-icon={artworkId}>
       <Tile src={urls.game} size={ITEM_ICON_GAME_SIZE} label="48 inventory" />
-      <Tile src={urls.master} size={ITEM_ICON_MASTER_SIZE} label="256 master" />
+      <Tile src={repo || serverFileSha(itemIconPublicPaths(artworkId).master) ? urls.master : undefined} fallback={urls.game} size={ITEM_ICON_MASTER_SIZE} label="256 master" />
     </div>
     {artworkId !== itemId && <Note>This item draws the icon of <code>{artworkId}</code>; changes here change that icon.</Note>}
     <Row label="Review">

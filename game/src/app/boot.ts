@@ -45,7 +45,6 @@ import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";
 import type { ForestTreeDescriptor } from "../world/forestResources.js";
 import { ForestPresentation } from "../render/forestPresentation.js";
 import { ForestObstacles } from "../world/forestObstacles.js";
-import { WORLD_SITES, type WorldSite } from "../content/worldSites.js";
 import { WORLD_HABITATS, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
 import { habitatIdleTargets } from "../world/habitatMovement.js";
 import { resolveWorldSiteDressing, type ResolvedWorldSiteDressing } from "../render/worldSiteDressing.js";
@@ -89,8 +88,7 @@ import { GameLoop } from "./loop.js";
 import { formatBootAssetProgress } from "./bootStatus.js";
 import { InputController } from "../input/mouse.js";
 import { prepareWorldSurface } from "./worldSurface.js";
-import { fishingSiteAnchors } from "./fishingAccess.js";
-import { miningAccessPositions } from "./miningAccess.js";
+import { gameWorldPorts, worldSettings } from "./gameWorldPorts.js";
 import { CAMERA } from "./config.js";
 import { EntityStore, straightLineDistance } from "../world/entities.js";
 import { InteractionDispatcher } from "../world/interactions.js";
@@ -644,47 +642,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Fallen Duskoak hovered 5.77 m and the Coldbrace fletching bench 1.41 m, and why 74 of 151
   // measured entities sat more than 5 cm off the ground. `assetSize` sizes the collision volumes
   // that make the world solid at all.
-  const roadPolylines = [...scene.getRoadPolylines(), ...(fairyRealm?.scene.getRoadPolylines() ?? [])];
-  const roadDistance = (x: number, z: number): number => {
-    let best = Infinity;
-    for (const line of roadPolylines) {
-      for (let index = 0; index < line.length - 1; index += 1) {
-        const a = line[index]!;
-        const b = line[index + 1]!;
-        const dx = b[0] - a[0];
-        const dz = b[2] - a[2];
-        const lengthSq = dx * dx + dz * dz;
-        const t = lengthSq <= 1e-9 ? 0 : Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[2]) * dz) / lengthSq));
-        best = Math.min(best, Math.hypot(x - (a[0] + dx * t), z - (a[2] + dz * t)));
-      }
-    }
-    return best;
-  };
-  // One pass over the solved water bodies yields both halves of a fishery: the dry stance and the
-  // school it faces. They have to come from the same solved contour or they drift apart.
-  let fishingAnchors: ReturnType<typeof fishingSiteAnchors> | undefined;
-  const getFishingAnchors = () => fishingAnchors ??= fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(),
-    (x, z) => terrainAt(x, z).meshHeightAt(x, z));
-  const worldPorts = {
-    heightAt,
-    dungeonGates: worldDoorThresholds.length > 0,
-      get accessPositions() { return profile.kind === 'game' ? new Map([
-        ...getFishingAnchors().banks,
-        ...miningAccessPositions(WORLD_SITES, (x, z) => terrainAt(x, z).meshHeightAt(x, z), {
-          assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
-        }),
-      ]) : undefined; },
-      get fishingSchools() { return profile.kind === 'game' ? getFishingAnchors().schools : undefined; },
-    baseY: (assetId: string): number => assets.baseY(assetId),
-    assetSize: (assetId: string): { x: number; y: number; z: number } | null => assets.assetSize(assetId),
-    assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
-    roadDistance,
-    minibossCanStand: (regionId: RegionId, x: number, z: number) => {
-      const sample = terrainAt(x, z).sampleWorld(x, z);
-      return sample.playable && sample.semanticRegion === regionId && sample.waterBodyId === null
-        && sample.slope !== null && sample.slope <= .5;
-    },
-  };
+  const worldPorts = gameWorldPorts({ scene, fairyScene: fairyRealm?.scene ?? null, terrainAt, heightAt, assets,
+    dungeonGates: worldDoorThresholds.length > 0, authoredAccess: profile.kind === 'game' });
   const shopLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("shop") === "1"
     ? await import("../featureLab/shop.js") : null;
   const shopFixture = shopLab?.assembleShopFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), worldPorts,
@@ -799,19 +758,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const { buildMineCutFace } = await import("../render/mineCutFace.js");
     // These are authored settings, loaded before navigation so visible rock faces and work
     // furniture have the same footprints in rendering, pathfinding and direct movement.
-    const settings: WorldSite[] = [...WORLD_SITES, ...worldHabitats.map((habitat): WorldSite => ({
-      id: habitat.id,
-      locationId: habitat.groupId,
-      regionId: habitat.regionId,
-      centre: [0, 0],
-      rotationY: 0,
-      kind: "habitat",
-      workRadius: 0,
-      extent: [0, 0],
-      terrain: { floorRadius: 0, backRise: 0, backDistance: 0, bermWidth: 0, approachAngle: 0 },
-      resourceSlots: [],
-      dressing: habitat.dressing,
-    }))];
+    const settings = worldSettings(worldHabitats);
     for (const setting of settings) {
       if (!setting.dressing.length) continue;
       const settingScene = terrainAt(setting.centre[0], setting.centre[1]);
@@ -3075,7 +3022,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   installGameDebug({
     store, events, clock, nav, movement, api, renderer, camera, assets, errors,
     isReady: () => debugReady
-      && (profile.kind !== "game" || worldSelectionResult?.controller.session != null)
+      && (profile.kind !== "game" || offlineAuthoring || worldSelectionResult?.controller.session != null)
       && (!localLaunch || !worldSelectionResult?.autoLocal || localSession()),
     version,
     remote: localLaunch ? {

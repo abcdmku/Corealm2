@@ -280,6 +280,12 @@ export interface ImagegenServiceOptions<Owner> {
   cwd?: string;
   timeoutMs?: number;
   now?: () => Date;
+  /**
+   * Checked right before a job finishes (stores and publishes as its owner): why that owner may no
+   * longer write, or null. A refusal fails the job with that reason and keeps its painted images,
+   * so a Retry by a current admin, who then owns the job, finishes it without painting again.
+   */
+  standing?(owner: Owner): Promise<string | null>;
 }
 
 export interface ImagegenService<Owner> {
@@ -288,8 +294,8 @@ export interface ImagegenService<Owner> {
   /** Newest first. */
   list(): Promise<ImagegenJob[]>;
   get(id: string): Promise<ImagegenJob | undefined>;
-  /** Queue a failed job again, as its creator. Images it already painted are reused. */
-  retry(id: string): Promise<ImagegenJob | undefined>;
+  /** Queue a failed job again. Images it already painted are reused. With `owner`, that caller finishes (publishes) it; without, its creator. */
+  retry(id: string, owner?: Owner): Promise<ImagegenJob | undefined>;
   /** Resolves when the queue is empty. */
   idle(): Promise<void>;
   /** Offer a job kind, or replace its handler. */
@@ -413,6 +419,10 @@ export function createImagegenService<Owner>(options: ImagegenServiceOptions<Own
         job.log = tail;
         await persist(job);
       }
+      if (options.standing && job.owner !== undefined) {
+        const refused = await options.standing(job.owner);
+        if (refused) throw new Error(`${refused}. The painted images are kept: Retry as a current admin to publish them.`);
+      }
       const finished = await handler.finish(publicJob(job), painted, { owner: job.owner as Owner, generator: generator.generator, log });
       Object.assign(job, { status: "done", ...(finished.skinId ? { skinId: finished.skinId } : {}), outputs: finished.outputs, finishedAt: now() });
       log(`\n== done: ${finished.outputs.join(", ")}\n`);
@@ -451,12 +461,12 @@ export function createImagegenService<Owner>(options: ImagegenServiceOptions<Own
       enqueue(job);
       return publicJob(job);
     },
-    async retry(id) {
+    async retry(id, owner) {
       await recovered;
       const job = await read(id);
       if (!job) return undefined;
       if (job.status !== "failed") throw new ImagegenFailure(409, `Only a failed job can be retried; this one is ${job.status}`);
-      Object.assign(job, { status: "queued", error: undefined, finishedAt: undefined, startedAt: undefined, pid: process.pid });
+      Object.assign(job, { status: "queued", error: undefined, finishedAt: undefined, startedAt: undefined, pid: process.pid, ...(owner === undefined ? {} : { owner }) });
       await persist(job);
       enqueue(job);
       return publicJob(job);

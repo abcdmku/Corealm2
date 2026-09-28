@@ -96,8 +96,20 @@ describe("authoring metadata on a live server", () => {
     expect(queue.body.requests.map((entry: any) => [entry.collection, entry.entityId, entry.request.id, entry.request.state, entry.note.text]))
       .toEqual([["items", "iron-helm", "helm-icon", "open", "Icon reads as a bucket."]]);
 
+    // A server has no request CLI: claim and reply are patches too, acting as the caller's account.
+    const claimed = await call("/admin/meta/items/iron-helm", { method: "PATCH", token: owner,
+      body: { revision: verdict.body.revision, operation: { kind: "request.claim", requestId: "helm-icon" } } });
+    expect(claimed.body.data.notes[0].request).toMatchObject({ state: "claimed", claimedBy: OWNER });
+    expect((await call("/admin/meta/requests", { token: owner })).body.requests.map((entry: any) => entry.request.state)).toEqual(["claimed"]);
+    const replied = await call("/admin/meta/items/iron-helm", { method: "PATCH", token: owner,
+      body: { revision: claimed.body.revision, operation: { kind: "request.reply", requestId: "helm-icon", text: "Redrew the rim." } } });
+    expect(replied.body.data.notes[0].request).toMatchObject({ state: "replied", reply: "Redrew the rim." });
+    const again = await call("/admin/meta/items/iron-helm", { method: "PATCH", token: owner,
+      body: { revision: replied.body.revision, operation: { kind: "request.claim", requestId: "helm-icon" } } });
+    expect(again).toEqual({ status: 400, body: { error: { code: "invalid_request", message: "Request helm-icon is replied by " + OWNER } } });
+
     const closed = await call("/admin/meta/items/iron-helm", { method: "PATCH", token: owner,
-      body: { revision: verdict.body.revision, operation: { kind: "request.close", requestId: "helm-icon" } } });
+      body: { revision: replied.body.revision, operation: { kind: "request.close", requestId: "helm-icon" } } });
     expect(closed.body.data.notes[0].request.state).toBe("closed");
     expect((await call("/admin/meta/requests", { token: owner })).body.requests).toEqual([]);
   });

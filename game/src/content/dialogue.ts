@@ -21,8 +21,7 @@ import { RESOLVED_TABLES } from './resolvedCatalog.js';
  */
 import type { ItemId, QuestId, SkillId } from "../contracts.js";
 
-const dialogueData = RESOLVED_TABLES["dialogue"];
-import { FAIRY_NPC_DIALOGUE } from "./fairyNpcs.js";
+import { FAIRY_NPC_DIALOGUE, reindexFairyDialogue } from "./fairyNpcs.js";
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { dialogueRecordSchema } from "./schema/story.js";
 
@@ -82,21 +81,22 @@ export interface DialogueNodeDef {
   options: DialogueOptionDef[];
 }
 
-/** Fairy nodes are shared with their source export, including object identity. */
-const nodes: DialogueNodeDef[] = parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" })
+/** Fairy nodes are the rows `FAIRY_NPC_DIALOGUE` holds, so either lookup returns the same object. */
+const dialogueRows = (): DialogueNodeDef[] => parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
   .map(row => FAIRY_NPC_DIALOGUE.find(candidate => candidate.id === row.id) ?? stripExtras(row, ["catalog"]));
+const nodes: DialogueNodeDef[] = dialogueRows();
 export const DIALOGUE_NODES: readonly DialogueNodeDef[] = nodes;
 
 const NODES_BY_ID = new Map<string, DialogueNodeDef>(DIALOGUE_NODES.map((row) => [row.id, row]));
 
 /**
- * After a live publish moved a server's catalog (`multiplayer/contentSwap.ts`): the same array and
- * map, refilled. Fairy nodes are no longer shared with `FAIRY_NPC_DIALOGUE`, which keeps the rows it
- * had at import. A page never calls this: its dialogue arrives with the replicated conversation.
+ * After a live publish moved a server's catalog (`multiplayer/contentSwap.ts`): the same arrays and
+ * map, refilled, fairy rows first so the two exports keep sharing them. A page never calls this: its
+ * dialogue arrives with the replicated conversation.
  */
 export function reindexDialogue(): void {
-  nodes.splice(0, nodes.length, ...parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
-    .map(row => stripExtras(row, ["catalog"])));
+  reindexFairyDialogue();
+  nodes.splice(0, nodes.length, ...dialogueRows());
   NODES_BY_ID.clear();
   for (const row of nodes) NODES_BY_ID.set(row.id, row);
 }

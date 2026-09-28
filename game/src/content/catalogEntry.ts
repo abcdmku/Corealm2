@@ -1,6 +1,8 @@
 import { installCatalog, type InstalledCatalog } from "./catalogInstall.js";
 import type { ClientCatalog } from "./clientCatalog.js";
-import { fetchContentAssetIndex, setContentAssetOverlay, setServerWorld } from "../app/config.js";
+import { contentAssetOverride, fetchContentAssetIndex, setContentAssetOverlay, setServerWorld } from "../app/config.js";
+import { installHostedCaptureWorld, mapCaptureHosted } from "../app/worldMapCaptureHost.js";
+import { parseServerWorldMap, SERVER_WORLD_MAP_METADATA, setServerWorldMap } from "../world/serverWorldMap.js";
 import { fetchClientCatalog } from "../multiplayer/clientCatalogFetch.js";
 import { peekPendingLaunch, type PendingServerWorld } from "../multiplayer/playIntent.js";
 import { LOCAL_WORLD_MANIFEST, parseLocalWorldManifest, type LocalWorldManifest } from "../worker/localHostProtocol.js";
@@ -20,7 +22,9 @@ import { LOCAL_WORLD_MANIFEST, parseLocalWorldManifest, type LocalWorldManifest 
  *
  * A game page reloading onto a server's baked world (`PendingLaunch.world`) installs THAT server's
  * client catalog instead, and loads its file index, so the terrain, scatter and region signatures the
- * scene computes are the ones the server baked from, and `generated/...` resolves to its files.
+ * scene computes are the ones the server baked from, and `generated/...` resolves to its files. When
+ * that index lists the server's model overlay, its models are installed too, before the scene exists
+ * (`app/contentAssetOverlay.ts` `installServerModelOverlay`, imported only once the catalog is in).
  */
 export type PageCatalogKind = "client" | "full";
 
@@ -61,6 +65,21 @@ export async function loadServerWorld(world: PendingServerWorld, fetcher: typeof
 }
 
 /**
+ * The server's own map (`world/serverWorldMap.ts`), when it rendered one for this world. Without one,
+ * or when it cannot be read, the page draws the build's map.
+ */
+async function loadServerWorldMap(revision: string, files: Record<string, { sha256: string }>, fetcher: typeof fetch): Promise<void> {
+  const url = files[SERVER_WORLD_MAP_METADATA] ? contentAssetOverride(SERVER_WORLD_MAP_METADATA) : null;
+  if (!url) return;
+  try {
+    const response = await fetcher(url, { credentials: "omit" });
+    setServerWorldMap(response.ok ? parseServerWorldMap(await response.json(), revision) ?? null : null);
+  } catch (error) {
+    console.warn("[corealm] The server's world map could not be read; the page draws the build's map.", error);
+  }
+}
+
+/**
  * Fetch the manifest (never cached) and the catalog it names (cached for good), and install it.
  * Throws with a sentence a player can read: the entry shows it beside a Retry button.
  *
@@ -70,6 +89,11 @@ export async function loadServerWorld(world: PendingServerWorld, fetcher: typeof
  */
 export async function installPageCatalog(generatedBase: string, kind: PageCatalogKind, fetcher: typeof fetch = fetch): Promise<InstalledPageCatalog> {
   const started = performance.now();
+  // Devdocs' Render map action framed this capture page and hands it the server's world.
+  if (kind === "full" && mapCaptureHosted(globalThis.location?.search ?? "")) {
+    const revision = await installHostedCaptureWorld(fetcher);
+    return { kind, revision, file: "", bytes: 0, startedAtMs: started, manifestMs: 0, catalogMs: performance.now() - started };
+  }
   const world = kind === "client" ? peekPendingLaunch()?.world ?? null : null;
   if (world) {
     try {
@@ -77,6 +101,10 @@ export async function installPageCatalog(generatedBase: string, kind: PageCatalo
       installCatalog({ version: 1, revision: catalog.revision, formulaRevision: "", tables: catalog.tables as Record<string, unknown> });
       setContentAssetOverlay({ base: world.contentAssetUrl, files });
       setServerWorld({ revision: world.revision, contentAssetUrl: world.contentAssetUrl });
+      // The registries merge it from the first model the scene asks for. Without it the join adds it later.
+      try { await (await import("../app/contentAssetOverlay.js")).installServerModelOverlay(files, fetcher); }
+      catch (error) { console.warn("[corealm] The server's models could not be read before boot; they arrive after joining.", error); }
+      await loadServerWorldMap(world.revision, files, fetcher);
       return { kind, revision: catalog.revision, file: world.catalogUrl, bytes: 0, startedAtMs: started, manifestMs: 0, catalogMs: performance.now() - started };
     } catch (error) {
       console.warn("[corealm] The server's world could not be loaded; this page runs the build's world.", error);

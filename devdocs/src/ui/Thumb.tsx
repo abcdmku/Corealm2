@@ -4,8 +4,8 @@ import { itemIconUrl } from "../../../game/src/ui/itemIcons.js";
 import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellIcons.js";
 import { WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
 import { can } from "../api/backend.js";
-import { gameUrl } from "../model/gameUrl.js";
 import { gameFileUrl, serverFileSha } from "../model/serverFiles.js";
+import { useServerWorldMap, worldMapFileUrl } from "../model/serverWorldMap.js";
 import { IMAGE_BOX, cropPosition, onDrawnMap } from "../model/worldMap.js";
 import type { ThumbSpec } from "../model/summaries.js";
 import { useAssetThumbnail } from "./assetThumbnails.js";
@@ -18,21 +18,36 @@ const SIZE: Readonly<Record<string, string>> = {
 export type ThumbSize = "s" | "m" | "l" | "xl" | "fill";
 
 export function itemIconSource(id: string, large = false): string | undefined {
-  const url = itemIconUrl({ id } as NonNullable<Parameters<typeof itemIconUrl>[0]>);
-  if (!url) return undefined;
-  // The 256 master: the checkout's source file in repo mode, the server's stored one on a live server.
-  // Otherwise the shipped icon, from the server's own files when it replaced it, else the asset host.
-  if (large && can("assets")) return `/__devdocs/icons/${url.split("/").at(-1)}`;
-  const master = url.replace("/items/48/", "/items/256/");
-  if (large && serverFileSha(master)) return gameFileUrl(master);
-  return gameFileUrl(url);
+  return itemIconSources(id, large)[0];
 }
 
+/**
+ * Where an item's icon loads from, best first. Large: the 256 master (the checkout's source file in
+ * repo mode, the server's stored one on a live server). Then the 48 icon, from the server's own files
+ * when it replaced it, else the asset host. A base item on a live server has no master there (the
+ * asset host ships only the 48), so its large view is the 48 upscaled (`upscaledIcon`).
+ */
+export function itemIconSources(id: string, large = false): string[] {
+  const url = itemIconUrl({ id } as NonNullable<Parameters<typeof itemIconUrl>[0]>);
+  if (!url) return [];
+  const game = gameFileUrl(url);
+  if (!large) return [game];
+  if (can("assets")) return [`/__devdocs/icons/${url.split("/").at(-1)}`, game];
+  const master = url.replace("/items/48/", "/items/256/");
+  return serverFileSha(master) ? [gameFileUrl(master), game] : [game];
+}
+
+/** A 48 icon drawn larger keeps its pixels crisp instead of blurring them. */
+export const upscaledIcon = (source: string | undefined): boolean => Boolean(source?.includes("/items/48/"));
+
 function ItemImage({ id, alt, large }: { id: string; alt: string; large: boolean }) {
-  const [failed, setFailed] = useState(false);
-  const source = itemIconSource(id, large);
-  if (failed || !source) return <span className={GLYPH} title={`No icon for ${id}`}><ImageOff /></span>;
-  return <img key={id} src={source} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} />;
+  const [attempt, setAttempt] = useState(0);
+  const sources = itemIconSources(id, large);
+  const source = sources[attempt];
+  if (!source) return <span className={GLYPH} title={`No icon for ${id}`}><ImageOff /></span>;
+  return <img key={`${id}:${attempt}`} src={source} alt={alt} loading="lazy" decoding="async"
+    style={large && upscaledIcon(source) ? { imageRendering: "pixelated" } : undefined} data-upscaled={large && upscaledIcon(source) ? "" : undefined}
+    onError={() => setAttempt(attempt + 1)} />;
 }
 
 const GLYPH = "thumb-glyph grid size-full place-items-center bg-[color:var(--glyph-bg,transparent)] text-[color:var(--glyph-ink,var(--faint))] [&_svg]:size-[52%]";
@@ -44,11 +59,12 @@ function glyphStyle(hue: number | undefined, colour?: string): CSSProperties | u
 }
 
 function MapCrop({ x, z, span, children }: { x: number; z: number; span: number; children?: React.ReactNode }) {
+  const serverMap = useServerWorldMap();
   if (!onDrawnMap(x, z)) return <span className={GLYPH} title="Beyond the drawn map">{children ?? <MapPinOff />}</span>;
   // Scale the minimap so `span` metres fill the thumb, then offset so (x, z) sits at the centre.
   const scale = IMAGE_BOX.spanX / span;
   const { u, v } = cropPosition({ x0: x - span / 2, z0: z - span / 2, spanX: span, spanZ: span });
-  return <span className="grid size-full -scale-x-100 place-items-center bg-art bg-no-repeat" style={{ backgroundImage: `url(${gameUrl(WORLD_MAP_MINIMAP_RENDITION.path)})`, backgroundSize: `${scale * 100}%`, backgroundPosition: `${u * 100}% ${v * 100}%` }}>
+  return <span className="grid size-full -scale-x-100 place-items-center bg-art bg-no-repeat" style={{ backgroundImage: `url(${worldMapFileUrl(WORLD_MAP_MINIMAP_RENDITION.path, serverMap)})`, backgroundSize: `${scale * 100}%`, backgroundPosition: `${u * 100}% ${v * 100}%` }}>
     {children && <span className="grid size-[45%] -scale-x-100 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_0_2px_#0006] [&_svg]:size-[65%]">{children}</span>}
   </span>;
 }
