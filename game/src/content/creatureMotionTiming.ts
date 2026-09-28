@@ -260,6 +260,10 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "seconds": 0.8666666746139526,
     "contactNormalized": 0.2604166666666667
   },
+  "creature_goblin_scout": {
+    "seconds": 1.5333333015441895,
+    "contactNormalized": 0.3
+  },
   "creature_goblin_shaman": {
     "seconds": 0.5,
     "contactNormalized": 0.42
@@ -463,6 +467,10 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "creature_thorn_maw": {
     "seconds": 0.85,
     "contactNormalized": 0.5
+  },
+  "creature_troll_mauler": {
+    "seconds": 1.25,
+    "contactNormalized": 0.21238938053097345
   },
   "creature_vault_custodian": {
     "seconds": 0.8666666746139526,
@@ -780,6 +788,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_slateback_tortoise": 0.9091,
   "creature_starroot_guardian": 2.7514,
   "creature_stone_golem": 18.0014,
+  "creature_troll_mauler": 16.3519,
   "creature_vault_custodian": 14.4844,
   "creature_voidstone_colossus": 13.6898,
   "creature_webweaver_spider": 0.8505,

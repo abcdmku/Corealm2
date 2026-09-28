@@ -32451,17 +32451,17 @@
         "rpg",
         "goblin_scout"
       ],
-      "bytes": 1142112,
-      "sha256": "c6dd78d3518658a3347b592f69570c3df479cb0756ca506208c7a50bc39dbfa6",
+      "bytes": 4056688,
+      "sha256": "7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c",
       "size": {
-        "x": 0.541855104084803,
-        "y": 1.32760673537952,
-        "z": 0.5128353694893358
+        "x": 0.5418550831546427,
+        "y": 1.3276067746118572,
+        "z": 0.5128353869994875
       },
       "base": {
-        "x": -0.2542763694131639,
-        "y": 0.0019999999298345554,
-        "z": -0.2717843086576549
+        "x": -0.25427636558977335,
+        "y": 0.0020000048318965166,
+        "z": -0.271784319138592
       },
       "groundY": 0.0019999999298345554,
       "triangles": 16826,
@@ -32471,8 +32471,6 @@
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
@@ -32524,7 +32522,10 @@
           0.5128353694893358
         ],
         "rig": "entitled-universal-base-65-joint",
-        "attackContact": 0.3,
+        "attackContact": {
+          "normalized": 0.3,
+          "seconds": 0.4599999904632568
+        },
         "attackContactSource": "Production characterRig.ts CLIP_MOTION_MARKERS Sword_Attack0.30",
         "source": "Quaternius Universal Base Characters with modular source outfit, weighted source animations, species-specific vertex and joint deformation",
         "license": "CC0-1.0",
@@ -32620,7 +32621,7 @@
           }
         },
         "textureOrientation": "Original glTF TEXCOORD_0 and decoded image rows preserved; no flipY",
-        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "animationAcceptance": "devdocs-approved",
         "revision": "goblin-source-review-3",
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
@@ -32635,12 +32636,154 @@
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       },
       "impliedWalkMps": 0.6659,
       "impliedRunMps": 4.02812,
-      "locomotionPolicy": "speed-matched"
+      "locomotionPolicy": "speed-matched",
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "c6dd78d3518658a3347b592f69570c3df479cb0756ca506208c7a50bc39dbfa6",
+        "sourceGitBlob": "80074fa7af9b357eb5700cc70dc0d309fa5ced90",
+        "donors": [],
+        "changes": [
+          "Removed duplicate float32 sample times in 2 channels; unequal final ground keys recomputed from the held pose."
+        ],
+        "warnings": [
+          "Requires devdocs review of each affected state."
+        ],
+        "provenance": {
+          "timelineRepairs": [
+            {
+              "clip": "Idle",
+              "node": "root",
+              "path": "translation",
+              "removed": 70,
+              "maximumDuplicateDifference": 5.820766091346741e-10
+            },
+            {
+              "clip": "Attack",
+              "node": "root",
+              "path": "translation",
+              "removed": 28,
+              "maximumDuplicateDifference": 8.533243089914322e-8
+            }
+          ],
+          "groundRepairs": [],
+          "preserved": [
+            "geometry",
+            "skin weights",
+            "inverse binds",
+            "materials",
+            "joint animation curves"
+          ]
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "goblin_Eyebrows: nearly rigid single-joint skin; inspect articulation in devdocs",
+            "goblin_Eyes: nearly rigid single-joint skin; inspect articulation in devdocs",
+            "Idle: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Walk: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Attack: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Hit: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 2.5,
+              "samples": 90,
+              "maximumVertexMotion": 0.0371091088101494,
+              "maximumSpanRatio": 0.7857822040837437,
+              "minimumSpanRatio": 0.7782652488650128,
+              "loopSeam": 0.001408102257781653,
+              "edgeStretchP99": 1.5202802802383393,
+              "maximumEdgeStretch": 10.622543956878383,
+              "stretchedEdgeFraction": 0.00012434717731907486
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.3333333730697632,
+              "samples": 91,
+              "maximumVertexMotion": 0.5881441757230679,
+              "maximumSpanRatio": 0.8137778891345476,
+              "minimumSpanRatio": 0.7777549257703513,
+              "loopSeam": 3.246554786843903e-7,
+              "edgeStretchP99": 1.5553957550056186,
+              "maximumEdgeStretch": 10.57889498910742,
+              "stretchedEdgeFraction": 0.00016579623642543314
+            },
+            {
+              "name": "Run",
+              "seconds": 0.9333333373069763,
+              "samples": 83,
+              "maximumVertexMotion": 1.0693907012473531,
+              "maximumSpanRatio": 0.8721204578313002,
+              "minimumSpanRatio": 0.7327362867236159,
+              "loopSeam": 0.001745023706777856,
+              "edgeStretchP99": 1.5671463840305395,
+              "maximumEdgeStretch": 21.631952734968856,
+              "stretchedEdgeFraction": 0.0007875321230208074
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.5333333015441895,
+              "samples": 94,
+              "maximumVertexMotion": 1.2003971201515997,
+              "maximumSpanRatio": 0.9464346523213024,
+              "minimumSpanRatio": 0.7892384510816973,
+              "loopSeam": null,
+              "edgeStretchP99": 1.5471354580705636,
+              "maximumEdgeStretch": 28.736411177392903,
+              "stretchedEdgeFraction": 0.0007875321230208074
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.3333333432674408,
+              "samples": 67,
+              "maximumVertexMotion": 0.34253780739070905,
+              "maximumSpanRatio": 0.7875328461888588,
+              "minimumSpanRatio": 0.7798404400956672,
+              "loopSeam": null,
+              "edgeStretchP99": 1.5330485982916588,
+              "maximumEdgeStretch": 11.180881118584297,
+              "stretchedEdgeFraction": 0.00012434717731907486
+            },
+            {
+              "name": "Death",
+              "seconds": 2.4000000953674316,
+              "samples": 106,
+              "maximumVertexMotion": 1.7437863856520337,
+              "maximumSpanRatio": 0.9234822910490464,
+              "minimumSpanRatio": 0.7179548542469069,
+              "loopSeam": null,
+              "edgeStretchP99": 1.61128140966382,
+              "maximumEdgeStretch": 18.60411101697992,
+              "stretchedEdgeFraction": 0.0007460830639144492
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:08.538Z",
+          "by": "codex",
+          "sha256": "7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_goblin_scout/evidence.json"
+        }
+      }
     },
     {
       "id": "creature_goblin_archer",
@@ -32873,17 +33016,17 @@
         "caster",
         "candidate"
       ],
-      "bytes": 12546144,
-      "sha256": "812684273ffb61abc512a7df6e4958ef9aefb088c221adf944060ad2ac0fadd4",
+      "bytes": 12520276,
+      "sha256": "f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae",
       "size": {
-        "x": 0.47444,
-        "y": 1.3284,
-        "z": 1.50317
+        "x": 0.47444028883572215,
+        "y": 1.3284037743150021,
+        "z": 1.5031728965708935
       },
       "base": {
-        "x": -0.26779,
-        "y": 0.002,
-        "z": -0.90358
+        "x": -0.2677935640160631,
+        "y": 0.0020000060581016185,
+        "z": -0.9035843723591673
       },
       "groundY": 0.002,
       "triangles": 19861,
@@ -32893,8 +33036,6 @@
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
@@ -32924,7 +33065,10 @@
           1.5031728398789888
         ],
         "rig": "entitled-universal-base-65-joint",
-        "attackContact": 0.42,
+        "attackContact": {
+          "normalized": 0.42,
+          "seconds": 0.21
+        },
         "attackContactSource": "Production characterRig.ts CLIP_MOTION_MARKERS Spell_Simple_Shoot0.42",
         "source": "Quaternius Universal Base Characters with modular source outfit, weighted source animations, species-specific vertex and joint deformation",
         "license": "CC0-1.0 body/clothing/animations; Blink staff Standard Unity Asset Store EULA",
@@ -33037,7 +33181,7 @@
           }
         },
         "textureOrientation": "Original glTF TEXCOORD_0 and decoded image rows preserved; no flipY",
-        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "animationAcceptance": "devdocs-approved",
         "revision": "goblin-shaman-source-review-1",
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
@@ -33051,12 +33195,10 @@
         }
       },
       "acceptance": {
-        "assetAudit": true,
+        "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "motionAccepted": true
       },
       "impliedWalkMps": null,
       "impliedRunMps": null,
@@ -33067,7 +33209,148 @@
         "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
         "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
       },
-      "measuredGait": null
+      "measuredGait": null,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "812684273ffb61abc512a7df6e4958ef9aefb088c221adf944060ad2ac0fadd4",
+        "sourceGitBlob": "a706d8bf49fefa011af495ffb9bfdc57d9e115df",
+        "donors": [],
+        "changes": [
+          "Removed duplicate float32 sample times in 2 channels; unequal final ground keys recomputed from the held pose."
+        ],
+        "warnings": [
+          "Requires devdocs review of each affected state."
+        ],
+        "provenance": {
+          "timelineRepairs": [
+            {
+              "clip": "Idle",
+              "node": "root",
+              "path": "translation",
+              "removed": 20,
+              "maximumDuplicateDifference": 1.1641532182693481e-10
+            },
+            {
+              "clip": "Attack",
+              "node": "root",
+              "path": "translation",
+              "removed": 14,
+              "maximumDuplicateDifference": 0
+            }
+          ],
+          "groundRepairs": [],
+          "preserved": [
+            "geometry",
+            "skin weights",
+            "inverse binds",
+            "materials",
+            "joint animation curves"
+          ]
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "goblin_Eyebrows: nearly rigid single-joint skin; inspect articulation in devdocs",
+            "goblin_Eyes: nearly rigid single-joint skin; inspect articulation in devdocs",
+            "Idle: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Walk: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Attack: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Hit: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 2.0999999046325684,
+              "samples": 91,
+              "maximumVertexMotion": 0.15746889284839824,
+              "maximumSpanRatio": 0.9559756867528076,
+              "minimumSpanRatio": 0.9196655393498382,
+              "loopSeam": 1.9080711689839988e-7,
+              "edgeStretchP99": 1.3597821385442361,
+              "maximumEdgeStretch": 11.653429285806405,
+              "stretchedEdgeFraction": 0.0001406222534716119
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.3333333730697632,
+              "samples": 91,
+              "maximumVertexMotion": 0.7793828383821819,
+              "maximumSpanRatio": 0.8155162132599152,
+              "minimumSpanRatio": 0.715553041349523,
+              "loopSeam": 2.918591183400413e-7,
+              "edgeStretchP99": 1.5050107701909592,
+              "maximumEdgeStretch": 10.578894949969003,
+              "stretchedEdgeFraction": 0.0001406222534716119
+            },
+            {
+              "name": "Run",
+              "seconds": 0.9333333373069763,
+              "samples": 82,
+              "maximumVertexMotion": 1.4816662619757421,
+              "maximumSpanRatio": 0.8588227918258797,
+              "minimumSpanRatio": 0.7370743824989269,
+              "loopSeam": 0.001568245690429875,
+              "edgeStretchP99": 1.5093447363073373,
+              "maximumEdgeStretch": 21.6319526623251,
+              "stretchedEdgeFraction": 0.0006679557039901565
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.5,
+              "samples": 66,
+              "maximumVertexMotion": 0.4727076972227833,
+              "maximumSpanRatio": 0.95396789320201,
+              "minimumSpanRatio": 0.9211315824613249,
+              "loopSeam": null,
+              "edgeStretchP99": 1.3731288384860125,
+              "maximumEdgeStretch": 11.348428125959998,
+              "stretchedEdgeFraction": 0.00017577781683951485
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.3333333432674408,
+              "samples": 67,
+              "maximumVertexMotion": 0.4243123705282689,
+              "maximumSpanRatio": 0.8021918124537809,
+              "minimumSpanRatio": 0.7245193159197354,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4688047109052322,
+              "maximumEdgeStretch": 11.180881203781402,
+              "stretchedEdgeFraction": 0.00010546669010370892
+            },
+            {
+              "name": "Death",
+              "seconds": 2.4000000953674316,
+              "samples": 105,
+              "maximumVertexMotion": 1.7438943657534403,
+              "maximumSpanRatio": 0.9910317518739243,
+              "minimumSpanRatio": 0.7068163457113641,
+              "loopSeam": null,
+              "edgeStretchP99": 1.5648000256071923,
+              "maximumEdgeStretch": 18.604110551475756,
+              "stretchedEdgeFraction": 0.0006328001406222535
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:08.538Z",
+          "by": "codex",
+          "sha256": "f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_goblin_shaman/evidence.json"
+        }
+      }
     },
     {
       "id": "creature_zombie",
@@ -33680,17 +33963,17 @@
         "rpg",
         "grave_ghoul"
       ],
-      "bytes": 5180156,
-      "sha256": "9b13d35f0444f261a41856602567d363dd103b8c7f640df753aa37f37c57d8d7",
+      "bytes": 5141920,
+      "sha256": "b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610",
       "size": {
-        "x": 0.7705184027513425,
-        "y": 1.0652261727719385,
-        "z": 0.7126008935355386
+        "x": 0.7705184009630508,
+        "y": 1.0652262312662844,
+        "z": 0.7126009098520683
       },
       "base": {
-        "x": -0.35418571424251133,
-        "y": 0.0009999999783805431,
-        "z": -0.2678679766459788
+        "x": -0.3541857180337782,
+        "y": 0.00100000667866638,
+        "z": -0.26786798377256194
       },
       "groundY": 0.0009999999783805431,
       "triangles": 16001,
@@ -33700,8 +33983,6 @@
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
@@ -33839,19 +34120,156 @@
           "atlasSha256": "d87021012e3c4e81f0c44fbed694efd2e15dbe597f901c4e9c638768138d3e62",
           "accessorSha256": "66d34f799ac9ecb6ee3314a746ab417e890e51b782744afc1c9284869d6e9305",
           "scope": "UV-preserving bone and corpse atlases. Grave Lantern uses retained anatomical TEXCOORD_1 instead of the former tiled rock skin. Ivory bone and visible role-specific leather, wood, wool and metal. All geometry, UV coordinates, rigs and animation accessors unchanged."
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.33,
+          "seconds": 0.5939999842643738
         }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_undead_mage/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       },
       "impliedWalkMps": 0.83859,
       "impliedRunMps": 5.05053,
-      "locomotionPolicy": "speed-matched"
+      "locomotionPolicy": "speed-matched",
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "9b13d35f0444f261a41856602567d363dd103b8c7f640df753aa37f37c57d8d7",
+        "sourceGitBlob": "d4311daf5734520520d7a75c8dfd0291ea52453a",
+        "donors": [],
+        "changes": [
+          "Removed duplicate float32 sample times in 1 channels; unequal final ground keys recomputed from the held pose."
+        ],
+        "warnings": [
+          "Requires devdocs review of each affected state."
+        ],
+        "provenance": {
+          "timelineRepairs": [
+            {
+              "clip": "Attack",
+              "node": "ZombieGround",
+              "path": "translation",
+              "removed": 26,
+              "maximumDuplicateDifference": 1.7695128917694092e-7
+            }
+          ],
+          "groundRepairs": [],
+          "preserved": [
+            "geometry",
+            "skin weights",
+            "inverse binds",
+            "materials",
+            "joint animation curves"
+          ]
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "grave_ghoul_Eyebrows: nearly rigid single-joint skin; inspect articulation in devdocs",
+            "grave_ghoul_Eyes: nearly rigid single-joint skin; inspect articulation in devdocs",
+            "Idle: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Walk: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Attack: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Hit: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
+            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 1.3333333730697632,
+              "samples": 98,
+              "maximumVertexMotion": 0.1814830263907459,
+              "maximumSpanRatio": 0.5530244951714443,
+              "minimumSpanRatio": 0.5387395397294772,
+              "loopSeam": 0.0014442205703464619,
+              "edgeStretchP99": 1.5184296926791387,
+              "maximumEdgeStretch": 12.26059697014484,
+              "stretchedEdgeFraction": 0.00029723570791637767
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.3333333730697632,
+              "samples": 100,
+              "maximumVertexMotion": 0.6853960283413754,
+              "maximumSpanRatio": 0.6455369407169039,
+              "minimumSpanRatio": 0.6043880732069351,
+              "loopSeam": 1.073163424090894e-7,
+              "edgeStretchP99": 1.4766017472595407,
+              "maximumEdgeStretch": 16.066624792642774,
+              "stretchedEdgeFraction": 0.0003963142772218369
+            },
+            {
+              "name": "Run",
+              "seconds": 0.9333333373069763,
+              "samples": 83,
+              "maximumVertexMotion": 1.301234168840854,
+              "maximumSpanRatio": 0.7389660302283355,
+              "minimumSpanRatio": 0.6153107654509056,
+              "loopSeam": 0.0020759599065415177,
+              "edgeStretchP99": 1.6294619517004285,
+              "maximumEdgeStretch": 23.104830057669172,
+              "stretchedEdgeFraction": 0.0007926285544436738
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.7999999523162842,
+              "samples": 113,
+              "maximumVertexMotion": 1.4133001009955426,
+              "maximumSpanRatio": 0.795718056144876,
+              "minimumSpanRatio": 0.5398538747844169,
+              "loopSeam": null,
+              "edgeStretchP99": 1.71380212407036,
+              "maximumEdgeStretch": 27.004874522569246,
+              "stretchedEdgeFraction": 0.0015852571088873476
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.3333333432674408,
+              "samples": 107,
+              "maximumVertexMotion": 0.3432043452572446,
+              "maximumSpanRatio": 0.6574250884440209,
+              "minimumSpanRatio": 0.6355135987222479,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4863201472372631,
+              "maximumEdgeStretch": 11.90964462427209,
+              "stretchedEdgeFraction": 0.00014861785395818883
+            },
+            {
+              "name": "Death",
+              "seconds": 2.4000000953674316,
+              "samples": 109,
+              "maximumVertexMotion": 1.9194817832750202,
+              "maximumSpanRatio": 0.8904370161390025,
+              "minimumSpanRatio": 0.5763030638596569,
+              "loopSeam": null,
+              "edgeStretchP99": 1.663392264629917,
+              "maximumEdgeStretch": 20.109644103727593,
+              "stretchedEdgeFraction": 0.0015852571088873476
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:08.538Z",
+          "by": "codex",
+          "sha256": "b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_grave_ghoul/evidence.json"
+        }
+      }
     },
     {
       "id": "creature_wraith",
@@ -95946,37 +96364,35 @@
       ],
       "size": {
         "x": 3.110015343734311,
-        "y": 3.0752324243374902,
+        "y": 3.07523242433749,
         "z": 1.6756534058008716
       },
       "base": {
         "x": -1.5583385012828894,
-        "y": 0.0010000000172307733,
+        "y": 0.0010000000172308147,
         "z": -0.8192564793237161
       },
-      "groundY": 0.0010000000172307733,
+      "groundY": 0.001,
       "triangles": 6370,
       "animations": [
-        "Attack",
-        "Death",
-        "Hit",
-        "HitLeft",
-        "HitRight",
         "Idle",
+        "Walk",
         "Run",
-        "Walk"
+        "Attack",
+        "Hit",
+        "Death"
       ],
       "materials": [
         "animal_rpg_troll_mauler_cloth",
         "animal_rpg_troll_mauler_eye",
         "animal_rpg_troll_mauler_med"
       ],
-      "impliedWalkMps": 0.7200809742428915,
-      "impliedRunMps": 1.3993831398411416,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 1.5,
-      "attackSeconds": 1.5,
-      "contactNormalized": 0.55,
+      "impliedWalkMps": 0.9085656674309028,
+      "impliedRunMps": 4.955116371022481,
+      "walkClipSeconds": 1.600000023841858,
+      "runClipSeconds": 1.100000023841858,
+      "attackSeconds": 1.25,
+      "contactNormalized": 0.21238938053097345,
       "measuredGait": {
         "method": "measureContactGait bone-proxy-backward-contact-velocity (tools/animals/convert.js), 1920 samples, contact height 0.03 m",
         "groups": [
@@ -95993,8 +96409,8 @@
         "runClipSeconds": 1.5,
         "note": "Native stance speed; playback is speed-matched from these values. Moving production lab review remains required."
       },
-      "bytes": 16501396,
-      "sha256": "2c3c1b2e585a86de34e9bc9bda9eb0c18a7d70a803e751f180d170a7372c20d7",
+      "bytes": 18068448,
+      "sha256": "34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb",
       "sourceProvenance": {
         "upstream": {
           "sourceUrl": "https://opengameart.org/content/troll-mauler",
@@ -96420,6 +96836,228 @@
         "cpuCollapseByHeight": false,
         "motionBlocked": false,
         "cpuRestingContact": true
+      },
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "2c3c1b2e585a86de34e9bc9bda9eb0c18a7d70a803e751f180d170a7372c20d7",
+        "sourceGitBlob": "5f6bf78169a3ea55fb5f26266300ee38db475f7c",
+        "donors": [
+          {
+            "id": "animation_library_1",
+            "sourceGitBlob": "3877615fd24a4b365c46a4e47966ebfdc417958c",
+            "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "changes": [
+          "Replaced the five experimental Troll motions with articulated studio biped takes while preserving native Idle.",
+          "Kept skin-weighted foot and knee controls attached to the corresponding FK anatomy; geometry, original weights and materials remain intact."
+        ],
+        "provenance": {
+          "donorAssetId": "animation_library_1",
+          "mappedJoints": 21,
+          "controlFollowers": 12,
+          "translationScale": 1.2653663622707523,
+          "clips": [
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.600000023841858,
+              "sourceSeconds": 1.3333333730697632,
+              "supportSamples": 577,
+              "maximumAddedSupport": 0,
+              "groundingMaxSpeedMps": 3.0752324243524374,
+              "minimumFloor": 0.0009999560598271298,
+              "heldSeconds": 0
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 1.100000023841858,
+              "sourceSeconds": 0.9333333373069763,
+              "supportSamples": 401,
+              "maximumAddedSupport": 0.034338222872211506,
+              "groundingMaxSpeedMps": 3.0752324243524374,
+              "minimumFloor": 0.0009999951210368785,
+              "heldSeconds": 0
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 1.25,
+              "sourceSeconds": 0.8666666746139526,
+              "supportSamples": 453,
+              "maximumAddedSupport": 0,
+              "groundingMaxSpeedMps": 3.0752324243524374,
+              "minimumFloor": 0.000999997506048472,
+              "heldSeconds": 0
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.699999988079071,
+              "sourceSeconds": 0.3333333432674408,
+              "supportSamples": 253,
+              "maximumAddedSupport": 0,
+              "groundingMaxSpeedMps": 3.0752324243524374,
+              "minimumFloor": 0.0009999991916910473,
+              "heldSeconds": 0
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.0999999046325684,
+              "sourceSeconds": 2.4000000953674316,
+              "supportSamples": 577,
+              "maximumAddedSupport": 0.1798087989080681,
+              "groundingMaxSpeedMps": 3.0752324243524374,
+              "minimumFloor": 0.0009998918459661987,
+              "heldSeconds": 0.5
+            }
+          ],
+          "preservedNativeClips": [
+            "Idle"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "contacts": [
+            {
+              "name": "Walk",
+              "speedMps": 0.9085656674309028,
+              "method": "bone-proxy-backward-contact-velocity"
+            },
+            {
+              "name": "Run",
+              "speedMps": 4.955116371022481,
+              "method": "bone-proxy-backward-contact-velocity"
+            }
+          ],
+          "requiresDevdocsReview": true
+        },
+        "motion": {
+          "walkClipSeconds": 1.6,
+          "runClipSeconds": 1.1,
+          "attackSeconds": 1.25,
+          "contactNormalized": 0.21238938053097345,
+          "impliedWalkMps": 0.9085656674309028,
+          "impliedRunMps": 4.955116371022481,
+          "groundY": 0.001
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "eye_med: nearly rigid single-joint skin; inspect articulation in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 1.6666666269302368,
+              "samples": 66,
+              "maximumVertexMotion": 0.2720315181825095,
+              "maximumSpanRatio": 1.017469116582252,
+              "minimumSpanRatio": 1.0001018493591094,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.1715593266527342,
+              "maximumEdgeStretch": 1.3612226848440327,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.600000023841858,
+              "samples": 121,
+              "maximumVertexMotion": 1.6300270553006044,
+              "maximumSpanRatio": 1.059573459213037,
+              "minimumSpanRatio": 0.967913116770294,
+              "loopSeam": 2.660467399690221e-7,
+              "edgeStretchP99": 1.4816265367096537,
+              "maximumEdgeStretch": 2.594162295743565,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 1.100000023841858,
+              "samples": 121,
+              "maximumVertexMotion": 3.405257499942001,
+              "maximumSpanRatio": 1.162299425173934,
+              "minimumSpanRatio": 1.0177904108788478,
+              "loopSeam": 6.079189593735464e-7,
+              "edgeStretchP99": 1.59616688608522,
+              "maximumEdgeStretch": 4.079231664655474,
+              "stretchedEdgeFraction": 0.0006063055780113178
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.25,
+              "samples": 114,
+              "maximumVertexMotion": 1.5075495534364671,
+              "maximumSpanRatio": 1.1050374535991017,
+              "minimumSpanRatio": 0.901083378837775,
+              "loopSeam": null,
+              "edgeStretchP99": 1.6436701923579469,
+              "maximumEdgeStretch": 2.5577454075028063,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.699999988079071,
+              "samples": 102,
+              "maximumVertexMotion": 0.7532304926431325,
+              "maximumSpanRatio": 1.0074914667040358,
+              "minimumSpanRatio": 0.988243149445344,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1699275248009078,
+              "maximumEdgeStretch": 2.402610078731072,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 2.0999999046325684,
+              "samples": 121,
+              "maximumVertexMotion": 3.724010152383419,
+              "maximumSpanRatio": 1.2449491658796323,
+              "minimumSpanRatio": 0.8721158119618724,
+              "loopSeam": null,
+              "edgeStretchP99": 1.9254825361686847,
+              "maximumEdgeStretch": 3.929417765015076,
+              "stretchedEdgeFraction": 0.0008084074373484236
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:10.703Z",
+          "by": "codex",
+          "sha256": "34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v2/creature_troll_mauler/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 3625,
+          "triangles": 6370
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.21238938053097345,
+          "seconds": 0.2654867256637168
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.9085656674309028,
+          "impliedRunMps": 4.955116371022481
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       }
     },
     {

@@ -5721,6 +5721,170 @@
       }
     }
   },
+  "goblin_scout_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_goblin_scout; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_goblin_scout/evidence.json.",
+      "at": "2026-09-28T19:52:08.538Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_scout, SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_scout, SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_scout, SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_scout, SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_scout, SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_scout, SHA256 7c4cceff678c51dd65ff9f6f908ff038cfe2f6100dd147b966768afed8863e1c."
+        }
+      }
+    }
+  },
+  "goblin_shaman_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_goblin_shaman; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_goblin_shaman/evidence.json.",
+      "at": "2026-09-28T19:52:08.538Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_shaman, SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_shaman, SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_shaman, SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_shaman, SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_shaman, SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_goblin_shaman, SHA256 f316044dead11357e38e6460f78e50f6a7fb0fc26a7bcdbf69fb8bb3570059ae."
+        }
+      }
+    }
+  },
   "gorge_mantis_residents": {
     "status": "draft",
     "notes": [],
@@ -5799,6 +5963,252 @@
         "state:death": {
           "verdict": "approved",
           "note": "Shared-model motion acceptance: creature_veil_reaper, SHA256 6cbebcda5c58075b4e1d1ee80cf3b15d02d5d6be35f7943b01c2dc15277b9833."
+        }
+      }
+    }
+  },
+  "grave_ghoul_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_grave_ghoul; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_grave_ghoul/evidence.json.",
+      "at": "2026-09-28T19:52:08.538Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        }
+      }
+    }
+  },
+  "grave_ghoul_t50": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_grave_ghoul; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_grave_ghoul/evidence.json.",
+      "at": "2026-09-28T19:52:08.538Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        }
+      }
+    }
+  },
+  "grave_ghoul_t70": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_grave_ghoul; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_grave_ghoul/evidence.json.",
+      "at": "2026-09-28T19:52:08.538Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
         }
       }
     }
@@ -14452,6 +14862,88 @@
       }
     }
   },
+  "troll_mauler_t12": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:10.703Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_troll_mauler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb. Evidence: test-results/creature-audit/candidate-review/studio-v2/creature_troll_mauler/evidence.json.",
+      "at": "2026-09-28T19:52:10.703Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_troll_mauler, SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_troll_mauler, SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_troll_mauler, SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_troll_mauler, SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_troll_mauler, SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_troll_mauler, SHA256 34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb."
+        }
+      }
+    }
+  },
   "vault_custodian_t10": {
     "status": "draft",
     "notes": [],
@@ -16628,6 +17120,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 90d3ce06a586e912403234de1be892f5220c46ecb67a529e27bf25e76d7d9897."
+        }
+      }
+    }
+  },
+  "wilderness_sunken_bones": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:08.538Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_grave_ghoul; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_grave_ghoul/evidence.json.",
+      "at": "2026-09-28T19:52:08.538Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_grave_ghoul, SHA256 b4c25cde2dbe48b3c15314f1145c59aa4fef3d40ec42809fc2904250c31e5610."
         }
       }
     }
