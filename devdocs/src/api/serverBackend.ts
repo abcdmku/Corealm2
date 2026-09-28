@@ -234,7 +234,7 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
       if (init.method === "POST" && (path === "/admin/content/base/apply" || path === "/admin/content/rollback")) invalidate();
       return result;
     },
-    // Filled in by the live-authoring round: /admin/meta, /admin/assets and /admin/imagegen.
+    // Filled in by the live-authoring round: /admin/meta, /admin/files and /admin/imagegen.
     patchMeta: () => Promise.reject(new BackendUnavailable("Authoring metadata")),
     putFiles: () => Promise.reject(new BackendUnavailable("Storing files")),
     imagegen: {

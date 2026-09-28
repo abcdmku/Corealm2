@@ -30,7 +30,9 @@ content and stay editable.
 - **Devdocs is backend-neutral**: pages call `backend().patchMeta`, `putFiles` and `imagegen`, gated
   by the `meta`, `files` and `imagegen` capabilities. Repo mode writes the checkout; server mode
   writes the server.
-- **Admin feature routes** plug into `createAdminApi({ routes })` (`AdminRoute`), one module each.
+- **Admin feature routes** plug into `createAdminApi({ routes })` (`AdminRoute`), one module each,
+  under first segments listed in `ADMIN_API_SEGMENTS` (`files`, `meta`, `imagegen`). The store's
+  admin API is `/admin/files`: `/admin/assets/` is the devdocs build's own folder.
 
 ## Waves
 

@@ -3,16 +3,19 @@
  *
  * The base game's files come from the asset host (the Pages build). A server that authors new ones
  * keeps them in its data directory and serves them itself, under the SAME relative paths the base
- * uses (`assets/skins/<asset>/<skin>/<material>.png`, `assets/icons/items/48/<item>.png`, ...).
+ * uses (`assets/skins/<asset>/<skin>/<material>.png`, `assets/icons/items/48/<item>.png`,
+ * `audio/sfx/...`).
  * A client resolves a path against this server's index first and the asset host second, so a
  * server file can add a path or replace a base one.
  *
  * Routes (see `contentAssets.ts`):
  *   GET    /content-assets/index.json          ContentAssetIndex         public, CORS *
  *   GET    /content-assets/<path>               the file                  public, CORS *, immutable per sha
- *   GET    /admin/assets                        ContentAssetIndex         content:read
- *   POST   /admin/assets    PutContentAssets    ContentAssetIndex         content:publish
- *   DELETE /admin/assets    { paths: string[] } ContentAssetIndex         content:publish
+ *   GET    /admin/files                         ContentAssetIndex         content:read
+ *   POST   /admin/files     PutContentAssets    ContentAssetIndex         content:publish
+ *   DELETE /admin/files     { paths: string[] } ContentAssetIndex         content:publish
+ *
+ * (`/admin/assets/` is the devdocs build's own folder, so the API is `/admin/files`.)
  *
  * The world descriptor names where the index lives (`WorldDescriptor.contentAssetUrl`).
  */
@@ -39,4 +42,6 @@ export interface ContentAssetIndex {
 export interface PutContentAssets { files: Record<ContentAssetPath, string> }
 
 /** Where a server-authored file may live, and what it may be. */
-export const CONTENT_ASSET_PATH = /^assets\/(?:skins|icons|models|audio|textures|thumbnails)\/(?:[A-Za-z0-9_.-]+\/)*[A-Za-z0-9_.-]+\.(?:png|jpg|jpeg|webp|glb|ogg|mp3|wav|json)$/;
+// Audio lives at the public root (`audio/...`) in the base, everything else under `assets/`.
+// A segment never starts with a dot, so `.` and `..` cannot appear.
+export const CONTENT_ASSET_PATH = /^(?:assets\/(?:skins|icons|models|textures|thumbnails|vfx)|audio)\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:png|jpg|jpeg|webp|glb|ogg|mp3|wav|json)$/;
