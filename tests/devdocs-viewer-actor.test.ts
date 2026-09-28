@@ -30,7 +30,7 @@ function fixtureAssets(clipNames: readonly string[]): AssetRegistry {
     entry: () => ({ id: 'fixture', animations: clips.map(clip => clip.name), size: { x: 1, y: 1, z: 1 } }),
     isLoaded: () => true, load: async () => source, instance: () => source,
     clipOf: (_asset: string, name: string) => clips.find(clip => clip.name === name),
-    clip: () => undefined, clipsOf: () => clips,
+    clip: () => undefined, clipsOf: () => clips, loadAnimationLibraries: async () => 0,
   } as unknown as AssetRegistry;
 }
 
@@ -49,6 +49,31 @@ const brief = (states: { name: string; clip: string | null; available: boolean; 
   Object.fromEntries(states.map(state => [state.name, `${state.available ? state.clip ?? '-' : 'n/a'}${state.synthetic ? '*' : ''}`]));
 
 describe('devdocs actor stage', () => {
+  it('loads the shared animation library before a fresh humanoid is first drawn', async () => {
+    const shared = fixtureAssets(['Idle_Loop', 'Walk_Loop', 'Jog_Fwd_Loop', 'Punch_Jab', 'Hit_Chest', 'Death01']);
+    const assets = fixtureAssets([]);
+    let loaded = false;
+    let finishLibraries!: () => void;
+    const pendingLibraries = new Promise<void>(resolve => { finishLibraries = resolve; });
+    assets.loadAnimationLibraries = async () => { await pendingLibraries; loaded = true; return 6; };
+    assets.clip = name => loaded ? shared.clipOf('fixture', name) : undefined;
+    const stage = new ActorStage(assets, ENTITY);
+    const building = stage.build();
+    // Model preparation can finish first; it must not commit a static view while clips load.
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(stage.views.has(ENTITY.id)).toBe(false);
+    finishLibraries();
+    await building;
+    const actor = await actorModel(stage, 'fixture_creature');
+    expect(actor.motion()).toMatchObject({ path: 'live-rig', liveRig: true, motion: 'idle', clip: 'Idle_Loop', time: 0 });
+    expect(actor.states!.every(state => state.available)).toBe(true);
+    actor.setState!('walk');
+    actor.update!(.2);
+    expect(actor.motion()).toMatchObject({ path: 'live-rig', motion: 'walk', clip: 'Walk_Loop' });
+    expect(actor.motion()!.time).toBeGreaterThan(0);
+    actor.dispose();
+  });
+
   it('lists every creature state with the clip the game plays for it', async () => {
     const { model: full } = await model(['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']);
     expect(brief(full.states!)).toEqual({ idle: 'Idle', walk: 'Walk', run: 'Run', attack: 'Attack', hit: 'Hit', death: 'Death' });

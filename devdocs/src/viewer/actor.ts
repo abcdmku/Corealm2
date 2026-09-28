@@ -52,7 +52,9 @@ export class ActorStage {
 
   /** Loads the model, lays the crowd out by its footprint, and builds the live rigs. */
   async build(): Promise<void> {
-    const [prepared] = await Promise.all([this.views.prepare(this.entities), this.draftMaps.load()]);
+    // Shared humanoid rigs carry no embedded clips. Load their production library before the
+    // first sync chooses a render path, including on a fresh route that never visited Outfits.
+    const [prepared] = await Promise.all([this.views.prepare(this.entities), this.draftMaps.load(), this.assets.loadAnimationLibraries()]);
     if (prepared.missing.length) throw new Error(`Missing model ${prepared.missing.join(', ')}`);
     if (this.entities.length > 1) this.layOut();
     this.views.updateActiveArea([0, 0, 0], 50);
