@@ -3,6 +3,7 @@ import { Box3, Matrix3, Matrix4, Quaternion, Vector3 } from "three";
 import { restorePose, storedPose } from "../creature-motion/pose.js";
 
 export const REQUIRED_CREATURE_STATES = ["Idle", "Walk", "Run", "Attack", "Hit", "Death"] as const;
+export type CreatureStateName = typeof REQUIRED_CREATURE_STATES[number];
 
 export interface CreatureStateValidation {
   name: string;
@@ -274,7 +275,7 @@ function validateLoopBoundaryVelocity(clip: Animation, seconds: number, bodySpan
  * relaxed limbs, correct pivots, weights, facing and believable motion still require devdocs.
  * The document's default pose is restored even when sampling fails.
  */
-export function validateCreatureDocument(doc: Document): CreatureValidation {
+export function validateCreatureDocument(doc: Document, requiredStates: readonly CreatureStateName[] = REQUIRED_CREATURE_STATES): CreatureValidation {
   const problems: string[] = [], warnings: string[] = [], states: CreatureStateValidation[] = [];
   const result = (): CreatureValidation => ({ passed: problems.length === 0, problems: [...new Set(problems)], warnings,
     states, requiresVisualReview: true });
@@ -293,7 +294,8 @@ export function validateCreatureDocument(doc: Document): CreatureValidation {
     // joint or skinned descendant makes this an invalid rig transform, not visibility.
     if (subtree.every(child => !child.getSkin() && !joints.has(child))) subtree.forEach(child => hiddenRigidNodes.add(child));
   }
-  for (const name of REQUIRED_CREATURE_STATES) if (!clips.some(clip => clip.getName() === name)) problems.push(`Missing usable ${name} clip`);
+  if (!requiredStates.includes('Idle') || new Set(requiredStates).size !== requiredStates.length) problems.push('Invalid creature state requirements');
+  for (const name of requiredStates) if (!clips.some(clip => clip.getName() === name)) problems.push(`Missing usable ${name} clip`);
   if (new Set(clips.map(clip => clip.getName())).size !== clips.length) problems.push("Duplicate clip names");
   for (const node of nodes) {
     if (!reachable.has(node)) continue;

@@ -4,6 +4,9 @@ import { describe, expect, it } from "vitest";
 import { addChannel } from "../tools/creature-motion/pose.js";
 import { REQUIRED_CREATURE_STATES, validateCreatureDocument } from "../tools/tripo-creatures/validation.js";
 import { normalizeImportedCreatureClips } from "../tools/tripo-creatures/import.js";
+import { assertRetainedSourceRole } from "../tools/tripo-creatures/repairProfile.js";
+import { creatureBodies } from "../devdocs/src/model/creatureArt.js";
+import creatureDefinitions from "../game/content/data/creatureDefinitions.json";
 
 function creature() {
   const doc = new Document(), buffer = doc.createBuffer(), scene = doc.createScene();
@@ -54,6 +57,25 @@ describe("creature import rejection gate", () => {
   it("rejects a missing lifecycle state", () => {
     const f = creature(); f.clip("Walk").dispose();
     expect(validateCreatureDocument(f.doc).problems).toContain("Missing usable Walk clip");
+  });
+
+  it('permits an explicit retained-source role without weakening its structural checks', () => {
+    const f=creature();f.clip('Run').dispose();
+    const role=['Idle','Walk','Attack','Hit','Death'] as const;
+    expect(validateCreatureDocument(f.doc).problems).toContain('Missing usable Run clip');
+    expect(validateCreatureDocument(f.doc,role).passed).toBe(true);
+    f.clip('Hit').dispose();
+    expect(validateCreatureDocument(f.doc,role).problems).toContain('Missing usable Hit clip');
+    expect(validateCreatureDocument(f.doc,[]).problems).toContain('Invalid creature state requirements');
+  });
+
+  it('rejects reduced source roles for bodies used by active or inherited creature presentations', () => {
+    const active = new Set(creatureBodies(creatureDefinitions).map(body => body.assetId));
+    const role = { states: ['Idle', 'Walk', 'Attack', 'Hit', 'Death'] as const, reason: 'Retained source' };
+    expect(active.size).toBeGreaterThan(100);
+    for (const assetId of active) expect(() => assertRetainedSourceRole(assetId, role, active), assetId).toThrow('complete six-state lifecycle');
+    expect(() => assertRetainedSourceRole('animal_hog', role, active)).not.toThrow();
+    expect(() => assertRetainedSourceRole('animal_hog', { ...role, reason: '' }, active)).toThrow('requires a reason');
   });
 
   it("removes incoming directional hits and directional aliases before validating the six gameplay states", () => {

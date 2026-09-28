@@ -9,9 +9,10 @@ import { NodeIO, type JSONDocument } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { MeshoptDecoder, MeshoptEncoder } from 'meshoptimizer';
 import type { AssetEntry, AssetManifest } from '../../game/src/render/assets.js';
+import { creatureBodies } from '../../devdocs/src/model/creatureArt.js';
 import { applyClip, duration, removeClip, restorePose, storedPose } from '../creature-motion/pose.js';
 import { deformedBounds } from '../creature-motion/validate-deformation.js';
-import type { CreatureRepairProfile } from './repairProfile.js';
+import { assertRetainedSourceRole, type CreatureRepairProfile } from './repairProfile.js';
 import { validateCreatureDocument } from './validation.js';
 
 const repo = fileURLToPath(new URL('../../', import.meta.url));
@@ -25,6 +26,7 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
   if (profile.id !== family) throw new Error(`Profile identity mismatch: ${profile.id}`);
   const manifest: AssetManifest = JSON.parse(await readFile(path.join(repo, 'game/public/assets/manifest.json'), 'utf8'));
   const entries = new Map(manifest.assets.map(entry => [entry.id, entry]));
+  const activeAssetIds = new Set(creatureBodies(JSON.parse(await readFile(path.join(repo, 'game/content/data/creatureDefinitions.json'), 'utf8'))).map(body => body.assetId));
   const ids = only?.length ? [...only] : [...profile.assetIds];
   if (ids.some(id => !profile.assetIds.includes(id))) throw new Error('Selection escapes the family ownership');
   await Promise.all([MeshoptDecoder.ready, MeshoptEncoder.ready]);
@@ -88,6 +90,8 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
   for (const id of ids) {
     const entry = entries.get(id);
     if (!entry) throw new Error(`Unknown production asset ${id}`);
+    const stateRequirements = profile.stateRequirements?.[id];
+    assertRetainedSourceRole(id, stateRequirements, activeAssetIds);
     const originalSource = await source(entry);
     const original = originalSource.bytes;
     const sourceHash = sha(original);
@@ -107,7 +111,7 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
       console.log(`${id}: preserved original; devdocs review required`);
       continue;
     }
-    const validation = validateCreatureDocument(doc);
+    const validation = validateCreatureDocument(doc, stateRequirements?.states);
     // The source may use mesh compression; candidates retain decoded geometry until final build.
     for (const extension of doc.getRoot().listExtensionsUsed()) {
       if (['EXT_meshopt_compression', 'KHR_draco_mesh_compression'].includes(extension.extensionName)) extension.dispose();
@@ -137,7 +141,7 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
       ...('bounds' in entry ? { bounds: { min: bounds.min, max: bounds.max } } : {}),
       walkClipSeconds: seconds('Walk'), runClipSeconds: seconds('Run'), attackSeconds: seconds('Attack'),
       motionRepair: { family, sourceSha256: sourceHash, sourceGitBlob: originalSource.blob, donors: [...usedDonors.values()],
-        sourceMetadata: (entry as AssetEntry & { metadata?: Record<string, unknown> }).metadata, ...result, validation },
+        sourceMetadata: (entry as AssetEntry & { metadata?: Record<string, unknown> }).metadata, ...result, ...(stateRequirements ? { stateRequirements } : {}), validation },
     };
     // Old acceptance and timing prose describe the source bytes, not this new candidate.
     const metadata = { ...(updated.metadata as Record<string, unknown> | undefined) };
