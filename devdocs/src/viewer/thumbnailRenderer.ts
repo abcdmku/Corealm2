@@ -37,7 +37,7 @@ export const THUMBNAIL_SIZE = 192;
  */
 export const THUMBNAIL_BACKGROUND = 0x000000;
 export const THUMBNAIL_BACKGROUND_ALPHA = 0;
-const MAX_CONCURRENT_RENDERS = 2;
+const MAX_CONCURRENT_RENDERS = 1;
 /**
  * Part of every cache key. Bumped when renders from earlier code must not be reused: r2 replaces
  * renders taken while two thumbnails could share the stage and swap models.
@@ -47,6 +47,33 @@ const ASSET_ID = /^[A-Za-z0-9_-]+$/;
 const THUMBNAILS_PATH = '/__devdocs/thumbnails';
 /** Same 3/4 front view, slightly above, as ViewerCore.resetCamera. */
 const VIEW_DIRECTION = new THREE.Vector3(1, .55, 1.65).normalize();
+
+/** Resolves when the page has a moment with nothing else to do (or after 300 ms at the latest). */
+function idle(): Promise<void> {
+  return new Promise(resolve => typeof requestIdleCallback === 'function'
+    ? requestIdleCallback(() => resolve(), { timeout: 300 }) : queueMicrotask(resolve));
+}
+
+/**
+ * A PNG of the canvas as just drawn. `toDataURL` on a WebGPU canvas makes the page wait for the GPU
+ * to finish and read the pixels back, which is the pause a tile coming into view caused. The
+ * snapshot is taken in the caller's task (so it is this frame) and encoded off the page's thread.
+ */
+async function snapshotPng(canvas: HTMLCanvasElement): Promise<string> {
+  if (typeof createImageBitmap !== 'function' || typeof OffscreenCanvas !== 'function') return canvas.toDataURL('image/png');
+  const bitmap = await createImageBitmap(canvas);
+  try {
+    const copy = new OffscreenCanvas(bitmap.width, bitmap.height);
+    copy.getContext('2d')!.drawImage(bitmap, 0, 0);
+    const blob = await copy.convertToBlob({ type: 'image/png' });
+    return await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(blob);
+    });
+  } finally { bitmap.close(); }
+}
 
 class ThumbnailStage {
   readonly renderer: WebGPURenderer;
@@ -96,7 +123,9 @@ class ThumbnailStage {
    * for pipeline compilation, so an interleaved second render would photograph the wrong model.
    */
   render(model: ViewerModel): Promise<string | undefined> {
-    const turn = this.turn.then(() => this.renderAlone(model));
+    // Each render is one long task of shader building; waiting for idle time between them lets
+    // scrolling and clicks run in between instead of queueing behind a whole page of tiles.
+    const turn = this.turn.then(idle).then(() => this.renderAlone(model));
     this.turn = turn.catch(() => undefined);
     return turn;
   }
@@ -138,7 +167,7 @@ class ThumbnailStage {
       this.renderer.render(this.scene, this.camera);
       // Read the canvas in the same task as the draw, before the frame is presented.
       if (this.lost || this.renderer.info.render.triangles === 0) return undefined;
-      return this.renderer.domElement.toDataURL('image/png');
+      return await snapshotPng(this.renderer.domElement as HTMLCanvasElement);
     } finally {
       mixer.stopAllAction();
       mixer.uncacheRoot(model.animationRoot);
@@ -251,7 +280,28 @@ function thumbnailCache(): ThumbnailCache | undefined {
 }
 
 /** A kept render when there is one; otherwise render in the browser, show the data URL and keep it. */
+/**
+ * Thumbnails shipped with the build (`assets/thumbnails/<key>.png`, listed in its `index.json`,
+ * written by `tools/bake-art-thumbnails.ts`). The base game's creatures never render in an author's
+ * browser; only a look a server changed misses this list and renders.
+ */
+let shippedKeys: Promise<ReadonlySet<string>> | undefined;
+function shippedThumbnails(): Promise<ReadonlySet<string>> {
+  shippedKeys ??= fetch(gameUrl('assets/thumbnails/index.json'), { cache: 'no-cache' })
+    .then(response => response.ok ? response.json() as Promise<{ keys?: unknown }> : {})
+    .then(index => new Set(Array.isArray((index as { keys?: unknown }).keys) ? ((index as { keys: unknown[] }).keys).filter((key): key is string => typeof key === 'string') : []))
+    .catch(() => new Set<string>());
+  return shippedKeys;
+}
+
+/** The cache key a thumbnail is kept under, for tools that ship them. Creature keys go through `creatureThumbnailKey`. */
+export async function thumbnailCacheKey(assetId: string): Promise<string | undefined> {
+  if (assetId.startsWith(CREATURE_KEY)) return creatureKey(assetId.slice(CREATURE_KEY.length)).catch(() => undefined);
+  return ASSET_ID.test(assetId) ? assetKey(assetId) : undefined;
+}
+
 async function cachedRender(key: string | undefined, render: () => Promise<string | undefined>): Promise<string | undefined> {
+  if (key !== undefined && (await shippedThumbnails()).has(key)) return gameUrl(`assets/thumbnails/${key}.png`);
   const cache = key === undefined ? undefined : thumbnailCache();
   const kept = cache && key !== undefined ? await cache.cached(key) : undefined;
   if (kept) return kept;

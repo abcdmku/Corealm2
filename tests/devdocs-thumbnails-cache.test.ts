@@ -58,8 +58,9 @@ describe("thumbnail cache", () => {
     vi.stubGlobal("fetch", fetch);
     const { createThumbnailProvider } = await import("../devdocs/src/viewer/thumbnailRenderer.js");
     expect(await createThumbnailProvider()("boulder")).toBe(PNG);
-    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
-    expect(fetch.mock.calls.map(([url, init]) => `${init.method} ${url}`)).toEqual([`HEAD /__devdocs/thumbnails/${KEY}.png`, `PUT /__devdocs/thumbnails/${KEY}.png`]);
+    // First the list of thumbnails shipped with the build (none here), then the checkout's cache.
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
+    expect(fetch.mock.calls.map(([url, init]) => `${init.method ?? "GET"} ${url}`)).toEqual([`GET http://localhost:5173/assets/thumbnails/index.json`, `HEAD /__devdocs/thumbnails/${KEY}.png`, `PUT /__devdocs/thumbnails/${KEY}.png`]);
     expect(putFiles).not.toHaveBeenCalled();
 
     fetch.mockImplementation(async () => new Response(null, { status: 200, headers: { "Content-Type": "image/png" } }));

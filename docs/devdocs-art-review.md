@@ -141,3 +141,12 @@ PNG, JPEG or WebP per material (warns on a size mismatch, fills empty materials 
 map) and saves an `upload` skin; "Replace this map…" saves one material into an existing skin with
 `merge`, and a generated or recolored skin records it in `uploaded`. Wear applies to the definition
 selected in the Variants strip, base or variant.
+
+### Thumbnails (September 28, 2026)
+
+Creature thumbnails for the base game ship with the build in `game/public/assets/thumbnails/`
+(`index.json` lists the keys), baked by `npx tsx tools/bake-art-thumbnails.ts --base <repo devdocs>`.
+The editor uses a shipped thumbnail first, then its cache (the checkout's, or a live server's file
+store), and renders only what neither has: a look a server changed. Re-run the bake after creature
+looks change so the base game's tiles stay free to show. Renders take turns on one stage and wait for
+idle time, so scrolling stays responsive while one is drawn.
