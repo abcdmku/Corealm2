@@ -81,6 +81,252 @@
       }
     }
   },
+  "amethyst_spider_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_amethyst_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_amethyst_spider, SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_amethyst_spider, SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_amethyst_spider, SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_amethyst_spider, SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_amethyst_spider, SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_amethyst_spider, SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+        }
+      }
+    }
+  },
+  "antler_beetle_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_flint_mandible; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        }
+      }
+    }
+  },
+  "antler_beetle_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_antler_beetle; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286. Evidence: test-results/creature-audit/candidate-review/arthropods-v2/creature_antler_beetle/evidence.json.",
+      "at": "2026-09-28T19:46:05.041Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_antler_beetle, SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_antler_beetle, SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_antler_beetle, SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_antler_beetle, SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_antler_beetle, SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_antler_beetle, SHA256 1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286."
+        }
+      }
+    }
+  },
   "ashscale_monitor_residents": {
     "status": "draft",
     "notes": [],
@@ -493,6 +739,88 @@
       }
     }
   },
+  "ashwind_cloister_sentries": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_cinderback_crag; variants use the same reviewed rig and clips. Shared-model acceptance from creature_slag_crawler: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        }
+      }
+    }
+  },
   "banshee_t20": {
     "status": "draft",
     "notes": [],
@@ -739,6 +1067,88 @@
       }
     }
   },
+  "basalt_drake_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_crawler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        }
+      }
+    }
+  },
   "beetle_golem_t10": {
     "status": "draft",
     "notes": [],
@@ -945,6 +1355,170 @@
       }
     }
   },
+  "blackwater_frogs": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_reed_strider; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        }
+      }
+    }
+  },
+  "blackwater_heron_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_reed_strider; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        }
+      }
+    }
+  },
   "blackwater_heron_t5": {
     "status": "draft",
     "notes": [],
@@ -1023,6 +1597,170 @@
         "state:death": {
           "verdict": "approved",
           "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        }
+      }
+    }
+  },
+  "blind_cave_weaver_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_blind_cave_weaver; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        }
+      }
+    }
+  },
+  "blind_cave_weaver_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_blind_cave_weaver; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
         }
       }
     }
@@ -1479,6 +2217,88 @@
       }
     }
   },
+  "boss_tempest_roc_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_boss_tempest_roc; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        }
+      }
+    }
+  },
   "boss_tideworn_t10": {
     "status": "draft",
     "notes": [],
@@ -1561,6 +2381,88 @@
       }
     }
   },
+  "bracken_tapir_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_fen_crawler; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        }
+      }
+    }
+  },
   "bracken_tapir_t5": {
     "status": "draft",
     "notes": [],
@@ -1639,6 +2541,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 6788068b9bbf8e7dfb7e18064ff028e38213688f4733b43df5df8589417e1894."
+        }
+      }
+    }
+  },
+  "bramble_hogs": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_fen_crawler; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
         }
       }
     }
@@ -1807,6 +2791,88 @@
       }
     }
   },
+  "briar_spider_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_webweaver_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        }
+      }
+    }
+  },
   "cairn_bighorn_t10": {
     "status": "draft",
     "notes": [],
@@ -1889,6 +2955,88 @@
       }
     }
   },
+  "cinder_boars": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_crawler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        }
+      }
+    }
+  },
   "cinder_penitent_t20": {
     "status": "draft",
     "notes": [],
@@ -1967,6 +3115,170 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate a69e8135f66b3cccd7535b95f079870eb7ede9e1ec795ba8e8626704f732c754."
+        }
+      }
+    }
+  },
+  "cinderback_crag_t50": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_cinderback_crag; variants use the same reviewed rig and clips. Shared-model acceptance from creature_slag_crawler: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        }
+      }
+    }
+  },
+  "cinderback_crag_t70": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_cinderback_crag; variants use the same reviewed rig and clips. Shared-model acceptance from creature_slag_crawler: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
         }
       }
     }
@@ -2063,13 +3375,164 @@
         "by": "user",
         "action": "art.review",
         "detail": "record polish"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
-      "verdict": "polish",
-      "at": "2026-09-27T16:47:02.299Z",
-      "by": "user"
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model animal_crab; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41. Evidence: test-results/creature-audit/candidate-review/arthropods-v2/animal_crab/evidence.json.",
+      "at": "2026-09-28T19:46:05.041Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_crab, SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_crab, SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_crab, SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_crab, SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_crab, SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_crab, SHA256 d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41."
+        }
+      }
+    }
+  },
+  "dewglass_weaver_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_dewglass_weaver; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_dewglass_weaver, SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_dewglass_weaver, SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_dewglass_weaver, SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_dewglass_weaver, SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_dewglass_weaver, SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_dewglass_weaver, SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+        }
+      }
     }
   },
   "duskoak_lynx_residents": {
@@ -2318,6 +3781,252 @@
       }
     }
   },
+  "fen_crawler_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_fen_crawler; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        }
+      }
+    }
+  },
+  "fen_crawler_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_fen_crawler; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        }
+      }
+    }
+  },
+  "fen_crawler_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_fen_crawler; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        }
+      }
+    }
+  },
   "field_wasp_t1": {
     "status": "draft",
     "notes": [],
@@ -2478,6 +4187,170 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate ebbcca1ddfd865337c575a6053b85e3003823fb15f6edbbfacbd0cd2a1bef12f."
+        }
+      }
+    }
+  },
+  "flint_mandible_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_flint_mandible; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        }
+      }
+    }
+  },
+  "flint_mandible_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_flint_mandible; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
         }
       }
     }
@@ -3926,6 +5799,416 @@
         "state:death": {
           "verdict": "approved",
           "note": "Shared-model motion acceptance: creature_veil_reaper, SHA256 6cbebcda5c58075b4e1d1ee80cf3b15d02d5d6be35f7943b01c2dc15277b9833."
+        }
+      }
+    }
+  },
+  "gravelmaw_amethyst_spiders": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_blind_cave_weaver; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        }
+      }
+    }
+  },
+  "gravelmaw_ch1_rats": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_blind_cave_weaver; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        }
+      }
+    }
+  },
+  "gravelmaw_ch1_reavers": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:10.360Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model outfit_male_ranger; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b. Evidence: test-results/creature-audit/candidate-review/ranger-runtime-v1/outfit_male_ranger/evidence.json.",
+      "at": "2026-09-28T19:46:10.360Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: outfit_male_ranger, SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: outfit_male_ranger, SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: outfit_male_ranger, SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: outfit_male_ranger, SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: outfit_male_ranger, SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: outfit_male_ranger, SHA256 09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b."
+        }
+      }
+    }
+  },
+  "gravelmaw_ch2_crabs": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_flint_mandible; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        }
+      }
+    }
+  },
+  "gravelmaw_ch2_scorpions": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_blind_cave_weaver; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blind_cave_weaver, SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
         }
       }
     }
@@ -5994,6 +8277,170 @@
       }
     }
   },
+  "hollowroot_spider_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_hollowroot_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        }
+      }
+    }
+  },
+  "hollowroot_spider_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_hollowroot_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_hollowroot_spider, SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+        }
+      }
+    }
+  },
   "lantern_sprite_t30": {
     "status": "draft",
     "notes": [],
@@ -6587,6 +9034,88 @@
       }
     }
   },
+  "moonweave_spider_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_moonweave_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        }
+      }
+    }
+  },
   "mossback_sentinel_t10": {
     "status": "draft",
     "notes": [],
@@ -7081,6 +9610,88 @@
       }
     }
   },
+  "pack_fallowmarch_bracken_northeast_spiders": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_webweaver_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        }
+      }
+    }
+  },
   "pack_fallowmarch_palewood_far_south_scrub": {
     "status": "draft",
     "notes": [],
@@ -7405,6 +10016,334 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 4f028eceb50ea3a05dd61a0952b3a407a2ab2559bbdd49e01b3b91094608509a."
+        }
+      }
+    }
+  },
+  "pack_karrowmoor_tarn_track_east_mandibles": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_flint_mandible; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        }
+      }
+    }
+  },
+  "pack_kilnhalt_cinderpine_northwest_outer": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_crawler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        }
+      }
+    }
+  },
+  "pack_vellenwood_marchgate_south_bramble": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_moonweave_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_moonweave_spider, SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+        }
+      }
+    }
+  },
+  "pack_vellenwood_mossbound_west_bramble": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_fen_crawler; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_fen_crawler, SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
         }
       }
     }
@@ -8574,6 +11513,252 @@
       "by": "user"
     }
   },
+  "reed_strider_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_reed_strider; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        }
+      }
+    }
+  },
+  "reed_strider_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_reed_strider; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        }
+      }
+    }
+  },
+  "reed_strider_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_reed_strider; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reed_strider, SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
+        }
+      }
+    }
+  },
   "reed_wasp_t1": {
     "status": "draft",
     "notes": [],
@@ -8673,6 +11858,88 @@
       "verdict": "approved",
       "at": "2026-09-27T16:33:59.399Z",
       "by": "user"
+    }
+  },
+  "reedjaw_crocodile_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_flint_mandible; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        }
+      }
     }
   },
   "regional_gloam_fox": {
@@ -9087,6 +12354,170 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate cc56ce4ac9e6747a68d1d561c68f625a5ba5dd5a85e5df7273af08fc24845ac8."
+        }
+      }
+    }
+  },
+  "rift_carapace_t50": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        }
+      }
+    }
+  },
+  "rift_carapace_t70": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
         }
       }
     }
@@ -9585,6 +13016,334 @@
       }
     }
   },
+  "slag_centipede_residents": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_crawler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        }
+      }
+    }
+  },
+  "slag_centipede_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:05.041Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_centipede; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a. Evidence: test-results/creature-audit/candidate-review/arthropods-v2/creature_slag_centipede/evidence.json.",
+      "at": "2026-09-28T19:46:05.041Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_centipede, SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_centipede, SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_centipede, SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_centipede, SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_centipede, SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_centipede, SHA256 b06a75e39a60fe2bd5e6cb94775437894e1023a17009f368d363dbe76aa5b30a."
+        }
+      }
+    }
+  },
+  "slag_crawler_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_crawler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        }
+      }
+    }
+  },
+  "slag_crawler_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slag_crawler; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slag_crawler, SHA256 c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e."
+        }
+      }
+    }
+  },
   "slateback_tortoise_residents": {
     "status": "draft",
     "notes": [],
@@ -9745,6 +13504,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
+        }
+      }
+    }
+  },
+  "starless_abbey_sentries": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
         }
       }
     }
@@ -9951,6 +13792,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate c06f0153c1ae644064dabdef18a14cfd3caefa9343e89dccad0c5ee1765b6a70."
+        }
+      }
+    }
+  },
+  "tempest_roc": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_boss_tempest_roc; variants use the same reviewed rig and clips. Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_tempest_roc, SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
         }
       }
     }
@@ -10777,6 +14700,170 @@
       }
     }
   },
+  "webweaver_spider_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_webweaver_spider; variants use the same reviewed rig and clips. Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_webweaver_spider, SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+        }
+      }
+    }
+  },
+  "wilderness_cinderback_scree": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_cinderback_crag; variants use the same reviewed rig and clips. Shared-model acceptance from creature_slag_crawler: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        }
+      }
+    }
+  },
   "wilderness_dead_boughs": {
     "status": "draft",
     "notes": [],
@@ -10897,6 +14984,170 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe."
+        }
+      }
+    }
+  },
+  "wilderness_east_cinderback_shelf": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:08.413Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_cinderback_crag; variants use the same reviewed rig and clips. Shared-model acceptance from creature_slag_crawler: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json.",
+      "at": "2026-09-28T19:46:08.413Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_cinderback_crag, SHA256 c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12."
+        }
+      }
+    }
+  },
+  "wilderness_east_rift_carapaces": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
         }
       }
     }
@@ -11107,6 +15358,170 @@
       }
     }
   },
+  "wilderness_foundry_north_carapaces": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        }
+      }
+    }
+  },
+  "wilderness_foundry_west_carapaces": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        }
+      }
+    }
+  },
   "wilderness_lament": {
     "status": "draft",
     "notes": [],
@@ -11185,6 +15600,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 97d3de81eab33263669a261320f9489ad44a32966468f56b35d080ade559748f."
+        }
+      }
+    }
+  },
+  "wilderness_midnight_carapaces": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
         }
       }
     }
@@ -11313,6 +15810,88 @@
       }
     }
   },
+  "wilderness_northeast_carapaces": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        }
+      }
+    }
+  },
   "wilderness_petrified_grove": {
     "status": "draft",
     "notes": [],
@@ -11433,6 +16012,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe."
+        }
+      }
+    }
+  },
+  "wilderness_sanctum_east_carapaces": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:46:06.738Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rift_carapace; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13. Evidence: test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json.",
+      "at": "2026-09-28T19:46:06.738Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rift_carapace, SHA256 7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13."
         }
       }
     }
