@@ -5709,7 +5709,8 @@
       "materials": [
         "MI_Ranger",
         "MI_Regular_Male"
-      ]
+      ],
+      "sha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b"
     },
     {
       "id": "outfit_male_ranger_boots",
@@ -8753,7 +8754,7 @@
       "impliedWalkMps": 0.48204361375890803,
       "impliedRunMps": 1.0368160285737749,
       "runClipSeconds": 0.5666666626930237,
-      "sha256": "CC14A547D0F0B708BFD2F7A985C3C8DBF808CF922A98C40C9A464787782A92B3",
+      "sha256": "cc14a547d0f0b708bfd2f7a985c3c8dbf808cf922a98c40c9a464787782a92b3",
       "groundY": -0.001
     },
     {
@@ -9719,7 +9720,7 @@
       "materials": [
         "animal_perch_mat"
       ],
-      "sha256": "FD4E42A360A20B05EDE221F6C0D84A9A5915D3605647DFC595DAB25401AD91E3",
+      "sha256": "fd4e42a360a20b05ede221f6c0d84a9a5915d3605647dfc595dab25401ad91e3",
       "groundY": -0.152
     },
     {
@@ -9756,7 +9757,7 @@
       "materials": [
         "animal_pike_mat"
       ],
-      "sha256": "301E532DA38F2D53EAA50F400ECE60F197FE0B8A5F5B6052BC3AC01E56E7D239",
+      "sha256": "301e532da38f2d53eaa50f400ece60f197fe0b8a5f5b6052bc3ac01e56e7d239",
       "groundY": -0.112
     },
     {
@@ -9793,7 +9794,7 @@
       "materials": [
         "animal_salmon_mat"
       ],
-      "sha256": "BAAB55038925DBC47C5B9F3CF737DF4756DA1CA931A69276C022A7397E15FCDC",
+      "sha256": "baab55038925dbc47c5b9f3cf737df4756da1ca931a69276c022a7397e15fcdc",
       "groundY": -0.074
     },
     {
