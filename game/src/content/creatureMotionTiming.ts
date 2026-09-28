@@ -105,7 +105,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4336734873237641
   },
   "creature_amethyst_sovereign": {
-    "seconds": 1.3,
+    "seconds": 1.2999999523162842,
     "contactNormalized": 0.5153846153846154
   },
   "creature_amethyst_spider": {
@@ -153,7 +153,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.47727272727272724
   },
   "creature_bloomheart_matriarch": {
-    "seconds": 1.3,
+    "seconds": 1.2999999523162842,
     "contactNormalized": 0.5153846153846154
   },
   "creature_boss_cinderwake": {
@@ -289,7 +289,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5833333333333334
   },
   "creature_hollow_star": {
-    "seconds": 1.28,
+    "seconds": 1.2799999713897705,
     "contactNormalized": 0.4296875
   },
   "creature_hollowroot_spider": {
@@ -469,7 +469,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "creature_veil_reaper": {
-    "seconds": 0.78,
+    "seconds": 0.7799999713897705,
     "contactNormalized": 0.5897435897435898
   },
   "creature_voidstone_colossus": {
@@ -533,16 +533,16 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.48
   },
   "fairy_garden_snail_gloamgarden": {
-    "seconds": 0.78,
+    "seconds": 0.7799999713897705,
     "contactNormalized": 0.52
   },
   "fairy_garden_sporekin_faeholme": {
-    "seconds": 0.866666675,
-    "contactNormalized": 0.26
+    "seconds": 0.8666666746139526,
+    "contactNormalized": 0.26666666666666666
   },
   "fairy_garden_sporekin_gloamgarden": {
-    "seconds": 1,
-    "contactNormalized": 0.55
+    "seconds": 0.8666666746139526,
+    "contactNormalized": 0.26666666666666666
   },
   "fairy_garden_spriggle_faeholme": {
     "seconds": 1.1,
@@ -553,12 +553,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "fairy_garden_veilspirit_faeholme": {
-    "seconds": 0.95,
-    "contactNormalized": 0.4
+    "seconds": 0.8666666746139526,
+    "contactNormalized": 0.26666666666666666
   },
   "fairy_garden_veilspirit_gloamgarden": {
-    "seconds": 0.95,
-    "contactNormalized": 0.4
+    "seconds": 0.8666666746139526,
+    "contactNormalized": 0.26666666666666666
   },
   "fairy_garden_wardling_faeholme": {
     "seconds": 1.1,
@@ -777,6 +777,10 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_garden_petalguard_gloamgarden": 4.8306,
   "fairy_garden_sapling_faeholme": 39.4999,
   "fairy_garden_sapling_gloamgarden": 15.8653,
+  "fairy_garden_sporekin_faeholme": 17.0307,
+  "fairy_garden_sporekin_gloamgarden": 7.6312,
+  "fairy_garden_veilspirit_faeholme": 8.1284,
+  "fairy_garden_veilspirit_gloamgarden": 6.7983,
   "fairy_garden_wardling_faeholme": 3.1874,
   "fairy_garden_wardling_gloamgarden": 3.1874,
   "fairy_guardian_03_gloamgarden": 18.96,
