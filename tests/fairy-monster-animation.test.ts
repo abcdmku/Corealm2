@@ -1,14 +1,30 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createMaskedHitOverlay, applyMaskedHitOverlay } from '../game/src/render/creatureHitOverlay.js';
-import { NodeIO } from '@gltf-transform/core';
+import { NodeIO, type JSONDocument } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { repairStudioHumanoid } from '../tools/tripo-creatures/profiles/studioHumanoids.js';
 import { repairStudioFairy } from '../tools/tripo-creatures/profiles/studio-fairy.js';
 import { applyClip, duration, restorePose, storedPose } from '../tools/creature-motion/pose.js';
 import { deformedBounds } from '../tools/creature-motion/validate-deformation.js';
+
+/** Repair the pinned source after promotion rather than applying a source profile twice. */
+async function repairSource(io: NodeIO, entry: { file: string; motionRepair?: { sourceGitBlob?: string } }) {
+  const pin = entry.motionRepair?.sourceGitBlob;
+  if (!pin) return io.read(`game/public/assets/${entry.file}`);
+  const bytes = execFileSync('git', ['cat-file', 'blob', pin], { maxBuffer: 128 * 1024 * 1024 });
+  const length = bytes.readUInt32LE(12), json = JSON.parse(bytes.subarray(20, 20 + length).toString());
+  const resources: JSONDocument['resources'] = { '@glb.bin': new Uint8Array(bytes.subarray(28 + length)) };
+  json.buffers[0].uri = '@glb.bin';
+  for (const image of json.images ?? []) if (image.uri && !image.uri.startsWith('data:')) {
+    resources[image.uri] = new Uint8Array(readFileSync(path.resolve('game/public/assets', path.dirname(entry.file), decodeURIComponent(image.uri))));
+  }
+  return io.readJSON({ json, resources });
+}
 
 /** Load the promoted production skeleton and clips; GPU materials are irrelevant to support transforms. */
 async function actualRig(id:string) {
@@ -58,15 +74,23 @@ describe('studio death export contact', () => {
     const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
     const entry = manifest.assets.find((asset: { id: string }) => asset.id === id);
     const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-    const doc = await io.read(`game/public/assets/${entry.file}`);
+    const doc = await repairSource(io, entry);
     const attack = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
     const jointChannels = () => attack.listChannels().filter(channel => !/ground/i.test(channel.getTargetNode()!.getName()));
     const attackValues = jointChannels().map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!));
-    const result = await repairStudioHumanoid(doc, { assetId: id, entry, readAsset: async () => { throw new Error('No donor needed'); } });
+    const result = await repairStudioHumanoid(doc, { assetId: id, entry,
+      readAsset: async donorId => io.read(`game/public/assets/${manifest.assets.find((asset: { id: string }) => asset.id === donorId).file}`) });
     expect(result.changes.length).toBeGreaterThan(0);
     expect(jointChannels().map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!))).toEqual(attackValues);
     const encoded = await io.writeBinary(doc), decoded = await io.readBinary(encoded);
     const death = decoded.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!;
+    if (id === 'creature_skeleton_soldier') for (const bone of ['Bip001_L_Calf', 'Bip001_R_Forearm']) {
+      const channel = death.listChannels().find(channel => channel.getTargetNode()!.getName() === bone && channel.getTargetPath() === 'rotation')!;
+      const values = channel.getSampler()!.getOutput()!.getArray()!;
+      const first = new THREE.Quaternion().fromArray(values, 0), sampled = new THREE.Quaternion();
+      expect(Array.from({ length: values.length / 4 }, (_, index) => first.angleTo(sampled.fromArray(values, index * 4)))
+        .some(angle => angle > .1), `${bone} must articulate during collapse`).toBe(true);
+    }
     for (const channel of death.listChannels()) {
       const times = channel.getSampler()!.getInput()!.getArray()!;
       expect(Array.from(times).every((time, i) => i === 0 || time > times[i - 1]!)).toBe(true);
@@ -89,7 +113,7 @@ describe('studio trial native motion repair', () => {
     const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
     const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
     const readAsset = async (assetId: string) => io.read(`game/public/assets/${manifest.assets.find((a: { id: string }) => a.id === assetId).file}`);
-    const doc = await readAsset(id), entry = manifest.assets.find((a: { id: string }) => a.id === id);
+    const entry = manifest.assets.find((a: { id: string }) => a.id === id), doc = await repairSource(io, entry);
     const native = doc.getRoot().listAnimations().filter(c => ['Idle', 'Walk'].includes(c.getName()));
     const originalChannels = native.flatMap(c => c.listChannels()).map(c => ({ channel: c, values: Array.from(c.getSampler()!.getOutput()!.getArray()!) }));
     const skin = doc.getRoot().listSkins().map(s => Array.from(s.getInverseBindMatrices()!.getArray()!));
@@ -110,11 +134,12 @@ describe('studio archer string release', () => {
   it.each(['creature_skeleton_archer', 'creature_skeleton_archer_elite'])('%s keeps interpolated strings on their anchors', async id => {
     const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
     const entry = manifest.assets.find((asset: { id: string }) => asset.id === id);
-    const io = new NodeIO().registerExtensions(ALL_EXTENSIONS), doc = await io.read(`game/public/assets/${entry.file}`);
+    const io = new NodeIO().registerExtensions(ALL_EXTENSIONS), doc = await repairSource(io, entry);
     const attack = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
     const body = attack.listChannels().filter(channel => channel.getTargetNode()!.getName().startsWith('Bip001'));
     const before = body.map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!));
-    await repairStudioHumanoid(doc, { assetId: id, entry, readAsset: async () => { throw new Error('No donor needed'); } });
+    await repairStudioHumanoid(doc, { assetId: id, entry,
+      readAsset: async donorId => io.read(`game/public/assets/${manifest.assets.find((asset: { id: string }) => asset.id === donorId).file}`) });
     expect(body.map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!))).toEqual(before);
     const rest = storedPose(doc), nodes = new Map(doc.getRoot().listNodes().map(node => [node.getName(), node]));
     for (let frame = 0; frame <= 480; frame++) {

@@ -32,10 +32,10 @@ function staticPoseClip(idle,name,duration) {
 }
 function replaceTrack(clip,track) {clip.tracks=clip.tracks.filter(candidate=>candidate.name!==track.name);clip.tracks.push(track);}
 function deriveMissing(object,idle,walk,roleBaseline=false) {
-  // The demo has no authored run, reaction or death. These remain explicit proposals.
+  // The demo has no authored run or reaction. Death is supplied by the required
+  // studio repair after export; a rigid root-only fall is not a usable corpse.
   const run=walk.clone();run.name='Run';for(const track of run.tracks)track.scale(.68);run.resetDuration();
   const rootQ=idle.tracks.find(track=>track.name==='Bip001.quaternion').createInterpolant().evaluate(0);
-  const rootP=Array.from(idle.tracks.find(track=>track.name==='Bip001.position').createInterpolant().evaluate(0));
   const baseQ=new THREE.Quaternion().fromArray(rootQ);
   const clips=[run];
   for(const [name,side] of [['Hit',0]]) {
@@ -46,10 +46,7 @@ function deriveMissing(object,idle,walk,roleBaseline=false) {
     else for(const track of jointRecoil(object,idle,side,clip))replaceTrack(clip,track);
     clips.push(clip);
   }
-  const death=staticPoseClip(idle,'Death',1.6),times=[0,.25,.65,1.15,1.6],fall=[0,.05,.42,.94,1];
-  replaceTrack(death,new THREE.QuaternionKeyframeTrack('Bip001.quaternion',times,fall.flatMap(value=>new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),-Math.PI*.48*value).multiply(baseQ).toArray())));
-  replaceTrack(death,new THREE.VectorKeyframeTrack('Bip001.position',times,fall.flatMap(value=>[rootP[0],rootP[1]*(1-.8*value),rootP[2]-14*value])));
-  clips.push(death);return clips;
+  return clips;
 }
 function floorCorrect(object,ground,clips) {
   const states=[];object.traverse(node=>states.push([node,node.position.clone(),node.quaternion.clone(),node.scale.clone()]));
@@ -112,7 +109,8 @@ export function buildSkeletonSource(id='skeleton_soldier') {
     attackContactStatus:'Provisional contact phase pending production review of original Attack take',
     textureBindings:[{materialName:'DS_Skeleton_standard',baseColorPath:path.join(materials,'DemoSkeleton.png'),flipY:true},{materialName:'DS_equipment_standard',baseColorPath:path.join(materials,'DemoEquipment.png'),flipY:true}],
     provenance:{publisher:'Polygon Blacksmith',package:'Dungeon Skeletons Demo.unitypackage',sha256:PACKAGE_HASH,license:'Standard Unity Asset Store EULA; local entitlement cache',mesh:'models/DungeonSkeleton_demo.FBX',textureNotes:'Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.'},
-    animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:HIT_PROVENANCE,Death:'PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo'},
+    animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:HIT_PROVENANCE},
+    requiredMotionRepair:{profile:'studio',implementation:'tools/tripo-creatures/profiles/studio-skeleton.ts',missingStates:['Death']},
     acceptance:'Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.',...variantMeta,...(unhorned?{helmetModification:unhorned}:{})};
   if(id!=='skeleton_soldier'){
     for(const name of ['Idle','Walk','Run'])meta.animationProvenance[name]+='; Corealm-derived role arm poses over source rig.';

@@ -5,6 +5,7 @@ import { deformedBounds } from '../../creature-motion/validate-deformation.js';
 import { limitGroundCorrectionSpeed, sampleGroundSupport } from '../retarget.js';
 import { loadContactHelpers } from '../../calibrate-legacy-gait.js';
 import { contactRig } from './studio-animals.js';
+import { createStudioCrawlerDeath } from './studio-crawler-death.js';
 import type { CreatureRepairContext, CreatureRepairResult } from '../repairProfile.js';
 
 const trialNumbers = ['10', '11', '14', '16', '19', '27', '28', '30', '31', '34'];
@@ -92,6 +93,44 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
     }
     return { node, sourceNode, sourceChild, localDirection, offset: rotation(sourceNode).invert().multiply(targetRotation) };
   }).sort((a, b) => depth(a.node) - depth(b.node));
+  // The native mantis death is a backward somersault. Heavy trial bodies need a
+  // planted collapse, so borrow only the humanoid library's grounded Death01.
+  // Keep each creature's relaxed idle proportions when transferring its deltas.
+  const groundedDeath = !crawler && context.assetId !== 'fairy_monster_16';
+  const deathDonor = groundedDeath ? await context.readAsset('animation_library_1') : undefined;
+  const deathOriginal = deathDonor ? storedPose(deathDonor) : undefined;
+  const deathMapping: Record<string, string> = {
+    rootx: 'pelvis', spine_01x: 'spine_01', spine_02x: 'spine_02', spine_03x: 'spine_03', neckx: 'neck_01', headx: 'Head',
+  };
+  for (const side of ['l', 'r']) for (const [name, from] of [
+    ['shoulder', 'clavicle'], ['arm_stretch', 'upperarm'], ['forearm_stretch', 'lowerarm'], ['hand', 'hand'],
+    ['thigh_stretch', 'thigh'], ['leg_stretch', 'calf'], ['foot', 'foot'], ['toes_01', 'ball'],
+  ] as const) deathMapping[name + side] = `${from}_${side}`;
+  let deathBaseline: ReturnType<typeof storedPose> | undefined, deathRoot: Node | undefined;
+  let deathRootStart: Vector3 | undefined, deathScale = scale;
+  const deathPairs: typeof pairs = [];
+  if (deathDonor) {
+    const nodes = lookup(deathDonor), idle = deathDonor.getRoot().listAnimations().find(clip => clip.getName() === 'Idle_Loop');
+    if (!idle) throw new Error('Grounded trial death requires native UAL standing reference');
+    applyClip(idle, 0); deathBaseline = storedPose(deathDonor); deathRoot = nodes.get('pelvis')!;
+    if (!deathRoot || !(position(nodes.get('thigh_l')!).x > position(nodes.get('thigh_r')!).x)
+      || !(position(target.get('thigh_stretchl')!).x > position(target.get('thigh_stretchr')!).x)) {
+      throw new Error('Trial Death requires verified left-positive-X biped anatomy');
+    }
+    deathRootStart = position(deathRoot);
+    const legLength = (a: Node, b: Node, c: Node) => position(a).distanceTo(position(b)) + position(b).distanceTo(position(c));
+    deathScale = legLength(target.get('thigh_stretchl')!, target.get('leg_stretchl')!, target.get('footl')!)
+      / legLength(nodes.get('thigh_l')!, nodes.get('calf_l')!, nodes.get('foot_l')!);
+    for (const [name, from] of Object.entries(deathMapping)) {
+      const node = target.get(name), sourceNode = nodes.get(from);
+      if (!node) continue;
+      if (!sourceNode) throw new Error(`Missing grounded Death donor joint ${from}`);
+      deathPairs.push({ node, sourceNode, sourceChild: undefined, localDirection: undefined,
+        offset: rotation(sourceNode).invert().multiply(rotation(node)) });
+    }
+    deathPairs.sort((a, b) => depth(a.node) - depth(b.node));
+  }
+  const settleCrawler = crawler ? createStudioCrawlerDeath(doc, target, root) : undefined;
   // Weapon roots are independent siblings of the pelvis in these FBX rigs. They
   // follow a hand in native motion through translated keys, not through parenting.
   const weapons = [...target.values()].filter(node => /^root_dupli_\d+x$/.test(node.getName())).map(node => {
@@ -125,7 +164,11 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
   let contactNormalized = 0, furthestContact = -Infinity;
   try {
     for (const name of ['Attack', 'Hit', 'Death', 'Run']) {
-      const native = donor.getRoot().listAnimations().find(c => c.getName() === name)!;
+      const useGroundedDeath = name === 'Death' && !!deathDonor;
+      const actionDonor = useGroundedDeath ? deathDonor! : donor;
+      const actionSource = useGroundedDeath ? 'animation_library_1' : donorId;
+      const actionName = useGroundedDeath ? 'Death01' : name;
+      const native = actionDonor.getRoot().listAnimations().find(c => c.getName() === actionName)!;
       if (!native) throw new Error(`Missing native ${donorId}/${name}`);
       const sourceSeconds = duration(native), seconds = sourceSeconds * (name === 'Death' ? 1.15 : 1);
       const frames = Math.ceil(seconds * 60), times: number[] = [];
@@ -133,9 +176,9 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
       let maximumGroundCorrection = 0, deathTimeScale = 1;
       for (let frame = 0; frame <= frames; frame++) {
         const phase = frame / frames;
-        restorePose(sourceBaseline); applyClip(native, phase * sourceSeconds);
+        restorePose(useGroundedDeath ? deathBaseline! : sourceBaseline); applyClip(native, phase * sourceSeconds);
         restorePose(baselineWithGround);
-        for (const pair of pairs) {
+        for (const pair of useGroundedDeath ? deathPairs : pairs) {
           const desired = rotation(pair.sourceNode).multiply(pair.offset), parent = pair.node.getParentNode();
           if (pair.sourceChild && pair.localDirection) {
             const direction = position(pair.sourceChild).sub(position(pair.sourceNode)).normalize();
@@ -144,16 +187,11 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
           }
           pair.node.setRotation((parent ? rotation(parent).invert().multiply(desired) : desired).normalize().toArray());
         }
-        const displacement = position(sourceRoot).sub(sourceRootStart).multiplyScalar(scale);
+        const displacement = position(useGroundedDeath ? deathRoot! : sourceRoot)
+          .sub(useGroundedDeath ? deathRootStart! : sourceRootStart).multiplyScalar(useGroundedDeath ? deathScale : scale);
         const point = targetRootStart.clone().add(displacement), parent = root.getParentNode();
         root.setTranslation((parent ? point.applyMatrix4(world(parent).invert()) : point).toArray());
-        if (crawler && name === 'Death') {
-          // The native scorpion flattens its tail and support legs. Round shell bodies
-          // still read as resting in that pose, so settle onto one side after collapse.
-          const t = Math.max(0, Math.min(1, (phase - .35) / .55)), eased = t * t * (3 - 2 * t);
-          const q = new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), 1.3 * eased).multiply(rotation(root));
-          root.setRotation((parent ? rotation(parent).invert().multiply(q) : q).normalize().toArray());
-        }
+        if (name === 'Death') settleCrawler?.(phase);
         if (name === 'Death') {
           const settle = Math.max(0, Math.min(1, (phase - .35) / .5));
           for (const node of settlingTails) {
@@ -221,14 +259,38 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
         // Heavy or long-tailed proportions can need more support travel than the
         // native one-second fall allows. Retain the phase sequence and grounded
         // endpoints by extending its time, rather than lifting the entry pose.
-        const minimumRate = Math.max(...required.flatMap((value, i) => [
-          i ? (value - required[0]!) / sampled.times[i]! : 0,
-          i < sampled.times.length - 1 ? (value - required.at(-1)!) / (seconds - sampled.times[i]!) : 0,
-        ]));
-        deathTimeScale = Math.max(1, minimumRate / maxSpeedMps * 1.001);
+        let supportTimes: number[];
+        if (useGroundedDeath) {
+          // A short hand/foot support change must not make the entire body rise
+          // ahead of impact. Slow only those source intervals, retaining every
+          // articulated pose and the bounded vertical support speed.
+          supportTimes = [0];
+          for (let i = 1; i < sampled.times.length; i++) supportTimes.push(supportTimes[i - 1]! + Math.max(
+            sampled.times[i]! - sampled.times[i - 1]!, Math.abs(required[i]! - required[i - 1]!) / maxSpeedMps * 1.001));
+          for (const track of tracks.values()) {
+            const t: number[] = [], r: number[] = [], s: number[] = [];
+            for (const time of sampled.times) {
+              const frame = time / seconds * frames, left = Math.min(frames, Math.floor(frame)), right = Math.min(frames, left + 1), alpha = frame - left;
+              for (const [values, output] of [[track.t, t], [track.s, s]] as const) for (let axis = 0; axis < 3; axis++) {
+                output.push(Math.fround(values[left * 3 + axis]!) * (1 - alpha) + Math.fround(values[right * 3 + axis]!) * alpha);
+              }
+              r.push(...qa.fromArray(track.r.slice(left * 4, left * 4 + 4).map(Math.fround))
+                .slerp(qb.fromArray(track.r.slice(right * 4, right * 4 + 4).map(Math.fround)), alpha).toArray());
+            }
+            track.t = t; track.r = r; track.s = s;
+          }
+          times.splice(0, times.length, ...supportTimes);
+          deathTimeScale = supportTimes.at(-1)! / seconds;
+        } else {
+          const minimumRate = Math.max(...required.flatMap((value, i) => [
+            i ? (value - required[0]!) / sampled.times[i]! : 0,
+            i < sampled.times.length - 1 ? (value - required.at(-1)!) / (seconds - sampled.times[i]!) : 0,
+          ]));
+          deathTimeScale = Math.max(1, minimumRate / maxSpeedMps * 1.001);
+          for (let i = 0; i < times.length; i++) times[i] = times[i]! * deathTimeScale;
+          supportTimes = sampled.times.map(time => time * deathTimeScale);
+        }
         if (deathTimeScale > 1.8) throw new Error(`${context.assetId}: excessive Death retiming needed for grounded entry`);
-        for (let i = 0; i < times.length; i++) times[i] = times[i]! * deathTimeScale;
-        const supportTimes = sampled.times.map(time => time * deathTimeScale);
         const limited = limitGroundCorrectionSpeed(supportTimes, required, maxSpeedMps);
         if (Math.abs(limited[0]! - required[0]!) > 1e-6 || Math.abs(limited.at(-1)! - required.at(-1)!) > 1e-6) {
           throw new Error(`${context.assetId}: ground envelope changes the Death entry or held floor: ${JSON.stringify({ maxSpeedMps, required: [required[0], required.at(-1)], limited: [limited[0], limited.at(-1)], peak: Math.max(...required), seconds })}`);
@@ -237,17 +299,18 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
         maximumGroundCorrection = Math.max(...limited.map(Math.abs));
       }
       if (name === 'Death') {
-        times.push(seconds * deathTimeScale + .3);
-        for (const track of tracks.values()) { track.t.push(...track.t.slice(-3)); track.r.push(...track.r.slice(-4)); track.s.push(...track.s.slice(-3)); track.translationTimes?.push(seconds * deathTimeScale + .3); }
+        const heldEnd = times.at(-1)! + .3;
+        times.push(heldEnd);
+        for (const track of tracks.values()) { track.t.push(...track.t.slice(-3)); track.r.push(...track.r.slice(-4)); track.s.push(...track.s.slice(-3)); track.translationTimes?.push(heldEnd); }
       }
       removeClip(doc, name); const clip = doc.createAnimation(name);
       for (const [node, track] of tracks) { addChannel(doc, clip, node, 'translation', track.translationTimes ?? times, track.t); addChannel(doc, clip, node, 'rotation', times, track.r); addChannel(doc, clip, node, 'scale', times, track.s); }
-      reports.push({ name, source: donorId, sourceTake: native.getName(), sourceKind: crawler && name === 'Hit' ? 'Existing project recoil on the studio scorpion rig' : 'Native studio action', seconds: times[times.length - 1]!, maximumGroundCorrection, deathTimeScale });
+      reports.push({ name, source: actionSource, sourceTake: native.getName(), sourceKind: crawler && name === 'Hit' ? 'Existing project recoil on the studio scorpion rig' : 'Native studio action', seconds: times[times.length - 1]!, maximumGroundCorrection, deathTimeScale });
     }
     for (const clip of doc.getRoot().listAnimations().filter(c => !['Attack', 'Hit', 'Death', 'Run'].includes(c.getName()))) {
       addChannel(doc, clip, ground, 'translation', [0, duration(clip)], [0, 0, 0, 0, 0, 0]);
     }
-  } finally { restorePose(original); restorePose(donorOriginal); ground.setTranslation([0, 0, 0]); }
+  } finally { restorePose(original); restorePose(donorOriginal); if (deathOriginal) restorePose(deathOriginal); ground.setTranslation([0, 0, 0]); }
   const rig = contactRig(doc), { measureContactGait } = await loadContactHelpers();
   const groups = crawler ? ['', '_dupli_001', '_dupli_002'].flatMap(suffix => ['l', 'r'].map(side => [`hand${suffix}${side}`]))
     : [['footl', 'toes_01l'], ['footr', 'toes_01r']];
@@ -264,7 +327,8 @@ export async function repairStudioFairy(doc: Document, context: CreatureRepairCo
       contacts: contacts.map(({ name, measurement }) => ({ name, speedMps: measurement.speedMps,
         method: measurement.method, feet: measurement.feet })),
       deathGrounding: { maxSpeedMps: (targetBox.max[1]! - targetBox.min[1]!) * 1.25, unchangedEndpoints: true,
-        crawlerSideSettleRadians: crawler ? 1.3 : 0 } },
+        crawlerSideSettleRadians: crawler ? 1.65 : 0, groundedDeathDonor: groundedDeath ? 'animation_library_1/Death01' : undefined,
+        ...(groundedDeath ? { mapping: deathMapping, rootTranslationScale: deathScale } : {}) } },
     motion: { attackSeconds: reports[0]!.seconds, contactNormalized, groundY: .016,
       runClipSeconds: reports.find(report => report.name === 'Run')!.seconds,
       impliedWalkMps: contacts[0]!.measurement.speedMps!, impliedRunMps: contacts[1]!.measurement.speedMps! } };

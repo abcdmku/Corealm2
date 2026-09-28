@@ -6,7 +6,7 @@ Stage the complete candidate with `node tools/rpg-bestiary/export-expansion.mjs 
 
 The complete authored body has 5,502 triangles and a 71-bone rig. No anatomy, horns, grafts or added body parts were introduced. Uniform scale 1.5 gives about 2.8 meters of height. The original source has three native actions at 60 fps: `idle` frames 0–300, `walk` frames 0–100 and `smash` frames 0–120.
 
-The source factory returns only native Idle, Walk and Attack, with a required motion repair marker. The exporter consumes that marker through `tools/tripo-creatures/profiles/studio-animals.ts`, adapting the genuine studio `fantasy_monster_02` Run, Hit and Death takes to the retained rig. Detached ankle controls follow their corresponding shin endpoints, and Death holds its terminal pose. The resulting candidate has six states: Idle, Walk, Run, Attack, Hit and Death. Attack contact phase 0.52 remains provisional until production review.
+The source factory returns only native Idle, Walk and Attack, with a required motion repair marker. The exporter consumes that marker through `tools/tripo-creatures/profiles/studio-animals.ts`, adapting `fantasy_monster_02` Run and Hit to the retained rig. Death uses the grounded `animation_library_1/Death01` take calibrated against the native standing pose. Only intervals where support changes too quickly are slowed, and the settled corpse is held. Detached ankle controls follow their corresponding shin endpoints. The resulting candidate has six states: Idle, Walk, Run, Attack, Hit and Death. Attack contact phase 0.52 remains provisional until production review.
 
 ## Source and materials
 

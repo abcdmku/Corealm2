@@ -3,6 +3,7 @@ import { Matrix4, Quaternion, Vector3 } from 'three';
 import { addChannel, applyClip, duration, restorePose, storedPose } from '../../creature-motion/pose.js';
 import { deformedBounds } from '../../creature-motion/validate-deformation.js';
 import type { CreatureRepairContext, CreatureRepairResult } from '../repairProfile.js';
+import { repairStudioSkeleton, studioSkeletonIds } from './studio-skeleton.js';
 
 const duplicateTimeIds = [
   'creature_goblin_scout', 'creature_goblin_archer', 'creature_goblin_shaman', 'creature_zombie',
@@ -162,15 +163,19 @@ export async function repairStudioHumanoid(doc: Document, context: CreatureRepai
       else addChannel(doc, clip, ground, 'translation', [0, duration(clip)], [0, 0, 0, 0, 0, 0]);
     }
   }
+  const skeleton = studioSkeletonIds.includes(context.assetId) ? await repairStudioSkeleton(doc, context) : undefined;
   return {
     changes: [
       ...(shapeCorrection ? ['Removed the later world-axis compression from Chalk Warden; retained its original authored proportions and native body curves.'] : []),
       ...(bowstringChannels ? ['Preserved bowstring bend axes with continuous planar rotations, preventing the lower string from leaving the bow plane during release.'] : []),
       ...(repairs.length ? [`Removed duplicate float32 sample times in ${repairs.length} channels; unequal final ground keys recomputed from the held pose.`] : []),
       ...(groundReports.length ? ['Rebaked affected ground translations from full skinned geometry, preserving joint articulation and unaffected motion.'] : []),
+      ...(skeleton?.changes ?? []),
     ],
     warnings: ['Requires devdocs review of each affected state.'],
     provenance: { timelineRepairs: repairs, groundRepairs: groundReports, bowstringChannels, shapeCorrection,
-      preserved: ['geometry', 'skin weights', 'inverse binds', 'materials', 'body joint animation curves'] },
+      ...(skeleton ? { skeletonDeath: skeleton.provenance } : {}),
+      preserved: ['geometry', 'skin weights', 'inverse binds', 'materials', skeleton ? 'non-Death body joint animation curves' : 'body joint animation curves'] },
+    ...(skeleton?.motion ? { motion: skeleton.motion } : {}),
   };
 }

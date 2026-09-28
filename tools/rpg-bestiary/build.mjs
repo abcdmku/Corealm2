@@ -132,11 +132,13 @@ export async function exportBestiary(ids = BESTIARY_IDS, out = 'art/rebuild/cand
     if (meta.requiredMotionRepair) {
       const lava = id === 'kiln_marrow' && meta.family === 'lava_golem';
       const troll = id === 'troll_mauler' && meta.family === 'troll';
-      if ((!lava && !troll) || meta.requiredMotionRepair.profile !== 'studio') throw new Error(`${id}: unsupported required motion repair`);
+      const skeleton = ['skeleton_soldier', 'skeleton_archer', 'skeleton_mage'].includes(id) && meta.family === 'skeleton';
+      if ((!lava && !troll && !skeleton) || meta.requiredMotionRepair.profile !== 'studio') throw new Error(`${id}: unsupported required motion repair`);
       const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
       const repair = lava
         ? (await tsImport('../tripo-creatures/profiles/studio-animals.ts', import.meta.url)).repairStudioAnimal
-        : (await tsImport('../tripo-creatures/profiles/studio-troll.ts', import.meta.url)).repairStudioTroll;
+        : troll ? (await tsImport('../tripo-creatures/profiles/studio-troll.ts', import.meta.url)).repairStudioTroll
+          : (await tsImport('../tripo-creatures/profiles/studio-skeleton.ts', import.meta.url)).repairStudioSkeleton;
       // The archive family is lava_golem; its active studio body is Kiln Marrow.
       motionRepair = await repair(doc, {
         assetId: `creature_${id}`, entry: manifest.assets.find(entry => entry.id === `creature_${id}`),
