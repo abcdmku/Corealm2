@@ -1,5 +1,7 @@
 import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { NodeIO, type Accessor, type Document } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { MeshoptDecoder } from 'meshoptimizer';
@@ -7,6 +9,7 @@ import { beforeAll, expect, test } from 'vitest';
 import manifest from '../game/public/assets/manifest.json';
 import { FAIRY_GARDEN_VARIANTS } from '../game/src/content/fairyGardenCreatures.js';
 import { FAIRY_MINIBOSS_FORMS } from '../game/src/content/fairyMinibossForms.js';
+import { fairyArtwork, stageFairyPopulationAssets, verifyFairyArtworkBindings } from '../tools/fairy-population-assets.js';
 
 const digest = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 function accessor(a: Accessor | null) {
@@ -41,12 +44,52 @@ const sources = new Map<string, ReturnType<typeof structure>>();
 const variants = [...FAIRY_GARDEN_VARIANTS, ...FAIRY_MINIBOSS_FORMS];
 const assets = manifest.assets as any[];
 const entryOf = (id: string) => assets.find(a => a.id === id);
-// Replaced bodies ship without a source claim, and polished assets (polishSourceFile) add
-// meshes and retime clips on top of the repaint. Every remaining asset that claims to be a
-// regional repaint of its form's source must keep that source's geometry, rig, UVs and animation.
+// Replaced and polished bodies have independent geometry. Motion repairs carry separate
+// source pins and validation; they no longer claim identical clips to the historical form.
+// Untouched regional repaints still retain the complete original source structure.
 const repaints = variants.filter(form => {
-  const provenance = entryOf(form.assetId)?.sourceProvenance;
-  return provenance?.sourceAssetId && !provenance.polishSourceFile;
+  const entry = entryOf(form.assetId), provenance = entry?.sourceProvenance;
+  return provenance?.sourceAssetId && !provenance.polishSourceFile && !entry.motionRepair;
+});
+
+test('rejects retired fairy atlases even when historical source bodies remain available', async () => {
+  for (const id of ['fairy_garden_imp_gloamgarden', 'fairy_garden_reliquary_faeholme', 'fairy_garden_petalguard_gloamgarden']) {
+    const form = variants.find(variant => variant.assetId === id)!;
+    expect(entryOf(form.source), 'the retired source still exists, so a fallback would silently restore it').toBeDefined();
+    expect(() => fairyArtwork(entryOf(id))).toThrow('the current body does not own');
+    await expect(stageFairyPopulationAssets({ only: [id] })).rejects.toThrow('historical form source and atlas are retired');
+  }
+});
+
+test('requires the claimed artwork to be bound to a current base-color material', async () => {
+  const entry = entryOf('fairy_guardian_02_gloamgarden');
+  const doc = await io.read(`game/public/assets/${entry.file}`);
+  expect(() => verifyFairyArtworkBindings(entry, doc)).not.toThrow();
+  const wrongBinding = structuredClone(entry);
+  wrongBinding.sourceProvenance.generatedTexture.bindings[0].embeddedTextureSha256 = '0'.repeat(64);
+  expect(() => verifyFairyArtworkBindings(wrongBinding, doc)).toThrow('no longer matches the current material');
+  const wrongAtlas = structuredClone(entry);
+  wrongAtlas.sourceProvenance.generatedTexture.file = 'art/fairy-population/textures/generated/fairy_garden_imp_faeholme.png';
+  expect(() => fairyArtwork(wrongAtlas)).toThrow('the current body does not own');
+});
+
+test('stages the current variant bytes, including later polish, without retired lab aliases', async () => {
+  const output = await mkdtemp(path.join(tmpdir(), 'corealm-fairy-artwork-'));
+  try {
+    const id = 'fairy_garden_frog_faeholme', entry = entryOf(id);
+    expect(entry.sourceProvenance.polishSourceFile).toBeDefined();
+    const result = await stageFairyPopulationAssets({ only: [id], output });
+    expect(result.staged).toEqual([id]);
+    const catalog = JSON.parse(await readFile(result.catalogFile, 'utf8'));
+    expect(catalog.assets).toHaveLength(1);
+    expect(catalog.visualAccepted).toBe(false);
+    expect(catalog.promotable).toBe(false);
+    expect(await readFile(path.join(output, catalog.files[id]))).toEqual(await readFile(`game/public/assets/${entry.file}`));
+    expect(catalog.assets[0].sha256).toBe(entry.sha256);
+    expect(await readdir(output)).toEqual(['candidates.json', 'models']);
+  } finally {
+    await rm(output, { recursive: true, force: true });
+  }
 });
 beforeAll(async () => {
   await MeshoptDecoder.ready;

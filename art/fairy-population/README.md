@@ -1,21 +1,19 @@
 # Fairy creature textures
 
-The fairy roster uses twelve ordinary bodies in Gloamgarden and Faeholme. The frog, snail and hart are the user's permitted animal bases. Spriggles, sporekin, imps, reliquaries, veilspirits, saplings, drakes, wardlings and petalguards supply the other forms. The six guardian skins retain their standard miniboss models.
+The fairy roster uses twelve ordinary forms in Gloamgarden and Faeholme. The frog, snail and hart are the permitted animal bases. Current body files and artwork provenance live in `game/public/assets/manifest.json`. Several forms and guardians have replaced the original studio bodies, so the historical `source` values in the form tables do not identify their current geometry or UVs.
 
-Every regional skin has its own image-generated albedo map under `textures/generated/`. Its adjacent JSON records the exact prompt, source references and built-in imagegen output. Maps use layered colors, markings and material detail. Flat monochromatic recolors are not accepted.
+Each finished regional skin uses image-generated colors, markings and material detail. Flat monochromatic recolors are not accepted. `textures/generated/` and its adjacent prompt records retain the original regional artwork. Replaced bodies record their current texture files in `sourceProvenance`; applying an older atlas to those bodies is invalid.
 
-`textures/source/index.json` identifies the original albedo images and UV guides. Most models use one atlas. Sporekin uses a three-column, two-row atlas ordered staff, hair, eyes, skin, chest and scarf. Its source eye material is preserved.
+`npx tsx tools/fairy-population-assets.ts` verifies the current published variant, the tracked PNG hash and its embedded material bindings, then stages the published GLB bytes under `test-results/fairy-population/assets/`. It retains the current geometry, UVs, skinning, clips, alpha and PBR maps exactly. The command reports bodies that no longer own the historical atlas. Selecting one explicitly with `--only=<assetId>` fails rather than restoring its retired body. Each run writes only its selected, verified entries into the review catalog.
 
-`npx tsx tools/fairy-population-assets.ts` embeds these images in staged GLBs under `test-results/fairy-population/assets/`. It retains source geometry, UVs, skinning, clips, normal maps, roughness and alpha. The staged catalogue records both generated PNG and embedded texture hashes. No color wash is applied over the artwork.
+This command re-stages existing artwork. New artwork requires a UV review of the current body and a coordinated update of its texture provenance and pinned family source, so a later motion rebuild retains the skin. Creature rig and animation rebuilds use `tools/tripo-creatures/repair.ts` and its family profiles.
 
-Use the production lab before promotion:
+Review isolated bodies and every regional look in the [devdocs Art workspace](../../docs/feature-lab.md#asset-testing-in-devdocs). Install `test-results/fairy-population/assets/candidates.json` with the documented `viewer:preview-catalog` event, then open `#/art/creatures/<assetId or creatureId>`. Inspect Idle, Walk, Run, Attack, Hit and Death, the attack contact, held corpse and return to Idle. Compare motion with the native studio references and record a verdict. Screenshots remain disposable unless deliberately promoted as durable acceptance evidence.
+
+The existing spacing check is for local population interactions after asset review:
 
 ```powershell
-npx tsx tools/fairy-population-lab-test.ts --region gloamgarden --forms all --generated --out-name generated-roster
-npx tsx tools/fairy-population-lab-test.ts --region faeholme --forms all --generated --out-name generated-roster
-npx tsx tools/fairy-population-lab-test.ts --region gloamgarden --bosses --generated --out-name generated-bosses
-npx tsx tools/fairy-population-lab-test.ts --region faeholme --bosses --generated --out-name generated-bosses
-npx tsx tools/fairy-population-spacing-test.ts
+npx tsx tools/fairy-population-spacing-test.ts --url http://127.0.0.1:4173
 ```
 
-The lab tests record source hashes, animated state, attached gameplay camera poses, real movement and browser errors. Root inspects the screenshots before accepting the assets. Generated screenshots and reports remain disposable under `test-results/fairy-population/`.
+It checks body clearance, movement and reset in the feature lab. It does not accept isolated creature art.
