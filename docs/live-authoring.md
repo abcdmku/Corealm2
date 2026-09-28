@@ -88,3 +88,16 @@ because they run `boot.ts`; the server pack already bakes in Node (about 40 s). 
    reload. The last good revision stays until the new one passes the release gates.
 9. `CATALOG_TABLE_APPLIES` / `CLIENT_TABLE_FOLLOWS` get a `rebake` state for `worldTerrain`, regions
    and resource placements. The world map image stays stale until regenerated; devdocs says so.
+
+## Wave 3 ownership
+
+Contracts: `game/src/world/serverWorldContract.ts` (geometry revision, bake record, `GEOMETRY_TABLES`),
+`WorldDescriptor.worldRevision`, file store `generated/world/*.world|manifest.json`,
+`generated/corealm-navmesh.nav` (32 MiB cap).
+
+| Owner | Files |
+| --- | --- |
+| Node world bake | new `game/src/world/bake/nodeWorldBake.ts` (+ helpers under `game/src/world/bake/`), the pack-to-client navmesh export, parity tests `tests/node-world-bake-*.test.ts` |
+| Server bake jobs | new `game/src/multiplayer/serverWorldBake.ts`, `adminWorld.ts` (`/admin/world`), baker child process + its bundle in `tools/build-server-exe.ts`, pack-per-revision loading (`worldPack.ts` loader, `contentAtStart.ts`), `contentAssets.ts` size cap, a small hook in `contentPublish.ts`, world restart and position snap, tests `tests/server-world-bake-*.test.ts` |
+| Client reload | `protocol.ts`, `playIntent.ts`, `browserSession.ts`, `app/config.ts`, `app/contentAssetOverlay.ts`, `content/catalogEntry.ts`, `world/shippedWorldData.ts`, navmesh fingerprint in `systems/navigation.ts`, minimal `app/boot.ts`, tests `tests/client-world-reload-*.test.ts` |
+| Devdocs + applies | World workspace bake status, save bar "world rebake" state, map staleness note (`devdocs/src/workspaces/world/**`, `ui/ShellSaveBar.tsx`, `api/serverBackend.ts` bake reads), `catalogHost.ts` / `clientContentSwap.ts` `rebake` state, tests `tests/devdocs-world-bake-*.test.ts` |

@@ -50,7 +50,12 @@ export interface ContentManifestOverlay { assets: readonly import("../render/ass
 /** Base64 file contents by path. */
 export interface PutContentAssets { files: Record<ContentAssetPath, string> }
 
-/** Where a server-authored file may live, and what it may be. */
+/**
+ * Where a server-authored file may live, and what it may be. `generated/...` holds a world the server
+ * baked for itself (see `world/serverWorldContract.ts`): content-addressed world records, the world
+ * manifest and the navmesh. Those may run to 32 MiB (`MAX_GENERATED_ASSET_BYTES`); everything else to 16.
+ */
+export const MAX_GENERATED_ASSET_BYTES = 32 * 1024 * 1024;
 // Audio lives at the public root (`audio/...`) in the base, everything else under `assets/`.
 // A segment never starts with a dot, so `.` and `..` cannot appear.
-export const CONTENT_ASSET_PATH = /^(?:assets\/manifest\.overlay\.json$|(?:assets\/(?:skins|icons|models|textures|thumbnails|vfx)|audio)\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:png|jpg|jpeg|webp|glb|ogg|mp3|wav|json)$)/;
+export const CONTENT_ASSET_PATH = /^(?:assets\/manifest\.overlay\.json$|generated\/world\/(?:manifest\.json|[a-f0-9]{64}\.world)$|generated\/corealm-navmesh\.nav$|(?:assets\/(?:skins|icons|models|textures|thumbnails|vfx)|audio)\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:png|jpg|jpeg|webp|glb|ogg|mp3|wav|json)$)/;

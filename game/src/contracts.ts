@@ -85,6 +85,13 @@ export interface WorldDescriptor extends WorldKey {
    */
   contentAssetUrl?: string;
   /**
+   * The world geometry revision this world runs (`world/serverWorldContract.ts`). Absent, or equal to
+   * the page build's `generationRevision`: the build's own baked world. Otherwise the server baked
+   * its own, served from `contentAssetUrl` under `generated/...`, and a page reloads onto it before
+   * building its scene.
+   */
+  worldRevision?: string;
+  /**
    * How this world admits players. "account" worlds need a join token the identity service minted
    * for this endpoint; "guest" worlds take a `guest:<name>` token. Absent means "guest".
    */
