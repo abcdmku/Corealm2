@@ -15,6 +15,7 @@ import { InlineStats, ItemStack } from "../../ui/ItemStack.js";
 import { StatMatrix } from "../../ui/StatMatrix.js";
 import { Button } from "../../components/ui/index.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
+import { ItemIconPanel } from "./ItemIconPanel.js";
 import { choicesOf, emptyBonuses, seconds, specAt, stationText, titleCase, type ItemRecord, type ItemsData, type PathSpec } from "./data.js";
 import { EMPTY, PAGE, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../../ui/layout.js";
 
@@ -127,6 +128,7 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
         <Field label={member("name").label} dirty={dirtyAt(["name"])}><TextField value={row.name} readOnly={readOnly} onChange={next => setMember(["name"], next)} /></Field>
         <Field label={member("description").label} dirty={dirtyAt(["description"])}><TextField value={row.description} multiline readOnly={readOnly} onChange={next => setMember(["description"], next)} /></Field>
       </Section>
+      <ItemIconPanel itemId={id} facts={{ name: row.name, description: row.description, tier: tier.tier, purpose: isTool ? `a ${family.skill} tool` : `worn in the ${titleCase(derived.slot).toLowerCase()} slot` }} />
       <Section title="Numbers" aside={<Button variant="link" size="xs" onClick={() => openFamily(family.id)}>{family.name} curve <ArrowRight /></Button>}>
         <DerivedNumber label={value.label} unit={value.unit} min={0} resolved={derived.value.resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "value"])} onChange={next => setMember(["adjustments", "value"], next)} onOpenRef={openRef} />
         {isTool
@@ -270,6 +272,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         {toggle(["stackable"])}
         <AddBlocks absent={BLOCK_ORDER.filter(key => !record[key])} readOnly={readOnly} onAdd={key => { presence(key)(true); setTab(key); }} />
       </Section>
+      <ItemIconPanel itemId={id} facts={{ name: record.name, description: record.description, tier: record.tier, ...(record.magicWeapon ? { kind: record.magicWeapon.kind } : {}), ...(equip?.slot ? { purpose: `worn in the ${titleCase(equip.slot).toLowerCase()} slot` } : record.category ? { purpose: `a ${record.category} item` } : {}) }} />
       {tab === "equip" && equip && <BlockSection title={bar} spec={item("equip")} readOnly={readOnly} onRemove={() => presence("equip")(false)}>
         {choice(["equip", "slot"])}
         <BonusMatrix cell={key => <Field compact labelHidden label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} ariaLabel={BONUS[key].label} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>} />

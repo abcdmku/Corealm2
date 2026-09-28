@@ -9,6 +9,10 @@ import { isLoopbackDevdocsRequest, type DevdocsJsonResponse, type DevdocsRequest
  * Rendered GLB thumbnails. The browser renders a manifest asset once, PUTs the PNG here, and every
  * later session reads the cached file instead of loading the model again. Files live under
  * `devdocs/generated/thumbnails/`, which `.gitignore` already excludes with the rest of `generated/`.
+ *
+ * This is the checkout's thumbnail cache only. It is not `putFiles`, which writes `game/public/` and so
+ * ships: renders are the editor's, not the game's. A live server keeps its renders in its asset store
+ * instead (`viewer/thumbnailRenderer.ts`).
  */
 export const THUMBNAILS_PATH = "/__devdocs/thumbnails";
 /** JSON body ceiling for a PUT: a 192 px PNG is a few tens of KB; 2 MB leaves ample base64 headroom. */

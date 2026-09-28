@@ -6,12 +6,9 @@ import sharp from "sharp";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import type { ItemDef, ItemId } from "../game/src/contracts.js";
 import { repoRoot } from "./lib/paths.js";
-import { ITEM_ICON_ART_DIR, generatedItemIconMaster, readItemIconArtRegistry } from "./lib/item-icon-art.js";
+import { ITEM_ICON_ART_DIR, generatedItemIconMaster, readItemIconArtRegistry, sharpItemIconGame } from "./lib/item-icon-art.js";
+import { ITEM_ICON_GAME_SIZE, ITEM_ICON_MASTER_SIZE } from "../game/src/content/itemIconArt.js";
 
-export const ITEM_ICON_MASTER_SIZE = 256;
-export const ITEM_ICON_GAME_SIZE = 48;
-const ITEM_ICON_CONTENT_SIZE = 44;
-const ITEM_ICON_OUTLINE_RADIUS = 1;
 export const ITEM_ICON_MASTER_DIR = path.join(repoRoot, "art", "item-icons", "256");
 export const ITEM_ICON_GAME_DIR = path.join(repoRoot, "game", "public", "assets", "icons", "items", "48");
 export const ITEM_ICON_CONTACT_SHEET = path.join(repoRoot, "art", "item-icons", "contact-sheet-48.png");
@@ -205,54 +202,6 @@ async function fileExists(file: string): Promise<boolean> {
   }
 }
 
-export async function deriveGameIcon(master: Buffer): Promise<Buffer> {
-  const { data, info } = await sharp(master)
-    .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 }, threshold: 8 })
-    .resize(ITEM_ICON_CONTENT_SIZE, ITEM_ICON_CONTENT_SIZE, {
-      fit: "inside",
-      kernel: sharp.kernel.lanczos3,
-      withoutEnlargement: false,
-    })
-    .ensureAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
-
-  const silhouette = Buffer.alloc(data.length);
-  for (let offset = 0; offset < data.length; offset += info.channels) {
-    silhouette[offset] = 0;
-    silhouette[offset + 1] = 0;
-    silhouette[offset + 2] = 0;
-    silhouette[offset + 3] = data[offset + 3] ?? 0;
-  }
-  const raw = { width: info.width, height: info.height, channels: info.channels } as const;
-  const [foregroundPng, silhouettePng] = await Promise.all([
-    sharp(data, { raw }).png().toBuffer(),
-    sharp(silhouette, { raw }).png().toBuffer(),
-  ]);
-  const left = Math.floor((ITEM_ICON_GAME_SIZE - info.width) / 2);
-  const top = Math.floor((ITEM_ICON_GAME_SIZE - info.height) / 2);
-  const layers: Array<{ input: Buffer; left: number; top: number }> = [];
-  for (let y = -ITEM_ICON_OUTLINE_RADIUS; y <= ITEM_ICON_OUTLINE_RADIUS; y += 1) {
-    for (let x = -ITEM_ICON_OUTLINE_RADIUS; x <= ITEM_ICON_OUTLINE_RADIUS; x += 1) {
-      if (x === 0 && y === 0) continue;
-      layers.push({ input: silhouettePng, left: left + x, top: top + y });
-    }
-  }
-  layers.push({ input: foregroundPng, left, top });
-
-  return sharp({
-    create: {
-      width: ITEM_ICON_GAME_SIZE,
-      height: ITEM_ICON_GAME_SIZE,
-      channels: 4,
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
-    },
-  })
-    .composite(layers)
-    .png({ compressionLevel: 9, adaptiveFiltering: true, palette: true, colours: 256 })
-    .toBuffer();
-}
-
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
@@ -345,7 +294,7 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
     for (const item of items) {
       if (!gameNeeded.has(item.id)) continue;
       const master = await readFile(itemIconFiles(item.id, paths).master);
-      const game = await deriveGameIcon(master);
+      const game = await sharpItemIconGame(master);
       const check = await inspectImage(game, ITEM_ICON_GAME_SIZE);
       if (!check.ok) throw new Error(`${item.id} ${ITEM_ICON_GAME_SIZE}px icon failed validation: ${check.reason}`);
       await writeFile(itemIconFiles(item.id, paths).game, game);

@@ -268,11 +268,18 @@ async function main(argv: readonly string[]): Promise<number> {
     storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), { log: storageLog, bundledBase: baseMarkerOf(shipped) });
   }
   const manifest = embedded.text(ASSET_MANIFEST_ASSET);
+  // The server's own files: what its authors add from devdocs, served beside the asset host's.
+  const { createContentAssetStore } = await import("../game/src/multiplayer/contentAssets.js");
+  const { serverModelOverlay } = await import("../game/src/multiplayer/assetManifest.js");
+  const contentAssets = createContentAssetStore({ dir: resolve(directory, "content-assets"),
+    audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
   const revision = await (async () => {
     await seedCatalog(storage.catalog, shipped, event => logger.emit(event), { follow: config.followRepoCatalog });
     // Both run before any content module loads: stored content this build cannot run must never reach world assembly.
     if (config.baseUpdate) await applyBaseUpdateAtStart({ storage, bundled: shipped, decisions: config.baseUpdate.decisions,
       manifest: manifest === null ? null : async () => JSON.parse(manifest), now: Date.now, log: event => logger.emit(event) });
+    // Creatures may stand on models this server added; their measured footprints must be known first.
+    await serverModelOverlay(contentAssets);
     await checkActiveContent(storage.catalog, shipped);
     const catalog = await activeServerCatalog(storage.catalog);
     installCatalog(catalog);
@@ -291,13 +298,22 @@ async function main(argv: readonly string[]): Promise<number> {
   let sharedPack: Uint8Array | null = null;
   if (database && packBytes) { sharedPack = new Uint8Array(new SharedArrayBuffer(packBytes.byteLength)); sharedPack.set(packBytes); }
   const adminUiArchive = embedded.asset(ADMIN_UI_ASSET);
-  // The server's own files: what its authors add from devdocs, served beside the asset host's.
-  const { createContentAssetStore } = await import("../game/src/multiplayer/contentAssets.js");
-  const contentAssets = createContentAssetStore({ dir: resolve(directory, "content-assets"),
-    audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
   // Notes, review requests and art verdicts, kept in the server's own database beside its content.
   const { catalogEntities, createMetaRoute } = await import("../game/src/multiplayer/adminMeta.js");
   const adminRoutes = [contentAssets.route, createMetaRoute({ storage: storage.admin, entity: catalogEntities(storage.catalog) })];
+  // Image jobs run on this host when `imagegen` is configured; a finished skin publishes as its author.
+  const { createImagegenRoute } = await import("../game/src/multiplayer/adminImagegen.js");
+  let publisher: Awaited<ReturnType<typeof startReferenceServer>>["publisher"] = null;
+  const imagegen = createImagegenRoute({ config: config.imagegen ?? null, dir: resolve(directory, "imagegen-jobs"), store: contentAssets,
+    catalog: storage.catalog, publisher: () => publisher, audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) });
+  adminRoutes.push(imagegen.route);
+  // Item icons: the job paints an original; both inventory sizes land in the file store as a candidate.
+  const { createIconKind, serverIconStore } = await import("../game/src/multiplayer/itemIconJobs.js");
+  const { RESOLVED_CATALOG } = await import("../game/src/content/resolvedCatalog.js");
+  imagegen.register("icon", createIconKind({
+    hasItem: async itemId => RESOLVED_CATALOG.tables.items.some(item => item.id === itemId),
+    store: serverIconStore({ files: contentAssets, meta: storage.admin }),
+  }));
   const server = await startReferenceServer({
     worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog, bundledBase: shipped, log: event => logger.emit(event),
     allowedOrigins: config.allowedOrigins.length ? config.allowedOrigins : undefined,
@@ -314,6 +330,7 @@ async function main(argv: readonly string[]): Promise<number> {
     ...(database ? { threads: { launch: launchThreads, database, mode: config.threadMode === "on" ? "on" as const : "auto" as const,
       catalog: { kind: "storage" as const }, build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
   }).catch(async error => { await storage.close(); throw error; });
+  publisher = server.publisher;
 
   // `ready: true` and `port` are what every launcher and proof script waits for.
   logger.emit({ event: "ready", ready: true, host: config.host, port: server.port,

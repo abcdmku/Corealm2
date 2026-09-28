@@ -338,7 +338,10 @@ function JobList({ jobs, assetId, worn, readOnly, retryBlocked, onWear, onRetrie
       <span role="cell"><Badge variant={STATUS_TONE[job.status]} className="h-4 px-1 text-[10px]">{job.status}</Badge></span>
       <span role="cell" className="flex min-w-0 flex-col">
         <span className="truncate" title={job.prompt}>{job.name}</span>
-        {job.assetId !== assetId && <code className="truncate font-mono text-[10px] text-faint">{job.assetId}</code>}
+        <code className="truncate font-mono text-[10px] text-faint" data-job-kind={job.kind}>
+          {job.kind === "icon" ? `icon · ${job.itemId ?? "?"}` : `skin${job.assetId !== assetId ? ` · ${job.assetId}` : ""}`}
+          {job.outputs?.length ? <span title={job.outputs.join("\n")}>{` · ${job.outputs.length} ${job.outputs.length === 1 ? "file" : "files"}`}</span> : null}
+        </code>
         {job.status === "failed" && <span className="truncate text-[11px] text-destructive" title={job.log ?? job.error}>{job.error ?? "Failed"}</span>}
       </span>
       <span role="cell" className="text-right font-mono text-[11px] text-faint tabular-nums">{elapsed(job, now)}</span>

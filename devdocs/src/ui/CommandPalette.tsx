@@ -84,8 +84,9 @@ export function CommandPalette({ open, onOpenChange, collections, navigate }: { 
   }, [needle, entries, step]);
 
   // ---------------------------------------------------------------- the selection
+  // Setting a field across the selection edits drafts, which save through the backend's transaction: it needs only `write`.
   const bulk = useMemo(() => {
-    if (!can("bulk") || !selection.ids.length) return undefined;
+    if (!can("write") || !selection.ids.length) return undefined;
     const schema = CONTENT_COLLECTIONS.find(candidate => candidate.name === selection.collection)?.schema;
     if (!schema) return undefined;
     const fields = settableFields(schema, hotkeysFor(selection.collection).map(hotkey => hotkey.path));

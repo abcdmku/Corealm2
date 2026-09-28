@@ -11,11 +11,24 @@ import { RESOLVED_TABLES } from '../../../game/src/content/resolvedCatalog.js';
 import type { CreatureSkin } from '../../../game/src/content/schema/creatureSkins.js';
 import type { ThumbnailProvider } from '../ui/assetThumbnails.js';
 import { itemIconSource } from '../ui/Thumb.js';
+import { backend, can } from '../api/backend.js';
+import { gameUrl } from '../model/gameUrl.js';
+import { gameFileUrl } from './registry.js';
 
 /**
- * Client-side thumbnail renderer for manifest GLBs. One shared offscreen renderer draws a single
- * frame per asset at the rest pose of its idle clip, and the PNG is handed to the dev server so the
- * next session reads a file instead of loading the model. The player build never imports this.
+ * Client-side thumbnail renderer for manifest GLBs and creatures. One shared offscreen renderer draws
+ * a single frame per asset at the rest pose of its idle clip, and the PNG is kept so the next session
+ * reads a file instead of loading the model. The player build never imports this.
+ *
+ * Where a render is kept depends on the mode (`thumbnailCache`):
+ *  - the checkout (`can("assets")`) keeps its cache under `devdocs/generated/thumbnails/`, through
+ *    `/__devdocs/thumbnails/<key>.png`. That folder is ignored by git and never ships, so renders
+ *    stay out of `game/public` and out of the asset host's release tree;
+ *  - a live server that stores files (`can("files")`) keeps them in its asset store at
+ *    `assets/thumbnails/<key>.png` (`backend().putFiles`). Its index says what is there, so a stored
+ *    render is shown straight from `/content-assets/` without a request to ask, to every author;
+ *  - anything else renders every session.
+ * A key carries a hash of what the render shows, so a changed model or look is a new file.
  */
 export const THUMBNAIL_SIZE = 192;
 /**
@@ -162,43 +175,85 @@ export async function renderAssetThumbnail(assetId: string): Promise<string | un
 }
 
 /** The cache key carries the model's content hash, so a replaced model never shows its old render. */
-async function cachedUrl(assetId: string): Promise<string> {
+async function assetKey(assetId: string): Promise<string> {
   const entry = (await viewerRegistry()).entry(assetId) as { sha256?: string; bytes?: number } | undefined;
   // Older manifest rows have no hash; their byte size still changes when the file is replaced.
   const version = entry?.sha256?.slice(0, 16) ?? (entry?.bytes ? `b${entry.bytes}` : undefined);
-  return `${THUMBNAILS_PATH}/${version ? `${assetId}-${version}` : assetId}.png`;
+  return version ? `${assetId}-${version}` : assetId;
 }
 
-async function readCached(url: string): Promise<boolean> {
-  try {
-    const response = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
-    return response.ok && (response.headers.get('content-type') ?? '').startsWith('image/png');
-  } catch { return false; }
+/** Where a rendered PNG is kept, by key: a URL that shows it now, or undefined; and a way to keep one. */
+interface ThumbnailCache {
+  cached(key: string): Promise<string | undefined>;
+  /** Keeps the PNG, and answers the URL it is shown from once kept. */
+  store(key: string, dataUrl: string): Promise<string | undefined>;
 }
 
-async function storeRendered(url: string, dataUrl: string): Promise<boolean> {
-  try {
-    const response = await fetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dataUrl }) });
-    return response.ok;
-  } catch { return false; }
+const REPO_CACHE: ThumbnailCache = {
+  async cached(key) {
+    const url = `${THUMBNAILS_PATH}/${key}.png`;
+    try {
+      const response = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
+      return response.ok && (response.headers.get('content-type') ?? '').startsWith('image/png') ? url : undefined;
+    } catch { return undefined; }
+  },
+  async store(key, dataUrl) {
+    const url = `${THUMBNAILS_PATH}/${key}.png`;
+    try {
+      const response = await fetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dataUrl }) });
+      return response.ok ? url : undefined;
+    } catch { return undefined; }
+  },
+};
+
+const storePath = (key: string): string => `assets/thumbnails/${key}.png`;
+/** Renders finished within this window go to the server in one `putFiles`. */
+export const THUMBNAIL_STORE_BATCH_MS = 1500;
+let batch: { files: Record<string, string>; sent: Promise<boolean> } | undefined;
+
+const FILE_STORE_CACHE: ThumbnailCache = {
+  async cached(key) {
+    // The store's index is loaded with the backend and after every `putFiles`: a held path resolves to the store.
+    const url = gameFileUrl(storePath(key));
+    return url === gameUrl(storePath(key)) ? undefined : url;
+  },
+  async store(key, dataUrl) {
+    const current = batch ??= { files: {}, sent: new Promise(resolve => setTimeout(() => {
+      batch = undefined;
+      backend().putFiles(current.files).then(() => resolve(true), () => resolve(false));
+    }, THUMBNAIL_STORE_BATCH_MS)) };
+    current.files[storePath(key)] = dataUrl.slice(dataUrl.indexOf(',') + 1);
+    return await current.sent ? FILE_STORE_CACHE.cached(key) : undefined;
+  },
+};
+
+function thumbnailCache(): ThumbnailCache | undefined {
+  return can('assets') ? REPO_CACHE : can('files') ? FILE_STORE_CACHE : undefined;
 }
 
-/**
- * Render in the browser and show the data URL. Repository mode also reads and writes its PNG cache.
- */
-export function createThumbnailProvider({ repoCache }: { repoCache: boolean }): ThumbnailProvider {
+/** A kept render when there is one; otherwise render in the browser, show the data URL and keep it. */
+async function cachedRender(key: string | undefined, render: () => Promise<string | undefined>): Promise<string | undefined> {
+  const cache = key === undefined ? undefined : thumbnailCache();
+  const kept = cache && key !== undefined ? await cache.cached(key) : undefined;
+  if (kept) return kept;
+  const dataUrl = await render();
+  if (cache && key !== undefined && dataUrl) void cache.store(key, dataUrl);
+  return dataUrl;
+}
+
+/** Renders in the browser, and keeps each render where this mode can (see the top of this file). */
+export function createThumbnailProvider(): ThumbnailProvider {
   return async assetId => {
-    if (assetId.startsWith(CREATURE_KEY)) return creatureThumbnail(assetId.slice(CREATURE_KEY.length), repoCache);
+    if (assetId.startsWith(CREATURE_KEY)) {
+      const creatureId = assetId.slice(CREATURE_KEY.length);
+      return cachedRender(await creatureKey(creatureId).catch(() => undefined), () => renderCreatureThumbnail(creatureId));
+    }
     if (!ASSET_ID.test(assetId)) return undefined;
     // An item's picture is its generated icon, never a render of the model (docs/item-icons.md).
     const itemId = ((await viewerRegistry()).entry(assetId) as { itemId?: string } | undefined)?.itemId
       ?? (assetId.startsWith('corealm_item_') ? assetId.slice('corealm_item_'.length) : undefined);
     if (itemId) return itemIconSource(itemId, true);
-    const url = repoCache ? await cachedUrl(assetId) : undefined;
-    if (url && await readCached(url)) return url;
-    const dataUrl = await renderAssetThumbnail(assetId);
-    if (url && dataUrl) void storeRendered(url, dataUrl);
-    return dataUrl;
+    return cachedRender(await assetKey(assetId), () => renderAssetThumbnail(assetId));
   };
 }
 
@@ -212,14 +267,14 @@ function hash(text: string): string {
  * The cached file name changes with anything that changes the drawn look: model file, scale, tier,
  * rank, dye seed, the rolled skin and colour (in `view`), the variation range, and the skin's maps.
  */
-async function creatureCacheUrl(creatureId: string): Promise<string | undefined> {
+async function creatureKey(creatureId: string): Promise<string | undefined> {
   if (!ASSET_ID.test(creatureId)) return undefined;
   const { entity, variation } = actorSpec(creatureId);
   const entry = (await viewerRegistry()).entry(entity.view!.assetId) as { sha256?: string; bytes?: number } | undefined;
   const skinId = entity.view!.skinId;
   const skin = skinId ? (RESOLVED_TABLES.creatureSkins as CreatureSkin[] | undefined)?.find(row => row.id === skinId) : undefined;
   const look = JSON.stringify([entity.id, entity.archetype, entity.tier, entity.view, variation, skin?.sha256 ?? skin?.maps ?? null, entry?.sha256 ?? entry?.bytes ?? null]);
-  return `${THUMBNAILS_PATH}/actor--${creatureId}-${hash(look)}.png`;
+  return `actor--${creatureId}-${hash(look)}`;
 }
 
 /** Renders a creature definition as the game draws it, to a PNG data URL. */
@@ -236,19 +291,11 @@ export async function renderCreatureThumbnail(creatureId: string): Promise<strin
   }).catch(() => { negative.add(key); return undefined; });
 }
 
-async function creatureThumbnail(creatureId: string, repoCache: boolean): Promise<string | undefined> {
-  const url = repoCache ? await creatureCacheUrl(creatureId).catch(() => undefined) : undefined;
-  if (url && await readCached(url)) return url;
-  const dataUrl = await renderCreatureThumbnail(creatureId);
-  if (url && dataUrl) void storeRendered(url, dataUrl);
-  return dataUrl;
-}
-
-/** Forces a fresh render and returns the server URL with a cache-busting query once it is stored. */
+/** Forces a fresh render and returns the URL it is kept at, with a cache-busting query, once it is kept. */
 export async function regenerateAssetThumbnail(assetId: string): Promise<string | undefined> {
   negative.delete(assetId);
   const dataUrl = await renderAssetThumbnail(assetId);
   if (!dataUrl) return undefined;
-  const url = await cachedUrl(assetId);
-  return await storeRendered(url, dataUrl) ? `${url}?v=${Date.now()}` : dataUrl;
+  const url = await thumbnailCache()?.store(await assetKey(assetId), dataUrl);
+  return url ? `${url}${url.includes('?') ? '&' : '?'}v=${Date.now()}` : dataUrl;
 }

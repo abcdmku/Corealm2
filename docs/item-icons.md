@@ -16,7 +16,7 @@ Item artwork follows the item's name, description, material, and purpose. The Se
 
 Generated artwork uses the original PNG under `art/item-icons/generated/`. Its registry records the item ID, original source, SHA-256, exact prompt, source selection or art direction, and review status. Keep the original transparency. The generator trims and scales it to a 256px master, then derives the outlined 48px inventory image.
 
-Pending artwork can only be rendered with `--out`. It cannot replace published icons until its registry status is accepted. `--all` rebuilds approved artwork from its recorded source and does not overwrite it with procedural geometry.
+Devdocs authors icons on the item page in both editors: Generate (an image job with the prompt, following this document) or Upload an original. Either derives the 256px master and the 48px inventory image with the same algorithm as `npm run icons`, stores both, and marks the icon a `candidate` in the item's metadata; the repo editor also sets its registry entry to `pending` with the prompt, SHA-256 and source. Approve or reject it there. In the repo a stored icon ships with the next release; on a live server it is served to that server's players at once, because every file a server stores is live. `npm run icons -- --all` still rebuilds approved artwork from its recorded source and never overwrites it with procedural geometry.
 
 ```sh
 npm run icons -- --only grithe_ring --out test-results/icon-review

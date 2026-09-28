@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import type { MetaResponse } from "../../shared/metaContracts.js";
 import type { MetaCandidate } from "../../../tools/content/meta.js";
 import { AssetViewer } from "../viewer/AssetViewer.js";
+import { measureModel } from "../../../game/src/render/measureModel.js";
 import { metaQueryKey, readMeta } from "../model/meta.js";
 import type { AssetActionResponse, AssetCandidateView, AssetCandidatesResponse } from "../../server/handlers/assets.js";
 import { Button, Badge, Input, Textarea, ChoiceGroup } from "../components/ui/index.js";
@@ -44,6 +45,8 @@ interface ActionVariables {
   action: "approve" | "reject" | "promote";
   body?: CandidateBody;
   reason?: string;
+  /** Promotion only: the candidate measured here as the build measures (`render/measureModel.ts`). */
+  asset?: Record<string, unknown>;
 }
 
 interface UploadVariables {
@@ -89,11 +92,22 @@ async function readCandidates(url: string): Promise<AssetCandidatesResponse> {
 }
 
 
+/**
+ * A promoted model's manifest entry carries the build's measurements: bounds through node transforms
+ * (`size` and the `base` that grounds it) and clip lengths. The upload only read accessor bounds.
+ */
+async function promotionMeasurement(candidate: AssetCandidateView): Promise<Record<string, unknown>> {
+  const response = await fetch(candidate.fileUrl);
+  if (!response.ok) throw new Error(`Could not read the candidate to measure it (${response.status})`);
+  const { size, base, walkClipSeconds, runClipSeconds } = await measureModel(await response.arrayBuffer());
+  return { size, base, ...(walkClipSeconds === undefined ? {} : { walkClipSeconds }), ...(runClipSeconds === undefined ? {} : { runClipSeconds }) };
+}
+
 async function sendAction(variables: ActionVariables): Promise<AssetActionResponse> {
   const response = await fetch(`/__devdocs/assets/${encodeURIComponent(variables.candidateId)}/${variables.action}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ revision: variables.revision, ...(variables.body ? { body: variables.body } : {}), ...(variables.reason ? { reason: variables.reason } : {}) }),
+    body: JSON.stringify({ revision: variables.revision, ...(variables.body ? { body: variables.body } : {}), ...(variables.reason ? { reason: variables.reason } : {}), ...(variables.asset ? { asset: variables.asset } : {}) }),
   });
   const value = await response.json().catch(() => undefined);
   if (!response.ok) throw new Error(isObject(value) && typeof value.error === "string" ? value.error : `Could not ${variables.action} candidate (${response.status})`);
@@ -237,7 +251,9 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
   }
 
   function promote(candidate: AssetCandidateView) {
-    actionMutation.mutate({ candidateId: candidate.candidateId, revision: candidate.revision, action: "promote" });
+    void promotionMeasurement(candidate).then(
+      asset => actionMutation.mutate({ candidateId: candidate.candidateId, revision: candidate.revision, action: "promote", asset }),
+      (error: unknown) => { const message = error instanceof Error ? error.message : String(error); setFeedback(message); toast.error(message); });
   }
 
   return <section className={cn("min-w-0", compact ? "flex flex-col gap-2" : PANEL)} aria-labelledby={titleId}>

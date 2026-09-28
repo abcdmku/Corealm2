@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Check, CircleAlert, Eye, LoaderCircle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import type { ApiDiagnostic, BulkAction, BulkRequest, BulkResponse } from "../../shared/contracts.js";
+import type { ApiDiagnostic, BulkAction } from "../../shared/contracts.js";
 import { collectionQuery } from "../api/client.js";
 import { metaQueryKey } from "../model/meta.js";
 import type { ContentRow } from "../model/contracts.js";
@@ -11,6 +11,7 @@ import { Button, Badge, Input, Textarea, ChoiceGroup } from "../components/ui/in
 import { cn } from "../lib/utils.js";
 import { EMPTY, PANEL, PANEL_HEADER } from "../ui/layout.js";
 import { FormError, SPIN } from "./panelParts.js";
+import { applyBulk, previewBulk, type BulkDiff, type BulkPlan, type BulkRefusal } from "./bulkActions.js";
 
 type ActionKind = BulkAction["kind"];
 type AuthoredStatus = Extract<BulkAction, { kind: "status" }>["status"];
@@ -26,7 +27,7 @@ export interface BulkActionsPanelProps {
 
 interface PreviewState {
   signature: string;
-  response: BulkResponse;
+  response: BulkPlan;
   stale: boolean;
 }
 
@@ -34,29 +35,6 @@ interface PanelError {
   message: string;
   diagnostics: ApiDiagnostic[];
   conflict: boolean;
-}
-
-function isObject(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
-}
-
-function isDiagnostic(value: unknown): value is ApiDiagnostic {
-  if (!isObject(value)) return false;
-  return typeof value.path === "string" && typeof value.message === "string" && (value.severity === "error" || value.severity === "warning");
-}
-
-function diagnosticsFrom(value: Record<string, unknown>): ApiDiagnostic[] {
-  return Array.isArray(value.diagnostics) ? value.diagnostics.filter(isDiagnostic) : [];
-}
-
-function looksLikeBulkResponse(value: unknown): value is BulkResponse {
-  if (!isObject(value)) return false;
-  return typeof value.collection === "string" && Array.isArray(value.recordIds) && isObject(value.action) && isObject(value.revisions) && typeof value.revisions.content === "string" && Array.isArray(value.diffs);
-}
-
-async function responseBody(response: Response): Promise<Record<string, unknown>> {
-  const value = await response.json().catch(() => ({}));
-  return isObject(value) ? value : {};
 }
 
 function formatValue(value: unknown): string {
@@ -82,7 +60,7 @@ function ownNumericTier(row: ContentRow): boolean {
   return Object.hasOwn(row, "tier") && typeof row.tier === "number" && Number.isFinite(row.tier);
 }
 
-function DiffRecord({ diff }: { diff: BulkResponse["diffs"][number] }) {
+function DiffRecord({ diff }: { diff: BulkDiff }) {
   const changes = changedFields(diff.before, diff.after);
   const shown = changes.slice(0, 10);
   return <article className="grid grid-cols-[minmax(140px,14rem)_minmax(0,1fr)] gap-2.5 border-b border-border-subtle px-3 py-1.5 last:border-b-0 @max-[40rem]:grid-cols-1 max-md:gap-1">
@@ -148,47 +126,27 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
     const selectedIdsAtStart = [...selectedIds];
     if (busy || (operation === "preview" && (validationMessage || !selectedIdsAtStart.length)) || (operation === "apply" && (!previewAtStart || previewAtStart.stale || !previewAtStart.response.diffs.length))) return;
     const actionAtStart = action;
-    const body: BulkRequest = {
-      operation,
-      collection,
-      recordIds: selectedIdsAtStart,
-      action: actionAtStart,
-      ...(operation === "apply" ? { revisions: previewAtStart!.response.revisions } : {}),
-    };
     setBusy(operation);
     setError(undefined);
     try {
-      const response = await fetch("/__devdocs/bulk", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-      const raw = await responseBody(response);
-      if (requestKeyRef.current !== signature) return;
-      if (!response.ok) {
-        const diagnostics = diagnosticsFrom(raw);
-        const message = typeof raw.error === "string" ? raw.error : `Bulk ${operation} failed (${response.status}).`;
-        if (response.status === 409) {
-          setPreview(previous => previous?.signature === signature ? { ...previous, stale: true } : previous);
-          setError({ message: "The content or metadata changed after this preview. Preview again before applying.", diagnostics, conflict: true });
-        } else {
-          setPreview(previous => operation === "apply" && previous?.signature === signature ? { ...previous, stale: true } : previous);
-          setError({ message, diagnostics, conflict: false });
-        }
-        return;
-      }
-      if (!looksLikeBulkResponse(raw)) throw new Error("The server returned an incomplete bulk response. Preview again before applying.");
-      const result = raw as unknown as BulkResponse;
+      const refuse = async ({ refusal }: { refusal: BulkRefusal }) => {
+        setPreview(previous => previous?.signature === signature && (refusal.conflict || operation === "apply") ? { ...previous, stale: true } : previous);
+        setError({ message: refusal.message, diagnostics: refusal.diagnostics, conflict: refusal.conflict });
+        if (refusal.applied) await refreshQueries(selectedIdsAtStart);
+      };
       if (operation === "preview") {
-        setPreview({ signature, response: result, stale: false });
-        setError(undefined);
+        const planned = await previewBulk({ collection, idKey, revision, rows: selectedIdsAtStart.flatMap((id): ContentRow[] => { const row = rowsById.get(id); return row ? [row] : []; }), action: actionAtStart });
+        if (requestKeyRef.current !== signature) return;
+        if (!planned.ok) return await refuse(planned);
+        setPreview({ signature, response: planned.value, stale: false });
         return;
       }
-      const changedCount = result.recordIds.length || selectedIdsAtStart.length;
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: collectionQuery(collection).queryKey }),
-        ...selectedIdsAtStart.map(id => queryClient.invalidateQueries({ queryKey: metaQueryKey(collection, id) })),
-        queryClient.invalidateQueries({ queryKey: ["requests"] }),
-      ]).catch(() => undefined);
-      toast.success(`Updated ${changedCount} record${changedCount === 1 ? "" : "s"}`);
+      const applied = await applyBulk(previewAtStart!.response);
+      if (requestKeyRef.current !== signature) return;
+      if (!applied.ok) return await refuse(applied);
+      await refreshQueries(selectedIdsAtStart);
+      toast.success(`Updated ${applied.value} record${applied.value === 1 ? "" : "s"}`);
       setPreview(undefined);
-      setError(undefined);
       onClearSelection();
     } catch (failure) {
       if (requestKeyRef.current !== signature) return;
@@ -197,6 +155,15 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
     } finally {
       setBusy(undefined);
     }
+  }
+
+  function refreshQueries(ids: readonly string[]): Promise<unknown> {
+    return Promise.all([
+      queryClient.invalidateQueries({ queryKey: collectionQuery(collection).queryKey }),
+      queryClient.invalidateQueries({ queryKey: ["meta-digest", collection] }),
+      ...ids.map(id => queryClient.invalidateQueries({ queryKey: metaQueryKey(collection, id) })),
+      queryClient.invalidateQueries({ queryKey: ["requests"] }),
+    ]).catch(() => undefined);
   }
 
   const diffCount = currentPreview?.response.diffs.length ?? 0;

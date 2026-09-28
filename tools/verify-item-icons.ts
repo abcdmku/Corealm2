@@ -4,7 +4,7 @@ import { mkdir } from "node:fs/promises";
 import { GameDriver } from "./lib/driver.js";
 import { repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
-import { ITEM_ICON_GAME_SIZE } from "./generate-item-icons.js";
+import { ITEM_ICON_GAME_SIZE } from "../game/src/content/itemIconArt.js";
 import { installTestDeadline } from "./lib/deadline.js";
 
 interface IconDomAudit {

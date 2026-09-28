@@ -120,7 +120,7 @@ describe("feature routes", () => {
     const backend = createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: fakeServer(FEATURES).fetch });
     expect(backend.capabilities.files).toBe(false);
     await backend.collections();
-    expect(backend.capabilities).toMatchObject({ meta: true, requests: true, files: true, imagegen: true, git: false, bulk: false, assets: false, publish: true });
+    expect(backend.capabilities).toMatchObject({ meta: true, requests: true, files: true, imagegen: true, git: false, bulk: true, assets: false, publish: true });
   });
 
   it("offers none of them when an older server answers with its page or a 404", async () => {

@@ -13,8 +13,8 @@ import { installThumbnailProvider } from "./ui/assetThumbnails.js";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1 } } });
 
-// Server mode renders thumbnails in the browser. Only a checkout persists them through its cache.
-if (can("assets") || can("publish")) void import("./viewer/thumbnailRenderer.js").then(module => installThumbnailProvider(module.createThumbnailProvider({ repoCache: can("assets") })));
+// Thumbnails render in the browser. A checkout keeps them in its cache, a server that stores files in its asset store.
+if (can("assets") || can("publish")) void import("./viewer/thumbnailRenderer.js").then(module => installThumbnailProvider(module.createThumbnailProvider()));
 
 export function Shell() {
   return <QueryClientProvider client={queryClient}>

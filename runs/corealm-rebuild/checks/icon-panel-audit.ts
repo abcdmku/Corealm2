@@ -14,7 +14,7 @@ import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { GameDriver } from "../../../tools/lib/driver.js";
 import { startGameServer } from "../../../tools/lib/server.js";
-import { ITEM_ICON_GAME_SIZE } from "../../../tools/generate-item-icons.js";
+import { ITEM_ICON_GAME_SIZE } from "../../../game/src/content/itemIconArt.js";
 
 const out = "test-results/icon-panel-audit";
 await mkdir(out, { recursive: true });

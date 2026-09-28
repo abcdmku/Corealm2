@@ -7,10 +7,11 @@ import type { ContentAssetIndex } from "../../../game/src/multiplayer/contentAss
 import type { MetaPatch, MetaResponse } from "../../shared/metaContracts.js";
 import type { ImagegenJob, ImagegenRequest } from "../../shared/skinContracts.js";
 import { adoptGameCatalog, installedCatalogOf, refreshGameCatalog, setGameCatalogSource } from "../model/liveCatalog.js";
-import { setContentFiles } from "../viewer/registry.js";
+import { setContentFiles } from "../model/serverFiles.js";
 import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type DevdocsCapabilities, type PublishBlocker, type PublishSummary, type TransactionRefusal } from "./backend.js";
 import { publishNote, setPublishNote } from "./publishNote.js";
 import { adminFailure, AdminFailure, type AdminSession, type ServerDescriptor } from "./session.js";
+import { serverModels } from "../model/serverFiles.js";
 
 /**
  * A running game server, through its admin API.
@@ -78,7 +79,7 @@ function diagnostics(problems: unknown): ApiDiagnostic[] {
 
 /** The feature routes a server may lack. Everything else server mode has is fixed. */
 type Offered = Pick<DevdocsCapabilities, "meta" | "files" | "imagegen">;
-const FIXED = { write: true, git: false, bulk: false, assets: false, formulas: false, publish: true } as const;
+const FIXED = { write: true, git: false, assets: false, formulas: false, publish: true } as const;
 
 export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   const call = ports.fetch ?? globalThis.fetch.bind(globalThis);
@@ -197,7 +198,11 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     return { collection: summaryOf(name, table, false), revision: current.revision, data: table };
   }
   function assetCollection(current: Snapshot): CollectionResponse {
-    const data = [...current.assets, ...ALL_PROCEDURAL_GEAR_ASSETS.map(row => ({ id: row.assetId, itemId: row.itemId, procedural: true }))];
+    // Models this server added (its manifest overlay) replace a host entry by id and are marked as the server's.
+    const added = serverModels().map(entry => ({ ...entry, origin: "server" }));
+    const replaced = new Set(added.map(entry => entry.id));
+    const data = [...current.assets.filter(row => !replaced.has(String((row as { id?: unknown }).id))), ...added,
+      ...ALL_PROCEDURAL_GEAR_ASSETS.map(row => ({ id: row.assetId, itemId: row.itemId, procedural: true }))];
     return { collection: summaryOf("assets", data, false), revision: current.revision, data };
   }
 
@@ -205,10 +210,10 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     kind: "server",
     label: descriptor.name,
     get assetBaseUrl() { return assetBaseUrl; },
-    // No checkout behind a live server: no git, no bulk metadata actions, no asset import, and
-    // formulas ship compiled into the release rather than being edited. Metadata (and the request
-    // queue kept in it), stored files and image jobs are there when the server offers their routes.
-    get capabilities(): DevdocsCapabilities { return { ...FIXED, ...offered, requests: offered.meta }; },
+    // No checkout behind a live server: no git, no asset import, and formulas ship compiled into the
+    // release rather than being edited. Metadata (and the request queue and bulk actions built on
+    // it), stored files and image jobs are there when the server offers their routes.
+    get capabilities(): DevdocsCapabilities { return { ...FIXED, ...offered, requests: offered.meta, bulk: offered.meta }; },
 
     async get<T>(path: string): Promise<T> {
       if (path === "collections") return await this.collections() as T;

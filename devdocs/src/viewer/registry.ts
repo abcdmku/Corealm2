@@ -1,7 +1,8 @@
-import { AssetRegistry } from '../../../game/src/render/assets.js';
+import { AssetRegistry, setManifestOverlay } from '../../../game/src/render/assets.js';
 import { registerProceduralGear } from '../../../game/src/render/proceduralGearFactories.js';
 import { backend } from '../api/backend.js';
 import { gameUrl } from '../model/gameUrl.js';
+import { gameFileUrl, serverFileSha, serverModels, serverModelsLoaded, subscribeServerModels } from '../model/serverFiles.js';
 
 let registry: { base: string; ready: Promise<AssetRegistry> } | undefined;
 
@@ -14,6 +15,7 @@ let registry: { base: string; ready: Promise<AssetRegistry> } | undefined;
  */
 export async function viewerRegistry(): Promise<AssetRegistry> {
   if (backend().kind === 'server') await backend().collections().catch(() => undefined);
+  await serverModelsLoaded();
   const base = gameUrl('assets/');
   if (registry?.base !== base) {
     const next = {
@@ -31,20 +33,13 @@ export async function viewerRegistry(): Promise<AssetRegistry> {
   return registry.ready;
 }
 
-/**
- * Files a live server stores itself (`/content-assets/<path>`), by path under the public tree, with
- * the hash that versions each URL. Server mode fills it from `GET /admin/files` and after each
- * `putFiles`; repo mode leaves it empty because its files are in the checkout beside the page.
- */
-let contentFiles: { base: string; files: ReadonlyMap<string, string> } = { base: '', files: new Map() };
-
-export function setContentFiles(base: string, files: Readonly<Record<string, { sha256: string }>>): void {
-  contentFiles = { base: base.replace(/\/*$/, '/'), files: new Map(Object.entries(files).map(([path, entry]) => [path, entry.sha256])) };
+// The server's models are read in `model/serverFiles.ts`; every registry on the page merges them by id,
+// loading their GLBs from the server's store.
+function applyServerModels(): void {
+  const entries = serverModels();
+  setManifestOverlay(entries.length ? { entries, fileUrl: path => serverFileSha(path) ? gameFileUrl(path) : null } : null);
 }
+subscribeServerModels(applyServerModels);
+applyServerModels();
 
-/** Where a game file loads from: the server's own store when it holds the path, the asset base otherwise. */
-export function gameFileUrl(path: string): string {
-  const relative = path.replace(/^\/+/, '');
-  const sha = contentFiles.files.get(relative);
-  return sha ? `${new URL(relative, contentFiles.base).href}?v=${sha.slice(0, 12)}` : gameUrl(relative);
-}
+export { gameFileUrl, serverModels, serverModelsLoaded, setContentFiles, subscribeServerModels } from '../model/serverFiles.js';

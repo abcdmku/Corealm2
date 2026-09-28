@@ -4,96 +4,34 @@ import path from "node:path";
 import sharp from "sharp";
 
 import type { CreatureSkin, SaveSkinRequest, SaveSkinResponse } from "../../shared/skinContracts.js";
+import {
+  decodeReferencePng, IMAGEGEN_MAX_REQUEST_BYTES, ImagegenFailure, isSafeId, materialFileNames, slugId,
+} from "../../../game/src/multiplayer/imagegenRunner.js";
 import { contentRevision } from "../../../tools/content/format.js";
 import { readRepoReferencePools } from "../../../tools/content/referencePools.js";
 import { atomicReplaceFile } from "../../../tools/lib/atomic-replace-file.js";
 import { repoRoot } from "../../../tools/lib/paths.js";
-import { isLoopbackDevdocsRequest, type DevdocsJsonResponse, type DevdocsRequest } from "./collections.js";
 import { transact, type TransactionOptions } from "./transaction.js";
 
 /**
- * Creature skins: albedo maps written under `game/public/assets/skins/<assetId>/<skinId>/` plus the
- * `creatureSkins` record that names them, saved through the same content transaction as every other
- * collection write so revision checks and the catalog rebuild apply.
+ * Creature skins in the checkout: albedo maps written under `game/public/assets/skins/<assetId>/<skinId>/`
+ * plus the `creatureSkins` record that names them, saved through the same content transaction as every
+ * other collection write, so revision checks and the catalog rebuild apply. Repo image jobs save their
+ * result here; the editor itself saves skins through `putFiles` and a content transaction.
  */
-export const SKINS_PATH = "/__devdocs/skins";
-export const SKIN_MAX_MAP_BYTES = 16 * 1024 * 1024;
-export const SKIN_MAX_DIMENSION = 4096;
 /** Several 16 MB maps as base64. */
-export const SKIN_MAX_REQUEST_BYTES = 96 * 1024 * 1024;
-const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-const SAFE_ID = /^[a-z0-9_.-]+$/;
-const BASE64 = /^(?:data:image\/png;base64,)?([A-Za-z0-9+/]+={0,2})$/;
+export const SKIN_MAX_REQUEST_BYTES = IMAGEGEN_MAX_REQUEST_BYTES;
 
 export interface SkinsHandlerOptions extends TransactionOptions {
   /** Absolute `game/public` directory holding `assets/manifest.json` and `assets/skins/`. */
   publicRoot?: string;
   now?: () => string;
 }
-export type SkinsHandlerRequest = DevdocsRequest & { body?: unknown };
-export type SkinsHandler = (request: SkinsHandlerRequest) => Promise<DevdocsJsonResponse | undefined>;
 
-export class SkinError extends Error {
-  constructor(readonly status: number, message: string, readonly detail?: unknown) { super(message); }
-}
+export class SkinError extends ImagegenFailure {}
 
 export const defaultPublicRoot = path.join(repoRoot, "game", "public");
 const contentRootOf = (options: TransactionOptions) => path.resolve(options.contentRoot ?? path.join(repoRoot, "game", "content"));
-
-export function isSkinsPath(url?: string): boolean {
-  const raw = url?.split(/[?#]/, 1)[0];
-  return raw === SKINS_PATH || raw?.startsWith(`${SKINS_PATH}/`) === true;
-}
-
-function json(status: number, data: unknown): DevdocsJsonResponse {
-  return { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" }, body: JSON.stringify(data) };
-}
-
-export function isSafeId(value: unknown): value is string {
-  return typeof value === "string" && SAFE_ID.test(value) && value !== "." && value !== ".." && value.length <= 120;
-}
-
-/** A lowercase id from free text: `Mossy Frog!` -> `mossy-frog`. */
-export function slugId(text: string): string {
-  return text.normalize("NFKD").toLowerCase().replace(/[^a-z0-9_.-]+/g, "-").replace(/-+/g, "-").replace(/^[-.]+|[-.]+$/g, "").slice(0, 80) || "skin";
-}
-
-/**
- * File names for material names. Material names are free text (`Wild horse · source coat`); the
- * schema's map path allows `[A-Za-z0-9_.-]`, so each gets a slug, deduplicated within the skin.
- */
-export function materialFileNames(materials: readonly string[]): Map<string, string> {
-  const used = new Set<string>(), names = new Map<string, string>();
-  for (const material of materials) {
-    const base = material.normalize("NFKD").replace(/[^A-Za-z0-9_.-]+/g, "_").replace(/_+/g, "_").replace(/^[_.]+|[_.]+$/g, "").slice(0, 80) || "material";
-    let name = base;
-    for (let n = 2; used.has(name.toLowerCase()); n++) name = `${base}_${n}`;
-    used.add(name.toLowerCase());
-    names.set(material, name);
-  }
-  return names;
-}
-
-/** Reads width and height from the IHDR chunk. */
-export function pngDimensions(bytes: Uint8Array): { width: number; height: number } | undefined {
-  const buffer = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  if (buffer.length < 33 || !buffer.subarray(0, 8).equals(PNG_SIGNATURE) || buffer.toString("latin1", 12, 16) !== "IHDR") return undefined;
-  return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
-}
-
-/** Decodes one map (base64, with or without a PNG data URL prefix) and checks it is a sane PNG. */
-export function decodeSkinPng(value: unknown, label: string): Buffer {
-  if (typeof value !== "string" || value.length > Math.ceil(SKIN_MAX_MAP_BYTES / 3) * 4 + 64) throw new SkinError(400, `${label}: expected a base64 PNG up to 16 MB`);
-  const match = BASE64.exec(value);
-  if (!match) throw new SkinError(400, `${label}: not base64 PNG data`);
-  const bytes = Buffer.from(match[1]!, "base64");
-  const size = pngDimensions(bytes);
-  if (!size) throw new SkinError(400, `${label}: not a PNG`);
-  if (bytes.length > SKIN_MAX_MAP_BYTES) throw new SkinError(400, `${label}: larger than 16 MB`);
-  if (size.width < 1 || size.height < 1 || size.width > SKIN_MAX_DIMENSION || size.height > SKIN_MAX_DIMENSION)
-    throw new SkinError(400, `${label}: ${size.width}x${size.height} is outside 1..${SKIN_MAX_DIMENSION}`);
-  return bytes;
-}
 
 interface ManifestAsset { id: string; materials?: string[] }
 
@@ -154,7 +92,7 @@ async function saveSkinNow(body: unknown, options: SkinsHandlerOptions): Promise
   const contentRoot = contentRootOf(options);
   const materials = Object.keys(request.maps);
   await checkAssetMaterials(publicRoot, request.assetId, materials);
-  const decoded = new Map(materials.map(material => [material, decodeSkinPng(request.maps[material], `Map ${JSON.stringify(material)}`)]));
+  const decoded = new Map(materials.map(material => [material, decodeReferencePng(request.maps[material], `Map ${JSON.stringify(material)}`)]));
 
   const current = await readSkins(contentRoot);
   let skinId = request.skinId;
@@ -215,19 +153,4 @@ async function saveSkinNow(body: unknown, options: SkinsHandlerOptions): Promise
     await restore();
     throw error;
   }
-}
-
-export function createSkinsHandler(options: SkinsHandlerOptions = {}): SkinsHandler {
-  return async request => {
-    if (!isSkinsPath(request.url)) return undefined;
-    if (!isLoopbackDevdocsRequest(request)) return json(403, { error: "Dev docs API accepts loopback requests only" });
-    if (request.url?.split(/[?#]/, 1)[0] !== SKINS_PATH) return json(404, { error: "Unknown skins route" });
-    if (request.method !== "POST") return json(405, { error: "POST required" });
-    try {
-      return json(200, await saveSkin(request.body, options));
-    } catch (error) {
-      if (error instanceof SkinError) return json(error.status, { error: error.message, ...(error.detail === undefined ? {} : { diagnostics: error.detail }) });
-      throw error;
-    }
-  };
 }

@@ -29,7 +29,7 @@ export interface DevdocsCapabilities {
   readonly requests: boolean;
   /** Working-tree status, per-file diff and the Local changes view. Repo only. */
   readonly git: boolean;
-  /** Bulk status, note and retier actions, which write metadata. Repo only. */
+  /** Bulk status, note and retier actions, built from `patchMeta` and one `transact`. Wherever metadata and writes are. */
   readonly bulk: boolean;
   /** Asset import, candidate review, generation and rendered thumbnail capture. Repo only. */
   readonly assets: boolean;

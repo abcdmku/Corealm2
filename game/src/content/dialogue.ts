@@ -83,10 +83,23 @@ export interface DialogueNodeDef {
 }
 
 /** Fairy nodes are shared with their source export, including object identity. */
-export const DIALOGUE_NODES: readonly DialogueNodeDef[] = parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" })
+const nodes: DialogueNodeDef[] = parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" })
   .map(row => FAIRY_NPC_DIALOGUE.find(candidate => candidate.id === row.id) ?? stripExtras(row, ["catalog"]));
+export const DIALOGUE_NODES: readonly DialogueNodeDef[] = nodes;
 
 const NODES_BY_ID = new Map<string, DialogueNodeDef>(DIALOGUE_NODES.map((row) => [row.id, row]));
+
+/**
+ * After a live publish moved a server's catalog (`multiplayer/contentSwap.ts`): the same array and
+ * map, refilled. Fairy nodes are no longer shared with `FAIRY_NPC_DIALOGUE`, which keeps the rows it
+ * had at import. A page never calls this: its dialogue arrives with the replicated conversation.
+ */
+export function reindexDialogue(): void {
+  nodes.splice(0, nodes.length, ...parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
+    .map(row => stripExtras(row, ["catalog"])));
+  NODES_BY_ID.clear();
+  for (const row of nodes) NODES_BY_ID.set(row.id, row);
+}
 
 export function dialogueNode(id: string): DialogueNodeDef | undefined {
   return NODES_BY_ID.get(id);

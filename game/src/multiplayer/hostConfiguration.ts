@@ -1,3 +1,4 @@
+import { parseImagegenConfig, type ImagegenConfig } from "./adminImagegen.js";
 import { readFileSync } from "node:fs";
 import { endpoint } from "./protocol.js";
 import { MAX_DESCRIPTION_CHARS, SERVER_NAME } from "./serverSettings.js";
@@ -24,6 +25,8 @@ export interface HostConfiguration {
   /** Account id made owner at start, instead of the one-time setup code. Setting it stops a code being printed. */
   ownerAccount?: string;
   authModule?: string;
+  /** Image generation jobs from devdocs, run on this host. Absent: devdocs does not offer them. */
+  imagegen?: ImagegenConfig;
   /**
    * Defaults for settings an admin may change while the server runs: what the public directory lists
    * this server as, what the picker says about it, and whether it registers with that directory.
@@ -67,8 +70,12 @@ const DEFAULT_CONFIG_FILE = "corealm-server.json";
 const DEFAULT_SEED = 1337;
 const DEFAULT_CAPACITY = 64;
 const WORLD_ID = /^[A-Za-z0-9_.:-]{1,128}$/;
+function imagegenSetting(raw: unknown): { imagegen?: ImagegenConfig } {
+  const config = raw === undefined ? null : parseImagegenConfig(raw);
+  return config ? { imagegen: config } : {};
+}
 const FILE_KEYS = ["host", "port", "publicEndpoint", "allowedOrigins", "data", "assetBaseUrl", "identityUrl", "ownerAccount",
-  "authored", "developmentGuests", "guests", "authModule", "worlds", "name", "description", "registerWithDirectory", "adminUiDir", "threads"];
+  "authored", "developmentGuests", "guests", "authModule", "worlds", "name", "description", "registerWithDirectory", "adminUiDir", "threads", "imagegen"];
 /** The same account id shape the identity service mints and the join token carries. */
 const OWNER_ACCOUNT = /^acc_[A-Za-z0-9_-]{22,120}$/;
 const WORLD_KEYS = ["id", "name", "seed", "capacity"];
@@ -190,7 +197,7 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   const decisions = decisionsFile === undefined ? decisionsText ?? null : readFile(decisionsFile);
   if (decisions === undefined) throw new Error(`Decisions file not found: ${decisionsFile}`);
   return { threads, threadMode: threadMode as "auto" | "on" | "off", authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
-    assetBaseUrl, identityUrl, ownerAccount, authModule, name, description, registerWithDirectory, adminUiDir, followRepoCatalog, baseUpdate: applyBaseUpdate ? { decisions } : null, worlds, configFile: text === undefined ? null : path };
+    assetBaseUrl, identityUrl, ownerAccount, authModule, ...imagegenSetting(file.imagegen), name, description, registerWithDirectory, adminUiDir, followRepoCatalog, baseUpdate: applyBaseUpdate ? { decisions } : null, worlds, configFile: text === undefined ? null : path };
 }
 
 /** The same rule the browser applies to a descriptor: HTTPS, or plain HTTP only on loopback. */

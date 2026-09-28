@@ -14,7 +14,7 @@ import { createMetaHandler, isMetaPath } from "./handlers/meta.js";
 import { BodyError, readJsonBody } from "./lib/body.js";
 import { createAssetsHandler, isAssetsPath, ASSET_UPLOAD_MAX_REQUEST_BYTES } from './handlers/assets.js';
 import { readRuntimeCatalogs } from "./catalogs.js";
-import { isIconMasterPath, readIconMaster } from "./handlers/icons.js";
+import { isIconMasterPath, readIconMaster, repoIconKind } from "./handlers/icons.js";
 import { createCollectionWriteHandler, type CollectionWriteHandlerOptions } from "./handlers/writeCollections.js";
 import { readRepoReferencePools } from "../../tools/content/referencePools.js";
 import { createTransactionHandler, isTransactionPath } from "./handlers/transaction.js";
@@ -22,7 +22,6 @@ import { createFormulasHandler, isFormulasPath } from "./handlers/formulas.js";
 import { installFormulaWatcher } from "./lib/formulaWatcher.js";
 import { createValidateHandler, isValidatePath } from "./handlers/validate.js";
 import { createGitHandler, isGitPath } from "./handlers/git.js";
-import { createBulkHandler, isBulkPath } from './handlers/bulk.js';
 import { createThumbnailsHandler, isThumbnailsPath, THUMBNAIL_MAX_REQUEST_BYTES, type ThumbnailsHandlerOptions } from './handlers/thumbnails.js';
 import { SKIN_MAX_REQUEST_BYTES } from './handlers/skins.js';
 import { createFilesHandler, isFilesPath, FILES_MAX_REQUEST_BYTES } from './handlers/files.js';
@@ -48,13 +47,12 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
   const handleFormulas = createFormulasHandler(formulaServices);
   const handleValidate = createValidateHandler({ referencePools: readRepoReferencePools, ...options });
   const handleGit = createGitHandler();
-  const handleBulk = createBulkHandler({ referencePools: readRepoReferencePools, ...options });
   const handleRequests = createRequestsHandler(options);
   const handleMeta = createMetaHandler(options);
   const handleAssets = createAssetsHandler(options);
   const handleThumbnails = createThumbnailsHandler(options);
   const handleFiles = createFilesHandler();
-  const handleImagegen = createImagegenHandler({ referencePools: readRepoReferencePools, ...options });
+  const handleImagegen = createImagegenHandler({ referencePools: readRepoReferencePools, ...options, kinds: { icon: repoIconKind() } });
 
   server.middlewares.use((request, response, next) => {
     const thumbnails = isThumbnailsPath(request.url);
@@ -66,13 +64,12 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
     const formulas = isFormulasPath(request.url);
     const validate = isValidatePath(request.url);
     const git = isGitPath(request.url);
-    const bulk = isBulkPath(request.url);
     const assets = isAssetsPath(request.url);
     const files = isFilesPath(request.url);
     const imagegen = isImagegenPath(request.url);
     const catalog = isCatalogPath(request.url);
 
-    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets && !thumbnails && !files && !imagegen && !catalog) {
+    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !assets && !thumbnails && !files && !imagegen && !catalog) {
       next();
       return;
     }
@@ -91,7 +88,6 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
 
       if (git) return handleGit(requestFromIncoming(request));
       if (validate) return handleValidate(requestFromIncoming(request));
-      if (bulk) return handleBulk({ ...requestFromIncoming(request), method: request.method, body: request.method === 'POST' ? await readJsonBody(request) : undefined });
       if (transaction || formulas) return (transaction ? handleTransaction : handleFormulas)({...requestFromIncoming(request), body:request.method === "POST" ? await readJsonBody(request) : undefined});
       if (collections && (request.method === "PUT" || request.method === "DELETE")) return handleWrite({ method: request.method, url: request.url, headers: request.headers, socket: request.socket, body: await readJsonBody(request) });
       if (meta) return handleMeta({ ...requestFromIncoming(request), method: request.method, url: request.url, headers: request.headers, socket: request.socket,

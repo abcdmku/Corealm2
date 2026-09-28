@@ -4,6 +4,7 @@ import path from "node:path";
 
 import type { AssetCategory, AssetEntry, AssetManifest, AssetPack } from "../../../game/src/render/assets.js";
 import { parseValue } from "../../../game/src/content/schema/core.js";
+import { footprintRadius, overlayEntryProblem } from "../../../game/src/render/manifestOverlay.js";
 import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
 import { contentRevision, formatContentJson } from "../../../tools/content/format.js";
 import {
@@ -169,6 +170,7 @@ type AssetRoute =
   | { kind: "upload" }
   | { kind: "file"; candidateId: string }
   | { kind: "action"; candidateId: string; action: "approve" | "reject" | "promote" }
+  | { kind: "models" }
   | { kind: "malformed" };
 
 function route(url: string | undefined): AssetRoute | undefined {
@@ -184,6 +186,7 @@ function route(url: string | undefined): AssetRoute | undefined {
   if (segments.some(segment => !safeRouteSegment(segment))) return { kind: "malformed" };
   if (segments.length === 1 && segments[0] === "candidates") return { kind: "candidates" };
   if (segments.length === 1 && segments[0] === "upload") return { kind: "upload" };
+  if (segments.length === 1 && segments[0] === "models") return { kind: "models" };
   if (segments.length === 2 && segments[0] === "candidate-file") return { kind: "file", candidateId: segments[1]! };
   if (segments.length === 2 && ["approve", "reject", "promote"].includes(segments[1]!)) {
     return { kind: "action", candidateId: segments[0]!, action: segments[1] as "approve" | "reject" | "promote" };
@@ -739,6 +742,13 @@ function promotedEntry(location: CandidateLocation, manifest: AssetManifest, inp
     if (["x", "y", "z"].every(key => typeof base[key] === "number" && Number.isFinite(base[key]))) entry.base = { x: base.x as number, y: base.y as number, z: base.z as number };
   }
   if (typeof source.groundY === "number" && Number.isFinite(source.groundY)) entry.groundY = source.groundY;
+  // The browser's measurement (`render/measureModel.ts`) is the build's: world-space bounds through
+  // node transforms, and clip lengths. It replaces the accessor-only size read at upload.
+  if (isObject(source.size) && isObject(source.base)) {
+    const size = source.size;
+    if (["x", "y", "z"].every(key => typeof size[key] === "number" && Number.isFinite(size[key]) && (size[key] as number) >= 0)) entry.size = { x: size.x as number, y: size.y as number, z: size.z as number };
+  }
+  for (const key of ["walkClipSeconds", "runClipSeconds"] as const) if (typeof source[key] === "number" && Number.isFinite(source[key]) && (source[key] as number) > 0) entry[key] = source[key] as number;
   return { entry, pack, assetId, file };
 }
 
@@ -838,6 +848,73 @@ async function promote(
   }
 }
 
+/** Packs a devdocs model upload creates in the repository manifest carry this source. */
+export const DEVDOCS_UPLOAD_SOURCE = "devdocs upload";
+
+/** `POST /__devdocs/assets/models`: `{ entry }` adds or replaces an uploaded model, `{ remove: id }` removes one. */
+export interface RepoModelRequest { entry?: AssetEntry; remove?: string }
+export interface RepoModelResponse { asset?: AssetEntry; removed?: string; footprint?: number }
+
+/**
+ * Repo mode's half of a model upload. The GLB is already in `game/public/assets/models/...` (written
+ * by `putFiles`); this adds its measured entry to `manifest.json`, which is what the build, the world
+ * bake and the content check read, under a pack whose source says it came from here, so
+ * `tools/build-assets.ts` keeps the row as an external one. A character or outfit model gets its line in
+ * `ENCOUNTER_ASSET_RADII`, so a creature can stand on it. Only models uploaded here are replaced or
+ * removed: the asset pipeline owns every other row.
+ */
+async function saveRepoModel(body: unknown, publicRoot: string, repositoryRoot: string, actor: string, at: string): Promise<AssetsHandlerResponse> {
+  const request = (isObject(body) ? body : {}) as RepoModelRequest;
+  const manifestPath = await safeWritablePath(publicRoot, "manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as AssetManifest & { assets: (AssetEntry & { sha256?: string })[] };
+  const uploaded = (packId: string) => manifest.packs.find(pack => pack.id === packId)?.source === DEVDOCS_UPLOAD_SOURCE;
+  if (typeof request.remove === "string") {
+    const existing = manifest.assets.find(entry => entry.id === request.remove);
+    if (!existing) return failure(404, `No model ${request.remove} in the manifest`);
+    if (!uploaded(existing.pack)) return failure(409, `${existing.id} comes from the asset pipeline; remove it there`);
+    const assets = manifest.assets.filter(entry => entry.id !== existing.id);
+    const packs = manifest.packs.filter(pack => pack.id !== existing.pack || assets.some(entry => entry.pack === pack.id));
+    await atomicReplaceFile(manifestPath, formatContentJson({ ...manifest, generatedAt: at, packs, assets }));
+    await unlink(await safeWritablePath(publicRoot, existing.file)).catch(() => undefined);
+    return json(200, { removed: existing.id } satisfies RepoModelResponse);
+  }
+  const problem = overlayEntryProblem(request.entry);
+  if (problem) return failure(400, `A model entry is invalid: ${problem}`);
+  const entry = request.entry!;
+  const existing = manifest.assets.find(row => row.id === entry.id);
+  if (existing && !uploaded(existing.pack)) return failure(409, `${entry.id} comes from the asset pipeline; choose another id`);
+  const pack = manifest.packs.find(row => row.id === entry.pack);
+  if (pack && pack.source !== DEVDOCS_UPLOAD_SOURCE) return failure(409, `Pack ${entry.pack} belongs to the asset pipeline; choose another pack`);
+  const owner = manifest.assets.find(row => row.file === entry.file && row.id !== entry.id);
+  if (owner) return failure(409, `${entry.file} already belongs to ${owner.id}`);
+  let bytes: Buffer;
+  try { bytes = await readFile(await safeWritablePath(publicRoot, entry.file)); }
+  catch { return failure(409, `Store ${entry.file} before adding its entry`); }
+  if (bytes.length !== entry.bytes) return failure(409, `${entry.file} is ${bytes.length} bytes; the entry measured ${entry.bytes}`);
+  const row = { ...entry, sha256: createHash("sha256").update(bytes).digest("hex").toUpperCase() };
+  const assets = existing ? manifest.assets.map(asset => asset.id === entry.id ? row : asset) : [...manifest.assets, row];
+  const packs = pack ? manifest.packs : [...manifest.packs, { id: entry.pack, name: entry.pack, author: actor, source: DEVDOCS_UPLOAD_SOURCE, license: "Project-owned" }];
+  const retired = existing && existing.pack !== entry.pack && !assets.some(asset => asset.pack === existing.pack);
+  await atomicReplaceFile(manifestPath, formatContentJson({ ...manifest, generatedAt: at, packs: retired ? packs.filter(row => row.id !== existing.pack) : packs, assets }));
+  const footprint = entry.category === "character" || entry.category === "outfit" ? await recordFootprint(repositoryRoot, entry) : undefined;
+  return json(existing ? 200 : 201, { asset: row, ...(footprint === undefined ? {} : { footprint }) } satisfies RepoModelResponse);
+}
+
+/** One line of `ENCOUNTER_ASSET_RADII` for a model, added or replaced; the rest of the table is untouched. */
+async function recordFootprint(repositoryRoot: string, entry: AssetEntry): Promise<number> {
+  const file = await safeWritablePath(repositoryRoot, "game/src/content/encounterFootprints.ts");
+  const text = await readFile(file, "utf8");
+  const radius = footprintRadius(entry.size), eol = text.includes("\r\n") ? "\r\n" : "\n";
+  const lines = text.split(eol), key = `  ${JSON.stringify(entry.id)}: `, line = `${key}${radius},`;
+  const at = lines.findIndex(row => row.startsWith(key));
+  const end = lines.lastIndexOf("};");
+  if (at < 0 && end < 0) throw new AssetsActionError(500, "encounterFootprints.ts has no table to add to");
+  if (at >= 0) lines[at] = line; else lines.splice(end, 0, line);
+  const next = lines.join(eol);
+  if (next !== text) await atomicReplaceFile(file, next);
+  return radius;
+}
+
 export function createAssetsHandler(options: AssetsHandlerOptions = {}): AssetsHandler {
   const contentRoot = path.resolve(options.contentRoot ?? path.join(defaultRepoRoot, "game", "content"));
   const repositoryRoot = path.resolve(options.repoRoot ?? (options.contentRoot ? path.join(contentRoot, "..", "..") : defaultRepoRoot));
@@ -874,6 +951,11 @@ export function createAssetsHandler(options: AssetsHandlerOptions = {}): AssetsH
        if (bytes.length !== locations[0]!.candidate.bytes || createHash("sha256").update(bytes).digest("hex") !== locations[0]!.candidate.sha256) return failure(409, "Candidate file no longer matches its metadata");
         return { status: 200, headers: { "Content-Type": locations[0]!.candidate.kind === "icon" ? "image/png" : "model/gltf-binary", "Cache-Control": "no-store" }, body: bytes };
       } catch (error) { if (error instanceof AssetsActionError) return failure(error.status, error.message); if ((error as NodeJS.ErrnoException).code === "ENOENT") return failure(404, "Candidate file unavailable"); throw error; }
+    }
+    if (selected.kind === "models") {
+      if (method !== "POST") return failure(405, "Method not allowed", { Allow: "POST" });
+      try { return await withFileLock(await safeWritablePath(publicRoot, "manifest.json"), () => saveRepoModel(request.body, publicRoot, repositoryRoot, actor, now())); }
+      catch (error) { if (error instanceof AssetsActionError) return failure(error.status, error.message); throw error; }
     }
     if (selected.kind === "upload") {
       if (method !== "PUT" && method !== "POST") return failure(405, "Method not allowed", { Allow: "PUT, POST" });

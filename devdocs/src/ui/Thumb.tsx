@@ -5,6 +5,7 @@ import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellI
 import { WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
 import { can } from "../api/backend.js";
 import { gameUrl } from "../model/gameUrl.js";
+import { gameFileUrl, serverFileSha } from "../model/serverFiles.js";
 import { IMAGE_BOX, cropPosition, onDrawnMap } from "../model/worldMap.js";
 import type { ThumbSpec } from "../model/summaries.js";
 import { useAssetThumbnail } from "./assetThumbnails.js";
@@ -19,9 +20,12 @@ export type ThumbSize = "s" | "m" | "l" | "xl" | "fill";
 export function itemIconSource(id: string, large = false): string | undefined {
   const url = itemIconUrl({ id } as NonNullable<Parameters<typeof itemIconUrl>[0]>);
   if (!url) return undefined;
-  // The master icon is a bigger source file that only the checkout holds; everywhere else takes the
-  // shipped icon from the asset host.
-  return large && can("assets") ? `/__devdocs/icons/${url.split("/").at(-1)}` : gameUrl(url);
+  // The 256 master: the checkout's source file in repo mode, the server's stored one on a live server.
+  // Otherwise the shipped icon, from the server's own files when it replaced it, else the asset host.
+  if (large && can("assets")) return `/__devdocs/icons/${url.split("/").at(-1)}`;
+  const master = url.replace("/items/48/", "/items/256/");
+  if (large && serverFileSha(master)) return gameFileUrl(master);
+  return gameFileUrl(url);
 }
 
 function ItemImage({ id, alt, large }: { id: string; alt: string; large: boolean }) {

@@ -1,19 +1,20 @@
 /**
- * Devdocs skin and image-generation API. Repo editor only (loopback).
+ * Skins and image jobs, the same in both devdocs modes (`backend()` picks the routes).
  *
- *   POST /__devdocs/skins               SaveSkinRequest      -> SaveSkinResponse
- *     Writes each map to `game/public/assets/skins/<assetId>/<skinId>/<material>.png` and upserts
- *     the `creatureSkins` record in one step. A new id is derived from the name when `skinId` is absent.
- *     With `merge` and an existing `skinId`, only the maps sent are replaced; the skin's other maps,
- *     kind, prompt and createdAt stay. A hand upload (`kind` "upload") into a generated, recolored
- *     or source skin lists the replaced material in `uploaded`; an upload skin is all hand-made already.
- *   POST /__devdocs/imagegen            ImagegenRequest      -> { job: ImagegenJob }
- *   GET  /__devdocs/imagegen            -> { jobs: ImagegenJob[] }        newest first
- *   GET  /__devdocs/imagegen/<jobId>    -> { job: ImagegenJob }
- *   POST /__devdocs/imagegen/<jobId>    -> { job: ImagegenJob }   retry a failed job; painted maps are reused
- *     A job asks the configured image model (Codex CLI by default; `DEVDOCS_IMAGEGEN_COMMAND`
- *     overrides) to repaint each reference albedo map from the prompt while keeping its UV layout.
- *     A finished job saves its result as an `imagegen` skin and names it in `skinId`.
+ * Saving a skin is two steps: `backend().putFiles` stores each map at
+ * `assets/skins/<assetId>/<skinId>/<material>.png` (the checkout's `game/public` in repo mode, the
+ * server's file store on a live server), then a normal content save upserts the `creatureSkins` row.
+ * `SaveSkinRequest` describes that row: with `merge` and an existing `skinId` only the maps sent are
+ * replaced and the skin's other maps, kind, prompt and createdAt stay; a hand upload into a
+ * generated, recolored or source skin lists the replaced material in `uploaded`.
+ *
+ * Image jobs: repo `/__devdocs/imagegen`, server `/admin/imagegen` (offered when the server config
+ * has an `imagegen` block).
+ *   POST .../imagegen            ImagegenRequest -> { job }     GET .../imagegen -> { jobs } newest first
+ *   GET  .../imagegen/<jobId>    -> { job }                     POST .../imagegen/<jobId> -> retry a failed job
+ * A job runs the configured image model (Codex CLI by default) per reference, keeps the UV layout,
+ * stores its outputs and, for a skin, publishes the `creatureSkins` row; painted maps survive a
+ * failed save so a retry reuses them. Runner: `game/src/multiplayer/imagegenRunner.ts`.
  */
 import type { CreatureSkin } from "../../game/src/content/schema/creatureSkins.js";
 

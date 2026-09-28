@@ -9,11 +9,8 @@ import {
   itemIconAssetIds,
 } from "../game/src/render/itemIconAppearances.js";
 import { itemIconUrl } from "../game/src/ui/itemIcons.js";
-import {
-  ITEM_ICON_GAME_SIZE,
-  ITEM_ICON_MASTER_SIZE,
-  itemIconFiles,
-} from "../tools/generate-item-icons.js";
+import { ITEM_ICON_GAME_SIZE, ITEM_ICON_MASTER_SIZE } from "../game/src/content/itemIconArt.js";
+import { itemIconFiles } from "../tools/generate-item-icons.js";
 import { isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
 import { readIconMaster } from "../devdocs/server/handlers/icons.js";
 

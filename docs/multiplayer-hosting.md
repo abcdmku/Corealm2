@@ -325,6 +325,22 @@ A connected game client shows one line at the top of the screen, "The server's c
 
 A server that sets `assetBaseUrl` puts it on every world descriptor it publishes, so `/worlds` and the join reply both carry it. The client loads its whole public file tree from that base: the asset manifest, models, textures, icons, the display font, sound and the generated terrain, navmesh and world data. The client's own JavaScript and CSS stay on the origin the page was served from. Cross-origin hosting needs `Access-Control-Allow-Origin` on every one of those files; the world map images and the asset image loader request them in CORS mode so the map canvas stays readable.
 
+### Files a server adds
+
+A server keeps the files its authors add from devdocs (creature skin maps, item icons, models, audio,
+thumbnails) in `<data>/content-assets/` and serves them itself at `/content-assets/<path>`, with an
+index at `/content-assets/index.json`. `/worlds`, the join reply and `GET /admin/info` carry
+`contentAssetUrl`; a client resolves any path in that index from the server ahead of `assetBaseUrl`.
+Devdocs writes them through `POST /admin/files` (`content:publish`). Models are listed in
+`assets/manifest.overlay.json` in the same store and merge over the host's manifest by id, so a
+publish accepts them and creatures on them get their footprint from the stored measurements. Behind a
+reverse proxy, forward `/content-assets/` to the game server as you do `/catalog/`.
+
+Image jobs (creature skins, item icons) run on the server's host when `corealm-server.json` has an
+`imagegen` block: `{ "command"?: string, "effort"?: string, "timeoutMinutes"?: number }`. `{}` runs
+the Codex CLI (`codex exec`) at medium effort; `command` is a shell template with `{reference}`
+`{output}` `{prompt_file}` `{cwd}`. Without the block devdocs does not offer generation.
+
 For a server that serves devdocs at `/admin`, set `assetBaseUrl` to the root of the published game files, including its trailing slash. The game server does not serve models, icons, maps or audio. If every image is missing, check `GET /admin/info`: a null `assetBaseUrl` makes the editor look beside `/admin/`, where those files do not exist. Set the URL, restart the server and reload the editor. The asset host must allow cross-origin reads for its manifest and models. Server-mode creature and model thumbnails render in the browser and do not need the repository thumbnail cache.
 
 Boot picks the asset host once, before the first file is requested, from the worlds it discovered. All worlds a page can see must therefore agree on it; a world that names a different host is refused with an incompatible-world message, because a session cannot move hosts without reloading. A page with no server can set `window.__COREALM_ASSET_BASE__` before the game module, which wins over any world's answer and disables that check. With none of this configured the client uses relative paths exactly as before, which is what the GitHub Pages build needs.

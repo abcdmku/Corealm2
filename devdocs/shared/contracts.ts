@@ -34,10 +34,6 @@ export interface ContentTransactionResponse {
 export type BulkAction = { kind: 'status'; status: 'draft' | 'candidate' | 'rejected' }
   | { kind: 'note'; text: string; label?: string }
   | { kind: 'retier'; tier: number };
-export interface BulkRequest {
-  operation: 'preview' | 'apply'; collection: string; recordIds: string[]; action: BulkAction;
-  revisions?: { content: string; meta?: string };
-}
 export interface BulkResponse {
   collection: string; recordIds: string[]; action: BulkAction;
   revisions: { content: string; meta?: string };

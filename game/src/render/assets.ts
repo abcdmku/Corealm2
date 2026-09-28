@@ -12,6 +12,7 @@ import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./core
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { assetBaseUrl, assetManifestUrl, contentAssetOverride } from "../app/config.js";
+import { mergeManifestEntries } from "./manifestOverlay.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { mirrorAnimationClip } from "./skinning.js";
 import { configureAssetDelivery, deliveryUrl, usesMobileAssets } from './assetDelivery.js';
@@ -385,6 +386,24 @@ function* prepareImportedMaterials(roots: readonly THREE.Object3D[]): Generator<
 
 let meshoptWorkersStarted = false;
 
+/**
+ * Models the page's server adds over the host manifest (`CONTENT_MANIFEST_OVERLAY`, parsed by
+ * `render/manifestOverlay.ts`). Every registry in the page merges it by id, the way every URL in the
+ * page already follows the joined server's files (`app/config.ts`). A game client sets it on joining
+ * a server (`app/contentAssetOverlay.ts`); devdocs in server mode sets it with `fileUrl`, because its
+ * registries do not use `config.ts`'s file overlay. Null restores the host manifest alone.
+ */
+let manifestOverlay: readonly AssetEntry[] = [];
+let manifestOverlayFileUrl: ((path: string) => string | null) | undefined;
+let manifestOverlayRevision = 0;
+export function setManifestOverlay(overlay: { entries: readonly AssetEntry[]; fileUrl?: (path: string) => string | null } | null): void {
+  manifestOverlay = overlay?.entries ?? [];
+  manifestOverlayFileUrl = overlay?.fileUrl;
+  manifestOverlayRevision++;
+}
+/** The overlay entries in use, in overlay order. */
+export function manifestOverlayEntries(): readonly AssetEntry[] { return manifestOverlay; }
+
 export class AssetRegistry {
   constructor(private readonly urls: AssetRegistryOptions = {}) {
     // The decoder's async API otherwise runs WASM in a main-thread promise continuation.
@@ -396,8 +415,29 @@ export class AssetRegistry {
   }
   /** The assets directory this registry loads from, trailing slash included. */
   get baseUrl(): string { return this.urls.assetBaseUrl ?? assetBaseUrl(); }
-  private manifest: AssetManifest | null = null;
-  private byId = new Map<string, AssetEntry>();
+  /** The asset host's manifest as loaded. What callers see is `manifest`: this with the page's overlay over it. */
+  private host: AssetManifest | null = null;
+  private merged: { revision: number; manifest: AssetManifest | null; byId: Map<string, AssetEntry> } = { revision: -1, manifest: null, byId: new Map() };
+  private get current(): { manifest: AssetManifest | null; byId: Map<string, AssetEntry> } {
+    if (this.merged.revision !== manifestOverlayRevision) this.merge();
+    return this.merged;
+  }
+  private get manifest(): AssetManifest | null { return this.current.manifest; }
+  private get byId(): Map<string, AssetEntry> { return this.current.byId; }
+  /**
+   * The host manifest with the overlay's entries over it by id. An overlay id a built asset owns is
+   * ignored: a server's file cannot shadow a procedural mesh. A cached group whose entry changed is
+   * dropped, so the next load reads the new file.
+   */
+  private merge(): void {
+    const previous = this.merged.byId;
+    const overlay = manifestOverlay.filter(entry => !this.built.has(entry.id));
+    const manifest = this.host && (overlay.length ? { ...this.host, assets: mergeManifestEntries(this.host.assets, overlay) } : this.host);
+    const byId = new Map((manifest?.assets ?? []).map(entry => [entry.id, entry] as const));
+    const same = (a: AssetEntry | undefined, b: AssetEntry) => a?.file === b.file && a.bytes === b.bytes;
+    for (const [id, entry] of previous) if (!same(byId.get(id), entry) && !this.inflight.has(id)) this.loaded.delete(id);
+    this.merged = { revision: manifestOverlayRevision, manifest, byId };
+  }
   private readonly textureCache = new AssetTextureCache();
   private loader = new GLTFLoader(this.textureCache.manager).setMeshoptDecoder(MeshoptDecoder);
   /** Fetches model bytes through the same manager before gameplay pacing starts parsing them. */
@@ -472,8 +512,6 @@ export class AssetRegistry {
     if (!response.ok) throw new Error(`Asset manifest failed at ${url}: ${response.status} ${response.statusText}`);
     const manifest = (await response.json()) as AssetManifest;
     configureAssetDelivery(this.urls.assetBaseUrl ?? assetBaseUrl(), manifest.compactTextures, manifest.optimizedTextures);
-    this.manifest = manifest;
-    this.byId.clear();
     for (const entry of manifest.assets) {
       // The other half of `registerBuilt`'s guard. Built assets are registered at boot, before this
       // fetch resolves, so their own collision check runs against an empty map. If a future
@@ -482,9 +520,10 @@ export class AssetRegistry {
       if (this.built.has(entry.id)) {
         throw new Error(`Manifest asset id collides with a procedurally built asset: ${entry.id}`);
       }
-      this.byId.set(entry.id, entry);
     }
-    return manifest;
+    this.host = manifest;
+    this.merged.revision = -1;
+    return this.manifest!;
   }
 
   getManifest(): AssetManifest | null {
@@ -843,7 +882,7 @@ export class AssetRegistry {
         const baseUrl = this.urls.assetBaseUrl ?? assetBaseUrl();
         const file = entry.file.replace(/^\/+/, "");
         // A model the joined server stores replaces the host's, and the host's compact copy with it.
-        const served = contentAssetOverride(`assets/${file}`);
+        const served = contentAssetOverride(`assets/${file}`) ?? manifestOverlayFileUrl?.(`assets/${file}`) ?? null;
         const url = served ?? `${baseUrl}${file}`;
         const gltf = entry.compactFile && !served ? await (async () => {
           const response = await fetch(`${baseUrl}${entry.compactFile}`);

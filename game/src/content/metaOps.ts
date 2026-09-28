@@ -284,6 +284,8 @@ export function replyToRequest(records: MetaFile, input: RequestActionInput & { 
 
 const nonblank = refine(str({ nonEmpty: true }), value => value.trim().length > 0, "must not be blank");
 const authoringStatus = enumOf(["draft", "candidate", "rejected"] as const);
+export const ICON_STATUSES = ["candidate", "approved", "rejected"] as const;
+export type IconStatus = (typeof ICON_STATUSES)[number];
 const operationSchema = discriminated("kind", {
   status: obj({ kind: enumOf(["status"] as const), status: authoringStatus }),
   note: obj({ kind: enumOf(["note"] as const), text: nonblank, label: opt(str()) }),
@@ -294,6 +296,10 @@ const operationSchema = discriminated("kind", {
   // `verdict: "clear"` removes a verdict; an absent verdict leaves it. `key` absent targets the record.
   art: refine(obj({ kind: enumOf(["art"] as const), key: opt(str({ pattern: /^[a-z]+:[A-Za-z0-9_.-]+$/ })), verdict: opt(enumOf([...ART_VERDICTS, "clear"] as const)), note: opt(str()) }),
     value => value.note !== undefined || value.verdict !== undefined, "art requires verdict or note"),
+  // An item's icon: `candidate` records newly stored art and its provenance; `approved` / `rejected` review it.
+  icon: refine(obj({ kind: enumOf(["icon"] as const), status: enumOf(ICON_STATUSES), prompt: opt(str()), sha256: opt(str({ pattern: /^[a-f0-9]{64}$/ })), generatedAt: opt(Timestamp) }),
+    value => value.status === "candidate" ? value.sha256 !== undefined : value.prompt === undefined && value.sha256 === undefined && value.generatedAt === undefined,
+    "a candidate icon names its sha256; a review carries no provenance"),
 });
 const patchSchema = obj({ revision: str({ pattern: /^[a-f0-9]{64}$/ }), operation: operationSchema });
 export type MetaPatch = Infer<typeof patchSchema>;
@@ -389,6 +395,17 @@ export function applyMetaOperation(records: MetaFile, collection: string, entity
     art.at = at; art.by = actor;
     if (!art.verdict && !art.note && !Object.keys(art.checks ?? {}).length) delete record.art;
     record.history.push({ at, by: actor, action: "art.review", detail: `${operation.key ?? "record"}${operation.verdict ? ` ${operation.verdict}` : ""}` });
+  } else if (operation.kind === "icon") {
+    if (operation.status === "candidate") {
+      // New art replaces the provenance of the old; it waits for review again.
+      record.icon = { status: "candidate", sha256: operation.sha256!,
+        ...(operation.prompt === undefined ? {} : { prompt: operation.prompt }),
+        ...(operation.generatedAt === undefined ? {} : { generatedAt: operation.generatedAt }) };
+    } else {
+      const { approvedAt: _approvedAt, ...icon } = record.icon ?? {};
+      record.icon = { ...icon, status: operation.status, ...(operation.status === "approved" ? { approvedAt: at } : {}) };
+    }
+    record.history.push({ at, by: actor, action: `icon.${operation.status}`, ...(record.icon.sha256 ? { detail: record.icon.sha256 } : {}) });
   } else {
     if (collection !== "equipmentSets") throw new MetaActionError(400, "Piece notes are available only for equipment sets");
     const members = authored?.members;

@@ -1,6 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, LayoutGrid, List } from "lucide-react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { ExternalLink, LayoutGrid, List, Server, Trash2, UploadCloud } from "lucide-react";
+import { toast } from "sonner";
+import type { AssetEntry } from "../../../../game/src/render/assets.js";
+import { can } from "../../api/backend.js";
+import { incomingReferences, useReferenceIndex } from "../../model/refs.js";
+import { serverModels, subscribeServerModels } from "../../viewer/registry.js";
+import { ModelUpload } from "./ModelUpload.js";
+import { removeModel } from "./modelStore.js";
 import assetReviewStatus from "../../../../docs/asset-review.md?raw";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
@@ -20,7 +27,23 @@ import { cn } from "../../lib/utils.js";
 import { COUNT, EMPTY, PAGE as PAGE_FRAME, RAIL_BLOCK, TOOLBAR } from "../../ui/layout.js";
 import { TileGrid, tileArtClasses, tileClasses, tileSubtitleClasses, tileTitleClasses } from "../../ui/RecordTile.js";
 
-interface Asset extends ContentRow { id: string; file?: string; pack?: string; category?: string; is?: string; tags?: string[]; bytes?: number; size?: { x: number; y: number; z: number }; animations?: string[]; materials?: string[]; procedural?: boolean; itemId?: string }
+interface Asset extends ContentRow { id: string; file?: string; pack?: string; category?: string; is?: string; tags?: string[]; bytes?: number; size?: { x: number; y: number; z: number }; animations?: string[]; materials?: string[]; procedural?: boolean; itemId?: string; origin?: "server" }
+
+/**
+ * The asset catalog with the live server's own models over it by id (`viewer/registry.ts` reads its
+ * overlay), each marked `origin: "server"`. In the repository an upload is part of the manifest.
+ */
+function useAssetRows() {
+  const query = useQuery(collectionQuery("assets"));
+  const overlay = useSyncExternalStore(subscribeServerModels, serverModels);
+  const rows = useMemo(() => {
+    const host = (query.data ? contentRows(query.data) : []) as Asset[];
+    if (!overlay.length) return host;
+    const own = new Map(overlay.map(entry => [entry.id, { ...entry, origin: "server" as const } as unknown as Asset]));
+    return [...host.map(row => own.get(row.id) ?? row), ...[...own.values()].filter(row => !host.some(other => other.id === row.id))];
+  }, [query.data, overlay]);
+  return { query, rows };
+}
 
 const PAGE = 96;
 
@@ -161,13 +184,13 @@ function readView(): "grid" | "list" {
 }
 
 function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
-  const query = useQuery(collectionQuery("assets"));
+  const { query, rows } = useAssetRows();
+  const [uploading, setUploading] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [pack, setPack] = useState("");
   const [view, setView] = useState<"grid" | "list">(readView);
   const [limit, setLimit] = useState(PAGE);
-  const rows = useMemo(() => (query.data ? contentRows(query.data) : []) as Asset[], [query.data]);
   const categories = useMemo(() => count(rows.map(row => categoryOf(row))), [rows]);
   const packs = useMemo(() => count(rows.map(row => text(row.pack) ?? "procedural")), [rows]);
   const filtered = useMemo(() => {
@@ -191,16 +214,18 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
       <span className={tileArtClasses(list)}><AssetArt asset={row} list={list} /></span>
       <span className={cn("flex min-w-0", list ? "flex-1 flex-row items-center gap-2" : "flex-col gap-0.5")}>
         <span className={cn(tileTitleClasses(list), list && "min-w-50")} title={row.id}>{titleCase(row.id)}</span>
-        <Facts className={cn(tileSubtitleClasses(list), "flex-nowrap", list && "flex-none")} items={[titleCase(categoryOf(row)), text(row.pack)]} />
+        <Facts className={cn(tileSubtitleClasses(list), "flex-nowrap", list && "flex-none")} items={[row.origin === "server" && <ServerMark key="origin" />, titleCase(categoryOf(row)), text(row.pack)]} />
         {list && <span className={cn(tileSubtitleClasses(list), "font-mono text-faint")}>{text(row.file) ?? ""}</span>}
       </span>
     </div>;
   });
   return <div className={PAGE_FRAME}>
     <TripoProgress />
+    {uploading && <ModelUpload onClose={() => setUploading(false)} onSaved={entry => { setUploading(false); open(entry.id); }} />}
     <div className={TOOLBAR}>
       <SearchInput label="Search models" shortcut placeholder="Search id, file, tag…" value={search} onChange={setSearch} onEnter={() => { const first = filtered[0]; if (first) open(first.id); }} />
       <span className={COUNT}>{filtered.length === rows.length ? rows.length : `${filtered.length} of ${rows.length}`}</span>
+      {can("files") && !uploading && <Button variant="secondary" size="xs" onClick={() => setUploading(true)}><UploadCloud />Upload model</Button>}
       {import.meta.env.DEV && <Button asChild variant="secondary" size="xs" title="Start npm run assets:review, then inspect current and staged models">
         <a href="http://127.0.0.1:4186/review/" target="_blank" rel="noreferrer"><ExternalLink />Asset review</a>
       </Button>}
@@ -246,9 +271,10 @@ const NAME = "min-h-[22px] min-w-0 truncate leading-[22px] text-muted-foreground
 
 /** Assets are read-only here: the page reads the collection, it does not open a draft. */
 function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
-  const query = useQuery(collectionQuery("assets"));
+  const { query, rows } = useAssetRows();
   const creatures = useCreatureData();
-  const asset = useMemo(() => (query.data ? contentRows(query.data) : []).find(row => String(row.id) === id) as Asset | undefined, [query.data, id]);
+  const asset = useMemo(() => rows.find(row => String(row.id) === id), [rows, id]);
+  const [replacing, setReplacing] = useState(false);
   // Creatures that wear this model: a character body is reviewed in the art workspace.
   const wearers = useMemo(() => creatureBodies(creatures.creatures).find(body => body.assetId === id)?.looks ?? [], [creatures.creatures, id]);
   if (query.isPending) return <div className={PAGE_FRAME}><LoadingRows /></div>;
@@ -274,7 +300,10 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
   return <RecordShell
     thumb={asset.itemId ? { kind: "item", id: asset.itemId } : undefined}
     title={titleCase(id)} id={id} rail={rail}
-    facts={[titleCase(categoryOf(asset)), text(asset.pack), animations.length > 0 && `${animations.length} animation${animations.length === 1 ? "" : "s"}`]}>
+    facts={[asset.origin === "server" && <ServerMark key="origin" />, titleCase(categoryOf(asset)), text(asset.pack), animations.length > 0 && `${animations.length} animation${animations.length === 1 ? "" : "s"}`]}>
+    {asset.origin === "server" && (replacing
+      ? <ModelUpload replacing={asset as unknown as AssetEntry} onClose={() => setReplacing(false)} onSaved={() => setReplacing(false)} />
+      : <ServerModelActions id={id} onReplace={() => setReplacing(true)} onRemoved={() => navigate("assets")} />)}
     <Sheet>
       <Section title="File">
         <Field label="File"><Static mono>{text(asset.file) ?? "—"}</Static></Field>
@@ -292,6 +321,37 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
       ]} />
     </Sheet>
   </RecordShell>;
+}
+
+function ServerMark() {
+  return <Badge variant="info" className="h-4 gap-0.5 px-1 text-[10px]" title="Added on this server; not part of the base game"><Server size={9} />Server</Badge>;
+}
+
+/** Replace or remove a model this server added. Removing waits until no content names it. */
+function ServerModelActions({ id, onReplace, onRemoved }: { id: string; onReplace(): void; onRemoved(): void }) {
+  const queryClient = useQueryClient();
+  const { index, loading } = useReferenceIndex();
+  const users = useMemo(() => incomingReferences(index, "assets", id), [index, id]);
+  const [removing, setRemoving] = useState(false);
+  const blocked = loading ? "Checking what uses this model…" : users.length ? `Used by ${users.length} record${users.length === 1 ? "" : "s"}: ${users.slice(0, 3).map(user => user.recordId).join(", ")}${users.length > 3 ? "…" : ""}. Point them at another model first.` : undefined;
+  async function remove() {
+    setRemoving(true);
+    try {
+      await removeModel(id);
+      await queryClient.invalidateQueries({ queryKey: ["collection", "assets"] });
+      toast.success(`Removed ${id}`); onRemoved();
+    } catch (error) { toast.error(error instanceof Error ? error.message : String(error)); }
+    finally { setRemoving(false); }
+  }
+  return <div className="mb-3 flex flex-wrap items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs" data-role="server-model">
+    <Server size={13} className="text-muted-foreground" />
+    <span className="text-muted-foreground">This server added this model. Players load it from the server after joining.</span>
+    <span className="ml-auto flex gap-1">
+      {can("files") && <Button variant="secondary" size="xs" onClick={onReplace}><UploadCloud />Replace</Button>}
+      {can("files") && <Button variant="destructive" size="xs" disabled={Boolean(blocked) || removing} title={blocked} onClick={() => void remove()}><Trash2 />{removing ? "Removing…" : "Remove"}</Button>}
+    </span>
+    {blocked && !loading && <span className="basis-full text-[11px] text-warn">{blocked}</span>}
+  </div>;
 }
 
 const fmtM = (value: unknown): string => num(value) !== undefined ? String(Math.round(num(value)! * 100) / 100) : "?";

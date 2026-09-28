@@ -337,6 +337,8 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   }, 1000);
   directory?.sync();
   return { port: address.port, worlds, metrics, catalog, events, directory,
+    /** Publish, validate and rollback, for feature routes that publish on an author's behalf (image jobs). Null without admin storage. */
+    publisher,
     /** Each world as plain data, in either arrangement. With threads on it is at most a report old; `refresh` asks the worlds now. */
     status: (): WorldStatus[] => host.status(),
     refresh: async (): Promise<void> => { await threaded?.refresh(); },

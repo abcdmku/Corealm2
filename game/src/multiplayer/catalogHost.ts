@@ -69,7 +69,8 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
  *    `shops`, `enemies`), so the next kill, purchase or craft reads the new row;
  *  - `swapCatalog` refills the index that serves it (`compiledCreatures` and `species` through
  *    `reindexCreatures`, `world` through `reindexWorldContent`, `reindexHabitats` and each world's
- *    spawn plan, which takes effect creature by creature at the next respawn);
+ *    spawn plan, which takes effect creature by creature at the next respawn; people, dialogue,
+ *    quests, spells, sets and the tier tables through the same module refreshers a page runs);
  *  - nothing on the server reads the table while the game runs: it is an input the compiler folds
  *    into the tables above, or only a page reads it.
  *
@@ -94,22 +95,29 @@ export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">>
   // Only a page reads these. Skin rows are read through on every lookup (`creatureSkinById`): an individual rolled with a new skin
   // draws it once its maps load, from the server's asset store. The audio table is refilled on the page, so the next cue plays the new file.
   creatureSkins: "live", audio: "live",
-  // Resource nodes are world entities, built at start. Their names and tooltips change on a page at once; a node's yield and timing after a restart.
+  // Resource nodes are world entities, built at start: requirement, yield and respawn are stamped on each node, so those move
+  // after a restart. The rows themselves are refilled (the tier tables below derive from them), and a page's names and tooltips change at once.
   resources: "restart",
-  // The spell registry and the cast rules. The spellbook's names and descriptions change on a page at once; casting uses the new numbers after a restart.
-  spells: "restart", spellRunes: "restart", elementalSpells: "restart",
+  // The spell registry, refilled and registered again: the next cast uses the new numbers, runes and names. The agent's
+  // tool schema lists the spell ids it was started with, so a new spell reaches an agent after a restart.
+  spells: "live", spellRunes: "live", elementalSpells: "live",
   // The world's shape. Terrain, navmesh and map tiles are baked, and a page draws the baked pack: both move with a new bake (live-authoring wave 3).
   worldRegions: "restart", worldTerrain: "restart", resourcePlacements: "restart",
-  // NPC entities, their names over their heads and the conversations they hold are built at start. A page's journal and names in it change at once.
-  npcs: "restart", dialogue: "restart",
-  // Quest rules run on the server. A page's journal prose changes at once; stages, predicates and rewards after a restart.
-  quests: "restart",
-  // Tier tables behind gathering, smelting and crafting. A page's crafting and gathering guides change at once; the rules after a restart.
-  progression: "restart", materials: "restart", campfireFuels: "restart",
-  // Set bonuses. The equipment panel shows the new sets at once; the bonus applies after a restart.
-  equipmentSets: "restart",
-  // Balance numbers the server reads at import. A page keeps the build's gather and recipe XP previews (`content/index.ts` offers no refresh yet).
-  "balance/recipes": "restart", "balance/sets": "restart", "balance/formation": "restart", "balance/campfires": "restart",
+  // Who each person is (the speaker of their lines, their role and journal entry) and every dialogue node: the next line
+  // spoken reads the new row, and a conversation standing on a removed node ends. NPC entities (their names over their heads,
+  // positions, dialogue roots) come from the region stands in `worldRegions` and move after a restart.
+  npcs: "live", dialogue: "live",
+  // The quest system reads every quest, stage, predicate and reward on each event, and each NPC entity's quest list is
+  // derived from the table again. A player's saved progress keeps its stage index.
+  quests: "live",
+  // Tier tables behind gathering, smelting and crafting, refilled with the resources they read. A player keeps the campfire
+  // fuels of the moment they joined until they join again; what the tiers compile into (items, recipes) is live above.
+  progression: "live", materials: "live", campfireFuels: "live",
+  // Set bonuses are summed from the set table whenever a player's bonuses are computed: at the next equipment change.
+  equipmentSets: "live",
+  // Gather, heal and recipe XP read the recipe balance again. Nothing on the server reads the other three: they are
+  // authoring references for the formulas, and a page shows them at once.
+  "balance/recipes": "live", "balance/sets": "live", "balance/formation": "live", "balance/campfires": "live",
 };
 
 /** The active server catalog, parsed, ready for `installCatalog`. */
