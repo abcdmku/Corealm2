@@ -19,7 +19,7 @@ await mkdir(path.join(here,'textures'),{recursive:true});
 
 const variants=[
  {id:'creature_cairn_treader',source:'assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/creature_cairn_treader.glb',expected:'118d8e7328ecfc6eee2a0c20a18c92718fbe7f9db98adaffe4fc8cf688c5a2ba',tile:'cairn-imagegen.png',scale:[.5,.84,.9],blend:.62,contact:.3095238147949687,warp:{body:1.13,head:.9,arms:1,hands:1,legs:1.12},design:'compact broad-hipped cairn with intact native hands and recessed head'},
- {id:'creature_chalk_warden',source:'assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/creature_chalk_warden.glb',expected:'7449a44168b62ef14233c1378649d76d9399584c2957bda4e1a8ee3bdcc3888b',tile:'chalk-imagegen.png',scale:[.25,.9,.9],blend:.78,contact:.45,warp:{body:.86,head:2,arms:1,hands:1,legs:.85},design:'tall chalk column with flared capstone and intact native hands'},
+ {id:'creature_chalk_warden',source:'assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/creature_chalk_warden.glb',expected:'7449a44168b62ef14233c1378649d76d9399584c2957bda4e1a8ee3bdcc3888b',tile:'chalk-imagegen.png',scale:[1,1,1],blend:.78,contact:.45,warp:{body:.86,head:2,arms:1,hands:1,legs:.85},design:'broad chalk body with flared capstone and intact native hands'},
  {id:'creature_shale_elemental',source:'assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/stone-shalewake-native-rig-candidate.glb',expected:'30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e',tile:'shale-imagegen.png',scale:[2.25,2.25,2.25],blend:.28,contact:.58,design:'low four-legged stratified shale body'},
 ];
 const assets=[],promotion=[];

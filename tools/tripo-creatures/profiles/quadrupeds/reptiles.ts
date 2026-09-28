@@ -5,6 +5,8 @@ import { retargetCreatureMotion, type CreatureMotionProfile } from '../../retarg
 import { deformedBounds } from '../../../creature-motion/validate-deformation.js';
 import type { CreatureRepairContext, CreatureRepairResult } from '../../repairProfile.js';
 import { repairCinderAnatomy } from './cinderAnatomy.js';
+import { fitCinderFootMotion } from './cinderFootMotion.js';
+import { createSkinReader, setWorldQuaternion, solveTwoBone, worldQuaternion } from '../../../lib/ground-gait.js';
 
 export const assetIds = [
   'creature_cindercrest_salamander', 'creature_rimeback_tortoise', 'creature_quarry_nightmare',
@@ -144,11 +146,65 @@ function surfacePlaneNormal(points: Vector3[]) {
     return major.cross(secondary).normalize();
 }
 
+/** Fold disproportionately long limbs beside the corpse instead of supporting it. */
+function settleSalamanderLegs(doc: Document, donor: Document) {
+  const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!;
+  const sourceSeconds = duration(donor.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!);
+  const pose = storedPose(doc), ground = bone(doc, 'corealm_retarget_ground'), reader = createSkinReader(doc, 'CindercrestMesh');
+  const bodyNames = new Set(['Pelvis', 'Spine', 'Chest']);
+  const mass = (index: number, names: Set<string>) => reader.influences(index).reduce((sum, row) => sum + (names.has(row.node.getName()) ? row.weight : 0), 0);
+  const body = Array.from({ length: reader.count }, (_, index) => index).filter(index => mass(index, bodyNames) > .8);
+  const legs = ['FrontLeft', 'FrontRight', 'HindLeft', 'HindRight'].map(prefix => {
+    const node = bone(doc, prefix + 'Upper'), names = new Set(['Upper', 'Lower', 'Foot'].map(part => prefix + part));
+    return { prefix, node, indices: Array.from({ length: reader.count }, (_, index) => index).filter(index => mass(index, names) > .75),
+      output: clip.listChannels().find(channel => channel.getTargetNode() === node && channel.getTargetPath() === 'rotation')!.getSampler()!.getOutput()!, values: [] as number[][], maximumDegrees: 0 };
+  });
+  const groundSampler = clip.listChannels().find(channel => channel.getTargetNode() === ground && channel.getTargetPath() === 'translation')!.getSampler()!;
+  const times = groundSampler.getInput()!, groundValues: number[][] = [];
+  let bodyBefore = 0, bodyAfter = 0;
+  try {
+    for (let frame = 0; frame < times.getCount(); frame++) {
+      const time = times.getElement(frame, [] as number[])[0]!, t = Math.max(0, Math.min(1, (time / sourceSeconds - .2) / .55)), amount = t * t * (3 - 2 * t);
+      restorePose(pose); applyClip(clip, time);
+      const bodyFloor = Math.min(...reader.points(body).map(point => point.y));
+      if (frame === times.getCount() - 1) bodyBefore = bodyFloor;
+      for (const leg of legs) {
+        const original = worldQuaternion(leg.node), origin = position(leg.node), points = reader.points(leg.indices);
+        const radial = points.reduce((sum, point) => sum.add(point), new Vector3()).multiplyScalar(1 / points.length).sub(origin).setY(0).normalize();
+        const axis = radial.cross(new Vector3(0, 1, 0)).normalize();
+        let bestAngle = 0, bestFloor = Math.min(...points.map(point => point.y));
+        if (amount > 0 && bestFloor < bodyFloor + .004) {
+          for (let degrees = 1; degrees <= 90; degrees++) {
+            const angle = degrees * Math.PI / 180;
+            setWorldQuaternion(leg.node, original.clone().premultiply(new Quaternion().setFromAxisAngle(axis, angle)));
+            const floor = Math.min(...reader.points(leg.indices).map(point => point.y));
+            if (floor > bestFloor) { bestFloor = floor; bestAngle = angle; }
+            if (floor >= bodyFloor + .004) break;
+          }
+        }
+        leg.maximumDegrees = Math.max(leg.maximumDegrees, bestAngle * 180 / Math.PI);
+        setWorldQuaternion(leg.node, original.premultiply(new Quaternion().setFromAxisAngle(axis, bestAngle * amount)));
+        leg.values.push(leg.node.getRotation());
+      }
+      const correction = .003 - deformedBounds(doc).min[1]!;
+      groundValues.push([0, ground.getTranslation()[1] + correction, 0]);
+      if (frame === times.getCount() - 1) bodyAfter = Math.min(...reader.points(body).map(point => point.y)) + correction;
+    }
+    for (const leg of legs) leg.values.forEach((value, frame) => leg.output.setElement(frame, value));
+    groundValues.forEach((value, frame) => groundSampler.getOutput()!.setElement(frame, value));
+  } finally { restorePose(pose); }
+  return { startsNormalized: .2, completeNormalized: .75, bodyBefore, bodyAfter, limbs: legs.map(leg => ({ name: leg.prefix, maximumDegrees: leg.maximumDegrees })),
+    method: 'During Death only, fold the measured limb surfaces upward beside the native falling torso until they stop propping it up. Preserve native internal limb bends and segment lengths, then ground the actual skinned mesh.' };
+}
+
 /** Fit the native collapsed curl to the shorter, raised target tail. */
 function settleSalamanderTail(doc: Document, donor: Document, mapping: Record<string, string>) {
   const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!;
   const sourceClip = donor.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!, sourceSeconds = duration(sourceClip);
   const targetPose = storedPose(doc), donorPose = storedPose(donor), ground = bone(doc, 'corealm_retarget_ground');
+  const reader = createSkinReader(doc, 'CindercrestMesh'), bodyNames = new Set(['Pelvis', 'Spine', 'Chest']);
+  const body = Array.from({ length: reader.count }, (_, index) => index).filter(index =>
+    reader.influences(index).reduce((sum, row) => sum + (bodyNames.has(row.node.getName()) ? row.weight : 0), 0) > .8);
   const target = ['TailBase', 'TailMid', 'TailTip'].map(name => bone(doc, name)), source = target.map(node => bone(donor, mapping[node.getName()]!));
   const lengths = [position(target[0]!).distanceTo(position(target[1]!)), position(target[1]!).distanceTo(position(target[2]!))];
   const scale = (lengths[0]! + lengths[1]!) / (position(source[0]!).distanceTo(position(source[1]!)) + position(source[1]!).distanceTo(position(source[2]!)));
@@ -168,7 +224,8 @@ function settleSalamanderTail(doc: Document, donor: Document, mapping: Record<st
       restorePose(targetPose); applyClip(clip, time); restorePose(donorPose); applyClip(sourceClip, Math.min(time, sourceSeconds));
       const origin = position(target[0]!), first = position(source[1]!).sub(position(source[0]!)).normalize(), second = position(source[2]!).sub(position(source[1]!)).normalize();
       const end = origin.clone().addScaledVector(first, lengths[0]!).addScaledVector(second, lengths[1]!);
-      end.y = .003 + Math.max(.01, position(source[2]!).y - deformedBounds(donor).min[1]!) * scale;
+      const bodyFloor = Math.min(...reader.points(body).map(point => point.y));
+      end.y = bodyFloor + Math.max(.01, position(source[2]!).y - deformedBounds(donor).min[1]!) * scale;
       const direction = end.clone().sub(origin), distance = Math.max(Math.abs(lengths[0]! - lengths[1]!) + .0001,
         Math.min(lengths[0]! + lengths[1]! - .0001, direction.length())); direction.normalize();
       end.copy(origin).addScaledVector(direction, distance);
@@ -193,7 +250,7 @@ function settleSalamanderTail(doc: Document, donor: Document, mapping: Record<st
     groundValues.forEach((value, frame) => groundSampler.getOutput()!.setElement(frame, value));
   } finally { restorePose(targetPose); restorePose(donorPose); }
   return { startsNormalized: .2, completeNormalized: .8, sourceToTargetTailLengthScale: scale, targetSegmentLengths: lengths, tipBefore, tipAfter,
-    method: 'During Death only, solve the target tail segments toward the native curled shape and scaled native tip ground clearance. Preserve the actual attachment and segment lengths, then ground the skinned mesh.' };
+    method: 'During Death only, solve the target tail segments toward the native curled shape and scaled native tip clearance above the torso support plane. Preserve the actual attachment and segment lengths, then ground the skinned mesh.' };
 }
 
 /** The native mouth attack advances at Chest; its head has no translation track. */
@@ -226,6 +283,58 @@ function restoreDragonChestAttack(doc: Document, donor: Document) {
   return { state: 'Attack', source: 'Chest', target: 'Chest', sourceParent: sourceParent.getName(), targetParent: parent.getName(),
     sourceBodyLength, targetBodyLength, scale, maximumSourceDelta, maximumTargetDelta,
     method: 'Retain the authored Chest advance relative to its animated source parent, convert through canonical world space into the target parent basis, scale by measured body length, and recompute skinned grounding.' };
+}
+
+/** Preserve the full native neck sweep through the target's shorter, taller neck chain. */
+function restoreDragonNeckAttack(doc: Document, donor: Document) {
+  const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
+  const sourceClip = donor.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
+  const pose = storedPose(doc), sourcePose = storedPose(donor), ground = bone(doc, 'corealm_retarget_ground');
+  const upper = bone(doc, 'NeckBase'), lower = bone(doc, 'NeckMid'), head = bone(doc, 'Head'), chest = bone(doc, 'Chest');
+  const sourceHead = bone(donor, 'Head'), sourceChest = bone(donor, 'Chest');
+  const targetLength = length(doc, 'NeckBase', 'NeckMid') + length(doc, 'NeckMid', 'Head');
+  const sourceLength = length(donor, 'Neck01', 'Neck03') + length(donor, 'Neck03', 'Head'), scale = targetLength / sourceLength;
+  restorePose(pose); applyClip(clip, 0); restorePose(sourcePose); applyClip(sourceClip, 0);
+  const initialTarget = position(head).sub(position(chest)), initialSource = position(sourceHead).sub(position(sourceChest));
+  const initialAxis = position(head).sub(position(upper)).normalize(), initialPole = position(lower).sub(position(upper));
+  initialPole.addScaledVector(initialAxis, -initialPole.dot(initialAxis)).normalize();
+  restorePose(pose); restorePose(sourcePose);
+  const parts = [upper, lower, head].map(node => ({ node, values: [] as number[][],
+    output: clip.listChannels().find(channel => channel.getTargetNode() === node && channel.getTargetPath() === 'rotation')!.getSampler()!.getOutput()! }));
+  const groundSampler = clip.listChannels().find(channel => channel.getTargetNode() === ground && channel.getTargetPath() === 'translation')!.getSampler()!;
+  const times = groundSampler.getInput()!, groundValues: number[][] = [];
+  let maximumVerticalAccommodation = 0, maximumSolveError = 0, maximumHeadAdvance = -Infinity, maximumHeadAdvancePhase = 0;
+  try {
+    for (let frame = 0; frame < times.getCount(); frame++) {
+      const time = times.getElement(frame, [] as number[])[0]!;
+      restorePose(pose); applyClip(clip, time); restorePose(sourcePose); applyClip(sourceClip, time);
+      const headOrientation = worldQuaternion(head), sourceVector = position(sourceHead).sub(position(sourceChest));
+      const sweep = new Quaternion().setFromUnitVectors(initialSource.clone().normalize(), sourceVector.clone().normalize());
+      const goal = sourceVector.clone().sub(initialSource).multiplyScalar(scale).add(initialTarget).add(position(chest));
+      const hip = position(upper), direction = goal.clone().sub(hip);
+      const minimum = Math.abs(position(upper).distanceTo(position(lower)) - position(lower).distanceTo(position(head))) + .00001;
+      const horizontalSquared = direction.x ** 2 + direction.z ** 2, maximum = targetLength - .00001;
+      if (horizontalSquared >= maximum ** 2) throw new Error('Quarry native attack exceeds the measured horizontal neck reach');
+      // The tall target starts almost extended. Keep the native strike's X/Z
+      // travel and bend downward within its reach sphere instead of shortening
+      // that travel with a radial clamp or stretching either neck segment.
+      const maximumY = Math.sqrt(maximum ** 2 - horizontalSquared);
+      const minimumY = Math.sqrt(Math.max(0, minimum ** 2 - horizontalSquared));
+      const targetY = Math.sign(direction.y || 1) * Math.max(minimumY, Math.min(maximumY, Math.abs(direction.y)));
+      maximumVerticalAccommodation = Math.max(maximumVerticalAccommodation, Math.abs(targetY - direction.y));
+      goal.y = hip.y + targetY;
+      const solved = solveTwoBone(upper, lower, head, goal, hip.clone().add(initialPole.clone().applyQuaternion(sweep)));
+      maximumSolveError = Math.max(maximumSolveError, solved.error); setWorldQuaternion(head, headOrientation);
+      for (const part of parts) part.values.push(part.node.getRotation());
+      const advance = position(head).sub(position(chest)).z - initialTarget.z;
+      if (advance > maximumHeadAdvance) { maximumHeadAdvance = advance; maximumHeadAdvancePhase = time / duration(clip); }
+      groundValues.push([0, ground.getTranslation()[1] + .003 - deformedBounds(doc).min[1]!, 0]);
+    }
+    for (const part of parts) part.values.forEach((value, frame) => part.output.setElement(frame, value));
+    groundValues.forEach((value, frame) => groundSampler.getOutput()!.setElement(frame, value));
+  } finally { restorePose(pose); restorePose(sourcePose); }
+  return { state: 'Attack', targetLength, sourceLength, scale, maximumVerticalAccommodation, maximumSolveError, maximumHeadAdvance, maximumHeadAdvancePhase,
+    method: 'Drive the two target neck segments with the scaled native Chest-relative head trajectory. Retain forward and lateral strike travel; accommodate height within measured reach without stretching. Preserve initial tall stance, native head/jaw orientation and complete attack timing.' };
 }
 
 /** Let each membrane settle flat as the body falls, without distorting the wing's internal joints. */
@@ -478,13 +587,29 @@ function measureMotion(doc: Document, assetId: string) {
     : assetId === 'creature_cindercrest_salamander' ? ['FrontLeftFoot', 'FrontRightFoot', 'HindLeftFoot', 'HindRightFoot']
       : ['ForePaw_L', 'ForePaw_R', 'HindPaw_L', 'HindPaw_R'];
   const feet = footNames.map(name => bone(doc, name)), head = bone(doc, assetId === 'creature_cindercrest_salamander' ? 'Muzzle' : 'Head');
+  const soleReader = assetId === 'creature_cindercrest_salamander' ? createSkinReader(doc, 'CindercrestMesh') : undefined;
+  const solePatches = soleReader ? feet.map(foot => {
+    const primary = Array.from({ length: soleReader.count }, (_, index) => index).filter(index =>
+      soleReader.influences(index).some(influence => influence.node === foot && influence.weight > .5));
+    const floor = Math.min(...primary.map(index => soleReader.restPoints[index]!.y));
+    const patch = primary.filter(index => soleReader.restPoints[index]!.y < floor + .025);
+    if (patch.length < 3) throw new Error(`Missing physical sole patch ${foot.getName()}`);
+    return patch;
+  }) : undefined;
   const pose = storedPose(doc), frames = 120;
   const gait = (name: string) => {
     const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name)!, seconds = duration(clip);
     const points = feet.map(() => [] as Vector3[]);
     for (let frame = 0; frame <= frames; frame++) {
       restorePose(pose); applyClip(clip, frame * seconds / frames);
-      feet.forEach((foot, i) => points[i]!.push(position(foot)));
+      feet.forEach((foot, i) => {
+        if (!soleReader || !solePatches) { points[i]!.push(position(foot)); return; }
+        const sole = soleReader.points(solePatches[i]!);
+        const center = sole.reduce((sum, point) => sum.add(point), new Vector3()).multiplyScalar(1 / sole.length);
+        // Track one physical patch through time; switching the lowest vertex
+        // would produce artificial horizontal contact speeds on a curved sole.
+        center.y = Math.min(...sole.map(point => point.y)); points[i]!.push(center);
+      });
     }
     const contacts = points.map((track, i) => {
       const low = Math.min(...track.map(point => point.y)), high = Math.max(...track.map(point => point.y));
@@ -494,7 +619,7 @@ function measureMotion(doc: Document, assetId: string) {
         if ((a.y + b.y) * .5 < low + window && speed > .001) speeds.push(speed);
       }
       speeds.sort((a, b) => a - b);
-      return { bone: feet[i]!.getName(), contactSamples: speeds.length, stanceMps: speeds[Math.floor(speeds.length / 2)] ?? 0 };
+      return { bone: feet[i]!.getName(), ...(solePatches ? { soleVertices: solePatches[i]!.length } : {}), contactSamples: speeds.length, stanceMps: speeds[Math.floor(speeds.length / 2)] ?? 0 };
     });
     const speeds = contacts.map(contact => contact.stanceMps).filter(speed => speed > 0).sort((a, b) => a - b);
     if (speeds.length !== 4) throw new Error(`${assetId} ${name} does not have backward ground stance on every foot`);
@@ -514,7 +639,9 @@ function measureMotion(doc: Document, assetId: string) {
     // source snap phase because this transfer preserves the take's complete timing.
     if (assetId === 'creature_quarry_nightmare') contactNormalized = .4336734873237641;
     return { walk, run, contactNormalized, headPeakPhase,
-      method: 'Median backward distal-joint speed in each foot ground-contact window; contact at maximum target head/muzzle reach, except the dragon native attackMouth snap uses its verified source contact phase.' };
+      method: solePatches
+        ? 'Median backward speed of persistent skinned sole patches during measured floor-contact windows, after the anatomical foot solve; attack contact at maximum target muzzle reach.'
+        : 'Median backward distal-joint speed in each foot ground-contact window; contact at maximum target head/muzzle reach, except the dragon native attackMouth snap uses its verified source contact phase.' };
   } finally { restorePose(pose); }
 }
 
@@ -528,6 +655,40 @@ function takes(donor: Document, durations: Partial<Record<string, number>> = {})
       ...(name === 'Death' ? { holdLastSeconds: .35 } : {}) };
   }
   return clips;
+}
+
+function cinderTransitionProof(doc: Document, donor: Document) {
+  const pose = storedPose(doc), sourcePose = storedPose(donor), reader = createSkinReader(doc, 'CindercrestMesh');
+  const vertices = Array.from({ length: reader.count }, (_, index) => index), frames = 240;
+  const clip = (document: Document, name: string) => document.getRoot().listAnimations().find(clip => clip.getName() === name)!;
+  const targetDeath = clip(doc, 'Death'), sourceDeath = clip(donor, 'Death');
+  const pelvis = bone(doc, 'Pelvis'), sourcePelvis = bone(donor, 'FireSalamander_ROOTSHJnt');
+  try {
+    restorePose(pose); applyClip(clip(doc, 'Idle'), 0); const idle = reader.points(vertices);
+    restorePose(pose); applyClip(targetDeath, 0); const death = reader.points(vertices), targetStartY = position(pelvis).y;
+    const differences = idle.map((point, index) => point.distanceTo(death[index]!));
+    restorePose(sourcePose); applyClip(sourceDeath, 0); const sourceStartY = position(sourcePelvis).y;
+    let targetRise = 0, sourceRise = 0, targetRiseTime = 0;
+    const states = doc.getRoot().listAnimations().map(clip => {
+      let minimum = Infinity, maximum = -Infinity;
+      for (let frame = 0; frame <= frames; frame++) {
+        const time = duration(clip) * frame / frames;
+        restorePose(pose); applyClip(clip, time); const floor = deformedBounds(doc).min[1]!;
+        minimum = Math.min(minimum, floor); maximum = Math.max(maximum, floor);
+        if (clip === targetDeath) {
+          const rise = position(pelvis).y - targetStartY;
+          if (rise > targetRise) { targetRise = rise; targetRiseTime = time; }
+          restorePose(sourcePose); applyClip(sourceDeath, Math.min(time, duration(sourceDeath)));
+          sourceRise = Math.max(sourceRise, position(sourcePelvis).y - sourceStartY);
+        }
+      }
+      return { state: clip.getName(), samples: frames + 1, minimumFloorY: minimum, maximumFloorY: maximum };
+    });
+    return { idleToDeathStartMaximumMetres: Math.max(...differences),
+      idleToDeathStartRmsMetres: Math.sqrt(differences.reduce((sum, value) => sum + value * value, 0) / differences.length),
+      targetStartPelvisY: targetStartY, sourceStartPelvisY: sourceStartY, targetPelvisRiseMetres: targetRise,
+      targetPelvisRiseTime: targetRiseTime, sourcePelvisRiseMetres: sourceRise, states };
+  } finally { restorePose(pose); restorePose(sourcePose); }
 }
 
 async function transfer(doc: Document, context: CreatureRepairContext, donorId: string,
@@ -549,13 +710,17 @@ async function transfer(doc: Document, context: CreatureRepairContext, donorId: 
   const translationRepair = context.assetId === 'creature_rimeback_tortoise'
     ? restoreTortoiseTranslations(doc, donor, mapping, translationScale)
     : context.assetId === 'creature_quarry_nightmare' ? restoreDragonChestAttack(doc, donor) : undefined;
+  const neckRepair = context.assetId === 'creature_quarry_nightmare' ? restoreDragonNeckAttack(doc, donor) : undefined;
+  const footMotionRepair = context.assetId === 'creature_cindercrest_salamander' ? fitCinderFootMotion(doc, donor, mapping) : undefined;
+  const limbDeathRepair = context.assetId === 'creature_cindercrest_salamander' ? settleSalamanderLegs(doc, donor) : undefined;
   const deathRepair = context.assetId === 'creature_rimeback_tortoise' ? settleTortoiseDeath(doc, donor, mapping)
     : context.assetId === 'creature_quarry_nightmare' ? settleDragonDeath(doc)
       : context.assetId === 'creature_cindercrest_salamander' ? settleSalamanderTail(doc, donor, mapping) : undefined;
   const measurements = measureMotion(doc, context.assetId);
+  const transitionProof = context.assetId === 'creature_cindercrest_salamander' ? cinderTransitionProof(doc, donor) : undefined;
   const seconds = (name: string) => duration(doc.getRoot().listAnimations().find(clip => clip.getName() === name)!);
   return { changes: notes, provenance: { donorAssetId: donorId, restoredDonorBindJoints: restoredJoints,
-    anatomicalMapping: mapping, anatomicalDirections, retarget: report, translationRepair, deathRepair, measurements, sourceGeometryAndTexturesPreserved: true,
+    anatomicalMapping: mapping, anatomicalDirections, retarget: report, translationRepair, neckRepair, footMotionRepair, limbDeathRepair, deathRepair, measurements, transitionProof, sourceGeometryAndTexturesPreserved: true,
     restDirections: anatomicalDirections ? 'Match source hip-to-knee and knee-to-paw directions after fitting the target joints to actual limb bends.'
       : 'Preserve target anatomical directions and transfer donor world-space rotation deltas, with explicit corpse settling where anatomy requires it.' },
     motion: { walkClipSeconds: seconds('Walk'), runClipSeconds: seconds('Run'), attackSeconds: seconds('Attack'),
@@ -586,7 +751,10 @@ export async function repair(doc: Document, context: CreatureRepairContext): Pro
     }
     const result = await transfer(doc, context, 'creature_kiln_salamander', mapping, 'Pelvis',
       ['FrontLeftUpper', 'FrontLeftFoot', `${prefix}r_FrontLeg_HipSHJnt`, `${prefix}r_FrontLeg_BallSHJnt`], {}, true,
-      ['Replaced sparse sine-rotation clips with the studio salamander movement and death sequence.', 'Separated connected tail and head skin weights from nearby torso and leg surfaces; preserved the mesh and PBR maps.', 'Baked complete state poses and grounded the weighted mesh.']);
+      ['Replaced sparse sine-rotation clips with the studio salamander movement and death sequence.',
+        'Fitted misplaced hind joints and missing limb bends to the actual mesh, then matched native foot trajectories to the measured target reach and physical soles.',
+        'Separated connected limb, tail and head skin weights from nearby surfaces; preserved the mesh and PBR maps.',
+        'Settled the long limbs and raised tail during the native collapse; baked complete state poses and grounded the weighted mesh.']);
     result.provenance!.skinRepair = skinRepair;
     result.provenance!.anatomyRepair = anatomyRepair;
     return result;
