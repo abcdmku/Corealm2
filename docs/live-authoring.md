@@ -101,3 +101,20 @@ Contracts: `game/src/world/serverWorldContract.ts` (geometry revision, bake reco
 | Server bake jobs | new `game/src/multiplayer/serverWorldBake.ts`, `adminWorld.ts` (`/admin/world`), baker child process + its bundle in `tools/build-server-exe.ts`, pack-per-revision loading (`worldPack.ts` loader, `contentAtStart.ts`), `contentAssets.ts` size cap, a small hook in `contentPublish.ts`, world restart and position snap, tests `tests/server-world-bake-*.test.ts` |
 | Client reload | `protocol.ts`, `playIntent.ts`, `browserSession.ts`, `app/config.ts`, `app/contentAssetOverlay.ts`, `content/catalogEntry.ts`, `world/shippedWorldData.ts`, navmesh fingerprint in `systems/navigation.ts`, minimal `app/boot.ts`, tests `tests/client-world-reload-*.test.ts` |
 | Devdocs + applies | World workspace bake status, save bar "world rebake" state, map staleness note (`devdocs/src/workspaces/world/**`, `ui/ShellSaveBar.tsx`, `api/serverBackend.ts` bake reads), `catalogHost.ts` / `clientContentSwap.ts` `rebake` state, tests `tests/devdocs-world-bake-*.test.ts` |
+
+## Status (September 28, 2026)
+
+All three waves are built on branch `live-authoring` (commits bd088c6 … f0f35e0). Full suite: only the
+17 files that already fail on main. Verified end to end on local lab servers: variant and skin
+authoring on the Art stage, server file store and model overlay, image jobs (real Codex run), world
+bake with the real baker (a sea-level edit, about 4.5 minutes, player rejoined on the new world), and a
+page reloading onto a server-baked world. Node world bake is byte-identical to the Chromium bake.
+
+Open items:
+- Browsers whose `Math.sin/cos/atan2/...` are not correctly rounded (Chromium's are) can compute
+  different scatter signatures than the bake. This predates live authoring (release pages check the
+  shipped records the same way); Firefox and Safari are untested.
+- The world map image is not re-rendered by a server bake.
+- Server-added models reach a page at join, after its scene is built; only creatures use them today.
+- Deploying to a live server needs a base update (the `creatureSkins` table is new), the reverse proxy
+  forwarding `/content-assets/`, and an `imagegen` block in `corealm-server.json` to offer image jobs.
