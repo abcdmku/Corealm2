@@ -79,6 +79,12 @@ export interface WorldDescriptor extends WorldKey {
    */
   assetBaseUrl?: string;
   /**
+   * This server's own files, with a trailing slash: `<contentAssetUrl>index.json` lists them and
+   * `<contentAssetUrl><path>` serves them. A path listed there wins over `assetBaseUrl`. Absent means
+   * the server adds no files. See `multiplayer/contentAssetsContract.ts`.
+   */
+  contentAssetUrl?: string;
+  /**
    * How this world admits players. "account" worlds need a join token the identity service minted
    * for this endpoint; "guest" worlds take a `guest:<name>` token. Absent means "guest".
    */

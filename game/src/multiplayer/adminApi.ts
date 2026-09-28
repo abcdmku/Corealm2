@@ -88,9 +88,32 @@ export interface AdminApiOptions {
   server: AdminServerPorts;
   /** Everything under `/admin` that is not the API: the devdocs build. */
   ui(request: IncomingMessage, response: ServerResponse): Promise<boolean>;
+  /**
+   * Feature endpoints kept in their own modules (the asset store, authoring metadata, image jobs).
+   * Each is tried in order before the built-in routes; one that answers returns true.
+   */
+  routes?: readonly AdminRoute[];
   now?(): number;
   log?(event: Record<string, unknown>): void;
 }
+
+/** What a feature endpoint gets: the parsed path, the credential check and the API's own replies. */
+export interface AdminRouteContext {
+  method: string;
+  /** Path segments after `/admin`, decoded: `/admin/meta/items/sword` is `["meta", "items", "sword"]`. */
+  rest: readonly string[];
+  url: URL;
+  request: IncomingMessage;
+  response: ServerResponse;
+  /** The caller, or a 401/403 the API answers. The actor goes into audit and history records. */
+  scoped(scope: ApiScope): Promise<{ accountId: string | null; tokenId: string | null; actor: AdminActor }>;
+  /** The JSON body, at most `cap` bytes (default 1 MB). */
+  body(cap?: number): Promise<Record<string, unknown>>;
+  json(status: number, value: unknown): void;
+  /** Throws an error the API answers as `{ error: { code, message } }`. */
+  fail(status: number, code: string, message: string): never;
+}
+export type AdminRoute = (context: AdminRouteContext) => Promise<boolean>;
 
 class ApiFailure extends Error {
   constructor(readonly status: number, readonly code: string, message: string) { super(message); this.name = "ApiFailure"; }
@@ -281,6 +304,15 @@ export function createAdminApi(options: AdminApiOptions) {
   async function dispatch(request: IncomingMessage, response: ServerResponse, url: URL, segments: string[]): Promise<void> {
     const method = request.method ?? "GET", at = now();
     const rest = segments.slice(1), target = rest[1] === undefined ? null : decodeURIComponent(rest[1]);
+    if (options.routes?.length) {
+      const context: AdminRouteContext = {
+        method, rest: rest.map(segment => decodeURIComponent(segment)), url, request, response,
+        scoped: async scope => { const held = await scoped(request, scope); return { accountId: held.accountId, tokenId: held.tokenId, actor: actorOf(held, at) }; },
+        body: cap => body(request, cap), json: (status, value) => json(request, response, status, value),
+        fail: (status, code, message) => { throw new ApiFailure(status, code, message); },
+      };
+      for (const route of options.routes) if (await route(context)) return;
+    }
     const deeper = (rest[0] === "players" && rest[2] === "kick") || (rest[0] === "content" && (rest[1] === "catalog" || rest[1] === "base")) ? 3 : 2;
     if (rest.length > deeper) throw new ApiFailure(404, "not_found", "No such admin endpoint");
 

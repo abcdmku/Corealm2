@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { WebSocketServer } from "ws";
 import type { WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
-import { adminUnavailable, createAdminApi } from "./adminApi.js";
+import { adminUnavailable, createAdminApi, type AdminRoute } from "./adminApi.js";
 import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type ServerAdminStorage } from "./adminStorage.js";
 import { createAdminUi, type AdminUiSource } from "./adminUi.js";
 import { HoldFailure, type HostControl, type WorldStatus } from "./hostControl.js";
@@ -42,6 +42,8 @@ export type HostedWorld = CoreHostedWorld<WebSocketLink>;
 export interface ReferenceServerContext { worlds: ReadonlyMap<string, HostedWorld>; metrics: ReferenceServerMetrics; events: readonly ServerEvent[]; catalog: CatalogHost }
 export interface ReferenceServerOptions {
   worlds: WorldDescriptor[];
+  /** Feature endpoints under `/admin` kept in their own modules (asset store, authoring metadata, image jobs). */
+  adminRoutes?: readonly AdminRoute[];
   storage: WorldStorage;
   /**
    * Published catalogs. Its active revision must be the catalog this process was started on: a host
@@ -265,7 +267,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   }
   const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host, running: () => RESOLVED_CATALOG, bundled: options.bundledBase ?? null }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
-    admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
+    admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log, routes: options.adminRoutes,
     ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: host.status()[0]?.descriptor.assetBaseUrl }),
     authenticate: token => options.authentication.authenticate(token, first().descriptor),
     server: {

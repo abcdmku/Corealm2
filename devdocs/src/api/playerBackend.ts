@@ -16,11 +16,18 @@ export function createPlayerBackend(): DevdocsBackend {
   };
   return {
     kind: "player", label: "Player guide", assetBaseUrl: "",
-    capabilities: { write: false, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, publish: false },
+    capabilities: { write: false, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, files: false, imagegen: false, publish: false },
     get: read,
     collections: () => read<CollectionSummary[]>("collections"),
     collection: name => read<CollectionResponse>(`collections/${encodeURIComponent(name)}`),
     transact: () => Promise.resolve({ ok: false as const, status: 405, body: { error: "The player guide reads only." } }),
     admin: () => Promise.reject(new Error("The player guide reads only.")),
+    patchMeta: () => Promise.reject(new Error("The player guide reads only.")),
+    putFiles: () => Promise.reject(new Error("The player guide reads only.")),
+    imagegen: {
+      start: () => Promise.reject(new Error("The player guide reads only.")),
+      list: () => Promise.resolve([]),
+      retry: () => Promise.reject(new Error("The player guide reads only.")),
+    },
   };
 }

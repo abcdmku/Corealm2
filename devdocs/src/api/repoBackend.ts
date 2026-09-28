@@ -1,5 +1,7 @@
 import type { ApiError, CollectionResponse, CollectionSummary, ContentTransactionRequest } from "../../shared/contracts.js";
 import { refreshGameCatalog } from "../model/liveCatalog.js";
+import type { MetaResponse } from "../../shared/metaContracts.js";
+import type { ImagegenJob } from "../../shared/skinContracts.js";
 import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type TransactionRefusal, type TransactionSuccess } from "./backend.js";
 
 /**
@@ -19,12 +21,17 @@ async function read<T>(path: string, init?: RequestInit): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function send<T>(path: string, method: string, body?: unknown): Promise<T> {
+  return read<T>(path, { method, headers: { Accept: "application/json", ...(body === undefined ? {} : { "Content-Type": "application/json" }) },
+    ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
+}
+
 export function createRepoBackend(): DevdocsBackend {
   return {
     kind: "repo",
     label: "Local editor",
     assetBaseUrl: "",
-    capabilities: { write: true, meta: true, requests: true, git: true, bulk: true, assets: true, formulas: true, publish: false },
+    capabilities: { write: true, meta: true, requests: true, git: true, bulk: true, assets: true, formulas: true, files: true, imagegen: true, publish: false },
     get: read,
     collections: () => read<CollectionSummary[]>("collections"),
     collection: name => read<CollectionResponse>(`collections/${encodeURIComponent(name)}`),
@@ -42,5 +49,12 @@ export function createRepoBackend(): DevdocsBackend {
       return { ok: false, status: response.status, body: (body ?? { error: `Save failed (${response.status}). Your draft is still here.` }) as TransactionRefusal };
     },
     admin: () => Promise.reject(new BackendUnavailable("Server administration")),
+    patchMeta: (collection, entityId, patch) => send<MetaResponse>(`meta/${collection.split("/").map(encodeURIComponent).join("/")}/${encodeURIComponent(entityId)}`, "PATCH", patch),
+    putFiles: files => send<{ files: Record<string, { sha256: string; bytes: number }> }>("files", "POST", { files }),
+    imagegen: {
+      start: async request => (await send<{ job: ImagegenJob }>("imagegen", "POST", request)).job,
+      list: async () => (await read<{ jobs: ImagegenJob[] }>("imagegen")).jobs,
+      retry: async jobId => (await send<{ job: ImagegenJob }>(`imagegen/${encodeURIComponent(jobId)}`, "POST")).job,
+    },
   };
 }

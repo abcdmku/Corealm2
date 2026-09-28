@@ -146,7 +146,7 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     get assetBaseUrl() { return assetBaseUrl; },
     // No checkout behind a live server: no git, no request queue, no authoring notes beside the
     // content, no asset import, and formulas ship compiled into the release rather than being edited.
-    capabilities: { write: true, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, publish: true },
+    capabilities: { write: true, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, files: false, imagegen: false, publish: true },
 
     async get<T>(path: string): Promise<T> {
       if (path === "collections") return await this.collections() as T;
@@ -233,6 +233,14 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
       });
       if (init.method === "POST" && (path === "/admin/content/base/apply" || path === "/admin/content/rollback")) invalidate();
       return result;
+    },
+    // Filled in by the live-authoring round: /admin/meta, /admin/assets and /admin/imagegen.
+    patchMeta: () => Promise.reject(new BackendUnavailable("Authoring metadata")),
+    putFiles: () => Promise.reject(new BackendUnavailable("Storing files")),
+    imagegen: {
+      start: () => Promise.reject(new BackendUnavailable("Image generation")),
+      list: () => Promise.resolve([]),
+      retry: () => Promise.reject(new BackendUnavailable("Image generation")),
     },
   };
 }

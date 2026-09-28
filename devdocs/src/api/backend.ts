@@ -1,5 +1,7 @@
 import type { CollectionResponse, CollectionSummary, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
 import type { TransactionFailure } from "../model/store.js";
+import type { MetaPatch, MetaResponse } from "../../shared/metaContracts.js";
+import type { ImagegenJob, ImagegenRequest } from "../../shared/skinContracts.js";
 
 /**
  * One interface, two places content can live.
@@ -33,6 +35,13 @@ export interface DevdocsCapabilities {
   readonly assets: boolean;
   /** Balance formula source, its preview and the compiled check. Formulas ship with a release. Repo only. */
   readonly formulas: boolean;
+  /**
+   * New files (skin maps, icons, models, audio) can be stored where players load them: the checkout's
+   * `game/public` in repo mode, the server's own asset store on a live server.
+   */
+  readonly files: boolean;
+  /** Image generation jobs run on this backend's host. */
+  readonly imagegen: boolean;
   /** A save publishes to a running game server and reports what it changed there. Server only. */
   readonly publish: boolean;
 }
@@ -98,6 +107,22 @@ export interface DevdocsBackend {
    * has one; repo mode and the guide refuse, which is what `can("publish")` gates on.
    */
   admin<T>(path: string, init?: { method?: string; body?: unknown; signal?: AbortSignal }): Promise<T>;
+  /**
+   * Apply one authoring-metadata operation (status, note, request, verdict). Reads go through
+   * `get("meta/<collection>/<id>")` and `get("meta/<collection>/$all")`. Needs `meta`.
+   */
+  patchMeta(collection: string, entityId: string, patch: MetaPatch): Promise<MetaResponse>;
+  /**
+   * Store files where players load them, by path under the game's public tree
+   * (`assets/skins/...`), as base64. Needs `files`. A content row that names a file is saved after it.
+   */
+  putFiles(files: Record<string, string>): Promise<{ files: Record<string, { sha256: string; bytes: number }> }>;
+  /** Image generation jobs on this backend's host. Needs `imagegen`. */
+  readonly imagegen: {
+    start(request: ImagegenRequest): Promise<ImagegenJob>;
+    list(): Promise<ImagegenJob[]>;
+    retry(jobId: string): Promise<ImagegenJob>;
+  };
 }
 
 export class BackendUnavailable extends Error {
