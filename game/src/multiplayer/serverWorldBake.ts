@@ -205,9 +205,12 @@ export function bakerProcess(options: { sea: boolean; root?: string; log?(event:
  * the server, so its three and recast never enter the server's own module graph.
  */
 export async function runEmbeddedBaker(jobFile: string): Promise<number> {
-  const [{ getAsset }, { compileFunction }, { createRequire }] = await Promise.all([import("node:sea"), import("node:vm"), import("node:module")]);
+  const [{ getAsset }, { compileFunction, constants }, { createRequire }] = await Promise.all([import("node:sea"), import("node:vm"), import("node:module")]);
   const source = getAsset(WORLD_BAKER_ASSET, "utf8");
-  const run = compileFunction(source, ["require", "module", "exports", "__filename", "__dirname"], { filename: WORLD_BAKER_ASSET });
+  // The bundle keeps `import()` for Node built-ins (gltf-transform loads node:fs lazily); without a
+  // loader, compiled code rejects every dynamic import, so give it the process's own.
+  const run = compileFunction(source, ["require", "module", "exports", "__filename", "__dirname"],
+    { filename: WORLD_BAKER_ASSET, importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER });
   const module = { exports: {} as { runBaker?(file: string): Promise<number> } };
   run(createRequire(process.execPath), module, module.exports, process.execPath, dirname(process.execPath));
   if (typeof module.exports.runBaker !== "function") throw new Error(`${WORLD_BAKER_ASSET} exports no runBaker`);

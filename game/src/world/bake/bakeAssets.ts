@@ -50,6 +50,30 @@ export function urlAssetSource(base: string, overlayBase?: string, fetcher: type
 }
 
 /**
+ * A GLB for its geometry. The release tree's models name their textures as separate files
+ * (`../../textures/imported/<sha>.png`), which `readBinary` refuses to resolve; the bake never reads a
+ * texture, so each external image gets an empty placeholder and embedded ones are kept as they are.
+ */
+export async function readGeometryGlb(io: NodeIO, bytes: Uint8Array): Promise<Document> {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  if (view.getUint32(0, true) !== 0x46546c67) throw new Error("Not a GLB file");
+  let offset = 12, json: Record<string, unknown> | null = null, bin: Uint8Array | undefined;
+  while (offset + 8 <= bytes.byteLength) {
+    const length = view.getUint32(offset, true), type = view.getUint32(offset + 4, true), chunk = bytes.subarray(offset + 8, offset + 8 + length);
+    if (type === 0x4e4f534a) json = JSON.parse(new TextDecoder().decode(chunk)) as Record<string, unknown>;
+    else if (type === 0x004e4942) bin = chunk;
+    offset += 8 + length;
+  }
+  if (!json) throw new Error("GLB has no JSON chunk");
+  const images = Array.isArray(json.images) ? json.images as { uri?: string }[] : [];
+  const external = images.flatMap(image => typeof image.uri === "string" && !image.uri.startsWith("data:") ? [image.uri] : []);
+  if (!external.length) return io.readBinary(bytes);
+  const resources: Record<string, Uint8Array<ArrayBuffer>> = Object.fromEntries(external.map(uri => [uri, new Uint8Array(0)]));
+  if (bin) resources["@glb.bin"] = new Uint8Array(bin);
+  return io.readJSON({ json: json as never, resources });
+}
+
+/**
  * The bake's asset library: the host manifest with a server's model overlay merged over it by id, as
  * every registry in a page merges it, and GLB triangles without textures, DOM or WebGL.
  * Measurements come from the manifest, never from the triangles, exactly as `AssetRegistry` answers them.
@@ -96,7 +120,7 @@ export class BakeGeometryAssets implements WorldBakeAssets {
     if (!entry) throw new Error(`Unknown geometry asset: ${id}`);
     await MeshoptDecoder.ready;
     const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ "meshopt.decoder": MeshoptDecoder });
-    const root = gltfScene(await io.readBinary(await this.source.read(entry.file)));
+    const root = gltfScene(await readGeometryGlb(io, await this.source.read(entry.file)));
     root.name = id;
     this.ready.set(id, root);
     return root;
