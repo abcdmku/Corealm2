@@ -6,6 +6,8 @@ import {
 import { CATALOG_REVISION } from "../content/clientCatalog.js";
 import { isSemver } from "./semver.js";
 
+/** `WorldDescriptor.worldRevision`: a sha256 in hex. */
+export const WORLD_REVISION = /^[0-9a-f]{64}$/;
 export const MAX_MESSAGE_BYTES = 16_384;
 export const MAX_DIRECTORY_WORLDS = 256;
 export const MAX_PENDING_COMMANDS = 64;
@@ -57,10 +59,12 @@ export function assetBase(value: unknown): string {
  * nothing, which also admits `LOCAL_ENDPOINT`.
  */
 export function descriptor(value: unknown, transport: "any" | "socket" = "any"): WorldDescriptor {
-  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "contentAssetUrl", "authentication", "description", "baseVersion"])
+  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "contentAssetUrl", "worldRevision", "authentication", "description", "baseVersion"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
     || !integer(value.protocolVersion) || (value.fixture !== "authored" && value.fixture !== "lab") || !integer(value.seed)
     || (value.catalogRevision !== undefined && (typeof value.catalogRevision !== "string" || !CATALOG_REVISION.test(value.catalogRevision)))
+    // A geometry revision is a sha256 like the build's `generationRevision` (`world/serverWorldContract.ts`).
+    || (value.worldRevision !== undefined && (typeof value.worldRevision !== "string" || !WORLD_REVISION.test(value.worldRevision)))
     || !integer(value.capacity) || value.capacity < 1 || value.capacity > MAX_WORLD_PLAYERS
     || !integer(value.population) || value.population < 0 || value.population > value.capacity
     || !["available", "full", "unavailable"].includes(String(value.availability))
@@ -73,9 +77,15 @@ export function descriptor(value: unknown, transport: "any" | "socket" = "any"):
     ...(value.assetBaseUrl === undefined ? {} : { assetBaseUrl: assetBase(value.assetBaseUrl) }),
     ...(value.contentAssetUrl === undefined ? {} : { contentAssetUrl: assetBase(value.contentAssetUrl) }) } as unknown as WorldDescriptor;
 }
-/** `{type:"content-updated", revision}`: what a server sends every connected peer after a publish or a rollback. */
+/**
+ * `{type:"content-updated", revision, worldRevision?}`: what a server sends every connected peer after
+ * a publish, a rollback, or a switch to a world it baked (`worldRevision`, the geometry the world runs
+ * now). The page follows a bake from the world's descriptor (`browserSession.ts`), so only the catalog
+ * revision is returned.
+ */
 export function contentUpdated(value: unknown): string {
-  if (!record(value) || !only(value, ["type", "revision"]) || typeof value.revision !== "string" || !CATALOG_REVISION.test(value.revision)) {
+  if (!record(value) || !only(value, ["type", "revision", "worldRevision"]) || typeof value.revision !== "string" || !CATALOG_REVISION.test(value.revision)
+    || (value.worldRevision !== undefined && (typeof value.worldRevision !== "string" || !WORLD_REVISION.test(value.worldRevision)))) {
     throw new SessionFailure("INVALID_MESSAGE", "Invalid content update");
   }
   return value.revision;

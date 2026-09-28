@@ -34,8 +34,8 @@ export interface PublishCheck {
   planMs: number;
 }
 export interface SpawnCounts { world: string; added: number; pending: number; retiring: number; removed: number }
-/** `baseVersion` null takes it off the descriptor. */
-export interface WorldConfiguration { capacity?: Readonly<Record<string, number>>; description?: string | null; endpoint?: string; baseVersion?: string | null }
+/** `baseVersion` or `worldRevision` null takes it off the descriptor. `worldRevision` is the geometry the worlds run (`world/serverWorldContract.ts`). */
+export interface WorldConfiguration { capacity?: Readonly<Record<string, number>>; description?: string | null; endpoint?: string; baseVersion?: string | null; worldRevision?: string | null }
 
 /** The hold could not be taken, or a world stopped answering inside it. The operation did nothing. */
 export class HoldFailure extends Error {

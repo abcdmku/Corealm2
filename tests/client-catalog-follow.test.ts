@@ -100,6 +100,7 @@ const serverShown = (revision: string, suffix: string) => ({ ...BUILD_SHOWN, rev
 describe("a page following a server's client catalog", () => {
   it("names what every table of the client catalog does on a page", () => {
     expect(Object.keys(page.swap.CLIENT_TABLE_FOLLOWS).sort()).toEqual(Object.keys(pristine.tables).sort());
+    expect(Object.entries(page.swap.CLIENT_TABLE_FOLLOWS).filter(([, follows]) => follows === "rebake").map(([name]) => name).sort()).toEqual(["regions", "worldResources", "worldTerrain"]);
   });
 
   it("shows every followed table from the server, reports the geometry it cannot, and restores the build exactly on leave", () => {

@@ -1,6 +1,6 @@
 import { performance } from "node:perf_hooks";
 import type { MessagePort } from "node:worker_threads";
-import type { SessionErrorCode, WorldDescriptor, WorldKey } from "../../contracts.js";
+import type { SessionError, SessionErrorCode, WorldDescriptor, WorldKey } from "../../contracts.js";
 import { installCatalog, type InstalledCatalog } from "../../content/catalogInstall.js";
 import type { AdminActor } from "../adminStorage.js";
 import type { HeadlessWorldPorts } from "../headlessWorld.js";
@@ -92,7 +92,9 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
     failed() { if (!closing && !told) main.note("failed", []); },
   });
   const buildMs = performance.now() - buildStarted;
-  const control = localHostControl(host), hosted = [...host.worlds.values()][0]!;
+  const control = localHostControl(host), key = [...host.worlds.keys()][0]!;
+  /** The one world, read each time: a world bake's restart replaces it. */
+  const current = () => host.worlds.get(key)!;
 
   let lastReport = { ticks: 0, commands: 0, rejected: 0, errors: 0, backlog: 0, stages: { ...host.metrics.stages } };
   let utilization = performance.eventLoopUtilization(); let cpu = typeof process.threadCpuUsage === "function" ? process.threadCpuUsage() : null;
@@ -103,6 +105,7 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
       commitMs: metrics.stages.commitMs - lastReport.stages.commitMs, replicationMs: metrics.stages.replicationMs - lastReport.stages.replicationMs, samples: metrics.stages.samples - lastReport.stages.samples };
     const next = performance.eventLoopUtilization(), delta = performance.eventLoopUtilization(next, utilization); utilization = next;
     const cpuNow = cpu ? process.threadCpuUsage() : null, cpuMs = cpu && cpuNow ? (cpuNow.user - cpu.user + cpuNow.system - cpu.system) / 1000 : null; cpu = cpuNow;
+    const hosted = current();
     const result: WorldReport = { population: hosted.admission.population, capacity: hosted.admission.capacity, tick: hosted.runtime.clock.tick, peers: hosted.peers.size, ticks: fresh, stages,
       commands: metrics.commands - lastReport.commands, rejected: metrics.rejected - lastReport.rejected, errors: metrics.errors - lastReport.errors,
       backlogDisconnects: metrics.backlogDisconnects - lastReport.backlog, heapUsedBytes: process.memoryUsage().heapUsed, utilization: delta.utilization, cpuMs };
@@ -126,7 +129,7 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
       const wasJoined = entry.connection.joined;
       await entry.connection.accept(message);
       if (!wasJoined && entry.connection.joined) {
-        const peer = [...hosted.peers.values()].find(candidate => candidate.link === entry.link);
+        const peer = [...current().peers.values()].find(candidate => candidate.link === entry.link);
         entry.account = peer?.playerId ?? null;
         main.note("peer.joined", [id, entry.account]);
       }
@@ -168,6 +171,8 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
     publishAbort: () => control.publishAbort(),
     failClosed() { told = true; host.failClosed(); },
 
+    /** A world bake finished: build the world on the new pack here, outside any hold, then swap it in between ticks. */
+    async restart(spec: WorldBuild, notice: SessionError) { await host.restart(key, await build(spec, current().runtime.descriptor), notice); },
     start() { host.start(); reporter = setInterval(() => main.note("report", [report()]), data.reportMs); },
     report: () => report(),
     /** Stop the loop, let the main thread drop the sockets, then save every held character and free its account. */
@@ -176,7 +181,7 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
       await host.close(() => main.call<void>("disconnectPeers"));
     },
   });
-  parent.postMessage({ k: "n", m: "ready", a: [{ descriptor: hosted.runtime.descriptor, catalogRevision: RESOLVED_CATALOG.revision, bootMs: performance.now() - started, buildMs } satisfies WorldReady] });
+  parent.postMessage({ k: "n", m: "ready", a: [{ descriptor: current().runtime.descriptor, catalogRevision: RESOLVED_CATALOG.revision, bootMs: performance.now() - started, buildMs } satisfies WorldReady] });
 }
 
 const keyOf = (world: WorldKey): WorldKey => ({ providerId: world.providerId, worldId: world.worldId });

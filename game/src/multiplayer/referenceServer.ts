@@ -1,6 +1,8 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { WebSocketServer } from "ws";
-import type { WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
+import type { SessionError, WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
+import type { InstalledCatalog } from "../content/catalogInstall.js";
+import type { ServerWorldBake } from "../world/serverWorldContract.js";
 import { adminUnavailable, createAdminApi, type AdminRoute } from "./adminApi.js";
 import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type ServerAdminStorage } from "./adminStorage.js";
 import { createAdminUi, type AdminUiSource } from "./adminUi.js";
@@ -71,6 +73,8 @@ export interface ReferenceServerOptions {
    */
   contentAssets?: ContentAssetStore;
   build(world: WorldDescriptor): Promise<HeadlessWorldPorts>;
+  /** A publish, rollback or base update activated `catalog`. Answers the world bake its geometry needs (`serverWorldBake.ts`). */
+  worldActivated?(catalog: InstalledCatalog): Promise<ServerWorldBake | null>;
   authentication: AuthenticationAdapter;
   /**
    * Roles, bans, admin sessions, API tokens and the audit log. Supplying it mounts `/admin/*`,
@@ -282,7 +286,8 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       worlds: host.status().map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId,
         name: world.descriptor.name, seed: world.descriptor.seed, capacity: world.capacity })) };
   }
-  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, ...(store ? { contentAssets: store } : {}), now }), now, log, host, running: () => RESOLVED_CATALOG, bundled: options.bundledBase ?? null }) : null;
+  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, ...(store ? { contentAssets: store } : {}), now }), now, log, host, running: () => RESOLVED_CATALOG, bundled: options.bundledBase ?? null,
+    ...(options.worldActivated ? { activated: options.worldActivated } : {}) }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log, routes: options.adminRoutes,
     ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: host.status()[0]?.descriptor.assetBaseUrl }),
@@ -344,6 +349,19 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     refresh: async (): Promise<void> => { await threaded?.refresh(); },
     /** Per-world tick times and the database thread's numbers. Null with threads off, where `metrics` is the whole story. */
     threads: threaded ? { diagnostics: () => threaded.diagnostics(), clearTicks: () => threaded.clearTicks() } : null,
+    /**
+     * Run every world again on new geometry (a finished world bake): each world's peers get `notice` and are closed, its held
+     * characters are saved, and it is read back from storage onto what `next` builds. Descriptors then carry `worldRevision`
+     * (null: the build's own world). With threads, `next.thread` is what each world thread builds from.
+     */
+    async restartWorlds(next: { build(world: WorldDescriptor): Promise<HeadlessWorldPorts>; thread: WorldBuild; worldRevision: string | null; notice: SessionError }): Promise<void> {
+      // First, so a player who rejoins is told the new revision: a restarted world keeps its descriptor.
+      await host.configure({ worldRevision: next.worldRevision });
+      if (threaded) await threaded.restartWorlds(next.thread, next.notice);
+      else for (const [key, hosted] of [...worlds]) await local!.restart(key, await next.build(hosted.runtime.descriptor), next.notice);
+    },
+    /** Tell every joined peer of every world. */
+    broadcast: (message: unknown): Promise<number> => host.broadcast(message),
     /** The settings in force: configuration defaults under the overrides an admin stored. */
     get settings(): ServerSettings { return settings; },
     async close() {

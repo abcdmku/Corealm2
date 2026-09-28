@@ -66,7 +66,9 @@ export async function buildAuthoredGeometry(seed: number, source: AuthoredSource
   const fairyDressing = resolveFairyDressing(fairyScene);
   solids.push(...fairyDressing.solids);
   const allSolids = [...built.solids, ...solids];
-  const spec = buildDungeonSpec(scene); const dungeon = spec ? buildDungeon(spec, scene.materials) : null;
+  // The game boots the dungeon inside its scanned-rock envelope, which shapes the ceiling the navmesh is cut
+  // under; the server must walk the same polygons its players do.
+  const spec = buildDungeonSpec(scene); const dungeon = spec ? buildDungeon(spec, scene.materials, { rockEnvelope: true }) : null;
   const structures = await buildStructureNavigationSources(assets, built.entities);
   const meshes = [...dryNavigationMeshes(scene.getWalkableMeshes(), scene.getWaterBodies()).meshes, ...fairyScene.getWalkableMeshes(), ...(dungeon?.walkable ?? []), ...dungeonNavigationBlockers(dungeon?.blockers ?? []), ...structures.meshes, ...solidObstacleMeshes(allSolids)];
   const nav = new Navigation(); if (!nav.build(meshes)) throw new Error("Authored reference world navigation failed");

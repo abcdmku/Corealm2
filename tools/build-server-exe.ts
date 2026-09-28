@@ -7,11 +7,13 @@ import { stageAssets } from "./server-exe/assets.js";
 import { executableName, nodeBinary, TARGETS, type Target } from "./server-exe/nodeBinary.js";
 import { injectSeaBlob, removeSignature, seaConfig, writeSeaBlob } from "./server-exe/sea.js";
 import { SERVER_BUNDLE_ASSET } from "../game/src/multiplayer/threads/launch.js";
+import { WORLD_BAKER_ASSET, WORLD_BAKER_ENTRY } from "../game/src/multiplayer/serverWorldBake.js";
 
 /**
  * `npm run server:build`: the Windows and Linux game server executables.
  *
- *   1. esbuild bundles `tools/multiplayer-server.ts` to one CommonJS file.
+ *   1. esbuild bundles `tools/multiplayer-server.ts` to one CommonJS file, and the world baker
+ *      (`game/src/multiplayer/bake/bakerEntry.ts`) to another, which may hold three and recast.
  *   2. The world pack, the devdocs server-mode build, the seed catalog, the asset manifest and a
  *      build record are staged as SEA assets.
  *   3. `node --experimental-sea-config` turns the bundle and the assets into one blob.
@@ -78,6 +80,13 @@ if (present.length) {
     + "The server boots from the world pack. Find the import with: npx vitest run tests/server-import-graph.test.ts");
 }
 
+// The world baker: the child process a server starts to bake its own geometry (`serverWorldBake.ts`). It is only an asset to
+// the server, compiled when the executable runs with `--world-baker`, so the renderer's libraries stay out of the server bundle.
+log(`bundling ${WORLD_BAKER_ENTRY}`);
+const bakerPath = join(work, WORLD_BAKER_ASSET);
+const baker = await bundleServer(join(repoRoot, WORLD_BAKER_ENTRY), bakerPath, repoRoot);
+log(`baker bundle ${mib(baker.bytes)} from ${baker.inputs.length} modules`);
+
 const { assets, build } = await stageAssets({ root: repoRoot, stageDir: join(work, "assets"), adminUiDir, version, log });
 log("assets:");
 for (const asset of assets) log(`  ${mib(asset.bytes).padStart(10)}  ${asset.name}  <- ${asset.from}`);
@@ -86,7 +95,7 @@ const blob = join(work, "server.blob");
 await writeSeaBlob(join(work, "sea-config.json"),
   // The bundle is `main`, and an asset as well: a world or database thread is a worker, a worker needs code to run, and Node
   // will not take the executable itself as a worker script. The bootstrap in `threads/launch.ts` compiles this asset instead.
-  seaConfig(bundlePath, blob, { ...Object.fromEntries(assets.map(asset => [asset.name, asset.path])), [SERVER_BUNDLE_ASSET]: bundlePath }));
+  seaConfig(bundlePath, blob, { ...Object.fromEntries(assets.map(asset => [asset.name, asset.path])), [SERVER_BUNDLE_ASSET]: bundlePath, [WORLD_BAKER_ASSET]: bakerPath }));
 log(`blob ${mib((await readFile(blob)).length)}`);
 
 if (args.includes("--bundle-only")) {

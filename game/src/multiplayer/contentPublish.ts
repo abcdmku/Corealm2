@@ -13,6 +13,8 @@ import { mergeBase, BaseDecisionError, type BaseConflict, type BaseDecision, typ
 import { sameContent } from "../content/compiler/canonical.js";
 import { compareSemver } from "./semver.js";
 import { HoldFailure, type HostControl, type PublishCheck } from "./hostControl.js";
+import type { InstalledCatalog } from "../content/catalogInstall.js";
+import type { ServerWorldBake } from "../world/serverWorldContract.js";
 
 /**
  * Publishing content into a running server, and rolling it back.
@@ -55,6 +57,8 @@ export interface PublishResult {
   assetValidation: AssetHost["source"];
   spawns: { world: string; added: number; pending: number; retiring: number; removed: number }[];
   notified: number;
+  /** The world bake this publish queued because it changed the world's geometry (`serverWorldBake.ts`). Absent when the geometry stayed. */
+  bake?: ServerWorldBake;
   timings: PublishTimings;
   /** The base the result derives from: the active one for a publish, the new one for a base update, the target's for a rollback. */
   base: BaseMarker | null;
@@ -72,6 +76,12 @@ export interface PublishPorts {
   running(): { tables: Readonly<Record<string, unknown>>; formulaRevision: string };
   /** The base game this process ships with: what an update from base merges in. Null offers no update. */
   bundled?: BaseCatalog | null;
+  /**
+   * The worlds moved onto a newly activated catalog (a publish, a rollback or a base update). Answers the world
+   * bake that catalog's geometry needs, or null when its geometry is what the worlds already run. Never refuses:
+   * the catalog is already active. `serverWorldBake.ts` is the one implementation.
+   */
+  activated?(catalog: InstalledCatalog): Promise<ServerWorldBake | null>;
   now(): number;
   log(event: Record<string, unknown>): void;
 }
@@ -221,6 +231,13 @@ export function createContentPublisher(ports: PublishPorts) {
       throw error;
     }).finally(() => moved ? undefined : ports.host.publishAbort().catch(() => {}));
     timings.tickStallMs = performance.now() - holdStarted; timings.totalMs = performance.now() - started;
+    if (text && ports.activated) {
+      const bake = await ports.activated(catalog).catch(error => {
+        ports.log({ event: "world.bake_request_failed", level: "error", revision: catalog.revision, message: error instanceof Error ? error.message : String(error) });
+        return null;
+      });
+      if (bake) result.bake = bake;
+    }
     if (text || rebaseOnly) {
       if (text) void ports.catalog.served(catalog.revision).catch(() => {});
       // What `/worlds` and the `joined` reply say this server's content comes from.

@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Redo2, Undo2 } from "lucide-react";
 import { can, describeBlocker, type PublishSummary } from "../api/backend.js";
+import { publishGroups } from "../api/worldBake.js";
 import { MAX_PUBLISH_NOTE_CHARS, onPublishNote, publishNote, setPublishNote } from "../api/publishNote.js";
 import type { AppProps } from "../model/contracts.js";
 import { canonical, draftStore, lineDiff, useDraftState, type RecordEntry } from "../model/store.js";
@@ -46,7 +47,8 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
   // A publish is the one result worth showing after the bar would otherwise be gone: what a save did
   // to the running game is the question an author asks next.
   const undoLabel = draftStore.undoLabel(), redoLabel = draftStore.redoLabel();
-  if (!entries.length && !contributors.length && !undoLabel && !redoLabel) return state.published ? <details className="relative text-xs"><summary className="cursor-pointer text-primary">Published</summary><div className="absolute right-0 top-full z-50 mt-2 w-[min(640px,85vw)] border border-border bg-background shadow-lg"><PublishResult summary={state.published} /></div></details> : null;
+  const published = state.published && <details className="relative shrink-0 text-xs"><summary className="cursor-pointer text-primary">Published</summary><div className="absolute right-0 top-full z-50 mt-2 w-[min(640px,85vw)] border border-border bg-background shadow-lg"><PublishResult summary={state.published} onOpenWorld={() => navigate("world/map")} /></div></details>;
+  if (!entries.length && !contributors.length && !undoLabel && !redoLabel) return published || null;
   const tone = conflicts.length ? "danger" : error || diagnostics.length ? "warn" : undefined;
   const open = (entry: RecordEntry) => navigate(entry.collection, entry.objectShaped ? undefined : entry.id);
 
@@ -54,7 +56,8 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
     "relative flex min-w-0 items-center gap-2 pl-3 text-xs",
   )} data-tone={tone} role={tone ? "alert" : "status"} aria-label="Unsaved changes">
     <div className={cn(ROW, "min-w-0 flex-1")}>
-      <span className={cn("shell-savebar-count shrink-0 font-medium whitespace-nowrap", tone === "danger" ? "text-destructive" : "text-primary")}>{count} {count === 1 ? "record" : "records"} changed{conflicts.length ? ` · ${conflicts.length} in conflict` : ""}</span>
+      {/* Right after a publish the history still has an undo step: the result stays reachable until the next edit. */}
+      {!count && published ? published : <span className={cn("shell-savebar-count shrink-0 font-medium whitespace-nowrap", tone === "danger" ? "text-destructive" : "text-primary")}>{count} {count === 1 ? "record" : "records"} changed{conflicts.length ? ` · ${conflicts.length} in conflict` : ""}</span>}
       <span className="hidden min-w-0 max-w-56 gap-1 overflow-x-auto [scrollbar-width:none] min-[1400px]:flex">
         {entries.filter(entry => !entry.conflict).map(entry => <button key={entry.key} type="button" className={CHIP} title={`${entry.collection}/${entry.id}`} onClick={() => open(entry)}>{entry.name}</button>)}
         {contributors.map(contributor => <button key={contributor.key} type="button" className={CHIP} onClick={() => contributor.route && navigate(...contributor.route)}>{contributor.label}</button>)}
@@ -87,8 +90,12 @@ function PublishNote({ disabled }: { disabled: boolean }) {
     onKeyDown={event => { if (event.key === "Enter" && !disabled) { event.preventDefault(); void draftStore.saveAll(); } }} />;
 }
 
-/** What the last publish changed on the running server: applied now, waiting for a restart, and reached. */
-export function PublishResult({ summary, onDismiss = () => draftStore.clearPublished() }: { summary: PublishSummary; onDismiss?: () => void }) {
+/**
+ * What the last publish changed on the running server: applied now, waiting for the world bake it
+ * started, waiting for a restart, and reached. A queued bake links to its status in the World workspace.
+ */
+export function PublishResult({ summary, onDismiss = () => draftStore.clearPublished(), onOpenWorld }: { summary: PublishSummary; onDismiss?: () => void; onOpenWorld?: () => void }) {
+  const groups = publishGroups(summary);
   const reached = Object.entries(summary.affected).filter(([, ids]) => ids.length);
   const waiting = summary.spawns.filter(row => row.pending > 0);
   return <div className="flex min-w-0 shrink-0 flex-col gap-1 border-t border-primary bg-brass-soft px-3 py-1.5 text-xs" role="status" aria-label="Publish result">
@@ -97,12 +104,15 @@ export function PublishResult({ summary, onDismiss = () => draftStore.clearPubli
         {summary.unchanged ? "Nothing to publish" : `Published to ${summary.notified} ${summary.notified === 1 ? "player" : "players"}`}
       </span>
       <code className="shrink-0 font-mono text-[11px] text-faint" title={`Was ${summary.previous}`}>{summary.revision.slice(0, 12)}</code>
-      <span className="min-w-0 flex-1 truncate text-muted-foreground">
-        {summary.live.length > 0 && <>Live now: {summary.live.join(", ")}. </>}
-        {summary.onRestart.length > 0 && <>At next restart: {summary.onRestart.join(", ")}. </>}
+      <span className="min-w-0 flex-1 text-muted-foreground [overflow-wrap:anywhere]">
+        {groups.live.length > 0 && <>Live now: {groups.live.join(", ")}. </>}
+        {groups.rebuilding.length > 0 && <>Rebuilding the world: {groups.rebuilding.join(", ")}. </>}
+        {groups.rebuilding.length === 0 && groups.bakeQueued && <>Rebuilding the world. </>}
+        {groups.onRestart.length > 0 && <>At next restart: {groups.onRestart.join(", ")}. </>}
         {waiting.length > 0 && <>{waiting.reduce((sum, row) => sum + row.pending, 0)} creatures respawn onto the new plan. </>}
       </span>
-      <Button variant="ghost" size="sm" className="ml-auto shrink-0" onClick={onDismiss}>Dismiss</Button>
+      {groups.bakeQueued && onOpenWorld && <Button variant="secondary" size="sm" className="ml-auto shrink-0" onClick={event => { event.currentTarget.closest("details")?.removeAttribute("open"); onOpenWorld(); }}>World bake status</Button>}
+      <Button variant="ghost" size="sm" className={cn("shrink-0", !(groups.bakeQueued && onOpenWorld) && "ml-auto")} onClick={onDismiss}>Dismiss</Button>
     </div>
     {reached.length > 0 && <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-muted-foreground">
       {reached.map(([collection, ids]) => <span key={collection} className="[overflow-wrap:anywhere]">

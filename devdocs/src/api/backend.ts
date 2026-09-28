@@ -2,6 +2,7 @@ import type { CollectionResponse, CollectionSummary, ContentTransactionRequest, 
 import type { TransactionFailure } from "../model/store.js";
 import type { MetaPatch, MetaResponse } from "../../shared/metaContracts.js";
 import type { ImagegenJob, ImagegenRequest } from "../../shared/skinContracts.js";
+import type { ServerWorldBake } from "../../../game/src/world/serverWorldContract.js";
 
 /**
  * One interface, two places content can live.
@@ -60,6 +61,8 @@ export interface PublishSummary {
   spawns: readonly { world: string; added: number; pending: number; retiring: number; removed: number }[];
   /** Connected players told to refresh. */
   notified: number;
+  /** The world bake this publish queued, when it changed the world's geometry. */
+  bake?: ServerWorldBake;
 }
 
 /** Who held a definition this save would have removed. `POST /admin/content/publish` 409 `definition_in_use`. */

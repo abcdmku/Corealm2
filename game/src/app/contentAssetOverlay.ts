@@ -1,23 +1,7 @@
-import { CONTENT_ASSET_PATH, CONTENT_MANIFEST_OVERLAY } from "../multiplayer/contentAssetsContract.js";
+import { CONTENT_MANIFEST_OVERLAY } from "../multiplayer/contentAssetsContract.js";
 import { setManifestOverlay } from "../render/assets.js";
 import { parseManifestOverlay } from "../render/manifestOverlay.js";
-import { contentAssetOverride, setContentAssetOverlay } from "./config.js";
-
-/** The largest index a page reads. Tens of thousands of files, far past what a server authors. */
-export const MAX_CONTENT_ASSET_INDEX_BYTES = 8 * 1024 * 1024;
-const SHA256 = /^[0-9a-f]{64}$/;
-
-/** The entries of an index a client may use: contract paths with a sha256. Anything else is dropped, never trusted. */
-export function contentAssetFiles(value: unknown): Record<string, { sha256: string }> {
-  const files = (value as { files?: unknown } | null)?.files;
-  if (!files || typeof files !== "object" || Array.isArray(files)) throw new Error("A content asset index is {revision, files}");
-  const kept: Record<string, { sha256: string }> = {};
-  for (const [path, entry] of Object.entries(files as Record<string, unknown>)) {
-    const sha256 = (entry as { sha256?: unknown } | null)?.sha256;
-    if (CONTENT_ASSET_PATH.test(path) && typeof sha256 === "string" && SHA256.test(sha256)) kept[path] = { sha256 };
-  }
-  return kept;
-}
+import { contentAssetOverride, fetchContentAssetIndex, MAX_CONTENT_ASSET_INDEX_BYTES, serverWorld, setContentAssetOverlay } from "./config.js";
 
 /** The server's model overlay, read from where its index says; an unreadable one adds no models. */
 async function readManifestOverlay(request: typeof fetch): Promise<ReturnType<typeof parseManifestOverlay>> {
@@ -39,19 +23,20 @@ async function readManifestOverlay(request: typeof fetch): Promise<ReturnType<ty
  * The models the server adds (`CONTENT_MANIFEST_OVERLAY`) follow the same index: when it lists the
  * overlay, the overlay is read before `enter`/`refresh` resolve and every asset registry in the page
  * merges it (`render/assets.ts` `setManifestOverlay`), so a catalog applied after it can name its models.
+ *
+ * A page that booted onto a server's baked world (`config.ts` `serverWorld`) starts on that server's
+ * files, which the entry already loaded: entering the same server keeps them in use while the index
+ * is read again for its models, so the world files never fall back to the asset host.
  */
 export function createContentAssetOverlay(ports: { fetch?: typeof fetch; failed?(error: unknown): void } = {}) {
-  let base: string | null = null, request = 0;
+  let base: string | null = serverWorld()?.contentAssetUrl ?? null, loaded = base === null, request = 0;
   async function load(): Promise<void> {
     const ticket = ++request, from = base;
     if (from === null) { setContentAssetOverlay(null); setManifestOverlay(null); return; }
     try {
-      const response = await (ports.fetch ?? fetch)(new URL("index.json", from).href, { cache: "no-cache", credentials: "omit", redirect: "error" });
-      if (!response.ok) throw new Error(`${from}index.json answered ${response.status}`);
-      const text = await response.text();
-      if (text.length > MAX_CONTENT_ASSET_INDEX_BYTES) throw new Error(`${from}index.json is too large`);
-      const files = contentAssetFiles(JSON.parse(text));
+      const files = await fetchContentAssetIndex(from, ports.fetch ?? fetch);
       if (ticket !== request) return;
+      loaded = true;
       setContentAssetOverlay({ base: from, files });
       const overlay = files[CONTENT_MANIFEST_OVERLAY] ? await readManifestOverlay(ports.fetch ?? fetch) : [];
       if (ticket === request) setManifestOverlay(overlay.length ? { entries: overlay } : null);
@@ -62,7 +47,7 @@ export function createContentAssetOverlay(ports: { fetch?: typeof fetch; failed?
     get base(): string | null { return base; },
     enter(contentAssetUrl: string | undefined): Promise<void> {
       const next = contentAssetUrl ?? null;
-      if (next === base) return Promise.resolve();
+      if (next === base) return loaded ? Promise.resolve() : load();
       if (next === null) { this.leave(); return Promise.resolve(); }
       // Another server's files are never used for this one, even while its index loads.
       setContentAssetOverlay(null); setManifestOverlay(null);

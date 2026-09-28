@@ -175,9 +175,24 @@ export interface NavArtifactDiagnostics {
   bytes: number;
 }
 
+/** The identity of a released navmesh, which the imported artifact must carry. */
+export interface ReleasedNavigation { fingerprint:string; worldSeed:string; strategy:'solo'|'tiled'; sourceMeshes:number; sourceTriangles:number }
+
+/**
+ * The identity of a navmesh a live server baked for its own world (`world/serverWorldContract.ts`),
+ * read from the artifact's metadata: the server names its fingerprint there, and the page's copy is
+ * the file its index pins by sha256, so the bundle's constants have nothing to say about it.
+ * `worldSeed` is the page's, which the join already holds to the world's.
+ */
+export async function serverNavigationRelease(bytes: Uint8Array, worldSeed: string | number): Promise<ReleasedNavigation> {
+  const { metadata } = await decodeNavigationArtifact(bytes);
+  return { fingerprint: metadata.fingerprint, worldSeed: String(worldSeed), strategy: metadata.settings.strategy,
+    sourceMeshes: metadata.sourceMeshes, sourceTriangles: metadata.sourceTriangles };
+}
+
 export interface NavArtifactOptions {
-  /** Build-validated release identity avoids reconstructing all distant triangles on a phone. */
-  release?: { fingerprint:string; worldSeed:string; strategy:'solo'|'tiled'; sourceMeshes:number; sourceTriangles:number };
+  /** Build-validated release identity avoids reconstructing all distant triangles on a phone. A server world's comes from `serverNavigationRelease`. */
+  release?: ReleasedNavigation;
   /** Releases must import their validated artifact; runtime baking is an authoring tool. */
   allowRuntimeGeneration?: boolean;
   /** Saved-world seed. A binary from another seed must never be accepted. */

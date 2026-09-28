@@ -40,13 +40,14 @@ export type ClientTableName = keyof ClientCatalog["tables"];
 /**
  * - `live`: the page shows the server's rows from the moment the catalog loads: at join, and at every
  *   `content-updated`. A row the server added resolves, a row it changed reads the new fields.
- * - `bake`: world geometry. The page draws the baked world pack from its asset host, so region
- *   shapes, terrain and resource clusters must move with a new pack (live-authoring wave 3). The page
- *   keeps the build's rows, which match the pack it draws.
+ * - `rebake`: world geometry. The page draws a baked world pack, so region shapes, terrain and
+ *   resource clusters move only with a new bake: the server bakes one when a publish changes them, and
+ *   a page joining that world reloads onto the server's files. Until then the page keeps the build's
+ *   rows, which match the pack it draws.
  * - `build`: the page reads the table through a module it cannot refill yet, so it keeps the build's
  *   copy. Each names the module that would have to offer a refresh.
  */
-export const CLIENT_TABLE_FOLLOWS: Readonly<Record<ClientTableName, "live" | "bake" | "build">> = {
+export const CLIENT_TABLE_FOLLOWS: Readonly<Record<ClientTableName, "live" | "rebake" | "build">> = {
   // Names, icons, tooltips, stock: the registry (`overlayClientCatalog`) and the catalog arrays.
   items: "live", recipes: "live", resources: "live", shops: "live", spells: "live", enemies: "live",
   // Parsed at import, refilled by `refreshers`.
@@ -60,10 +61,10 @@ export const CLIENT_TABLE_FOLLOWS: Readonly<Record<ClientTableName, "live" | "ba
   "balance/sets": "live", "balance/campfires": "live", dialogue: "live",
   // `RECIPE_BALANCE` re-parsed: gather, heal and recipe XP previews use the server's numbers.
   "balance/recipes": "live",
-  worldTerrain: "bake", regions: "bake", worldResources: "bake",
+  worldTerrain: "rebake", regions: "rebake", worldResources: "rebake",
 };
 
-const FOLLOWED = (Object.keys(CLIENT_TABLE_FOLLOWS) as ClientTableName[]).filter(name => CLIENT_TABLE_FOLLOWS[name] !== "bake");
+const FOLLOWED = (Object.keys(CLIENT_TABLE_FOLLOWS) as ClientTableName[]).filter(name => CLIENT_TABLE_FOLLOWS[name] !== "rebake");
 
 /** Every module that copied a table at import, in dependency order. Assignments and refills only, apart from the parse each module already did at import. */
 const refreshers: readonly (() => void)[] = [

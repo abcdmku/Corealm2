@@ -4,7 +4,32 @@ import { decodeWorldData, worldDataSha256, type WorldDataManifest } from './worl
 import { WorldDataLoading } from './worldDataLoading.js';
 import { validTerrainCache, type TerrainCacheData } from '../render/terrainCache.js';
 
-/** Release data is authoritative. Browser storage is an optional local copy of those files. */
+/** Which baked world a manifest must be: the revision and scope it names. */
+export interface WorldIdentity { revision: string; scope: string }
+
+/** A manifest this page may build its world from: the expected revision and scope, and records to read. */
+export function acceptsWorldManifest(manifest: Partial<WorldDataManifest> | null, expected: WorldIdentity): manifest is WorldDataManifest {
+  return !!manifest && manifest.format === 'corealm-world' && manifest.version === 1
+    && manifest.revision === expected.revision && manifest.scope === expected.scope
+    && !!manifest.records && typeof manifest.records === 'object' && Array.isArray(manifest.tiles);
+}
+
+/**
+ * The browser cache scope of a world's records. A server's baked world keeps its records apart from
+ * the build's (and from its own earlier bakes), so a page moving between them never overwrites the
+ * other's copies; the revision check in `GenerationCache` already keeps either from being read as the other.
+ */
+export function worldCacheScope(scope: string, serverRevision: string | null): string {
+  return serverRevision === null ? scope : `${scope}@server/${serverRevision}`;
+}
+
+/**
+ * Release data is authoritative. Browser storage is an optional local copy of those files.
+ *
+ * `world` is the manifest the page expects: the build's own revision and scope by default (the
+ * cache's), or a server's baked world, whose records the page caches under another scope
+ * (`worldCacheScope`) while its manifest names the world's own.
+ */
 export class ShippedWorldData implements GenerationCachePort {
   private manifest: Promise<WorldDataManifest | null> | null = null;
   private shipped: string[] = [];
@@ -12,7 +37,8 @@ export class ShippedWorldData implements GenerationCachePort {
   private readonly downloads = new Map<string, Promise<Uint8Array>>();
   private readonly decodes = new Map<string, Promise<unknown>>();
   private readonly loading: WorldDataLoading | null;
-  constructor(private local: GenerationCache, private url: string, private required: boolean) {
+  constructor(private local: GenerationCache, private url: string, private required: boolean,
+    private world: WorldIdentity = { revision: local.revision, scope: local.scope }) {
     this.loading = typeof Worker === 'undefined' ? null : new WorldDataLoading(local.revision, local.scope);
   }
   snapshot() { return { ...(this.loading?.cache ?? this.local.snapshot()), shipped: [...this.shipped], generated: [...this.generated] }; }
@@ -79,10 +105,8 @@ export class ShippedWorldData implements GenerationCachePort {
         // names another revision, which fails the boot.
         const response = await fetch(this.url, { signal: AbortSignal.timeout(15_000), cache: "no-cache" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const manifest = await response.json() as WorldDataManifest;
-        if (manifest.format !== 'corealm-world' || manifest.version !== 1
-          || manifest.revision !== this.local.revision || manifest.scope !== this.local.scope
-          || !manifest.records || !Array.isArray(manifest.tiles)) throw new Error('World data revision does not match this game');
+        const manifest = await response.json() as Partial<WorldDataManifest> | null;
+        if (!acceptsWorldManifest(manifest, this.world)) throw new Error('World data revision does not match this game');
         return manifest;
       } catch (error) {
         if (this.required) throw new Error(`Unable to load the released world: ${String(error)}`);

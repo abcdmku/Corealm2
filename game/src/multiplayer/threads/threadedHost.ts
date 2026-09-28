@@ -1,7 +1,7 @@
 import type { IncomingMessage } from "node:http";
 import { MessageChannel, type Worker } from "node:worker_threads";
 import type { WebSocket } from "ws";
-import type { PlayerCharacter, SessionErrorCode, WorldDescriptor, WorldKey } from "../../contracts.js";
+import type { PlayerCharacter, SessionError, SessionErrorCode, WorldDescriptor, WorldKey } from "../../contracts.js";
 import type { InstalledCatalog } from "../../content/catalogInstall.js";
 import { swapCatalog } from "../contentSwap.js";
 import { HoldFailure, type HostControl, type LiveCharacter, type LiveEdit, type PublishCheck, type SpawnCounts, type WorldStatus } from "../hostControl.js";
@@ -81,6 +81,11 @@ export interface ThreadedHost {
   refresh(): Promise<void>;
   diagnostics(): Promise<{ mode: ThreadMode; worlds: WorldDiagnostics[]; database: DatabaseThreadStats }>;
   clearTicks(): void;
+  /**
+   * Run every world again on `build`, one at a time, each inside its own thread (`WorldHost.restart`): its peers get `notice`
+   * and are closed, its held characters saved and freed, and the world read back from storage. A world that crashes later starts on `build` too.
+   */
+  restartWorlds(build: WorldBuild, notice: SessionError): Promise<void>;
   /** Terminate sockets that went silent. The reference server calls it once a second. */
   dropSilent(): void;
   close(disconnectPeers: () => Promise<void>): Promise<void>;
@@ -224,7 +229,7 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
     const channel = new MessageChannel();
     database.rpc.note("attach", [channel.port1], [channel.port1 as never]);
     const data: WorldThreadData = { role: "world", world: thread.input, authentication: advertised, database: channel.port2, shape: { entityPatches: database.storage.world.entityPatches === true, editStoredPlayer: typeof database.storage.world.editStoredPlayer === "function" },
-      catalog: options.catalog, build: options.build, peerEncoding: options.peerEncoding ?? "bytes", reportMs };
+      catalog: options.catalog, build: currentBuild, peerEncoding: options.peerEncoding ?? "bytes", reportMs };
     const worker = options.launch(data, [channel.port2], `corealm-world-${thread.input.worldId}`);
     const handlers = handlersFor(thread), rpc = createRpc(worker as unknown as Endpoint, handlers, (error, method) => log({ event: "thread.message_failed", level: "error", world: thread.input.worldId, method, message: error instanceof Error ? error.message : String(error) }));
     let gone = false;
@@ -246,14 +251,16 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
     thread.available = true;
   }
   /** The catalog and settings in force, which a world that starts late must be brought onto. */
-  const current: { revision: string; capacity: Record<string, number> | null; description: string | null | undefined; endpoint: string | null; baseVersion: string | null | undefined } = { revision: options.catalogRevision, capacity: null, description: undefined, endpoint: null, baseVersion: undefined };
+  const current: { revision: string; capacity: Record<string, number> | null; description: string | null | undefined; endpoint: string | null; baseVersion: string | null | undefined; worldRevision: string | null | undefined } = { revision: options.catalogRevision, capacity: null, description: undefined, endpoint: null, baseVersion: undefined, worldRevision: undefined };
   const configuredChange = () => ({ ...(current.capacity ? { capacity: current.capacity } : {}), ...(current.description !== undefined ? { description: current.description } : {}), ...(current.endpoint !== null ? { endpoint: current.endpoint } : {}),
-    ...(current.baseVersion !== undefined ? { baseVersion: current.baseVersion } : {}) });
+    ...(current.baseVersion !== undefined ? { baseVersion: current.baseVersion } : {}), ...(current.worldRevision !== undefined ? { worldRevision: current.worldRevision } : {}) });
   function configured(thread: WorldThread): Partial<WorldDescriptor> {
     const capacity = current.capacity?.[thread.input.worldId];
     return { ...(capacity !== undefined ? { capacity } : {}), ...(current.endpoint !== null ? { endpoint: current.endpoint } : {}), ...(current.description ? { description: current.description } : {}),
-      ...(current.baseVersion ? { baseVersion: current.baseVersion } : {}) };
+      ...(current.baseVersion ? { baseVersion: current.baseVersion } : {}), ...(current.worldRevision ? { worldRevision: current.worldRevision } : {}) };
   }
+  /** What a world thread builds from: the pack the server started on, or the one a world bake moved it onto. */
+  let currentBuild: WorldBuild = options.build;
 
   /** A world's thread ended while the server runs. The others keep going. */
   function crashed(thread: WorldThread, reason: string): void {
@@ -330,10 +337,12 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
       if (change.description !== undefined) current.description = change.description;
       if (change.endpoint !== undefined) current.endpoint = change.endpoint;
       if (change.baseVersion !== undefined) current.baseVersion = change.baseVersion;
+      if (change.worldRevision !== undefined) current.worldRevision = change.worldRevision;
       for (const thread of threads) {
         const next = { ...thread.descriptor, ...configured(thread) };
         if (change.description !== undefined && !change.description) delete next.description;
         if (change.baseVersion !== undefined && !change.baseVersion) delete next.baseVersion;
+        if (change.worldRevision !== undefined && !change.worldRevision) delete next.worldRevision;
         thread.descriptor = next;
       }
       await each("configure", [change]);
@@ -447,6 +456,14 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
       return { mode: options.mode ?? "auto", database: await database.stats(), worlds: threads.map(thread => ({ worldId: thread.descriptor.worldId, available: thread.available, restarts: thread.restarts,
         failures: thread.budget.failures, abandoned: thread.budget.abandoned, bootMs: thread.bootMs, buildMs: thread.buildMs,
         ticks: [...thread.ticks], stages: { ...thread.stages }, heapUsedBytes: thread.report?.heapUsedBytes ?? 0, utilization: thread.report?.utilization ?? 0, cpuMs: thread.cpuMs })) };
+    },
+    async restartWorlds(build, notice) {
+      currentBuild = build;
+      for (const thread of threads) {
+        if (!thread.rpc) continue;
+        // Building the world is most of it, and runs in the world's thread before its hold: allow for a slow machine.
+        await thread.rpc.call("restart", [build, notice], { timeoutMs: 300_000 });
+      }
     },
     clearTicks() { metrics.ticks.length = 0; for (const thread of threads) { thread.ticks.length = 0; thread.cpuMs = thread.cpuMs === null ? null : 0; thread.stages = { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }; } },
     dropSilent() { for (const thread of threads) for (const peer of thread.peers.values()) if (peer.account !== null && peer.link.silent) peer.ws.terminate(); },

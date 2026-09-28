@@ -4,7 +4,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { dirname, join } from "node:path";
 import type { AdminRoute } from "./adminApi.js";
 import type { AdminActor, AuditWrite } from "./adminStorage.js";
-import { CONTENT_ASSET_PATH, type ContentAssetEntry, type ContentAssetIndex, type ContentAssetPath } from "./contentAssetsContract.js";
+import { CONTENT_ASSET_PATH, MAX_GENERATED_ASSET_BYTES, type ContentAssetEntry, type ContentAssetIndex, type ContentAssetPath } from "./contentAssetsContract.js";
 
 /**
  * A server's own file store (`contentAssetsContract.ts`): the files under `<dir>/files/<path>`, and
@@ -14,6 +14,9 @@ import { CONTENT_ASSET_PATH, type ContentAssetEntry, type ContentAssetIndex, typ
  * not there; a file a crash left unlisted is simply not served.
  */
 export const MAX_CONTENT_ASSET_BYTES = 16 * 1024 * 1024;
+/** The largest file a path may hold: a baked world's records and navmesh (`generated/...`) run larger than any authored file. */
+export const maxContentAssetBytes = (path: ContentAssetPath): number => path.startsWith("generated/") ? MAX_GENERATED_ASSET_BYTES : MAX_CONTENT_ASSET_BYTES;
+const mibOf = (bytes: number): string => `${bytes / 1_048_576} MiB`;
 /** One `POST /admin/files` body, base64 and JSON included. Several skin maps or one large model fit. */
 export const MAX_CONTENT_ASSET_BODY_BYTES = 64 * 1024 * 1024;
 const MAX_REMOVE_PATHS = 1000;
@@ -63,6 +66,8 @@ export interface ContentAssetStore {
   index(): Promise<ContentAssetIndex>;
   /** Base64 contents by path. Checks every file before writing any. */
   put(files: Readonly<Record<string, string>>, actor: AdminActor): Promise<ContentAssetIndex>;
+  /** `put` for a caller that already holds the bytes, such as a world bake writing `generated/...`. Same checks, same audit. */
+  putBytes(files: Readonly<Record<string, Uint8Array>>, actor: AdminActor): Promise<ContentAssetIndex>;
   remove(paths: readonly string[], actor: AdminActor): Promise<ContentAssetIndex>;
   read(path: string): Promise<{ bytes: Buffer; entry: ContentAssetEntry } | null>;
   /** `GET|POST|DELETE /admin/files`. */
@@ -110,14 +115,23 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
     if (!paths.length) throw new ContentAssetFailure(400, "invalid_request", "files names at least one file");
     for (const path of paths) {
       contentAssetPath(path);
-      const text = files[path];
+      const text = files[path], cap = maxContentAssetBytes(path);
       if (typeof text !== "string") throw new ContentAssetFailure(400, "invalid_request", `files[${JSON.stringify(path)}] must be base64`);
-      if (text.length * 3 / 4 > MAX_CONTENT_ASSET_BYTES + 2) throw new ContentAssetFailure(413, "payload_too_large", `${path} is larger than ${MAX_CONTENT_ASSET_BYTES / 1_048_576} MiB`);
+      if (text.length * 3 / 4 > cap + 2) throw new ContentAssetFailure(413, "payload_too_large", `${path} is larger than ${mibOf(cap)}`);
       if (!isBase64(text)) throw new ContentAssetFailure(400, "invalid_request", `files[${JSON.stringify(path)}] must be base64`);
-      const bytes = Buffer.from(text, "base64");
+      decoded.push([path, Buffer.from(text, "base64")]);
+    }
+    return write(decoded, actor);
+  }
+  async function putBytes(files: Readonly<Record<string, Uint8Array>>, actor: AdminActor): Promise<ContentAssetIndex> {
+    const paths = Object.keys(files);
+    if (!paths.length) throw new ContentAssetFailure(400, "invalid_request", "files names at least one file");
+    return write(paths.map(path => { contentAssetPath(path); const bytes = files[path]!; return [path, Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)]; }), actor);
+  }
+  async function write(decoded: readonly [string, Buffer][], actor: AdminActor): Promise<ContentAssetIndex> {
+    for (const [path, bytes] of decoded) {
       if (!bytes.length) throw new ContentAssetFailure(400, "invalid_request", `${path} is empty`);
-      if (bytes.length > MAX_CONTENT_ASSET_BYTES) throw new ContentAssetFailure(413, "payload_too_large", `${path} is larger than ${MAX_CONTENT_ASSET_BYTES / 1_048_576} MiB`);
-      decoded.push([path, bytes]);
+      if (bytes.length > maxContentAssetBytes(path)) throw new ContentAssetFailure(413, "payload_too_large", `${path} is larger than ${mibOf(maxContentAssetBytes(path))}`);
     }
     return serial(async () => {
       const before = await index(), at = new Date(now()).toISOString();
@@ -219,7 +233,7 @@ export function createContentAssetStore(options: ContentAssetStoreOptions): Cont
     return answer(200, { "Content-Type": file.entry.type, "Content-Length": file.bytes.length, ETag: etag, "Cache-Control": cache }, file.bytes);
   }
 
-  return { publicUrl: options.publicUrl ?? null, index, put, remove, read, route, http };
+  return { publicUrl: options.publicUrl ?? null, index, put, putBytes, remove, read, route, http };
 }
 
 /** `/content-assets/` beside a world's socket: http for ws, https for wss, like `/catalog/`. */

@@ -78,11 +78,15 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
  * start builds every world's entities from it again, a saved world's included: a save keeps only what
  * play made or moves (creatures, loot piles, recovery caches, campfires), never a structure, station or node.
  *
+ * `rebake` means the table shapes the baked world (terrain, navmesh, collision, scatter). A publish that
+ * changes it starts a server world bake (`serverWorldBake.ts`); when the bake passes, each world
+ * restarts on the new pack and pages reload onto it. Until then the running world keeps the last good bake.
+ *
  * Players' pages are a separate question, answered by `CLIENT_TABLE_FOLLOWS` in `clientContentSwap.ts`:
  * a page loads the new client catalog at every `content-updated` and shows most of it at once, even
  * where the server's own rules wait for a restart. Each line below says what a player sees, and when.
  */
-export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">> = {
+export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart" | "rebake">> = {
   // Names, icons, stats, stock: the page's tooltips and shop windows change at once, and the next craft, kill or purchase uses the new row.
   items: "live", recipes: "live", shops: "live", enemies: "live",
   // The creature list and its look. New spawns roll from the new rows at their next respawn; a page resolves a new variant at once.
@@ -101,8 +105,9 @@ export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">>
   // The spell registry, refilled and registered again: the next cast uses the new numbers, runes and names. The agent's
   // tool schema lists the spell ids it was started with, so a new spell reaches an agent after a restart.
   spells: "live", spellRunes: "live", elementalSpells: "live",
-  // The world's shape. Terrain, navmesh and map tiles are baked, and a page draws the baked pack: both move with a new bake (live-authoring wave 3).
-  worldRegions: "restart", worldTerrain: "restart", resourcePlacements: "restart",
+  // The world's shape. Terrain, navmesh and scatter are baked, and a page draws the baked pack: both move with the server's new bake.
+  // The world map image is not re-rendered by a server bake; it stays the base world's until the next release.
+  worldRegions: "rebake", worldTerrain: "rebake", resourcePlacements: "rebake",
   // Who each person is (the speaker of their lines, their role and journal entry) and every dialogue node: the next line
   // spoken reads the new row, and a conversation standing on a removed node ends. NPC entities (their names over their heads,
   // positions, dialogue roots) come from the region stands in `worldRegions` and move after a restart.

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { assetUrl, contentAssetOverride, publicUrl, resetPublicBaseUrl, setContentAssetOverlay, setPublicBaseUrl } from "../game/src/app/config.js";
-import { contentAssetFiles, createContentAssetOverlay } from "../game/src/app/contentAssetOverlay.js";
+import { assetUrl, contentAssetFiles, contentAssetOverride, publicUrl, resetPublicBaseUrl, setContentAssetOverlay, setPublicBaseUrl } from "../game/src/app/config.js";
+import { createContentAssetOverlay } from "../game/src/app/contentAssetOverlay.js";
 import type { CreatureSkin } from "../game/src/content/schema/creatureSkins.js";
 import type { ItemDef } from "../game/src/contracts.js";
 import { configureAssetDelivery, deliveryUrl } from "../game/src/render/assetDelivery.js";

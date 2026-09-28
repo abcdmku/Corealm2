@@ -1,5 +1,5 @@
 import { UtilityMagicVfx } from "../render/utilityMagicVfx.js";
-import { assetBaseUrl, generatedUrl, publicUrl, setPublicBaseUrl } from "./config.js";
+import { assetBaseUrl, generatedUrl, publicUrl, serverWorld, setPublicBaseUrl } from "./config.js";
 import { playTargetOf, takePendingLaunch } from "../multiplayer/playIntent.js";
 import { registerDisplayFont } from "../ui/displayFont.js";
 import { prepareUiFirstPaint } from "../ui/firstPaint.js";
@@ -11,7 +11,7 @@ import { createRealmTerrain, createRealmScatter, type RealmTerrain } from './rea
 import { resolveFairyDressing } from './fairyDressing.js';
 import { cachedWorldValue } from '../world/cachedWorldValue.js';
 import releaseNavigation from 'virtual:corealm-release-navigation';
-import { loadArtifactBytes } from '../systems/navigation.js';
+import { loadArtifactBytes, serverNavigationRelease } from '../systems/navigation.js';
 import { buildFairyTerrainSpec, CROWNWARD_DISTANT_RANGE } from './worldSpec.js';
 import { FAIRY_PORTAL_LAB_TERRAIN, assembleFairyPortalFixture, createFairyPortalWorkbench } from '../featureLab/fairyPortal.js';
 import { immediatePlayerItems, PlayerEntitySelector, type PlayerAssetArea } from '../render/playerAssetPlan.js';
@@ -19,7 +19,7 @@ import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
 import generationRevision from "virtual:corealm-generation-revision";
 import { GenerationCache } from "../world/generationCache.js";
 import { generationScope } from "../world/worldDataFormat.js";
-import { ShippedWorldData } from "../world/shippedWorldData.js";
+import { ShippedWorldData, worldCacheScope } from "../world/shippedWorldData.js";
 import { mobSpawnPlacementPorts } from "./mobSpawns.js";
 import { registerExclusions } from "./worldExclusions.js";
 import { buildDungeonSpec } from "./dungeonSpec.js";
@@ -271,7 +271,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? import("../multiplayer/browserSession.js")
       // A lab has one world to join and nobody to ask, so it is `?play=local` without the flag.
       .then(({ startWorldSelection }) => startWorldSelection(labSpec ? { play: { kind: "local" }, local: localLaunch }
-        : { play: playTarget, launch: pendingLaunch, local: localLaunch }))
+        : { play: playTarget, launch: pendingLaunch, local: localLaunch, buildRevision: generationRevision }))
       .catch(() => null)
     : Promise.resolve(null);
   // Set when the player answers "Play local" on the loading screen, or when `?play=local` answered
@@ -418,17 +418,20 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // The saved position is already known. Download its world data while WASM, textures and graphics initialize.
   const cacheQuery = new URLSearchParams(location.search);
   const cacheScope = generationScope(profile.kind, store.get().meta.seed, location.search);
+  // A server's baked world, when the entry reloaded onto one: its revision, and its own cache records.
+  const worldRevision = serverWorld()?.revision ?? generationRevision;
+  const worldScope = worldCacheScope(cacheScope, serverWorld()?.revision ?? null);
   const bakeWriter = worldBake ? new (await import('../world/worldBake.js')).WorldBakeWriter() : null;
   const localCache = !worldMapCapture && cacheQuery.get("navmesh-bake") !== "1"
     && (profile.kind === "game" ? cacheQuery.get("startup-cache") !== "0" : cacheQuery.get("startup-cache") === "1")
-    ? new GenerationCache(generationRevision, cacheScope) : null;
+    ? new GenerationCache(worldRevision, worldScope) : null;
   const fixtureWorldData = import.meta.env.DEV ? cacheQuery.get('world-data') : null;
   const releaseWorldData = profile.kind === 'game' && (import.meta.env.PROD
     || !worldMapCapture && cacheQuery.get('navmesh-bake') !== '1' && cacheQuery.get('startup-cache') !== '0');
   const generationCache = bakeWriter ?? (fixtureWorldData
     ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope), fixtureWorldData, true)
-    : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope),
-      generatedUrl('world/manifest.json'), import.meta.env.PROD) : localCache);
+    : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(worldRevision, worldScope),
+      generatedUrl('world/manifest.json'), import.meta.env.PROD, { revision: worldRevision, scope: cacheScope }) : localCache);
   (window as any).__corealmGenerationCache = generationCache;
   const initialAreaPosition = [profile.spawn.x,0,profile.spawn.z];
   // The world records and models around the spawn, from this page's own asset base, started while
@@ -1058,8 +1061,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   ];
   const navigationBuilt = await bootTelemetry.measureAsync(
     BOOT_SPANS.NAVIGATION_BUILD,
-    () => nav.buildOrImport(navigationInput, { worldSeed: store.get().meta.seed,
-      ...(releasedNavigation ? {release:releaseNavigation,loadArtifact:()=>navigationDownload!} : {}),
+    async () => nav.buildOrImport(navigationInput, { worldSeed: store.get().meta.seed,
+      ...(releasedNavigation ? {release:serverWorld() ? await serverNavigationRelease(await navigationDownload!, store.get().meta.seed) : releaseNavigation,
+        loadArtifact:()=>navigationDownload!} : {}),
       allowRuntimeGeneration: !(import.meta.env.PROD && profile.kind === 'game') }),
   );
   if (!navigationBuilt) {

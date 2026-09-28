@@ -16,7 +16,7 @@ export const BAKE_ENTRIES = [
   "tools/build-release-world.ts", "tools/build-navmesh.ts", "tools/build-server-world-pack.ts",
   "game/src/world/worldBake.ts", "game/src/world/mobSpawnCache.ts", "game/src/app/realmTerrain.ts",
   "game/src/app/mobSpawns.ts", "game/src/render/assets.ts", "game/src/world/cachedWorldValue.ts",
-  "tools/content/compile.ts",
+  "tools/content/compile.ts", "game/src/world/bake/nodeWorldBake.ts",
 ] as const;
 
 /**

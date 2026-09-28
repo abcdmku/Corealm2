@@ -27,6 +27,8 @@ import {
 } from "../game/src/multiplayer/embedded.js";
 import { createServerLogger, fileWriter, streamWriter, type ServerLogger } from "../game/src/multiplayer/serverLog.js";
 import { startServerConsole, type ConsoleStats } from "../game/src/multiplayer/serverConsole.js";
+// Loads no content tables, so the baker child can start from it before any catalog is installed.
+import { runEmbeddedBaker, WORLD_BAKER_FLAG } from "../game/src/multiplayer/serverWorldBake.js";
 
 /**
  * The Corealm game server: one process, one database, one or more worlds.
@@ -187,6 +189,8 @@ const started = Date.now();
 
 async function main(argv: readonly string[]): Promise<number> {
   quietSqliteWarning();
+  // Started as the world baker (a child of a running server): bake one job and exit.
+  if (argv[0] === WORLD_BAKER_FLAG) return runEmbeddedBaker(argv[1] ?? "");
   // Started as one of the server's own threads: run that role. It ends when the main thread ends it.
   if (threadRole() !== null) { await runThread(); return 0; }
   const build = buildInfo();
@@ -288,15 +292,24 @@ async function main(argv: readonly string[]): Promise<number> {
 
   const { startReferenceServer } = await import("../game/src/multiplayer/referenceServer.js");
   const { createMultiplayerLabWorld } = await import("../game/src/multiplayer/labWorld.js");
+  const { RESOLVED_CATALOG } = await import("../game/src/content/resolvedCatalog.js");
+  // A server whose authors changed the world's geometry runs the world it baked for itself; until that
+  // bake exists it runs the last good one (or the build's) and bakes. It never refuses to start.
+  const { selectWorldPack, createWorldBakes, bakerProcess, serverWorldRestart } = await import("../game/src/multiplayer/serverWorldBake.js");
+  const worldChoice = packBytes === null ? null : await selectWorldPack({ dir: resolve(directory, "world"), embedded: packBytes,
+    bundled: shipped.catalog.tables, active: RESOLVED_CATALOG.tables, log: event => logger.emit(event) });
+  const runningPack = worldChoice?.bytes ?? packBytes;
+  if (worldChoice?.revision) for (const world of worlds) world.worldRevision = worldChoice.revision;
   // Read and check the pack once, before the first world is built, so a stale file is one clear error.
-  const checkedPack = packBytes === null ? null
-    : await loadWorldPack(packBytes, embedded.sea ? `The ${SERVER_WORLD_PACK_FILE} in this build` : repoPathOf(SERVER_WORLD_PACK_FILE)!);
-  if (checkedPack) logger.info("world-pack", { revision: checkedPack.revision, seeds: checkedPack.seeds, bytes: packBytes!.length });
+  const checkedPack = runningPack === null ? null
+    : await loadWorldPack(runningPack, worldChoice?.revision ? `The baked world ${worldChoice.revision.slice(0, 12)}`
+      : embedded.sea ? `The ${SERVER_WORLD_PACK_FILE} in this build` : repoPathOf(SERVER_WORLD_PACK_FILE)!);
+  if (checkedPack) logger.info("world-pack", { revision: checkedPack.revision, seeds: checkedPack.seeds, bytes: runningPack!.length, source: worldChoice?.source ?? "build" });
   // With threads the worlds are built elsewhere, each from its own reading of the pack, so this thread keeps none.
   const pack = database ? null : checkedPack;
   // Every world thread reads the pack through one block of shared memory, so ten megabytes are held once however many worlds there are.
   let sharedPack: Uint8Array | null = null;
-  if (database && packBytes) { sharedPack = new Uint8Array(new SharedArrayBuffer(packBytes.byteLength)); sharedPack.set(packBytes); }
+  if (database && runningPack) { sharedPack = new Uint8Array(new SharedArrayBuffer(runningPack.byteLength)); sharedPack.set(runningPack); }
   const adminUiArchive = embedded.asset(ADMIN_UI_ASSET);
   // Notes, review requests and art verdicts, kept in the server's own database beside its content.
   const { catalogEntities, createMetaRoute } = await import("../game/src/multiplayer/adminMeta.js");
@@ -309,19 +322,37 @@ async function main(argv: readonly string[]): Promise<number> {
   adminRoutes.push(imagegen.route);
   // Item icons: the job paints an original; both inventory sizes land in the file store as a candidate.
   const { createIconKind, serverIconStore } = await import("../game/src/multiplayer/itemIconJobs.js");
-  const { RESOLVED_CATALOG } = await import("../game/src/content/resolvedCatalog.js");
   imagegen.register("icon", createIconKind({
     hasItem: async itemId => RESOLVED_CATALOG.tables.items.some(item => item.id === itemId),
     store: serverIconStore({ files: contentAssets, meta: storage.admin }),
   }));
-  const server = await startReferenceServer({
+  // World geometry bakes: a publish that changes geometry queues one; a finished bake restarts each world on it.
+  let server!: Awaited<ReturnType<typeof startReferenceServer>>;
+  const bakes = worldChoice && packBytes ? createWorldBakes({
+    dir: resolve(directory, "world"), choice: worldChoice, embedded: packBytes,
+    seeds: config.worlds.map(world => world.seed), store: contentAssets,
+    active: () => RESOLVED_CATALOG,
+    baseManifest: async () => config.assetBaseUrl
+      ? (await fetch(new URL("assets/manifest.json", config.assetBaseUrl))).text()
+      : manifest ?? "{\"assets\":[]}",
+    assets: { localDir: embedded.sea ? null : resolve(process.cwd(), "game/public/assets"), baseUrl: config.assetBaseUrl ?? null },
+    baker: bakerProcess({ sea: embedded.sea, log: event => logger.emit(event) }),
+    restart: serverWorldRestart(() => server),
+    broadcast: message => server.broadcast(message),
+    audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event),
+  }) : null;
+  if (bakes) {
+    const { createWorldRoute } = await import("../game/src/multiplayer/adminWorld.js");
+    adminRoutes.push(createWorldRoute({ bakes, audit: (by, entry) => storage.admin.record(by, entry), log: event => logger.emit(event) }));
+  }
+  server = await startReferenceServer({
     worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog, bundledBase: shipped, log: event => logger.emit(event),
     allowedOrigins: config.allowedOrigins.length ? config.allowedOrigins : undefined,
     // A publish checks asset ids against the host the clients load from, or against the manifest this server ships with.
     assets: { ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
       ...(manifest === null ? {} : { bundledManifest: async () => JSON.parse(manifest) }),
       ...(embedded.sea ? {} : { bundledFile: (path: string) => stat(resolve(process.cwd(), "game/public", path)).then(found => found.isFile(), () => false) }) },
-    adminRoutes, contentAssets,
+    adminRoutes, contentAssets, ...(bakes ? { worldActivated: bakes.activated } : {}),
     ...(config.ownerAccount ? { ownerAccount: config.ownerAccount } : {}),
     ...(config.identityUrl ? { identityUrl: config.identityUrl } : {}),
     settings: { ...(config.name ? { name: config.name } : {}), ...(config.description ? { description: config.description } : {}), registerWithDirectory: config.registerWithDirectory },
@@ -331,6 +362,7 @@ async function main(argv: readonly string[]): Promise<number> {
       catalog: { kind: "storage" as const }, build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
   }).catch(async error => { await storage.close(); throw error; });
   publisher = server.publisher;
+  await bakes?.start();
 
   // `ready: true` and `port` are what every launcher and proof script waits for.
   logger.emit({ event: "ready", ready: true, host: config.host, port: server.port,

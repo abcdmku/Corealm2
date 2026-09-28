@@ -1,5 +1,6 @@
 /** Tunables the root owns. Numbers come from runs/corealm/PRD.md. */
 import type { SpellRung } from "../contracts.js";
+import { CONTENT_ASSET_PATH } from "../multiplayer/contentAssetsContract.js";
 
 export const PLAYER_SPEED = 5.2;          // m/s over the navmesh
 /** Uniform creature pursuit speed leaves the player a ten-percent escape margin. */
@@ -252,7 +253,8 @@ export function identityUrl(): string | undefined {
  * The joined server's own files (`multiplayer/contentAssetsContract.ts`): a path its index lists is
  * loaded from the server, pinned to the file's hash, before the asset host is asked. Set on joining
  * a world whose descriptor has a `contentAssetUrl` (`app/contentAssetOverlay.ts`), cleared on
- * leaving. Local play and devdocs never set it.
+ * leaving, and set by the entry before boot on a page that reloaded onto a server's baked world
+ * (`serverWorld` below). Local play and devdocs never set it.
  */
 let contentAssets: { base: string; files: ReadonlyMap<string, string> } | null = null;
 
@@ -269,6 +271,52 @@ export function contentAssetOverride(path: string): string | null {
   const sha = contentAssets.files.get(clean);
   return sha === undefined ? null : `${contentAssets.base}${clean.split("/").map(encodeURIComponent).join("/")}?v=${sha}`;
 }
+
+/** The largest index a page reads. Tens of thousands of files, far past what a server authors. */
+export const MAX_CONTENT_ASSET_INDEX_BYTES = 8 * 1024 * 1024;
+const SHA256 = /^[0-9a-f]{64}$/;
+
+/** The entries of an index a client may use: contract paths with a sha256. Anything else is dropped, never trusted. */
+export function contentAssetFiles(value: unknown): Record<string, { sha256: string }> {
+  const files = (value as { files?: unknown } | null)?.files;
+  if (!files || typeof files !== "object" || Array.isArray(files)) throw new Error("A content asset index is {revision, files}");
+  const kept: Record<string, { sha256: string }> = {};
+  for (const [path, entry] of Object.entries(files as Record<string, unknown>)) {
+    const sha256 = (entry as { sha256?: unknown } | null)?.sha256;
+    if (CONTENT_ASSET_PATH.test(path) && typeof sha256 === "string" && SHA256.test(sha256)) kept[path] = { sha256 };
+  }
+  return kept;
+}
+
+/** `<contentAssetUrl>index.json`, never from a stale copy, reduced to the entries a client may use. */
+export async function fetchContentAssetIndex(contentAssetUrl: string, request: typeof fetch = fetch): Promise<Record<string, { sha256: string }>> {
+  const response = await request(new URL("index.json", contentAssetUrl).href, { cache: "no-cache", credentials: "omit", redirect: "error" });
+  if (!response.ok) throw new Error(`${contentAssetUrl}index.json answered ${response.status}`);
+  const text = await response.text();
+  if (text.length > MAX_CONTENT_ASSET_INDEX_BYTES) throw new Error(`${contentAssetUrl}index.json is too large`);
+  return contentAssetFiles(JSON.parse(text));
+}
+
+/**
+ * The server world this page booted onto, or null for the build's own baked world.
+ *
+ * A server whose authors changed the world's geometry bakes its own world (`world/serverWorldContract.ts`)
+ * and names it in `WorldDescriptor.worldRevision`. The page reloads onto it, and its entry sets this
+ * once, before any content module evaluates, together with the server's catalog and file index:
+ * the world records, world manifest and navmesh under `generated/...` then resolve to the server,
+ * and the world data and navmesh checks take this revision instead of the build's. It never changes
+ * afterwards: moving to another world's geometry is another reload.
+ */
+export interface ServerWorldPin { revision: string; contentAssetUrl: string }
+let pinnedWorld: ServerWorldPin | null = null;
+export function setServerWorld(world: ServerWorldPin): void {
+  if (pinnedWorld) throw new Error("The page's world was already chosen");
+  pinnedWorld = { ...world };
+  (globalThis as { __corealmServerWorld?: ServerWorldPin }).__corealmServerWorld = { ...world };
+}
+export function serverWorld(): ServerWorldPin | null { return pinnedWorld; }
+/** Tests only. */
+export function resetServerWorld(): void { pinnedWorld = null; }
 
 export function publicUrl(path: string): string {
   return contentAssetOverride(path) ?? `${publicBaseUrl()}${path.replace(/^\/+/, "")}`;

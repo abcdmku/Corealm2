@@ -17,6 +17,7 @@ import type { ViewProps } from "../types.js";
 import { Inspector } from "./Inspector.js";
 import { MapCanvas, type MapHandle, type Tool, type View } from "./MapCanvas.js";
 import { Rail } from "./Rail.js";
+import { MapStaleNote, useWorldStatusView, WorldStatusStrip } from "./WorldStatusStrip.js";
 import {
   DRAFT_COLLECTIONS, LAYERS, addLandmark, addLocation, addResourceNode, addSpawn, deriveFeatures, moveSelection, parseSelection, patchPlacement, patchResource, regionBounds, regionById, round, safeAnchors, sameSelection, selectionId, selectionPoint, worldBounds,
   type Bounds, type Draft, type Feature, type Layer, type Point, type Selection,
@@ -235,6 +236,8 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     map.current?.fit({ minX: Math.min(...xs) - pad, maxX: Math.max(...xs) + pad, minZ: Math.min(...zs) - pad, maxZ: Math.max(...zs) + pad });
   }, []);
 
+  const worldStatus = useWorldStatusView();
+
   if (failed) return <ErrorState message={failed.error?.message ?? "The world could not be loaded."} retry={() => void failed.refetch()} />;
   if (loading || !draft || !derived) return <LoadingRows />;
 
@@ -257,6 +260,8 @@ export default function MapView({ recordId, navigate }: ViewProps) {
           <Button variant="secondary" size="sm" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void preview()}>{busy ? "Working…" : "Preview"}</Button>
         </span>}
       </div>
+      <WorldStatusStrip status={worldStatus} />
+      {worldStatus.view.mapStale && <MapStaleNote />}
       <MapCanvas ref={map} features={features} roads={derived.roads} layers={layers} selection={selection} anchors={anchors} editable={editable} tool={tool}
         onSelect={select} onMove={onMove} onResize={onResize} onMoveAnchor={onMoveAnchor} onNudge={onNudge} onPlace={onPlace} onViewChange={onViewChange} onEscape={onEscape} />
       {pending && <RecordPicker collection={pending.tool === "spawn" ? "creatureDefinitions" : pending.tool === "resource" ? "resources" : "assets"} ctx={ctx} open onOpenChange={open => { if (!open) { setPending(undefined); setTool(undefined); } }} onPick={finishAdd}

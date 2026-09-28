@@ -17,7 +17,7 @@ import { brotliCompress, constants as zlib, gzip } from "node:zlib";
 /** First segments after `/admin/` that are the API's, whatever the method or the Accept header. */
 export const ADMIN_API_SEGMENTS: readonly string[] = ["info", "setup", "session", "me", "roles", "bans", "tokens", "audit", "content", "stats", "players", "settings",
   // Feature routes (`AdminRoute` modules). Never `assets`: that is the devdocs build's own folder.
-  "files", "meta", "imagegen"];
+  "files", "meta", "imagegen", "world"];
 
 /** Where the build comes from: a directory today, files embedded in the executable in M6. */
 export interface AdminUiSource {

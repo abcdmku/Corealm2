@@ -1,4 +1,8 @@
 import { installCatalog, type InstalledCatalog } from "./catalogInstall.js";
+import type { ClientCatalog } from "./clientCatalog.js";
+import { fetchContentAssetIndex, setContentAssetOverlay, setServerWorld } from "../app/config.js";
+import { fetchClientCatalog } from "../multiplayer/clientCatalogFetch.js";
+import { peekPendingLaunch, type PendingServerWorld } from "../multiplayer/playIntent.js";
 import { LOCAL_WORLD_MANIFEST, parseLocalWorldManifest, type LocalWorldManifest } from "../worker/localHostProtocol.js";
 
 /**
@@ -13,6 +17,10 @@ import { LOCAL_WORLD_MANIFEST, parseLocalWorldManifest, type LocalWorldManifest 
  * lab, the world bake, the map capture and the navmesh bake assemble a world on the page (a lab
  * posts whole entities to its worker, the bake writes spawn placement), so those authoring surfaces
  * install the full catalog the manifest names for the worker. Neither is ever bundled.
+ *
+ * A game page reloading onto a server's baked world (`PendingLaunch.world`) installs THAT server's
+ * client catalog instead, and loads its file index, so the terrain, scatter and region signatures the
+ * scene computes are the ones the server baked from, and `generated/...` resolves to its files.
  */
 export type PageCatalogKind = "client" | "full";
 
@@ -35,12 +43,45 @@ export function sharedLocalWorldManifest(url: string): LocalWorldManifest | null
 /** `startedAtMs` is on the page clock (`performance.now()`), for the boot telemetry span. */
 export interface InstalledPageCatalog { kind: PageCatalogKind; revision: string; file: string; bytes: number; startedAtMs: number; manifestMs: number; catalogMs: number }
 
+/** What a server's baked world must list for a page to build it: the world manifest (naming its records) and the navmesh. */
+export const SERVER_WORLD_FILES = ["generated/world/manifest.json", "generated/corealm-navmesh.nav"] as const;
+
+/**
+ * A server's baked world, fetched: its client catalog and its file index. Throws when either is
+ * unusable or the index does not carry the world, before anything is installed.
+ */
+export async function loadServerWorld(world: PendingServerWorld, fetcher: typeof fetch = fetch): Promise<{ catalog: ClientCatalog; files: Record<string, { sha256: string }> }> {
+  const [catalog, files] = await Promise.all([
+    fetchClientCatalog({ url: world.catalogUrl, revision: world.catalogRevision }, { fetch: fetcher }),
+    fetchContentAssetIndex(world.contentAssetUrl, fetcher),
+  ]);
+  const missing = SERVER_WORLD_FILES.filter(path => !files[path]);
+  if (missing.length) throw new Error(`The server's world is missing ${missing.join(", ")}`);
+  return { catalog, files };
+}
+
 /**
  * Fetch the manifest (never cached) and the catalog it names (cached for good), and install it.
  * Throws with a sentence a player can read: the entry shows it beside a Retry button.
+ *
+ * On a game page reloading onto a server's baked world, the server's catalog and files are installed
+ * instead. When they cannot be read the page boots on the build's world, and the join that follows
+ * refuses with the reason rather than reloading again (`playIntent.ts` `joinRoute`).
  */
 export async function installPageCatalog(generatedBase: string, kind: PageCatalogKind, fetcher: typeof fetch = fetch): Promise<InstalledPageCatalog> {
   const started = performance.now();
+  const world = kind === "client" ? peekPendingLaunch()?.world ?? null : null;
+  if (world) {
+    try {
+      const { catalog, files } = await loadServerWorld(world, fetcher);
+      installCatalog({ version: 1, revision: catalog.revision, formulaRevision: "", tables: catalog.tables as Record<string, unknown> });
+      setContentAssetOverlay({ base: world.contentAssetUrl, files });
+      setServerWorld({ revision: world.revision, contentAssetUrl: world.contentAssetUrl });
+      return { kind, revision: catalog.revision, file: world.catalogUrl, bytes: 0, startedAtMs: started, manifestMs: 0, catalogMs: performance.now() - started };
+    } catch (error) {
+      console.warn("[corealm] The server's world could not be loaded; this page runs the build's world.", error);
+    }
+  }
   const manifestUrl = new URL(LOCAL_WORLD_MANIFEST, generatedBase).href;
   const get = async (url: string, init: RequestInit, what: string): Promise<unknown> => {
     let response: Response;

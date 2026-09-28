@@ -35,6 +35,7 @@ export function localHostControl<L extends PeerLink>(host: WorldHost<L>): HostCo
         if (change.description !== undefined) { if (change.description) runtime.descriptor.description = change.description; else delete runtime.descriptor.description; }
         if (change.endpoint !== undefined) runtime.descriptor.endpoint = change.endpoint;
         if (change.baseVersion !== undefined) { if (change.baseVersion) runtime.descriptor.baseVersion = change.baseVersion; else delete runtime.descriptor.baseVersion; }
+        if (change.worldRevision !== undefined) { if (change.worldRevision) runtime.descriptor.worldRevision = change.worldRevision; else delete runtime.descriptor.worldRevision; }
       }
     },
     async liveCharacter(accountId) {

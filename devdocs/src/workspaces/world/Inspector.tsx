@@ -352,7 +352,6 @@ function RegionSheet({ draft, selection, feature, editable, update, navigate, on
       <NumberRow spec={at(WorldTerrainSchema, "coast", "shoreline", 0)} value={terrain.coast.shoreline[0]} disabled={disabled} steppers onChange={value => setTerrain(["coast", "shoreline", 0], value ?? 0)} />
       <NumberRow spec={at(WorldTerrainSchema, "coast", "shoreline", 1)} value={terrain.coast.shoreline[1]} disabled={disabled} steppers onChange={value => setTerrain(["coast", "shoreline", 1], value ?? 1)} />
       <NumberRow spec={at(WorldTerrainSchema, "coast", "collar")} value={terrain.coast.collar} disabled={disabled} onChange={value => setTerrain(["coast", "collar"], value ?? 1)} />
-      <p className="text-[11px] text-muted-foreground">The outlines preview the draft immediately. Saved terrain changes take effect after the world is rebuilt and restarted; the map image shows the last generated terrain.</p>
     </Section>}
     {mountain && <Section title="Mountains · east boundary">
       <p className="text-[11px] text-muted-foreground">Dashed amber box shows the mountain profile width.</p>

@@ -12,6 +12,7 @@ import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type 
 import { publishNote, setPublishNote } from "./publishNote.js";
 import { adminFailure, AdminFailure, type AdminSession, type ServerDescriptor } from "./session.js";
 import { serverModels } from "../model/serverFiles.js";
+import { parseBake } from "./worldBake.js";
 
 /**
  * A running game server, through its admin API.
@@ -347,21 +348,24 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   };
 }
 
-function publishSummary(result: Record<string, unknown>, fallback: string): PublishSummary {
+export function publishSummary(result: Record<string, unknown>, fallback: string): PublishSummary {
   const list = (value: unknown): string[] => Array.isArray(value) ? value.map(String) : [];
   const affected = record(result.affected) ? result.affected : {};
+  const bake = parseBake(result.bake);
   return {
     revision: typeof result.revision === "string" ? result.revision : fallback,
     previous: typeof result.previous === "string" ? result.previous : fallback,
     unchanged: result.unchanged === true,
     live: list(result.live),
-    onRestart: list(result.onRestart),
+    // A server may list the tables waiting for its world bake apart from those waiting for a restart; both read as "not live yet".
+    onRestart: [...new Set([...list(result.onRestart), ...list(result.rebake)])],
     affected: Object.fromEntries(Object.entries(affected).map(([name, ids]) => [name, list(ids)])),
     spawns: (Array.isArray(result.spawns) ? result.spawns : []).filter(record).map(row => ({
       world: String(row.world ?? ""), added: Number(row.added ?? 0), pending: Number(row.pending ?? 0),
       retiring: Number(row.retiring ?? 0), removed: Number(row.removed ?? 0),
     })),
     notified: Number(result.notified ?? 0),
+    ...(bake ? { bake } : {}),
   };
 }
 

@@ -10,11 +10,11 @@ import type { SimClock } from "../core/time.js";
 import type { EntityStore } from "../world/entities.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type { AssetRegistry } from "../render/assets.js";
-import { SessionFailure } from "./protocol.js";
-import { foreignAssetHost, identityUrl } from "../app/config.js";
+import { discoverWorlds, localWorld, SessionFailure, worldKey } from "./protocol.js";
+import { foreignAssetHost, identityUrl, serverWorld } from "../app/config.js";
 import { IdentityClient } from "./identityClient.js";
 import { createWorldSelector, savedHosts } from "../multiplayer/worldSelector.js";
-import { assetHostReadable, canStorePendingLaunch, joinRoute, storePendingLaunch, type PendingLaunch, type PlayTarget } from "./playIntent.js";
+import { assetHostReadable, canStorePendingLaunch, joinRoute, launchWorld, storePendingLaunch, worldForeign, type PendingLaunch, type PlayTarget } from "./playIntent.js";
 import type { SessionControllerPorts } from "./providers.js";
 import type { LocalLaunch } from "./localLaunch.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
@@ -39,6 +39,14 @@ export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & {
   attach(ports: SessionControllerPorts): void;
   /** "Play local": a world hosted in a worker on this page. Null on a page that offers none (the multiplayer lab). */
   local: LocalLaunch | null;
+  /**
+   * The joined world as its server lists it now, when its baked world is no longer the one this page
+   * built its scene from (the server rebaked and restarted it). Null when nothing moved, or when the
+   * page does not follow world geometry (a lab).
+   */
+  worldMoved(world: WorldDescriptor): Promise<WorldDescriptor | null>;
+  /** Reloads onto `world`'s baked world and host. False when this page cannot remember why it reloaded. */
+  reloadOnto(world: WorldDescriptor): Promise<boolean>;
 };
 
 declare global {
@@ -80,8 +88,22 @@ export interface BrowserSessionPorts {
  * The picker always exists now, including on a page with no servers at all, because "play local" is
  * a choice a player makes rather than the absence of one. Loading can finish without joining.
  */
-export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTarget|null;launch?:PendingLaunch|null;local?:LocalLaunch|null}={}):Promise<WorldSelection|null> {
+export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTarget|null;launch?:PendingLaunch|null;local?:LocalLaunch|null;
+  /** The build's world geometry revision. Absent on a page that never changes world (a lab), which then joins as it stands. */
+  buildRevision?:string}={}):Promise<WorldSelection|null> {
   const local = options.local ?? null;
+  // A page that booted onto a server's baked world built its scene from that world. Any other world,
+  // local play included, is a reload back onto the build's world or onto the other world's.
+  const geometryForeign = (world:{worldRevision?:string}):boolean => options.buildRevision!==undefined
+    && worldForeign({buildRevision:options.buildRevision,serverRevision:serverWorld()?.revision??null},world);
+  const reloadOnto = async (world:WorldDescriptor,attempts:number):Promise<boolean> => {
+    if(!canStorePendingLaunch())return false;
+    const target=options.buildRevision===undefined?undefined:launchWorld(world,options.buildRevision);
+    storePendingLaunch({providerId:world.providerId,worldId:world.worldId,
+      ...(world.assetBaseUrl?{assetBaseUrl:world.assetBaseUrl}:{}),...(target?{world:target}:{}),attempts});
+    location.reload();
+    return true;
+  };
   const configuration = window.__COREALM_MULTIPLAYER__;
   // Who signs this page's players in is a property of the page, never of a world: a game server
   // that could name the identity service could name a lookalike and collect sessions.
@@ -117,18 +139,19 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
   }, [...(window.__COREALM_PROVIDERS__ ?? []), ...(local ? [local.provider] : [])], {ready:false,identity,identityError,play,
     ...(local ? {local:local.provider.world,localNotice:local.notice} : {}),
     async rebase(world){
-      const route=joinRoute({assetHostForeign:foreignAssetHost(world.assetBaseUrl),
+      const assetHostForeign=foreignAssetHost(world.assetBaseUrl),worldDiffers=geometryForeign(world);
+      const route=joinRoute({assetHostForeign,worldForeign:worldDiffers,
         rebaseAttempts:launch?.attempts??0,canStore:canStorePendingLaunch()});
       if(route==="join")return false;
-      if(route==="refuse")throw new SessionFailure("INCOMPATIBLE","This world loads its files from another host, and this page could not switch to it.");
-      if(!await assetHostReadable(world.assetBaseUrl!))
+      if(route==="refuse")throw new SessionFailure("INCOMPATIBLE",worldDiffers
+        ?`${world.name} runs a world this page could not load.`
+        :"This world loads its files from another host, and this page could not switch to it.");
+      if(assetHostForeign&&!await assetHostReadable(world.assetBaseUrl!))
         throw new SessionFailure("UNAVAILABLE",`${world.name}'s files at ${new URL(world.assetBaseUrl!).host} cannot be read from this page. The host may be down or may not allow other sites to load them.`);
-      // Everything fetched so far came from this page's own origin, and `app/config.ts` locks the
-      // base once a URL is built. Reloading is the only way to start again on the world's host.
-      storePendingLaunch({providerId:world.providerId,worldId:world.worldId,
-        assetBaseUrl:world.assetBaseUrl!,attempts:(launch?.attempts??0)+1});
-      location.reload();
-      return true;
+      // Everything fetched so far came from this page's own origin and its own world, and
+      // `app/config.ts` locks the base once a URL is built; terrain, scatter and the navmesh are
+      // built once. Reloading is the only way to start again on the world's host and geometry.
+      return reloadOnto(world,(launch?.attempts??0)+1);
     }});
   if(developmentGuests){
     const guest=document.createElement("label");guest.className="worlds__identity";
@@ -136,11 +159,26 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__more"));
   }
   // Local play was asked for by name, is the only thing this page can start, or is picked while the scene loads: boot its world beside the scene.
-  if(local){
+  // On a page that booted onto a server's world, local play is the build's world: reload onto it.
+  const onServerWorld=options.buildRevision!==undefined&&serverWorld()!==null;
+  if(local&&!onServerWorld){
     if(play?.kind==="local"||(!configured&&play===null))local.provider.prestart();
     selector.panel.addEventListener("worldschosen",event=>{if((event as CustomEvent<{play:string|null}>).detail?.play==="local")local.provider.prestart();});
   }
-  return {...selector, local, attach(ports){attached.ports=ports;selector.refresh();}};
+  if(onServerWorld)selector.panel.addEventListener("worldschosen",event=>{
+    if((event as CustomEvent<{play:string|null}>).detail?.play!=="local")return;
+    const url=new URL(location.href);url.searchParams.set("play","local");location.replace(url.href);
+  });
+  return {...selector, local, attach(ports){attached.ports=ports;selector.refresh();},
+    async worldMoved(world){
+      if(options.buildRevision===undefined||localWorld(world))return null;
+      // The world's own server lists it beside its socket, with the revision it runs now.
+      const listing=new URL(world.endpoint);listing.protocol=listing.protocol==="wss:"?"https:":"http:";
+      const listed=await discoverWorlds({directoryUrl:new URL("/worlds",listing).href});
+      const now=listed.find(entry=>worldKey(entry)===worldKey(world));
+      return now&&geometryForeign(now)?now:null;
+    },
+    reloadOnto:world=>reloadOnto(world,0)};
 }
 
 /** Shared browser presentation and session lifecycle; simulation remains behind the session boundary. */
@@ -220,6 +258,23 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   // each catalog is applied, so a row the catalog brings never looks for a file the page does not know yet.
   const contentFiles = createContentAssetOverlay({ failed: error => console.warn("[corealm] The server's own files are unavailable; using the asset host's.", error) });
   const contentAssetUrl = (world: WorldSession["world"]): string | undefined => world && "contentAssetUrl" in world ? (world as WorldDescriptor).contentAssetUrl : undefined;
+  // A server that rebakes its world restarts it and says so with a `content-updated`; a reconnect may
+  // land on the new world too. Either way the scene here is the old geometry, so the page reloads onto it.
+  let movingTo: WorldDescriptor | null = null;
+  const followWorld = (session: WorldSession): void => {
+    const world = session.world && "endpoint" in session.world ? session.world as WorldDescriptor : null;
+    if (!world || movingTo) return;
+    void selector.worldMoved(world).then(moved => {
+      if (!moved || movingTo || selector.controller.session !== session) return;
+      movingTo = moved;
+      connectionNotice.show(`${moved.name} has a new world. Loading it…`);
+      setTimeout(() => {
+        const failed = (message: string): void => { movingTo = null; connectionNotice.show(message); };
+        void selector.reloadOnto(moved).then(reloading => { if (!reloading) failed(`${moved.name} has a new world. Leave and join again to load it.`); },
+          (error: unknown) => failed(error instanceof Error ? error.message : `${moved.name} has a new world this page cannot load.`));
+      }, 1_500);
+    }, (error: unknown) => console.warn("[corealm] Could not check this world's geometry.", error));
+  };
   selector.attach({
     validate(world){
       if(world.fixture!==(options.fixture||options.lab?"lab":"authored"))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
@@ -265,7 +320,9 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       lastSteer = -Infinity; lastDirection = [0, 0];
       const session=phase === "connected" ? selector.controller.session : null;
       // A publish on the server is applied where the player stands. Only a catalog that could not be loaded offers the refresh, which joins on it.
+      if (phase === "connected" && session) followWorld(session);
       contentUpdates?.(); contentUpdates = session?.subscribeContent?.(revision => {
+        followWorld(session);
         const next = session.catalogAt?.(revision) ?? null;
         if (!next) { contentNotice.show(); return; }
         published = { session, catalog: next };

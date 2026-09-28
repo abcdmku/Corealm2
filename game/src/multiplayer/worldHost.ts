@@ -1,4 +1,4 @@
-import type { CommandEnvelope, CommandOutcome, PlayerLeaseWrite, SessionErrorCode, WorldDescriptor, WorldStorage, WorldStorageRecord } from "../contracts.js";
+import type { CommandEnvelope, CommandOutcome, PlayerLeaseWrite, SessionError, SessionErrorCode, WorldDescriptor, WorldStorage, WorldStorageRecord } from "../contracts.js";
 import type { AdminActor, AuditWrite } from "./adminStorage.js";
 import { Admission } from "./admission.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "./headlessWorld.js";
@@ -166,6 +166,13 @@ export interface WorldHost<L extends PeerLink = PeerLink> {
    */
   joinedElsewhere(accountId: string): void;
   /**
+   * Run one world again on new ports, as a server restart would, while the other worlds keep ticking.
+   * Between ticks: every peer of it gets `notice` and is closed, every held character is saved and its
+   * account freed, then the world is read back from storage onto `ports`. A player who joins again is
+   * settled onto the new navigation mesh by the join itself.
+   */
+  restart(key: string, ports: HeadlessWorldPorts, notice: SessionError): Promise<void>;
+  /**
    * Stop the loop, wait for the tick in flight, let the transport drop its peers, then save every held
    * character and free its account. Storage stays open: it belongs to whoever opened it.
    */
@@ -181,17 +188,23 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     const world = descriptor({ ...input, ...(options.catalogRevision === undefined ? {} : { catalogRevision: options.catalogRevision }),
       authentication: input.authentication ?? options.authentication.authentication ?? "guest" }); compatible(world);
     if (worlds.has(worldKey(world))) throw new Error("Duplicate hosted world");
+    worlds.set(worldKey(world), await openHosted(world, await options.build(world), world.capacity));
+  }
+  /** A world read from storage onto `ports`, with nobody in it. */
+  async function openHosted(world: WorldDescriptor, ports: HeadlessWorldPorts, capacity: number): Promise<HostedWorld<L>> {
     const saved = await storage.openWorld(world);
-    worlds.set(worldKey(world), { runtime: new HeadlessWorld(world, await options.build(world), saved), admission: new Admission(world.capacity), peers: new Map(),
-      receipts: Object.assign(Object.create(null), saved?.receipts ?? {}), publicGameplay: new Map(), leases: new Map(), audits: [] });
+    return { runtime: new HeadlessWorld(world, ports, saved), admission: new Admission(capacity), peers: new Map(),
+      receipts: Object.assign(Object.create(null), saved?.receipts ?? {}), publicGameplay: new Map(), leases: new Map(), audits: [] };
   }
   // Establish the complete entity baseline before accepting clients. Subsequent ticks only
   // clone and persist changed rows. Failure here never advertises a ready world.
-  if (storage.entityPatches) for (const hosted of worlds.values()) {
+  async function baseline(hosted: HostedWorld<L>): Promise<void> {
+    if (!storage.entityPatches) return;
     const initial = hosted.runtime.snapshot(hosted.receipts, true);
     await storage.commit(initial);
     hosted.runtime.committed(initial);
   }
+  for (const hosted of worlds.values()) await baseline(hosted);
   const metrics: WorldHostMetrics = { ticks: [], stages: { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }, commands: 0, rejected: 0, bytesOut: 0, backlogDisconnects: 0, errors: 0 };
   const events: ServerEvent[] = [];
   const recordEvent = (event: Omit<ServerEvent, "at">): void => {
@@ -293,6 +306,8 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
           await inFlight;
           if (!link.open) { await storage.releasePlayer(hosted.runtime.descriptor, identity.playerId, sessionId); return; }
           if (closed) throw new SessionFailure("UNAVAILABLE", "World unavailable");
+          // The world restarted while this join waited: the one it found is gone.
+          if (worlds.get(worldKey(hosted.runtime.descriptor)) !== hosted) throw new SessionFailure("UNAVAILABLE", "The world is restarting. Join again in a moment");
           hosted.admission.join(identity.playerId, sessionId); admitted = true;
           // The claim proves any other session of this account lost its lease, and a place held elsewhere is moot.
           for (const other of worlds.values()) {
@@ -464,7 +479,31 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     }, delay);
   };
 
-  return { worlds, metrics, events, get closed() { return closed; }, record: recordEvent, connect, betweenTicks, failClosed, disconnectAccount, holder,
+  async function restart(key: string, ports: HeadlessWorldPorts, notice: SessionError): Promise<void> {
+    await betweenTicks(async () => {
+      const hosted = worlds.get(key);
+      if (!hosted) throw new Error(`No hosted world ${key}`);
+      if (closed) throw new Error("The host has stopped serving");
+      for (const peer of [...hosted.peers.values()]) { peer.explicitLeave = true; peer.link.send({ type: "error", error: notice }); peer.link.close(4000, notice.code); }
+      // As `close` does for every world: save every held character and free its account in one commit.
+      const edits = auditsOf(hosted);
+      if (hosted.leases.size) {
+        const snapshot = hosted.runtime.snapshot(hosted.receipts, storage.entityPatches === true);
+        snapshot.leases = Object.assign(Object.create(null), Object.fromEntries([...hosted.leases].map(([id, lease]) => [id, { sessionId: lease.sessionId, action: "release" as const }])));
+        if (edits.rows.length) snapshot.audits = edits.rows.map(({ accountId, by, entry }) => ({ accountId, by, entry }));
+        try { const { fenced } = await storage.commit(snapshot); edits.settle(fenced); }
+        catch (error) { edits.settle(null); metrics.errors++; failClosed(); throw error; }
+      } else edits.settle(null);
+      // The closed links report back later against this world, which no longer holds a lease for anyone, so they save nothing twice.
+      const freed = [...hosted.leases.keys()]; hosted.leases.clear();
+      for (const id of freed) released(id);
+      const next = await openHosted(hosted.runtime.descriptor, ports, hosted.admission.capacity);
+      await baseline(next);
+      worlds.set(key, next);
+    });
+  }
+
+  return { worlds, metrics, events, get closed() { return closed; }, record: recordEvent, connect, betweenTicks, failClosed, disconnectAccount, holder, restart,
     start() { lastTurnAt = performance.now(); scheduleTick(); },
     step() { return inFlight = turn(); },
     skip(ticks) {
