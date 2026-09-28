@@ -65,12 +65,17 @@ export function iconShapeFor(def: ItemDef | undefined): IconShape {
 export const ITEM_ICON_GAME_SIZE = 48;
 const itemIconBase = (): string => `${assetBaseUrl()}icons/items/48/`;
 
+/** The id whose artwork the game draws for an item: an upgrade shares its base's, and a few crafted sets swap. */
+export function itemIconArtworkId(itemId: string): string {
+  // These ten crafted sets exchanged their complete appearances in R13.
+  const baseId = itemUpgrade(itemId).baseId;
+  const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(baseId);
+  return match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : baseId;
+}
+
 export function itemIconUrl(def: ItemDef | undefined): string | undefined {
   if (!def) return undefined;
-  // These ten crafted sets exchanged their complete appearances in R13.
-  const baseId = itemUpgrade(def.id).baseId;
-  const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(baseId);
-  const artworkId = match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : baseId;
+  const artworkId = itemIconArtworkId(def.id);
   // A joined server's own icon wins over the asset host's.
   return contentAssetOverride(`assets/icons/items/${ITEM_ICON_GAME_SIZE}/${artworkId}.png`) ?? `${itemIconBase()}${encodeURIComponent(artworkId)}.png`;
 }

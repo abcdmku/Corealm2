@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from "react";
 import { ImageOff, MapPinOff, type LucideIcon } from "lucide-react";
-import { itemIconUrl } from "../../../game/src/ui/itemIcons.js";
+import { itemIconArtworkId } from "../../../game/src/ui/itemIcons.js";
+import { itemIconPublicPaths } from "../../../game/src/content/itemIconArt.js";
 import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellIcons.js";
 import { WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
 import { can } from "../api/backend.js";
@@ -28,13 +29,11 @@ export function itemIconSource(id: string, large = false): string | undefined {
  * asset host ships only the 48), so its large view is the 48 upscaled (`upscaledIcon`).
  */
 export function itemIconSources(id: string, large = false): string[] {
-  const url = itemIconUrl({ id } as NonNullable<Parameters<typeof itemIconUrl>[0]>);
-  if (!url) return [];
-  const game = gameFileUrl(url);
+  const artworkId = itemIconArtworkId(id), paths = itemIconPublicPaths(artworkId);
+  const game = gameFileUrl(paths.game);
   if (!large) return [game];
-  if (can("assets")) return [`/__devdocs/icons/${url.split("/").at(-1)}`, game];
-  const master = url.replace("/items/48/", "/items/256/");
-  return serverFileSha(master) ? [gameFileUrl(master), game] : [game];
+  if (can("assets")) return [`/__devdocs/icons/${encodeURIComponent(artworkId)}.png`, game];
+  return serverFileSha(paths.master) ? [gameFileUrl(paths.master), game] : [game];
 }
 
 /** A 48 icon drawn larger keeps its pixels crisp instead of blurring them. */

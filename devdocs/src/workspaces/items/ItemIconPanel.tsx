@@ -5,8 +5,9 @@ import { Row, Section, Static } from "../../ui/field/index.js";
 import { cn } from "../../lib/utils.js";
 import { serverFileSha } from "../../model/serverFiles.js";
 import { ITEM_ICON_GAME_SIZE, ITEM_ICON_MASTER_SIZE, itemIconPublicPaths } from "../../../../game/src/content/itemIconArt.js";
+import { itemIconArtworkId } from "../../../../game/src/ui/itemIcons.js";
 import {
-  deriveUpload, iconArtworkId, iconBlock, iconUrls, itemIconPrompt, repoIcons, reviewIcon, startIconJob, storeUpload, useIconState,
+  deriveUpload, iconBlock, iconUrls, itemIconPrompt, repoIcons, reviewIcon, startIconJob, storeUpload, useIconState,
   type IconFacts, type IconUpload,
 } from "./iconApi.js";
 
@@ -50,7 +51,7 @@ function Tile({ src, fallback, size, label }: { src: string | undefined; fallbac
 }
 
 export function ItemIconPanel({ itemId, facts, title = "Icon" }: { itemId: string; facts: IconFacts; title?: ReactNode }) {
-  const artworkId = iconArtworkId(itemId);
+  const artworkId = itemIconArtworkId(itemId);
   const state = useIconState(artworkId);
   const urls = iconUrls(artworkId, state.version);
   const repo = repoIcons();

@@ -7,7 +7,7 @@ import { gameUrl } from "../../model/gameUrl.js";
 import { gameFileUrl, setContentFiles } from "../../model/serverFiles.js";
 import { deriveItemIconArt, itemIconOriginalProblem, itemIconPublicPaths, sha256Hex, type RgbaImage } from "../../../../game/src/content/itemIconArt.js";
 import type { IconStatus } from "../../../../game/src/content/metaOps.js";
-import { itemIconUrl } from "../../../../game/src/ui/itemIcons.js";
+import { itemIconArtworkId } from "../../../../game/src/ui/itemIcons.js";
 import type { ContentAssetIndex } from "../../../../game/src/multiplayer/contentAssetsContract.js";
 import type { ImagegenJob } from "../../../shared/skinContracts.js";
 import type { MetaRecord } from "../../../shared/metaContracts.js";
@@ -34,12 +34,6 @@ export function iconBlock(action: "generate" | "upload" | "review"): string | un
   if (action === "upload" && !can("files")) return "This server has no file store yet, so icons cannot be stored here.";
   if (!can("meta")) return "Icon review needs an authoring metadata store; this server has none yet.";
   return undefined;
-}
-
-/** The id whose artwork the game draws for an item (an upgrade and a few crafted sets borrow another's). */
-export function iconArtworkId(itemId: string): string {
-  const url = itemIconUrl({ id: itemId } as NonNullable<Parameters<typeof itemIconUrl>[0]>);
-  return decodeURIComponent(url?.split("?", 1)[0]!.split("/").at(-1)?.replace(/\.png$/, "") ?? itemId);
 }
 
 /** The facts a prompt is written from, per docs/item-icons.md: name, description, material, tier, shape and purpose. */

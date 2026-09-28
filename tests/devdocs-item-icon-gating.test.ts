@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { setBackend, type DevdocsBackend, type DevdocsCapabilities } from "../devdocs/src/api/backend.js";
 import type { MetaPatch } from "../devdocs/shared/metaContracts.js";
 import type { ImagegenRequest } from "../devdocs/shared/skinContracts.js";
-import { iconArtworkId, iconBlock, itemIconPrompt, repoIcons, reviewIcon, startIconJob, storeUpload, type IconUpload } from "../devdocs/src/workspaces/items/iconApi.js";
+import { iconBlock, itemIconPrompt, repoIcons, reviewIcon, startIconJob, storeUpload, type IconUpload } from "../devdocs/src/workspaces/items/iconApi.js";
+import { itemIconArtworkId } from "../game/src/ui/itemIcons.js";
 
 /*
   The item icon panel offers each action only where the backend can do it, and on a live server an
@@ -66,7 +67,25 @@ describe("item icon panel gating", () => {
     expect(prompt).toContain("Authored description: A keen cobalt blade.");
     expect(prompt).toContain("Subject: Cobalt Sword, a single Cobalt sword, tier 10, worn in the main hand slot.");
     expect(prompt).toContain("Genuine transparent alpha background");
-    expect(iconArtworkId("air_orb")).toBe("air_orb");
-    expect(iconArtworkId("dragonhide_boots")).toBe("starhide_boots");
+    expect(itemIconArtworkId("air_orb")).toBe("air_orb");
+    expect(itemIconArtworkId("dragonhide_boots")).toBe("starhide_boots");
+  });
+});
+
+describe("item icon sources on a live server", () => {
+  it("resolves icons when the game's asset base is another origin", async () => {
+    const { resetPublicBaseUrl, setPublicBaseUrl } = await import("../game/src/app/config.js");
+    const { setContentFiles } = await import("../devdocs/src/model/serverFiles.js");
+    const { itemIconSources } = await import("../devdocs/src/ui/Thumb.js");
+    setBackend(fakeServer().backend);
+    resetPublicBaseUrl(); setPublicBaseUrl("https://assets.example/");
+    try {
+      setContentFiles("https://server.example/content-assets/", { "assets/icons/items/256/starhide_boots.png": { sha256: "e".repeat(64) } });
+      expect(itemIconSources("air_orb", true)).toEqual(["https://assets.example/assets/icons/items/48/air_orb.png"]);
+      expect(itemIconSources("dragonhide_boots", true)).toEqual([
+        `https://server.example/content-assets/assets/icons/items/256/starhide_boots.png?v=${"e".repeat(12)}`,
+        "https://assets.example/assets/icons/items/48/starhide_boots.png",
+      ]);
+    } finally { setContentFiles("", {}); resetPublicBaseUrl(); }
   });
 });
