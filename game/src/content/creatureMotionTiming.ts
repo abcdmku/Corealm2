@@ -365,8 +365,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5092592390231153
   },
   "creature_quarry_nightmare": {
-    "seconds": 1.2,
-    "contactNormalized": 0.72
+    "seconds": 1.306666612625122,
+    "contactNormalized": 0.4336734873237641
   },
   "creature_quarry_snail": {
     "seconds": 1.5,
@@ -413,8 +413,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.2604166666666667
   },
   "creature_rootdelve_badger": {
-    "seconds": 0.95,
-    "contactNormalized": 0.45263157894736844
+    "seconds": 1.7999999523162842,
+    "contactNormalized": 0.5020833333333333
   },
   "creature_scree_bustard": {
     "seconds": 0.82,
@@ -629,7 +629,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "fairy_monster_21": {
-    "seconds": 0.86,
+    "seconds": 0.8600000143051147,
     "contactNormalized": 0.5
   },
   "fairy_monster_27": {
@@ -757,6 +757,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_pearl_knight": 25.8768,
   "creature_plague_zombie": 4.0891,
   "creature_purple_wilderness_dragon": 3.6817,
+  "creature_quarry_nightmare": 3.6853,
   "creature_quillback_porcupine": 2.6591,
   "creature_red_wilderness_dragon": 3.5593,
   "creature_redbrush_fox": 4.5583,
@@ -767,6 +768,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_rift_carapace": 1.5275,
   "creature_rimeback_tortoise": 0.6077,
   "creature_road_bandit": 1.2657,
+  "creature_rootdelve_badger": 11.9565,
   "creature_scree_watcher": 26.585,
   "creature_shale_elemental": 2.857,
   "creature_silverthorn_harrow": 14.7443,

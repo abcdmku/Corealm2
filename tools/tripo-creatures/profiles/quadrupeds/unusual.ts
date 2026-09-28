@@ -464,6 +464,146 @@ function restrainPlant(doc: Document) {
   return { rotationAmounts: amounts, rootLegAmount: .45, footAmount: .55, deathBulbAmount: 1, maximumAdditionalGroundCorrection: maximumCorrection };
 }
 
+type PlantSurfacePoint = { point: Vector3; joints: Node[]; inverse: Matrix4[]; weights: number[]; indices: number[] };
+
+function plantSurfacePoints(doc: Document): PlantSurfacePoint[] {
+  const points: PlantSurfacePoint[] = [];
+  for (const mesh of doc.getRoot().listNodes().filter(node => node.getSkin())) {
+    const skin = mesh.getSkin()!, joints = skin.listJoints();
+    const inverse = joints.map((_, index) => new Matrix4().fromArray(skin.getInverseBindMatrices()!.getElement(index, [])));
+    for (const primitive of mesh.getMesh()!.listPrimitives()) {
+      const positions = primitive.getAttribute('POSITION')!, indices = primitive.getAttribute('JOINTS_0')!, weights = primitive.getAttribute('WEIGHTS_0')!;
+      for (let index = 0; index < positions.getCount(); index++) points.push({ point: new Vector3().fromArray(positions.getElement(index, [])),
+        joints, inverse, indices: indices.getElement(index, []), weights: weights.getElement(index, []) });
+    }
+  }
+  return points;
+}
+
+function posePlantSurface(points: PlantSurfacePoint[]) {
+  const matrices = new Map<Node, Matrix4>();
+  for (const point of points) point.joints.forEach((joint, index) => {
+    if (!matrices.has(joint)) matrices.set(joint, new Matrix4().fromArray(joint.getWorldMatrix()).multiply(point.inverse[index]!));
+  });
+  return points.map(point => {
+    const result = new Vector3();
+    point.weights.forEach((weight, slot) => {
+      if (weight > 0) result.add(point.point.clone().applyMatrix4(matrices.get(point.joints[point.indices[slot]!]!)!).multiplyScalar(weight));
+    });
+    return result;
+  });
+}
+
+function plantSoles(doc: Document) {
+  const points = plantSurfacePoints(doc);
+  return ['FrontLeft', 'FrontRight', 'RearLeft', 'RearRight'].map(name => ({ name,
+    root: doc.getRoot().listNodes().find(node => node.getName() === name + 'Root')!,
+    points: points.filter(({ point }) => point.y < -.40 && Math.abs(point.z) > .12
+      && (name.startsWith('Front') ? point.x > -.15 : point.x < -.25)
+      && (name.endsWith('Left') ? point.z > 0 : point.z < 0)),
+  }));
+}
+
+/** Condensing a bent knee chain into one woody segment loses its changing reach. */
+function fitPlantSupport(doc: Document, donor: Document, liftScale: number) {
+  const rest = storedPose(doc), sourceRest = storedPose(donor), sourcePoints = plantSurfacePoints(donor);
+  const sourceNames = ['R_Hand', 'L_Hand', 'R_Feet', 'L_Feet'];
+  const limbs = plantSoles(doc).map((limb, index) => {
+    const foot = donor.getRoot().listNodes().find(node => node.getName() === sourceNames[index])!, descendants = new Set<Node>();
+    const visit = (node: Node) => { descendants.add(node); node.listChildren().forEach(visit); };
+    visit(foot);
+    const source = sourcePoints.filter(point => point.weights.reduce((sum, weight, slot) =>
+      sum + (descendants.has(point.joints[point.indices[slot]!]!) ? weight : 0), 0) > .5);
+    if (!limb.points.length || !source.length) throw new Error(`Missing measured sole surface for ${limb.name}`);
+    return { ...limb, source };
+  });
+  const ground = doc.getRoot().listNodes().find(node => node.getName() === 'corealm_retarget_ground')!;
+  const minimum = (points: PlantSurfacePoint[]) => Math.min(...posePlantSurface(points).map(point => point.y));
+  const reports: { name: string; sourceTake: string; sourceFloor: number[]; limbs: { name: string; maximumTranslationM: number; soleVertices: number }[] }[] = [];
+  const idleOffsets: Vector3[] = [];
+  for (const name of ['Idle', 'Walk', 'Run', 'Hit']) {
+    const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name)!;
+    const sourceTake = name === 'Run' ? 'Walk' : name, sourceClip = donor.getRoot().listAnimations().find(clip => clip.getName() === sourceTake)!;
+    const groundSampler = clip.listChannels().find(channel => channel.getTargetNode() === ground && channel.getTargetPath() === 'translation')!.getSampler()!;
+    const times = groundSampler.getInput()!, samples = limbs.map(limb => ({ output: clip.listChannels()
+      .find(channel => channel.getTargetNode() === limb.root && channel.getTargetPath() === 'translation')!.getSampler()!.getOutput()!, values: [] as number[][], max: 0 }));
+    const sourceHeights = Array.from({ length: times.getCount() }, (_, index) => {
+      restorePose(sourceRest); applyClip(sourceClip, times.getElement(index, [])[0]! / duration(clip) * duration(sourceClip));
+      return limbs.map(limb => minimum(limb.source));
+    });
+    const sourceFloor = limbs.map((_, limb) => Math.min(...sourceHeights.map(heights => heights[limb]!))), groundValues: number[][] = [];
+    for (let index = 0; index < times.getCount(); index++) {
+      restorePose(rest); applyClip(clip, times.getElement(index, [])[0]!);
+      limbs.forEach((limb, limbIndex) => {
+        const original = new Vector3().fromArray(limb.root.getTranslation());
+        const desired = .003 + Math.max(0, sourceHeights[index]![limbIndex]! - sourceFloor[limbIndex]!) * liftScale;
+        const parentWorld = new Matrix4().fromArray(limb.root.getParentNode()!.getWorldMatrix());
+        for (let iteration = 0; iteration < 4; iteration++) {
+          const correction = desired - minimum(limb.points);
+          if (Math.abs(correction) < 1e-6) break;
+          const local = new Vector3(0, correction, 0).add(new Vector3().setFromMatrixPosition(parentWorld)).applyMatrix4(parentWorld.clone().invert());
+          limb.root.setTranslation(new Vector3().fromArray(limb.root.getTranslation()).add(local).toArray());
+        }
+        const adjusted = new Vector3().fromArray(limb.root.getTranslation()), offset = adjusted.clone().sub(original);
+        // Compare two transformed local positions, so imported wrapper units are included.
+        const distance = adjusted.clone().applyMatrix4(parentWorld).distanceTo(original.clone().applyMatrix4(parentWorld));
+        samples[limbIndex]!.max = Math.max(samples[limbIndex]!.max, distance);
+        if (distance > .15) throw new Error(`${name} needs excessive ${limb.name} reach correction: ${distance}`);
+        samples[limbIndex]!.values.push(adjusted.toArray());
+        if (name === 'Idle' && index === 0) idleOffsets[limbIndex] = offset;
+      });
+      groundValues.push([0, ground.getTranslation()[1] + .003 - deformedBounds(doc).min[1]!, 0]);
+    }
+    samples.forEach(sample => sample.values.forEach((value, index) => sample.output.setElement(index, value)));
+    groundValues.forEach((value, index) => groundSampler.getOutput()!.setElement(index, value));
+    reports.push({ name, sourceTake, sourceFloor, limbs: limbs.map((limb, index) => ({ name: limb.name,
+      maximumTranslationM: samples[index]!.max, soleVertices: limb.points.length })) });
+  }
+  // Start the collapse from the same supported stance, then release this small
+  // attachment correction before the native folded corpse reaches the ground.
+  const death = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!, deathSeconds = duration(death) - .4;
+  limbs.forEach((limb, limbIndex) => {
+    const sampler = death.listChannels().find(channel => channel.getTargetNode() === limb.root && channel.getTargetPath() === 'translation')!.getSampler()!;
+    for (let index = 0; index < sampler.getInput()!.getCount(); index++) {
+      const t = Math.max(0, Math.min(1, sampler.getInput()!.getElement(index, [])[0]! / deathSeconds / .3));
+      sampler.getOutput()!.setElement(index, new Vector3().fromArray(sampler.getOutput()!.getElement(index, []))
+        .addScaledVector(idleOffsets[limbIndex]!, 1 - t * t * (3 - 2 * t)).toArray());
+    }
+  });
+  restorePose(rest); restorePose(sourceRest);
+  return { reports, liftScale, maximumAllowedTranslationM: .15, deathReleaseNormalized: .3,
+    method: 'Match each measured target sole to the corresponding native skinned sole lift by a small world-vertical root attachment translation. This restores reach lost when the donor elbow/knee chain is condensed into one woody segment; bone lengths, rotations and surface attributes remain unchanged.' };
+}
+
+function measurePlantSoleMotion(doc: Document) {
+  const rest = storedPose(doc), feet = plantSoles(doc), samples = 240;
+  const gait = (name: string) => {
+    const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name)!, seconds = duration(clip);
+    const frames = Array.from({ length: samples + 1 }, (_, index) => {
+      restorePose(rest); applyClip(clip, seconds * index / samples);
+      return feet.map(foot => { const points = posePlantSurface(foot.points); return {
+        y: Math.min(...points.map(point => point.y)), z: points.reduce((sum, point) => sum + point.z, 0) / points.length,
+      }; });
+    });
+    const all: number[] = [], contacts = feet.map((foot, footIndex) => {
+      const speeds: number[] = [], phases: number[] = [];
+      for (let index = 1; index <= samples; index++) {
+        const a = frames[index - 1]![footIndex]!, b = frames[index]![footIndex]!, speed = (a.z - b.z) / (seconds / samples);
+        if (Math.max(a.y, b.y) <= .008 && speed > .05) { speeds.push(speed); phases.push((index - .5) / samples); }
+      }
+      speeds.sort((a, b) => a - b); all.push(...speeds);
+      return { bone: foot.name + 'Foot', soleVertices: foot.points.length, samples: speeds.length,
+        medianMps: speeds[Math.floor(speeds.length / 2)] ?? null, phases,
+        minimumY: Math.min(...frames.map(frame => frame[footIndex]!.y)), maximumY: Math.max(...frames.map(frame => frame[footIndex]!.y)) };
+    });
+    all.sort((a, b) => a - b);
+    return { contacts, mps: contacts.every(contact => contact.samples >= 3) ? all[Math.floor(all.length / 2)] : undefined,
+      maximumLowestSoleY: Math.max(...frames.map(frame => Math.min(...frame.map(foot => foot.y)))) };
+  };
+  try { return { walk: gait('Walk'), run: gait('Run'), method: '240 phases; backward centroid speed of each anatomical sole only while both ends of the sample interval are within 8 mm of the floor. At least three backward contact intervals above .05 m/s are required on all four soles.' }; }
+  finally { restorePose(rest); }
+}
+
 function settlePlantDeath(doc: Document, donor: Document) {
   const clip = doc.getRoot().listAnimations().find(item => item.getName() === 'Death')!;
   const sourceClip = donor.getRoot().listAnimations().find(item => item.getName() === 'Death')!, sourceSeconds = duration(sourceClip);
@@ -683,12 +823,15 @@ export async function repair(doc: Document, context: CreatureRepairContext): Pro
   const headTravel = !bull && !plant ? restoreHeadTravel(doc, donor) : undefined;
   const bullDeathSettle = bull ? settleBullDeath(doc, donor) : undefined;
   const plantRestraint = plant ? restrainPlant(doc) : undefined;
+  const plantSupport = plant ? fitPlantSupport(doc, donor, translationScale) : undefined;
   const plantDeath = plant ? settlePlantDeath(doc, donor) : undefined;
   const biteDonor = plant ? await context.readAsset('creature_black_wilderness_dragon') : undefined;
   const biteDonorBind = biteDonor ? restoreDonorBind(biteDonor) : undefined;
   const plantBite = biteDonor && plantAnatomy ? authorPlantBite(doc, biteDonor, plantAnatomy.closureAngles) : undefined;
   const measurements = measureMotion(doc, bull ? ['FrontLeftHoof', 'FrontRightHoof', 'HindLeftHoof', 'HindRightHoof']
     : plant ? ['FrontLeftFoot', 'FrontRightFoot', 'RearLeftFoot', 'RearRightFoot'] : ['ForeLFoot', 'ForeRFoot', 'HindLFoot', 'HindRFoot']);
+  const soleMeasurements = plant ? measurePlantSoleMotion(doc) : undefined;
+  const locomotion = soleMeasurements ?? measurements;
   const contactEvidence = bullGeometry ? measureBullContact(doc, bullGeometry.frame) : !plant ? {
     contactNormalized: .65, contactSeconds: 1.04,
     method: 'Studio Dragon Boar HornAttack is unretimed at 1.6 seconds. Verified tusk impact is 1.04 seconds; whole-body maximum reach during the earlier paw windup does not define horn contact.',
@@ -710,18 +853,19 @@ export async function repair(doc: Document, context: CreatureRepairContext): Pro
       ...(plantAnatomy ? plantAnatomy.changes : []),
       ...(plantBite ? ['Replaced the horn attack with the native dragon mouth snap, fitted to the measured plant tooth gap and shared maw hinge.',
         'Released root-leg restraint during death and folded the woody supports with the donor collapse.',
+        'Restored native sole support with measured root-attachment reach corrections, eliminating the inherited rear-foot hover.',
         'Retimed the native four-contact Walk from 1.0 to .55 seconds for a faster rooted Run; the multi-joint gallop could not preserve support on the single woody root segments.'] : []),
       ...(galeskinWeightRepair ? ['Smoothed the source torso-to-foot weight discontinuity and clamped negative roundoff weights.'] : []),
       ...(galeskinAnatomy ? ['Assigned the connected skull crown and curled tail to their anatomical joints with smooth neck/stalk transitions.',
         'Moved the tail pivot to its measured asymmetric attachment and updated the inverse bind to preserve the rest sculpture.'] : []),
       ...(headTravel ? ['Restored the studio-authored head travel through verified parent bases and measured neck-to-head scale.'] : []),
     ],
-    warnings: ['Pending devdocs review of all motion states.', ...(!measurements.walk.mps || !measurements.run.mps ? ['One or more feet lacks a reliable stance interval; no speed inferred for that gait.'] : [])],
-    provenance: { donorId, donorBind, profile, motionTransfer: report, measurements, contactEvidence, ...(headTravel ? { headTravel } : {}), ...(plantRestraint ? { plantRestraint, plantDeath, plantAnatomy: plantAnatomy!.provenance, plantBite, biteDonorBind } : {}), ...(galeskinWeightRepair ? { galeskinWeightRepair, galeskinAnatomy } : {}),
+    warnings: ['Pending devdocs review of all motion states.', ...(!locomotion.walk.mps || !locomotion.run.mps ? ['One or more feet lacks a reliable stance interval; no speed inferred for that gait.'] : [])],
+    provenance: { donorId, donorBind, profile, motionTransfer: report, measurements, contactEvidence, ...(headTravel ? { headTravel } : {}), ...(plantRestraint ? { plantRestraint, plantSupport, soleMeasurements, plantDeath, plantAnatomy: plantAnatomy!.provenance, plantBite, biteDonorBind } : {}), ...(galeskinWeightRepair ? { galeskinWeightRepair, galeskinAnatomy } : {}),
       ...(bullGeometry ? { geometryRepair: bullGeometry.provenance, rigRepair: bullRig, bullDeathSettle, yawDegrees } : {}),
       sourceAnatomy: bull ? 'Four-leg redmane bull, despite the retained rootdelve_badger asset ID.' : plant ? 'Four woody roots, bulb, flexible stalk, and articulated maw.' : 'Four-leg fantasy creature with tall forelimbs, short hindlimbs, horned head and tail.' },
     motion: { walkClipSeconds: clipSeconds('Walk'), runClipSeconds: clipSeconds('Run'), attackSeconds: clipSeconds('Attack'),
-      impliedWalkMps: measurements.walk.mps, impliedRunMps: measurements.run.mps,
+      impliedWalkMps: locomotion.walk.mps, impliedRunMps: locomotion.run.mps,
       contactNormalized: contactEvidence.contactNormalized, groundY: .003 },
   };
 }
