@@ -35,10 +35,24 @@ export interface CreatureMotionProfile {
   /** Verified rotation from donor world axes to target world axes. Both worlds are Y-up. */
   sourceToTargetRotation: [number, number, number, number];
   root: { target: string; source?: string; translationScale: number; horizontal?: "preserve" | "in-place" };
-  clips: Record<string, { source: string; loop?: boolean; duration?: number; holdLastSeconds?: number }>;
+  clips: Record<string, { source: string; loop?: boolean; duration?: number; holdLastSeconds?: number;
+    /** Bound support correction for a one-shot in world metres/second; donor joint motion stays intact. */
+    groundingMaxSpeedMps?: number }>;
   replaceAnimations?: boolean;
   samplesPerSecond?: number;
   grounding?: { floor: number; maxCorrection?: number };
+}
+
+/** Smallest speed-limited curve above every required floor correction, so smoothing never lowers a sampled pose through the floor. */
+export function limitGroundCorrectionSpeed(times: readonly number[], required: readonly number[], maxSpeedMps: number): number[] {
+  if (!(Number.isFinite(maxSpeedMps) && maxSpeedMps > 0) || times.length !== required.length || !times.length
+    || !times.every((time, index) => Number.isFinite(time) && (!index || time > times[index - 1]!)) || !required.every(Number.isFinite)) {
+    throw new Error('Invalid grounding speed envelope');
+  }
+  const values = [...required];
+  for (let i = 1; i < values.length; i++) values[i] = Math.max(values[i]!, values[i - 1]! - maxSpeedMps * (times[i]! - times[i - 1]!));
+  for (let i = values.length - 2; i >= 0; i--) values[i] = Math.max(values[i]!, values[i + 1]! - maxSpeedMps * (times[i + 1]! - times[i]!));
+  return values;
 }
 
 /**
@@ -142,6 +156,10 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
     const hold = spec.holdLastSeconds ?? 0;
     if (!(sourceSeconds > 0 && seconds > 0 && Number.isFinite(seconds) && hold >= 0 && Number.isFinite(hold))) throw new Error(`Invalid duration for ${name}`);
     if (spec.loop && hold) throw new Error(`Loop ${name} cannot hold its last frame`);
+    if (spec.groundingMaxSpeedMps !== undefined && (!profile.grounding || spec.loop
+      || !(Number.isFinite(spec.groundingMaxSpeedMps) && spec.groundingMaxSpeedMps > 0))) {
+      throw new Error(`Grounding speed limit requires grounded one-shot ${name}`);
+    }
     return { name, spec, clip, sourceSeconds, seconds, hold };
   });
   if (!takes.length) throw new Error("No output motion clips requested");
@@ -213,6 +231,11 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
         values.t.splice(values.t.length - 3, 3, ...values.t.slice(0, 3));
         values.r.splice(values.r.length - 4, 4, ...values.r.slice(0, 4));
         values.s.splice(values.s.length - 3, 3, ...values.s.slice(0, 3));
+      }
+      if (ground && spec.groundingMaxSpeedMps !== undefined) {
+        const values = tracks.get(ground)!.t;
+        const limited = limitGroundCorrectionSpeed(times, times.map((_, index) => values[index * 3 + 1]!), spec.groundingMaxSpeedMps);
+        limited.forEach((value, index) => { values[index * 3 + 1] = value; });
       }
       if (hold) {
         times.push(seconds + hold);

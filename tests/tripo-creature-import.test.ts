@@ -3,6 +3,7 @@ import { Matrix4, Quaternion, Vector3 } from "three";
 import { describe, expect, it } from "vitest";
 import { repairHumanoidWeights, restoreGeometryBasis, retargetCreatureMotion, retargetHumanoid, type CreatureMotionProfile } from "../tools/tripo-creatures/retarget.js";
 import { addChannel, applyClip, storedPose } from "../tools/creature-motion/pose.js";
+import { deformedBounds } from "../tools/creature-motion/validate-deformation.js";
 
 const vertices = [.5, 1, .25, .8, 1.1, .3, .6, 1.4, .7, .2, 1.2, .4];
 
@@ -129,6 +130,29 @@ describe("semantic creature motion transfer", () => {
     applyClip(output, .9); const final = poseValues(target.doc);
     expect(target.hips.getTranslation()[1]).toBeCloseTo(.2); expect(target.hips.getTranslation()[2]).toBeCloseTo(1);
     applyClip(output, 1.5); expect(poseValues(target.doc)).toEqual(final);
+  });
+
+  it("limits floor correction impulses without changing donor motion, penetrating the floor or disturbing the held corpse", () => {
+    const source = motionRig("s"), target = motionRig("t"), clip = source.doc.createAnimation("fall");
+    addChannel(source.doc, clip, source.hips, "translation", [0, .45, .5, .55, 1], [0, 1, 0, 0, 1, 0, 0, .3, 0, 0, 1, 0, 0, 1, 0]);
+    const positions = target.doc.createAccessor().setType("VEC3").setBuffer(target.doc.getRoot().listBuffers()[0]!)
+      .setArray(new Float32Array([0, 0, 0, .1, 0, 0, 0, .1, 0]));
+    target.accessory.setMesh(target.doc.createMesh().addPrimitive(target.doc.createPrimitive().setAttribute("POSITION", positions)));
+    retargetCreatureMotion(target.doc, source.doc, motionProfile({ samplesPerSecond: 100, grounding: { floor: .01 },
+      clips: { Death: { source: "fall", holdLastSeconds: .5, groundingMaxSpeedMps: 2 } } }));
+    const output = target.doc.getRoot().listAnimations()[0]!, ground = target.doc.getRoot().listNodes().find(node => node.getName() === "corealm_retarget_ground")!;
+    let previous: number | undefined;
+    for (let i = 0; i <= 200; i++) {
+      applyClip(output, i / 200); applyClip(clip, i / 200);
+      const lift = ground.getTranslation()[1];
+      if (previous !== undefined) expect(Math.abs(lift - previous)).toBeLessThanOrEqual(2 / 200 + 1e-6);
+      expect(target.hips.getTranslation()[1]).toBeCloseTo(source.hips.getTranslation()[1], 5);
+      expect(deformedBounds(target.doc).min[1]).toBeGreaterThanOrEqual(.01 - 1e-6);
+      previous = lift;
+    }
+    expect(deformedBounds(target.doc).min[1]).toBeCloseTo(.01, 6);
+    const corpse = poseValues(target.doc);
+    applyClip(output, 1.5); expect(poseValues(target.doc)).toEqual(corpse);
   });
 
   it("rejects ambiguous anatomy and restores both poses on a failed sampling pass", () => {
