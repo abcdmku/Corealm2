@@ -8,7 +8,7 @@ import { setBackend, type DevdocsBackend, type DevdocsCapabilities } from "../de
  * The GPU is replaced by a renderer that "draws" a fixed PNG, so the test counts renders.
  */
 const PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
-const SHA = "ab".repeat(32), KEY = `boulder-${SHA.slice(0, 16)}`;
+const SHA = "ab".repeat(32), KEY = `boulder-${SHA.slice(0, 16)}-r2`;
 let renders = 0;
 
 vi.mock("three/webgpu", async original => ({

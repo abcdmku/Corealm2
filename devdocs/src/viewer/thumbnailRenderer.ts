@@ -38,6 +38,11 @@ export const THUMBNAIL_SIZE = 192;
 export const THUMBNAIL_BACKGROUND = 0x000000;
 export const THUMBNAIL_BACKGROUND_ALPHA = 0;
 const MAX_CONCURRENT_RENDERS = 2;
+/**
+ * Part of every cache key. Bumped when renders from earlier code must not be reused: r2 replaces
+ * renders taken while two thumbnails could share the stage and swap models.
+ */
+const RENDER_VERSION = 'r2';
 const ASSET_ID = /^[A-Za-z0-9_-]+$/;
 const THUMBNAILS_PATH = '/__devdocs/thumbnails';
 /** Same 3/4 front view, slightly above, as ViewerCore.resetCamera. */
@@ -85,8 +90,19 @@ class ThumbnailStage {
     room.dispose(); pmrem.dispose();
   }
 
-  /** Renders one frame of the model at its idle clip's first pose and returns a PNG data URL. */
-  async render(model: ViewerModel): Promise<string | undefined> {
+  /**
+   * Renders one frame of the model at its idle clip's first pose and returns a PNG data URL. One
+   * render holds the stage at a time: its scene, camera and canvas are shared, and a render waits
+   * for pipeline compilation, so an interleaved second render would photograph the wrong model.
+   */
+  render(model: ViewerModel): Promise<string | undefined> {
+    const turn = this.turn.then(() => this.renderAlone(model));
+    this.turn = turn.catch(() => undefined);
+    return turn;
+  }
+  private turn: Promise<unknown> = Promise.resolve();
+
+  private async renderAlone(model: ViewerModel): Promise<string | undefined> {
     // An actor is already standing in its idle; its own EntityViews owns the bones.
     const actor = isActorModel(model);
     const mixer = new THREE.AnimationMixer(model.animationRoot);
@@ -182,7 +198,7 @@ async function assetKey(assetId: string): Promise<string> {
   const entry = (await viewerRegistry()).entry(assetId) as { sha256?: string; bytes?: number } | undefined;
   // Older manifest rows have no hash; their byte size still changes when the file is replaced.
   const version = entry?.sha256?.slice(0, 16) ?? (entry?.bytes ? `b${entry.bytes}` : undefined);
-  return version ? `${assetId}-${version}` : assetId;
+  return `${version ? `${assetId}-${version}` : assetId}-${RENDER_VERSION}`;
 }
 
 /** Where a rendered PNG is kept, by key: a URL that shows it now, or undefined; and a way to keep one. */
@@ -277,7 +293,7 @@ async function creatureKey(creatureId: string): Promise<string | undefined> {
   const skinId = entity.view!.skinId;
   const skin = skinId ? (RESOLVED_TABLES.creatureSkins as CreatureSkin[] | undefined)?.find(row => row.id === skinId) : undefined;
   const look = JSON.stringify([entity.id, entity.archetype, entity.tier, entity.view, variation, skin?.sha256 ?? skin?.maps ?? null, entry?.sha256 ?? entry?.bytes ?? null]);
-  return `actor--${creatureId}-${hash(look)}`;
+  return `actor--${creatureId}-${hash(look)}-${RENDER_VERSION}`;
 }
 
 /** Renders a creature definition as the game draws it, to a PNG data URL. */
