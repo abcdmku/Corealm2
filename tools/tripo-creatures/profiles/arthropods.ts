@@ -426,7 +426,7 @@ function repairCrustacean(doc:Document,crab:boolean,delver=false):CreatureRepair
 }
 
 /** The old gaits rotated nearly straight legs through the floor and death nonuniformly squashed the shell. */
-function repairSixLegMotion(doc: Document, weaver: boolean): CreatureRepairResult {
+function repairSixLegMotion(doc: Document, weaver: boolean, boss = false): CreatureRepairResult {
   const root = doc.getRoot(), nodes = new Map(root.listNodes().map(n => [n.getName(), n]));
   const body = nodes.get('BodyCore')!;
   const rootJoint = nodes.get(weaver ? 'VaultweaverRoot' : nodes.has('ScarabRoot') ? 'ScarabRoot' : 'FlintRoot')!;
@@ -466,19 +466,72 @@ function repairSixLegMotion(doc: Document, weaver: boolean): CreatureRepairResul
   const scale = Math.hypot(...rootJoint.getWorldMatrix().slice(0,3));
   const height = legs.reduce((sum,l)=>sum+l.positions[0]!.y-l.positions[3]!.y,0)/legs.length;
   // A bent stance creates actual reach for support translation and swing instead of stretching a straight chain.
-  const crouch = height*(weaver?.23:.11), stride = height*.27, runStride = height*.42;
+  const crouch = height*(weaver?.23:.11), stride = height*.27;
+  // Running lowers the shell and centers each contact under its hip. The old wide
+  // resting footprint left almost no fore/aft reach even though the limbs were long.
+  const runCrouch=height*(weaver?.50:.25),runFloor=.0015*scale;
+  const inverse=joints.map((_,i)=>new Matrix4().fromArray(root.listSkins()[0]!.getInverseBindMatrices()!.getElement(i,[])));
+  const supportSurfaces=legs.map(leg=>{
+    const limbIndices=new Set(leg.nodes.map(node=>joints.indexOf(node)));
+    const points:{position:Vector3;indices:number[];weights:number[]}[]=[];
+    for(const n of root.listNodes().filter(n=>n.getSkin()))for(const primitive of n.getMesh()!.listPrimitives()){
+      const positions=primitive.getAttribute('POSITION')!,ids=primitive.getAttribute('JOINTS_0')!,weights=primitive.getAttribute('WEIGHTS_0')!;
+      for(let i=0;i<positions.getCount();i++){
+        const indices=ids.getElement(i,[]),values=weights.getElement(i,[]);
+        if(values.reduce((sum,weight,k)=>sum+(limbIndices.has(indices[k]!)?weight:0),0)>.60)
+          points.push({position:v(positions.getElement(i,[])),indices,weights:values});
+      }
+    }
+    if(!points.length)throw new Error(`No skinned support surface for ${leg.nodes[0]!.getName()}`);
+    return points;
+  });
+  const surfaceMinimum=(index:number)=>{
+    const matrices=joints.map((joint,i)=>new Matrix4().fromArray(joint.getWorldMatrix()).multiply(inverse[i]!));
+    let minimum=Infinity;
+    for(const point of supportSurfaces[index]!){
+      const result=new Vector3();
+      for(let k=0;k<4;k++)if(point.weights[k])result.addScaledVector(point.position.clone().applyMatrix4(matrices[point.indices[k]!]!),point.weights[k]!);
+      minimum=Math.min(minimum,result.y);
+    }
+    return minimum;
+  };
+  const solveSupport=(index:number,target:Vector3,soleY:number)=>{
+    let error=0;
+    for(let pass=0;pass<5;pass++){
+      error=plant(legs[index]!,target);
+      const adjustment=soleY-surfaceMinimum(index);
+      if(Math.abs(adjustment)<.00001*scale||pass===4)break;
+      target.y+=adjustment;
+    }
+    return {solverError:error,surfaceError:Math.abs(soleY-surfaceMinimum(index))};
+  };
+  restorePose(rest);
+  translateWorld(body,new Vector3(0,-runCrouch+height*.009,0));
+  const runCenters=legs.map((leg,index)=>{
+    const target=leg.positions[3]!.clone(),terminal=leg.positions[3]!.clone().sub(leg.positions[2]!);
+    target.z=worldPosition(leg.nodes[0]!).z+terminal.z;
+    solveSupport(index,target,runFloor);
+    return target;
+  });
+  const runStride=Math.min(...legs.map((leg,index)=>{
+    const hip=worldPosition(leg.nodes[0]!),end=runCenters[index]!.clone().sub(leg.positions[3]!.clone().sub(leg.positions[2]!));
+    const radius=.95*(leg.positions[0]!.distanceTo(leg.positions[1]!)+leg.positions[1]!.distanceTo(leg.positions[2]!));
+    return 2*Math.sqrt(Math.max(0,radius*radius-(end.x-hip.x)**2-(end.y-hip.y)**2));
+  }));
+  restorePose(rest);
+  if(runStride<=height*.42)throw new Error('Centered running stance does not provide a longer planted sweep');
   const walkSeconds = weaver ? 1.08 : 1.16, runSeconds = weaver ? .72 : .72;
   const durations: Record<string,number> = {Idle:3,Walk:walkSeconds,Run:runSeconds,Attack:.94,Hit:.5,Death:1.55};
   let attackContactNormalized=.49,attackReach=-Infinity;
   const provenance: Record<string,unknown> = {method:'Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death',
     reference:'tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing',
     oldDefects:weaver ? ['Five-key sinusoidal leg rotations without foot contacts','Death scaled body to [0.88,0.62,0.90] and amplified all limb rotations'] : ['Five-key sinusoidal leg rotations without foot contacts','Death applied one global-axis hip fold to opposite-sided chains'],
-    solverTargetError:0, scaleChannels:0, weights, clips:[],hitRecoilRadians:headRecoilRadians,hitReference:'Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches'};
+    solverTargetError:0, scaleChannels:0, weights, clips:[],runStance:{crouch:runCrouch,stride:runStride,duty:.60,radialReachMargin:.05,contacts:'Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip'},hitRecoilRadians:headRecoilRadians,hitReference:'Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches'};
   for (const clip of [...root.listAnimations()]) removeClip(doc, clip.getName());
   for (const [name,seconds] of Object.entries(durations)) {
     const clip = doc.createAnimation(name), times = Array.from({length:65},(_,i)=>seconds*i/64);
     const tracks = root.listSkins()[0]!.listJoints().map(node => ({node,t:[] as number[],r:[] as number[]}));
-    let maxError = 0, maxFloorCorrection = 0;
+    let maxError = 0, maxFloorCorrection = 0,maxSupportSurfaceError=0;
     for (let frame=0;frame<times.length;frame++) {
       restorePose(rest);
       const phase=frame/64, wave=Math.sin(phase*Math.PI*2), locomotion=name==='Walk'||name==='Run', running=name==='Run';
@@ -486,22 +539,23 @@ function repairSixLegMotion(doc: Document, weaver: boolean): CreatureRepairResul
       const attack=name==='Attack'?pulse(phase,.05,.29,.49,.84):0;
       const hit=name==='Hit'?pulse(phase,0,.16,.20,.80):0;
       const bob=name==='Idle' ? height*.007*wave : locomotion ? height*.009*Math.cos(phase*Math.PI*4) : 0;
-      translateWorld(body,new Vector3(0,-crouch+bob-height*.10*death-height*.055*hit,height*.15*attack-height*.045*hit));
+      translateWorld(body,new Vector3(0,-(running?runCrouch:crouch)+bob-height*.10*death-height*.055*hit,height*.15*attack-height*.045*hit));
       const bodyQ=worldRotation(body).multiply(new Quaternion().setFromAxisAngle(new Vector3(1,0,0),-.065*attack+.075*hit+.10*death));
       setWorldRotation(body,bodyQ);
       const head=nodes.get(weaver?'Hood':'Head');
       if(head) head.setRotation(new Quaternion().setFromAxisAngle(new Vector3(1,0,0),(name==='Idle'?.017*wave:0)-.20*attack+headRecoilRadians*hit+.08*death).toArray());
       const jaw=nodes.get('Mandible');
       if(jaw) jaw.setRotation(new Quaternion().setFromAxisAngle(new Vector3(1,0,0),.10*attack).toArray());
-      for (const leg of legs) {
-        const target=leg.positions[3]!.clone();
+      for (const [legIndex,leg] of legs.entries()) {
+        const target=(running?runCenters[legIndex]!:leg.positions[3]!).clone();let swingLift=0;
         if(locomotion) {
           const p=(phase+leg.phase)%1,duty=running?.60:.68,s=running?runStride:stride;
           if(p<duty) target.z+=s*(.5-p/duty);
-          else {const swing=(p-duty)/(1-duty);target.z+=s*(-.5+smooth(swing));target.y+=height*(running?.19:.13)*Math.sin(Math.PI*swing)**2;}
+          else {const swing=(p-duty)/(1-duty);target.z+=s*(-.5+smooth(swing));swingLift=height*(running?.19:.13)*Math.sin(Math.PI*swing)**2;target.y+=swingLift;}
         }
         if(death) {target.x-=leg.side*height*.03*death;target.z-=height*.035*death;target.y+=height*.12*death;}
-        maxError=Math.max(maxError,plant(leg,target));
+        if(running){const solved=solveSupport(legIndex,target,runFloor+swingLift);maxError=Math.max(maxError,solved.solverError);maxSupportSurfaceError=Math.max(maxSupportSurfaceError,solved.surfaceError);}
+        else maxError=Math.max(maxError,plant(leg,target));
       }
       if(death)setWorldRotation(rootJoint,new Quaternion().setFromAxisAngle(new Vector3(0,0,1),1.35*death).multiply(worldRotation(rootJoint)));
       // The generated surface can extend just below the terminal joints. Correct only actual penetration.
@@ -513,16 +567,30 @@ function repairSixLegMotion(doc: Document, weaver: boolean): CreatureRepairResul
       for(const track of tracks){track.t.push(...track.node.getTranslation());track.r.push(...track.node.getRotation());}
     }
     for(const track of tracks){addChannel(doc,clip,track.node,'translation',times,track.t);addChannel(doc,clip,track.node,'rotation',times,track.r);}
-    (provenance.clips as unknown[]).push({name,seconds,solverTargetError:maxError,maxFloorCorrection});
+    (provenance.clips as unknown[]).push({name,seconds,solverTargetError:maxError,maxFloorCorrection,...(name==='Run'?{maxSupportSurfaceError}: {})});
     provenance.solverTargetError=Math.max(provenance.solverTargetError as number,maxError);
   }
   restorePose(rest);
   provenance.attackContactNormalized=attackContactNormalized;
   provenance.contactBasis='First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases';
   provenance.attackingSurfaceVertices=attackSurface.length;
+  // One family ceiling. Six cycles per second (5.2-5.6 Hz as placed) swung each leg in about four
+  // 60 fps frames, double every other creature's in-game cadence and 3.5x the native studio scorpion.
+  // The Storm Scarab boss must hold the shared boss pursuit speed; its reach needs 5.6 (5.2 as placed).
+  const maxRunCadenceHz=boss?5.6:4.2;
+  provenance.runCadence={
+    maxRunCadenceHz,
+    decision:boss?'Boss Run ceiling of 5.6 stride cycles per second, the lowest that keeps the shared boss pursuit speed at its 1.6x placement; 5.2 Hz as placed reviewed in devdocs as a planted beetle scuttle (run-strip-5.2hz.png).'
+      :'Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.',
+    strideBasis:'Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.',
+    evidence:(weaver?['creature_webweaver_spider']:boss?['creature_boss_tempest_roc']:['creature_flint_mandible']).map(id=>({
+      review:`test-results/creature-audit/candidate-review/arthropod-run-v2/${id}/evidence.json`,
+      frames60fps:`test-results/creature-audit/candidate-review/arthropod-run-v2/${id}/run-strip-travel-60fps.png`,
+    })),
+  };
   return {changes:['Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling'],
     provenance,
-    motion:{walkClipSeconds:walkSeconds,runClipSeconds:runSeconds,impliedWalkMps:stride/(walkSeconds*.68),impliedRunMps:runStride/(runSeconds*.60),attackSeconds:.94,contactNormalized:attackContactNormalized,groundY:0}};
+    motion:{walkClipSeconds:walkSeconds,runClipSeconds:runSeconds,impliedWalkMps:stride/(walkSeconds*.68),impliedRunMps:runStride/(runSeconds*.60),maxRunCadenceHz,attackSeconds:.94,contactNormalized:attackContactNormalized,groundY:0}};
 }
 
 export const profile: CreatureRepairProfile = {
@@ -530,7 +598,7 @@ export const profile: CreatureRepairProfile = {
   async repair(doc,{assetId}) {
     const names = doc.getRoot().listSkins()[0]!.listJoints().map(n=>n.getName());
     if(names.includes('VaultweaverRoot')) return repairSixLegMotion(doc,true);
-    if(names.includes('FlintRoot')||names.includes('ScarabRoot')) return repairSixLegMotion(doc,false);
+    if(names.includes('FlintRoot')||names.includes('ScarabRoot')) return repairSixLegMotion(doc,false,assetId==='creature_boss_tempest_roc');
     if(assetId==='creature_reed_strider')return repairStrider(doc);
     if(assetId==='animal_crab'||assetId==='creature_rift_carapace')return repairCrustacean(doc,assetId==='animal_crab');
     if(names.includes('DelverRoot'))return repairCrustacean(doc,false,true);

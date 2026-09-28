@@ -16,7 +16,7 @@ export interface CreatureRepairResult {
   /** Source clips, anatomical decisions, measured contacts and repair provenance. */
   provenance?: Record<string, unknown>;
   /** Recalibrated motion measurements, when the repaired cycles differ from the source. */
-  motion?: Pick<AssetEntry, 'impliedWalkMps' | 'walkClipSeconds' | 'impliedRunMps' | 'runClipSeconds' | 'attackSeconds' | 'contactNormalized' | 'groundY'>;
+  motion?: Pick<AssetEntry, 'impliedWalkMps' | 'walkClipSeconds' | 'impliedRunMps' | 'runClipSeconds' | 'maxRunCadenceHz' | 'attackSeconds' | 'contactNormalized' | 'groundY'>;
 }
 
 export interface CreatureRepairProfile {

@@ -107,6 +107,8 @@ export interface AssetEntry {
   /** The same two numbers for the RUN cycle, used while a creature is pursuing. */
   impliedRunMps?: number;
   runClipSeconds?: number;
+  /** Reviewed full stride cycles per second; absent uses the shared three-cycle limit. */
+  maxRunCadenceHz?: number;
   /** Opt-in for rigs whose pursuit may use Walk when their native Run stride is too fast. */
   locomotionPolicy?: "speed-matched";
 }

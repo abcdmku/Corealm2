@@ -142,7 +142,7 @@ export class ActorStage {
       } else if (mode === 'travel' && motion === 'run') {
         const implied = entry?.impliedRunMps ?? entry?.impliedWalkMps;
         const duration = entry?.runClipSeconds ?? entry?.walkClipSeconds;
-        const native = implied && duration ? 3 * implied * duration : undefined;
+        const native = implied && duration ? (entry?.maxRunCadenceHz ?? 3) * implied * duration : undefined;
         speed = enemy ? enemyPursuitSpeedMps(enemy, view, entity.tier ?? 1, CREATURE_RUN_SPEED, native) : CREATURE_RUN_SPEED;
       }
       if (view.gaitSpeedMps === speed) continue;

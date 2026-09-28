@@ -100,6 +100,8 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
     pinnedDonors = (entry as AssetEntry & { motionRepair?: { donors?: DonorPin[] } }).motionRepair?.donors ?? [];
     usedDonors.clear();
     const result = await profile.repair(doc, { assetId: id, entry, readAsset });
+    const cadence = result.motion?.maxRunCadenceHz;
+    if (cadence !== undefined && (!Number.isFinite(cadence) || cadence <= 0)) throw new Error(`${id}: invalid reviewed Run cadence`);
     const directionalClips = doc.getRoot().listAnimations().filter(clip => ['HitLeft', 'HitRight'].includes(clip.getName()));
     if (directionalClips.length) {
       for (const clip of directionalClips) removeClip(doc, clip.getName());

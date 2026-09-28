@@ -138,7 +138,8 @@ describe('devdocs actor stage', () => {
   it('uses candidate stride metadata for travel rates and restores the original preview rate', async () => {
     const assets = fixtureAssets(['Idle', 'Walk', 'Run', 'Hit']);
     const originalEntry = assets.entry.bind(assets);
-    assets.entry = id => ({ ...originalEntry(id)!, impliedWalkMps: .2, walkClipSeconds: 1, impliedRunMps: .6, runClipSeconds: 1 });
+    let maxRunCadenceHz: number | undefined;
+    assets.entry = id => ({ ...originalEntry(id)!, impliedWalkMps: .2, walkClipSeconds: 1, impliedRunMps: .6, runClipSeconds: 1, maxRunCadenceHz });
     const entity = { ...ENTITY, combat: { health: 10, maxHealth: 10, level: 1, aggroRadius: 6, moveSpeedMps: 4.8 }, view: { assetId: 'fixture', scale: .5 } };
     const stage = new ActorStage(assets, entity);
     await stage.build();
@@ -160,6 +161,13 @@ describe('devdocs actor stage', () => {
     actor.setGaitMode('travel');
     expect(actor.gait().speedMps).toBeCloseTo(.761805, 5);
     expect(actor.motion()!.timeScale).toBeLessThanOrEqual(3);
+    actor.seek!(.3);
+    maxRunCadenceHz = 4.2;
+    actor.setGaitMode('travel');
+    expect(actor.gait().speedMps).toBeCloseTo(.761805 * 1.4, 5);
+    expect(actor.motion()).toMatchObject({ clip: 'Run', time: .3 });
+    expect(actor.motion()!.timeScale).toBeGreaterThan(3);
+    expect(actor.motion()!.timeScale).toBeLessThanOrEqual(4.2);
     actor.setState!('idle');
     expect(actor.gait()).toEqual({ mode: 'travel', speedMps: null });
     actor.dispose();

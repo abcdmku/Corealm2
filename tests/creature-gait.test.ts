@@ -25,7 +25,7 @@ const TICK_SECONDS = SIM_TICK_MS / 1000;
 const FRAMES = [0, 0.25, 0.5, 0.75];
 interface Gait {
   entityId: string; gait: "walk" | "run" | "return"; impliedMps: number; drawnStrideScale: number;
-  speedMps: number; rate: number; cadenceHz: number; slide: number;
+  speedMps: number; rate: number; cadenceHz: number; cadenceLimitHz: number; slide: number;
 }
 
 /** The real renderer consumes shipped timing and production entity transforms.
@@ -127,6 +127,7 @@ beforeAll(async () => {
         gaits.push({
           entityId: entity.id, gait, impliedMps: implied, drawnStrideScale: state.drawnStrideScale,
           speedMps, rate: state.timeScale!, cadenceHz: state.timeScale! / state.duration!,
+          cadenceLimitHz: gait === 'walk' ? 2.4 : (entry as { maxRunCadenceHz?: number }).maxRunCadenceHz ?? 3,
           slide: Math.abs(1 - implied * state.drawnStrideScale * state.timeScale! / speedMps),
         });
       }
@@ -169,7 +170,7 @@ describe("creature gait", () => {
     const wrong: string[] = [];
     for (const [assetId, ceiling] of Object.entries(CREATURE_PURSUIT_CEILING_MPS)) {
       const entry = ASSET_BY_ID.get(assetId) as { impliedRunMps?: number; impliedWalkMps?: number;
-        runClipSeconds?: number; walkClipSeconds?: number; animations?: string[]; sha256?: string } | undefined;
+        runClipSeconds?: number; walkClipSeconds?: number; maxRunCadenceHz?: number; animations?: string[]; sha256?: string } | undefined;
       if (!entry) { wrong.push(`${assetId}: not in the manifest`); continue; }
       // Run when the asset ships one; the semantic run falls back to Walk when it does not.
       const running = entry.impliedRunMps !== undefined;
@@ -179,7 +180,7 @@ describe("creature gait", () => {
         wrong.push(`${assetId}: no measured stride`);
         continue;
       }
-      const expected = Number((3 * implied * seconds).toFixed(4));
+      const expected = Number(((entry.maxRunCadenceHz ?? 3) * implied * seconds).toFixed(4));
       if (Math.abs(expected - ceiling) > 1e-9) {
         wrong.push(`${assetId}: pinned ${ceiling}, manifest solves ${expected} off the ${running ? "run" : "walk"} clip`);
       }
@@ -240,7 +241,7 @@ describe("creature gait", () => {
   });
 
   it("keeps actual playback within walk and run cadence ceilings", () => {
-    const racing = gaits.filter((row) => row.cadenceHz > (row.gait === "walk" ? 2.4 : 3) + 1e-6);
+    const racing = gaits.filter((row) => row.cadenceHz > row.cadenceLimitHz + 1e-6);
     const bySpecies = new Map<string, { gait: string; cadenceHz: number; speedMps: number; impliedMps: number; drawnStrideScale: number }>();
     for (const row of racing) {
       const key = `${row.entityId.replace(/_\d+$/, "")} ${row.gait}`;

@@ -1328,38 +1328,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_amethyst_spider/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+          "note": "Reviewed candidate 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+          "note": "Reviewed candidate 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+          "note": "Reviewed candidate 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+          "note": "Reviewed candidate 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+          "note": "Reviewed candidate 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 63a8f4e65d60942a80f53920f46011a06102ad5b0d1edc9aa9543de240a657bf."
+          "note": "Reviewed candidate 2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2."
         }
       }
     }
@@ -2560,38 +2602,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Shared-model acceptance from creature_webweaver_spider: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+          "note": "Reviewed candidate 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+          "note": "Reviewed candidate 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+          "note": "Reviewed candidate 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+          "note": "Reviewed candidate 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+          "note": "Reviewed candidate 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6bfccf95968443ff4104d1774c4adc5c1dbd26775ac5eae302ce48d19dbe39fc."
+          "note": "Reviewed candidate 84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72."
         }
       }
     }
@@ -3176,38 +3260,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_boss_tempest_roc/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+          "note": "Reviewed candidate a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+          "note": "Reviewed candidate a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+          "note": "Reviewed candidate a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+          "note": "Reviewed candidate a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+          "note": "Reviewed candidate a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate caf9433537c981593d2d2beaf58797630e4a9027f3f9f9cfef34c8ce75b5e72f."
+          "note": "Reviewed candidate a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf."
         }
       }
     }
@@ -4324,38 +4450,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_dewglass_weaver/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+          "note": "Reviewed candidate d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+          "note": "Reviewed candidate d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+          "note": "Reviewed candidate d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+          "note": "Reviewed candidate d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+          "note": "Reviewed candidate d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 83455e9099f1af7a4872299443b9cfdcc3e4f16206189f568447c29722b3938a."
+          "note": "Reviewed candidate d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b."
         }
       }
     }
@@ -4488,38 +4656,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_flint_mandible: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_fen_crawler/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+          "note": "Reviewed candidate a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+          "note": "Reviewed candidate a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+          "note": "Reviewed candidate a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+          "note": "Reviewed candidate a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+          "note": "Reviewed candidate a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 54ce1ab70f56748f937da014610c977adb329ecc3672b3eb7133565f348eac3b."
+          "note": "Reviewed candidate a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f."
         }
       }
     }
@@ -4652,38 +4862,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_flint_mandible/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_flint_mandible/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+          "note": "Reviewed candidate 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+          "note": "Reviewed candidate 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+          "note": "Reviewed candidate 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+          "note": "Reviewed candidate 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+          "note": "Reviewed candidate 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+          "note": "Reviewed candidate 86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b."
         }
       }
     }
@@ -5932,38 +6184,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Shared-model acceptance from creature_webweaver_spider: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+          "note": "Reviewed candidate e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+          "note": "Reviewed candidate e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+          "note": "Reviewed candidate e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+          "note": "Reviewed candidate e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+          "note": "Reviewed candidate e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate ee44453b2528ff3a15d9c962318c9e675497057ae80cf393bd168b98068fa60b."
+          "note": "Reviewed candidate e2a70d0545ee8ac4872dacd2b6dc54df5a857ce6962347fbf069321513f111e9."
         }
       }
     }
@@ -6818,38 +7112,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Shared-model acceptance from creature_amethyst_spider: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_amethyst_spider/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+          "note": "Reviewed candidate 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+          "note": "Reviewed candidate 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+          "note": "Reviewed candidate 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+          "note": "Reviewed candidate 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+          "note": "Reviewed candidate 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 0377c7570c774dbc7ff434a142018f8f470ec3e7dde1f6480a0a70115b766561."
+          "note": "Reviewed candidate 4dbba2a5882389eb05b0544964b32b9269f6b5e12fced1c972592403a84ce55b."
         }
       }
     }
@@ -10140,38 +10476,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T20:59:38.644Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Shared-model acceptance from creature_blind_cave_weaver: identical geometry, skin, rig and six-state motion, differing only in materials and uniform scale. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_blind_cave_weaver/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
+      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c. Evidence: test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json.",
+      "at": "2026-09-28T20:59:38.644Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+          "note": "Reviewed candidate 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+          "note": "Reviewed candidate 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+          "note": "Reviewed candidate 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+          "note": "Reviewed candidate 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+          "note": "Reviewed candidate 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate d79817ca59c3b6d0145504cb24b76fbb9be8d166c06a560bad913c4dd0ef2e04."
+          "note": "Reviewed candidate 453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c."
         }
       }
     }
