@@ -173,10 +173,12 @@ export class ViewerCore {
     }
     const center = bounds.getCenter(new THREE.Vector3());
     const size = bounds.getSize(new THREE.Vector3());
-    this.stage.position.set(-center.x, -bounds.min.y, -center.z);
+    // Production actors already stand or hover at the authored world height. Flooring their idle
+    // bounds removes flight clearance and sends their later landing/death poses below the grid.
+    this.stage.position.set(-center.x, isActorModel(model) ? 0 : -bounds.min.y, -center.z);
     this.stage.updateMatrixWorld(true);
     this.box.box.copy(this.measure(model));
-    this.fitTarget.set(0, size.y / 2, 0);
+    this.fitTarget.set(0, center.y + this.stage.position.y, 0);
     // Fit the full bounding-box sphere, with a little room for skeletal poses beyond this sampled pose.
     this.fitRadius = Math.max(size.length() * .55, .05);
     this.snapshot.size = { x: size.x, y: size.y, z: size.z };

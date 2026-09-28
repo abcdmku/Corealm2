@@ -72,7 +72,7 @@ export async function previewCandidateCatalog(catalogUrl: string | null): Promis
 
 // Dispatch through the module used by the live actor; importing a bare URL during HMR can
 // otherwise create a second registry instance and leave the visible actor on cached assets.
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && typeof window !== 'undefined') {
   const preview = (event: Event) => {
     const request = (event as CustomEvent<{ url: string | null; requestId: string }>).detail;
     if (!request || typeof request.requestId !== 'string' || (request.url !== null && typeof request.url !== 'string')) return;
