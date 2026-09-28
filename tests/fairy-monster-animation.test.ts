@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import * as THREE from 'three';
@@ -109,7 +110,8 @@ describe('studio death export contact', () => {
 });
 
 describe('studio trial native motion repair', () => {
-  it.each(['fairy_monster_14', 'fairy_monster_27'])('%s preserves native gait and skin, and holds its new corpse', async id => {
+  it('fairy_monster_16 preserves native gait and skin, holds its corpse, and reproduces its production bytes', async () => {
+    const id = 'fairy_monster_16';
     const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
     const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
     const readAsset = async (assetId: string) => io.read(`game/public/assets/${manifest.assets.find((a: { id: string }) => a.id === assetId).file}`);
@@ -127,6 +129,8 @@ describe('studio trial native motion repair', () => {
     restorePose(rest); applyClip(death, duration(death)); const end = deformedBounds(doc);
     expect(end.min[1]).toBeCloseTo(.016, 5);
     for (let axis = 0; axis < 3; axis++) { expect(end.min[axis]).toBeCloseTo(held.min[axis]!, 5); expect(end.max[axis]).toBeCloseTo(held.max[axis]!, 5); }
+    restorePose(rest);
+    expect(createHash('sha256').update(await io.writeBinary(doc)).digest('hex')).toBe(entry.sha256);
   });
 });
 

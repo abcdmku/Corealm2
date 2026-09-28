@@ -12,7 +12,7 @@ import sharp from 'sharp';
 import { startServer } from '../animals/serve.mjs';
 import { deformedBounds } from '../creature-motion/validate-deformation.js';
 import { applyClip, duration, restorePose, storedPose } from '../creature-motion/pose.js';
-import { repairStudioFairy } from '../tripo-creatures/profiles/studio-fairy.js';
+import { repairStudioFairy, studioFairyIds } from '../tripo-creatures/profiles/studio-fairy.js';
 import type { AssetEntry } from '../../game/src/render/assets.js';
 
 const output = 'test-results/fairy-terraces-assets/monsters';
@@ -90,7 +90,8 @@ try {
     const result = await page.evaluate(spec=>(window as any).convertFairyMonster(spec),spec);
     const doc = await io.readBinary(Buffer.from(result.base64,'base64'));
     const donorPins: { id: string; sourceSha256: string; sourceGitBlob: string }[] = [];
-    const repair = result.requiredMotionRepair ? await repairStudioFairy(doc, {
+    // Other trial bodies keep their native studio takes; the owner accepted them as authored.
+    const repair = result.requiredMotionRepair && studioFairyIds.includes(spec.id) ? await repairStudioFairy(doc, {
       assetId: spec.id, entry: manifest.assets.find((asset: AssetEntry) => asset.id === spec.id),
       readAsset: async id => {
         const asset = manifest.assets.find((entry: AssetEntry) => entry.id === id);
