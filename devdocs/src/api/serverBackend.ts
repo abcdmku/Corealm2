@@ -44,6 +44,8 @@ import { resetPublicBaseUrl, setPublicBaseUrl } from "../../../game/src/app/conf
 const DERIVED_TABLES = ["items", "recipes", "resources", "enemies", "species"] as const;
 /** The source collections are megabytes. One read per session, refreshed when a publish moves the revision. */
 const REVISION_PATTERN = /^[a-f0-9]{64}$/;
+/** How often a visible page asks whether the content moved on the server without it. */
+const CONTENT_WATCH_MS = 20_000;
 
 export interface ServerBackendPorts {
   session: AdminSession;
@@ -200,6 +202,18 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   setGameCatalogSource(async () => { invalidate(); await snapshot(); return undefined; });
   /** The content moved on the server: read it again, adopting its catalog, before answering. */
   const reread = (): Promise<void> => refreshGameCatalog();
+  // Content published elsewhere (the API, another author, a base update) reaches this page too: while it
+  // is visible it asks for the active revision now and then, and reads everything again when it moved.
+  if (typeof document !== "undefined") {
+    const watch = async (): Promise<void> => {
+      if (document.visibilityState === "hidden" || !pending) return;
+      const known = (await pending.catch(() => undefined))?.revision;
+      const active = await admin<{ revision?: unknown }>("/admin/content/revision?limit=1").catch(() => undefined);
+      if (known && typeof active?.revision === "string" && active.revision !== known) await reread();
+    };
+    setInterval(() => void watch(), CONTENT_WATCH_MS);
+    document.addEventListener("visibilitychange", () => void watch());
+  }
 
   // Callers pass paths already encoded (`meta/items/%24all`); decode each segment first so none is encoded twice.
   const meta = (path: string): string => `/admin/meta/${path.split("/").map(segment => encodeURIComponent(decodeURIComponent(segment))).join("/")}`;
