@@ -29,6 +29,16 @@ function creature() {
   return { doc, root, limb, skin, primitive, clip };
 }
 
+function hiddenArrow(f: ReturnType<typeof creature>) {
+  const holder = f.doc.createNode("NockedArrow").setScale([0, 0, 0]);
+  const positions = f.doc.createAccessor().setType("VEC3").setBuffer(f.doc.getRoot().listBuffers()[0]!)
+    .setArray(new Float32Array([0, 0, 0, .2, 0, 0, 0, .01, 0]));
+  holder.addChild(f.doc.createNode("ArrowShaft").setMesh(f.doc.createMesh().addPrimitive(f.doc.createPrimitive().setAttribute("POSITION", positions))));
+  f.root.addChild(holder);
+  for (const name of REQUIRED_CREATURE_STATES) addChannel(f.doc, f.clip(name), holder, "scale", [0, .5, 1], [0, 0, 0, 1, 1, 1, 0, 0, 0]);
+  return holder;
+}
+
 describe("creature import rejection gate", () => {
   it("samples every state, permits a held death ending and preserves the default pose", () => {
     const f = creature(), before = f.doc.getRoot().listNodes().map(node => node.getMatrix());
@@ -64,7 +74,7 @@ describe("creature import rejection gate", () => {
     expect(validateCreatureDocument(f.doc).problems).toContain("Idle: no visible vertex motion");
   });
 
-  it.each(["orphan", "other scene"])("ignores motion on a retired mesh in an %s when the visible body is static", location => {
+  it.each(["orphan", "other scene"])("rejects animation of a retired mesh in an %s", location => {
     const f = creature(), retired = f.doc.createNode("RetiredMesh").setMesh(f.doc.getRoot().listMeshes()[0]!);
     if (location === "other scene") f.doc.createScene("RetiredScene").addChild(retired);
     for (const name of REQUIRED_CREATURE_STATES) {
@@ -73,8 +83,42 @@ describe("creature import rejection gate", () => {
     }
     const report = validateCreatureDocument(f.doc);
     expect(report.passed).toBe(false);
+    expect(report.problems).toEqual(REQUIRED_CREATURE_STATES.map(name => `${name}/RetiredMesh/translation: animation target is outside the default scene`));
+    expect(report.states).toEqual([]);
+  });
+
+  it("rejects tracks targeting empty retired rig nodes that the production scene cannot bind", () => {
+    const f = creature(), retired = f.doc.createNode("bone_0");
+    addChannel(f.doc, f.clip("Idle"), retired, "rotation", [0, .5, 1], [0, 0, 0, 1, 0, 0, .1, Math.sqrt(.99), 0, 0, 0, 1]);
+    expect(validateCreatureDocument(f.doc).problems).toContain("Idle/bone_0/rotation: animation target is outside the default scene");
+    // Reachability through the real scene hierarchy makes the same valid track bindable.
+    f.root.addChild(retired);
+    expect(validateCreatureDocument(f.doc).problems).toEqual([]);
+  });
+
+  it("allows a rigid studio arrow subtree to hide and reveal while the skinned body animates", () => {
+    const f = creature(), arrow = hiddenArrow(f), report = validateCreatureDocument(f.doc);
+    expect(report.problems).toEqual([]);
+    expect(report.passed).toBe(true);
+    expect(report.states.every(state => state.maximumVertexMotion > 0)).toBe(true);
+    expect(arrow.getScale()).toEqual([0, 0, 0]);
+  });
+
+  it("does not accept hiding and revealing a rigid arrow as motion of a static body", () => {
+    const f = creature(); hiddenArrow(f);
+    for (const name of REQUIRED_CREATURE_STATES) f.clip(name).listSamplers()[0]!.getOutput()!
+      .setArray(new Float32Array([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]));
+    const report = validateCreatureDocument(f.doc);
     expect(report.problems).toEqual(REQUIRED_CREATURE_STATES.map(name => `${name}: no visible vertex motion`));
     expect(report.states.every(state => state.maximumVertexMotion === 0)).toBe(true);
+  });
+
+  it("still rejects zero-scale skeletal branches and invalid hidden accessory rotations", () => {
+    const f = creature(), arrow = hiddenArrow(f);
+    f.limb.setScale([0, 0, 0]); arrow.setRotation([0, 0, 0, 0]);
+    expect(validateCreatureDocument(f.doc).problems).toEqual(expect.arrayContaining([
+      "Limb: invalid default transform", "NockedArrow: invalid default rotation",
+    ]));
   });
 
   it("rejects an out-of-range skin index even in a zero-weight slot without throwing", () => {
@@ -116,6 +160,44 @@ describe("creature import rejection gate", () => {
     sampler.setInterpolation("STEP");
     sampler.getOutput()!.setElement(2, new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), 1.5).toArray());
     expect(validateCreatureDocument(f.doc).problems).toContain("Walk: loop endpoint jumps more than 15% of the body span");
+  });
+
+  it.each(["start", "end"])("rejects a forced matching quaternion endpoint that creates an isolated %s jump", boundary => {
+    const f = creature(), sampler = f.clip("Idle").listSamplers()[0]!, times = Array.from({ length: 61 }, (_, i) => i / 60);
+    sampler.getInput()!.setArray(new Float32Array(times));
+    sampler.getOutput()!.setArray(new Float32Array(times.flatMap((time, index) => {
+      const angle = index === 0 || index === 60 ? 0 : 2 * (boundary === "end" ? time : 1 - time);
+      return new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), angle).toArray();
+    })));
+    const report = validateCreatureDocument(f.doc);
+    expect(report.states.find(state => state.name === "Idle")!.loopSeam).toBe(0);
+    expect(report.problems).toContain(`Idle/Limb/rotation: isolated ${boundary}-of-loop jump`);
+  });
+
+  it.each(["translation", "scale"] as const)("rejects an isolated %s loop correction above its body-relative threshold", path => {
+    const f = creature(), times = Array.from({ length: 61 }, (_, i) => i / 60);
+    addChannel(f.doc, f.clip("Walk"), f.root, path, times, times.flatMap((time, index) => {
+      const change = index === 60 ? 0 : time * .3;
+      return path === "translation" ? [change, 0, 0] : [1 + change, 1, 1];
+    }));
+    expect(validateCreatureDocument(f.doc).problems).toContain(`Walk/BodyRoot/${path}: isolated end-of-loop jump`);
+  });
+
+  it("preserves rapid periodic wing motion and equivalent quaternion sign changes", () => {
+    const f = creature(), sampler = f.clip("Idle").listSamplers()[0]!, times = Array.from({ length: 61 }, (_, i) => i / 60);
+    sampler.getInput()!.setArray(new Float32Array(times));
+    sampler.getOutput()!.setArray(new Float32Array(times.flatMap((time, index) => {
+      const quaternion = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), .9 * Math.sin(time * Math.PI * 8)).toArray();
+      return index % 2 ? quaternion.map(value => -value) : quaternion;
+    })));
+    expect(validateCreatureDocument(f.doc).problems).toEqual([]);
+  });
+
+  it("does not call matched fast boundary excursions an isolated correction", () => {
+    const f = creature(), sampler = f.clip("Idle").listSamplers()[0]!;
+    sampler.getInput()!.setArray(new Float32Array([0, .1, .9, 1]));
+    sampler.getOutput()!.setArray(new Float32Array([0, .5, .5, 0].flatMap(angle => new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), angle).toArray())));
+    expect(validateCreatureDocument(f.doc).problems).toEqual([]);
   });
 
   it("samples brief malformed poses between the uniform audit phases", () => {

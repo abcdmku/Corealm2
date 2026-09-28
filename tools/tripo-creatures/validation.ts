@@ -1,5 +1,5 @@
 import type { Animation, AnimationChannel, AnimationSampler, Document, Node, Primitive } from "@gltf-transform/core";
-import { Box3, Matrix4, Quaternion, Vector3 } from "three";
+import { Box3, Matrix3, Matrix4, Quaternion, Vector3 } from "three";
 import { restorePose, storedPose } from "../creature-motion/pose.js";
 
 export const REQUIRED_CREATURE_STATES = ["Idle", "Walk", "Run", "Attack", "Hit", "Death"] as const;
@@ -103,9 +103,16 @@ function evaluatedVertices(parts: MeshPart[]): { vertices: Float64Array; span: n
   return { vertices, span: bounds.getSize(new Vector3()).length() };
 }
 
-function displacement(a: Float64Array, b: Float64Array): number {
-  let maximum = 0;
-  for (let i = 0; i < a.length; i += 3) maximum = Math.max(maximum, Math.hypot(a[i]! - b[i]!, a[i + 1]! - b[i + 1]!, a[i + 2]! - b[i + 2]!));
+function bodyDisplacement(a: Float64Array, b: Float64Array, parts: MeshPart[]): number {
+  let maximum = 0, offset = 0;
+  for (const part of parts) {
+    const end = offset + part.count * 3;
+    // An accessory appearing or moving cannot stand in for animation of the creature's body.
+    if (part.node.getSkin()) for (let i = offset; i < end; i += 3) {
+      maximum = Math.max(maximum, Math.hypot(a[i]! - b[i]!, a[i + 1]! - b[i + 1]!, a[i + 2]! - b[i + 2]!));
+    }
+    offset = end;
+  }
   return maximum;
 }
 
@@ -226,6 +233,42 @@ function sampleTimes(clip: Animation, seconds: number, bodySpan: number): number
   return [...selected].sort((a, b) => a - b);
 }
 
+/** Equal endpoints do not repair a loop that snaps back to its first pose in one frame. */
+function validateLoopBoundaryVelocity(clip: Animation, seconds: number, bodySpan: number, problems: string[]): void {
+  if (!/^(Idle|Walk|Run)$/.test(clip.getName())) return;
+  const a = new Quaternion(), b = new Quaternion(), translation = new Vector3();
+  for (const channel of clip.listChannels()) {
+    const sampler = channel.getSampler()!, times = sampler.getInput()!.getArray()!;
+    // Two or three keys cannot establish a separate normal cadence for comparison.
+    if (sampler.getInterpolation() !== "LINEAR" || times.length < 4) continue;
+    const output = sampler.getOutput()!, values = output.getArray()!, width = output.getElementSize(), path = channel.getTargetPath();
+    const parent = channel.getTargetNode()!.getParentNode();
+    const parentBasis = new Matrix3().setFromMatrix4(parent ? new Matrix4().fromArray(parent.getWorldMatrix()) : new Matrix4());
+    const threshold = path === "rotation" ? .2 : path === "translation" ? bodySpan * .03 : .1;
+    const intervals: { delta: number; velocity: number }[] = [];
+    for (let key = 0; key + 1 < times.length; key++) {
+      const left = key * width, right = (key + 1) * width;
+      let delta: number;
+      if (path === "rotation") delta = a.fromArray(values, left).normalize().angleTo(b.fromArray(values, right).normalize());
+      else if (path === "translation") delta = translation.set(values[right]! - values[left]!, values[right + 1]! - values[left + 1]!,
+        values[right + 2]! - values[left + 2]!).applyMatrix3(parentBasis).length();
+      else delta = Math.max(...[0, 1, 2].map(component => Math.abs(values[right + component]! - values[left + component]!)));
+      intervals.push({ delta, velocity: delta / (times[key + 1]! - times[key]!) });
+    }
+    for (const [index, boundary] of [[0, "start"], [intervals.length - 1, "end"]] as const) {
+      // A short channel that holds its last key long before the clip ends has no final seam interval.
+      if (boundary === "start" ? times[0]! > 1e-6 : times[times.length - 1]! < seconds - 1e-6) continue;
+      const interval = intervals[index]!;
+      // Include the opposite boundary in the normal rate. Matched fast excursions on both
+      // sides are not an isolated copied-frame correction, and rapid wing cycles stay valid.
+      const normal = Math.max(...intervals.filter((_, i) => i !== index).map(other => other.velocity));
+      if (interval.delta > threshold && interval.velocity > normal * 4) {
+        problems.push(`${clip.getName()}/${channel.getTargetNode()!.getName()}/${path}: isolated ${boundary}-of-loop jump`);
+      }
+    }
+  }
+}
+
 /**
  * Reject malformed imports before candidate export. All vertices are sampled in every clip;
  * relaxed limbs, correct pivots, weights, facing and believable motion still require devdocs.
@@ -242,12 +285,21 @@ export function validateCreatureDocument(doc: Document): CreatureValidation {
   scene?.traverse(node => reachable.add(node));
   if (!scene) problems.push("No default creature scene");
   if (![...reachable].some(node => node.getMesh() && node.getSkin())) problems.push("No creature skin");
+  const joints = new Set(root.listSkins().flatMap(skin => skin.listJoints())), hiddenRigidNodes = new Set<Node>();
+  for (const node of reachable) {
+    if (!node.getScale().some(scale => scale === 0)) continue;
+    const subtree: Node[] = []; node.traverse(child => subtree.push(child));
+    // Studio bow clips hide the rigid nocked arrow with explicit zero scale. A skeleton
+    // joint or skinned descendant makes this an invalid rig transform, not visibility.
+    if (subtree.every(child => !child.getSkin() && !joints.has(child))) subtree.forEach(child => hiddenRigidNodes.add(child));
+  }
   for (const name of REQUIRED_CREATURE_STATES) if (!clips.some(clip => clip.getName() === name)) problems.push(`Missing usable ${name} clip`);
   if (new Set(clips.map(clip => clip.getName())).size !== clips.length) problems.push("Duplicate clip names");
   for (const node of nodes) {
     if (!reachable.has(node)) continue;
     const matrix = new Matrix4().fromArray(node.getWorldMatrix());
-    if (!finite(matrix.elements) || Math.abs(matrix.determinant()) < 1e-12) problems.push(`${node.getName()}: invalid default transform`);
+    if (!finite(matrix.elements) || (Math.abs(matrix.determinant()) < 1e-12 && !hiddenRigidNodes.has(node))) problems.push(`${node.getName()}: invalid default transform`);
+    if (!finite(node.getRotation()) || Math.abs(Math.hypot(...node.getRotation()) - 1) > .01) problems.push(`${node.getName()}: invalid default rotation`);
     const skin = node.getSkin(), bones = skin?.listJoints(), inverse = skin?.getInverseBindMatrices();
     if (skin && (!bones!.length || !inverse || inverse.getType() !== "MAT4" || inverse.getCount() !== bones!.length)) {
       problems.push(`${node.getName()}: inverse-bind count mismatch`);
@@ -286,6 +338,7 @@ export function validateCreatureDocument(doc: Document): CreatureValidation {
     for (const channel of clip.listChannels()) {
       const node = channel.getTargetNode(), path = channel.getTargetPath(), label = `${clip.getName()}/${node?.getName() ?? "missing"}/${path}`;
       if (!node || !nodes.includes(node)) problems.push(`${label}: missing target`);
+      else if (!reachable.has(node)) problems.push(`${label}: animation target is outside the default scene`);
       if (path === null || !["translation", "rotation", "scale"].includes(path)) { problems.push(`${label}: unsupported deformation channel`); continue; }
       const target = `${nodes.indexOf(node!)}:${path}`;
       if (targets.has(target)) problems.push(`${label}: duplicate target channel`);
@@ -302,6 +355,7 @@ export function validateCreatureDocument(doc: Document): CreatureValidation {
       const seconds = Math.max(...clip.listSamplers().map(sampler => sampler.getInput()!.getArray()!.at(-1)!));
       if (!(seconds > 0)) { problems.push(`${clip.getName()}: zero duration`); continue; }
       restorePose(rest);
+      validateLoopBoundaryVelocity(clip, seconds, baseline.span, problems);
       const times = sampleTimes(clip, seconds, baseline.span);
       const report: CreatureStateValidation = { name: clip.getName(), seconds, samples: times.length, maximumVertexMotion: 0,
         maximumSpanRatio: 0, minimumSpanRatio: Infinity, loopSeam: null, edgeStretchP99: 1, maximumEdgeStretch: 1, stretchedEdgeFraction: 0 };
@@ -317,8 +371,8 @@ export function validateCreatureDocument(doc: Document): CreatureValidation {
         const pose = evaluatedVertices(parts), ratio = pose.span / baseline.span;
         report.maximumSpanRatio = Math.max(report.maximumSpanRatio, ratio); report.minimumSpanRatio = Math.min(report.minimumSpanRatio, ratio);
         first ??= pose.vertices;
-        report.maximumVertexMotion = Math.max(report.maximumVertexMotion, displacement(first, pose.vertices));
-        if (frame === report.samples - 1 && /^(Idle|Walk|Run)$/.test(clip.getName())) report.loopSeam = displacement(first, pose.vertices) / baseline.span;
+        report.maximumVertexMotion = Math.max(report.maximumVertexMotion, bodyDisplacement(first, pose.vertices, parts));
+        if (frame === report.samples - 1 && /^(Idle|Walk|Run)$/.test(clip.getName())) report.loopSeam = bodyDisplacement(first, pose.vertices, parts) / baseline.span;
         let stretched = 0;
         edges.forEach((edge, i) => {
           const stretch = edgeLength(pose.vertices, edge.a, edge.b) / edge.length;
