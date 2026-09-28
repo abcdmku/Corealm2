@@ -1,0 +1,160 @@
+{
+  "creek_crab_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:47:02.299Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "polish",
+      "at": "2026-09-27T16:47:02.299Z",
+      "by": "user"
+    }
+  },
+  "gloam_fox_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:30:59.870Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      },
+      {
+        "at": "2026-09-27T16:33:07.488Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:33:07.488Z",
+      "by": "user"
+    }
+  },
+  "marchfield_hens": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:34:41.920Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:34:41.920Z",
+      "by": "user"
+    }
+  },
+  "red_worm_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:39:14.907Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:39:14.907Z",
+      "by": "user"
+    }
+  },
+  "redsill_cattle": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:29:57.797Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:29:57.797Z",
+      "by": "user"
+    }
+  },
+  "redsill_frogs": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:30:19.322Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:30:19.322Z",
+      "by": "user"
+    }
+  },
+  "reedbank_goose_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:33:59.399Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:33:59.399Z",
+      "by": "user"
+    }
+  },
+  "regional_gloam_fox": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:40:14.609Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:40:14.609Z",
+      "by": "user"
+    }
+  }
+}

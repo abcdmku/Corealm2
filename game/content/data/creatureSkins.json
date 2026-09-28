@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "brown-hen",
+    "assetId": "animal_chicken",
+    "name": "Brown Hen",
+    "kind": "imagegen",
+    "maps": {
+      "hen_layered_cream_plumage": "skins/animal_chicken/brown-hen/hen_layered_cream_plumage.png"
+    },
+    "prompt": "Repaint this albedo texture map for Hen, a creature of Farmland.\nAbout it: Hen\nKeep the UV layout, seams and every painted feature where they are. Layered colours and surface detail (fur, scales, skin, markings), no flat fills, no lighting baked in. Make it a Brown Hen",
+    "generator": "codex exec + gpt-image",
+    "sha256": {
+      "hen_layered_cream_plumage": "927b4d9b00b50e754525216d0a5add0e8f7b3518a52ceebd40353bfae2b86719"
+    },
+    "createdAt": "2026-09-27T19:11:01.923Z"
+  }
+]

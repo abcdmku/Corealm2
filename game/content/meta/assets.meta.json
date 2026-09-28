@@ -1,0 +1,534 @@
+{
+  "animal_cattle": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:39:40.283Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:39:40.283Z",
+      "by": "user"
+    }
+  },
+  "animal_chicken": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:34:44.661Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:hitLeft approved"
+      },
+      {
+        "at": "2026-09-27T16:40:49.423Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:40:49.423Z",
+      "by": "user",
+      "checks": {
+        "state:hitLeft": {
+          "verdict": "approved"
+        }
+      }
+    }
+  },
+  "animal_chicken_speckled": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:40:53.143Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:40:53.143Z",
+      "by": "user"
+    }
+  },
+  "animal_crab": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:46:56.619Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "polish",
+      "at": "2026-09-27T16:46:56.619Z",
+      "by": "user"
+    }
+  },
+  "animal_frog": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:39:44.873Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:39:44.873Z",
+      "by": "user"
+    }
+  },
+  "animal_rabbit": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:38:10.790Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk polish"
+      },
+      {
+        "at": "2026-09-27T16:38:26.984Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk"
+      },
+      {
+        "at": "2026-09-27T16:38:37.431Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run"
+      },
+      {
+        "at": "2026-09-27T16:38:50.019Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run polish"
+      },
+      {
+        "at": "2026-09-27T16:41:04.427Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "polish",
+      "at": "2026-09-27T16:41:04.427Z",
+      "by": "user",
+      "checks": {
+        "state:walk": {
+          "verdict": "polish",
+          "note": "legs dont bend well, doesnt move like a four legged animal. body is too static"
+        },
+        "state:run": {
+          "verdict": "polish",
+          "note": "legs dont bend well, doesnt move like a four legged animal. body is too static"
+        }
+      }
+    }
+  },
+  "animal_rat": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:34:11.759Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run polish"
+      },
+      {
+        "at": "2026-09-27T16:34:19.920Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run"
+      },
+      {
+        "at": "2026-09-27T16:34:25.451Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death polish"
+      },
+      {
+        "at": "2026-09-27T16:34:33.750Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death"
+      },
+      {
+        "at": "2026-09-27T16:40:37.588Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "polish",
+      "at": "2026-09-27T16:40:37.588Z",
+      "by": "user",
+      "checks": {
+        "state:run": {
+          "verdict": "polish",
+          "note": "legs way too fast "
+        },
+        "state:death": {
+          "verdict": "polish",
+          "note": "floats in the air on death"
+        }
+      }
+    }
+  },
+  "creature_gloam_fox": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:31:35.660Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk"
+      },
+      {
+        "at": "2026-09-27T16:31:41.359Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run"
+      },
+      {
+        "at": "2026-09-27T16:31:49.919Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:attack"
+      },
+      {
+        "at": "2026-09-27T16:31:58.833Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death"
+      },
+      {
+        "at": "2026-09-27T16:32:18.366Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:idle polish"
+      },
+      {
+        "at": "2026-09-27T16:33:01.979Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:idle"
+      },
+      {
+        "at": "2026-09-27T16:33:24.533Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk polish"
+      },
+      {
+        "at": "2026-09-27T16:33:28.015Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run polish"
+      },
+      {
+        "at": "2026-09-27T16:33:31.022Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:attack polish"
+      },
+      {
+        "at": "2026-09-27T16:33:34.100Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-27T16:33:37.480Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:hitLeft approved"
+      },
+      {
+        "at": "2026-09-27T16:33:43.877Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:hitRight approved"
+      },
+      {
+        "at": "2026-09-27T16:33:45.765Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death polish"
+      },
+      {
+        "at": "2026-09-27T16:40:02.516Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "polish",
+      "at": "2026-09-27T16:40:02.516Z",
+      "by": "user",
+      "checks": {
+        "state:walk": {
+          "verdict": "polish",
+          "note": "legs dont bend well, doesnt move like a four legged animal"
+        },
+        "state:run": {
+          "verdict": "polish",
+          "note": "legs dont bend well, doesnt move like a four legged animal"
+        },
+        "state:attack": {
+          "verdict": "polish",
+          "note": "legs dont bend well, doesnt move like a four legged animal"
+        },
+        "state:death": {
+          "verdict": "polish",
+          "note": "legs dont bend well, doesnt move like a four legged animal"
+        },
+        "state:idle": {
+          "verdict": "polish",
+          "note": "should mainly face forward not off to the side. looking to the side every now and then is okay but idle should be facing forward"
+        },
+        "state:hit": {
+          "verdict": "approved"
+        },
+        "state:hitLeft": {
+          "verdict": "approved"
+        },
+        "state:hitRight": {
+          "verdict": "approved"
+        }
+      }
+    }
+  },
+  "creature_marchfield_turkey": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:41:20.247Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record polish"
+      },
+      {
+        "at": "2026-09-27T16:41:49.327Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk"
+      },
+      {
+        "at": "2026-09-27T16:41:50.999Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run"
+      },
+      {
+        "at": "2026-09-27T16:41:56.596Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk polish"
+      },
+      {
+        "at": "2026-09-27T16:41:58.711Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:run polish"
+      },
+      {
+        "at": "2026-09-27T16:42:01.645Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:attack"
+      },
+      {
+        "at": "2026-09-27T16:42:02.069Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:attack polish"
+      },
+      {
+        "at": "2026-09-27T16:42:06.531Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:hit"
+      },
+      {
+        "at": "2026-09-27T16:42:06.612Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:hit polish"
+      },
+      {
+        "at": "2026-09-27T16:42:11.713Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death"
+      },
+      {
+        "at": "2026-09-27T16:42:16.737Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death polish"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "polish",
+      "at": "2026-09-27T16:42:16.737Z",
+      "by": "user",
+      "checks": {
+        "state:walk": {
+          "verdict": "polish",
+          "note": "take notes from the hen animations to improve this"
+        },
+        "state:run": {
+          "verdict": "polish",
+          "note": "take notes from the hen animations to improve this"
+        },
+        "state:attack": {
+          "verdict": "polish",
+          "note": "take notes from the hen animations to improve this"
+        },
+        "state:hit": {
+          "verdict": "polish",
+          "note": "take notes from the hen animations to improve this"
+        },
+        "state:death": {
+          "verdict": "polish",
+          "note": "take notes from the hen animations to improve this"
+        }
+      }
+    }
+  },
+  "creature_red_worm": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:39:13.871Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-27T16:39:17.899Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-27T16:39:20.066Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-27T16:39:27.396Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-27T16:39:32.376Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record clear"
+      },
+      {
+        "at": "2026-09-27T16:39:33.555Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-27T16:39:34.361Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record clear"
+      },
+      {
+        "at": "2026-09-27T16:39:34.943Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:39:34.943Z",
+      "by": "user",
+      "checks": {
+        "state:death": {
+          "verdict": "approved"
+        },
+        "state:idle": {
+          "verdict": "approved"
+        },
+        "state:walk": {
+          "verdict": "approved"
+        }
+      }
+    }
+  },
+  "creature_reedbank_goose": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-27T16:39:49.852Z",
+        "by": "user",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "at": "2026-09-27T16:39:49.852Z",
+      "by": "user"
+    }
+  }
+}

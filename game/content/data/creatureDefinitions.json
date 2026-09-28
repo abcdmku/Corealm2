@@ -3952,7 +3952,18 @@
       "regionId": "fallowmarch",
       "activity": "forage",
       "description": "A dark red worm nosing through the grass outside Coldbrace.",
-      "kind": "basic"
+      "kind": "basic",
+      "variation": {
+        "hue": 30,
+        "value": [
+          0.5,
+          0.8
+        ],
+        "saturation": [
+          0.7,
+          2
+        ]
+      }
     },
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -16862,7 +16873,15 @@
       "regionId": "fallowmarch",
       "activity": "forage",
       "description": "Hen",
-      "kind": "basic"
+      "kind": "basic",
+      "variation": {
+        "skins": [
+          {
+            "skinId": "brown-hen",
+            "weight": 1
+          }
+        ]
+      }
     },
     "loot": {
       "rolls": [

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "d5fd9465a6f2f572c9c988871ffb5c56103f5aafcf1a5af896d606105d711bab",
+  "revision": "a99ab0f20fe849193cf9c8b70d08e7ce6a0992e36cbbd8208f5222f27c567df1",
   "formulaRevision": "40837a10590ba893cbee1171105bca8ca89235952088c0acd1883e84992cb845",
   "tables": {
     "items": [
@@ -26966,6 +26966,17 @@
           "regionId": "fallowmarch",
           "activity": "forage",
           "description": "A dark red worm nosing through the grass outside Coldbrace.",
+          "variation": {
+            "hue": 30,
+            "saturation": [
+              0.7,
+              2
+            ],
+            "value": [
+              0.5,
+              0.8
+            ]
+          },
           "kind": "basic"
         },
         "adjustments": {
@@ -39876,6 +39887,14 @@
           "regionId": "fallowmarch",
           "activity": "forage",
           "description": "Hen",
+          "variation": {
+            "skins": [
+              {
+                "skinId": "brown-hen",
+                "weight": 1
+              }
+            ]
+          },
           "kind": "basic"
         },
         "loot": {
@@ -47750,7 +47769,23 @@
         ]
       }
     ],
-    "creatureSkins": [],
+    "creatureSkins": [
+      {
+        "id": "brown-hen",
+        "assetId": "animal_chicken",
+        "name": "Brown Hen",
+        "kind": "imagegen",
+        "maps": {
+          "hen_layered_cream_plumage": "skins/animal_chicken/brown-hen/hen_layered_cream_plumage.png"
+        },
+        "prompt": "Repaint this albedo texture map for Hen, a creature of Farmland.\nAbout it: Hen\nKeep the UV layout, seams and every painted feature where they are. Layered colours and surface detail (fur, scales, skin, markings), no flat fills, no lighting baked in. Make it a Brown Hen",
+        "generator": "codex exec + gpt-image",
+        "sha256": {
+          "hen_layered_cream_plumage": "927b4d9b00b50e754525216d0a5add0e8f7b3518a52ceebd40353bfae2b86719"
+        },
+        "createdAt": "2026-09-27T19:11:01.923Z"
+      }
+    ],
     "worldRegions": [
       {
         "id": "fallowmarch",
@@ -95870,6 +95905,17 @@
             "regionId": "fallowmarch",
             "activity": "forage",
             "description": "A dark red worm nosing through the grass outside Coldbrace.",
+            "variation": {
+              "hue": 30,
+              "saturation": [
+                0.7,
+                2
+              ],
+              "value": [
+                0.5,
+                0.8
+              ]
+            },
             "kind": "basic"
           },
           "adjustments": {
@@ -95959,6 +96005,17 @@
           "regionId": "fallowmarch",
           "activity": "forage",
           "description": "A dark red worm nosing through the grass outside Coldbrace.",
+          "variation": {
+            "hue": 30,
+            "saturation": [
+              0.7,
+              2
+            ],
+            "value": [
+              0.5,
+              0.8
+            ]
+          },
           "stats": {
             "id": "red_worm_t1",
             "name": "Red Worm",
@@ -158155,6 +158212,14 @@
             "regionId": "fallowmarch",
             "activity": "forage",
             "description": "Hen",
+            "variation": {
+              "skins": [
+                {
+                  "skinId": "brown-hen",
+                  "weight": 1
+                }
+              ]
+            },
             "kind": "basic"
           },
           "loot": {
@@ -158260,6 +158325,14 @@
           "regionId": "fallowmarch",
           "activity": "forage",
           "description": "Hen",
+          "variation": {
+            "skins": [
+              {
+                "skinId": "brown-hen",
+                "weight": 1
+              }
+            ]
+          },
           "stats": {
             "id": "marchfield_hens",
             "name": "Hen",
@@ -230936,6 +231009,17 @@
         "regionId": "fallowmarch",
         "activity": "forage",
         "description": "A dark red worm nosing through the grass outside Coldbrace.",
+        "variation": {
+          "hue": 30,
+          "saturation": [
+            0.7,
+            2
+          ],
+          "value": [
+            0.5,
+            0.8
+          ]
+        },
         "stats": {
           "id": "red_worm_t1",
           "name": "Red Worm",
@@ -250184,6 +250268,14 @@
         "regionId": "fallowmarch",
         "activity": "forage",
         "description": "Hen",
+        "variation": {
+          "skins": [
+            {
+              "skinId": "brown-hen",
+              "weight": 1
+            }
+          ]
+        },
         "stats": {
           "id": "marchfield_hens",
           "name": "Hen",
@@ -289923,7 +290015,15 @@
               }
             ]
           },
-          "bodyRadius": 0.25020000000000003
+          "bodyRadius": 0.25020000000000003,
+          "variation": {
+            "skins": [
+              {
+                "skinId": "brown-hen",
+                "weight": 1
+              }
+            ]
+          }
         },
         "bracken_hens": {
           "id": "bracken_hens",
@@ -291195,7 +291295,18 @@
               }
             ]
           },
-          "bodyRadius": 0.437832
+          "bodyRadius": 0.437832,
+          "variation": {
+            "hue": 30,
+            "saturation": [
+              0.7,
+              2
+            ],
+            "value": [
+              0.5,
+              0.8
+            ]
+          }
         },
         "redbrush_fox_residents": {
           "id": "redbrush_fox_t1",
