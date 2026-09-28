@@ -136,11 +136,14 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
       size: vector(bounds.max.map((value, axis) => value - bounds.min[axis]!)), base: vector(bounds.min),
       ...('bounds' in entry ? { bounds: { min: bounds.min, max: bounds.max } } : {}),
       walkClipSeconds: seconds('Walk'), runClipSeconds: seconds('Run'), attackSeconds: seconds('Attack'),
-      motionRepair: { family, sourceSha256: sourceHash, sourceGitBlob: originalSource.blob, donors: [...usedDonors.values()], ...result, validation },
+      motionRepair: { family, sourceSha256: sourceHash, sourceGitBlob: originalSource.blob, donors: [...usedDonors.values()],
+        sourceMetadata: entry.metadata, ...result, validation },
     };
     // Old acceptance and timing prose describe the source bytes, not this new candidate.
     const metadata = { ...(updated.metadata as Record<string, unknown> | undefined) };
-    for (const key of ['attackContact', 'gaitMeasurement', 'floorClearance', 'deathPose', 'locomotion']) delete metadata[key];
+    for (const key of ['attackContact', 'gaitMeasurement', 'floorClearance', 'deathPose', 'locomotion', 'motion', 'sourceGeometry']) delete metadata[key];
+    metadata.geometry = { vertices: doc.getRoot().listMeshes().reduce((total, mesh) => total + mesh.listPrimitives()
+      .reduce((count, primitive) => count + primitive.getAttribute('POSITION')!.getCount(), 0), 0), triangles: updated.triangles };
     metadata.animationAcceptance = 'pending-devdocs-review';
     if (typeof updated.contactNormalized === 'number' && typeof updated.attackSeconds === 'number') {
       metadata.attackContact = { normalized: updated.contactNormalized, seconds: updated.contactNormalized * updated.attackSeconds };
