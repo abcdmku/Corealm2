@@ -279,7 +279,6 @@ function thumbnailCache(): ThumbnailCache | undefined {
   return can('assets') ? REPO_CACHE : can('files') ? FILE_STORE_CACHE : undefined;
 }
 
-/** A kept render when there is one; otherwise render in the browser, show the data URL and keep it. */
 /**
  * Thumbnails shipped with the build (`assets/thumbnails/<key>.png`, listed in its `index.json`,
  * written by `tools/bake-art-thumbnails.ts`). The base game's creatures never render in an author's
@@ -300,6 +299,17 @@ export async function thumbnailCacheKey(assetId: string): Promise<string | undef
   return ASSET_ID.test(assetId) ? assetKey(assetId) : undefined;
 }
 
+/**
+ * Whether a thumbnail still has to be rendered: neither shipped with the build nor kept by this mode.
+ * False where nothing can be kept, since a render there would be thrown away.
+ */
+export async function thumbnailMissing(key: string): Promise<boolean> {
+  if ((await shippedThumbnails()).has(key)) return false;
+  const cache = thumbnailCache();
+  return cache ? !(await cache.cached(key)) : false;
+}
+
+/** A kept render when there is one; otherwise render in the browser, show the data URL and keep it. */
 async function cachedRender(key: string | undefined, render: () => Promise<string | undefined>): Promise<string | undefined> {
   if (key !== undefined && (await shippedThumbnails()).has(key)) return gameUrl(`assets/thumbnails/${key}.png`);
   const cache = key === undefined ? undefined : thumbnailCache();
