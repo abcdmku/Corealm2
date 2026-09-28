@@ -237,8 +237,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "creature_field_wasp": {
-    "seconds": 0.9,
-    "contactNormalized": 0.5
+    "seconds": 1.125,
+    "contactNormalized": 0.26666666666666666
   },
   "creature_flint_mandible": {
     "seconds": 0.8600000143051147,
@@ -281,8 +281,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.43
   },
   "creature_heath_wasp": {
-    "seconds": 0.9,
-    "contactNormalized": 0.5
+    "seconds": 1.125,
+    "contactNormalized": 0.26666666666666666
   },
   "creature_hollow_bough": {
     "seconds": 2,
@@ -329,8 +329,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.47
   },
   "creature_marsh_wasp": {
-    "seconds": 0.9,
-    "contactNormalized": 0.5
+    "seconds": 1.125,
+    "contactNormalized": 0.26666666666666666
   },
   "creature_moonweave_spider": {
     "seconds": 0.8799999952316284,
@@ -385,8 +385,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.53
   },
   "creature_reed_wasp": {
-    "seconds": 0.9,
-    "contactNormalized": 0.5
+    "seconds": 1.125,
+    "contactNormalized": 0.26666666666666666
   },
   "creature_reedbank_goose": {
     "seconds": 1.14,
