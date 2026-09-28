@@ -181,7 +181,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "creature_bracken_tapir": {
-    "seconds": 0.9,
+    "seconds": 0.8999999761581421,
     "contactNormalized": 0.48
   },
   "creature_briar_harrow": {
@@ -229,7 +229,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4772727298588792
   },
   "creature_duskoak_lynx": {
-    "seconds": 1.02,
+    "seconds": 1.0199999809265137,
     "contactNormalized": 0.43
   },
   "creature_fen_crawler": {
@@ -253,8 +253,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.52
   },
   "creature_gloam_fox": {
-    "seconds": 0.82,
-    "contactNormalized": 0.60975609756
+    "seconds": 1.399999976158142,
+    "contactNormalized": 0.5
   },
   "creature_gloamfang_reaver": {
     "seconds": 0.8666666746139526,
@@ -325,7 +325,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.46
   },
   "creature_marsh_moose": {
-    "seconds": 1.23,
+    "seconds": 1.2300000190734863,
     "contactNormalized": 0.47
   },
   "creature_marsh_wasp": {
@@ -377,8 +377,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.54
   },
   "creature_redbrush_fox": {
-    "seconds": 0.88,
-    "contactNormalized": 0.49
+    "seconds": 1.399999976158142,
+    "contactNormalized": 0.675
   },
   "creature_reed_strider": {
     "seconds": 0.95,
@@ -725,6 +725,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_crown_hart": 6.5502,
   "creature_duskoak_lynx": 5.0455,
   "creature_furnace_grazer": 6.3498,
+  "creature_gloam_fox": 7.9344,
   "creature_gloamfang_reaver": 8.472,
   "creature_goblin_archer": 11.2765,
   "creature_goblin_scout": 11.2787,
@@ -748,7 +749,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_purple_wilderness_dragon": 3.6817,
   "creature_quillback_porcupine": 2.6591,
   "creature_red_wilderness_dragon": 3.5593,
-  "creature_redbrush_fox": 2.16,
+  "creature_redbrush_fox": 4.5583,
   "creature_reedbank_goose": 0.6933,
   "creature_reedjaw_crocodile": 2.9833,
   "creature_revenant": 10.1437,
