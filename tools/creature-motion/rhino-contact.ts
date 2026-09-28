@@ -4,7 +4,7 @@ import { createSkinReader, setWorldPosition, setWorldQuaternion, solveTwoBone, w
 import { addChannel, applyClip, curve, duration, removeClip, restorePose, storedPose } from './pose.js';
 import { hitProfile } from './profiles.js';
 
-export function authorRhinoHit(doc: Document, side: -1 | 0 | 1): void {
+export function authorRhinoHit(doc: Document): void {
   const rest = storedPose(doc), idle = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Idle');
   if (!idle) throw new Error('Rhino recoil requires source Idle');
   applyClip(idle, 0);
@@ -22,7 +22,7 @@ export function authorRhinoHit(doc: Document, side: -1 | 0 | 1): void {
     const pole = knee.sub(origin); pole.addScaledVector(axis, -pole.dot(axis)).normalize();
     return { a, b, end, target, orientation: worldQuaternion(end), pole, l1: worldPosition(a).distanceTo(worldPosition(b)), l2: worldPosition(b).distanceTo(target) };
   });
-  const profile = hitProfile('boss_rhino_air', side), pelvis = requireJoint('CATRigHub001'), pelvisPosition = worldPosition(pelvis);
+  const profile = hitProfile('boss_rhino_air'), pelvis = requireJoint('CATRigHub001'), pelvisPosition = worldPosition(pelvis);
   const gestures = profile.joints.filter(gesture => !gesture.bone.source.includes('Arm')).map(gesture => {
     const node = [...joints].find(node => gesture.bone.test(node.getName()));
     if (!node) throw new Error(`Rhino missing recoil joint ${gesture.bone}`);
@@ -47,14 +47,15 @@ export function authorRhinoHit(doc: Document, side: -1 | 0 | 1): void {
       for (const track of tracks) { track.translation.push(...track.node.getTranslation()); track.rotation.push(...track.node.getRotation()); track.scale.push(...track.node.getScale()); }
     }
   } finally { restorePose(rest); }
-  const name = side < 0 ? 'HitLeft' : side > 0 ? 'HitRight' : 'Hit';
+  const name = 'Hit';
   removeClip(doc, name);
+  removeClip(doc, 'HitLeft'); removeClip(doc, 'HitRight');
   const clip = doc.createAnimation(name);
   for (const track of tracks) for (const property of ['translation', 'rotation', 'scale'] as const) {
     const width = property === 'rotation' ? 4 : 3, values = track[property], varying = values.some((value, i) => Math.abs(value - values[i % width]!) > 1e-8);
     addChannel(doc, clip, track.node, property, varying ? times : [0, profile.seconds], varying ? values : [...values.slice(0, width), ...values.slice(0, width)]);
   }
-  clip.setExtras({ authored: true, description: 'Directional head/chest recoil and body compression with four planted limb endpoints and world orientations.', requiresPhysicalSoleAudit: true });
+  clip.setExtras({ authored: true, description: 'Head/chest recoil and body compression with four planted limb endpoints and world orientations.', requiresPhysicalSoleAudit: true });
 }
 
 /** First forward strike peak after the measured anticipation minimum. Uses real
@@ -88,7 +89,7 @@ export function auditRhinoRecoil(doc: Document) {
   const references = soles.map(sole => skin.points(sole.indices));
   const rows = [];
   try {
-    for (const name of ['Hit', 'HitLeft', 'HitRight']) {
+    for (const name of ['Hit']) {
       const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name)!;
       let maximumSoleDisplacementM = 0, minimumSoleY = Infinity, maximumWholeMeshRecoveryErrorM = 0;
       let startMesh: Vector3[] = [];

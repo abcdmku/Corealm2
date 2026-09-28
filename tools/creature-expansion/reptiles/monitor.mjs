@@ -500,7 +500,7 @@ export async function buildMonitor() {
         b.quaternion.copy(b.parent.getWorldQuaternion(new THREE.Quaternion()).invert()).multiply(desired);
       });
     } else {
-      const side = kind === 'HitLeft' ? -1 : kind === 'HitRight' ? 1 : 0;
+      const side = 0;
       const impact = pulse(u, 0, .16, .78), recover = pulse(u, .3, .53, 1);
       pelvis.position.z -= .04 * impact;
       pelvis.position.y -= .029 * impact;
@@ -542,7 +542,7 @@ export async function buildMonitor() {
     }
     object.updateMatrixWorld(true);
   }
-  const definitions = [['Idle', 4.2, 100], ['Walk', walkSeconds, 72], ['Run', runSeconds, 72], ['Attack', 1.1, 72], ['Hit', .62, 46], ['HitLeft', .66, 46], ['HitRight', .66, 46], ['Death', 1.7, 80]];
+  const definitions = [['Idle', 4.2, 100], ['Walk', walkSeconds, 72], ['Run', runSeconds, 72], ['Attack', 1.1, 72], ['Hit', .62, 46], ['Death', 1.7, 80]];
   const clips = definitions.map(([name, duration, samples]) => {
     const times = [], channels = bones.map(() => ({ p: [], q: [], s: [] }));
     for (let i = 0; i <= samples; i++) {

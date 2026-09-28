@@ -11,7 +11,7 @@ const MODULES = {
   antler_beetle:'crawlers',slag_centipede:'crawlers',hollowroot_spider:'crawlers',
   cinder_ravager:'monsters',basalt_drake:'monsters',gorge_mantis:'monsters',quarry_nightmare:'monsters',
 };
-const CLIPS=['Idle','Walk','Run','Attack','Hit','HitLeft','HitRight','Death'];
+const CLIPS=['Idle','Walk','Run','Attack','Hit','Death'];
 function makeExportableTextures(object){
   const converted=new Map();
   object.traverse(node=>{

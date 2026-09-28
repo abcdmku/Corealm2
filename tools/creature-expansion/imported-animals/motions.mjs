@@ -154,18 +154,18 @@ export function authorMissingMotions(object, sourceClips, id, articulation) {
   if (!idle) throw new Error(`${id}: no Idle source pose`);
   const result = [];
   if (id === 'reedjaw_crocodile') {
-    for (const [name, side] of [['Hit', 0], ['HitLeft', -1], ['HitRight', 1]]) {
-      result.push(author(object, idle, name, 0.64, ({ t, rotate }) => {
-        const p = [0, 0.12, 0.28, 0.56, 1];
-        const shock = curve(p, [0, 1, 0.85, -0.18, 0], t);
-        const recoil = curve(p, [0, 1, 0.72, -0.1, 0], t);
-        rotate('Crocodile_Neck_01SHJnt', 'x', -8 * recoil);
-        rotate('Crocodile_Neck_02SHJnt', 'x', -9 * recoil);
-        rotate('Crocodile_Neck_TopSHJnt', 'y', (side || 0.25) * 17 * shock);
-        rotate('Crocodile_Head_JawSHJnt', 'x', 10 * shock);
-        for (let i = 1; i <= 5; i++) rotate(`Crocodile_Tail_01_0${i}SHJnt`, 'y', -(side || 0.4) * 5 * shock);
-      }, { description: 'Articulated neck recoil and tail counterbalance; four planted source feet.' }));
-    }
+    result.push(author(object, idle, 'Hit', 0.64, ({ t, rotate }) => {
+      const side = 0;
+      const p = [0, 0.12, 0.28, 0.56, 1];
+      const shock = curve(p, [0, 1, 0.85, -0.18, 0], t);
+      const recoil = curve(p, [0, 1, 0.72, -0.1, 0], t);
+      rotate('Crocodile_Neck_01SHJnt', 'x', -8 * recoil);
+      rotate('Crocodile_Neck_02SHJnt', 'x', -9 * recoil);
+      rotate('Crocodile_Neck_TopSHJnt', 'y', (side || 0.25) * 17 * shock);
+      rotate('Crocodile_Head_JawSHJnt', 'x', 10 * shock);
+      for (let i = 1; i <= 5; i++) rotate(`Crocodile_Tail_01_0${i}SHJnt`, 'y', -(side || 0.4) * 5 * shock);
+    }, { description: 'Articulated neck recoil and tail counterbalance; four planted source feet.' }));
+
     return result;
   }
   if (id === 'kiln_salamander') {
@@ -179,17 +179,17 @@ export function authorMissingMotions(object, sourceClips, id, articulation) {
       translate('FireSalamander_Neck_01SHJnt', new THREE.Vector3(0, 0, curve(p, [0, -.006, -.012, .016, .010, -.003, 0], t)));
       for (let i = 1; i <= 5; i++) rotate(`FireSalamander_Tail_01_0${i}SHJnt`, 'y', curve(p, [0, -1, -3, 3, 4, -1, 0], t));
     }, { contactNormalized: 0.43, description: 'Brace, expose throat, snap head forward at spit contact, recover; fixed limb support.' }));
-    for (const [name, side] of [['Hit', 0], ['HitLeft', -1], ['HitRight', 1]]) {
-      result.push(author(object, idle, name, 0.63, ({ t, rotate }) => {
-        const p = [0, 0.15, 0.33, 0.62, 1];
-        const r = curve(p, [0, 1, 0.8, -0.13, 0], t);
-        rotate('FireSalamander_Neck_01SHJnt', 'x', -12 * r);
-        rotate('FireSalamander_Neck_02SHJnt', 'x', -8 * r);
-        rotate('FireSalamander_Neck_TopSHJnt', 'y', (side || 0.2) * 22 * r);
-        rotate('Salamander_LowerJaw', 'x', 6 * r);
-        for (let i = 1; i <= 5; i++) rotate(`FireSalamander_Tail_01_0${i}SHJnt`, 'y', -(side || 0.3) * (6 - i * 0.5) * r);
-      }));
-    }
+    result.push(author(object, idle, 'Hit', 0.63, ({ t, rotate }) => {
+      const side = 0;
+      const p = [0, 0.15, 0.33, 0.62, 1];
+      const r = curve(p, [0, 1, 0.8, -0.13, 0], t);
+      rotate('FireSalamander_Neck_01SHJnt', 'x', -12 * r);
+      rotate('FireSalamander_Neck_02SHJnt', 'x', -8 * r);
+      rotate('FireSalamander_Neck_TopSHJnt', 'y', (side || 0.2) * 22 * r);
+      rotate('Salamander_LowerJaw', 'x', 6 * r);
+      for (let i = 1; i <= 5; i++) rotate(`FireSalamander_Tail_01_0${i}SHJnt`, 'y', -(side || 0.3) * (6 - i * 0.5) * r);
+    }));
+
   } else if (id === 'reedbank_goose') {
     result.push(author(object, idle, 'Attack', 1.14, ({ t, rotate }) => {
       const p = [0, 0.18, 0.32, 0.46, 0.56, 0.78, 1];
@@ -203,18 +203,18 @@ export function authorMissingMotions(object, sourceClips, id, articulation) {
       rotate('Goose_WingLeft', 'z', flare * 0.3); rotate('Goose_WingRight', 'z', -flare * 0.3);
       rotate('Goose_WristLeft', 'y', -flare * 0.28); rotate('Goose_WristRight', 'y', flare * 0.28);
     }, { contactNormalized: 0.46, description: 'Raised bill warning and articulated feather flare, forward neck peck, planted webbed feet.' }));
-    for (const [name, side] of [['Hit', 0], ['HitLeft', -1], ['HitRight', 1]]) {
-      result.push(author(object, idle, name, 0.65, ({ t, rotate }) => {
-        const r = curve([0, 0.14, 0.3, 0.62, 1], [0, 1, 0.8, -0.12, 0], t);
-        for (const bone of ['Bone007', 'Bone008', 'Bone009']) {
-          rotate(bone, 'x', -9 * r);
-          rotate(bone, 'z', (side || 0.15) * 7 * r);
-        }
-        rotate('Bone014', 'x', 11 * r);
-        rotate('Goose_WingLeft', 'y', -(side > 0 ? 12 : 28) * r);
-        rotate('Goose_WingRight', 'y', (side < 0 ? 12 : 28) * r);
-      }));
-    }
+    result.push(author(object, idle, 'Hit', 0.65, ({ t, rotate }) => {
+      const side = 0;
+      const r = curve([0, 0.14, 0.3, 0.62, 1], [0, 1, 0.8, -0.12, 0], t);
+      for (const bone of ['Bone007', 'Bone008', 'Bone009']) {
+        rotate(bone, 'x', -9 * r);
+        rotate(bone, 'z', (side || 0.15) * 7 * r);
+      }
+      rotate('Bone014', 'x', 11 * r);
+      rotate('Goose_WingLeft', 'y', -(side > 0 ? 12 : 28) * r);
+      rotate('Goose_WingRight', 'y', (side < 0 ? 12 : 28) * r);
+    }));
+
   } else if (id === 'quarry_snail') {
     result.push(author(object, idle, 'Attack', 1.5, ({ t, rotate, translate }) => {
       const p = [0, 0.18, 0.32, 0.48, 0.62, 0.8, 1];
@@ -237,18 +237,18 @@ export function authorMissingMotions(object, sourceClips, id, articulation) {
       rotate('Snail_EyeLeft', 'y', Math.sin(t * Math.PI * 4) * 5 * envelope);
       rotate('Snail_EyeRight', 'y', -Math.sin(t * Math.PI * 4) * 5 * envelope);
     }, { description: 'Two traveling contractions along the soft foot; steady rigid shell and extended head. Newly authored cycle, not retimed Walk.' }));
-    for (const [name, side] of [['Hit', 0], ['HitLeft', -1], ['HitRight', 1]]) {
-      result.push(author(object, idle, name, 0.9, ({ t, rotate, translate }) => {
-        const r = curve([0, 0.13, 0.32, 0.66, 1], [0, 1, 0.88, 0.15, 0], t);
-        translate('Bone007', new THREE.Vector3((side || 0) * 0.018 * r, 0, -0.045 * r));
-        rotate('Bone007', 'y', (side || 0.15) * 15 * r);
-        rotate('Bone008', 'x', -10 * r);
-        rotate('Snail_EyeLeft', 'x', 43 * r);
-        rotate('Snail_EyeRight', 'x', 43 * r);
-        rotate('Snail_EyeLeft', 'y', (side || 0.3) * 15 * r);
-        rotate('Snail_EyeRight', 'y', (side || -0.3) * 15 * r);
-      }));
-    }
+    result.push(author(object, idle, 'Hit', 0.9, ({ t, rotate, translate }) => {
+      const side = 0;
+      const r = curve([0, 0.13, 0.32, 0.66, 1], [0, 1, 0.88, 0.15, 0], t);
+      translate('Bone007', new THREE.Vector3((side || 0) * 0.018 * r, 0, -0.045 * r));
+      rotate('Bone007', 'y', (side || 0.15) * 15 * r);
+      rotate('Bone008', 'x', -10 * r);
+      rotate('Snail_EyeLeft', 'x', 43 * r);
+      rotate('Snail_EyeRight', 'x', 43 * r);
+      rotate('Snail_EyeLeft', 'y', (side || 0.3) * 15 * r);
+      rotate('Snail_EyeRight', 'y', (side || -0.3) * 15 * r);
+    }));
+
   }
   return result;
 }

@@ -52,27 +52,6 @@ export function cleanClip(source, name, root, rootBone) {
   return clip;
 }
 
-export function directionalHit(source, name, bones, side) {
-  const clip = source.clone();
-  clip.name = name;
-  for (const [bone, axis, degrees] of bones) {
-    const original = clip.tracks.find(track => track.name === `${bone}.quaternion`);
-    if (!original) continue;
-    const interpolant = original.createInterpolant();
-    const times = [], values = [];
-    const samples = Math.max(20, Math.ceil(clip.duration * 60));
-    for (let i = 0; i <= samples; i++) {
-      const t = clip.duration * i / samples;
-      const envelope = Math.pow(Math.sin(Math.PI * i / samples), 2);
-      const q = new THREE.Quaternion().fromArray(interpolant.evaluate(t));
-      q.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(...axis), side * degrees * Math.PI / 180 * envelope));
-      times.push(t); values.push(...q.toArray());
-    }
-    clip.tracks[clip.tracks.indexOf(original)] = new THREE.QuaternionKeyframeTrack(original.name, times, values);
-  }
-  return clip;
-}
-
 export function measureStance(root, clip, feet) {
   const mixer = new THREE.AnimationMixer(root);
   const action = mixer.clipAction(clip); action.play();

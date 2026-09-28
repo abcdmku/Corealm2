@@ -148,6 +148,6 @@ export const PORCUPINE_INTEGRATION=Object.freeze([
   'implicit.mjs: use buildPorcupineFields({s,r,bodyWeights}) instead of generic torso/head/leg fields for porc. Use PORCUPINE_ANATOMY.resolution. Preserve sampler, skinning, smoothing and sole flattening.',
   'implicit.mjs toeGrooves: read f.toeGrooveOffsets ?? [-.038,0,.038] and f.toeGrooveDepth ?? .004. Default behavior for other species remains unchanged.',
   'mammals.mjs: dispatch emitPorcupineQuills({s,r,out,tube,profileAt,bodyWeights,palette:C.porc}) and emitPorcupineTail({s,r,out,tube,palette:C.porc}) instead of old porc quills and tail. Keep tube and Surface production implementations.',
-  'Tail_3 and Tail_4 have no drawn vertices with the short tail helper. All rest pivots and clip tracks are preserved. New paw surfaces rest at y=0 through existing sole flattening; all eight clips need whole-vertex audit after integration.',
+  'Tail_3 and Tail_4 have no drawn vertices with the short tail helper. All rest pivots and clip tracks are preserved. New paw surfaces rest at y=0 through existing sole flattening; all six clips need whole-vertex audit after integration.',
   'No export, browser or visual acceptance performed here. Parent must review front/side/rear/gameplay/run in hardware Chromium plus natural lifecycle before promotion.',
 ]);

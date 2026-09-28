@@ -461,7 +461,7 @@ function animation(p, r) {
     foot.quaternion.copy(qLow.clone().invert().multiply(qFoot));
     rotate(`Toe${s}`, toePitch > 0 ? -toePitch * .3 : 0);
   }
-  const durations = { Idle: 3.2, Walk: p.walkSeconds, Run: p.runSeconds, Attack: p.attackSeconds, Hit: .76, HitLeft: .78, HitRight: .78, Death: 1.65 };
+  const durations = { Idle: 3.2, Walk: p.walkSeconds, Run: p.runSeconds, Attack: p.attackSeconds, Hit: .76, Death: 1.65 };
   for (const [name, duration] of Object.entries(durations)) {
     const n = name === 'Idle' ? 64 : name === 'Death' ? 66 : 60, times = [], rotations = new Map(r.bones.map(b => [b.name, []])), positions = [];
     for (let frame = 0; frame <= n; frame++) {
@@ -487,8 +487,8 @@ function animation(p, r) {
         headPitch = -.12 * anticipation + .29 * strike; wing = .17 * anticipation + .34 * strike + .055 * recover;
         tail = -.17 * anticipation + .13 * strike;
         rotate('Jaw', .15 * strike, 0, 0);
-      } else if (name.startsWith('Hit')) {
-        const envelope = Math.sin(Math.PI * Math.pow(u, .58)) * (1 - u), side = name === 'HitLeft' ? 1 : name === 'HitRight' ? -1 : .25;
+      } else if (name === 'Hit') {
+        const envelope = Math.sin(Math.PI * Math.pow(u, .58)) * (1 - u), side = .25;
         bob = -.034 * envelope; pitch = -.26 * envelope; roll = side * .23 * envelope;
         neckBend = -.15 * envelope; headPitch = -.26 * envelope; wing = .45 * envelope; tail = -.14 * envelope;
       } else if (name === 'Death') {
@@ -498,7 +498,7 @@ function animation(p, r) {
       }
       r.named.Body.position.y += bob;
       rotate('Body', pitch, 0, roll);
-      for (let j = 0; j < p.neck.length; j++) rotate(`Neck${j + 1}`, neckBend * (j % 2 ? .78 : 1), name === 'Idle' ? .008 * Math.sin(phase + j * .3) : 0, name.startsWith('Hit') ? -roll * .28 : 0);
+      for (let j = 0; j < p.neck.length; j++) rotate(`Neck${j + 1}`, neckBend * (j % 2 ? .78 : 1), name === 'Idle' ? .008 * Math.sin(phase + j * .3) : 0, name === 'Hit' ? -roll * .28 : 0);
       if (name !== 'Idle') rotate('Head', headPitch, 0, -roll * .22);
       rotate('Tail', tail, name === 'Idle' ? Math.sin(phase) * .008 : roll * .16, -roll * .10);
       rotate('TailTip', tail * .36, 0, 0);

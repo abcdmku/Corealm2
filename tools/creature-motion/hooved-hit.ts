@@ -52,14 +52,14 @@ function plantHoof(leg: HoofLeg, distalPitch: number): void {
 }
 
 /** Author the animal's own heavy recoil while keeping all four hoof contact poses fixed. */
-export function authorHoovedHit(doc: Document, id: HoovedAnimal, side: -1 | 0 | 1): void {
+export function authorHoovedHit(doc: Document, id: HoovedAnimal): void {
   const boar = id === "animal_boar";
   const prefix = boar ? "WildBoar" : "Cow";
   const seconds = boar ? 0.70 : 0.84;
   const impact = boar ? 0.09 : 0.11;
   const phases = (boar ? [0, 0.045, impact, 0.19, 0.29, 0.46, 0.59, seconds] : [0, 0.06, impact, 0.24, 0.37, 0.56, 0.71, seconds]).map(t => t / seconds);
-  const name = side < 0 ? "HitLeft" : side > 0 ? "HitRight" : "Hit";
-  const direction = side || 0.65;
+  const name = "Hit";
+  const direction = 0.65;
   const original = storedPose(doc);
   const idle = doc.getRoot().listAnimations().find(clip => clip.getName() === "Idle");
   if (!idle) throw new Error(`${id} Hit needs the original Idle stance`);
@@ -140,6 +140,8 @@ export function authorHoovedHit(doc: Document, id: HoovedAnimal, side: -1 | 0 | 
   restorePose(original);
   if (maxHoofError > 0.0001) throw new Error(`${id} ${name}: hoof constraint error ${maxHoofError} m`);
   removeClip(doc, name);
+  removeClip(doc, "HitLeft");
+  removeClip(doc, "HitRight");
   const clip = doc.createAnimation(name);
   const bind = new Map(original.map(pose => [pose.node, pose]));
   for (const track of recorded) for (const [property, values] of [["translation", track.translation], ["rotation", track.rotation], ["scale", track.scale]] as const) {

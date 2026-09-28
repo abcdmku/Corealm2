@@ -9,7 +9,7 @@ export const sourceAttribution = Object.freeze({
   source: 'https://opengameart.org/content/sheep-rigged-textured-and-animated',
   licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/',
 });
-export const missingProductionRoles = Object.freeze(['Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death']);
+export const missingProductionRoles = Object.freeze(['Run', 'Attack', 'Hit', 'Death']);
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const version=process.argv.includes('--v4')?'v4':process.argv.includes('--v3')?'v3':process.argv.includes('--v2')?'v2':null;
   const blender = process.env.BLENDER_EXE ?? path.join(root, 'test-results/bestiary-programs/blender-4.5.11-windows-x64/blender.exe');

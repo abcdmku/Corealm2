@@ -202,16 +202,16 @@ function animate(s,kind,t){
   s.reset();const locomotion=kind==='Walk'||kind==='Run',run=kind==='Run';const cfg=s.config;
   const cycle=t*TAU;let attack=0,recoil=0,death=0;
   if(kind==='Attack')attack=pulse(t,.12,.78);
-  if(kind.startsWith('Hit'))recoil=pulse(t,0,.85)*(1-t*.3);
+  if(kind==='Hit')recoil=pulse(t,0,.85)*(1-t*.3);
   if(kind==='Death')death=smooth(Math.min(1,t*1.6));
   const idle=kind==='Idle'?Math.sin(cycle):0;
   s.body.position.y += locomotion ? .018*Math.cos(cycle*2) : idle*.007;
   s.body.rotation.x = locomotion?.014*Math.sin(cycle):attack*(s.id==='slag_centipede'?-.032:-.15)+recoil*.13;
-  s.body.rotation.z = locomotion?.018*Math.sin(cycle):recoil*(kind==='HitLeft'?.15:kind==='HitRight'?-.15:.045)+death*(s.id==='slag_centipede'?.13:s.id==='antler_beetle'?.30:.18);
+  s.body.rotation.z = locomotion?.018*Math.sin(cycle):recoil*.045+death*(s.id==='slag_centipede'?.13:s.id==='antler_beetle'?.30:.18);
   if(death)s.body.position.y-=cfg.collapse*death;
   if(s.abdomen){s.abdomen.rotation.y=locomotion?.025*Math.sin(cycle-.7):idle*.012+recoil*.055;s.abdomen.rotation.x=attack*.12-death*.14;}
   s.head.rotation.x=locomotion?.025*Math.sin(cycle+.6):idle*.018-attack*.22+recoil*.16-death*.52;
-  s.head.position.z+=attack*.09;s.head.rotation.y=recoil*(kind==='HitLeft'?-.2:kind==='HitRight'?.2:.05);
+  s.head.position.z+=attack*.09;s.head.rotation.y=recoil*.05;
   s.head.position.y-=death*.035;
   for(const {bone,phase,type} of s.bodyParts){bone.rotation.z=type==='elytron'?0:locomotion?.012*Math.sin(cycle+phase):idle*.004;bone.rotation.y=type==='elytron'?0:locomotion?.024*Math.sin(cycle+phase):attack*.055*Math.sin(phase);}
   for(const seg of s.segments??[]){seg.bone.rotation.y=locomotion?.035*Math.sin(cycle-seg.phase):idle*.018*Math.sin(seg.phase)+attack*.035*Math.sin(seg.phase);seg.bone.rotation.x=locomotion?.018*Math.cos(cycle-seg.phase):death*.012;}
@@ -229,7 +229,7 @@ function animate(s,kind,t){
 }
 
 function clipsFor(s){
-  const result=[];const durations={Idle:3.8,Walk:s.config.walkSeconds,Run:s.config.runSeconds,Attack:s.config.attackSeconds,Hit:.55,HitLeft:.58,HitRight:.58,Death:1.55};
+  const result=[];const durations={Idle:3.8,Walk:s.config.walkSeconds,Run:s.config.runSeconds,Attack:s.config.attackSeconds,Hit:.55,Death:1.55};
   for(const [name,duration] of Object.entries(durations)){
     const frames=name==='Idle'?33:49,times=[],channels=s.bones.map(()=>({p:[],q:[],s:[]}));
     for(let i=0;i<frames;i++){const t=i/(frames-1);times.push(duration*t);animate(s,name,t);s.bones.forEach((b,j)=>{channels[j].p.push(...b.position.toArray());channels[j].q.push(...b.quaternion.toArray());channels[j].s.push(...b.scale.toArray());});}
@@ -248,5 +248,5 @@ export async function buildSpecies(id){
   const clips=clipsFor(s);
   const description=id==='antler_beetle'?'A jade stag beetle with bronze branching mandibles, divided ribbed elytra and six articulated legs.':id==='slag_centipede'?'An iron plated centipede with a flattened chain of articulated trunk segments, twenty walking legs and curved venom forcipules.':'A root patterned hunting spider with eight jointed legs, a tapered abdomen, eight eyes, paired pedipalps and hooked chelicerae.';
   s.object.userData={species:id,original:true,authoredForward:'+Z',units:'metres',anatomy:description};
-  return {object:s.object,clips,meta:{is:id==='antler_beetle'?'beetle':id==='slag_centipede'?'centipede':'spider',tags:['creature','crawler','arthropod',id,id==='antler_beetle'?'forest':id==='slag_centipede'?'cave':'woodland'],provenance:'Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.',attackSeconds:s.config.attackSeconds,contactNormalized:.5,impliedWalkMps:s.config.stride/(s.config.walkSeconds*s.config.duty),impliedRunMps:s.config.runStride/(s.config.runSeconds*s.config.runDuty),walkClipSeconds:s.config.walkSeconds,runClipSeconds:s.config.runSeconds,notes:`${description} Authored skeletal IK foot targets preserve straight stance travel; ${id==='slag_centipede'?'metachronal':id==='antler_beetle'?'alternating tripod':'alternating tetrapod'} cycles. In-place clips, sealed loop endpoints, full directional hit reactions and a held collapse. Original painted chitin color, normal and roughness textures.`}};
+  return {object:s.object,clips,meta:{is:id==='antler_beetle'?'beetle':id==='slag_centipede'?'centipede':'spider',tags:['creature','crawler','arthropod',id,id==='antler_beetle'?'forest':id==='slag_centipede'?'cave':'woodland'],provenance:'Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.',attackSeconds:s.config.attackSeconds,contactNormalized:.5,impliedWalkMps:s.config.stride/(s.config.walkSeconds*s.config.duty),impliedRunMps:s.config.runStride/(s.config.runSeconds*s.config.runDuty),walkClipSeconds:s.config.walkSeconds,runClipSeconds:s.config.runSeconds,notes:`${description} Authored skeletal IK foot targets preserve straight stance travel; ${id==='slag_centipede'?'metachronal':id==='antler_beetle'?'alternating tripod':'alternating tetrapod'} cycles. In-place clips, sealed loop endpoints, an articulated hit reaction and a held collapse. Original painted chitin color, normal and roughness textures.`}};
 }

@@ -47,9 +47,9 @@ function plantLeg(leg: Leg): void {
 }
 
 /** A heavy animal absorbs the blow through its shoulders and legs; the navigation origin stays fixed. */
-export function authorBearHit(doc: Document, side: -1 | 0 | 1): void {
-  const name = side < 0 ? "HitLeft" : side > 0 ? "HitRight" : "Hit";
-  const direction = side || 0.7;
+export function authorBearHit(doc: Document): void {
+  const name = "Hit";
+  const direction = 0.7;
   const gestures: JointGesture[] = [];
   const gesture = (name: string, axis: JointGesture["axis"], angles: number[]) =>
     gestures.push({ bone: new RegExp(`^Bear_${name}SHJnt$`), axis, angles });
@@ -130,6 +130,8 @@ export function authorBearHit(doc: Document, side: -1 | 0 | 1): void {
   restorePose(original);
   if (maxPawError > 0.0001) throw new Error(`${name}: paw constraint error ${maxPawError} m`);
   removeClip(doc, name);
+  removeClip(doc, "HitLeft");
+  removeClip(doc, "HitRight");
   const clip = doc.createAnimation(name);
   const bind = new Map(original.map(pose => [pose.node, pose]));
   for (const track of recorded) {

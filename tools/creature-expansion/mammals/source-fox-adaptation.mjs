@@ -177,7 +177,7 @@ const report={schema:1,originalSourceSha256:sourceHash,previewSourceSha256:sha(s
   audit:{method:'241 CPU samples per native clip; original joint matrices and skinning; same 0.01 wrapper; floor y=0, no hidden contact offset.',before,after,
     penetrationChange:before.clips.map((c,i)=>({clip:c.name,beforeM:Math.max(0,-c.minimumY),afterM:Math.max(0,-after.clips[i].minimumY),increaseM:c.minimumY-after.clips[i].minimumY})),
     interpretation:'Expanded distal source vertices alter the physical sole envelope. Walk penetration grows about 3.83mm; Run grows about 0.57mm. This is a measured regression requiring native-rig contact repair if the adapted mesh is selected.'},
-  missingProductionBehaviors:['Attack','Hit','HitLeft','HitRight','Death'],nativeGaitContactAccepted:false,hardwareAccepted:false,
+  missingProductionBehaviors:['Attack','Hit','Death'],nativeGaitContactAccepted:false,hardwareAccepted:false,
   limitations:['Native Walk/Run already penetrate and float relative to y=0. Geometry adaptation does not repair those original motion targets.','Survey is a moving native observation clip, not a new idle alias.','Eye/coat/silhouette refinements have not yet been seen in hardware.','No combat/death aliases were created.'],attribution:provenance.attribution};
 await writeFile(new URL('adaptation-review.json',out),JSON.stringify(report,null,2)+'\n');
 const sourceCatalogue=JSON.parse(await readFile(new URL('scaled-catalogue.json',originalURL),'utf8')),asset={...sourceCatalogue.assets[0],sha256:sha(outputBytes),bytes:outputBytes.length,triangles:after.triangles,

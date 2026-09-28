@@ -7,7 +7,7 @@ complete report. The report and promotion metadata are written to
 `tools/data/creature-motion-rebuild.json`.
 
 `npx tsx tools/rebuild-creature-motion.ts --only=animal_bear --hit-only` stages the bear's
-revised Hit/HitLeft/HitRight without resampling its approved attacks or gaits. Their channel
+revised Hit without resampling its approved attacks or gaits. Their channel
 samples are hashed before editing and after serialization. The bear reaction has a 0.78 s
 timeline, a neck impulse at 0.06–0.11 s, delayed shoulder compression through 0.22–0.34 s,
 and planted recovery. Four two-bone leg solves hold the complete paws at their Idle stance;
@@ -48,7 +48,7 @@ hierarchy and any frame range. The source extraction report records the Crab idl
 - Preserve the animal pack's authored attacks. Wolf uses its original jaw/neck take again.
 - Author separate anticipation, contact, recovery and supporting-limb poses for chicken, rabbit,
   deer, frog, hog, rat and crab. Variants use the same anatomy. No authored attack translates the root.
-- Supply frontal and directional hit reactions. Rhino's frontal Hit is its source `Get_Hit` take.
+- Supply one Hit reaction. Rhino's Hit is its source `Get_Hit` take.
 - Restore Rhino's actual Walk and preserve Run separately. All six imported Rhino motions resolve
   duplicate spine names by FBX node identity and hierarchy; matching on a name alone is incorrect.
 - Replace Crab's walking Idle with its held source pose and a restrained claw cycle.

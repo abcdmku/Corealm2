@@ -4,7 +4,7 @@ import {buildSpecies, SPECIES} from '../mammals.mjs';
 // Source-only audit. This does not export assets or replace browser acceptance.
 // Sample every authored key and the midpoint of every interval, including the
 // final pose of one-shots. The default threshold rejects penetration over 25 mm.
-const REQUIRED = ['Idle', 'Walk', 'Run', 'Attack', 'Death', 'Hit', 'HitLeft', 'HitRight'];
+const REQUIRED = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
 const LOOPS = new Set(['Idle', 'Walk', 'Run']);
 const DEFAULT_MAX_PENETRATION = 0.025;
 const rounded = value => Number(value.toFixed(6));

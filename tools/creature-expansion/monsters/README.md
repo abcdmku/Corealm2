@@ -2,14 +2,14 @@
 
 The browser entrypoint is `../monsters.mjs`. `SPECIES` lists the four IDs and `buildSpecies(id)` returns `{ object, clips, meta }` for the shared compiler. These tools stage and import licensed existing library assets. They do not register game content or edit the live asset manifest.
 
-All four outputs have Idle, Walk, Run, Attack, Hit, HitLeft, HitRight and Death. Native geometry, skin weights, UVs and authored texture atlases remain. Dragon Boar and Nightmare also retain tangent normal maps and source metallic, smoothness and occlusion data packed for glTF. Monster04 and Monster09 have no true normal texture in their packages.
+All four outputs have Idle, Walk, Run, Attack, Hit and Death. Native geometry, skin weights, UVs and authored texture atlases remain. Dragon Boar and Nightmare also retain tangent normal maps and source metallic, smoothness and occlusion data packed for glTF. Monster04 and Monster09 have no true normal texture in their packages.
 
 | Species | Source | Ground motion treatment |
 | --- | --- | --- |
 | `cinder_ravager` | PixeliusVita Monster04 | Named embedded FBX takes, horizontal root travel removed, measured upward root corrections for source floor penetration. |
 | `basalt_drake` | Dungeon Mason DragonBoar | Six single-motion FBXs with their complete Unity frame windows, source PBR response, measured upward root corrections. |
 | `gorge_mantis` | PixeliusVita Monster09 | Original Unity transform curves converted with cubic tangents. Source upper-body motion retained, hovering legs replaced with grounded two-bone IK and folded wings. |
-| `quarry_nightmare` | Dungeon Mason DragonTheNightmare | Single-motion source FBXs, duplicate forelimb names resolved by source identity, PBR response, world-axis directional recoil with limb compensation and root grounding. |
+| `quarry_nightmare` | Dungeon Mason DragonTheNightmare | Single-motion source FBXs, duplicate forelimb names resolved by source identity, PBR response, native Hit recoil and root grounding. |
 
 All provenance records carry the Standard Unity Asset Store EULA through the aggregate entrypoint. Source extraction stays under the disposable `test-results/creature-expansion/sources/monsters/` tree. Source archives stay in the local licensed Unity Asset Store cache.
 

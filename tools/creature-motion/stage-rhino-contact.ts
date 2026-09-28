@@ -14,6 +14,7 @@ const out = resolve('art/rebuild/candidates/finish-motion/rhino-contact');
  * Rhino has duplicate bone names, so name-only remapping is forbidden. */
 export function appendRhinoContact(source: Buffer, doc: Document, contactNormalized: number): Buffer {
   const raw = readRawGlb(source), json = structuredClone(raw.json), nodes = doc.getRoot().listNodes();
+  json.animations = json.animations.filter((clip: { name: string }) => !['HitLeft', 'HitRight'].includes(clip.name));
   if (nodes.length !== json.nodes.length || nodes.some((node, index) => node.getName() !== (json.nodes[index].name ?? '') || JSON.stringify(node.listChildren().map(child => nodes.indexOf(child))) !== JSON.stringify(json.nodes[index].children ?? []))) throw new Error('Rhino imported node index/hierarchy changed');
   const chunks = [raw.bin]; let length = raw.bin.length;
   const accessor = (values: ArrayLike<number>, type: string) => {
@@ -26,7 +27,7 @@ export function appendRhinoContact(source: Buffer, doc: Document, contactNormali
     json.accessors.push({ bufferView: viewIndex, componentType: 5126, count: data.length / width, type, ...(type === 'SCALAR' ? { min: [data[0]], max: [data[data.length - 1]] } : {}) });
     return index;
   };
-  for (const name of ['Hit', 'HitLeft', 'HitRight']) {
+  for (const name of ['Hit']) {
     const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name)!;
     const samplers: any[] = [], channels: any[] = [];
     for (const channel of clip.listChannels()) {
@@ -59,7 +60,7 @@ async function main() {
     const asset = manifest.assets.find((asset: any) => asset.id === id), sourceFile = resolve('game/public/assets', asset.file);
     const source = await readFile(sourceFile), doc = await io.readBinary(source), contact = measureRhinoAttackContact(doc);
     if (sha(source) !== asset.sha256.toLowerCase()) throw new Error(`${id} source differs from its manifest`);
-    for (const side of [-1, 0, 1] as const) authorRhinoHit(doc, side);
+    authorRhinoHit(doc);
     const bytes = appendRhinoContact(source, doc, contact.contactNormalized), restored = await io.readBinary(bytes);
     const audit = auditRhinoRecoil(restored), stagedFile = resolve(out, `${id}.glb`);
     if (!audit.passed) throw new Error(`${id} recoil contact audit failed: ${JSON.stringify(audit.clips)}`);

@@ -95,25 +95,6 @@ export function convertMantisUnityAnimation(text, object, name, sampleRate = 60)
   return clip;
 }
 
-function directionalHit(source, name, side) {
-  const clip = source.clone();
-  clip.name = name;
-  const q = new THREE.Quaternion();
-  const offset = new THREE.Quaternion();
-  for (const track of clip.tracks) {
-    const weight = ({ 'spine_01x.quaternion': 0.08, 'spine_02x.quaternion': 0.10, 'spine_03x.quaternion': 0.10, 'neckx.quaternion': 0.07 })[track.name];
-    if (!weight) continue;
-    for (let i = 0; i < track.times.length; i++) {
-      const phase = track.times[i] / clip.duration;
-      const impact = phase < 0.24 ? Math.sin(phase / 0.24 * Math.PI / 2) : Math.cos((phase - 0.24) / 0.76 * Math.PI / 2) ** 2;
-      q.fromArray(track.values, i * 4);
-      offset.setFromEuler(new THREE.Euler(side * weight * impact * 0.4, side * weight * impact, side * weight * impact * 0.6));
-      q.multiply(offset).normalize().toArray(track.values, i * 4);
-    }
-  }
-  return clip;
-}
-
 export async function buildMantis({ sourceBase = SOURCE_BASE, textureVariant = '01' } = {}) {
   const response = await fetch(`${sourceBase}Monster09.fbx`);
   if (!response.ok) throw new Error(`Monster09 FBX fetch failed: ${response.status}`);
@@ -140,10 +121,8 @@ export async function buildMantis({ sourceBase = SOURCE_BASE, textureVariant = '
     if (!clipResponse.ok) throw new Error(`Monster09 ${file} animation fetch failed: ${clipResponse.status}`);
     return convertMantisUnityAnimation(await clipResponse.text(), object, name);
   }));
-  const hit = clips.find((clip) => clip.name === 'Hit');
-  clips.push(directionalHit(hit, 'HitLeft', -1), directionalHit(hit, 'HitRight', 1));
   clips = groundMantisAnimations(object, clips);
-  clips.sort((a, b) => ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death'].indexOf(a.name) - ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death'].indexOf(b.name));
+  clips.sort((a, b) => ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].indexOf(a.name) - ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].indexOf(b.name));
   object.animations = clips;
   object.updateMatrixWorld(true);
   const walk = clips.find((clip) => clip.name === 'Walk');
@@ -176,7 +155,7 @@ export async function buildMantis({ sourceBase = SOURCE_BASE, textureVariant = '
         'Source locomotion is a hovering animation. This ground adaptation replaces pelvis and leg poses with two-bone IK and alternating planted contacts. Foot sweeps are 0.70 m over 61% of Walk and 1.02 m over 54% of Run; implied speeds match those stance velocities.',
         'Both source wing pairs are folded down the back in every clip. Each baked frame corrects root Y against the actual skinned minimum. Source upper-body animation is retained.',
         'Root X/Z is fixed across all clips, including the source Die clip, whose original backward travel is removed for an in-place collapse.',
-        'HitLeft and HitRight retain source GetHit recoil, adding a small directional torso bend. No flight clips are used.',
+        'Hit retains the authored GetHit recoil. No flight clips are used.',
         'Attack contact at normalized 0.316667 is the sampled peak forward reach of the right middle claw, 1.061 m from origin. Production feature-lab acceptance remains required.',
       ],
     },

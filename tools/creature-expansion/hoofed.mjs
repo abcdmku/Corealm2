@@ -273,7 +273,7 @@ function plant(r,leg,target) {
 
 function animate(r,p,id,mesh) {
   const clips=[],count=64,horse=id==='marchwild_horse',ram=id==='cairn_bighorn',moose=id==='marsh_moose';
-  for(const [name,seconds] of [['Idle',3.2],['Walk',p.walk],['Run',p.run],['Attack',p.attack],['Hit',.76],['HitLeft',.80],['HitRight',.80],['Death',1.55]]){
+  for(const [name,seconds] of [['Idle',3.2],['Walk',p.walk],['Run',p.run],['Attack',p.attack],['Hit',.76],['Death',1.55]]){
     const times=[],positions=r.bones.map(()=>[]),rotations=r.bones.map(()=>[]);
     const clipCount=name==='Death'?256:count;
     const keyTimes=new Set(Array.from({length:clipCount+1},(_,i)=>i/clipCount));
@@ -307,8 +307,8 @@ function animate(r,p,id,mesh) {
         r.named.Jaw.rotation.x=horse?.19*strike:.07*strike;
         r.named.Tail.rotation.x=-.14*strike;
       }
-      if(name.startsWith('Hit')){
-        const side=name==='HitLeft'?-1:name==='HitRight'?1:0;
+      if(name==='Hit'){
+        const side=0;
         bob=-(moose?.080:horse?.080:.055)*recoil;pitch=-.075*recoil;roll=side*.07*recoil;
         neck.rotation.x=-.19*recoil;neck.rotation.z=-side*.14*recoil;head.rotation.y=-side*.19*recoil;
         r.named.Tail.rotation.y=side*.22*recoil;
@@ -371,6 +371,6 @@ export async function buildSpecies(id) {
   const p=PROFILES[id];if(!p)throw new Error(`Unknown hoofed species ${id}`);
   const rig=skeleton(p,id),sculpt=new Sculpt(rig,p,id);anatomy(sculpt,p,id);const mesh=sculpt.mesh();
   const clips=animate(rig,p,id,mesh);rig.root.animations=clips;
-  const meta={id,is:p.is,tags:['animal','hoofed',id==='bracken_tapir'?'forest':id==='marsh_moose'?'wetland':id==='cairn_bighorn'?'mountain':'grassland','original','skinned'],provenance:{author:'Corealm',source:'Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation',license:'Project-owned original'},attackSeconds:p.attack,contactNormalized:p.contact,impliedWalkMps:p.stride/(p.walk*.64),impliedRunMps:p.runStride/(p.run*.47),walkClipSeconds:p.walk,runClipSeconds:p.run,notes:'Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.',triangles:mesh.geometry.index.count/3};
+  const meta={id,is:p.is,tags:['animal','hoofed',id==='bracken_tapir'?'forest':id==='marsh_moose'?'wetland':id==='cairn_bighorn'?'mountain':'grassland','original','skinned'],provenance:{author:'Corealm',source:'Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation',license:'Project-owned original'},attackSeconds:p.attack,contactNormalized:p.contact,impliedWalkMps:p.stride/(p.walk*.64),impliedRunMps:p.runStride/(p.run*.47),walkClipSeconds:p.walk,runClipSeconds:p.run,notes:'Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, six authored clips. No source-model reuse or reduced-distance model.',triangles:mesh.geometry.index.count/3};
   rig.root.userData={species:id,...meta};return {object:rig.root,clips,meta};
 }

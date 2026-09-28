@@ -16,7 +16,7 @@ import { startServer } from './animals/serve.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const out=path.join(root,'test-results/creature-expansion');
-const required=['Idle','Walk','Run','Attack','Hit','HitLeft','HitRight','Death'];
+const required=['Idle','Walk','Run','Attack','Hit','Death'];
 const args=process.argv.slice(2);
 const value=(flag:string)=>args.includes(flag)?args[args.indexOf(flag)+1]:undefined;
 const io=new NodeIO().registerExtensions(KHRONOS_EXTENSIONS);

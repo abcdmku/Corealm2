@@ -449,7 +449,8 @@ function buildClips(s,r,group){
     }
     for(let i=1;i<=s.tail.length;i++)r.by['Tail_'+i].rotation.x=.08*wind-.09*strike;
   });
-  for(const [name,side] of [['Hit',0],['HitLeft',1],['HitRight',-1]])make(name,.70,t=>{
+  make('Hit',.70,t=>{
+    const side=0;
     const hit=Math.sin(Math.PI*smooth(0,.70,t))*Math.exp(-1.3*t);
     r.by.Root.position.y=-.038*hit;r.by.Pelvis.rotation.z=side*.07*hit;r.by.Chest.rotation.z=side*.10*hit;
     r.by.Chest.rotation.x=-.15*hit;r.by.Neck.rotation.x=-.14*hit;r.by.Head.rotation.y=side*.21*hit;r.by.Jaw.rotation.x=.12*hit;allFeet();

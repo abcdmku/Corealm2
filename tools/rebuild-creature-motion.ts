@@ -344,6 +344,8 @@ async function main(): Promise<void> {
       const invariants = invariantHash(doc);
       const protectedAnimations = hitOnly ? animationHash(doc) : null;
       const changes: string[] = [];
+      removeClip(doc, "HitLeft");
+      removeClip(doc, "HitRight");
       const correctedTextures: { name: string; before: string; after: string; preCompressionFlipExact: boolean; meanChannelError: number; format: string }[] = [];
       const orientationCorrect = Boolean(doc.getRoot().getExtras().creatureRebuildVersion) || doc.getRoot().listNodes().some(n => n.getExtras().fbxTextureOrientation === "source-correct");
       for (const texture of orientationCorrect ? [] : doc.getRoot().listTextures()) {
@@ -373,10 +375,8 @@ async function main(): Promise<void> {
       if (hitOnly) {
         attack = doc.getRoot().getExtras().attack as ClipMetadata;
         if (!attack || attack.clip !== "Attack") throw new Error("Hit-only rebuild requires the previously reviewed attack metadata");
-        for (const side of [0, -1, 1] as const) {
-          if (id === "animal_bear") authorBearHit(doc, side);
-          else authorHoovedHit(doc, id as HoovedAnimal, side);
-        }
+        if (id === "animal_bear") authorBearHit(doc);
+        else authorHoovedHit(doc, id as HoovedAnimal);
         changes.push("Replace recoil with anatomical shoulder and pelvis compression, neck recoil and planted contacts; preserve all non-hit clips");
       } else if (!fish) {
         if (id === "animal_crab") {
@@ -411,15 +411,13 @@ async function main(): Promise<void> {
         const attackClip = doc.getRoot().listAnimations().find(c => c.getName() === "Attack")!;
         attackClip.setExtras({ ...attackClip.getExtras(), contactNormalized: attack.contactNormalized });
         if (id === "animal_bear") {
-          for (const side of [0, -1, 1] as const) authorBearHit(doc, side);
+          authorBearHit(doc);
         } else if (["animal_cattle", "animal_aurochs", "animal_boar"].includes(id)) {
-          for (const side of [0, -1, 1] as const) authorHoovedHit(doc, id as HoovedAnimal, side);
+          authorHoovedHit(doc, id as HoovedAnimal);
         } else {
-          if (!id.startsWith("boss_rhino_")) authorMotion(doc, "Hit", hitProfile(id, 0));
-          authorMotion(doc, "HitLeft", hitProfile(id, -1));
-          authorMotion(doc, "HitRight", hitProfile(id, 1));
+          if (!id.startsWith("boss_rhino_")) authorMotion(doc, "Hit", hitProfile(id));
         }
-        changes.push("Add directional articulated recoil with delayed torso recovery and separate limb bracing");
+        changes.push("Keep one Hit with delayed torso recovery and separate limb bracing");
       }
       if (invariantHash(doc) !== invariants) throw new Error(`${id}: geometry, UV, skin or bind pose changed`);
       let repeatedKeys = 0;

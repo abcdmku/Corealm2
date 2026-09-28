@@ -119,57 +119,6 @@ function poseSampler(root, clip) {
   };
 }
 
-function directionalHit(root, source, name, direction) {
-  const chest = root.getObjectByName('Chest');
-  const neck = root.getObjectByName('Neck01');
-  const arms = ['R_UpperArm', 'R_UpperArm1'].map(bone => root.getObjectByName(bone));
-  if (!chest || !neck || arms.some(bone => !bone)) throw new Error('Nightmare directional recoil bones missing');
-  const changed = [chest, neck, ...arms];
-  const channelNames = new Set(changed.flatMap(node => ['position', 'quaternion', 'scale'].map(property => `${node.name}.${property}`)));
-  const clip = source.clone();
-  clip.name = name;
-  clip.tracks = clip.tracks.filter(track => !channelNames.has(track.name));
-  const pose = poseSampler(root, source);
-  const times = [];
-  const channels = new Map(changed.map(node => [node, { position: [], quaternion: [], scale: [] }]));
-  const worldUp = new THREE.Vector3(0, 1, 0);
-  for (let frame = 0; frame <= 42; frame++) {
-    const time = frame / FPS;
-    times.push(time);
-    pose.sample(time);
-    const armWorld = arms.map(arm => arm.matrixWorld.clone());
-    const phase = time / source.duration;
-    const envelope = phase < 0.22 ? Math.sin(phase / 0.22 * Math.PI / 2) : Math.pow(Math.cos((phase - 0.22) / 0.78 * Math.PI / 2), 2);
-    // Source Hit rolls onto its side, so fixed local Y becomes a downward tilt.
-    // Convert world up to each current local pose to keep added recoil lateral.
-    const chestAxis = worldUp.clone().applyQuaternion(chest.getWorldQuaternion(new THREE.Quaternion()).invert());
-    chest.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(chestAxis, direction * THREE.MathUtils.degToRad(9) * envelope));
-    root.updateMatrixWorld(true);
-    const neckAxis = worldUp.clone().applyQuaternion(neck.getWorldQuaternion(new THREE.Quaternion()).invert());
-    neck.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(neckAxis, direction * THREE.MathUtils.degToRad(12) * envelope));
-    root.updateMatrixWorld(true);
-    // Hold each forelimb's original world transform while its chest parent turns.
-    // Hind legs branch from Root and therefore need no compensation.
-    arms.forEach((arm, index) => {
-      new THREE.Matrix4().copy(arm.parent.matrixWorld).invert().multiply(armWorld[index]).decompose(arm.position, arm.quaternion, arm.scale);
-    });
-    root.updateMatrixWorld(true);
-    for (const node of changed) {
-      const values = channels.get(node);
-      values.position.push(...node.position.toArray());
-      values.quaternion.push(...node.quaternion.toArray());
-      values.scale.push(...node.scale.toArray());
-    }
-  }
-  pose.restore();
-  for (const [node, values] of channels) {
-    clip.tracks.push(new THREE.VectorKeyframeTrack(`${node.name}.position`, times, values.position));
-    clip.tracks.push(new THREE.QuaternionKeyframeTrack(`${node.name}.quaternion`, times, values.quaternion));
-    clip.tracks.push(new THREE.VectorKeyframeTrack(`${node.name}.scale`, times, values.scale));
-  }
-  return clip;
-}
-
 function gaitSpeed(root, clip) {
   const feet = ['L_feet', 'R_feet'].map(name => root.getObjectByName(name));
   if (feet.some(foot => !foot)) throw new Error('Nightmare feet unavailable for gait measurement');
@@ -243,9 +192,7 @@ export async function buildNightmare() {
   for (const [name, file, lastFrame] of CLIP_SPECS) {
     clips.push(importClip(await loadFbx(`Animations/DragonNightMare/${file}.fbx`), rigIdentities, rootBone, name, lastFrame));
   }
-  const hit = clips.find(clip => clip.name === 'Hit');
-  clips.push(directionalHit(rig, hit, 'HitLeft', -1), directionalHit(rig, hit, 'HitRight', 1));
-  clips.sort((a, b) => ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death'].indexOf(a.name) - ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death'].indexOf(b.name));
+  clips.sort((a, b) => ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].indexOf(a.name) - ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].indexOf(b.name));
   const [albedo, normal, orm] = await Promise.all([
     texture(PACK + 'Texture/DragonNightmare/Albino/Albedo.png', THREE.SRGBColorSpace),
     texture(PACK + 'Texture/DragonNightmare/Albino/Normal.png', THREE.NoColorSpace),
@@ -292,7 +239,6 @@ export async function buildNightmare() {
       clips: Object.fromEntries(CLIP_SPECS.map(([name, file, last]) => [name, {
         file: `Assets/FourEvilDragonsPBR/Animations/DragonNightMare/${file}.fbx`, take: 'Take 001', frames: [0, last], fps: FPS,
       }])),
-      directionalHits: 'Source getHit plus signed chest and neck recoil; forelimb world transforms compensated at every 30 Hz source sample',
       rootMotion: 'Root X/Z fixed to mesh rest translation, source Y compression preserved',
       grounding: { method: 'Actual skinned minimum sampled at 120 Hz; upward-only Root Y correction with 2 mm clearance', clips: grounding },
       gaitMeasurement: 'Median backward hind-foot velocity in lowest 35% of each foot height range, 120 samples per clip, final .45 scale',

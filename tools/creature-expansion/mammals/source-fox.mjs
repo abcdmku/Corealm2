@@ -50,7 +50,7 @@ const report={sourceSha256:sha(bytes),sourceUnmodified:true,meshes,
   materials:root.listMaterials().map(m=>({name:m.getName(),baseColorFactor:m.getBaseColorFactor(),roughness:m.getRoughnessFactor(),metallic:m.getMetallicFactor(),texture:m.getBaseColorTexture()?.getName()})),
   textures:root.listTextures().map(t=>({name:t.getName(),mime:t.getMimeType(),bytes:t.getImage()?.length})),
   nativeClips:clips,
-  missingProductionBehaviors:['Attack','Hit','HitLeft','HitRight','Death'],
+  missingProductionBehaviors:['Attack','Hit','Death'],
   integrationNotes:['Survey must be evaluated as idle behavior before mapping.','Walk and Run are original authored source clips; foot contact still needs production state/temporal proof.','Missing combat/death clips require new authored motion, never aliases.','Preserve complete source body and rig; no hybrid head graft.','Choose production scale and root orientation only after whole-source visual review.'],
   acceptance:{officialPreviewInspected:false,hardwareLabReviewed:false,productionConverted:false,accepted:false}};
 await writeFile(new URL('source-inspection.json',out),JSON.stringify(report,null,2)+'\n');

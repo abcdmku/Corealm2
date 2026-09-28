@@ -12,7 +12,7 @@ const repo = fileURLToPath(new URL("../../", import.meta.url));
 const position = (node: Node) => new Vector3(...node.getWorldMatrix().slice(12, 15));
 
 describe.each(["animal_cattle", "animal_boar"] as const)("%s planted impact and recovery", id => {
-  it.each([0, -1, 1] as const)("preserves hoof contacts, anatomy and approved clips for side %s", async side => {
+  it("preserves hoof contacts, anatomy and approved clips during Hit", async () => {
     const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(path.join(repo, `game/public/assets/models/animal/${id}.glb`));
     const original = storedPose(doc);
     const protectedClips = doc.getRoot().listAnimations().filter(clip => !/^Hit/.test(clip.getName()));
@@ -38,10 +38,11 @@ describe.each(["animal_cattle", "animal_boar"] as const)("%s planted impact and 
       return { chain, lengths, pole };
     });
     restorePose(original);
-    authorHoovedHit(doc, id, side);
+    authorHoovedHit(doc, id);
     expect(storedPose(doc)).toEqual(original);
     expect(clipData()).toEqual(approved);
-    const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === (side === 0 ? "Hit" : side < 0 ? "HitLeft" : "HitRight"))!;
+    expect(doc.getRoot().listAnimations().filter(clip => /^Hit/.test(clip.getName())).map(clip => clip.getName())).toEqual(["Hit"]);
+    const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === "Hit")!;
     let contactError = 0, headTravel = 0, shoulderDrop = 0, pelvisDrop = 0;
     for (let frame = 0; frame <= 240; frame++) {
       restorePose(original);
@@ -66,7 +67,7 @@ describe.each(["animal_cattle", "animal_boar"] as const)("%s planted impact and 
     expect(pelvisDrop).toBeGreaterThan(id === "animal_boar" ? 0.06 : 0.085);
     for (const pose of idle) {
       expect(new Vector3(...pose.node.getTranslation()).distanceTo(new Vector3(...pose.t))).toBeLessThan(0.0001);
-      expect(new Quaternion().fromArray(pose.node.getRotation()).angleTo(new Quaternion().fromArray(pose.r))).toBeLessThan(0.0001);
+      expect(new Quaternion().fromArray(pose.node.getRotation()).normalize().angleTo(new Quaternion().fromArray(pose.r).normalize())).toBeLessThan(0.0001);
     }
   });
 });

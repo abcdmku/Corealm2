@@ -5,7 +5,7 @@ const selected=process.argv.slice(2);
 for(const id of SPECIES.filter(id=>!selected.length||selected.includes(id))){
  const {object,clips,meta}=await buildSpecies(id);const base={};
  const soles={};let skin;
- assert.deepEqual(clips.map(c=>c.name),['Idle','Walk','Run','Attack','Hit','HitLeft','HitRight','Death']);
+ assert.deepEqual(clips.map(c=>c.name),['Idle','Walk','Run','Attack','Hit','Death']);
  object.traverse(o=>{
   if(!o.isSkinnedMesh)return;
   skin=o;
@@ -24,7 +24,7 @@ for(const id of SPECIES.filter(id=>!selected.length||selected.includes(id))){
  for(const clip of clips)for(const track of clip.tracks){assert.ok(object.getObjectByName(track.name.split('.')[0]),`${id}: unresolved ${track.name}`);if(track.name.endsWith('_Root.position'))for(let i=0;i<track.values.length;i+=3)assert.ok(Math.abs(track.values[i])+Math.abs(track.values[i+2])<1e-8,`${id}: root horizontal travel`);}
  for(const tag of ['ForeL','ForeR','HindL','HindR'])base[tag]=object.getObjectByName(`${id}_${tag}Ankle`).getWorldPosition(new THREE.Vector3());
  const results=[];
- for(const name of ['Idle','Walk','Run','Attack','Hit','HitLeft','HitRight']){
+ for(const name of ['Idle','Walk','Run','Attack','Hit']){
   const clip=clips.find(c=>c.name===name),mixer=new THREE.AnimationMixer(object);mixer.clipAction(clip).play();let maxContactError=0,minGround=10,maxSoleContactError=0;
   for(let frame=0;frame<320;frame++){
    const t=frame/320;mixer.setTime(t*clip.duration);object.updateMatrixWorld(true);

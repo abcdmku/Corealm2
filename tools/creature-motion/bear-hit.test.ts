@@ -10,7 +10,7 @@ import { applyClip, duration, restorePose, storedPose } from "./pose.js";
 const source = path.join(fileURLToPath(new URL("../../", import.meta.url)), "game/public/assets/models/animal/animal_bear.glb");
 
 describe("bear impact pose and planted recovery", () => {
-  it.each([0, -1, 1] as const)("keeps every paw planted while side %s moves the animal's mass, then returns to Idle", async (side) => {
+  it("keeps every paw planted while Hit moves the animal's mass, then returns to Idle", async () => {
     const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(source);
     const original = storedPose(doc);
     const protectedClips = doc.getRoot().listAnimations().filter(clip => !/^Hit/.test(clip.getName()));
@@ -28,12 +28,13 @@ describe("bear impact pose and planted recovery", () => {
     const root = nodes.find(node => node.getName() === "Bear_MAINSHJnt")!;
     const rest = new Map([...paws, head, shoulder, pelvis, root].map(node => [node, position(node)]));
     restorePose(original);
-    authorBearHit(doc, side);
+    authorBearHit(doc);
     expect(storedPose(doc)).toEqual(original);
     expect(protectedClips.map(clip => clip.listSamplers().map(sampler => [
       Array.from(sampler.getInput()!.getArray()!), Array.from(sampler.getOutput()!.getArray()!),
     ]))).toEqual(protectedData);
-    const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === (side === 0 ? "Hit" : side < 0 ? "HitLeft" : "HitRight"))!;
+    expect(doc.getRoot().listAnimations().filter(clip => /^Hit/.test(clip.getName())).map(clip => clip.getName())).toEqual(["Hit"]);
+    const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === "Hit")!;
     let pawError = 0, headTravel = 0, shoulderTravel = 0, compression = 0;
     for (let frame = 0; frame <= 120; frame++) {
       restorePose(original);
@@ -51,7 +52,7 @@ describe("bear impact pose and planted recovery", () => {
     expect(compression).toBeGreaterThan(0.075);
     for (const pose of idle) {
       expect(new Vector3(...pose.node.getTranslation()).distanceTo(new Vector3(...pose.t))).toBeLessThan(0.0001);
-      expect(new Quaternion().fromArray(pose.node.getRotation()).angleTo(new Quaternion().fromArray(pose.r))).toBeLessThan(0.0001);
+      expect(new Quaternion().fromArray(pose.node.getRotation()).normalize().angleTo(new Quaternion().fromArray(pose.r).normalize())).toBeLessThan(0.0001);
     }
   });
 });

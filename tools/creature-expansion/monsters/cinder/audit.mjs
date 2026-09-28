@@ -17,7 +17,7 @@ const report=await page.evaluate(async({baseline,glbUrl,sourceMeta,phaseCount})=
   const object=built.object;
   const hash=async data=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(data))))).map(value=>value.toString(16).padStart(2,'0')).join('');
   const hashes={};for(const clip of built.clips)hashes[clip.name]=await hash(clip.tracks.map(track=>[track.name,Array.from(track.times),Array.from(track.values)]));
-  const unchanged=['Idle','Attack','Hit','HitLeft','HitRight','Death'].map(name=>({name,equal:hashes[name]===baseline.hashes[name],hash:hashes[name]}));
+  const unchanged=['Idle','Attack','Hit','Death'].map(name=>({name,equal:hashes[name]===baseline.hashes[name],hash:hashes[name]}));
   const gait=[];
   const point=name=>object.getObjectByName(name).getWorldPosition(new THREE.Vector3());
   const soleParts={l:[],r:[]};
@@ -57,7 +57,7 @@ const report=await page.evaluate(async({baseline,glbUrl,sourceMeta,phaseCount})=
   if(glbUrl){
     const {buildCinder}=await import('/tools/creature-expansion/monsters/cinder.mjs'),reference=await buildCinder();
     const names=[];reference.object.traverse(node=>{if(node.isBone)names.push(node.name);});
-    for(const name of ['Idle','Attack','Hit','HitLeft','HitRight','Death']){
+    for(const name of ['Idle','Attack','Hit','Death']){
       const source=reference.clips.find(clip=>clip.name===name),output=built.clips.find(clip=>clip.name===name),a=new THREE.AnimationMixer(reference.object),b=new THREE.AnimationMixer(object);
       for(const [mixer,clip] of [[a,source],[b,output]]){const action=mixer.clipAction(clip);action.setLoop(THREE.LoopOnce,1);action.clampWhenFinished=true;action.play();}
       let maxBoneDistanceM=0;

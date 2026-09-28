@@ -95,7 +95,7 @@ export const SPECIES = [
       ['snail_die_anim.FBX', 'Death', [180, 260]],
     ],
     contactNormalized: 0.48,
-    notes: 'Unused licensed snail body, refined with a continuous curved spiral shell, modeled whorl gutters and a muscular foot margin. Source UVs/material remain. Rigid shell influence is separated from soft foot. Added eye-stalk articulation, retract/emerge rasp attack, directional recoil, and a distinct authored traveling foot-wave faster crawl.',
+    notes: 'Unused licensed snail body, refined with a continuous curved spiral shell, modeled whorl gutters and a muscular foot margin. Source UVs/material remain. Rigid shell influence is separated from soft foot. Added eye-stalk articulation, retract/emerge rasp attack, neck and eye-stalk recoil, and a distinct authored traveling foot-wave faster crawl.',
   },
 ];
 

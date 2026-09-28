@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const SOURCE = new URL('../crawlers.mjs', import.meta.url);
 const OUTPUT = new URL('../../../test-results/creature-expansion/crawlers/beetle-joint-audit.json', import.meta.url);
-const CLIPS = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death'];
+const CLIPS = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
 const LOOPS = new Set(['Idle', 'Walk', 'Run']);
 const PHASES = 49;
 const LOOP_TOLERANCE = 1e-5;
@@ -234,7 +234,7 @@ const report = {
     'World-skinned lower-ring points are centered at the tibia pivot, rotated by the inverse femur world quaternion, and divided by leg width.',
     'All three ray directions must classify every lower-ring vertex inside. Clearance is the shortest distance to actual triangles or the diagnostic hip cap.',
     'The knee-centered ball bounded by the nearest femur triangle must contain the entire lower ring. Its convexity also covers ring edges and rigid rotations about the same knee pivot.',
-    'All eight clips use Three.js track interpolants at 49 phases including both endpoints. Ground checks sample all mesh vertices at every sixth phase.',
+    'All six clips use Three.js track interpolants at 49 phases including both endpoints. Ground checks sample all mesh vertices at every sixth phase.',
     'Idle, Walk and Run require sealed track endpoints and skinned vertex drift below 1e-5. One-shot clips are not required to loop.',
     'Ground penetration over 2 mm fails. These flat-ground source checks do not prove runtime terrain contact.',
   ],
@@ -246,7 +246,7 @@ try {
   const { object, clips } = await buildSpecies(report.species);
   object.updateMatrixWorld(true);
   requireCondition(clips.length === CLIPS.length && CLIPS.every(name => clips.some(clip => clip.name === name)),
-    'Expected exactly the eight authored clips');
+    'Expected exactly the six authored clips');
   const meshes = [];
   object.traverse(node => { if (node.isSkinnedMesh) meshes.push(node); });
   const shell = object.getObjectByName('antler_beetle_shellAlt'), horn = object.getObjectByName('antler_beetle_horn');

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { loadFbx, texture, cleanClip, directionalHit, groundObject, measureStance, preventFloorPenetration } from './common.mjs';
+import { loadFbx, texture, cleanClip, groundObject, measureStance, preventFloorPenetration } from './common.mjs';
 import { compressCinderGaits, sealCinderGaitFloor } from './cinder-gait.mjs';
 
 export async function buildCinder() {
@@ -15,9 +15,6 @@ export async function buildCinder() {
     if (!source) throw new Error(`Monster04 missing ${suffix}`);
     return cleanClip(source, name, root, rootBone);
   });
-  const hit = clips.find(clip => clip.name === 'Hit');
-  const reactions = [['spine_02x', [0, 0, 1], 9], ['spine_03x', [0, 0, 1], 7], ['headx', [0, 0, 1], 6]];
-  clips.push(directionalHit(hit, 'HitLeft', reactions, 1), directionalHit(hit, 'HitRight', reactions, -1));
   const object = groundObject(root, clips, 0.012, 'rootx');
   object.name = 'cinder_ravager';
   const groundCorrections=preventFloorPenetration(object,clips,'rootx');
@@ -30,7 +27,7 @@ export async function buildCinder() {
   return { object, clips, meta: {
     id: 'cinder_ravager', is: 'A tall plated ravager with a forked head crest, broad clawed arms and digitigrade feet.',
     tags: ['creature', 'monster', 'biped', 'ground', 'claw'],
-    provenance: { author: 'PixeliusVita', pack: 'Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita', license: 'Standard Unity Asset Store EULA', source: 'Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx', texture: 'Monster04_Color03.png', modifications: 'Metre conversion; in-place root channels; exact loop endpoint; directional torso/head recoil overlays over the authored GetHit take; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and six non-gait clips are preserved.' },
+    provenance: { author: 'PixeliusVita', pack: 'Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita', license: 'Standard Unity Asset Store EULA', source: 'Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx', texture: 'Monster04_Color03.png', modifications: 'Metre conversion; in-place root channels; exact loop endpoint; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and four non-gait clips are preserved.' },
     attackSeconds: clips.find(clip => clip.name === 'Attack').duration, contactNormalized: 0.235,
     impliedWalkMps: walkStance.mps, impliedRunMps: runStance.mps,
     gaitFootBones:feet, gaitStanceAudit:{walk:walkStance,run:runStance}, groundCorrections,gaitGroundCorrections,gaitFloorSeal,

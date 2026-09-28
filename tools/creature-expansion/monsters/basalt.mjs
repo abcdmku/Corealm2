@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { loadFbx, texture, cleanClip, directionalHit, groundObject, measureStance, preventFloorPenetration } from './common.mjs';
+import { loadFbx, texture, cleanClip, groundObject, measureStance, preventFloorPenetration } from './common.mjs';
 
 async function packedMaterial(base) {
   const [map, normalMap, orm] = await Promise.all([
@@ -25,9 +25,6 @@ export async function buildBasalt() {
     // Idle/Hit/Death 0..40, Walk 0..30, Run 0..24, HornAttack 0..48 at 30 fps.
     clips.push(cleanClip(source,name,root,rootBone));
   }
-  const hit=clips.find(clip=>clip.name==='Hit');
-  const reactions=[['Head',[1,0,0],8],['Chest',[1,0,0],4]];
-  clips.push(directionalHit(hit,'HitLeft',reactions,1),directionalHit(hit,'HitRight',reactions,-1));
   // Dungeon Mason has metre transforms already, with .01 on mesh/rig children.
   const object=groundObject(root,clips,.65,'Root'); object.name='basalt_drake';
   const walk=clips.find(clip=>clip.name==='Walk'),run=clips.find(clip=>clip.name==='Run');
@@ -37,7 +34,7 @@ export async function buildBasalt() {
   return {object,clips,meta:{
     id:'basalt_drake',is:'An armored low dragon with a boar-like snout, broad forepaws and a ridge of dorsal spikes.',
     tags:['creature','monster','quadruped','ground','horn'],
-    provenance:{author:'Dungeon Mason',pack:'Dragon the Soul Eater and Dragon Boar',license:'Standard Unity Asset Store EULA',source:'Assets/FreeDragons/Mesh/DragonBoarMesh.fbx',texture:'DragonBoarPBR/Blue',modifications:'Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz.'},
+    provenance:{author:'Dungeon Mason',pack:'Dragon the Soul Eater and Dragon Boar',license:'Standard Unity Asset Store EULA',source:'Assets/FreeDragons/Mesh/DragonBoarMesh.fbx',texture:'DragonBoarPBR/Blue',modifications:'Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, upward-only root height corrections from actual skinned minima at 240 Hz.'},
     attackSeconds:clips.find(clip=>clip.name==='Attack').duration,contactNormalized:.65,
     impliedWalkMps:walkStance.mps,impliedRunMps:runStance.mps,
     gaitFootBones:feet,gaitStanceAudit:{walk:walkStance,run:runStance},groundCorrections,

@@ -13,7 +13,7 @@ function actor(id: string, position: Vec3 = [0, 0, 0], regionId: RegionId = "fal
   };
 }
 
-async function fixture(entities: SemanticEntity[], radius = 12, directionalHits = false, speedMatched = false,
+async function fixture(entities: SemanticEntity[], radius = 12, speedMatched = false,
   isViewReady?: (root: THREE.Object3D) => boolean) {
   const source = new THREE.Group();
   const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -33,12 +33,12 @@ async function fixture(entities: SemanticEntity[], radius = 12, directionalHits 
   mesh.bind(new THREE.Skeleton([bone, head, leg]));
   source.add(mesh);
   source.updateMatrixWorld(true);
-  const clips = ["Idle", "Walk", "Run", "Attack", "Hit", "Death", ...(directionalHits ? ["HitLeft", "HitRight"] : [])].map((name) => (
+  const clips = ["Idle", "Walk", "Run", "Attack", "Hit", "Death"].map((name) => (
     new THREE.AnimationClip(name, 1, [new THREE.VectorKeyframeTrack(
       "Resident_Spine.position", [0, 0.5, 1],
       [0, 0, 0, 0, 0.3, 0, 0, name === "Death" ? -0.5 : 0, 0],
     ), new THREE.QuaternionKeyframeTrack('Resident_Head.quaternion', [0, .5, 1],
-      [0, 0, 0, 1, ...new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0), name.startsWith('Hit') ? .4 : .02).toArray(), 0, 0, 0, 1])])
+      [0, 0, 0, 1, ...new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0), name === 'Hit' ? .4 : .02).toArray(), 0, 0, 0, 1])])
   ));
   const propGeometry = new THREE.BoxGeometry(1, 1, 1);
   const propSource = new THREE.Group();
@@ -201,7 +201,7 @@ describe("EntityViews resident motion", () => {
   it('prepares a newly joined nearby live rig without starting a redundant sampled rig', async () => {
     let ready = false;
     const entity = actor('remote:new-player');
-    const f = await fixture([], 12, false, false, root => Boolean((root as THREE.Mesh).isMesh) || ready);
+    const f = await fixture([], 12, false, root => Boolean((root as THREE.Mesh).isMesh) || ready);
     const prepare = vi.spyOn(AnimationLod.prototype, 'prepare');
     try {
       await f.views.prepare([entity]);
@@ -225,7 +225,7 @@ describe("EntityViews resident motion", () => {
     let ready = false;
     const entity = actor('streaming-handoff');
     // The existing sampled representation is prepared; only its detailed replacement waits.
-    const f = await fixture([entity], 12, false, false, root => (root as THREE.Mesh).isMesh || ready);
+    const f = await fixture([entity], 12, false, root => (root as THREE.Mesh).isMesh || ready);
     try {
       f.views.update(.016, new THREE.Vector3());
       expect(f.views.motionSnapshot(entity.id)?.path).toBe('sampled-rig');
@@ -248,7 +248,7 @@ describe("EntityViews resident motion", () => {
   it.each(['remove', 'demote'] as const)('releases an unfinished replacement on %s without leaking its slot', async action => {
     const entity = actor('cancel-handoff');
     // Allow the prepared sampled meshes while keeping the detailed replacement unfinished.
-    const f = await fixture([entity], 12, false, false, root => Boolean((root as THREE.Mesh).isMesh));
+    const f = await fixture([entity], 12, false, root => Boolean((root as THREE.Mesh).isMesh));
     try {
       f.views.update(.016, new THREE.Vector3());
       const record = (f.views as any).records.get(entity.id);
@@ -359,7 +359,7 @@ describe("EntityViews resident motion", () => {
     for (const viewer of [new THREE.Vector3(), new THREE.Vector3(100, 0, 0)]) {
       const entity = actor('moving-hit'); entity.state='aggro';
       const control = structuredClone(entity);
-      const f = await fixture([entity], 12, true), baseline = await fixture([control], 12, true);
+      const f = await fixture([entity]), baseline = await fixture([control]);
       try {
         f.views.update(0, viewer); baseline.views.update(0, viewer);
         entity.position = [.468, 0, 0]; control.position=[.468,0,0];
@@ -374,7 +374,7 @@ describe("EntityViews resident motion", () => {
           f.views.syncResidentMotion(alpha); baseline.views.syncResidentMotion(alpha);
           f.views.update(.05, viewer); baseline.views.update(.05, viewer);
           const actual=f.views.motionSnapshot(entity.id)!, expected=baseline.views.motionSnapshot(entity.id)!;
-          expect(actual).toMatchObject({ clip: 'Run', hitOverlay: { clip: 'HitRight_MaskedOverlay', active:true } });
+          expect(actual).toMatchObject({ clip: 'Run', hitOverlay: { clip: 'Hit_MaskedOverlay', active:true } });
           expect(actual.time).toBeCloseTo(expected.time!); expect(actual.drawnPosition).toEqual(expected.drawnPosition);
         }
         if(viewer.x===0) {
@@ -408,9 +408,9 @@ describe("EntityViews resident motion", () => {
     } finally { f.dispose(); }
   });
 
-  it("allows committed swings while a separate directional overlay remains active", async () => {
+  it("allows committed swings while the Hit overlay remains active", async () => {
     const entity = actor('recoil');
-    const f = await fixture([entity], 12, true);
+    const f = await fixture([entity]);
     try {
       const viewer = new THREE.Vector3(100, 0, 0);
       expect(f.views.actionDurationSeconds(entity.id, 'hit', 'left')).toBe(1);
@@ -418,7 +418,7 @@ describe("EntityViews resident motion", () => {
       expect(f.views.playAction(entity.id, 'hit', { impactSide: 'left', durationSeconds: .5 })).toBe(true);
       expect(f.views.playAction(entity.id, 'attack')).toBe(true);
       f.views.update(.25, viewer);
-      expect(f.views.motionSnapshot(entity.id)).toMatchObject({ clip: 'Attack', hitOverlay:{clip:'HitLeft_MaskedOverlay',time:.5} });
+      expect(f.views.motionSnapshot(entity.id)).toMatchObject({ clip: 'Attack', hitOverlay:{clip:'Hit_MaskedOverlay',time:.5} });
       f.views.update(.25, viewer);
       entity.position = [.2, 0, 0]; f.views.syncResidentMotion();
       expect(f.views.motionSnapshot(entity.id)?.hitOverlay).toBeNull();
@@ -428,7 +428,7 @@ describe("EntityViews resident motion", () => {
   it("uses the speed-matched walk clock for slow pursuit in live and sampled rigs without changing combat intent", async () => {
     const entities = [actor("slow-a"), actor("slow-b", [3, 0, 0])];
     for (const entity of entities) entity.state = "aggro";
-    const f = await fixture(entities, 12, false, true);
+    const f = await fixture(entities, 12, true);
     try {
       f.views.update(0, new THREE.Vector3(0, 0, 0));
       for (const entity of entities) entity.position = [entity.position[0] + .1, 0, 0];
@@ -472,22 +472,24 @@ describe("EntityViews resident motion", () => {
       expect(f.views.pickHit(ray)!.distance).toBeLessThan(8);
     } finally { f.dispose(); geometry.dispose(); material.dispose(); }
   });
-  it("selects requested authored hit sides in sampled and live rigs, with ordinary-hit fallback", async () => {
-    for (const directional of [false, true]) {
-      const f = await fixture([actor("hit-target")], 12, directional);
-      try {
-        for (const viewer of [new THREE.Vector3(100, 0, 0), new THREE.Vector3(0, 0, 0)]) {
-          f.views.update(0, viewer);
-          for (const side of ["left", "right", "front"] as const) {
-            expect(f.views.playAction("hit-target", "hit", { impactSide: side, durationSeconds: 0.5 })).toBe(true);
-            f.views.update(0.1, viewer);
-            const expected = directional && side !== "front" ? side === "left" ? "HitLeft" : "HitRight" : "Hit";
-            expect(f.views.motionSnapshot("hit-target")).toMatchObject({ motion: "idle", clip: 'Idle', hitOverlay:{clip:`${expected}_MaskedOverlay`,time:.2} });
-            expect(f.views.drawnBounds("hit-target")).not.toBeNull();
-          }
-        }
-      } finally { f.dispose(); }
-    }
+  it.each(["left", "right", "front", undefined] as const)("uses the canonical Hit for impact %s in sampled and live rigs", async impactSide => {
+    const f = await fixture([actor("hit-target")]);
+    try {
+      for (const viewer of [new THREE.Vector3(100, 0, 0), new THREE.Vector3(0, 0, 0)]) {
+        f.views.update(0, viewer);
+        expect(f.views.actionDurationSeconds("hit-target", "hit", impactSide)).toBe(1);
+        expect(f.views.playAction("hit-target", "hit", { impactSide, durationSeconds: 0.5 })).toBe(true);
+        f.views.update(0.1, viewer);
+        expect(f.views.motionSnapshot("hit-target")).toMatchObject({
+          path: viewer.x === 0 ? "live-rig" : "sampled-rig",
+          motion: "idle", clip: "Idle", hitOverlay: { clip: "Hit_MaskedOverlay", time: .2 },
+        });
+        expect(f.views.drawnBounds("hit-target")).not.toBeNull();
+        f.views.update(.2, viewer);
+        f.views.update(.2, viewer);
+        expect(f.views.motionSnapshot("hit-target")).toMatchObject({ motion: "idle", clip: "Idle", hitOverlay: null });
+      }
+    } finally { f.dispose(); }
   });
   it("reads current position and facing between structural syncs with the same interpolation", async () => {
     const entity = actor("walker");

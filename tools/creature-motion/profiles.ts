@@ -112,11 +112,11 @@ export function attackProfile(id: string): MotionProfile | null {
 }
 
 /** Recoil is delayed down the body; supporting limbs counter-rotate instead of sliding the root. */
-export function hitProfile(id: string, side: -1 | 0 | 1): MotionProfile {
+export function hitProfile(id: string): MotionProfile {
   const phases = [0, 0.12, 0.28, 0.50, 0.76, 1];
   const heavy = /bear|cattle|aurochs|boar|rhino/.test(id);
   const strength = heavy ? 0.7 : 1;
-  const roll = side === 0 ? 0.25 : side;
+  const roll = 0.25;
   const joints: JointGesture[] = [];
   const add = (bone: RegExp, axis: JointGesture["axis"], values: number[]) => joints.push(gesture(bone, axis, values.map(v => v * strength)));
   const head = /chicken/.test(id) ? /Neck_01_02/ : /frog/.test(id) ? /^Bone003$/ : /hog/.test(id) ? /^Bone013$/ : /rat/.test(id) ? /^Bone006$/ : /crab/.test(id) ? /^Bone006$/ : /scorpion/.test(id) ? /Sting_01_03/ : /rhino/.test(id) ? /^CATRigHub003$/ : /Neck_02/;
@@ -148,5 +148,5 @@ export function hitProfile(id: string, side: -1 | 0 | 1): MotionProfile {
     add(/(?:FrontLeg|_Leg)_Knee/, "x", [0, -5, -9, -3, 1, 0]);
     add(id.includes("scorpion") ? /Sting_01_06/ : /(?:Tail|Ears?)_01_01/, "y", [0, 0, -9 * roll, 5 * roll, -2 * roll, 0]);
   }
-  return { label: `${side < 0 ? "left" : side > 0 ? "right" : "frontal"} impact, limb brace and damped recovery`, seconds: heavy ? 0.66 : 0.5, contactNormalized: 0.12, phases, joints };
+  return { label: "frontal impact, limb brace and damped recovery", seconds: heavy ? 0.66 : 0.5, contactNormalized: 0.12, phases, joints };
 }

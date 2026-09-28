@@ -319,10 +319,10 @@ export async function buildTortoise() {
       retract = 0.145 * prepare * (1 - recover); neckPitch = 0.18 * prepare - 0.17 * snap; jawOpen = 0.20 * Math.sin(Math.PI * clamp((time - 0.30) / 0.38));
       bob = -0.012 * prepare; neck2.position.z += 0.057 * snap; head.position.z += 0.025 * snap;
     }
-    if (kind.startsWith('Hit')) {
+    if (kind === 'Hit') {
       const impact = Math.sin(Math.PI * clamp(time / 0.26)) * (1 - smooth((time - 0.20) / 0.80)), envelope = Math.sin(Math.PI * time);
       retract = 0.175 * Math.max(impact, 0) + 0.04 * envelope; neckPitch = 0.16 * envelope;
-      roll = (kind === 'HitLeft' ? -1 : kind === 'HitRight' ? 1 : 0) * 0.045 * envelope; yaw = -roll * 0.5; bob = -0.022 * envelope;
+      roll = 0 * 0.045 * envelope; yaw = -roll * 0.5; bob = -0.022 * envelope;
     }
     if (kind === 'Death') { const fall = smooth(time / 0.72); bob = -0.16 * fall; roll = 0.07 * fall; neckPitch = 0.55 * fall; retract = 0.155 * fall; jawOpen = 0.09 * fall; }
     bodyBone.position.set(Math.sin(roll) * 0.54, bob + 0.54 * (1 - Math.cos(roll)), 0); bodyBone.quaternion.setFromEuler(new THREE.Euler(0, yaw, roll));
@@ -348,7 +348,7 @@ export async function buildTortoise() {
     }
   }
 
-  const specifications = [['Idle', 4.4, true], ['Walk', 2.8, true], ['Run', 1.8, true], ['Attack', 1.45, false], ['Hit', 0.8, false], ['HitLeft', 0.8, false], ['HitRight', 0.8, false], ['Death', 1.8, false]];
+  const specifications = [['Idle', 4.4, true], ['Walk', 2.8, true], ['Run', 1.8, true], ['Attack', 1.45, false], ['Hit', 0.8, false], ['Death', 1.8, false]];
   const clips = specifications.map(([name, duration, loop]) => {
     const count = name === 'Attack' ? 80 : 64, times = [], positions = bones.map(() => []), quaternions = bones.map(() => []);
     for (let frame = 0; frame <= count; frame++) {
@@ -365,6 +365,6 @@ export async function buildTortoise() {
     id: 'slateback_tortoise', is: 'slateback tortoise', tags: ['reptile', 'tortoise', 'ground', 'quadruped', 'armored'], provenance: 'Original procedural anatomical surface modeling, scute tessellation, authored skeleton and IK clips. No external model or source creature reused.',
     attackSeconds: 1.45, contactNormalized: 0.49, impliedWalkMps: 0.14 / (0.76 * 2.8), impliedRunMps: 0.20 / (0.66 * 1.8), walkClipSeconds: 2.8, runClipSeconds: 1.8,
     gaitFootBones: legs.map((leg) => leg.foot.name), triangles,
-    notes: 'Domed slate carapace with 33 fitted scutes and growth ridges, thick rolled margins, lobed ochre plastron, neck and limb openings, folded retractable neck, beaked skull, inset amber eyes, scaled elephantine feet, five front and four rear keratin claws. Four-beat planted IK gait; body stays in place; attack retracts then snaps forward; directional flinches return to bind pose and death settles.',
+    notes: 'Domed slate carapace with 33 fitted scutes and growth ridges, thick rolled margins, lobed ochre plastron, neck and limb openings, folded retractable neck, beaked skull, inset amber eyes, scaled elephantine feet, five front and four rear keratin claws. Four-beat planted IK gait; body stays in place; attack retracts then snaps forward; hit flinch returns to bind pose and death settles.',
   } };
 }

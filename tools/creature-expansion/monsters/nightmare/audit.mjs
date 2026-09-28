@@ -25,13 +25,11 @@ function pose(clip, time) {
   action.play();
   mixer.setTime(time);
   object.updateMatrixWorld(true);
-  const positions = new Map();
-  object.traverse(node => { if (node.isBone) positions.set(node.name, node.getWorldPosition(new THREE.Vector3())); });
   const box = new THREE.Box3().setFromObject(object, true);
   mixer.stopAllAction();
   mixer.uncacheRoot(object);
   restore();
-  return { positions, box };
+  return { box };
 }
 const targetNames = [];
 object.traverse(node => { if (node.name) targetNames.push(node.name); });
@@ -58,30 +56,14 @@ const clipReports = clips.map(clip => {
   return { name: clip.name, duration: clip.duration, tracks: clip.tracks.length, duplicateTracks, invalid, unbound,
     maxQuaternionSeamDegrees, minimumY, maximumY };
 });
-const hit = clips.find(clip => clip.name === 'Hit');
-const sides = ['HitLeft', 'HitRight'].map(name => clips.find(clip => clip.name === name));
-const plantedNames = targetNames.filter(name => /(?:feet|R_Hand)$/.test(name) || /__R_Hand$/.test(name));
-const directional = sides.map(clip => {
-  let maximumLimbDeviationM = 0;
-  let maximumHeadDeviationM = 0;
-  for (let i = 0; i <= 84; i++) {
-    const time = hit.duration * i / 84;
-    const base = pose(hit, time);
-    const variant = pose(clip, time);
-    for (const name of plantedNames) maximumLimbDeviationM = Math.max(maximumLimbDeviationM, base.positions.get(name).distanceTo(variant.positions.get(name)));
-    maximumHeadDeviationM = Math.max(maximumHeadDeviationM, base.positions.get('Head').distanceTo(variant.positions.get('Head')));
-  }
-  return { name: clip.name, maximumLimbDeviationM, maximumHeadDeviationM };
-});
 restore();
 object.updateMatrixWorld(true);
 const bounds = new THREE.Box3().setFromObject(object, true);
 const report = { sourceOnly: true, texturesStubbedForNode: true, browserAcceptance: 'Root pending', meta,
-  size: bounds.getSize(new THREE.Vector3()).toArray(), duplicateNodes, clipReports, directional };
+  size: bounds.getSize(new THREE.Vector3()).toArray(), duplicateNodes, clipReports };
 const failures = [...duplicateNodes, ...clipReports.flatMap(clip => [...clip.duplicateTracks, ...clip.invalid, ...clip.unbound])];
-if (directional.some(side => side.maximumLimbDeviationM > 0.02 || side.maximumHeadDeviationM < 0.05)) failures.push('Directional recoil motion or limb compensation failed');
 if (clipReports.some(clip => clip.minimumY < -0.001)) failures.push('Nightmare posed mesh penetrates the ground');
 report.failures = failures;
 await fs.writeFile(new URL('../../../../test-results/creature-expansion/sources/monsters/nightmare/import-audit.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
-console.log(JSON.stringify({ size: report.size, speeds: [meta.impliedWalkMps, meta.impliedRunMps], clipReports, directional, failures }, null, 2));
+console.log(JSON.stringify({ size: report.size, speeds: [meta.impliedWalkMps, meta.impliedRunMps], clipReports, failures }, null, 2));
 if (failures.length) process.exitCode = 1;

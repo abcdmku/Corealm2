@@ -62,7 +62,7 @@ const report = await page.evaluate(async id => {
   window.assetPose('Idle', 0);
   const support = id === 'quarry_snail' ? ['Snail_RigidShell'] : built.meta.gaitFootBones;
   const supportReport = {};
-  for (const name of ['Attack', 'Hit', 'HitLeft', 'HitRight']) {
+  for (const name of ['Attack', 'Hit']) {
     window.assetPose('Idle', 0);
     const initial = support.map(name => built.object.getObjectByName(name).getWorldPosition(new THREE.Vector3()));
     let maxTravel = 0;
@@ -77,7 +77,7 @@ const report = await page.evaluate(async id => {
 }, id);
 console.log(JSON.stringify(report, null, 2));
 await writeFile(path.join(destination, `${id}.json`), JSON.stringify(report, null, 2));
-for (const [clip, time] of [['Idle', 0], ['Attack', report.meta.contactNormalized], ['HitLeft', .2], ['Run', .35]]) {
+for (const [clip, time] of [['Idle', 0], ['Attack', report.meta.contactNormalized], ['Hit', .2], ['Run', .35]]) {
   await page.evaluate(([clip, time]) => window.assetPose(clip, time), [clip, time]);
   await page.screenshot({ path: path.join(destination, `${id}-${clip}.png`) });
 }
