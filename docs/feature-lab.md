@@ -181,6 +181,11 @@ through `CharacterRig` on either body in every pose, with the pose's gathering t
    Pause and scrub the production clip with the stage controls; `viewer:set-time` (seconds)
    pauses and seeks the selected state, and `viewer:set-playing` resumes it. Inspect the attack
    contact, held Death endpoint and return to Idle as well as intermediate poses.
+   Use **Travel** to check the production movement speed against the selected model's measured
+   stride; **Preview** restores the existing clip preview. **Layer hit** applies recoil over the
+   current Idle, Walk or Run without restarting its clock. The equivalent hooks are
+   `viewer:set-gait-mode` (`preview` or `travel`) and `viewer:layer-hit` (an optional overlay time
+   in seconds; a supplied time pauses playback). Check the reported travel speed and clip rate.
 4. Record the verdict (approved, needs polish, replace) and a note on the record or the aspect.
    Verdicts live in `game/content/meta` and feed `#/art/queue`; they never change shipped content.
 5. Then use the feature lab only for what devdocs cannot show: movement through the world,

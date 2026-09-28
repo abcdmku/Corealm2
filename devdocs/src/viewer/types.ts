@@ -6,6 +6,7 @@ import type { EntityMotionSnapshot } from '../../../game/src/render/entityViews.
 /** What a creature can be shown doing. All impacts share the authored Hit state. */
 export const CREATURE_STATES = ['idle', 'walk', 'run', 'attack', 'hit', 'death'] as const;
 export type CreatureState = (typeof CREATURE_STATES)[number];
+export type ViewerGaitMode = 'preview' | 'travel';
 
 export type ViewerSource =
   | { mode: 'asset' | 'creature'; assetId: string }
@@ -52,6 +53,10 @@ export interface ViewerSnapshot {
   motion?: EntityMotionSnapshot | null;
   /** Current deformed bounds, distinct from the initial camera-fit size. */
   currentBounds?: { min: number[]; max: number[] } | null;
+  /** Preview keeps the existing authoring rate; travel uses the creature's production speed caps. */
+  gaitMode: ViewerGaitMode;
+  /** Ground speed sent to the production gait clock, or null outside a travel walk/run. */
+  travelSpeedMps: number | null;
   /** Every state this model supports, in display order. */
   states: ViewerStateInfo[];
   /** The state last set with `setState`, or the initial state. */

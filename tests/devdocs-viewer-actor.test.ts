@@ -135,6 +135,53 @@ describe('devdocs actor stage', () => {
     actor.dispose();
   });
 
+  it('uses candidate stride metadata for travel rates and restores the original preview rate', async () => {
+    const assets = fixtureAssets(['Idle', 'Walk', 'Run', 'Hit']);
+    const originalEntry = assets.entry.bind(assets);
+    assets.entry = id => ({ ...originalEntry(id)!, impliedWalkMps: .2, walkClipSeconds: 1, impliedRunMps: .6, runClipSeconds: 1 });
+    const entity = { ...ENTITY, combat: { health: 10, maxHealth: 10, moveSpeedMps: 4.8 }, view: { assetId: 'fixture', scale: .5 } };
+    const stage = new ActorStage(assets, entity);
+    await stage.build();
+    const actor = await actorModel(stage, 'briar_spider_t1');
+    expect(actor.gait()).toEqual({ mode: 'preview', speedMps: null });
+    actor.setState!('walk');
+    actor.seek!(.4);
+    const preview = actor.motion()!;
+    expect(preview.timeScale).toBeGreaterThan(10);
+    actor.setGaitMode('travel');
+    expect(actor.motion()).toMatchObject({ motion: 'walk', clip: 'Walk', time: .4 });
+    expect(actor.gait().speedMps).toBeCloseTo(.203148, 5);
+    expect(actor.motion()!.timeScale).toBeLessThanOrEqual(2.4);
+    actor.setGaitMode('preview');
+    expect(actor.motion()).toMatchObject({ time: .4, timeScale: preview.timeScale });
+    expect(stage.entity.view).not.toHaveProperty('gaitSpeedMps');
+
+    actor.setState!('run');
+    actor.setGaitMode('travel');
+    expect(actor.gait().speedMps).toBeCloseTo(.761805, 5);
+    expect(actor.motion()!.timeScale).toBeLessThanOrEqual(3);
+    actor.setState!('idle');
+    expect(actor.gait()).toEqual({ mode: 'travel', speedMps: null });
+    actor.dispose();
+  });
+
+  it('layers and samples a hit without restarting or stopping a walking base clock', async () => {
+    const { model: actor } = await model(['Idle', 'Walk', 'Run', 'Hit', 'Death']);
+    actor.setState!('walk');
+    actor.seek!(.4);
+    const before = actor.motion()!;
+    expect(actor.layerHit(.25)).toBe(true);
+    expect(actor.motion()).toMatchObject({ clip: 'Walk', motion: 'walk', time: before.time, hitOverlay: { time: .25 } });
+    actor.update!(.1);
+    expect(actor.motion()!.time).toBeCloseTo(.5);
+    expect(actor.motion()!.hitOverlay!.time).toBeCloseTo(.35);
+    for (let i = 0; i < 10; i++) actor.update!(.1);
+    expect(actor.motion()).toMatchObject({ clip: 'Walk', motion: 'walk', hitOverlay: null });
+    actor.setState!('death');
+    expect(actor.layerHit(.2)).toBe(false);
+    actor.dispose();
+  });
+
   it('reports a rejected death clip as the production frozen-pose fallback', async () => {
     const assets = fixtureAssets(['Idle', 'Death']);
     const original = assets.clipOf.bind(assets);

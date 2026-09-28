@@ -8,6 +8,7 @@ import { Store } from "../game/src/state/store.js";
 import { CombatSystem } from "../game/src/systems/combat.js";
 import { EnemyAiSystem } from "../game/src/systems/enemyAI.js";
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
+import { enemyWalkSpeedMps } from "../game/src/content/index.js";
 
 const NO_GEAR: EquipmentBonuses = { meleeAccuracy:0,meleePower:0,magicAccuracy:0,magicPower:0,defence: 0,health:0 , vitality: 0 };
 function fixture(neighbour=false, walkSpeedMps: number|undefined=.6) {
@@ -56,6 +57,15 @@ describe("enemy movement during nonlethal hit reactions",()=>{
     const {ai,actor}=fixture();delete actor.combat!.walkSpeedMps;let moved=0;
     for(let now=0;now<30000 && !moved;now+=100){const before:Vec3=[...actor.position];ai.tick(100,now);moved=displacement(before,actor.position);}
     expect(moved).toBeCloseTo(.06,8);expect(actor.view?.gaitSpeedMps).toBeCloseTo(1.8/3,8);
+  });
+  it("slows small crawler wandering to its planted stride instead of forcing a 0.4 m/s minimum",()=>{
+    const {ai,actor}=fixture(false,.4);
+    actor.view={assetId:'creature_fen_crawler',scale:.5,rotationY:0};actor.tier=6;
+    const speed=enemyWalkSpeedMps(.4,actor.view,actor.tier);
+    expect(speed).toBeGreaterThan(.05);expect(speed).toBeLessThan(.2);
+    let moved=0;
+    for(let now=0;now<30000 && !moved;now+=100){const before:Vec3=[...actor.position];ai.tick(100,now);moved=displacement(before,actor.position);}
+    expect(moved).toBeCloseTo(speed*.1,8);expect(actor.view.gaitSpeedMps).toBeCloseTo(speed,8);
   });
   it("still stops an actor killed during pursuit",()=>{
     const {ai,actor,combat}=fixture();ai.provoke(actor.id,0);ai.tick(100,100);

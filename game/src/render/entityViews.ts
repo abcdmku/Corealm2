@@ -2280,7 +2280,7 @@ export class EntityViews {
       // render frame: a creature that started chasing has to change gait on the frame it starts,
       // not up to a quarter of a second later.
       record.pursuing = isPursuing(entity);
-      if (view?.gaitSpeedMps !== undefined) record.gaitSpeedMps = view.gaitSpeedMps;
+      record.gaitSpeedMps = view?.gaitSpeedMps;
       const rotationY = pose?.facingRad ?? view?.rotationY ?? record.targetRotationY;
       const dx = position[0] - record.target.x;
       const dz = position[2] - record.target.z;

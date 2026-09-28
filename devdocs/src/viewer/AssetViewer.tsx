@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ViewerCore, emptyViewerSnapshot } from './ViewerCore.js';
 import { POSE_CLIPS, type CharacterPose } from '../../../game/src/render/characterRig.js';
 import { defaultItemPose } from './clips.js';
-import type { ViewerSnapshot, ViewerSource } from './types.js';
+import type { ViewerGaitMode, ViewerSnapshot, ViewerSource } from './types.js';
 import { Button, Checkbox, ChoiceGroup, NativeSelect } from '../components/ui/index.js';
 import { cn } from '../lib/utils.js';
 import { onGameCatalog } from '../model/liveCatalog.js';
@@ -126,9 +126,23 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
       const playing = (event as CustomEvent<unknown>).detail;
       if (typeof playing === 'boolean') core.current?.setPlaying(playing);
     };
+    const gait = (event: Event) => {
+      const mode = (event as CustomEvent<unknown>).detail;
+      if (mode === 'preview' || mode === 'travel') core.current?.setGaitMode(mode);
+    };
+    const hit = (event: Event) => {
+      const seconds = (event as CustomEvent<unknown>).detail;
+      if (seconds === undefined || seconds === null) core.current?.layerHit();
+      else if (typeof seconds === 'number' && Number.isFinite(seconds)) core.current?.layerHit(seconds);
+    };
     element.addEventListener('viewer:set-time', seek);
     element.addEventListener('viewer:set-playing', play);
-    return () => { element.removeEventListener('viewer:set-time', seek); element.removeEventListener('viewer:set-playing', play); };
+    element.addEventListener('viewer:set-gait-mode', gait);
+    element.addEventListener('viewer:layer-hit', hit);
+    return () => {
+      element.removeEventListener('viewer:set-time', seek); element.removeEventListener('viewer:set-playing', play);
+      element.removeEventListener('viewer:set-gait-mode', gait); element.removeEventListener('viewer:layer-hit', hit);
+    };
   }, []);
 
   useEffect(() => {
@@ -148,6 +162,8 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
   const actor = source.mode === 'actor';
   const shownItems = source.mode === 'outfit' ? [...source.itemIds, source.mainHandId, source.offHandId].filter((id): id is string => Boolean(id)) : [];
   const chooseState = (name: string) => { core.current?.setState(name); stateCallback.current?.(name); };
+  const gaitControls = actor && <GaitControls snapshot={snapshot} onMode={mode => core.current?.setGaitMode(mode)}
+    onHit={() => { core.current?.layerHit(); core.current?.setPlaying(true); }} />;
   const choosePose = (value: CharacterPose) => {
     selectedPose.current = value;
     setPose(value);
@@ -161,6 +177,7 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
   return <section ref={section} className={cn('asset-viewer flex min-w-0 flex-col text-[11px] text-muted-foreground', stage ? 'h-full' : 'gap-2')} aria-label={label} data-viewer-ready={snapshot.ready && !error}
     data-viewer-body={snapshot.body ?? ''} data-viewer-clip={snapshot.clip ?? ''} data-viewer-time={snapshot.time.toFixed(4)}
     data-viewer-parts={snapshot.parts.length} data-viewer-playing={snapshot.playing}
+    data-viewer-gait-mode={snapshot.gaitMode} data-viewer-travel-speed={snapshot.travelSpeedMps?.toFixed(4) ?? ''}
     data-viewer-current-state={snapshot.state ?? ''} data-viewer-tint={snapshot.appearance?.tint ?? ''} data-viewer-scale={snapshot.appearance?.scale.toFixed(4) ?? ''}>
     <div className={cn('viewer-heading flex flex-wrap items-center justify-between gap-3', chrome, stage && 'pr-[4.5rem]')}>
       <h3 className="text-xs font-semibold text-foreground">{label}</h3>
@@ -192,6 +209,7 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
         onChange={event => core.current?.setSpeed(Number(event.target.value))}>
         {[.25, .5, 1, 1.5, 2].map(speed => <option key={speed} value={speed}>{speed}×</option>)}
       </NativeSelect>
+      {gaitControls}
       <input aria-label="Animation time" type="range" min={0} max={snapshot.duration || 1} step={.001} value={snapshot.time}
         disabled={!snapshot.ready || !snapshot.clip || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:opacity-50"
         onChange={event => core.current?.scrub(Number(event.target.value))} />
@@ -199,6 +217,7 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
     </div>}
     <div className={cn('viewer-playback flex flex-wrap items-center gap-x-3 gap-y-1.5', chrome)}>
       <Button size="sm" disabled={!snapshot.clip || Boolean(error)} onClick={() => core.current?.setPlaying(!snapshot.playing)}>{snapshot.playing ? 'Pause' : 'Play'}</Button>
+      {!compactPlayback && gaitControls}
       {actor ? <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>State <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="State" value={snapshot.state ?? ''} disabled={!snapshot.ready || Boolean(error)}
         onChange={event => chooseState(event.target.value)}>
         {snapshot.states.map(entry => <option key={entry.name} value={entry.name} disabled={!entry.available}>{entry.name}{entry.clip ? ` · ${entry.clip}` : ''}{entry.synthetic ? ' (synthesised)' : ''}</option>)}
@@ -244,3 +263,15 @@ function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = '
 
 const LABEL = 'inline-flex items-center gap-1.5';
 const SELECT = 'h-6 text-[11px]';
+
+function GaitControls({ snapshot, onMode, onHit }: { snapshot: ViewerSnapshot; onMode: (mode: ViewerGaitMode) => void; onHit: () => void }) {
+  return <>
+    <ChoiceGroup<ViewerGaitMode> aria-label="Gait playback" value={snapshot.gaitMode} onValueChange={mode => { if (mode) onMode(mode); }}
+      items={[{ value: 'preview', label: 'Preview' }, { value: 'travel', label: 'Travel' }]} />
+    <Button size="xs" disabled={!snapshot.ready || !['idle', 'walk', 'run'].includes(snapshot.state ?? '') || !snapshot.states.some(state => state.name === 'hit' && state.available)}
+      title="Play a hit over the current pose without restarting its animation" onClick={onHit}>Layer hit</Button>
+    {snapshot.travelSpeedMps !== null && <output className="shrink-0 font-mono text-[10px] tabular-nums" title="Production ground speed and clip playback rate">
+      {snapshot.travelSpeedMps.toFixed(2)} m/s · {snapshot.motion?.timeScale?.toFixed(2) ?? '—'}×
+    </output>}
+  </>;
+}

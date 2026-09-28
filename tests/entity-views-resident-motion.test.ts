@@ -81,6 +81,20 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it('restores authored gait speed when a live speed override is removed', async () => {
+    const entity=actor('restore-preview-speed');
+    entity.combat={health:10,maxHealth:10,level:1,aggroRadius:0,walkSpeedMps:.6,moveSpeedMps:2};
+    const f=await fixture([entity]);
+    try {
+      f.views.setLocomotion(entity.id,'walk');f.views.update(0,new THREE.Vector3());
+      const overridden=f.views.motionSnapshot(entity.id)!;
+      expect(overridden.timeScale).toBeCloseTo(1.2/overridden.drawnStrideScale);
+      delete entity.view!.gaitSpeedMps;
+      f.views.syncMotion([entity]);f.views.clearLocomotion(entity.id);f.views.setLocomotion(entity.id,'walk');f.views.update(0,new THREE.Vector3());
+      const restored=f.views.motionSnapshot(entity.id)!;
+      expect(restored.timeScale).toBeCloseTo(.6/restored.drawnStrideScale);
+    } finally {f.dispose();}
+  });
   it("fits creature picking to the drawn body with a small margin at both animation distances", async () => {
     const entity = actor("small-creature");
     entity.view = { ...entity.view!, scale: 0.3, labelHeight: 2 };

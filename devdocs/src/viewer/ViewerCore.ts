@@ -8,11 +8,12 @@ import { isActorModel, loadActorModel } from './actor.js';
 import { POSE_CLIPS } from '../../../game/src/render/characterRig.js';
 import { cloneNodeMaterial } from '../../../game/src/render/nodeMaterials.js';
 import { CREATURE_STATES, type ViewerStateInfo } from './types.js';
-import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
+import type { ViewerGaitMode, ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
 
 export function emptyViewerSnapshot(): ViewerSnapshot {
   return { states: [], state: null, appearance: null, ready: false, clip: null, time: 0, duration: 0, playing: true, speed: 1, clips: [], materials: [], size: null,
-    manifestSize: null, body: null, parts: [], attachments: [], missingBones: [], meshCount: 0, boneSample: [], motion: null, currentBounds: null, wireframe: false, bounds: false };
+    manifestSize: null, body: null, parts: [], attachments: [], missingBones: [], meshCount: 0, boneSample: [], motion: null, currentBounds: null,
+    gaitMode: 'preview', travelSpeedMps: null, wireframe: false, bounds: false };
 }
 
 /** States for a model that does not list its own: player poses for outfits, clip groups for creatures. */
@@ -247,6 +248,17 @@ export class ViewerCore {
   }
   setPlaying(playing: boolean): void { this.snapshot.playing = playing; this.emit(); }
   setSpeed(speed: number): void { this.snapshot.speed = Math.min(4, Math.max(.1, speed)); this.emit(); }
+  setGaitMode(mode: ViewerGaitMode): void {
+    if (!this.model || !isActorModel(this.model)) return;
+    this.model.setGaitMode(mode);
+    this.emit();
+  }
+  layerHit(seconds?: number): void {
+    if (!this.model || !isActorModel(this.model) || !this.model.layerHit(seconds)) return;
+    if (seconds !== undefined) this.snapshot.playing = false;
+    if (this.ready && !this.compiling) this.renderer.render(this.scene, this.camera);
+    this.emit();
+  }
   scrub(time: number): void {
     if (!Number.isFinite(time)) return;
     this.snapshot.playing = false;
@@ -268,6 +280,9 @@ export class ViewerCore {
       this.snapshot.time = playback.time;
       this.snapshot.duration = playback.duration;
       this.snapshot.motion = this.model.motion();
+      const gait = this.model.gait();
+      this.snapshot.gaitMode = gait.mode;
+      this.snapshot.travelSpeedMps = gait.speedMps;
       const bounds = this.measure(this.model);
       this.snapshot.currentBounds = bounds.isEmpty() ? null : { min: bounds.min.toArray(), max: bounds.max.toArray() };
     } else this.snapshot.time = this.action?.time ?? 0;

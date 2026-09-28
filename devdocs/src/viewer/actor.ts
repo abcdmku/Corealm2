@@ -8,7 +8,11 @@ import { creatureClipGroups, initialCreatureClip } from './clips.js';
 import { actorSpec, crowdLayout } from './actorEntity.js';
 import { cloneNodeMaterial } from '../../../game/src/render/nodeMaterials.js';
 import { tierSilhouetteScale } from '../../../game/src/core/math.js';
-import { CREATURE_STATES, type CreatureState, type ViewerAppearance, type ViewerModel, type ViewerSource, type ViewerStateInfo } from './types.js';
+import { CREATURE_CATALOG } from '../../../game/src/content/creatureRuntime.js';
+import { enemyPursuitSpeedMps, enemyWalkSpeedMps, type EnemyDef } from '../../../game/src/content/index.js';
+import { CREATURE_RUN_SPEED } from '../../../game/src/app/config.js';
+import { ENEMY_SPEED_MPS } from '../../../game/src/systems/enemyAI.js';
+import { CREATURE_STATES, type CreatureState, type ViewerAppearance, type ViewerGaitMode, type ViewerModel, type ViewerSource, type ViewerStateInfo } from './types.js';
 
 /** What the core reads off a model that plays itself: the clip on screen and its clock. */
 export interface ActorPlayback { clip: string | null; time: number; duration: number }
@@ -16,6 +20,10 @@ export interface ActorPlayback { clip: string | null; time: number; duration: nu
 export interface ActorModel extends ViewerModel {
   playback(): ActorPlayback;
   motion(): EntityMotionSnapshot | null;
+  gait(): { mode: ViewerGaitMode; speedMps: number | null };
+  setGaitMode(mode: ViewerGaitMode): void;
+  /** Apply recoil over the current base pose without changing its clip or clock. */
+  layerHit(seconds?: number): boolean;
   /** The drawn actor's current bounds in stage space. Its instanced fallback batches are not the actor. */
   bounds(): THREE.Box3;
 }
@@ -39,9 +47,11 @@ export class ActorStage {
   readonly views: EntityViews;
   readonly entities: SemanticEntity[];
   private readonly draftMaps: DraftMaps;
+  private readonly originalGaitSpeeds: Map<string, number | undefined>;
 
   constructor(readonly assets: AssetRegistry, entities: SemanticEntity | readonly SemanticEntity[], maps?: Record<string, string>) {
     this.entities = (Array.isArray(entities) ? entities : [entities]).map(entity => structuredClone(entity));
+    this.originalGaitSpeeds = new Map(this.entities.map(entity => [entity.id, entity.view?.gaitSpeedMps]));
     // Every individual gets a live rig: the crowd is small and all of it is on screen.
     const rigs = this.entities.length + 1;
     this.views = new EntityViews(this.scene, assets, viewerMaterials(), { maxUniqueViews: rigs, maxUniqueDrawCalls: 100_000, maxAnimatedViews: rigs });
@@ -103,10 +113,11 @@ export class ActorStage {
   }
 
   /** An isolated state starts from the production idle pose, with no previous action or recoil. */
-  previewState(name: string): boolean {
+  previewState(name: string, gaitMode: ViewerGaitMode = 'preview', enemy?: EnemyDef): boolean {
     if (!CREATURE_STATES.includes(name as CreatureState)) return false;
     this.setAlive(true);
     for (const entity of this.entities) this.views.resetMotionPreview(entity.id);
+    this.configureGait(gaitMode, name, enemy);
     let played: boolean;
     if (name === 'death') { this.setAlive(false); played = true; }
     else if (name === 'idle' || name === 'walk' || name === 'run') played = this.locomote(name);
@@ -115,6 +126,31 @@ export class ActorStage {
     if (played) this.seek(0, name === 'hit' ? 'hit' : 'base');
     this.update(0);
     return played;
+  }
+
+  /** Publish the same capped ground speed that simulation sends to the production renderer. */
+  configureGait(mode: ViewerGaitMode, motion: string, enemy?: EnemyDef): void {
+    let changed = false;
+    for (const entity of this.entities) {
+      const view = entity.view!;
+      const entry = this.assets.entry(view.assetId);
+      let speed = this.originalGaitSpeeds.get(entity.id);
+      if (mode === 'travel' && motion === 'walk') {
+        const requested = entity.combat?.walkSpeedMps ?? (entity.combat?.moveSpeedMps ?? ENEMY_SPEED_MPS) / 3;
+        const native = entry?.impliedWalkMps && entry.walkClipSeconds ? 2.4 * entry.impliedWalkMps * entry.walkClipSeconds : undefined;
+        speed = enemyWalkSpeedMps(requested, view, entity.tier ?? 1, native);
+      } else if (mode === 'travel' && motion === 'run') {
+        const implied = entry?.impliedRunMps ?? entry?.impliedWalkMps;
+        const duration = entry?.runClipSeconds ?? entry?.walkClipSeconds;
+        const native = implied && duration ? 3 * implied * duration : undefined;
+        speed = enemy ? enemyPursuitSpeedMps(enemy, view, entity.tier ?? 1, CREATURE_RUN_SPEED, native) : CREATURE_RUN_SPEED;
+      }
+      if (view.gaitSpeedMps === speed) continue;
+      if (speed === undefined) delete view.gaitSpeedMps;
+      else view.gaitSpeedMps = speed;
+      changed = true;
+    }
+    if (changed) this.views.syncMotion(this.entities);
   }
 
   seek(seconds: number, layer: 'base' | 'hit'): boolean {
@@ -301,7 +337,9 @@ export async function actorModel(stage: ActorStage, creatureId: string): Promise
   const names = clips.map(clip => clip.name);
   let current: string = 'idle';
   let replayIn = Infinity;
-  const trigger = (name: string): boolean => stage.previewState(name);
+  let gaitMode: ViewerGaitMode = 'preview';
+  const enemy = CREATURE_CATALOG.byCreatureId.get(creatureId)?.enemy;
+  const trigger = (name: string): boolean => stage.previewState(name, gaitMode, enemy);
   return {
     root: stage.scene.entityGroup, animationRoot: stage.scene.entityGroup, clips, clipGroups: creatureClipGroups(names),
     initialClip: initialCreatureClip(names), manifestSize: assets.entry(assetId)?.size, parts: [], attachments: [], missingBones: [],
@@ -316,6 +354,20 @@ export async function actorModel(stage: ActorStage, creatureId: string): Promise
       if (!Number.isFinite(seconds) || !trigger(current)) return false;
       replayIn = Infinity;
       return stage.seek(seconds, current === 'hit' ? 'hit' : 'base');
+    },
+    setGaitMode(mode) {
+      gaitMode = mode;
+      stage.configureGait(mode, current, enemy);
+      if (current === 'walk' || current === 'run') stage.locomote(current);
+    },
+    gait() {
+      return { mode: gaitMode, speedMps: gaitMode === 'travel' && (current === 'walk' || current === 'run') ? stage.entity.view?.gaitSpeedMps ?? null : null };
+    },
+    layerHit(seconds) {
+      if (!['idle', 'walk', 'run'].includes(current) || (seconds !== undefined && !Number.isFinite(seconds))) return false;
+      if (!stage.playAction('hit')) return false;
+      if (seconds !== undefined) stage.seek(seconds, 'hit');
+      return true;
     },
     update(dt) {
       stage.update(dt);

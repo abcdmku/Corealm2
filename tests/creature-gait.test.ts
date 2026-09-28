@@ -10,8 +10,8 @@ import { CROWNWARD_DRAGON_ENCOUNTER_INTENTS, CROWNWARD_DRAGON_FORMS } from "../g
 import { WILDERNESS_DRAGONS } from "../game/src/content/wildernessDragons.js";
 import { tierSilhouetteScale } from "../game/src/core/math.js";
 import { ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
-import { enemyPursuitSpeedMps } from "../game/src/content/index.js";
-import { CREATURE_PURSUIT_CEILING_MPS } from "../game/src/content/creatureMotionTiming.js";
+import { enemyPursuitSpeedMps, enemyWalkSpeedMps } from "../game/src/content/index.js";
+import { CREATURE_PURSUIT_CEILING_MPS, CREATURE_WALK_CEILING_MPS } from "../game/src/content/creatureMotionTiming.js";
 import { CREATURE_RUN_SPEED, MOVEMENT } from "../game/src/app/config.js";
 import { EntityViews, MOVING_EPSILON } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
@@ -108,7 +108,7 @@ beforeAll(async () => {
         // creature's own run cycle can carry. This has to be the resolved speed, or the file
         // measures a cadence nothing ever plays.
         const pursuit = enemyPursuitSpeedMps(BLOCK.get(entity.id)!, entity.view, entity.tier, CREATURE_RUN_SPEED);
-        const speed = gait === "walk" ? entity.combat!.walkSpeedMps ?? pursuit / 3 : pursuit;
+        const speed = gait === "walk" ? enemyWalkSpeedMps(entity.combat!.walkSpeedMps ?? (entity.combat!.moveSpeedMps ?? ENEMY_SPEED_MPS) / 3, entity.view, entity.tier) : pursuit;
         entity.state = gait === "walk" ? "alive" : gait === "run" ? "aggro" : "returning";
         entity.view!.gaitSpeedMps = speed;
         entity.position = [0, 0, entity.position[2] + speed * TICK_SECONDS];
@@ -185,6 +185,14 @@ describe("creature gait", () => {
       }
     }
     expect(wrong, wrong.join("\n")).toEqual([]);
+  });
+
+  it("derives walk ceilings from every measured production stride", () => {
+    const measured = MANIFEST.assets.filter(entry => entry.impliedWalkMps && entry.walkClipSeconds);
+    expect(Object.keys(CREATURE_WALK_CEILING_MPS).sort()).toEqual(measured.map(entry => entry.id).sort());
+    for (const entry of measured) {
+      expect(CREATURE_WALK_CEILING_MPS[entry.id], entry.id).toBeCloseTo(2.4 * entry.impliedWalkMps! * entry.walkClipSeconds!, 6);
+    }
   });
 
   it("keeps the shared boss pursuit speed except for Crownward's accepted native dragon locomotion", () => {

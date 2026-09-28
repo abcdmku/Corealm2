@@ -13,7 +13,7 @@ import { resolveUpgradedItem } from "./itemUpgrades.js";
  *
  * FROZEN. Only the root edits this file.
  */
-import { CREATURE_PURSUIT_CEILING_MPS } from "./creatureMotionTiming.js";
+import { CREATURE_PURSUIT_CEILING_MPS, CREATURE_WALK_CEILING_MPS } from "./creatureMotionTiming.js";
 import { tierSilhouetteScale } from "../core/math.js";
 import { recipesBalanceSchema } from "./schema/balance.js";
 import { parseValue } from "./schema/core.js";
@@ -502,6 +502,22 @@ const SMALLEST_BUILD_SCALE = 0.95;
  */
 const PURSUIT_CADENCE_HEADROOM = 0.99;
 
+/** Limit an amble to the distance its planted feet can cover at 2.4 cycles per second.
+ * Small placed bodies need a proportionally slower walk, including below 0.4 m/s.
+ * The optional measured ceiling lets production asset previews use staged rig metadata.
+ */
+export function enemyWalkSpeedMps(
+  requestedSpeed: number,
+  view: { assetId: string; scale?: number; scaleAxes?: readonly [number, number, number] } | undefined,
+  tier: number,
+  nativeCeilingMps = view === undefined ? undefined : CREATURE_WALK_CEILING_MPS[view.assetId],
+): number {
+  if (nativeCeilingMps === undefined || !Number.isFinite(nativeCeilingMps) || nativeCeilingMps <= 0) return requestedSpeed;
+  const drawn = Math.abs((view?.scale ?? 1) * tierSilhouetteScale(tier) * (view?.scaleAxes?.[2] ?? 1))
+    * SMALLEST_BUILD_SCALE * PURSUIT_CADENCE_HEADROOM;
+  return Number.isFinite(drawn) && drawn > 0 ? Math.min(requestedSpeed, nativeCeilingMps * drawn) : requestedSpeed;
+}
+
 export function enemyPursuitSpeedMps(
   def: EnemyDef,
   /** The spawned entity's `view`: the rig whose run cycle has to carry the speed, and its size. */
@@ -509,11 +525,12 @@ export function enemyPursuitSpeedMps(
   /** The spawned entity's tier. Everything `enemyAI` steps is a tiered archetype. */
   tier: number,
   sharedRunSpeedMps: number,
+  nativeCeilingMps = view === undefined ? undefined : CREATURE_PURSUIT_CEILING_MPS[view.assetId],
 ): number {
   void def;
-  const native = view === undefined ? undefined : CREATURE_PURSUIT_CEILING_MPS[view.assetId];
+  const native = nativeCeilingMps;
   if (native === undefined || !Number.isFinite(native) || native <= 0) return sharedRunSpeedMps;
-  const drawn = Math.abs((view!.scale ?? 1) * tierSilhouetteScale(tier) * (view!.scaleAxes?.[2] ?? 1))
+  const drawn = Math.abs((view?.scale ?? 1) * tierSilhouetteScale(tier) * (view?.scaleAxes?.[2] ?? 1))
     * SMALLEST_BUILD_SCALE * PURSUIT_CADENCE_HEADROOM;
   if (!Number.isFinite(drawn) || drawn <= 0) return sharedRunSpeedMps;
   return Math.min(sharedRunSpeedMps, native * drawn);

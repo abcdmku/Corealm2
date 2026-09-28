@@ -30,7 +30,7 @@ import { distanceXZ, turnToward } from "../core/math.js";
 import { Rng } from "../core/rng.js";
 import type { BossPhase } from "../content/enemies.js";
 import { ORDRUN_PHASES } from "../content/enemies.js";
-import { enemyPursuitSpeedMps } from "../content/index.js";
+import { enemyPursuitSpeedMps, enemyWalkSpeedMps } from "../content/index.js";
 import { habitatForGroup, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
 import { habitatIdleTargets, hashId, LEASH_METRES } from "../world/habitatMovement.js";
 export { hashId } from "../world/habitatMovement.js";
@@ -144,7 +144,8 @@ export const ENEMY_RETURN_SPEED_MPS = CREATURE_RUN_SPEED;
  * against 1.84) — a defensible amble rather than a creature strolling at a sprint.
  */
 function wanderSpeed(entity: SemanticEntity): number {
-  return entity.combat?.walkSpeedMps ?? (entity.combat?.moveSpeedMps ?? ENEMY_SPEED_MPS) / 3;
+  const requested = entity.combat?.walkSpeedMps ?? (entity.combat?.moveSpeedMps ?? ENEMY_SPEED_MPS) / 3;
+  return enemyWalkSpeedMps(requested, entity.view, entity.tier);
 }
 
 /**
