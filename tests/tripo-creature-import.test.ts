@@ -175,6 +175,33 @@ describe("semantic creature motion transfer", () => {
     }
   });
 
+  it("detects an off-midpoint support dip across a rotational inflection", () => {
+    const source = motionRig("s"), target = motionRig("t"), clip = source.doc.createAnimation("fall");
+    addChannel(source.doc, clip, source.hips, "rotation", [0, 1 / 30, 1], [-20, 140, 140].flatMap(degrees =>
+      new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), degrees * Math.PI / 180).toArray()));
+    const positions = target.doc.createAccessor().setType("VEC3").setBuffer(target.doc.getRoot().listBuffers()[0]!)
+      .setArray(new Float32Array([1, 0, 0, 1, 0, .01, 1, .01, 0]));
+    target.hips.setMesh(target.doc.createMesh().addPrimitive(target.doc.createPrimitive().setAttribute("POSITION", positions)));
+    retargetCreatureMotion(target.doc, source.doc, motionProfile({ mapping: { thips: "ships" }, directionChildren: {}, grounding: { floor: 0 },
+      clips: { Death: { source: "fall", groundingMaxSpeedMps: 100 } } }));
+    const output = target.doc.getRoot().listAnimations()[0]!;
+    for (let i = 0; i <= 1000; i++) {
+      applyClip(output, i / 120000);
+      expect(deformedBounds(target.doc).min[1]).toBeGreaterThanOrEqual(-.0005);
+    }
+  });
+
+  it("checks a limited clip's actual correction envelope instead of its discarded raw offsets", () => {
+    const source = motionRig("s"), target = motionRig("t"), clip = source.doc.createAnimation("fall");
+    addChannel(source.doc, clip, source.hips, "translation", [0, .5, 1], [0, 1, 0, 0, .1, 0, 0, 1, 0]);
+    const positions = target.doc.createAccessor().setType("VEC3").setBuffer(target.doc.getRoot().listBuffers()[0]!)
+      .setArray(new Float32Array([0, 0, 0, .1, 0, 0, 0, .1, 0]));
+    target.accessory.setMesh(target.doc.createMesh().addPrimitive(target.doc.createPrimitive().setAttribute("POSITION", positions)));
+    const report = retargetCreatureMotion(target.doc, source.doc, motionProfile({ grounding: { floor: 0, maxCorrection: .8 },
+      clips: { Death: { source: "fall", groundingMaxSpeedMps: .1 } } }));
+    expect(report.clips[0]!.maximumGroundCorrection).toBeLessThan(.8);
+  });
+
   it("rejects ambiguous anatomy and restores both poses on a failed sampling pass", () => {
     const source = motionRig("s"), target = motionRig("t"), clip = source.doc.createAnimation("rest");
     const sampler = source.doc.createAnimationSampler().setInterpolation("CUBICSPLINE")

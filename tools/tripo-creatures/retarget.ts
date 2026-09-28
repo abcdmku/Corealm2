@@ -219,7 +219,7 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
         if (ground && profile.grounding) {
           const lift = profile.grounding.floor - deformedBounds(doc).min[1]!;
           maximumGroundCorrection = Math.max(maximumGroundCorrection, Math.abs(lift));
-          if (maximumGroundCorrection > (profile.grounding.maxCorrection ?? Infinity)) throw new Error(`${name} exceeds allowed ground correction: ${maximumGroundCorrection}`);
+          if (spec.groundingMaxSpeedMps === undefined && maximumGroundCorrection > (profile.grounding.maxCorrection ?? Infinity)) throw new Error(`${name} exceeds allowed ground correction: ${maximumGroundCorrection}`);
           ground.setTranslation([0, lift, 0]);
         }
         for (const { node } of outputPose) {
@@ -252,10 +252,11 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
           cached.set(frame, required); return required;
         };
         const refine = (left: number, right: number, depth: number): void => {
-          const middle = (left + right) / 2, midpoint = requiredAt(middle);
-          // Half-millimetre support precision, with at least eight observations per
-          // original key interval. Extra keys belong only to the floor wrapper.
-          if (depth < 10 && midpoint > (requiredAt(left) + requiredAt(right)) / 2 + .00025) {
+          const middle = (left + right) / 2, a = requiredAt(left), b = requiredAt(right);
+          // A limb sweeping across an inflection can have a midpoint on the chord
+          // while dipping below it elsewhere. Probe both quarters as well.
+          const dips = [.25, .5, .75].some(alpha => requiredAt(left + (right - left) * alpha) > a * (1 - alpha) + b * alpha + .00025);
+          if (depth < 10 && dips) {
             refine(left, middle, depth + 1); refine(middle, right, depth + 1);
           } else refined.push(left);
         };
