@@ -25601,8 +25601,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 9888360,
-      "sha256": "70b06fa92238efd6b8d26a5edd56ee696985e8ce5f5025f7892c2d6e13541ede",
+      "bytes": 9890860,
+      "sha256": "cf6b4cec907e1c81490bfc0270e7b3d9818474fcc32cb7a9883d5522ee66c236",
       "size": {
         "x": 1.2957642543556593,
         "y": 2.0183870539708626,
@@ -25692,9 +25692,17 @@
         "renderedIdleHeightMeters": 0.8887438263016982,
         "gaitCalibration": "uncalibrated; no defensible world-space stride speed inferred from in-place clip",
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 8266,
+          "triangles": 5166
+        },
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.1330812925100333,
+          "impliedRunMps": 5.721102954395689
         }
       },
       "acceptance": {
@@ -25708,14 +25716,14 @@
       "locomotionPolicy": "definition-speed; authored in-place quadruped gait",
       "bounds": {
         "min": [
-          -0.5527960530095274,
-          0.005999985320085501,
-          -0.43674907104716576
+          -0.6386983158905172,
+          6.0800653609027755e-9,
+          -0.39720674624738206
         ],
         "max": [
-          0.5603785837507945,
-          0.8947438116217837,
-          0.9918004386419055
+          0.657065938465142,
+          2.018387060050928,
+          0.3492869700240841
         ]
       },
       "vertices": 8266,
@@ -25731,6 +25739,22 @@
             "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
           }
         ],
+        "sourceMetadata": {
+          "is": "User-supplied iridescent beetle golem",
+          "walkClipSeconds": 1.12,
+          "runClipSeconds": 0.72,
+          "attackSeconds": 1.14,
+          "contactSeconds": 0.56,
+          "contactNormalized": 0.4912280701754387,
+          "contactBasis": "After a hind-leg rise, the right forearm swing reaches its forward impact at 0.56 s; settles back to four-limb stance by 1.14 s.",
+          "renderedIdleHeightMeters": 0.8887438263016982,
+          "gaitCalibration": "uncalibrated; no defensible world-space stride speed inferred from in-place clip",
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.5833333333333334,
+            "seconds": 1.1666666666666667
+          }
+        },
         "changes": [
           "Retained native anatomical bind and original skin weights.",
           "Replaced every action with fantasy_monster_02 studio sequences, using world-space rest alignment and in-place locomotion."
@@ -25835,7 +25859,7 @@
                 "samples": 32,
                 "loop": false,
                 "heldSeconds": 0.65,
-                "maximumGroundCorrection": 1.0336678474809686,
+                "maximumGroundCorrection": 0.6180029315278958,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -25924,12 +25948,12 @@
             {
               "name": "Death",
               "seconds": 1.649999976158142,
-              "samples": 70,
+              "samples": 93,
               "maximumVertexMotion": 2.4741877666282073,
-              "maximumSpanRatio": 1.0127547283918055,
+              "maximumSpanRatio": 1.0127547287645375,
               "minimumSpanRatio": 0.7861927854275768,
               "loopSeam": null,
-              "edgeStretchP99": 1.616211900259863,
+              "edgeStretchP99": 1.6170928265701023,
               "maximumEdgeStretch": 3.737543637442853,
               "stretchedEdgeFraction": 0.0006802142674942607
             }
@@ -25937,9 +25961,9 @@
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "70b06fa92238efd6b8d26a5edd56ee696985e8ce5f5025f7892c2d6e13541ede",
+          "sha256": "cf6b4cec907e1c81490bfc0270e7b3d9818474fcc32cb7a9883d5522ee66c236",
           "states": [
             "idle",
             "walk",
@@ -25948,7 +25972,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_beetle_golem/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_beetle_golem/evidence.json"
         }
       }
     },
@@ -27587,8 +27611,8 @@
         "polish",
         "candidate"
       ],
-      "bytes": 7460028,
-      "sha256": "ab7afd67fe84227ccae7c1fb1d044991cbf5df0cba908c618f9fd409d6cf6953",
+      "bytes": 7461292,
+      "sha256": "af464e081a66e5cea060032a93fdbd60d4c4e1ebb9b6c35e9a2c44ef4bf47b83",
       "size": {
         "x": 0.9593519118595175,
         "y": 1.1297213757829578,
@@ -27815,10 +27839,6 @@
           }
         ],
         "sourceAnimationCount": 10,
-        "attackContact": {
-          "normalized": 0.715,
-          "seconds": 0.5004999914765358
-        },
         "animationAcceptance": "devdocs-approved",
         "textureOrientation": "Original FBX UVs preserved; source base-color and normal image rows flipped once for glTF sampling",
         "revision": "earth-elemental-source-1",
@@ -27827,11 +27847,17 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
+        "geometry": {
+          "vertices": 3188,
+          "triangles": 5294
+        },
+        "attackContact": {
+          "normalized": 0.715,
+          "seconds": 0.5004999914765358
+        },
         "gaitMeasurement": {
-          "status": "credible-geometry-estimate",
-          "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
-          "visualContactAccepted": false,
-          "contactReview": "Moderate stride estimate. Left/right stance medians differ 18.37%; pooled median favors the longer right stance. Whole model rises to 40.93 mm above y=0 during gait. Speed matching cannot remove this vertical separation or every local slip."
+          "impliedWalkMps": 1.2257047320830032,
+          "impliedRunMps": 1.9046970576575875
         }
       },
       "acceptance": {
@@ -27861,6 +27887,186 @@
             "sourceSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d"
           }
         ],
+        "sourceMetadata": {
+          "floorCorrection": {
+            "Idle": {
+              "samples": 777,
+              "maximumLift": 0.0030224450555079796
+            },
+            "Walk": {
+              "samples": 113,
+              "maximumLift": 0.012560350374048214
+            },
+            "Run": {
+              "samples": 91,
+              "maximumLift": 0.012556478415976749
+            },
+            "Attack": {
+              "samples": 58,
+              "maximumLift": 0.0027840663714199182
+            },
+            "Hit": {
+              "samples": 35,
+              "maximumLift": 0.0076957327304453685
+            },
+            "HitLeft": {
+              "samples": 35,
+              "maximumLift": 0.0076957327304453685
+            },
+            "HitRight": {
+              "samples": 35,
+              "maximumLift": 0.0076957327304453685
+            },
+            "Death": {
+              "samples": 80,
+              "maximumLift": 0.06635493789459146
+            }
+          },
+          "family": "golem",
+          "height": 2.55,
+          "source": "Earth Elemental / Golem by piacenti, original first body",
+          "license": "CC-BY-3.0",
+          "rig": "original-earth-elemental-63-joint",
+          "provenance": {
+            "url": "https://opengameart.org/content/earth-elemental-golem",
+            "author": "piacenti",
+            "license": "CC-BY-3.0",
+            "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+            "sourceFiles": [
+              {
+                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+                "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+              },
+              {
+                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+                "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+              },
+              {
+                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+                "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+              },
+              {
+                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+                "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+              }
+            ],
+            "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+            "weightReduction": {
+              "sourceMaximum": 8,
+              "runtimeMaximum": 4,
+              "maxDiscardedFraction": 0.20108696798913034,
+              "affectedControlVertices": 413,
+              "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+              "refitVertices": 413,
+              "measuredError": {
+                "maxMeters": 0.022353774179003694,
+                "rmsMeters": 0.0009368683786992584,
+                "samples": 3082464
+              }
+            }
+          },
+          "textureBindings": [
+            {
+              "materialName": "earth_elemental_original_rock",
+              "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-color-gltf.png",
+              "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-normal-gltf.png",
+              "flipY": false
+            }
+          ],
+          "clipProvenance": [
+            {
+              "name": "Idle",
+              "source": "idle",
+              "take": "Default Take",
+              "firstFrame": 1,
+              "lastFrame": 208,
+              "fps": 24,
+              "derivation": "Original source take"
+            },
+            {
+              "name": "Walk",
+              "source": "walking",
+              "take": "Default Take",
+              "firstFrame": 337,
+              "lastFrame": 367,
+              "fps": 24,
+              "derivation": "Original source take"
+            },
+            {
+              "name": "Run",
+              "source": "walking",
+              "take": "Default Take",
+              "firstFrame": 337,
+              "lastFrame": 367,
+              "fps": 24,
+              "derivation": "Source walking at 1/0.7 speed; no native run take"
+            },
+            {
+              "name": "Attack",
+              "source": "right punch",
+              "take": "Default Take",
+              "firstFrame": 380,
+              "lastFrame": 395,
+              "fps": 24,
+              "derivation": "Original source take"
+            },
+            {
+              "name": "Hit",
+              "source": "take hit",
+              "take": "Default Take",
+              "firstFrame": 410,
+              "lastFrame": 419,
+              "fps": 24,
+              "derivation": "Original source take"
+            },
+            {
+              "name": "HitLeft",
+              "source": "take hit",
+              "take": "Default Take",
+              "firstFrame": 410,
+              "lastFrame": 419,
+              "fps": 24,
+              "derivation": "Alias of native take hit; no native directional hit takes"
+            },
+            {
+              "name": "HitRight",
+              "source": "take hit",
+              "take": "Default Take",
+              "firstFrame": 410,
+              "lastFrame": 419,
+              "fps": 24,
+              "derivation": "Alias of native take hit; no native directional hit takes"
+            },
+            {
+              "name": "Death",
+              "source": "death",
+              "take": "Default Take",
+              "firstFrame": 419,
+              "lastFrame": 440,
+              "fps": 24,
+              "derivation": "Original source take"
+            }
+          ],
+          "sourceAnimationCount": 10,
+          "attackContact": {
+            "normalized": 0.715,
+            "seconds": 0.5004999914765358
+          },
+          "animationAcceptance": "devdocs-approved",
+          "textureOrientation": "Original FBX UVs preserved; source base-color and normal image rows flipped once for glTF sampling",
+          "revision": "earth-elemental-source-1",
+          "runtimeTexturePolicy": {
+            "maxDimension": 2048,
+            "sharedByEncodedSha256": true,
+            "originalsPreserved": true
+          },
+          "gaitMeasurement": {
+            "status": "credible-geometry-estimate",
+            "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
+            "visualContactAccepted": false,
+            "contactReview": "Moderate stride estimate. Left/right stance medians differ 18.37%; pooled median favors the longer right stance. Whole model rises to 40.93 mm above y=0 during gait. Speed matching cannot remove this vertical separation or every local slip."
+          }
+        },
         "changes": [
           "Corrected Shalewake parent-segment ownership and retargeted compatible studio quadruped actions."
         ],
@@ -27958,7 +28164,7 @@
                 "samples": 22,
                 "loop": false,
                 "heldSeconds": 0,
-                "maximumGroundCorrection": 0.27832109542354533,
+                "maximumGroundCorrection": 0.27898164091940897,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -28056,13 +28262,13 @@
             {
               "name": "Attack",
               "seconds": 0.699999988079071,
-              "samples": 49,
-              "maximumVertexMotion": 0.8951890324007509,
-              "maximumSpanRatio": 0.9887987522772383,
-              "minimumSpanRatio": 0.9601507574554103,
+              "samples": 78,
+              "maximumVertexMotion": 0.9311929288136063,
+              "maximumSpanRatio": 0.9887987523682704,
+              "minimumSpanRatio": 0.9590173681990305,
               "loopSeam": null,
-              "edgeStretchP99": 1.5202169484607424,
-              "maximumEdgeStretch": 2.5435472126341194,
+              "edgeStretchP99": 1.5202169345050758,
+              "maximumEdgeStretch": 2.543547228465716,
               "stretchedEdgeFraction": 0
             },
             {
@@ -28093,9 +28299,9 @@
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "ab7afd67fe84227ccae7c1fb1d044991cbf5df0cba908c618f9fd409d6cf6953",
+          "sha256": "af464e081a66e5cea060032a93fdbd60d4c4e1ebb9b6c35e9a2c44ef4bf47b83",
           "states": [
             "idle",
             "walk",
@@ -28104,7 +28310,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_shale_elemental/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_shale_elemental/evidence.json"
         }
       }
     },
@@ -36370,8 +36576,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 2214420,
-      "sha256": "0568ec0b1601e98ec0a3d27d5334fb93525b41e98c7720d812e37d966ea238f4",
+      "bytes": 2217768,
+      "sha256": "b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe",
       "size": {
         "x": 1.8768595479394115,
         "y": 2.727933109297103,
@@ -36462,9 +36668,17 @@
         "renderedIdleHeightMeters": 2.672364589941184,
         "gaitCalibration": "uncalibrated; in-place clips",
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 7492,
+          "triangles": 4771
+        },
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.0602499628989004,
+          "impliedRunMps": 6.059795906292209
         }
       },
       "acceptance": {
@@ -36476,14 +36690,14 @@
       "locomotionPolicy": "definition-speed; authored in-place biped gait",
       "bounds": {
         "min": [
-          -1.62182598,
-          0,
-          -0.4221192
+          -1.0017314459141715,
+          -3.6932782907118725e-8,
+          -0.5668906813979878
         ],
         "max": [
-          1.62182598,
-          2.67236464,
-          0.4221192
+          0.8751281020252399,
+          2.72793307236432,
+          0.6264386400574086
         ]
       },
       "vertices": 7492,
@@ -36504,6 +36718,22 @@
             "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
           }
         ],
+        "sourceMetadata": {
+          "is": "User-supplied branch-armed rootwood humanoid",
+          "walkClipSeconds": 1.18,
+          "runClipSeconds": 0.78,
+          "attackSeconds": 1.2,
+          "contactSeconds": 0.52,
+          "contactNormalized": 0.43333333333333335,
+          "contactBasis": "Right branch arm and trunk lunge reach at 0.52 s.",
+          "renderedIdleHeightMeters": 2.672364589941184,
+          "gaitCalibration": "uncalibrated; in-place clips",
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.5833333333333334,
+            "seconds": 1.1666666666666667
+          }
+        },
         "changes": [
           "Refitted source anatomy and corrected distal-joint skin ownership.",
           "Replaced every action with fantasy_monster_02 studio sequences, using world-space rest alignment and in-place locomotion."
@@ -36718,7 +36948,7 @@
                 "samples": 32,
                 "loop": false,
                 "heldSeconds": 0.65,
-                "maximumGroundCorrection": 0.9588103767327526,
+                "maximumGroundCorrection": 0.5040260658072397,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -36810,22 +37040,22 @@
             {
               "name": "Death",
               "seconds": 1.649999976158142,
-              "samples": 70,
-              "maximumVertexMotion": 3.0146154031506307,
-              "maximumSpanRatio": 1.0303817627435194,
-              "minimumSpanRatio": 0.7720938685663469,
+              "samples": 91,
+              "maximumVertexMotion": 2.8676843935245753,
+              "maximumSpanRatio": 1.030381762692092,
+              "minimumSpanRatio": 0.7720938685421642,
               "loopSeam": null,
-              "edgeStretchP99": 2.234597108512734,
-              "maximumEdgeStretch": 12.17845525972682,
+              "edgeStretchP99": 2.2456424776315895,
+              "maximumEdgeStretch": 12.17845525481752,
               "stretchedEdgeFraction": 0.006486887220832175
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "0568ec0b1601e98ec0a3d27d5334fb93525b41e98c7720d812e37d966ea238f4",
+          "sha256": "b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe",
           "states": [
             "idle",
             "walk",
@@ -36834,7 +37064,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_hollow_bough/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_hollow_bough/evidence.json"
         }
       }
     },
@@ -46165,8 +46395,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 7715536,
-      "sha256": "d7573b2e4a559c4fb557b58c461602084d84e7ba9c58508e360dc2fd65c0aca2",
+      "bytes": 7718832,
+      "sha256": "6e522204a5996eea5497db46a03b1f62bd0375f84878dfb8d0e38fb9163ae751",
       "size": {
         "x": 2.204723988841176,
         "y": 2.8945283258422196,
@@ -46179,14 +46409,14 @@
       },
       "bounds": {
         "min": [
-          -2.0559772992134095,
-          -3.0432284631842776e-7,
-          -0.6236326897144318
+          -1.0705923988928925,
+          -4.680323804532411e-8,
+          -0.6239344348349432
         ],
         "max": [
-          2.055976071357727,
-          2.9210151338577273,
-          0.6236328125
+          1.1341315899482836,
+          2.8945282790389815,
+          0.6193636800660998
         ]
       },
       "groundY": 0,
@@ -46219,9 +46449,17 @@
         "gamePresentationScale": 0.8691519590640763,
         "renderedIdleHeightMeters": 2.5178247482043066,
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 7424,
+          "triangles": 4771
+        },
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.9381534704819237,
+          "impliedRunMps": 10.381630839167855
         }
       },
       "sourceProvenance": {
@@ -46284,6 +46522,22 @@
             "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
           }
         ],
+        "sourceMetadata": {
+          "is": "User-supplied stone-skinned golem",
+          "walkClipSeconds": 1.08,
+          "runClipSeconds": 0.72,
+          "attackSeconds": 1.02,
+          "contactNormalized": 0.4215686274509804,
+          "contactSeconds": 0.43,
+          "contactBasis": "Authored forward right-arm crushing punch, chest drive and +Z hip lunge peak at 0.43 s.",
+          "gamePresentationScale": 0.8691519590640763,
+          "renderedIdleHeightMeters": 2.5178247482043066,
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.5833333333333334,
+            "seconds": 1.1666666666666667
+          }
+        },
         "changes": [
           "Retained native anatomical bind and original skin weights.",
           "Replaced every action with fantasy_monster_02 studio sequences, using world-space rest alignment and in-place locomotion."
@@ -46388,7 +46642,7 @@
                 "samples": 32,
                 "loop": false,
                 "heldSeconds": 0.65,
-                "maximumGroundCorrection": 1.6724632854391244,
+                "maximumGroundCorrection": 0.8975862095832975,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -46477,22 +46731,22 @@
             {
               "name": "Death",
               "seconds": 1.649999976158142,
-              "samples": 70,
-              "maximumVertexMotion": 3.2825361730371068,
-              "maximumSpanRatio": 1.0455820794637045,
+              "samples": 90,
+              "maximumVertexMotion": 3.833926303276137,
+              "maximumSpanRatio": 1.0455820794958663,
               "minimumSpanRatio": 0.7400448165615812,
               "loopSeam": null,
-              "edgeStretchP99": 1.8763964614307684,
-              "maximumEdgeStretch": 3.7571259020380774,
+              "edgeStretchP99": 1.8763965023170006,
+              "maximumEdgeStretch": 3.757126117216044,
               "stretchedEdgeFraction": 0.0006511627906976744
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "d7573b2e4a559c4fb557b58c461602084d84e7ba9c58508e360dc2fd65c0aca2",
+          "sha256": "6e522204a5996eea5497db46a03b1f62bd0375f84878dfb8d0e38fb9163ae751",
           "states": [
             "idle",
             "walk",
@@ -46501,7 +46755,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_boss_ordrun/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_boss_ordrun/evidence.json"
         }
       }
     },
@@ -49922,8 +50176,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17358956,
-      "sha256": "a25c29c83c0f8d2b31fb418fc424c0c6b71939a75da1378ec58323cb62e2b9ca",
+      "bytes": 17361568,
+      "sha256": "90d3ce06a586e912403234de1be892f5220c46ecb67a529e27bf25e76d7d9897",
       "triangles": 8502,
       "size": {
         "x": 2.432178198154925,
@@ -49937,14 +50191,14 @@
       },
       "bounds": {
         "min": [
-          -1.1449226546906186,
-          0,
-          -0.4830838323353293
+          -1.2507000407262472,
+          3.792947793985948e-8,
+          -0.4135938644209973
         ],
         "max": [
-          1.1449226546906186,
-          2.8,
-          0.4830838323353293
+          1.1814781574286775,
+          2.7683518722863503,
+          0.6411536175316135
         ]
       },
       "groundY": 0,
@@ -49967,21 +50221,27 @@
         "id": "voidstone_colossus",
         "species": "Voidstone Colossus",
         "rig": "Corealm 22-joint anatomically weighted humanoid skin; original Tripo export had effectively root-only weights",
-        "sourceGeometry": "Original Tripo 5897 vertices and 8502 triangles preserved",
         "textureMaps": [
           "Voidstone Colossus layered image-generated atlas",
           "volcanic+titan+3d+model_Clone1_rm.png",
           "volcanic+titan+3d+model_Clone1_normal.jpg",
           "Voidstone Colossus restrained source-aligned emission"
         ],
-        "motion": "Six authored clips; grounded forward-fall Death; Walk and Run gait speeds uncalibrated",
+        "presentationHeightMeters": 2.8,
+        "scope": "Also used by the Hollow Star 233 boss group; that encounter retains its own content identity.",
+        "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 5897,
+          "triangles": 8502
+        },
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
         },
-        "presentationHeightMeters": 2.8,
-        "scope": "Also used by the Hollow Star 233 boss group; that encounter retains its own content identity.",
-        "animationAcceptance": "devdocs-approved"
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.8544226442299945,
+          "impliedRunMps": 6.844879189360805
+        }
       },
       "sourceProvenance": {
         "generator": "Tripo Studio and Corealm image-generated atlas adaptation",
@@ -50077,6 +50337,26 @@
             "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
           }
         ],
+        "sourceMetadata": {
+          "id": "voidstone_colossus",
+          "species": "Voidstone Colossus",
+          "rig": "Corealm 22-joint anatomically weighted humanoid skin; original Tripo export had effectively root-only weights",
+          "sourceGeometry": "Original Tripo 5897 vertices and 8502 triangles preserved",
+          "textureMaps": [
+            "Voidstone Colossus layered image-generated atlas",
+            "volcanic+titan+3d+model_Clone1_rm.png",
+            "volcanic+titan+3d+model_Clone1_normal.jpg",
+            "Voidstone Colossus restrained source-aligned emission"
+          ],
+          "motion": "Six authored clips; grounded forward-fall Death; Walk and Run gait speeds uncalibrated",
+          "attackContact": {
+            "normalized": 0.5833333333333334,
+            "seconds": 1.1666666666666667
+          },
+          "presentationHeightMeters": 2.8,
+          "scope": "Also used by the Hollow Star 233 boss group; that encounter retains its own content identity.",
+          "animationAcceptance": "devdocs-approved"
+        },
         "changes": [
           "Refitted source anatomy and corrected distal-joint skin ownership.",
           "Replaced every action with fantasy_monster_02 studio sequences, using world-space rest alignment and in-place locomotion."
@@ -50321,7 +50601,7 @@
                 "samples": 32,
                 "loop": false,
                 "heldSeconds": 0.65,
-                "maximumGroundCorrection": 1.023801123346189,
+                "maximumGroundCorrection": 0.6396429498041459,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -50414,22 +50694,22 @@
             {
               "name": "Death",
               "seconds": 1.649999976158142,
-              "samples": 70,
-              "maximumVertexMotion": 2.924148793345753,
-              "maximumSpanRatio": 1.3012817747454797,
-              "minimumSpanRatio": 0.9974892872168993,
+              "samples": 91,
+              "maximumVertexMotion": 2.9894166212105686,
+              "maximumSpanRatio": 1.3012817746435232,
+              "minimumSpanRatio": 0.9975379309294377,
               "loopSeam": null,
-              "edgeStretchP99": 2.24553805738314,
-              "maximumEdgeStretch": 10.298984917400423,
-              "stretchedEdgeFraction": 0.004487763831428371
+              "edgeStretchP99": 2.2071736907352517,
+              "maximumEdgeStretch": 10.298984917164193,
+              "stretchedEdgeFraction": 0.004417642521562303
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "a25c29c83c0f8d2b31fb418fc424c0c6b71939a75da1378ec58323cb62e2b9ca",
+          "sha256": "90d3ce06a586e912403234de1be892f5220c46ecb67a529e27bf25e76d7d9897",
           "states": [
             "idle",
             "walk",
@@ -50438,7 +50718,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_voidstone_colossus/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_voidstone_colossus/evidence.json"
         }
       }
     },
@@ -51446,8 +51726,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17497380,
-      "sha256": "372eb7db8f154137f7938c8064e9b5e9bde00cf9a983995d61738338807cf0be",
+      "bytes": 17499844,
+      "sha256": "d650c42ac2bf45bf98e0cd39a41c23b2afb157e3b0e4261694ca8a81ca40a371",
       "triangles": 8467,
       "size": {
         "x": 1.9631945643147042,
@@ -51461,14 +51741,14 @@
       },
       "bounds": {
         "min": [
-          -0.9816758392069774,
-          0,
-          -0.4139873193653245
+          -0.9829504077846345,
+          2.0265898038052523e-8,
+          -0.4449623647612868
         ],
         "max": [
-          0.9816758392069774,
-          1.9,
-          0.4139873193653245
+          0.9802441565300697,
+          1.7920823852973742,
+          0.5430243114206914
         ]
       },
       "groundY": 0,
@@ -51491,21 +51771,27 @@
         "id": "ashseal_warden",
         "species": "Ashseal Warden",
         "rig": "Corealm 22-joint anatomically weighted humanoid skin; original Tripo export had effectively root-only weights",
-        "sourceGeometry": "Original Tripo 5643 vertices and 8467 triangles preserved",
         "textureMaps": [
           "Ashseal Warden layered image-generated atlas",
           "lava+golem+3d+model_Clone1_rm.png",
           "lava+golem+3d+model_Clone1_normal.jpg",
           "Ashseal Warden restrained source-aligned emission"
         ],
-        "motion": "Six authored clips; grounded forward-fall Death; Walk and Run gait speeds uncalibrated",
+        "presentationHeightMeters": 1.9,
+        "scope": "One ordinary Ashseal Warden identity.",
+        "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 5643,
+          "triangles": 8467
+        },
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
         },
-        "presentationHeightMeters": 1.9,
-        "scope": "One ordinary Ashseal Warden identity.",
-        "animationAcceptance": "devdocs-approved"
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.39203910476753273,
+          "impliedRunMps": 4.4549093347834985
+        }
       },
       "sourceProvenance": {
         "generator": "Tripo Studio and Corealm image-generated atlas adaptation",
@@ -51601,6 +51887,26 @@
             "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
           }
         ],
+        "sourceMetadata": {
+          "id": "ashseal_warden",
+          "species": "Ashseal Warden",
+          "rig": "Corealm 22-joint anatomically weighted humanoid skin; original Tripo export had effectively root-only weights",
+          "sourceGeometry": "Original Tripo 5643 vertices and 8467 triangles preserved",
+          "textureMaps": [
+            "Ashseal Warden layered image-generated atlas",
+            "lava+golem+3d+model_Clone1_rm.png",
+            "lava+golem+3d+model_Clone1_normal.jpg",
+            "Ashseal Warden restrained source-aligned emission"
+          ],
+          "motion": "Six authored clips; grounded forward-fall Death; Walk and Run gait speeds uncalibrated",
+          "attackContact": {
+            "normalized": 0.5833333333333334,
+            "seconds": 1.1666666666666667
+          },
+          "presentationHeightMeters": 1.9,
+          "scope": "One ordinary Ashseal Warden identity.",
+          "animationAcceptance": "devdocs-approved"
+        },
         "changes": [
           "Refitted source anatomy and corrected distal-joint skin ownership.",
           "Replaced every action with fantasy_monster_02 studio sequences, using world-space rest alignment and in-place locomotion."
@@ -51845,7 +52151,7 @@
                 "samples": 32,
                 "loop": false,
                 "heldSeconds": 0.65,
-                "maximumGroundCorrection": 0.5860673368228212,
+                "maximumGroundCorrection": 0.28093076547055956,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -51934,22 +52240,22 @@
             {
               "name": "Death",
               "seconds": 1.649999976158142,
-              "samples": 70,
-              "maximumVertexMotion": 2.3047275232942166,
-              "maximumSpanRatio": 1.2567021898017126,
-              "minimumSpanRatio": 0.9318503988009241,
+              "samples": 91,
+              "maximumVertexMotion": 2.312118515186898,
+              "maximumSpanRatio": 1.2553487084406059,
+              "minimumSpanRatio": 0.931850400332308,
               "loopSeam": null,
-              "edgeStretchP99": 1.9277317374882879,
-              "maximumEdgeStretch": 5.209301522419924,
-              "stretchedEdgeFraction": 0.0013592788667906711
+              "edgeStretchP99": 1.9508452151033053,
+              "maximumEdgeStretch": 5.209301545131665,
+              "stretchedEdgeFraction": 0.0012877378738016883
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "372eb7db8f154137f7938c8064e9b5e9bde00cf9a983995d61738338807cf0be",
+          "sha256": "d650c42ac2bf45bf98e0cd39a41c23b2afb157e3b0e4261694ca8a81ca40a371",
           "states": [
             "idle",
             "walk",
@@ -51958,7 +52264,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_ashseal_warden/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_ashseal_warden/evidence.json"
         }
       }
     },
@@ -65435,8 +65741,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6821704,
-      "sha256": "040bc21cc64ae05966c1542540e325b57916e7b63fab405f69fc388b3568b1b0",
+      "bytes": 6825320,
+      "sha256": "11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2",
       "size": {
         "x": 2.122833234272905,
         "y": 2.869264873021553,
@@ -65499,9 +65805,17 @@
         "headScaleMultiplier": 1,
         "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review",
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 6285,
+          "triangles": 3411
+        },
         "attackContact": {
           "normalized": 0.2604166666666667,
           "seconds": 0.22569444651405018
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.8479380792044112,
+          "impliedRunMps": 0.982656177515744
         }
       },
       "acceptance": {
@@ -65512,14 +65826,14 @@
       },
       "bounds": {
         "min": [
-          -0.854746835443038,
-          0,
-          -0.5795886522606958
+          -0.905778843771113,
+          4.0549192286895575e-8,
+          -0.8500051577959432
         ],
         "max": [
-          0.854746835443038,
-          1.85,
-          0.5795886522606958
+          1.217054390501792,
+          2.8692649135707455,
+          0.7515649134284221
         ]
       },
       "contactNormalized": 0.2604166666666667,
@@ -65540,6 +65854,17 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "role": "High-contrast guardian bark, deep purple-blue fissures, jade moss, amber flowers and turquoise sap over the accepted branch-antler source; height lifted for level 106.",
+          "uniformScaleMultiplier": 1.28,
+          "headScaleMultiplier": 1,
+          "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review",
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.2604166666666667,
+            "seconds": 0.22569444651405018
+          }
+        },
         "changes": [
           "Refitted source anatomy and corrected distal-joint skin ownership.",
           "Replaced every action with animation_library_1 studio sequences, using world-space rest alignment and in-place locomotion."
@@ -65784,7 +66109,7 @@
                 "samples": 75,
                 "loop": false,
                 "heldSeconds": 0.7,
-                "maximumGroundCorrection": 0.6607519950900843,
+                "maximumGroundCorrection": 0.6612519950900838,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -65877,12 +66202,12 @@
             {
               "name": "Death",
               "seconds": 3.1000001430511475,
-              "samples": 113,
+              "samples": 114,
               "maximumVertexMotion": 3.4033099870477255,
               "maximumSpanRatio": 1.39090502707668,
-              "minimumSpanRatio": 1.047159936488433,
+              "minimumSpanRatio": 1.0471599364863897,
               "loopSeam": null,
-              "edgeStretchP99": 2.470817630065476,
+              "edgeStretchP99": 2.4708176269327993,
               "maximumEdgeStretch": 10.284384220355212,
               "stretchedEdgeFraction": 0.006198347107438017
             }
@@ -65890,9 +66215,9 @@
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:56:38.070Z",
+          "at": "2026-09-28T19:32:52.364Z",
           "by": "codex",
-          "sha256": "040bc21cc64ae05966c1542540e325b57916e7b63fab405f69fc388b3568b1b0",
+          "sha256": "11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2",
           "states": [
             "idle",
             "walk",
@@ -65901,7 +66226,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v1/creature_starroot_guardian/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_starroot_guardian/evidence.json"
         }
       }
     },
@@ -76712,8 +77037,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6575484,
-      "sha256": "22bc7f193f9be03962d5ba4ceeb97068f65d04a6460a5e56324de1553c79d4a9",
+      "bytes": 6577504,
+      "sha256": "5f975e04fcbf439d5af50c69fbddab84143e469dc978c8887b266fb63aba4f31",
       "size": {
         "x": 1.6968350813079591,
         "y": 3.0993088019256465,
@@ -76737,8 +77062,8 @@
         "Nightbloom velvet petal, moss and blue-black bark",
         "Nightbloom bioluminescent flowers"
       ],
-      "impliedWalkMps": 0.9591167866952897,
-      "impliedRunMps": 5.721788823820773,
+      "impliedWalkMps": 0.9760865486767641,
+      "impliedRunMps": 5.66089207606857,
       "walkClipSeconds": 1.3333333730697632,
       "runClipSeconds": 0.9333333373069763,
       "attackSeconds": 0.8666666746139526,
@@ -76837,12 +77162,33 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.25833333333333336,
+            "seconds": 0.22388889094193778
+          },
+          "gaitMeasurement": {
+            "impliedWalkMps": 0.9591167866952897,
+            "impliedRunMps": 5.721788823820773
+          }
+        },
         "changes": [
           "Normalized complete rig and mesh from +X to +Z facing.",
+          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
           "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
         ],
         "provenance": {
           "previousMotion": "Rejected low-channel procedural stand-in clips; native segmented skin retained for studio retarget.",
+          "crownDeath": {
+            "sourceTake": "Death01",
+            "sourceNode": "Head",
+            "sourceSeconds": [
+              1,
+              1.4
+            ],
+            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
+          },
           "retarget": {
             "mappedJoints": 52,
             "poseNodes": 70,
@@ -76937,7 +77283,7 @@
                 "samples": 34,
                 "loop": false,
                 "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.6042503773056538,
+                "maximumGroundCorrection": 0.39885028417280327,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -76961,12 +77307,52 @@
             },
             "measurements": {
               "walk": {
-                "metresPerSecond": 0.9591167866952897,
-                "stanceSamples": 187
+                "metresPerSecond": 0.9760865486767641,
+                "stanceSamples": 157,
+                "feet": [
+                  {
+                    "side": "Left",
+                    "metresPerSecond": 0.9962996391050141,
+                    "stanceSamples": 81,
+                    "contactIntervals": 92,
+                    "minimumVelocity": -0.6727148628178247,
+                    "maximumVelocity": 1.2143319414585887
+                  },
+                  {
+                    "side": "Right",
+                    "metresPerSecond": 0.9579142965339703,
+                    "stanceSamples": 76,
+                    "contactIntervals": 84,
+                    "minimumVelocity": -0.7112804664222421,
+                    "maximumVelocity": 1.184903086183856
+                  }
+                ],
+                "sideRatio": 1.0400717921320664,
+                "method": "Target backward-foot speed during native donor ankle contact phases, sourceY bottom12% of per-clip range"
               },
               "run": {
-                "metresPerSecond": 5.721788823820773,
-                "stanceSamples": 65
+                "metresPerSecond": 5.66089207606857,
+                "stanceSamples": 71,
+                "feet": [
+                  {
+                    "side": "Left",
+                    "metresPerSecond": 5.721788823820773,
+                    "stanceSamples": 38,
+                    "contactIntervals": 38,
+                    "minimumVelocity": 5.142159173082203,
+                    "maximumVelocity": 7.68187967227106
+                  },
+                  {
+                    "side": "Right",
+                    "metresPerSecond": 5.44851467856085,
+                    "stanceSamples": 33,
+                    "contactIntervals": 33,
+                    "minimumVelocity": 3.05837090963556,
+                    "maximumVelocity": 7.001361757386127
+                  }
+                ],
+                "sideRatio": 1.0501557142417581,
+                "method": "Target backward-foot speed during native donor ankle contact phases, sourceY bottom12% of per-clip range"
               },
               "contactNormalized": 0.25833333333333336,
               "strikingHand": "LeftHand",
@@ -76978,8 +77364,8 @@
           "Requires every-state production devdocs visual review before promotion."
         ],
         "motion": {
-          "impliedWalkMps": 0.9591167866952897,
-          "impliedRunMps": 5.721788823820773,
+          "impliedWalkMps": 0.9760865486767641,
+          "impliedRunMps": 5.66089207606857,
           "contactNormalized": 0.25833333333333336,
           "walkClipSeconds": 1.3333333730697632,
           "runClipSeconds": 0.9333333373069763,
@@ -77057,10 +77443,10 @@
             {
               "name": "Death",
               "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 3.770923079633299,
-              "maximumSpanRatio": 1.08704394350265,
-              "minimumSpanRatio": 0.9683084903251244,
+              "samples": 93,
+              "maximumVertexMotion": 3.7933040265060187,
+              "maximumSpanRatio": 1.063212982499865,
+              "minimumSpanRatio": 0.9685493251589244,
               "loopSeam": null,
               "edgeStretchP99": 1.6825031945093116,
               "maximumEdgeStretch": 3.142843159628364,
@@ -77070,9 +77456,9 @@
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:41:02.242Z",
+          "at": "2026-09-28T19:32:53.879Z",
           "by": "codex",
-          "sha256": "22bc7f193f9be03962d5ba4ceeb97068f65d04a6460a5e56324de1553c79d4a9",
+          "sha256": "5f975e04fcbf439d5af50c69fbddab84143e469dc978c8887b266fb63aba4f31",
           "states": [
             "idle",
             "walk",
@@ -77081,18 +77467,22 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v2/fairy_guardian_06_faeholme/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/fairy_guardian_06_faeholme/evidence.json"
         }
       },
       "metadata": {
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 2839,
+          "triangles": 4384
+        },
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
         },
         "gaitMeasurement": {
-          "impliedWalkMps": 0.9591167866952897,
-          "impliedRunMps": 5.721788823820773
+          "impliedWalkMps": 0.9760865486767641,
+          "impliedRunMps": 5.66089207606857
         }
       }
     },

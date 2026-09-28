@@ -342,13 +342,18 @@ export const profile: CreatureRepairProfile = {
     if (spectral) for (const side of ['Left', 'Right']) for (const role of ['hip', 'knee', 'foot', 'toe']) {
       const name = bones[side + role]!.getName(); delete mapped.mapping[name]; delete mapped.directionChildren[name];
     }
+    // Pixelius Death briefly tucks every limb above the floor. Preserve that
+    // airborne motion instead of snapping the entire body to its lowest vertex.
+    // Starroot's wide crown and arms also change support rapidly during its fall.
+    const deathSupportBounds = monster || assetId === 'creature_starroot_guardian' ? deformedBounds(doc) : undefined;
+    const deathGroundingMaxSpeedMps = deathSupportBounds ? (deathSupportBounds.max[1]! - deathSupportBounds.min[1]!) * 1.25 : undefined;
     const clips: CreatureMotionProfile['clips'] = monster ? {
-      Idle: { source: 'Idle', loop: true }, Walk: { source: 'Walk', loop: true }, Run: { source: 'Run', loop: true }, Attack: { source: 'Attack' }, Hit: { source: 'Hit' }, Death: { source: 'Death', holdLastSeconds: .65 },
+      Idle: { source: 'Idle', loop: true }, Walk: { source: 'Walk', loop: true }, Run: { source: 'Run', loop: true }, Attack: { source: 'Attack' }, Hit: { source: 'Hit' }, Death: { source: 'Death', holdLastSeconds: .65, groundingMaxSpeedMps: deathGroundingMaxSpeedMps },
     } : {
       Idle: { source: 'Idle_Loop', loop: true },
       Walk: { source: spectral ? 'Idle_Loop' : 'Walk_Loop', loop: true, ...(spectral ? { duration: 1.4 } : {}) },
       Run: { source: spectral ? 'Idle_Loop' : 'Jog_Fwd_Loop', loop: true, ...(spectral ? { duration: 1 } : {}) },
-      Attack: { source: spectral ? 'Spell_Simple_Shoot' : 'Punch_Jab' }, Hit: { source: 'Hit_Chest' }, Death: { source: 'Death01', holdLastSeconds: .7 },
+      Attack: { source: spectral ? 'Spell_Simple_Shoot' : 'Punch_Jab' }, Hit: { source: 'Hit_Chest' }, Death: { source: 'Death01', holdLastSeconds: .7, groundingMaxSpeedMps: deathGroundingMaxSpeedMps },
     };
     const report = retargetCreatureMotion(doc, donor, {
       ...mapped, root: { target: bones.hips!.getName(), source: mapped.mapping[bones.hips!.getName()]!, translationScale: mapped.translationScale, horizontal: 'in-place' },
@@ -385,9 +390,12 @@ async function repairShale(doc: Document, readAsset: (id: string) => Promise<Doc
   const donorNodes = new Map(donor.getRoot().listNodes().map(n => [n.getName(), n]));
   const sourceRoot = donorNodes.get('WildBoar_ROOTSHJnt')!;
   const ratio = at(byName.get('Pelvis')!).y / at(sourceRoot).y;
+  // Shalewake's long forelimbs switch support during the boar strike; that switch
+  // must not turn the donor's small root dip into a whole-body downward snap.
+  const bounds = deformedBounds(doc), attackGroundingMaxSpeedMps = (bounds.max[1]! - bounds.min[1]!) * 1.25;
   const retarget = retargetCreatureMotion(doc, donor, { mapping, directionChildren: directions,
     sourceToTargetRotation: [0, 0, 0, 1], root: { target: 'Pelvis', source: 'WildBoar_ROOTSHJnt', translationScale: ratio, horizontal: 'in-place' },
-    clips: { Idle: { source: 'Idle', loop: true }, Walk: { source: 'Walk', loop: true }, Run: { source: 'Run', loop: true }, Attack: { source: 'Attack' }, Hit: { source: 'Hit' }, Death: { source: 'Death', holdLastSeconds: .7 } },
+    clips: { Idle: { source: 'Idle', loop: true }, Walk: { source: 'Walk', loop: true }, Run: { source: 'Run', loop: true }, Attack: { source: 'Attack', groundingMaxSpeedMps: attackGroundingMaxSpeedMps }, Hit: { source: 'Hit' }, Death: { source: 'Death', holdLastSeconds: .7 } },
     replaceAnimations: true, samplesPerSecond: 30, grounding: { floor: 0 },
   });
   const motion = measureMotion(doc, ['Forepaw_L', 'Forepaw_R', 'Hindpaw_L', 'Hindpaw_R'].map(name => byName.get(name)!), [byName.get('SensingCleft')!], byName.get('Pelvis')!);

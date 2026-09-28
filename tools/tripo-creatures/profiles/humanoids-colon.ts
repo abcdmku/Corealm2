@@ -3,7 +3,7 @@ import { Matrix4, Quaternion, Vector3 } from 'three';
 import type { CreatureRepairProfile } from '../repairProfile.js';
 import { retargetCreatureMotion, type CreatureMotionProfile } from '../retarget.js';
 import { deformedBounds } from '../../creature-motion/validate-deformation.js';
-import { applyClip, duration, restorePose, storedPose } from '../../creature-motion/pose.js';
+import { applyClip, duration, restorePose, sample, storedPose } from '../../creature-motion/pose.js';
 
 const P = 'mixamorig:';
 const worldPosition = (node: Node) => new Vector3().setFromMatrixPosition(new Matrix4().fromArray(node.getWorldMatrix()));
@@ -16,7 +16,7 @@ for (const [side, suffix] of [['Left', 'l'], ['Right', 'r']] as const) {
 }
 
 /** Assumes an anatomically reviewed +Z-facing target bind, including its presentation parents. */
-export function retargetMixamoColon(doc: Document, donor: Document) {
+export function retargetMixamoColon(doc: Document, donor: Document, deathGroundingMaxSpeedMps?: number) {
   const nodes = new Map(doc.getRoot().listNodes().map(n => [n.getName(), n]));
   const source = new Map(donor.getRoot().listNodes().map(n => [n.getName(), n]));
   const mapping = Object.fromEntries(Object.entries(names).filter(([a, b]) => nodes.has(P + a) && source.has(b)).map(([a, b]) => [P + a, b]));
@@ -27,7 +27,7 @@ export function retargetMixamoColon(doc: Document, donor: Document) {
   const profile: CreatureMotionProfile = {
     mapping, directionChildren, sourceToTargetRotation: [0, 0, 0, 1],
     root: { target: P + 'Hips', source: 'pelvis', translationScale: scale, horizontal: 'in-place' },
-    clips: { Idle: { source: 'Idle_Loop', loop: true }, Walk: { source: 'Walk_Loop', loop: true }, Run: { source: 'Jog_Fwd_Loop', loop: true }, Attack: { source: 'Punch_Jab' }, Hit: { source: 'Hit_Chest' }, Death: { source: 'Death01', duration: 1.05, holdLastSeconds: .45 } },
+    clips: { Idle: { source: 'Idle_Loop', loop: true }, Walk: { source: 'Walk_Loop', loop: true }, Run: { source: 'Jog_Fwd_Loop', loop: true }, Attack: { source: 'Punch_Jab' }, Hit: { source: 'Hit_Chest' }, Death: { source: 'Death01', duration: 1.05, holdLastSeconds: .45, ...(deathGroundingMaxSpeedMps === undefined ? {} : { groundingMaxSpeedMps: deathGroundingMaxSpeedMps }) } },
     replaceAnimations: true, grounding: { floor: 0 },
   };
   const report = retargetCreatureMotion(doc, donor, profile);
@@ -95,6 +95,23 @@ const landmarks: Record<string, LandmarkSet> = {
   starroot: { core: [[0,.405,-.045],[0,.47,-.02],[0,.555,.005],[0,.64,.005],[0,.735,.005],[0,.795,.005]], arm: [[.10,.65,0],[.165,.63,0],[.245,.49,.025],[.315,.365,.025]], leg: [[.09,.39,-.05],[.105,.235,-.075],[.155,.075,-.04],[.17,.027,.035]] },
 };
 const starroots = ['creature_mossback_sentinel', 'creature_silverthorn_harrow', 'fairy_garden_sapling_faeholme', 'fairy_guardian_03_gloamgarden', 'fantasy_monster_03'];
+
+function adaptCrownedDeath(donor: Document) {
+  const clip = donor.getRoot().listAnimations().find(c => c.getName() === 'Death01')!;
+  const channel = clip.listChannels().find(c => c.getTargetNode()!.getName() === 'Head' && c.getTargetPath() === 'rotation')!;
+  const sampler = channel.getSampler()!, start = 1, end = 1.4;
+  const a = new Quaternion().fromArray(sample(sampler, start)), b = new Quaternion().fromArray(sample(sampler, end));
+  const times = sampler.getInput()!.getArray()!, output = sampler.getOutput()!;
+  // The human impact flick drives this guardian's rigid crown below the floor,
+  // lifting its whole torso 47cm in one frame. Keep the donor endpoint poses and
+  // settle the head between them; root, torso, limbs and other takes stay native.
+  for (let i = 0; i < times.length; i++) {
+    const time = Number(times[i]);
+    if (time > start && time < end) output.setElement(i, a.clone().slerp(b, (time - start) / (end - start)).toArray());
+  }
+  return { sourceTake: 'Death01', sourceNode: 'Head', sourceSeconds: [start, end],
+    method: 'Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown.' };
+}
 
 function fitAnatomy(doc: Document, fit: LandmarkSet) {
   const skin = doc.getRoot().listSkins()[0]!;
@@ -217,9 +234,18 @@ export const profile:CreatureRepairProfile={
     if(fit){provenance.anatomy=fitAnatomy(doc,landmarks[fit]!);changes.push('Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.');}
     // The coherent 65-joint guardian already has a native segmented skin. Preserve it.
     if(!['fairy_guardian_06_faeholme','fairy_garden_sapling_gloamgarden','creature_briar_harrow','creature_boss_rootheart'].includes(assetId)){provenance.weights=repairSegmentWeights(doc);changes.push('Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.');}
-    const retarget=retargetMixamoColon(doc,await readAsset('animation_library_1'));
+    const bounds = deformedBounds(doc);
+    const crownedDeath = assetId === 'fairy_guardian_06_faeholme' || starroots.includes(assetId);
+    const deathGroundingMaxSpeedMps = crownedDeath ? .65 * (bounds.max[1]! - bounds.min[1]!) : undefined;
+    const donor = await readAsset('animation_library_1');
+    if (crownedDeath) {
+      provenance.crownDeath = adaptCrownedDeath(donor);
+      changes.push('Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.');
+    }
+    const retarget = retargetMixamoColon(doc, donor, deathGroundingMaxSpeedMps);
     provenance.retarget=retarget;
     changes.push('Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion.');
     return {changes,provenance,warnings:['Requires every-state production devdocs visual review before promotion.'],motion:{impliedWalkMps:retarget.measurements.walk.metresPerSecond,impliedRunMps:retarget.measurements.run.metresPerSecond,contactNormalized:retarget.measurements.contactNormalized,walkClipSeconds:1.3333333730697632,runClipSeconds:.9333333373069763,attackSeconds:.8666666746139526,groundY:0}};
   },
 };
+

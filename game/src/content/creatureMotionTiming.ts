@@ -779,7 +779,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_garden_wardling_faeholme": 3.1874,
   "fairy_garden_wardling_gloamgarden": 3.1874,
   "fairy_guardian_03_gloamgarden": 18.96,
-  "fairy_guardian_06_faeholme": 16.021,
+  "fairy_guardian_06_faeholme": 15.8505,
   "fairy_monster_16": 3.3342,
   "fairy_monster_27": 5.0565,
   "fairy_monster_28": 2.2757,
