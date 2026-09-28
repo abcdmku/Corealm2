@@ -137,7 +137,7 @@ export async function stageCreatureRepairs(family: string, only?: readonly strin
       ...('bounds' in entry ? { bounds: { min: bounds.min, max: bounds.max } } : {}),
       walkClipSeconds: seconds('Walk'), runClipSeconds: seconds('Run'), attackSeconds: seconds('Attack'),
       motionRepair: { family, sourceSha256: sourceHash, sourceGitBlob: originalSource.blob, donors: [...usedDonors.values()],
-        sourceMetadata: entry.metadata, ...result, validation },
+        sourceMetadata: (entry as AssetEntry & { metadata?: Record<string, unknown> }).metadata, ...result, validation },
     };
     // Old acceptance and timing prose describe the source bytes, not this new candidate.
     const metadata = { ...(updated.metadata as Record<string, unknown> | undefined) };
