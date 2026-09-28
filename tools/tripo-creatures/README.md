@@ -19,7 +19,7 @@ visual review. All original source bytes remain unchanged.
 
 `retarget.ts` maps the native humanoid motion library to the recovered Mixamo hierarchy,
 aligns limb rest directions, scales pelvis displacement by leg length, and samples mesh
-grounding. HitLeft and HitRight are explicit aliases of the genuine frontal hit take.
+grounding. There is one Hit; directional hit generation and review are retired.
 Flint Mandible's eight-joint export assigns every vertex to bone_0 and has no articulated
 six-leg rig. It remains excluded from candidate assets.
 
@@ -30,5 +30,27 @@ Runtime copies keep all material channels and downsample textures to a 2048-pixe
 the source GLBs preserve the original maps. No topology changes occur.
 
 The catalog uses `tools/lib/assetCandidates.ts` and the existing production asset IDs.
-The root owns the feature-lab walk/run/attack/hit/death review, manifest integration and
-build. `readyForLab` means the file passed import checks, not visual acceptance.
+The root owns the devdocs six-state review, manifest integration and build.
+Import checks do not establish visual acceptance.
+
+## Family repair passes
+
+Family profiles implement `repairProfile.ts`. Stage a family with
+`npx tsx tools/tripo-creatures/repair.ts --family=winged`; use `--only=id,id` for a smaller
+pass. Outputs live under `test-results/creature-audit/candidates/<family>/`. Sources and
+motion donors are pinned to Git blobs and SHA-256 hashes so rebuilding does not retarget
+an already repaired output. Candidate filenames contain content hashes and the catalog
+updates atomically. Unchanged good bodies retain their original bytes.
+
+Retargeting transfers native studio motion through explicit anatomical mappings, donor
+world rotations and animated limb directions. Targets retain their segment lengths;
+unsupported target scale or shear fails before mutation. Full pose tracks prevent previous
+states leaking into Idle or Death. Source stretch is handled without copying it into the
+target skeleton. Rig placement and weights need separate anatomical repair where malformed.
+
+Validation checks channels, transforms, bindings, weights, deformation and motion coverage,
+including cubic interpolation extrema. Numerical validity still requires visual review.
+Compare good original studio takes through the same devdocs stage and phase controls.
+Inspect contact, held endpoints and recovery; record verdicts against the exact candidate
+bytes. Only the root promotes accepted GLBs, manifest and runtime motion timing together,
+then commits the family. A staged catalog is never automatically promotable.
