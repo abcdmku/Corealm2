@@ -323,6 +323,35 @@ describe("creature presentation continuity", () => {
     } finally { f.dispose(); }
   });
 
+  it("falls from the stride it died in: the gait freezes and blends into Death over 0.2 s", async () => {
+    const f = await fixture(1, true, { impliedWalkMps: 1, gaitSpeedMps: 1 });
+    try {
+      const near = new THREE.Vector3(0, 0, 0);
+      f.views.update(0, near);
+      f.entities[0]!.position = [0.1, 0, 0];
+      f.views.syncMotion(f.entities);
+      f.views.update(0.25, near);
+      const stride = f.views.motionSnapshot("actor-0")!;
+      expect(stride).toMatchObject({ path: "live-rig", motion: "walk", clip: "Walk", previousClip: null, blend: 1 });
+
+      f.entities[0]!.state = "dead";
+      f.views.sync(f.entities);
+      expect(f.views.motionSnapshot("actor-0")).toMatchObject({
+        motion: "death", clip: "Death", time: 0, previousClip: "Walk", previousTime: stride.time, blend: 0,
+      });
+      f.views.update(0.1, near);
+      // Half way through the blend the walk is still on the frame it died on: no further steps.
+      expect(f.views.motionSnapshot("actor-0")).toMatchObject({
+        motion: "death", clip: "Death", time: 0.1, previousClip: "Walk", previousTime: stride.time, blend: 0.5,
+        drawnPosition: [0.1, 0, 0],
+      });
+      f.views.update(0.1, near);
+      expect(f.views.motionSnapshot("actor-0")).toMatchObject({
+        motion: "death", clip: "Death", previousClip: null, previousTime: null, blend: 1, drawnPosition: [0.1, 0, 0],
+      });
+    } finally { f.dispose(); }
+  });
+
   it("stops spending full-rig animation budget on a source without a death clip", async () => {
     const f = await fixture(1, false);
     try {

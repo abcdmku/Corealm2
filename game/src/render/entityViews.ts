@@ -1058,6 +1058,16 @@ const BAKE_PHASES: Record<CharacterMotion, number> = {
 };
 
 /**
+ * How long a creature takes to go from the pose it died in to its death take.
+ *
+ * The outgoing gait is held on the frame it was in (see `transitionCreaturePlayback`), so this is a
+ * blend between two still poses and never extra steps. At the 0.06 s every other one-shot uses, a
+ * body killed mid-stride snapped its raised foot a metre to the take's planted stance in one or two
+ * frames, which read as one last step.
+ */
+const DEATH_BLEND_SECONDS = 0.2;
+
+/**
  * Share of `maxUniqueDrawCalls` reserved for named characters. The remainder is everything else's.
  *
  * The reserve exists because the budget is first-come and entity order is region order: forty
@@ -1612,6 +1622,10 @@ export interface EntityMotionSnapshot {
   readonly time: number | null;
   readonly duration: number | null;
   readonly timeScale: number | null;
+  /** The clip being faded out, and the current clip's share of the pose (1 once the fade is done). */
+  readonly previousClip: string | null;
+  readonly previousTime: number | null;
+  readonly blend: number | null;
 }
 
 /**
@@ -4695,7 +4709,9 @@ export class EntityViews {
       state.timeScale = timeScale;
       state.loop = true;
     } else {
-      transitionCreaturePlayback(state, clip, timeScale, !oneShot, oneShot ? 0.06 : 0.18);
+      const death = motion === "death";
+      transitionCreaturePlayback(state, clip, timeScale, !oneShot,
+        death ? DEATH_BLEND_SECONDS : oneShot ? 0.06 : 0.18, death);
     }
     record.motion = motion;
     if (record.rig) {
@@ -6258,6 +6274,9 @@ export class EntityViews {
       time: record.playback?.time ?? null,
       duration: record.playback?.clip.duration ?? null,
       timeScale: record.playback?.timeScale ?? null,
+      previousClip: record.playback?.previousClip?.name ?? null,
+      previousTime: record.playback?.previousClip ? record.playback.previousTime : null,
+      blend: record.playback ? creatureBlend(record.playback) : null,
       hitOverlay: record.playback?.hitOverlay ? {
         clip: record.playback.hitOverlay.clip.name, time: record.playback.hitOverlay.time,
         duration: record.playback.hitOverlay.clip.duration,
