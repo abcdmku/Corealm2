@@ -1,7 +1,16 @@
 {
   "donors": {
     "wolf": {
-      "ref": "animal_wolf"
+      "ref": "animal_wolf",
+      "subTakes": {
+        "DieFall": {
+          "take": "Die",
+          "range": [
+            59,
+            125
+          ]
+        }
+      }
     },
     "deer": {
       "ref": "animal_deer"
@@ -117,7 +126,7 @@
         },
         "Death": {
           "donor": "wolf",
-          "clip": "Die"
+          "clip": "DieFall"
         }
       }
     },
@@ -147,7 +156,7 @@
           "clip": "Hit"
         },
         "Death": {
-          "donor": "ibex",
+          "donor": "cattle",
           "clip": "Die"
         }
       }
@@ -178,7 +187,7 @@
           "clip": "Hit"
         },
         "Death": {
-          "donor": "deer",
+          "donor": "cattle",
           "clip": "Die"
         }
       }
@@ -291,7 +300,7 @@
           "loop": true
         },
         "Walk": {
-          "donor": "croc",
+          "donor": "cattle",
           "clip": "Walk",
           "loop": true
         },
@@ -304,7 +313,7 @@
           "clip": "Hit"
         },
         "Death": {
-          "donor": "croc",
+          "donor": "cattle",
           "clip": "Die"
         }
       }
