@@ -1,6 +1,7 @@
 {
  "class": "humanoid",
  "profile": "knight",
+ "notes": "Only Idle is native (the piacenti source has one breathing take). Attack is the UAL1 Sword_Attack, read as a one-arm overhead club swipe: OverhandThrow, Zombie_Scratch and the Sword_Regular takes drive the long arms and hunched rest up to 0.9 m through the floor, TreeChopping_Loop starts and ends with the arm raised, and Punch_Cross held a boxer guard. Run is omitted (the runtime falls back to Walk): Jog_Fwd_Loop and Sprint_Loop both split the belly and loincloth skin at every knee lift.",
  "studio": {
   "rootNode": "Armature",
   "map": {
@@ -123,15 +124,9 @@
     "clip": "Walk_Loop",
     "loop": true
    },
-   "Run": {
-    "donor": "ual1",
-    "clip": "Jog_Fwd_Loop",
-    "loop": true,
-    "hipMotion": 0.5
-   },
    "Attack": {
     "donor": "ual1",
-    "clip": "Punch_Cross"
+    "clip": "Sword_Attack"
    },
    "Hit": {
     "donor": "ual1",
