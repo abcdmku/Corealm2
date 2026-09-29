@@ -1,0 +1,23 @@
+{
+  "donors": {
+    "centipede": {
+      "pack": "authored",
+      "name": "centipede",
+      "asset": "creature_slag_centipede",
+      "source": "Corealm authored on the fitted centipede skeleton (tools/creature-rig/py/classes/serpent.py)"
+    }
+  },
+  "primary": "centipede",
+  "profiles": {
+    "centipede": {
+      "clips": {
+        "Idle": { "donor": "centipede", "clip": "Idle", "loop": true },
+        "Walk": { "donor": "centipede", "clip": "Walk", "loop": true },
+        "Run": { "donor": "centipede", "clip": "Run", "loop": true },
+        "Attack": { "donor": "centipede", "clip": "Attack" },
+        "Hit": { "donor": "centipede", "clip": "Hit" },
+        "Death": { "donor": "centipede", "clip": "Death" }
+      }
+    }
+  }
+}

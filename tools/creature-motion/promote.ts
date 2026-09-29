@@ -85,7 +85,7 @@ for (const id of ids) {
   if (!destinationRelative?.startsWith("models/") || !destinationRelative.endsWith(".glb")) throw new Error(`${id}: bad destination ${destinationRelative}`);
   const source = path.resolve(path.dirname(catalogFile), candidate.candidateFile ?? candidate.file!);
   const m: MotionMeasurement = await measureCreatureGlb(source);
-  const { candidateFile: _c, contactNormalized: authoredContact, groundY: authoredGround, ...fields } = candidate;
+  const { candidateFile: _c, contactNormalized: authoredContact, groundY: authoredGround, maxRunCadenceHz: cadence, ...fields } = candidate;
   const contact = typeof authoredContact === "number" ? authoredContact : m.contactNormalized;
   const bytes = withAttackContact(await readFile(source), contact);
   const entry: Entry = { ...(existing ?? {}), ...fields, id, file: destinationRelative } as Entry;
@@ -101,6 +101,9 @@ for (const id of ids) {
   if (m.impliedWalkMps) entry.impliedWalkMps = m.impliedWalkMps;
   if (m.impliedRunMps) entry.impliedRunMps = m.impliedRunMps;
   if (m.attackSeconds) { entry.attackSeconds = m.attackSeconds; entry.contactNormalized = contact; }
+  // Scuttling bodies cycle their legs faster than the shared three strides a second.
+  const runCadence = typeof cadence === "number" && cadence > 0 ? cadence : RUN_CADENCE_HZ;
+  if (runCadence !== RUN_CADENCE_HZ) entry.maxRunCadenceHz = runCadence;
 
   // Timing tables. Pursuit plays Run, or Walk when the body has no Run.
   if (m.attackSeconds && contact) motionTiming[id] = { seconds: m.attackSeconds, contactNormalized: contact };
@@ -108,7 +111,7 @@ for (const id of ids) {
   const walkStride = m.impliedWalkMps && m.walkClipSeconds ? m.impliedWalkMps * m.walkClipSeconds : undefined;
   const runStride = m.impliedRunMps && m.runClipSeconds ? m.impliedRunMps * m.runClipSeconds : m.runClipSeconds ? undefined : walkStride;
   if (walkStride) walkCeiling[id] = +(WALK_CADENCE_HZ * walkStride).toFixed(6); else delete walkCeiling[id];
-  if (runStride) pursuit[id] = +(RUN_CADENCE_HZ * runStride).toFixed(4); else delete pursuit[id];
+  if (runStride) pursuit[id] = +(runCadence * runStride).toFixed(4); else delete pursuit[id];
 
   report.push({ id, source: path.relative(repo, source), before: existing?.sha256, after: entry.sha256, animations: m.animations,
     walk: m.impliedWalkMps, run: m.impliedRunMps, groundY: entry.groundY, attack: m.attackSeconds, contact,
