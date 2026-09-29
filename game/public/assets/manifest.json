@@ -16640,8 +16640,8 @@
         "antler_beetle",
         "forest"
       ],
-      "bytes": 3042384,
-      "sha256": "30629cb6a5d46038ff7dc7a90b4334116f6f14e2c7d91d8d371a35684cab5696",
+      "bytes": 3141872,
+      "sha256": "cb6676f392331c286523b3d6d1a2a545e0cc847821afcb09aadd8c1a017246b7",
       "size": {
         "x": 2.077752,
         "y": 0.951139,
@@ -16771,7 +16771,7 @@
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_antler_beetle.glb",
-        "sourceSha256": "5de436675e44fbaa45be3bc8c99700d2a332fc2c955a2d807dfec96b78e52736"
+        "sourceSha256": "30629cb6a5d46038ff7dc7a90b4334116f6f14e2c7d91d8d371a35684cab5696"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
@@ -32142,8 +32142,8 @@
         "thorn_maw",
         "tripo"
       ],
-      "bytes": 2169556,
-      "sha256": "13358a635b9f29a2483e80e9afaac564492a2e1fc1b12fd5b4c29e6c63b4d812",
+      "bytes": 2374696,
+      "sha256": "201a5efaec6039fe93c126947c2a51c65c042bd84f7d74351898c39e7ae49180",
       "size": {
         "x": 1.514844,
         "y": 1.599219,
@@ -32232,7 +32232,7 @@
           "Hit",
           "Death"
         ],
-        "notes": "Rebuilt by tools/creature-rig (rooted/maw): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tendril_l_01, tendril_l_02, tendril_l_03, leaf_l_01, leaf_l_02, tendril_r_01, tendril_r_02, tendril_r_03, leaf_r_01, leaf_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Authored clips (Idle, Attack, Hit, Death) are keyed on cubic spline curves with eased, auto-clamped tangents, sampled at 30 fps in Blender and retargeted through the same rest-relative path (Corealm authored on the animal-pack crocodile rig (tools/creature-rig/py/classes/rooted.py)). No Run clip: the crocodile gallop twisted the root feet, so the runtime Walk fallback applies. Candidate built from a mesh.glb whose int8 NORMAL accessor was rewritten as float32 (intake bug, see report). Death re-keyed (tools/creature-rig/py/classes/rooted.py, motion set maw) as a collapse: the root legs buckle over the planted feet, the trunk topples sideways onto the floor, the maw slams down with a rebound and settles (2.4 s). Spliced into production: Idle, Walk, Attack and Hit byte-identical; the rebuilt skeleton's joint rests and inverse binds equal production's.",
+        "notes": "Rebuilt by tools/creature-rig (rooted/maw): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tendril_l_01, tendril_l_02, tendril_l_03, leaf_l_01, leaf_l_02, tendril_r_01, tendril_r_02, tendril_r_03, leaf_r_01, leaf_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand.",
         "clipSeconds": {
           "Idle": 3.200000047683716,
           "Walk": 1.399999976158142,
@@ -32241,10 +32241,10 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_thorn_maw.glb",
-        "sourceSha256": "9e3459aa8bad1b7c14aa25893f15551b6a091201ad1330debe1563bc77f05e3c"
+        "sourceSha256": "13358a635b9f29a2483e80e9afaac564492a2e1fc1b12fd5b4c29e6c63b4d812"
       },
       "walkClipSeconds": 1.4,
-      "impliedWalkMps": 0.346837,
+      "impliedWalkMps": 0.352747,
       "attackSeconds": 1.333333,
       "contactNormalized": 0.4
     },
@@ -32966,8 +32966,8 @@
         "cooling-crust",
         "image-generated-texture"
       ],
-      "bytes": 22790804,
-      "sha256": "dffd15e3b257088f7cec452bff87e36db54f524d1947948eb6d832b47c6a5aa7",
+      "bytes": 22881384,
+      "sha256": "bdb64d994d136a618d7c6916e213f479758ec363a528a5eb54bae38ca2aaa07e",
       "triangles": 5310,
       "size": {
         "x": 0.799643,
@@ -33089,7 +33089,7 @@
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.052 m).",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -33099,7 +33099,7 @@
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_slag_crawler.glb",
-        "sourceSha256": "6d0c707ea6e2c047c93bf4bb12bf2479e8804a0625b232f55e3e4265a8f3e438"
+        "sourceSha256": "dffd15e3b257088f7cec452bff87e36db54f524d1947948eb6d832b47c6a5aa7"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.833333,
@@ -40445,8 +40445,8 @@
         "ember-fissures",
         "image-generated-texture"
       ],
-      "bytes": 23224684,
-      "sha256": "2721c5c8fffc003a5519d9f19ae2ccd77410ee93cb5ea267f0e3ab62e6e0fcc9",
+      "bytes": 23315264,
+      "sha256": "b1c6921264378c9c064f92457b2703ffcd5894138390c65b9b22223d75228223",
       "triangles": 5310,
       "size": {
         "x": 1.888046,
@@ -40568,7 +40568,7 @@
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.124 m).",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -40578,7 +40578,7 @@
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_cinderback_crag.glb",
-        "sourceSha256": "cbfb45dd6f7d0a831349eaf0c81ed8535748744d791cb242f263ac565b53368b"
+        "sourceSha256": "2721c5c8fffc003a5519d9f19ae2ccd77410ee93cb5ea267f0e3ab62e6e0fcc9"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.833333,
