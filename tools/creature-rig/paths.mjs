@@ -5,21 +5,34 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const repo = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
-const rigRoot = path.join(repo, "test-results/creature-motion/rig");
+// Donor extractions and the source-rig index are shared by every output folder.
+const sharedRoot = path.join(repo, "test-results/creature-motion/rig");
+let rigRoot = sharedRoot;
+
+/** Stage work files, candidates, sheets and the catalog under dir instead (run.mjs --out). */
+export function setRigRoot(dir) {
+  rigRoot = path.resolve(dir);
+}
 
 export const paths = {
-  rigRoot,
+  get rigRoot() { return rigRoot; },
   work: (assetId) => path.join(rigRoot, "work", assetId),
-  models: path.join(rigRoot, "models"),
-  sheets: path.join(rigRoot, "sheets"),
+  get models() { return path.join(rigRoot, "models"); },
+  get sheets() { return path.join(rigRoot, "sheets"); },
+  donors: path.join(sharedRoot, "donors"),
+  sourceIndex: path.join(sharedRoot, "source-index.json"),
   manifest: path.join(repo, "game/public/assets/manifest.json"),
   publicAssets: path.join(repo, "game/public/assets"),
   tool: path.join(repo, "tools/creature-rig"),
 };
 
-/** Per-asset config: { class, profile, source?, notes? } in tools/creature-rig/assets/<id>.json. */
+export const configFile = (assetId) => path.join(paths.tool, "assets", `${assetId}.json`);
+
+/** Per-asset config: { class, profile, source?, profileOverrides?, notes? } in
+ * tools/creature-rig/assets/<id>.json. rig.py reads it again at rig time, so class, profile and
+ * overrides never need a fresh intake. */
 export function assetConfig(assetId) {
-  const file = path.join(paths.tool, "assets", `${assetId}.json`);
+  const file = configFile(assetId);
   if (!existsSync(file)) throw new Error(`no rig config for ${assetId}: add tools/creature-rig/assets/${assetId}.json`);
   return JSON.parse(readFileSync(file, "utf8"));
 }

@@ -1,9 +1,11 @@
 """Blender stage of the creature rig pipeline: fit, skin and retarget one creature.
 
-  PYTHONPATH=D:/CorealmAgentCache/bpy-5.2 py -3.13 tools/creature-rig/py/rig.py <work dir>
+  PYTHONPATH=D:/CorealmAgentCache/bpy-5.2 py -3.13 tools/creature-rig/py/rig.py [--donors <dir>] <work dir>
 
-Reads <work>/intake.json and <work>/mesh.glb (from intake.mjs), loads the body class module
-classes/<class>.py and its donor map classes/<class>.donors.json, and writes <work>/rig.json (bind
+Reads <work>/intake.json and <work>/mesh.glb (from intake.mjs) and the asset config
+tools/creature-rig/assets/<id>.json (class, profile, profileOverrides; read here, not cached by
+the intake), loads the body class module classes/<class>.py and its donor map
+classes/<class>.donors.json, and writes <work>/rig.json (bind
 skeleton, per-vertex weights, sampled clips) plus <work>/fit.png for review. The assembler writes
 the GLB from rig.json.
 """
@@ -28,16 +30,30 @@ from crlib.retarget import Retargeter, clip_tracks, lying_lift  # noqa: E402
 from crlib.skin import bone_heat, skin  # noqa: E402
 
 
-def main(work):
+def merge(base, over):
+    """profileOverrides merge: dictionaries merge key by key (so {"clips": {"Walk": {"speed": 0.8}}}
+    changes one field of one clip); anything else replaces."""
+    out = dict(base)
+    for k, v in over.items():
+        out[k] = merge(out[k], v) if isinstance(v, dict) and isinstance(out.get(k), dict) else v
+    return out
+
+
+def asset_config(asset_id):
+    return json.load(open(os.path.join(HERE, "..", "assets", f"{asset_id}.json")))
+
+
+def main(work, cache=None):
     t0 = time.time()
     intake = json.load(open(os.path.join(work, "intake.json")))
-    cls = importlib.import_module(f"classes.{intake['class']}")
-    donor_map = json.load(open(os.path.join(HERE, "classes", f"{intake['class']}.donors.json")))
-    profile = dict(donor_map["profiles"][intake["profile"]])
-    profile.update(intake.get("profileOverrides") or {})
+    config = asset_config(intake["assetId"])
+    intake["class"], intake["profile"] = config["class"], config["profile"]
+    cls = importlib.import_module(f"classes.{config['class']}")
+    donor_map = json.load(open(os.path.join(HERE, "classes", f"{config['class']}.donors.json")))
+    profile = merge(donor_map["profiles"][config["profile"]], config.get("profileOverrides") or {})
     clips = profile["clips"]
 
-    cache = os.path.join(os.path.dirname(os.path.dirname(work)), "donors")
+    cache = cache or os.path.join(os.path.dirname(os.path.dirname(work)), "donors")
     needed = {}
     for spec in clips.values():
         takes = spec["clip"] if isinstance(spec["clip"], list) else [spec["clip"]]
@@ -125,4 +141,6 @@ def main(work):
 
 
 if __name__ == "__main__":
-    main(os.path.abspath(sys.argv[-1]))
+    argv = sys.argv[1:]
+    donors_dir = argv[argv.index("--donors") + 1] if "--donors" in argv else None
+    main(os.path.abspath(argv[-1]), donors_dir)
