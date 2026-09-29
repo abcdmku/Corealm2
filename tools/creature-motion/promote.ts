@@ -10,7 +10,7 @@
  * metadata left by retired repair pipelines is dropped. Dry run unless --apply.
  */
 import { createHash } from "node:crypto";
-import { copyFile, readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { measureCreatureGlb, type MotionMeasurement } from "./measure.js";
 
@@ -30,6 +30,24 @@ const RETIRED_FIELDS = [
 ] as const;
 /** Default reviewed cadences: 2.4 walk cycles and 3 run cycles per second. */
 const WALK_CADENCE_HZ = 2.4, RUN_CADENCE_HZ = 3;
+
+/** The Attack clip carries its contact phase in its extras, which is where a model uploaded through
+ * devdocs is timed from; the build and an upload of the same file then time it identically. */
+function withAttackContact(glb: Buffer, contact: number | undefined): Buffer {
+  const length = glb.readUInt32LE(12);
+  const json = JSON.parse(glb.subarray(20, 20 + length).toString("utf8")) as { animations?: { name?: string; extras?: Record<string, unknown> }[] };
+  const attack = json.animations?.find((clip) => clip.name === "Attack");
+  if (!attack || contact === undefined || attack.extras?.contactNormalized === contact) return glb;
+  attack.extras = { ...attack.extras, contactNormalized: contact };
+  const text = Buffer.from(JSON.stringify(json));
+  const padded = Math.ceil(text.length / 4) * 4;
+  const tail = glb.subarray(20 + length);
+  const out = Buffer.alloc(20 + padded + tail.length, 0x20);
+  glb.copy(out, 0, 0, 20);
+  out.writeUInt32LE(out.length, 8); out.writeUInt32LE(padded, 12);
+  text.copy(out, 20); tail.copy(out, 20 + padded);
+  return out;
+}
 
 type Entry = Record<string, unknown> & { id: string; file: string };
 interface Candidate { id: string; file?: string; candidateFile?: string; motionProvenance?: unknown; contactNormalized?: number; [key: string]: unknown }
@@ -60,9 +78,10 @@ for (const id of ids) {
   const destinationRelative = (candidate.file ?? existing?.file) as string;
   if (!destinationRelative?.startsWith("models/") || !destinationRelative.endsWith(".glb")) throw new Error(`${id}: bad destination ${destinationRelative}`);
   const source = path.resolve(path.dirname(catalogFile), candidate.candidateFile ?? candidate.file!);
-  const bytes = await readFile(source);
   const m: MotionMeasurement = await measureCreatureGlb(source);
   const { candidateFile: _c, contactNormalized: authoredContact, groundY: authoredGround, ...fields } = candidate;
+  const contact = typeof authoredContact === "number" ? authoredContact : m.contactNormalized;
+  const bytes = withAttackContact(await readFile(source), contact);
   const entry: Entry = { ...(existing ?? {}), ...fields, id, file: destinationRelative } as Entry;
   for (const field of RETIRED_FIELDS) delete entry[field];
   Object.assign(entry, {
@@ -75,7 +94,6 @@ for (const id of ids) {
   if (m.runClipSeconds) entry.runClipSeconds = m.runClipSeconds;
   if (m.impliedWalkMps) entry.impliedWalkMps = m.impliedWalkMps;
   if (m.impliedRunMps) entry.impliedRunMps = m.impliedRunMps;
-  const contact = typeof authoredContact === "number" ? authoredContact : m.contactNormalized;
   if (m.attackSeconds) { entry.attackSeconds = m.attackSeconds; entry.contactNormalized = contact; }
 
   // Timing tables. Pursuit plays Run, or Walk when the body has no Run.
@@ -90,7 +108,7 @@ for (const id of ids) {
     walk: m.impliedWalkMps, run: m.impliedRunMps, groundY: entry.groundY, attack: m.attackSeconds, contact,
     pursuitCeiling: pursuit[id], walkCeiling: walkCeiling[id] });
   if (apply) {
-    await copyFile(source, path.join(repo, "game/public/assets", destinationRelative));
+    await writeFile(path.join(repo, "game/public/assets", destinationRelative), bytes);
     if (index >= 0) manifest.assets[index] = entry; else manifest.assets.push(entry);
   }
 }

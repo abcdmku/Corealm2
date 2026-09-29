@@ -33,7 +33,7 @@ describe('stone creature production assets', () => {
       const bytes = await readFile(`game/public/assets/${entry.file}`);
       expect(createHash('sha256').update(bytes).digest('hex')).toBe(entry.sha256);
       const root = (await io.readBinary(bytes)).getRoot();
-      expect(root.listAnimations().map(a => a.getName()), species.id).toEqual(expect.arrayContaining(['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']));
+      expect(root.listAnimations().map(a => a.getName()), species.id).toEqual(expect.arrayContaining(['Idle', 'Walk', 'Attack', 'Death']));
       for (const material of root.listMaterials()) {
         expect(material.getBaseColorTexture()).toBeTruthy();
         expect(material.getEmissiveFactor()).toEqual([0, 0, 0]);

@@ -4,6 +4,7 @@ import { measureModel } from "../game/src/render/measureModel.js";
 import { CONTENT_ASSET_PATH } from "../game/src/multiplayer/contentAssetsContract.js";
 import { bundleModelFiles, ModelFileProblem, writeGlb } from "../devdocs/src/workspaces/assets/modelFiles.js";
 import { uploadEntry } from "../devdocs/src/workspaces/assets/modelStore.js";
+import { CREATURE_MOTION_TIMING } from "../game/src/content/creatureMotionTiming.js";
 
 const DEER = new Uint8Array(readFileSync("game/public/assets/models/animal/animal_deer.glb"));
 const PNG = new Uint8Array(Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64"));
@@ -50,7 +51,7 @@ describe("multi-file model uploads", () => {
     expect(entry.file).toBe("models/character/animal_moonhart/animal_moonhart.glb");
     expect(Object.keys(files)).toEqual(["assets/models/character/animal_moonhart/animal_moonhart.glb", "assets/models/character/animal_moonhart/fur.png"]);
     for (const path of Object.keys(files)) expect(path).toMatch(CONTENT_ASSET_PATH);
-    expect([entry.attackSeconds, entry.contactNormalized]).toEqual([1.08, 0.43]);
+    expect({ seconds: entry.attackSeconds, contactNormalized: entry.contactNormalized }).toEqual(CREATURE_MOTION_TIMING.animal_deer);
     // A lone GLB keeps the build's layout.
     const lone = await uploadEntry(bundleModelFiles([{ name: "a.glb", bytes: DEER }]), { id: "animal_lone", category: "character", pack: "p", is: "animal", tags: [] });
     expect(Object.keys(lone.files)).toEqual(["assets/models/character/animal_lone.glb"]);

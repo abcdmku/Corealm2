@@ -157,7 +157,7 @@ describe("a server's own models, uploaded from devdocs and published", () => {
     expect(Object.keys((await store.index()).files)).toContain("assets/models/character/animal_moonhart.glb");
     // The publish read the overlay: its models' attack timing is where the server's combat reads it.
     await publish(onModel("animal_deer"));
-    expect(CREATURE_MOTION_TIMING.animal_dawnhart).toEqual({ seconds: 1.08, contactNormalized: 0.43 });
+    expect(CREATURE_MOTION_TIMING.animal_dawnhart).toEqual(CREATURE_MOTION_TIMING.animal_deer);
     await removeModel("animal_starhart", devdocs());
     await removeModel("animal_dawnhart", devdocs());
   });

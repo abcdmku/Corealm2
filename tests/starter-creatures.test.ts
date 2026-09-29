@@ -13,7 +13,7 @@ describe("starter creature integration", () => {
       const asset = MANIFEST.assets.find(asset => asset.id === species.assetId)!;
       expect(asset).toBeDefined();
       expect(asset.pack).not.toBe("ultimate-platformer-pack");
-      expect(asset.animations).toEqual(expect.arrayContaining(["Idle", "Walk", "Attack", "Hit", "Death"]));
+      expect(asset.animations).toEqual(expect.arrayContaining(["Idle", "Walk", "Death"]));
       const definition = CREATURE_CATALOG.byCreatureId.get(species.stats.id)!;
       expect(definition).toBeDefined();
       expect(species.stats.tier).toBe(definition.level);

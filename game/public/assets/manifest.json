@@ -8553,7 +8553,7 @@
       "materials": [
         "boss_rhino_air_mat"
       ],
-      "sha256": "bec0df54315684ee0036d9bcc09837501bd1a79fd77f8580edd222b6feca5a65",
+      "sha256": "c57e7ae88d2d255ad5cf1d47597539aa2d625a597d70234aac31c092b358b875",
       "groundY": -3.14712555257483e-8,
       "motionProvenance": {
         "native": [
@@ -8591,7 +8591,7 @@
         "monster",
         "territorial"
       ],
-      "bytes": 1001188,
+      "bytes": 1001192,
       "size": {
         "x": 1.047135,
         "y": 1.707089,
@@ -8613,7 +8613,7 @@
       "materials": [
         "boss_rhino_earth_mat"
       ],
-      "sha256": "9ad08081982049711f2c9d11dc1610e0f9e6c78ef8e5e26b9c321d74bb077933",
+      "sha256": "4b55a4a933f6ad8affee8f353e28023a835245713bf174a6432faff63035e36b",
       "groundY": -3.14712555257483e-8,
       "motionProvenance": {
         "native": [
@@ -8652,7 +8652,7 @@
         "monster",
         "territorial"
       ],
-      "bytes": 975156,
+      "bytes": 975160,
       "size": {
         "x": 1.047135,
         "y": 1.707089,
@@ -8674,7 +8674,7 @@
       "materials": [
         "boss_rhino_water_mat"
       ],
-      "sha256": "fe87ba1399df9e6cf2cc1957cec04865f0ae2c27b4ae218d3dd66ff46e665f53",
+      "sha256": "1cacaddd72b2b11ed72520765bf16963b3206d27cb2d4ff0ec5ecdff8ac2fb7e",
       "groundY": -3.14712555257483e-8,
       "motionProvenance": {
         "native": [
@@ -8714,7 +8714,7 @@
         "passive",
         "image-generated-texture"
       ],
-      "bytes": 1268016,
+      "bytes": 1268052,
       "size": {
         "x": 0.244891,
         "y": 0.617406,
@@ -8735,7 +8735,7 @@
       "materials": [
         "hen_layered_cream_plumage"
       ],
-      "sha256": "58e8eb373697e54061556e43e5645e6555598fd864aee7058a334834430f51d2",
+      "sha256": "cd987ec236d20eaee1e38c31171e29dd1b995ca3895032eff60feeaa6256e27d",
       "groundY": -0.001,
       "sourceProvenance": {
         "upstreamPack": "animal-pack-deluxe",
@@ -8815,7 +8815,7 @@
         "animal",
         "variant"
       ],
-      "bytes": 693456,
+      "bytes": 693492,
       "size": {
         "x": 0.244891,
         "y": 0.617406,
@@ -8836,7 +8836,7 @@
       "materials": [
         "animal_chicken_speckled_mat"
       ],
-      "sha256": "7ed9080641190d83c89f0aa25c8e42819310a84599c7046b267800beb0e4e98e",
+      "sha256": "c007494ee612900b3d0dc940e5d9802b18c3db327a5bf4a14e4b3b817dab11e4",
       "groundY": -0.001,
       "triangles": 1840,
       "metadata": {
@@ -8891,7 +8891,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 2663488,
+      "bytes": 2663524,
       "size": {
         "x": 0.643015,
         "y": 1.570317,
@@ -8912,7 +8912,7 @@
       "materials": [
         "animal_cattle_mat"
       ],
-      "sha256": "379db81f05b0abc7c69fbdb6e133f659b0cbbbe04e34ecaa0ac2a3b912023b06",
+      "sha256": "31ed3abd0d9ccac6a5516a7c2f92165fdf65b2bd251660609720e1eec4ac7b70",
       "groundY": -0.005,
       "triangles": 3900,
       "metadata": {
@@ -8966,7 +8966,7 @@
         "animal",
         "variant"
       ],
-      "bytes": 2727196,
+      "bytes": 2727236,
       "size": {
         "x": 0.643015,
         "y": 1.570317,
@@ -8987,7 +8987,7 @@
       "materials": [
         "animal_aurochs_mat"
       ],
-      "sha256": "5981bcb51cbf1aa59e2a4afc60eedd6651731a3110e888e77314dc1d6d9d432c",
+      "sha256": "20359ea77f43069fd6ae439f0e9da0daae48b2523a40ffa20ec36de0e859e8fa",
       "groundY": -0.005,
       "motionProvenance": {
         "native": [
@@ -9024,7 +9024,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2499984,
+      "bytes": 2500020,
       "size": {
         "x": 0.434472,
         "y": 1.289354,
@@ -9045,7 +9045,7 @@
       "materials": [
         "animal_goat_mat"
       ],
-      "sha256": "052b1f03937c26308e78e693cff1abc74a6c16e6264f5314c947770edb3a992a",
+      "sha256": "925281d026775ba5509e7d1a1164bcafe8232088a716d50897b99df479bab3ee",
       "groundY": -0.002,
       "triangles": 3712,
       "metadata": {
@@ -9332,7 +9332,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 2392024,
+      "bytes": 2392060,
       "size": {
         "x": 0.438082,
         "y": 1.874378,
@@ -9353,7 +9353,7 @@
       "materials": [
         "animal_deer_mat"
       ],
-      "sha256": "4ce2fc7243ffa790ac2bc09b5d1c42875b5d5f88db56e283cd0dbde57be0e1e7",
+      "sha256": "c16bdd67e0fee27addec843f40c6402af7e93b521463a8c1ef1861b1256b956c",
       "groundY": -0.007,
       "triangles": 3728,
       "metadata": {
@@ -9408,7 +9408,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2782488,
+      "bytes": 2782524,
       "size": {
         "x": 0.364074,
         "y": 1.061678,
@@ -9429,7 +9429,7 @@
       "materials": [
         "animal_coyote_mat"
       ],
-      "sha256": "f3293921f8ad189781261555545636f3f3d44536d8e4ff1e4371170b35fa13d0",
+      "sha256": "a0d452bf129c5bccf6210b5d24011571cfb4218e8637e3d2866995927321dd6a",
       "groundY": -0.003,
       "triangles": 5612,
       "metadata": {
@@ -9483,7 +9483,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 1654808,
+      "bytes": 1654844,
       "size": {
         "x": 0.462882,
         "y": 0.928619,
@@ -9503,7 +9503,7 @@
       "materials": [
         "animal_hog_mat"
       ],
-      "sha256": "195f4bef0062b99ffc69865547dc4536d9d369c4da19a1b6b158ec90995f0aa9",
+      "sha256": "4c91f138f8052c2affb5597bcd6ffeade666592585c04b0949e98345b0aa69f6",
       "groundY": -0.007839,
       "motionProvenance": {
         "native": [
@@ -9540,7 +9540,7 @@
         "territorial",
         "image-generated-texture"
       ],
-      "bytes": 1494736,
+      "bytes": 1494772,
       "size": {
         "x": 0.07381,
         "y": 0.070167,
@@ -9561,7 +9561,7 @@
       "materials": [
         "grassscale_olive_diamond_scales"
       ],
-      "sha256": "93d5dbc64b521d7670dbbeea985af02f68ff3cdfdb824a984d5959a4ec806347",
+      "sha256": "efa20721e877bc987e66162182cb9d1fc638b366862c02f066a8493f8b61e5a6",
       "groundY": -0.01,
       "sourceProvenance": {
         "upstreamPack": "animal-pack-deluxe",
@@ -9638,7 +9638,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2618856,
+      "bytes": 2618888,
       "size": {
         "x": 0.706819,
         "y": 1.408332,
@@ -9659,7 +9659,7 @@
       "materials": [
         "animal_bear_mat"
       ],
-      "sha256": "2dc57bc986287037d8b561a43cb6f3b10a4011b778744c181615e06f3caec90a",
+      "sha256": "0d9ab0c486e7dc1f6515db8c83e46da30c34322a8459ed1343eb3170783de14a",
       "groundY": -0.006,
       "motionProvenance": {
         "native": [
@@ -9696,7 +9696,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2536340,
+      "bytes": 2536376,
       "size": {
         "x": 0.474347,
         "y": 0.96315,
@@ -9717,7 +9717,7 @@
       "materials": [
         "animal_boar_mat"
       ],
-      "sha256": "a23b954f5922484d9444538548922f92111517ce1ec0b85b982c841fb6f23d73",
+      "sha256": "e12b4af69b04a13b94b024fd66574f269bc5f62e3776b2647ccef303ef8de269",
       "groundY": -0.001,
       "motionProvenance": {
         "native": [
@@ -9754,7 +9754,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 2476552,
+      "bytes": 2476588,
       "size": {
         "x": 0.429832,
         "y": 1.446511,
@@ -9775,7 +9775,7 @@
       "materials": [
         "animal_ibex_mat"
       ],
-      "sha256": "f92d343a90ff2e236dd2bf94904aae639742f5730b49f35ceae10fa23c277646",
+      "sha256": "74e4cfa1147eedd6d9960baf1b137061308de4a672346a0c37cf658dc1417e19",
       "groundY": -0.003,
       "motionProvenance": {
         "native": [
@@ -9891,7 +9891,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2897020,
+      "bytes": 2897056,
       "size": {
         "x": 0.31636,
         "y": 0.19189,
@@ -9912,7 +9912,7 @@
       "materials": [
         "animal_scorpion_mat"
       ],
-      "sha256": "30a5c4efba75d2ae953aefc435eb668fc43e39610a299b87222627f6ed7f5871",
+      "sha256": "bc4b444898b484b96e4d6b361b0bbcbac6555c3833a0a6a6f9f3f63f7fc07d8b",
       "groundY": -0.002,
       "motionProvenance": {
         "native": [
@@ -17470,8 +17470,8 @@
         "wetland",
         "territorial"
       ],
-      "bytes": 7001224,
-      "sha256": "788b8832f539d789f6d54b0803497460a116a8af31994ccd10202be5a01f157c",
+      "bytes": 7001272,
+      "sha256": "a3c6c08651f413b1cce9fed25afd8f17a2ef8e4b66bf4920b61ffc470d8bc127",
       "size": {
         "x": 1.280351,
         "y": 0.525777,
@@ -17743,8 +17743,8 @@
         "ground",
         "claw"
       ],
-      "bytes": 3325748,
-      "sha256": "e26749aa3758fcc64c7028dd78ebf45aec160c45df30afc5e0e3f50643844acc",
+      "bytes": 3325788,
+      "sha256": "5b967bfb6010ebab1f5abf118ca52f632224a04d14b36e24e244c5c9409f7d0e",
       "size": {
         "x": 1.243023,
         "y": 2.23361,
@@ -23690,8 +23690,8 @@
         "warm-bank",
         "spit"
       ],
-      "bytes": 4572088,
-      "sha256": "79ba9fc2692b0c0b741645c1a3260d294dbf6cd3c8f1bed835fbfadd6be5e243",
+      "bytes": 4572124,
+      "sha256": "6f1dfec5bc2547a44f73d4f8aa80f31309f91e206a00a5bbc50e178c871acf69",
       "size": {
         "x": 0.323506,
         "y": 0.158689,
@@ -24779,8 +24779,8 @@
         "reeds",
         "territorial"
       ],
-      "bytes": 4615512,
-      "sha256": "2c9143ca380aba72a693e6fa4113049bf47365a4266c46b702feb6a76054e0e9",
+      "bytes": 4615548,
+      "sha256": "6bda3df4b8d31ee7cc7514a090f3dfa2a3326ee87d0ec33596261397e6a4f730",
       "size": {
         "x": 0.268411,
         "y": 0.803884,
@@ -25236,8 +25236,8 @@
         "ground",
         "horn"
       ],
-      "bytes": 7665512,
-      "sha256": "90b9e4d1a0c543ac302003dc650fbfc50e293abca1c13174a2a6351fbb33b8a1",
+      "bytes": 7665548,
+      "sha256": "a7cd7d904f8b591ea7f373a70b48d947c91898a4df1186ba091aaa928d315340",
       "size": {
         "x": 1.745018,
         "y": 2.10807,
@@ -25290,7 +25290,7 @@
         "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
         "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
         "change": "Image-generated UV-aligned basalt plate albedo. Original geometry, rig, clips, normal map and ORM retained.",
-        "sourceSha256": "90b9e4d1a0c543ac302003dc650fbfc50e293abca1c13174a2a6351fbb33b8a1"
+        "sourceSha256": "a7cd7d904f8b591ea7f373a70b48d947c91898a4df1186ba091aaa928d315340"
       },
       "metadata": {
         "id": "basalt_drake",
@@ -25521,8 +25521,8 @@
         "chitin",
         "claws"
       ],
-      "bytes": 4056548,
-      "sha256": "9ae7a61f9cfddda096e239246defb68f67dd73d6aa42792223e7ca519eac39b4",
+      "bytes": 4056588,
+      "sha256": "0005ada569dd56e2c8f257edb84fcf30377d4ee2201ca6725918d4fadf261fa1",
       "size": {
         "x": 1.398977,
         "y": 2.000028,
@@ -32806,8 +32806,8 @@
         "rpg",
         "goblin_scout"
       ],
-      "bytes": 4783080,
-      "sha256": "2a8d98f11e2cff96b8c51a583b764c8723d0f563dc6f3e286ae66aec77f75c7e",
+      "bytes": 4783116,
+      "sha256": "4a274d8e9c15e7f22b4cc6e7978e5813a4437a3cda82c185b3cfc8323eedeb32",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -33067,8 +33067,8 @@
         "rpg",
         "goblin_archer"
       ],
-      "bytes": 5652716,
-      "sha256": "8362c426feae11134f44a1ffded411bf29b5d7ad5821b66bf235bde2e8284287",
+      "bytes": 5652752,
+      "sha256": "aa3dbabe7a500ae087deaa3da79218b3b7e9bb2189eefedd9a7fc83d21ab00d0",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -33345,8 +33345,8 @@
         "caster",
         "candidate"
       ],
-      "bytes": 13146880,
-      "sha256": "9f0f375d983c183b2afcb63b56f1ae0c8309a04a0fc6427155b661175cdbe705",
+      "bytes": 13146916,
+      "sha256": "230e5f6605d66d7adc3eca4407908d7680ccbc2cf31684f4f701232f4e0a6661",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -33603,8 +33603,8 @@
         "candidate",
         "zombie-polish"
       ],
-      "bytes": 7462220,
-      "sha256": "7744d86c6e1be06dd9ce6497e0f164380490105ac2b516b61e580d1d17ecf6ea",
+      "bytes": 7462256,
+      "sha256": "61daadc3e64715cc98fa6e3851ea64379efb64fcc8efe2097eff65c22099ebf3",
       "size": {
         "x": 1.717218,
         "y": 1.814025,
@@ -33635,7 +33635,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_zombie",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/sources/creature_zombie.glb",
-        "sourceSha256": "7744d86c6e1be06dd9ce6497e0f164380490105ac2b516b61e580d1d17ecf6ea",
+        "sourceSha256": "61daadc3e64715cc98fa6e3851ea64379efb64fcc8efe2097eff65c22099ebf3",
         "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
@@ -33891,8 +33891,8 @@
         "rpg",
         "skeleton_soldier"
       ],
-      "bytes": 2155316,
-      "sha256": "193050576f671d640a4b9149edd4552e638c96a630b8a0a800e584c65b51b252",
+      "bytes": 2155352,
+      "sha256": "ddea1e4d8fd294d4b65b7765b729f586ececc47b11d0101e0e317aa4b582c188",
       "size": {
         "x": 0.625725,
         "y": 1.814391,
@@ -34655,8 +34655,8 @@
         "rpg",
         "grave_ghoul"
       ],
-      "bytes": 5782900,
-      "sha256": "793e7f94e85169439c13e319a8a7f9fe6219db722840943b0ffd2c7ab72da98d",
+      "bytes": 5782936,
+      "sha256": "b31bea9707d916692152e3f047f753ea973f5fac05aeb102572bc72846ed15cc",
       "size": {
         "x": 2.276295,
         "y": 1.556659,
@@ -34897,8 +34897,8 @@
         "rpg",
         "wraith"
       ],
-      "bytes": 16069492,
-      "sha256": "0c4bd261368152f068912ab00bd300ca452019da1b689035f06c66e7acb28a8b",
+      "bytes": 16069528,
+      "sha256": "075257426fca4c3dc6e586655be9b275720791e987d59f21068cba02bb3a896c",
       "size": {
         "x": 1.798829,
         "y": 1.753337,
@@ -35627,8 +35627,8 @@
         "rpg",
         "iron_golem"
       ],
-      "bytes": 3450444,
-      "sha256": "e6d129f662b3ceac6731289d97d2d3234d5d6e5ea5c075fbefd5fa8c9aa01e45",
+      "bytes": 3450480,
+      "sha256": "0f53e18a35e01653948c5725f0e30c7e80ddacf436d2f000d41a43bdf01490e7",
       "size": {
         "x": 3.692076,
         "y": 2.172113,
@@ -37125,8 +37125,8 @@
         "candidate",
         "zombie-polish"
       ],
-      "bytes": 7607228,
-      "sha256": "6c95ed8c64036bfd992520c3077764be59fc0ec90cbef13e6da9a428f997ee18",
+      "bytes": 7607264,
+      "sha256": "860bb7fa9fdcdc5c33d53523586fa123cfed532376a18804d564d3da7010d123",
       "size": {
         "x": 1.73349,
         "y": 1.814013,
@@ -37157,7 +37157,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_plague_zombie",
         "sourceFile": "game/public/assets/models/creature/creature_plague_zombie.glb",
-        "sourceSha256": "6c95ed8c64036bfd992520c3077764be59fc0ec90cbef13e6da9a428f997ee18",
+        "sourceSha256": "860bb7fa9fdcdc5c33d53523586fa123cfed532376a18804d564d3da7010d123",
         "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
@@ -48702,8 +48702,8 @@
         "polish",
         "candidate"
       ],
-      "bytes": 9470372,
-      "sha256": "8872bc05257876fbd8d373d554700e02533c412745ddf4893374a4ff5c215f37",
+      "bytes": 9470408,
+      "sha256": "77835e36607d987464ab94fd6875b4f58a8d4b3988f69ff28be3bc4ab88dd9dd",
       "size": {
         "x": 5.834752,
         "y": 2.124553,
@@ -55303,8 +55303,8 @@
         "image-generated-texture",
         "polish-candidate"
       ],
-      "bytes": 8892492,
-      "sha256": "7c27746cc649bd535e2fa0a62ad173add26b308035f8dc9cb362e4dfeb420324",
+      "bytes": 8892528,
+      "sha256": "9fa3c5648f0f129cfefa663833e8cec0a768fa36204684de5042b80f4ae320ef",
       "size": {
         "x": 1.446448,
         "y": 2.2,
@@ -57154,8 +57154,8 @@
         "rpg",
         "grave_ghoul"
       ],
-      "bytes": 7659108,
-      "sha256": "f38f4d6565d138d1e4b622ec2ddd289a226f6e13c8233264cf979046bba04d7c",
+      "bytes": 7659144,
+      "sha256": "7f12b27c349f2b3f4d25bc141cbd5e24ad4418b8a85ce0f813d591f97e0a6a91",
       "triangles": 16001,
       "size": {
         "x": 2.276295,
@@ -57200,7 +57200,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_grave_lantern",
         "sourceFile": "game/public/assets/models/creature/creature_grave_lantern.glb",
-        "sourceSha256": "f38f4d6565d138d1e4b622ec2ddd289a226f6e13c8233264cf979046bba04d7c",
+        "sourceSha256": "7f12b27c349f2b3f4d25bc141cbd5e24ad4418b8a85ce0f813d591f97e0a6a91",
         "sourceRigAndGeometryPreserved": true,
         "sourceAnimationsPreserved": true,
         "sourcePack": "corealm-rpg-universal-base-characters",
@@ -57609,8 +57609,8 @@
         "polish",
         "candidate"
       ],
-      "bytes": 9636608,
-      "sha256": "a13417dca8a8298b292c89df84aad42cd03d2470c92fc3036394e091e06e2efd",
+      "bytes": 9636656,
+      "sha256": "231d2190f62ddee606da6b60cec3d6f19a76d1572f24c524cbae1a6593acf615",
       "size": {
         "x": 2.351506,
         "y": 1.767802,
@@ -59873,8 +59873,8 @@
         "rpg",
         "stone_golem"
       ],
-      "bytes": 4686516,
-      "sha256": "c9459d349e92d572034260da2b14486289265f42fa84b685fc7adc39001ef228",
+      "bytes": 4686568,
+      "sha256": "cc44e40fd35eef6ff8a4eed2e7a40da196a823ea5742aa4b0216c83007c7ef85",
       "size": {
         "x": 2.981588,
         "y": 2.71506,
@@ -63576,8 +63576,8 @@
         "rpg",
         "beetle_golem"
       ],
-      "bytes": 2748828,
-      "sha256": "84a350122c94decbcffbb50968949b5d0dbfe55c866c90201eb6c60a72e77fa2",
+      "bytes": 2748860,
+      "sha256": "c874b8b257c0e616105f49431531cc384ee8ad74dfed71bdc221d400fbeb3ab6",
       "size": {
         "x": 3.054081,
         "y": 2.7621,
@@ -65623,8 +65623,8 @@
         "hatchling",
         "wilderness"
       ],
-      "bytes": 5489148,
-      "sha256": "d8bfee378f741dee71c215d613bcdbdaf35c3458dabc351db507b7e922330209",
+      "bytes": 5489180,
+      "sha256": "0775ebeb644f76884abf824f251b7832f2f57a2a767eac717e1e06d415a8ac15",
       "size": {
         "x": 2.206257,
         "y": 1.329014,
@@ -65802,8 +65802,8 @@
         "hatchling",
         "wilderness"
       ],
-      "bytes": 6613088,
-      "sha256": "e6ed641d7fdef312c4b53df308ed790f1c10158a7ad70fc4da58e43fc9b5cfb0",
+      "bytes": 6613140,
+      "sha256": "073f804e4634cd238d699357dc90656a047e20dc6a697c53bb3c9880e51f7a3b",
       "size": {
         "x": 1.92682,
         "y": 1.307312,
@@ -65981,8 +65981,8 @@
         "hatchling",
         "wilderness"
       ],
-      "bytes": 5205568,
-      "sha256": "91ceec6b7661ea03e0fdbb71503b9adb282f65ccb5aa3b98b19db65ff915e570",
+      "bytes": 5205604,
+      "sha256": "09f744a96eaa2ad11f64816bd26591681e7523b1a2f0b656548a8ae11edf1ff0",
       "size": {
         "x": 2.206257,
         "y": 1.329014,
@@ -66165,8 +66165,8 @@
         "adult",
         "wilderness"
       ],
-      "bytes": 5489176,
-      "sha256": "4568bd844013f9d7c3008a8edac8d53811c425939158031521f64219f98ded0d",
+      "bytes": 5489212,
+      "sha256": "45113f3997267549ed7d53d28d3aedfd8ccb7c5588b08417b8ef54c7df3d0e3a",
       "size": {
         "x": 5.908602,
         "y": 3.559248,
@@ -66344,8 +66344,8 @@
         "adult",
         "wilderness"
       ],
-      "bytes": 6670424,
-      "sha256": "80d3a14aeb0c7d15d99b3a817ae19b678f87ececef3a54a3dd5cb8995eaf9354",
+      "bytes": 6670476,
+      "sha256": "b49580b0d3c93d36e0e058419c850eca2e69875ed200ad9db43bea57730d56c9",
       "size": {
         "x": 4.720199,
         "y": 3.202569,
@@ -66525,8 +66525,8 @@
         "candidate",
         "polished"
       ],
-      "bytes": 6013096,
-      "sha256": "36083396629ff97db17110361cef11708870aba1cdf286d7a8ed578556a90230",
+      "bytes": 6013132,
+      "sha256": "23d972f08e0a28cb61c91ba2bb54eaed69d607b46da8910f5aa76086fc4855dc",
       "size": {
         "x": 6.287359,
         "y": 3.787404,
@@ -67427,8 +67427,8 @@
         "ground",
         "horn"
       ],
-      "bytes": 8156028,
-      "sha256": "ffa523cad368015ff28ced23271c0bdb10b9d30cd5131fbfff4a90aa9e02883d",
+      "bytes": 8156064,
+      "sha256": "eca3c2ac684b9c6c02f687f09c9cf74ddcec38443bda62734f0a348890d9c8c0",
       "size": {
         "x": 1.256413,
         "y": 1.51781,
@@ -67469,7 +67469,7 @@
         "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
         "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
         "change": "Image-generated UV-aligned heated plate albedo and derived crack emission. Original geometry, rig, clips, normal map and ORM retained.",
-        "sourceSha256": "ffa523cad368015ff28ced23271c0bdb10b9d30cd5131fbfff4a90aa9e02883d"
+        "sourceSha256": "eca3c2ac684b9c6c02f687f09c9cf74ddcec38443bda62734f0a348890d9c8c0"
       },
       "metadata": {
         "id": "furnace_grazer",
@@ -67869,8 +67869,8 @@
         "ground",
         "claw"
       ],
-      "bytes": 3325912,
-      "sha256": "f4bce73f1e5eb2aa2733f94f264204a1284ea6708bd8486c65568153f5cfa393",
+      "bytes": 3325948,
+      "sha256": "d79a16468df932dd2b5d1f66ac733595ccbc70daa34cd42e798a75e9c47894e7",
       "size": {
         "x": 1.243023,
         "y": 2.23361,
@@ -69233,8 +69233,8 @@
         "rpg",
         "banshee"
       ],
-      "bytes": 15998352,
-      "sha256": "5606d5226b07c793534cb4affabc228ee90712686cf1ded0f52f8d384ca6857b",
+      "bytes": 15998388,
+      "sha256": "a3775f045f62f59d937f9f8035e0f9adc7fe23375323a586267ba90a8a8ad143",
       "size": {
         "x": 0.988337,
         "y": 2.650381,
@@ -70838,8 +70838,8 @@
         "image-generated-texture",
         "polish-candidate"
       ],
-      "bytes": 10398320,
-      "sha256": "1be6066f8680cd230bc09abc9b28a235f9eeaf00a8c563dbcfdfb245e9555dc5",
+      "bytes": 10398356,
+      "sha256": "2e9a2e7375475278735630cb610a6e472dbe27aeb8be71339e81854d6aeeb0d6",
       "size": {
         "x": 5.111168,
         "y": 3.489002,
@@ -71397,8 +71397,8 @@
         "keeper",
         "chainbound_archon"
       ],
-      "bytes": 19068016,
-      "sha256": "a0169465d966874e11819661b46643e4493eda8c1f5229b2c7a94e04a8d4a4c7",
+      "bytes": 19068052,
+      "sha256": "a7bd93fe6a4da59a2cb7af3e281ac76fe98ed27757a38bca9b3d3254dfc154e3",
       "size": {
         "x": 2.982572,
         "y": 3.083889,
@@ -72761,8 +72761,8 @@
         "candidate",
         "polished"
       ],
-      "bytes": 7095292,
-      "sha256": "b3a09b6245430fc1866c64ca5636e01f27cfb0ffd35c17cd9afe345f309c973e",
+      "bytes": 7095344,
+      "sha256": "1b9181af4b69c8bedf2f27d2e88f5f8a4fa3d3fd09545fc30cabc969c36c87bf",
       "size": {
         "x": 4.720199,
         "y": 3.202569,
@@ -80573,8 +80573,8 @@
         "regional_variant",
         "ivory_castellan"
       ],
-      "bytes": 6804304,
-      "sha256": "bc8ed6c0685a5bb8d1792b417351193edc615225db798d1fa07f60de19fc051d",
+      "bytes": 6804340,
+      "sha256": "85bb93195a4eebd54e43942a03fbac169ab6064a3128050ee344f06b27ff405c",
       "size": {
         "x": 5.203684,
         "y": 3.061419,
@@ -81384,7 +81384,7 @@
         "regional_variant",
         "crown_hart"
       ],
-      "bytes": 3203960,
+      "bytes": 3203996,
       "size": {
         "x": 0.50186,
         "y": 1.92626,
@@ -81405,7 +81405,7 @@
       "materials": [
         "animal_crown_hart_regal_coat_and_ivory_antlers"
       ],
-      "sha256": "1475abe225d1dcd22a089143d19517c1c5e9647f3c2bb060cbebbf5c4a20a7e7",
+      "sha256": "ed93be7d2f8b95ed7c2285f727ea1f9ad15d9777f2478ca1014eebf5f8c1bd06",
       "groundY": -0.007029476345942853,
       "metadata": {
         "fairyCrownVariant": {
@@ -82782,8 +82782,8 @@
         "regional_variant",
         "moonpetal_stalker"
       ],
-      "bytes": 5230392,
-      "sha256": "f1c69eeeaa8995c5f8a6a65015a68db318c638cb7cf80d74351993c236fbfbb3",
+      "bytes": 5230428,
+      "sha256": "d572a37f75e85736a9a8000a5141546697049dc168ceb8395d903b64d6dec2ce",
       "size": {
         "x": 1.672979,
         "y": 1.36907,
@@ -87062,8 +87062,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1791832,
-      "sha256": "a4e0d2b4bd940762108084af73259557fa43a95d89f75dfcff7c0b853ce43e5f",
+      "bytes": 1791868,
+      "sha256": "6a2cf2d249a2c1b7e19f3695d5171359c29a9fdaf9ecd5f8ea49d3826e79f760",
       "size": {
         "x": 1.422582,
         "y": 2.053594,
@@ -87153,8 +87153,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1686624,
-      "sha256": "a64473819768735afa742e96dd4308b7a29e9d85e1cef62d25e42b2ca8438f4a",
+      "bytes": 1686660,
+      "sha256": "511088eb9f659a26818a7d480730af9be7550edb087d03831725a7dbc59e6130",
       "size": {
         "x": 0.990339,
         "y": 1.925055,
@@ -88038,8 +88038,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1872332,
-      "sha256": "e06cf421badde13bdeb0a9f79c5034545f3a2d55e35881f4dc3112ce75dc6b05",
+      "bytes": 1872368,
+      "sha256": "526d441dea34aaac3b532f6532f6fd6fd863f1bae0dda00c40023fecc0895c05",
       "size": {
         "x": 1.035853,
         "y": 1.861342,
@@ -88129,8 +88129,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1559876,
-      "sha256": "3e39623fe7a3685df4d17f8ce398af3413415ef27a1c5af5d25f0ad8b5e4ab7f",
+      "bytes": 1559912,
+      "sha256": "d46d503f090546e3b0949d53849e0968ea1eed17ef3b25cf084fe01a45b09ab0",
       "size": {
         "x": 0.897001,
         "y": 1.928961,
@@ -88220,8 +88220,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2287384,
-      "sha256": "9c74aa0c1ce9fca9f2322aaea0309bfd0d7d8dd29eaa8edfa21d8290ba80a42c",
+      "bytes": 2287420,
+      "sha256": "2f3c963e8cf3009e674b567a8a1bc4ce8dcb71bc35a5e14364d1a4bd21cb112d",
       "size": {
         "x": 0.840759,
         "y": 1.840436,
@@ -88311,8 +88311,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2747740,
-      "sha256": "a9161d0f912841242da82764568a484530ae23371d751c50cbc34fec0a0ecd29",
+      "bytes": 2747776,
+      "sha256": "24c7e32b00470001ecead979dba0fed80263f0fce85cf2eb5e59a9e7e7f41c47",
       "size": {
         "x": 0.940144,
         "y": 2.00009,
@@ -88403,8 +88403,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2360868,
-      "sha256": "d027c116e8819ae2e3c4f9d498c298eae404536d7b6962c06b3873f2adc3bda6",
+      "bytes": 2360904,
+      "sha256": "df913dac72c97a615210af931da3723765c3af5f8d5fab7cc617dda95c5450eb",
       "size": {
         "x": 1.726111,
         "y": 1.98664,
@@ -88494,8 +88494,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2590728,
-      "sha256": "7e83d6b46e5c2b46350307d78961d589a4abbbe92eb41088e36c1127f086e13c",
+      "bytes": 2590764,
+      "sha256": "f702a1d4c926bd8a969191bf4f659c7691f4fc03ab1bdf78cffb5572c41fb00e",
       "size": {
         "x": 1.398977,
         "y": 2.000028,
@@ -88690,8 +88690,8 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1552860,
-      "sha256": "7fb3851b4c7bb3ade30920a4c813d72f7875cbe346d2ed58392d77dbc975440e",
+      "bytes": 1552912,
+      "sha256": "f95343176e83bfa0a2f662f87850706c1a6ff1124bf37a49def245b0089ea963",
       "size": {
         "x": 0.743349,
         "y": 0.95,
@@ -93710,7 +93710,7 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 2905536,
+      "bytes": 2905572,
       "size": {
         "x": 0.438082,
         "y": 1.874378,
@@ -93731,11 +93731,11 @@
       "materials": [
         "animal_deer_mat_fairy_garden_hart_gloamgarden"
       ],
-      "sha256": "918986474c200c43b7e7f7fd87842df9278e0053c967e000a97ad59203185154",
+      "sha256": "ec6981cce6c073426e418474942b4ac46ff9ecf3d2e476c0dc220fe70f500833",
       "groundY": -0.007,
       "sourceProvenance": {
         "sourceAssetId": "animal_deer",
-        "sourceSha256": "4ce2fc7243ffa790ac2bc09b5d1c42875b5d5f88db56e283cd0dbde57be0e1e7",
+        "sourceSha256": "c16bdd67e0fee27addec843f40c6402af7e93b521463a8c1ef1861b1256b956c",
         "generator": "tools/fairy-population-assets.ts",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "generatedTexture": {
@@ -94175,8 +94175,8 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 4662680,
-      "sha256": "fa7c8ddf82b3e188e9ac42506bb74f8430f8c46d2d4b215e04095f9425933c6b",
+      "bytes": 4662716,
+      "sha256": "aca43d82ef40a7389ea46ebc4ca21865d9a1e343ca341ba34738dc4787ecc252",
       "size": {
         "x": 2.206257,
         "y": 1.329014,
@@ -94322,7 +94322,7 @@
       },
       "sourceProvenance": {
         "sourceAssetId": "creature_baby_red_dragon",
-        "sourceSha256": "d8bfee378f741dee71c215d613bcdbdaf35c3458dabc351db507b7e922330209",
+        "sourceSha256": "0775ebeb644f76884abf824f251b7832f2f57a2a767eac717e1e06d415a8ac15",
         "generator": "tools/fairy-population-assets.ts",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "generatedTexture": {
@@ -95187,7 +95187,7 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 3090624,
+      "bytes": 3090660,
       "size": {
         "x": 0.550511,
         "y": 2.246455,
@@ -95208,7 +95208,7 @@
       "materials": [
         "Starhorn fur and native moon-ivory antlers"
       ],
-      "sha256": "96eb4eae0a5738355a291e025e65f4f15534a373dc55e6625487f638265f5d33",
+      "sha256": "04eb3b7053c5142eb588e3c8ab4d5f6dc4b4fad6bc4809dbf7f688d7f386f307",
       "groundY": -0.008154192561293802,
       "sourceProvenance": {
         "productionFile": "game/public/assets/models/fairy-garden/fairy_garden_hart_faeholme.glb",
@@ -96054,8 +96054,8 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 4694352,
-      "sha256": "cf1698f03ea8b8c94bc95df73867a5bc60f3b12ff7a9ffdc08abc6c77eb0b2e2",
+      "bytes": 4694388,
+      "sha256": "90dfbe7bd8ebd41ca55e610ee624e5a0383c9bc7b86dc9825a4bf55963309efb",
       "size": {
         "x": 2.206257,
         "y": 1.329014,
@@ -96201,7 +96201,7 @@
       },
       "sourceProvenance": {
         "sourceAssetId": "creature_baby_red_dragon",
-        "sourceSha256": "d8bfee378f741dee71c215d613bcdbdaf35c3458dabc351db507b7e922330209",
+        "sourceSha256": "0775ebeb644f76884abf824f251b7832f2f57a2a767eac717e1e06d415a8ac15",
         "generator": "tools/fairy-population-assets.ts",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "generatedTexture": {
@@ -96340,8 +96340,8 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 2228408,
-      "sha256": "7d4371adc14b53cf4bd56b7c89ecea0eaf2a3c1239f0ee67b4811e498ae60a15",
+      "bytes": 2228444,
+      "sha256": "0d5f8ae8cf8fc6d107d32d400f98749fd6245e6124169acef0a98619bbcaaaa0",
       "size": {
         "x": 0.990339,
         "y": 1.925055,
@@ -96372,7 +96372,7 @@
         "texture": "Assets/Stylized3DMonster/Monster02/Shader_Texture/Texture/Monster02_Color02.png",
         "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_02",
-        "sourceSha256": "a64473819768735afa742e96dd4308b7a29e9d85e1cef62d25e42b2ca8438f4a",
+        "sourceSha256": "511088eb9f659a26818a7d480730af9be7550edb087d03831725a7dbc59e6130",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_02_gloamgarden.png",
@@ -97245,8 +97245,8 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 3246020,
-      "sha256": "5d9018a9ff0b614d5020436209787f5a691bc1b5c2994a08705a6d4ba2a886c9",
+      "bytes": 3246056,
+      "sha256": "560e3f524859d615154bb89d753a76bd7cf5c4a1757713b38376cb9bd2531a13",
       "size": {
         "x": 0.940144,
         "y": 2.00009,
@@ -97277,7 +97277,7 @@
         "texture": "Assets/Stylized3DMonster/Monster07/Shader_Texture/Texture/Monster07_02.png",
         "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_07",
-        "sourceSha256": "a9161d0f912841242da82764568a484530ae23371d751c50cbc34fec0a0ecd29",
+        "sourceSha256": "24c7e32b00470001ecead979dba0fed80263f0fce85cf2eb5e59a9e7e7f41c47",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_07_gloamgarden.png",
@@ -97825,8 +97825,8 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 2879472,
-      "sha256": "a23f2f6a9066a7b0016f3eafdbb71530a789825d36e505d3fe6e1488283219a4",
+      "bytes": 2879508,
+      "sha256": "eca2194320f36db70fb8ee74656b76493f0d276a62e52c27f6fcbaddbbca93eb",
       "size": {
         "x": 1.726111,
         "y": 1.98664,
@@ -97857,7 +97857,7 @@
         "texture": "Assets/Stylized3DMonster/Monster08/Shader_Texture/Texture/Monster08_02.png",
         "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_08",
-        "sourceSha256": "d027c116e8819ae2e3c4f9d498c298eae404536d7b6962c06b3873f2adc3bda6",
+        "sourceSha256": "df913dac72c97a615210af931da3723765c3af5f8d5fab7cc617dda95c5450eb",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_08_faeholme.png",
@@ -97941,8 +97941,8 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 3171748,
-      "sha256": "f93836b69dbb4a4964d42b856315202e51faa566b67685b7a10e48199183d943",
+      "bytes": 3171780,
+      "sha256": "b63c49d0eb58515e19ce356b10a87926d7c42035c249923ed56f37565dd7bc5d",
       "size": {
         "x": 1.398977,
         "y": 2.000028,
@@ -97973,7 +97973,7 @@
         "texture": "Assets/Stylized3DMonster/Monster09/Shader_Texture/Texture/Monster09_02.png",
         "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_09",
-        "sourceSha256": "7e83d6b46e5c2b46350307d78961d589a4abbbe92eb41088e36c1127f086e13c",
+        "sourceSha256": "f702a1d4c926bd8a969191bf4f659c7691f4fc03ab1bdf78cffb5572c41fb00e",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_09_faeholme.png",
@@ -106703,8 +106703,8 @@
         "elite",
         "candidate"
       ],
-      "bytes": 15288412,
-      "sha256": "665add349603faa44b4ad0d2916e495ecfb6c9a95a240743476ada9011683255",
+      "bytes": 15288448,
+      "sha256": "b99fcd50f8f69ee8ec849f658c4055a3035c3dcb928ba116efdff9051cab5d97",
       "triangles": 9162,
       "size": {
         "x": 0.822808,
@@ -107903,8 +107903,8 @@
         "imagegen-texture",
         "soldier"
       ],
-      "bytes": 12120296,
-      "sha256": "5b8d40382c19d48415dde8d2c5c91840583b34fa4a88f4776eeae80a97930b62",
+      "bytes": 12120332,
+      "sha256": "a71d0658435385c6cbee9fbf179a01e0a2164961476b6d1bb332027cf6e03f8e",
       "size": {
         "x": 1.008,
         "y": 2.261714,
@@ -107934,7 +107934,7 @@
         "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
         "sourceAssetId": "creature_skeleton_soldier",
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
-        "sourceSha256": "193050576f671d640a4b9149edd4552e638c96a630b8a0a800e584c65b51b252",
+        "sourceSha256": "ddea1e4d8fd294d4b65b7765b729f586ececc47b11d0101e0e317aa4b582c188",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_soldier_elite.glb",
         "candidateSha256": "ad2ac13ca42dd8cb39a24f96119e011c983240ba85be5e6c179c6a4d28410011",
         "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
@@ -108065,8 +108065,8 @@
         "vellenwood",
         "candidate"
       ],
-      "bytes": 6819884,
-      "sha256": "6412fe4e6584e064629dc30d5188064aa7b24b558e9d3c7e472c7aaa4a5b2f5c",
+      "bytes": 6819920,
+      "sha256": "94a11df413a42277e56bda5d3dbeb08159b42a5b3411e6385ef70dc67f08a157",
       "size": {
         "x": 1.668866,
         "y": 1.802487,
@@ -108219,8 +108219,8 @@
         "karrowmoor",
         "candidate"
       ],
-      "bytes": 6876092,
-      "sha256": "c7c08fc1ded1312279f98897068041db84d86a7127d27c47186b64e82a13464a",
+      "bytes": 6876128,
+      "sha256": "20aa91bb907bd0cfb06e493a4102c3068066dfc28dc3578785a3bd1363e9845c",
       "size": {
         "x": 1.858865,
         "y": 1.87455,
@@ -108373,8 +108373,8 @@
         "kilnhalt",
         "candidate"
       ],
-      "bytes": 6838048,
-      "sha256": "491a072b445f3e23a249d5c559f94e90a114bcdcd04c9fa3717a50583069417f",
+      "bytes": 6838088,
+      "sha256": "05844c5c1df0b9be02078d4b256d048f486230ca32e02d3e410499369f07c60d",
       "size": {
         "x": 1.858865,
         "y": 1.87455,
@@ -109014,8 +109014,8 @@
         "animal_rpg_wild_goblin_mocap_goblin_original_body",
         "animal_rpg_wild_goblin_mocap_goblin_original_knife"
       ],
-      "bytes": 7463408,
-      "sha256": "32ea3cc4da982fe452e3ad2160770ad5e41f8afa2382db4d63e75f59941d03cc",
+      "bytes": 7463444,
+      "sha256": "94424516f2ad3b58a8efc92a7a4854edc1ef07d88779d61fcfdf3d1db667956d",
       "sourceProvenance": {
         "upstream": {
           "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
@@ -110011,8 +110011,8 @@
       "materials": [
         "animal_rpg_cave_roach_roach_original_rock"
       ],
-      "bytes": 4817612,
-      "sha256": "96d2792258c9166811e874d106d5c5952c63e87b41b8108378d2c99eedb9542b",
+      "bytes": 4817648,
+      "sha256": "189c2e0df52a4444fd786c72c62aaeaf22a22d594c55ac5da4d72a83d0c05dd5",
       "sourceProvenance": {
         "upstream": {
           "url": "https://opengameart.org/content/roach-game-ready-and-animated",

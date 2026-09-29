@@ -16,7 +16,7 @@ import { assertRetainedSourceRole, type CreatureRepairProfile } from './repairPr
 import { validateCreatureDocument } from './validation.js';
 
 const repo = fileURLToPath(new URL('../../', import.meta.url));
-const families = ['humanoids-colon', 'humanoids-plain', 'arthropods', 'winged', 'quadrupeds', 'specials', 'studio'] as const;
+const families = ['humanoids-colon', 'humanoids-plain', 'arthropods', 'winged', 'quadrupeds', 'specials'] as const;
 const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 const git = promisify(execFile);
 

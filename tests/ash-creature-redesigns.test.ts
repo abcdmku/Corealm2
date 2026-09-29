@@ -7,7 +7,8 @@ import { ASH_CREATURE_REDESIGNS } from '../game/src/content/ashCreatureRedesigns
 import manifest from '../game/public/assets/manifest.json' with { type: 'json' };
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-const requiredClips = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
+// Studio bodies ship their native takes; Run and Hit fall back at runtime when a pack has none.
+const requiredClips = ['Idle', 'Walk', 'Attack', 'Death'];
 
 describe('ash and northern creature production bodies', () => {
   it('keeps five independent combat identities', () => {
