@@ -373,8 +373,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "creature_quarry_nightmare": {
-    "seconds": 1.306666612625122,
-    "contactNormalized": 0.4336734873237641
+    "seconds": 1.166667,
+    "contactNormalized": 0.433
   },
   "creature_quillback_porcupine": {
     "seconds": 0.666667,
@@ -805,7 +805,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_plague_zombie": 3.9846,
   "creature_prismatic_sprite": 0.1475,
   "creature_purple_wilderness_dragon": 11.2483,
-  "creature_quarry_nightmare": 3.6853,
+  "creature_quarry_nightmare": 3.2321,
   "creature_quarry_snail": 0.0727,
   "creature_quillback_porcupine": 1.9136,
   "creature_red_wilderness_dragon": 10.5707,
@@ -973,7 +973,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_plague_zombie": 3.187702,
   "creature_prismatic_sprite": 0.118033,
   "creature_purple_wilderness_dragon": 2.910722,
-  "creature_quarry_nightmare": 1.401027,
+  "creature_quarry_nightmare": 1.832272,
   "creature_quarry_snail": 0.058185,
   "creature_quillback_porcupine": 1.696002,
   "creature_red_wilderness_dragon": 2.735379,
