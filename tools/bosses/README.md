@@ -62,6 +62,12 @@ texture pass, whereas authoring a glow onto a plain animal would have been a sha
 
 ## Build
 
+The shipped rhinos come from `node tools/bosses/native-rhino.mjs`. It stages the six native takes
+(Idle, Walk, Run, Attack=`Rhino@Attack`, Hit=`Rhino@Get_Hit`, Death=`Rhino@Dead`) from the `92da7c6`
+identity-bound import with each element's current textures, under
+`test-results/creature-motion/dragons/`. `build-bosses.ts` binds tracks by name through
+`tools/animals/convert.js`, which misbinds the CAT rig's repeated spine names; do not ship its clips.
+
 ```bash
 npx tsx tools/build-bosses.ts                        # all three, updates manifest.json
 npx tsx tools/build-bosses.ts --only boss_rhino_earth
