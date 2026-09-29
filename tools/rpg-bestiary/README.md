@@ -1,10 +1,4 @@
-# RPG bestiary candidates
-
-`game/src/content/rpgBestiary.ts` currently exposes 17 named creatures across seven families: the retained goblin, skeleton, zombie, wraith and golem families, plus the user-approved whole-source spider and fantasy bee. Historical rejected rows remain filtered out. The active rows carry region, habitat, stats, existing elemental drops, marks, respawn, attack intent, provenance and measured neutral bounds. `rpgBestiaryLevel(id)` delegates to the game's stat-derived level formula.
-
-The user's rejection of animal-head humanoids and horned/demonic designs overrides historical source7 reviews. Those assets are withdrawn. Current work adapts complete freely licensed or entitled source bodies and rigs. The exact spider and repaired fantasy bee passed production lifecycle checks and were promoted by root; retained15 still require current gallery and family lifecycle acceptance. `STATUS.md` records the current evidence. `export-expansion.mjs` stages source candidates without changing active content or the public manifest.
-
-## Native motion export
+# RPG bestiary native motion
 
 Production studio bodies (Dungeon Skeletons, Danimal roach and mocap goblin, gavlig lava golems, Earth Elemental, Beetle Golem, Universal Base Characters and the Quaternius bandits) take their motion from `native-export.ts`. It keeps the current production body (mesh, skin, textures, props, elite variants) and replaces its clips with the studio's own takes, renamed to runtime states. The only other changes are one uniform scale on translation deltas (UBC hip height over the UAL mannequin), deltas applied from the body's bind pose where binds were reshaped, and holding horizontal root drift in locomotion loops. There are no floor-lift tracks, retimes, sine overlays or synthesized states. Missing Run and Hit are omitted for the runtime fallbacks; a missing native Death keeps the current production Death, reported as "needs death".
 
@@ -12,41 +6,18 @@ Production studio bodies (Dungeon Skeletons, Danimal roach and mocap goblin, gav
 npx tsx tools/rpg-bestiary/native-export.ts [ids...] [--out test-results/creature-motion/rpg]
 ```
 
-Sources are the git-ignored `*-source/derived/` records and the skeleton FBX extraction; set `COREALM_MAIN` when they live in another checkout. The script writes `models/<production path>.glb` and a `catalog.json` for `tools/promote-finish-assets.ts`.
+The script writes `models/<production path>.glb` and a `catalog.json` for `tools/creature-motion/promote.ts`. Set `COREALM_MAIN` when the git-ignored `derived/` sources live in another checkout.
 
-The gavlig studio golem's expansion selector is `kiln_marrow`. The old `lava_golem` selector is rejected; the active asset with that name is a separate Tripo creature.
+The body factory that used to build these creatures (`build.mjs`, `export-expansion.mjs` and the `*-source/*.mjs` adapters) was removed on 2026-09-29: it forced six states by synthesizing Run, Hit and role attacks and wrapped every clip in a floor lift. Only the source extractors below remain. Each reads an owned or freely licensed archive and writes a git-ignored `derived/` record of the native takes.
 
-Raw Earth and Beetle archives use donor-only selectors `earth_elemental_source` and `beetle_golem_source`, producing distinct inactive candidate IDs. Their retained active descendants have authored designs and must not be replaced by raw archive exports. The colliding `shale_elemental` and `beetle_golem` selectors are retired. The original Forest Monster has no retained active body, so `mossback_sentinel` is retired from this exporter; its source module remains available for explicit donor study.
+| Source | Credit and licence | Extractor | Output |
+| --- | --- | --- | --- |
+| Dungeon Skeletons Demo | Polygon Blacksmith, Standard Unity Asset Store EULA | `python skeleton-source/extract.py` | `test-results/rpg-bestiary-skeleton/` |
+| [Roach](https://opengameart.org/content/roach-game-ready-and-animated) | Atmostatic (model), Danimal (rig, animation, retexture), CC BY-SA 3.0 | `roach-source/extract_source.py` in background Blender 4.5 | `roach-source/derived/source.json` |
+| [Mocap goblin](https://opengameart.org/content/goblin-animated-by-motion-capture) | xGhostx7 (body, CC0), Danimal (animation, CC BY 3.0), Wind astella (knife, CC BY 3.0) | `mocap-goblin-source/extract_source.py` in background Blender | `mocap-goblin-source/derived/source.json` |
+| [Beetle Golem Animated](https://opengameart.org/content/beetle-golem-animated) | killyoverdrive (model, rig), Dm3d (animation), CC BY-SA 3.0 | `beetle-golem-source/extract_source.py` in background Blender | `beetle-golem-source/derived/source.json` |
+| [Earth Elemental](https://opengameart.org/content/earth-elemental-golem) | piacenti, CC BY 3.0 | `python earth-elemental-source/extract_source.py` with the ufbx wheel in `runtime.json` | `earth-elemental-source/derived/source.json` |
+| [Lava Golem](https://opengameart.org/content/lava-golem) | gavlig, CC0 (`provenance.json`) | `lava-golem-source/export_blend.py` in background Blender | `lava-golem-source/derived/{idle,walk,smash}.glb` |
+| Quaternius Universal Animation Library | Quaternius, CC0 | `python humanoid-source/prepare-source.py --cache <quaternius archives>` | `humanoid-source/derived/UAL*_Standard.glb` |
 
-```powershell
-python tools/rpg-bestiary/source-inventory.py
-python tools/rpg-bestiary/humanoid-source/prepare-source.py --cache ../Corealm/.asset-cache
-python tools/rpg-bestiary/wraith-source/prepare.py
-node tools/rpg-bestiary/build.mjs
-node tools/rpg-bestiary/audit.mjs
-npx vitest run tests/rpg-bestiary.test.ts
-```
-
-Build outputs stay in `art/rebuild/candidates/finish-bestiary`. The exporter writes a `catalog.json` compatible with `installAssetCandidates()`, including byte counts, hashes and a map from production URLs to candidate files. A positional list of IDs builds a subset and replaces the catalogue with that subset. Run without IDs to restore the complete catalogue.
-
-The inventory records local entitlement hashes and source asset paths. Replacements use Quaternius CC0 characters, outfits and animations; Polygon Blacksmith's entitled skeleton; PixeliusVita's entitled Monster04 body for the horned demon and gargoyle; and the entitled aurochs head and hooves for the minotaur. Each catalogue row records its exact source provenance. Original archives remain untouched.
-
-Versioned source catalogues use shared external PNG textures at a maximum dimension of 2048. The existing shared-texture helper preserves exact encoded image hashes, and production `AssetTextureCache` shares matching external images and GPU texture storage. `sharedTextures` records file, encoded byte count, SHA256 and media type. Candidate and production relative paths match. The review hook verifies both models and images before serving them. Each revision includes its own payload and compatibility reports; successful source/skin/GLTFLoader checks do not establish art acceptance.
-
-## Root integration
-
-1. Append `RPG_BESTIARY` to the production species registry for lab registration. Keep final-world packs staged until visual acceptance.
-2. Register each `row.stats` through the existing species enemy path in `enemies.ts`. Existing family IDs are stable `row.id`, enemy IDs are `<id>_t<tier>`.
-3. Install the exact versioned candidate catalogue into the review browser context before boot. Every manifest ID is `creature_<id>` and every gallery/combat preset is `species:<id>`.
-4. Use the existing production creature gallery and ordinary combat spawn fixture. Inspect idle, moving, turning, attack, hit and death. Normal input must prove kills, elemental loot, currency and respawn. Gallery playback alone does not prove these behaviors.
-5. Promote accepted files and manifest rows through the root-owned manifest, then integrate accepted regional packs in a later round.
-
-Ranged roles use the shared `EnemyDef.attackStyle` and `attackRangeM` additions. Goblin and Skeleton Archers use ranged attacks at 10 m. Goblin Shaman, Skeleton Mage, Banshee and Lizardman Shaman use magic at 8 m. Other rows use melee at 1.8 m. Clip contact phases reside in the asset catalogue and come from the actual authored clip metadata.
-
-The compatibility audit checks source articulation, converted skins and GLTFLoader output through matching animation samples. It also checks finite attributes, weighted geometry and a 1 cm floor penetration limit. These checks do not establish natural gait, visual art quality, final-world placement, performance or release readiness. Every catalogue row remains `labAccepted: false` and `worldIntegrated: false` until root acceptance.
-
-The optional third argument `{ append: true }` to `exportBestiary(ids, directory, options)` replaces only selected IDs in an existing catalogue. This supports bounded revisions without rebuilding unchanged bodies. Source extraction and preview binaries under `tools/rpg-bestiary` are ignored; retain original archives in the local caches documented by each source helper. The skeleton source extractor checks its archive hash automatically when the model factory first needs it.
-
-Source6 is the immutable complete hardware gallery revision. Source7 contains narrow fixes found by that gallery and the fresh root critic, plus approved measured locomotion metadata. See `STATUS.md` for unresolved acceptance work. `payload-summary.json` records revision-specific storage and texture estimates.
-
-`finalize-review.mjs <candidate-directory> <immutable-baseline-directory>` verifies all GLB hashes against fresh or exact baseline audits, applies approved gait metadata, and synchronizes measured content bounds. Its `revision.json` records changed binary hashes. The production `speed-matched` locomotion policy chooses a measured Walk/Run stride at the real movement speed; `gait-contact-review.md` documents the zombie Run rejection and its explicit Walk alias. No helper sets visual acceptance.
+Run Blender extractors with `--background --factory-startup --disable-autoexec`. `lifecycle-proof.ts`, `lifecycle-metrics.ts` and `summarize-lifecycles.mjs` measure lab lifecycle traces and do not touch assets.

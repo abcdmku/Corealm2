@@ -1,32 +1,6 @@
 # Whole source insects
 
-`buildWholeInsect(id)` in `index.mjs` returns `{object, clips, meta}` for `webweaver_spider` and `marsh_wasp`.
-
-Run `python tools/rpg-bestiary/whole-insects/prepare.py` to extract the two hash-pinned source FBXs from the existing local cache. The source bodies, materials, UVs, and bone hierarchy are retained. The complete source spider has 59 bones; the complete source wasp has 39. Three's FBX importer normalizes the strongest four influences for vertices with more source influences.
-
-These are Quaternius Easy Enemy Pack assets under CC0. Exact archive and member hashes come from `../replacement-inventory/nature.json`. The source pack is https://quaternius.itch.io/animated-easy-enemies.
-
-Idle and Walk retain source idle/walk or flying takes. Run uses source locomotion at 1.65 times the source rate. Attack and Death retain source takes. The source contains no hit animations; Hit, HitLeft, and HitRight use source idle/flying motion with authored whole-body recoil. A separate wrapper lifts sampled geometry above the floor. Wasp flight keeps source altitude. Forward is +Z after a constant source orientation change.
-
-Contact markers are measured from maximum forward reach of the spider's source Head_end or wasp's Sting_end bone. They require production visual review before acceptance. No humanoid bases or detached head parts are used.
-
-Run `node tools/rpg-bestiary/whole-insects/audit.mjs` for CPU geometry, floor, weight, and native-gait checks. This creates `cpu-audit.json`; it does not substitute for the parent's production gallery and motion review.
-
-## Wasp appearance
-
-Early-game variants are built with `node tools/rpg-bestiary/whole-insects/starter-wasps.mjs`. It writes three candidate GLBs and manifest entries under `test-results/starter-wasp-variants`, verifies unchanged animation samples, and asserts that the high-level source file remains unchanged. Each can be previewed with `npx tsx tools/starter-creature-test.ts --wasps --starter-variant --candidate <path>`. The candidate uses the Field Wasp lab preset for all three appearances; registered `--wasps` checks the final species/assets together.
-
-The starter wrapper scales are Field 0.68, Heath 0.62 and Reed 0.72, in addition to species scale 0.45. Their grey albedo is tinted moss green, dusty brown and slate blue; body sheen and wing iridescence are reduced. The neutral texture is saved as `textures/starter-scales.png`, generated with the built-in image_gen tool using this edit prompt:
-
-> Edit this game scale texture: remove ALL purple and blue colour, making the whole image a neutral medium grey material tint mask. Preserve the exact positions, shapes, sizes and fine hairs of the existing scales so it still matches the existing normal map. Slightly soften contrast and lift dark recesses for a modest early-game creature. Neutral grey only, no hue, no new pattern, no new forms, no stripes. Flat evenly lit albedo, edge-to-edge seamless. It will be tinted moss green, earthy taupe and slate blue by game materials.
-
-The shared Field Wasp / Marsh Wasp uses fine blue-violet scales and feather filaments with normal-mapped relief. Connected body surfaces have separate principal-axis UVs, wrap seam correction, and two texture repeats. Area-weighted smooth normals remove the original faceted shading. Colour variation follows body orientation.
-
-The eyes are 42% of their original diameter, with a dark purple outer surface, muted wine-red iris and dark pupil. The raised wing veins are removed. Two wing pairs use planar UVs, opacity 0.48, iridescence 0.85 and a pearl texture with sparse sparkle flecks and a subtle fractal frost pattern. The rear pair is 78% of the main pair, angled down by 0.55 radians, and retains the source wing skin weights so both pairs flap with the original flight animation.
-
-Body roughness is 0.46, metalness 0.08, normal strength 0.45, clearcoat 0.28 and iridescence 0.24. Skeleton and all animation clips remain intact. Geometry edits shrink eye shells, remove wing-vein triangles and add a skinned rear wing pair. Serialization is checked against the authored geometry and source animation data.
-
-After exporting the source wasp, run `node tools/rpg-bestiary/whole-insects/texture-wasp.mjs --source <exported-glb> --out <candidate-glb>`. The appearance pass is required after rebuilding the insect. Accept with `npx tsx tools/starter-creature-test.ts --wasps --candidate <candidate-glb>` before replacing the public model and updating manifest hashes, bytes, triangles and materials.
+The spider and wasp factory (`index.mjs`, `starter-wasps.mjs`, `texture-wasp.mjs` and their audits) was removed on 2026-09-29 with the other repo motion generators. The shipped wasps and spider keep these textures; their motion comes from the current pipelines in `tools/creature-motion/README.md`. The texture art and its prompts are recorded below.
 
 Project textures, generated with the built-in image_gen tool:
 - `textures/harpy-plumage.png`: body albedo.
