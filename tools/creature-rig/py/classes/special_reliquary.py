@@ -8,7 +8,7 @@ wild boar: a barrel body on short legs.
 """
 import numpy as np
 
-from classes.special_quad import fit_quad, quad_legs, rigid_body_override
+from classes.special_quad import fit_quad, quad_legs, rigid_body_override, touchdown_turns
 from crlib.body import Body
 from crlib.mathx import axis_angle
 
@@ -37,7 +37,12 @@ def fit(body, donor, profile, source=None):
 
 
 def bind_turns(sk, profile):
-    return {sk.bones[0].name: _turn(profile)}
+    """The facing turn; with profile "touchDown", a leg hanging above the floor at bind is turned
+    down at its hip first (fitted before the facing turn, so only for faceYaw 0)."""
+    turns = touchdown_turns(sk) if profile.get("touchDown") else {}
+    if profile.get("faceYaw", 90.0):
+        turns[sk.bones[0].name] = _turn(profile)
+    return turns
 
 
 def cloth(body, sk, profile, heat):
