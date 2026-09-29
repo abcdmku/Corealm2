@@ -17,22 +17,22 @@ const smooth=(a,b,x)=>THREE.MathUtils.smoothstep(x,a,b);
 const bell=(x,c,w)=>Math.exp(-(((x-c)/w)**2));
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 const configs=[
- {id:'cairn_treader',base:'shale_elemental',tempo:1.12,probe:'earth_35_hand_R',contact:.45,
+ {id:'cairn_treader',base:'shale_elemental',probe:'earth_35_hand_R',contact:.45,
   design:'Head recessed into a widened shoulder shelf, shortened reach and deeper stone palms, planted legs beneath a low torso; weighted torso sway and native punch recovery.',
   shape(v){const {x,y,z}=v,arms=smooth(.65,1.8,Math.abs(x)),head=smooth(1.94,2.20,y)*(1-smooth(.22,.55,Math.abs(x))),torso=bell(y,1.5,.55)*(1-smooth(.3,.9,Math.abs(x)));
    return V(x*(.92+torso*.28+arms*.015), y<1.1?y*1.06:1.166+(y-1.1)*(.78-head*.32),z*(1+torso*.35+arms*.10)+head*.18);}},
- {id:'flint_mandible',base:'beetle_golem',tempo:1.04,probe:'beetle_5_Bone_004',contact:.5,
+ {id:'flint_mandible',base:'beetle_golem',probe:'beetle_5_Bone_004',contact:.5,
   design:'Deep shell mantle, flattened forward shovel cranium and splayed digging claws; braced digging sweep replaces symmetrical upper-body motion.',
   shape(v){const {x,y,z}=v,head=smooth(1.8,2.05,y)*(1-smooth(.35,.65,Math.abs(x))),claw=smooth(.72,1.12,Math.abs(x))*(1-smooth(1.1,1.7,y)),shell=bell(y,1.7,.45)*(1-smooth(.3,.7,Math.abs(x))),shovel=smooth(.59,.68,z)*smooth(1.7,1.9,y);
    return V(x*(1+claw*.37+head*.22),y*.91-head*.15,z*(1+shell*.55)+head*.28+claw*.08+(z-.76)*shovel*1.6);}},
- {id:'vault_custodian',base:'iron_golem',tempo:1.24,probe:'hand_r',contact:.38,
+ {id:'vault_custodian',base:'iron_golem',probe:'hand_r',contact:.38,
   design:'Source helmet, chest, shoulders and hands removed. New hollow masonry arch torso, slotted vault head, lintel shoulders and closing gate fists share the native rig.',
   shape(v){const {x,y,z}=v,arm=smooth(.55,1.35,Math.abs(x));return V(x*(1.02+arm*.08),y<1.25?y*.82:1.025+(y-1.25)*.90,z*1.14);}},
- {id:'blind_cave_weaver',base:'webweaver_spider',tempo:1.11,probe:'Head',contact:.48,
+ {id:'blind_cave_weaver',base:'webweaver_spider',probe:'Head',contact:.48,
   design:'Eye geometry removed; divided, ridged abdomen, forward sensory hood and lengthened flattened forelegs; searching head and opposed foreleg sweeps.',
   shape(v){const {x,y,z}=v,body=1-smooth(.22,.5,Math.abs(x)),back=1-smooth(-.35,-.12,z),front=smooth(.25,.6,z),cleft=Math.exp(-((x/.10)**2))*back*body;
    return V(x*(1+back*body*.65+front*.10),y*(.84+smooth(.27,.42,y)*.17)-cleft*.14*smooth(.23,.43,y)+Math.abs(x)*back*body*.2,z<-.18?-.18+(z+.18)*1.7:z*(1+front*.32));}},
- {id:'scree_watcher',base:'stone_golem',tempo:1.07,probe:'hand_r',contact:.38,
+ {id:'scree_watcher',base:'stone_golem',probe:'hand_r',contact:.38,
   design:'Every source knight mesh replaced by an integrated eroded stone effigy: tapered stilt legs, fused trunk, enclosed split hood and flat forearms. Native rig retained with slow head scan and asymmetric torso counter-turn.',
   shape(v){const {x,y,z}=v,arms=smooth(.7,1.5,Math.abs(x)),torso=bell(y,1.55,.5)*(1-smooth(.2,.55,Math.abs(x)));
    return V(x*(.78+arms*.08),y<1.25?y*1.20:1.5+(y-1.25)*.95,z*(.76+torso*.12));}},
@@ -129,30 +129,16 @@ async function make(config){const parent=manifest.assets.find(a=>a.id===`creatur
    if(node.getName().startsWith(config.id+'_')||!p.getAttribute('TEXCOORD_0')){const pos=p.getAttribute('POSITION'),uv=new Float32Array(pos.getCount()*2);for(let i=0;i<pos.getCount();i+=3){const a=V().fromArray(pos.getElement(i,[])),b=V().fromArray(pos.getElement(i+1,[])),c=V().fromArray(pos.getElement(i+2,[])),n=b.sub(a).cross(c.sub(a)).normalize().toArray(),axis=Math.abs(n[0])>Math.abs(n[1])&&Math.abs(n[0])>Math.abs(n[2])?0:Math.abs(n[1])>Math.abs(n[2])?1:2;for(let k=0;k<3;k++){const x=pos.getElement(i+k,[]);uv[(i+k)*2]=x[axis===0?2:0]*1.5;uv[(i+k)*2+1]=x[axis===1?2:1]*1.5;}}p.setAttribute('TEXCOORD_0',doc.createAccessor().setType('VEC2').setArray(uv).setBuffer(buffer));}
   }
  }
+ // Motion is inherited unchanged from the parent's native takes: no synthesized Run, sine overlays
+ // or retiming (retired with the native-motion rework).
  const motionEdits=[];
- if(config.id==='vault_custodian'){
-  root.listAnimations().find(a=>a.getName()==='Run')?.dispose();const run=doc.createAnimation('Run'),walk=root.listAnimations().find(a=>a.getName()==='Walk');
-  for(const source of walk.listChannels()){const s=source.getSampler(),sampler=doc.createAnimationSampler().setInput(s.getInput().clone().setArray(Float32Array.from(s.getInput().getArray(),t=>t*.72))).setOutput(s.getOutput()).setInterpolation(s.getInterpolation());run.addSampler(sampler).addChannel(doc.createAnimationChannel().setTargetNode(source.getTargetNode()).setTargetPath(source.getTargetPath()).setSampler(sampler));}
-  motionEdits.push('Run: deliberately derives from the weight-transferring native Walk at 1/0.72 speed; no floating jog pose');
- }
- function rotateTrack(animation,regex,axis,angle,wave){for(const channel of animation.listChannels())if(channel.getTargetPath()==='rotation'&&regex.test(channel.getTargetNode()?.getName()??'')){
-  const sampler=channel.getSampler(),input=sampler.getInput().getArray(),output=sampler.getOutput(),values=output.getArray().slice(),duration=input.at(-1);for(let i=0;i<input.length;i++){const t=input[i]/duration,a=angle*wave(t);new THREE.Quaternion().fromArray(values,i*4).multiply(new THREE.Quaternion().setFromAxisAngle(axis,a)).toArray(values,i*4);}sampler.setOutput(output.clone().setArray(values));motionEdits.push(`${animation.getName()}:${channel.getTargetNode().getName()}`);}}
- for(const animation of root.listAnimations()){
-  const name=animation.getName(),walking=['Walk','Run'].includes(name),idle=name==='Idle',attack=name==='Attack';
-  if(config.id==='cairn_treader')rotateTrack(animation,/earth_15_chest/,V(0,0,1),walking?.075:attack?.14:.03,t=>Math.sin(t*Math.PI*(walking?2:1)));
-  if(config.id==='flint_mandible')rotateTrack(animation,/beetle_3_Bone_002/,V(0,1,0),attack?.22:.055,t=>Math.sin(t*Math.PI*(attack?1:2)));
-  if(config.id==='vault_custodian'){rotateTrack(animation,/spine_03/,V(1,0,0),attack?.14:walking?.045:.015,t=>Math.sin(t*Math.PI*(attack?1:2)));if(attack)rotateTrack(animation,/lowerarm_l/,V(0,0,1),.24,t=>Math.sin(t*Math.PI));}
-  if(config.id==='blind_cave_weaver'&&(idle||walking)){rotateTrack(animation,/^Head$/,V(0,1,0),.18,t=>Math.sin(t*Math.PI*2));rotateTrack(animation,/^FrontLegL$/,V(0,0,1),.14,t=>Math.sin(t*Math.PI*2));rotateTrack(animation,/^FrontLegR$/,V(0,0,1),-.14,t=>Math.sin(t*Math.PI*2));}
-  if(config.id==='scree_watcher'){rotateTrack(animation,/^Head$/,V(0,1,0),idle?.25:.1,t=>Math.sin(t*Math.PI*2));rotateTrack(animation,/spine_03/,V(0,1,0),walking?.085:attack?.18:.055,t=>Math.sin(t*Math.PI*(attack?1:2)));}
-  const retimed=new Map();for(const sampler of animation.listSamplers()){const input=sampler.getInput();if(!retimed.has(input))retimed.set(input,input.clone().setArray(Float32Array.from(input.getArray(),v=>v*config.tempo)));sampler.setInput(retimed.get(input));}
- }
  await doc.transform(prune());
  // Recompute grounding and extents from the actual skinned result, including new body parts.
  const measure=await measureAndGround(doc,config);
  await doc.transform(prune());
  const assetId=`creature_${config.id}`,file=`${assetId}.glb`;await io.write(path.join(OUT,file),doc);const bytes=await readFile(path.join(OUT,file));
  const asset={...structuredClone(parent),id:assetId,file:`models/creature/${file}`,is:config.id.replaceAll('_',' '),bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),size:measure.size,base:measure.base,triangles:root.listMeshes().reduce((n,m)=>n+m.listPrimitives().reduce((s,p)=>s+(p.getIndices()?.getCount()??p.getAttribute('POSITION').getCount())/3,0),0),materials:root.listMaterials().map(m=>m.getName()),walkClipSeconds:measure.clips.Walk.duration,runClipSeconds:measure.clips.Run.duration,attackSeconds:measure.clips.Attack.duration,contactNormalized:measure.attackContact,
-  impliedWalkMps:parent.impliedWalkMps?parent.impliedWalkMps/config.tempo:undefined,impliedRunMps:parent.impliedRunMps?parent.impliedRunMps/config.tempo:undefined,
+  impliedWalkMps:parent.impliedWalkMps,impliedRunMps:parent.impliedRunMps,
   metadata:{...parent.metadata,redesign:{sourceAssetId:parent.id,sourceSha256:parent.sha256,design:config.design,generator:'tools/biome-creatures/stone/build.mjs',albedo:textureFile,deformedVertices,removedTriangles,motionEdits,measurement:measure,sourceLicense:parent.license??parent.metadata?.provenance?.license}},acceptance:{exported:true,labAccepted:false,worldIntegrated:false}};
  return{asset,file};
 }
