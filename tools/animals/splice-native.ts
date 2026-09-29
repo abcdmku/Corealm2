@@ -49,13 +49,23 @@ interface Body { rig: string; states: Partial<Record<State, StateSource>>; notes
 
 const take = (file: string, frames?: [number, number], note?: string): Take => ({ file, frames, note });
 
+/**
+ * Deer-family charge from the goat headbutt. The deer's neck is far longer than the goat's, so a
+ * bind-relative copy bent it until the head sank behind the folded forelegs. Start-relative instead:
+ * head, ears and neck take the goat's world rotation away from its first frame, the shoulders take a
+ * third of it, and pelvis, legs and root hold the deer's own Idle stance. The head drops to chest
+ * height with the antlers presented forward. Ibex_Attack read the same; the goat is the closer twin.
+ */
+export const DEER_CHARGE: [RegExp, number][] = [
+  [/_Head_|_Ear_|_Neck_/, 1], [/_Spine_0[34]SHJnt$|_Spine_TopSHJnt$/, 0.3], [/_Tail_/, 0.6],
+];
+
 /** Per-body take table; see D:/corealm-scratch/anim-audit/family-animals.md section 1.5. */
 export const BODIES: Record<string, Body> = {
   deer: { rig: "Deer_Rig.fbx", states: {
     Idle: take("Deer_Idle.fbx"), Walk: take("Deer_Walk.fbx"), Run: take("Deer_Run.fbx"), Death: take("Deer_Die.fbx"),
-    // The pack has no deer attack. Goat and deer share one joint template; the goat's headbutt
-    // dips the head less than the ibex's, so the longer deer neck stays clear of the ground.
-    Attack: { file: "Goat_Attack.fbx", donor: "animal_goat", map: { from: "Goat_", to: "Deer_" } } } },
+    // The pack has no deer attack: the goat headbutt, start-relative (see DEER_CHARGE).
+    Attack: { file: "Goat_Attack.fbx", donor: "animal_goat", map: { from: "Goat_", to: "Deer_", startRelative: { weights: DEER_CHARGE } } } } },
   bear: { rig: "Bear_Rig.fbx", states: {
     Idle: take("Bear_Idle.fbx"), Walk: take("Bear_Walk.fbx"), Run: take("Bear_Run.fbx"), Attack: take("Bear_Attack.fbx"), Death: take("Bear_Die.fbx") } },
   wolf: { rig: "Wolf_Rig.fbx", states: {
@@ -305,15 +315,16 @@ async function main(): Promise<void> {
   const only = argValue(args, "--only")?.split(",").map((id) => id.trim());
   const outDir = path.resolve(argValue(args, "--out") ?? path.join(repoRoot, "test-results", "creature-motion", "animals"));
   const ids = only ?? Object.keys(ASSETS);
-  // --try Name=File.fbx[@first-last][~donorId~FromPrefix~ToPrefix[~Src:Dst,...]] adds a preview clip to every
+  // --try Name=File.fbx[@first-last][~donorId~FromPrefix~ToPrefix[~Src:Dst,...[~deer-charge]]] adds a preview clip to every
   // selected asset, for judging a candidate take on a contact sheet before it enters the table.
   const tries = args.flatMap((arg, index) => args[index - 1] === "--try" ? [arg] : []).map((spec) => {
     const [name, rest] = spec.split("=") as [string, string];
-    const [fileRange, donorId, from, to, pairs] = rest.split("~") as [string, string?, string?, string?, string?];
+    const [fileRange, donorId, from, to, pairs, preset] = rest.split("~") as [string, string?, string?, string?, string?, string?];
+    const startRelative = preset === "deer-charge" ? { weights: DEER_CHARGE } : undefined;
     const extra = pairs ? Object.fromEntries(pairs.split(",").map((pair) => pair.split(":") as [string, string])) : undefined;
     const [file, range] = fileRange.split("@") as [string, string?];
     const frames = range ? range.split("-").map(Number) as [number, number] : undefined;
-    const source: StateSource = donorId ? { file, frames, donor: donorId, map: { from: from!, to: to!, extra } } : { file, frames };
+    const source: StateSource = donorId ? { file, frames, donor: donorId, map: { from: from!, to: to!, extra, startRelative } } : { file, frames };
     return [name, source] as const;
   });
   if (tries.length) for (const id of ids) {
@@ -364,8 +375,9 @@ async function main(): Promise<void> {
       let clip = takes.get(sourceKey(source))!;
       if ("donor" in source) {
         const donorEntry = manifest.assets.find((asset) => asset.id === source.donor)!;
-        clip = retargetClip(clip, source.map, await readDonor(path.join(gameRoot, "public", "assets", donorEntry.file)), doc);
-        donor[state] = `${source.file}${source.frames ? ` frames ${source.frames.join("-")}` : ""} retargeted rest-relative from the ${source.donor} rig`;
+        const idle = body.states.Idle ? takes.get(sourceKey(body.states.Idle)) : undefined;
+        clip = retargetClip(clip, source.map, await readDonor(path.join(gameRoot, "public", "assets", donorEntry.file)), doc, idle);
+        donor[state] = `${source.file}${source.frames ? ` frames ${source.frames.join("-")}` : ""} retargeted ${source.map.startRelative ? "start-relative (head/neck full, shoulders 0.3, legs hold own Idle stance)" : "rest-relative"} from the ${source.donor} rig`;
       } else if (source.frames) {
         native.push(state);
         donor[state] = `native ${source.file} frames ${source.frames.join("-")}${source.note ? ` (${source.note})` : ""}`;
