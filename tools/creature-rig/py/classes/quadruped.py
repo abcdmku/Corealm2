@@ -462,7 +462,9 @@ def plan(sk, body, profile):
             bones = leg_bones(sk, side, kind)
             # bones: hip, knee(s), ankle, ball. The IK bends hip..last knee; the ankle bone is the
             # foot and the ball bone the toe.
-            legs.append({"chain": bones[:-2], "foot": bones[-2], "toe": bones[-1], "pivot": None})
+            # "legPivot" forces the IK pivot (1: the hock or carpus) for a donor whose leg has fewer
+            # joints than the skeleton (a two-bone horse leg mapped onto three segments).
+            legs.append({"chain": bones[:-2], "foot": bones[-2], "toe": bones[-1], "pivot": profile.get("legPivot")})
     colliders = []
     for b in sk.bones:
         if b.kind in ("leg", "body") and b.name != "root" and b.parent:
@@ -494,7 +496,8 @@ def cloth(body, sk, profile, heat):
     head = _head_override(body, sk, profile)
     plate = _ground_plate_override(body, sk)
     paws = _paw_override(body, sk, profile)
-    parts = [o for o in (head, shell, plate, paws) if o]  # later parts win where two claim a vertex
+    coat = _coat_override(body, sk, profile)
+    parts = [o for o in (coat, head, shell, plate, paws) if o]  # later parts win where two claim a vertex
     if not parts:
         return None
 
@@ -539,6 +542,58 @@ def _paw_override(body, sk, profile):
             target[:, toe] = np.where(keep[:, 0] > 1e-6, norm[:, toe] / np.maximum(keep[:, 0], 1e-9), 0.0)
             W[rows] = (1 - a[:, None]) * norm + a[:, None] * target
             fixed[rows[a > 0.5]] = True
+        return W, fixed
+
+    return override
+
+
+def _coat_override(body, sk, profile):
+    """profile "coatRigid": loose pieces seated on the back and flanks (a porcupine's quills, dorsal
+    spines) ride the axial bone nearest their seat, rigidly. Bone heat hands a quill lying over the
+    shoulder or hip to the leg under it, and the quill then swings with the stride; a quill blended
+    between two bones stretches. A piece counts when its seat (its vertex nearest the main body) is
+    above the legs' attachment height less a margin; the legs, feet and the head keep their skin."""
+    if not profile.get("coatRigid"):
+        return None
+    from scipy.sparse.csgraph import connected_components
+    from scipy.spatial import cKDTree
+
+    from crlib.skin import adjacency, segment_distance
+
+    V = body.verts
+    names = sk.names()
+    _, label = connected_components(adjacency(len(V), body.faces), directed=False)
+    sizes = np.bincount(label)
+    main = int(np.argmax(sizes))
+    tree = cKDTree(V[label == main])
+    axial = [b for b in sk.bones if b.kind in ("body", "tail") and b.name not in ("root", "head")]
+    cols = np.array([names.index(b.name) for b in axial])
+    heads = np.array([b.head for b in axial])
+    tails = np.array([b.tail for b in axial])
+    attach = np.mean([sk[leg_bones(sk, s, k)[0]].head[1] for s in "lr" for k in ("Front", "Hind")])
+    low = attach - profile.get("coatMargin", 0.15) * body.height
+    rows, bones = [], []
+    for c in np.nonzero(sizes < profile.get("coatMaxShare", 0.02) * len(V))[0]:
+        idx = np.nonzero(label == c)[0]
+        d, _ = tree.query(V[idx])
+        seat = V[idx[int(np.argmin(d))]]
+        if seat[1] < low:
+            continue
+        k = int(np.argmin(segment_distance(seat[None], heads, tails)[0]))
+        rows.append(idx)
+        bones.append(np.full(len(idx), cols[k]))
+    if not rows:
+        return None
+    rows, bones = np.concatenate(rows), np.concatenate(bones)
+
+    def override(W):
+        W = W.copy()
+        if W.shape[1] < len(names):
+            W = np.hstack([W, np.zeros((len(W), len(names) - W.shape[1]))])
+        W[rows] = 0.0
+        W[rows, bones] = 1.0
+        fixed = np.zeros(len(V), bool)
+        fixed[rows] = True
         return W, fixed
 
     return override

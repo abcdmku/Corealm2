@@ -83,6 +83,9 @@
     },
     "dm_boar": {
       "ref": "dm_dragonboar"
+    },
+    "horse": {
+      "ref": "quat_farm_horse"
     }
   },
   "profiles": {
@@ -263,7 +266,7 @@
           "loop": true
         },
         "Attack": {
-          "donor": "boar",
+          "donor": "wolf",
           "clip": "Attack"
         },
         "Hit": {
@@ -274,7 +277,8 @@
           "donor": "boar",
           "clip": "Die"
         }
-      }
+      },
+      "coatRigid": true
     },
     "tortoise": {
       "rigidTorso": true,
@@ -372,6 +376,48 @@
       }
     },
     "equid": {
+      "roles": {
+        "horse": {
+          "MAIN": "root",
+          "ROOT": "Hips",
+          "Spine_01": "Torso",
+          "Spine_02": null,
+          "Spine_03": null,
+          "Spine_04": null,
+          "Spine_Top": "Shoulders",
+          "Neck_01": "Neck",
+          "Neck_02": null,
+          "Neck_Top": "Head",
+          "Head_JawEnd": "Head_end",
+          "Tail_01_01": "Tail1",
+          "Tail_01_02": "Tail2",
+          "Tail_01_03": "Tail3",
+          "Tail_01_04": "Tail4",
+          "l_Clavicle_01_01": "FrontLeg.L",
+          "l_FrontLeg_Hip": "FrontUpLeg.L",
+          "l_FrontLeg_Knee1": "FrontLowLeg.L",
+          "l_FrontLeg_Knee2": "FrontLowLeg.L",
+          "l_FrontLeg_Ankle": "FrontLowLeg.L_end",
+          "l_FrontLeg_Ball": "FrontLowLeg.L_end",
+          "l_HindLeg_Hip": "BackUpLeg.L",
+          "l_HindLeg_Knee1": "BackLowLeg.L",
+          "l_HindLeg_Knee2": "BackLowLeg.L",
+          "l_HindLeg_Ankle": "BackLowLeg.L_end",
+          "l_HindLeg_Ball": "BackLowLeg.L_end",
+          "r_Clavicle_01_01": "FrontLeg.R",
+          "r_FrontLeg_Hip": "FrontUpLeg.R",
+          "r_FrontLeg_Knee1": "FrontLowLeg.R",
+          "r_FrontLeg_Knee2": "FrontLowLeg.R",
+          "r_FrontLeg_Ankle": "FrontLowLeg.R_end",
+          "r_FrontLeg_Ball": "FrontLowLeg.R_end",
+          "r_HindLeg_Hip": "BackUpLeg.R",
+          "r_HindLeg_Knee1": "BackLowLeg.R",
+          "r_HindLeg_Knee2": "BackLowLeg.R",
+          "r_HindLeg_Ankle": "BackLowLeg.R_end",
+          "r_HindLeg_Ball": "BackLowLeg.R_end"
+        }
+      },
+      "legPivot": 1,
       "clips": {
         "Idle": {
           "donor": "deer",
@@ -379,17 +425,17 @@
           "loop": true
         },
         "Walk": {
-          "donor": "deer",
+          "donor": "cattle",
           "clip": "Walk",
           "loop": true
         },
         "Run": {
-          "donor": "deer",
+          "donor": "cattle",
           "clip": "Run",
           "loop": true
         },
         "Attack": {
-          "donor": "ibex",
+          "donor": "boar",
           "clip": "Attack"
         },
         "Hit": {
@@ -397,8 +443,8 @@
           "clip": "Hit"
         },
         "Death": {
-          "donor": "deer",
-          "clip": "Die"
+          "donor": "horse",
+          "clip": "Armature|Armature|Death"
         }
       }
     },
