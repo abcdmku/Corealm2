@@ -1,1 +1,142 @@
-{ "class": "special_treant", "profile": "matriarch" }
+{
+ "class": "special_treant",
+ "profile": "matriarch",
+ "studio": {
+  "rootNode": "root",
+  "map": {
+   "pelvis": {
+    "bone": "pelvis"
+   },
+   "spine_01": {
+    "bone": "spine_01"
+   },
+   "spine_02": {
+    "bone": "spine_02"
+   },
+   "spine_03": {
+    "bone": "spine_03"
+   },
+   "neck_01": {
+    "bone": "neck_01"
+   },
+   "Head": {
+    "bone": "Head"
+   },
+   "clavicle_l": {
+    "bone": "clavicle_l",
+    "kind": "arm"
+   },
+   "upperarm_l": {
+    "bone": "upperarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lowerarm_l": {
+    "bone": "lowerarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "hand_l": {
+    "bone": "hand_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "thigh_l": {
+    "bone": "thigh_l",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "calf_l": {
+    "bone": "calf_l",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "foot_l": {
+    "bone": "foot_l",
+    "kind": "leg"
+   },
+   "ball_l": {
+    "bone": "ball_l",
+    "kind": "leg"
+   },
+   "clavicle_r": {
+    "bone": "clavicle_r",
+    "kind": "arm"
+   },
+   "upperarm_r": {
+    "bone": "upperarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lowerarm_r": {
+    "bone": "lowerarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "thigh_r": {
+    "bone": "thigh_r",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "calf_r": {
+    "bone": "calf_r",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "foot_r": {
+    "bone": "foot_r",
+    "kind": "leg"
+   },
+   "ball_r": {
+    "bone": "ball_r",
+    "kind": "leg"
+   }
+  },
+  "hipMotion": 0.8,
+  "springs": [
+   {
+    "from": "cape_l_01",
+    "stiffness": 40.0,
+    "damping": 7.0,
+    "gravity": 0.0,
+    "hang": 0.6,
+    "clearance": 0.1
+   },
+   {
+    "from": "cape_r_01",
+    "stiffness": 40.0,
+    "damping": 7.0,
+    "gravity": 0.0,
+    "hang": 0.6,
+    "clearance": 0.1
+   },
+   {
+    "from": "tabard_01",
+    "stiffness": 40.0,
+    "damping": 7.0,
+    "gravity": 0.0,
+    "hang": 0.6,
+    "clearance": 0.1
+   }
+  ],
+  "replace": [
+   "Attack"
+  ],
+  "clips": {
+   "Attack": {
+    "donor": "ual1",
+    "clip": [
+     "Spell_Simple_Enter",
+     "Spell_Simple_Shoot",
+     "Spell_Simple_Exit"
+    ]
+   }
+  }
+ },
+ "notes": "Studio mode on the production rig: Idle, Walk, Hit and Death stay byte-identical and only the boxer's Punch_Cross Attack is replaced. A re-rig from the promoted (re-bound) mesh crumples the leaf skirt and loses the crown, so the production skin is kept. The attack is a cast (Spell_Simple): the overhand smash and the zombie claw drive the root feet through the floor and fold the skirt, while the cast keeps the skirt hanging. The skirt panels are spring chains (no leg colliders in studio mode); the cast barely moves the legs."
+}

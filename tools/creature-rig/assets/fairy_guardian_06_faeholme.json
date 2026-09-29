@@ -1,11 +1,58 @@
 {
-  "class": "golem",
+  "class": "treant",
   "profile": "treant",
   "profileOverrides": {
     "landmarks": {
-      "tips": { "head": [0.0, 2.42, 0.0] },
-      "joints": { "neck_01": [0.0, 1.98, 0.0], "Head": [0.0, 2.15, 0.0] }
+      "tips": {
+        "head": [
+          0.0,
+          2.42,
+          0.0
+        ]
+      },
+      "joints": {
+        "neck_01": [
+          0.0,
+          1.98,
+          0.0
+        ],
+        "Head": [
+          0.0,
+          2.15,
+          0.0
+        ],
+        "upperarm_l": [
+          0.38,
+          1.52,
+          0.03
+        ],
+        "lowerarm_l": [
+          0.58,
+          1.26,
+          0.13
+        ],
+        "hand_l": [
+          0.72,
+          1.07,
+          0.18
+        ],
+        "upperarm_r": [
+          -0.38,
+          1.52,
+          0.03
+        ],
+        "lowerarm_r": [
+          -0.58,
+          1.26,
+          0.13
+        ],
+        "hand_r": [
+          -0.72,
+          1.07,
+          0.18
+        ]
+      }
     }
   },
-  "notes": "Nightbloom. The antennae rise off the head's column and the narrowest slab above the shoulders is an antenna stalk, so the head tip, neck and head joints are given here."
+  "notes": "Nightbloom. The antennae rise off the head's column and the narrowest slab above the shoulders is an antenna stalk, so the head tip, neck and head joints are given here. The hands rest against the hips, so the armpit probe stops at the hand and the arm joints are given too."
 }
