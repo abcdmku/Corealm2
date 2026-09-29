@@ -1,0 +1,307 @@
+{
+  "donors": {
+    "wolf": {
+      "ref": "animal_wolf"
+    },
+    "deer": {
+      "ref": "animal_deer"
+    },
+    "ibex": {
+      "ref": "animal_ibex"
+    },
+    "cattle": {
+      "ref": "animal_cattle"
+    },
+    "boar": {
+      "ref": "animal_wildboar"
+    },
+    "bear": {
+      "ref": "animal_bear"
+    },
+    "croc": {
+      "ref": "animal_crocodile"
+    },
+    "salamander": {
+      "ref": "animal_firesalamander"
+    }
+  },
+  "profiles": {
+    "canid": {
+      "clips": {
+        "Idle": {
+          "donor": "wolf",
+          "clip": "IdleA",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "wolf",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "wolf",
+          "clip": "Run",
+          "loop": true,
+          "ik": false
+        },
+        "Attack": {
+          "donor": "wolf",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "wolf",
+          "clip": "Die"
+        }
+      }
+    },
+    "caprid": {
+      "clips": {
+        "Idle": {
+          "donor": "ibex",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "ibex",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "ibex",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "ibex",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "ibex",
+          "clip": "Die"
+        }
+      }
+    },
+    "cervid": {
+      "clips": {
+        "Idle": {
+          "donor": "deer",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "deer",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "deer",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "ibex",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "deer",
+          "clip": "Die"
+        }
+      }
+    },
+    "heavy": {
+      "clips": {
+        "Idle": {
+          "donor": "boar",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "boar",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "boar",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "boar",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "boar",
+          "clip": "Die"
+        }
+      }
+    },
+    "bull": {
+      "legFollow": 0.0,
+      "clips": {
+        "Idle": {
+          "donor": "cattle",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "cattle",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "cattle",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "cattle",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "cattle",
+          "clip": "Die"
+        }
+      }
+    },
+    "porcupine": {
+      "legFollow": 0.0,
+      "clips": {
+        "Idle": {
+          "donor": "boar",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "boar",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "boar",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "boar",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "boar",
+          "clip": "Die"
+        }
+      }
+    },
+    "tortoise": {
+      "rigidTorso": true,
+      "shellRim": 0.3,
+      "legFollow": 0.0,
+      "clips": {
+        "Idle": {
+          "donor": "croc",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "croc",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "croc",
+          "clip": "Bite"
+        },
+        "Death": {
+          "donor": "croc",
+          "clip": "Die"
+        }
+      }
+    },
+    "reptile": {
+      "tailMode": "donor",
+      "tailFollow": 1.0,
+      "clips": {
+        "Idle": {
+          "donor": "croc",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "croc",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "croc",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "croc",
+          "clip": "Bite"
+        },
+        "Death": {
+          "donor": "croc",
+          "clip": "Die"
+        }
+      }
+    },
+    "salamander": {
+      "tailMode": "donor",
+      "tailFollow": 1.0,
+      "footHeight": 0.3,
+      "bindTailStraight": true,
+      "clips": {
+        "Idle": {
+          "donor": "salamander",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "salamander",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "salamander",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "croc",
+          "clip": "Bite"
+        },
+        "Death": {
+          "donor": "salamander",
+          "clip": "Die"
+        }
+      }
+    },
+    "equid": {
+      "clips": {
+        "Idle": {
+          "donor": "deer",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "deer",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "deer",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "ibex",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "deer",
+          "clip": "Die"
+        }
+      }
+    }
+  }
+}

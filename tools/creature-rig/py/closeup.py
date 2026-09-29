@@ -57,7 +57,8 @@ def main():
         for k in range(a.phases):
             rows.append((clip, act, start + (end - start) * k / max(a.phases, 1)))
     tiles = []
-    tmp = os.path.join(os.path.dirname(os.path.abspath(a.out)), "_closeup_tile.png")
+    # One tile file per run: parallel close-ups must not share it.
+    tmp = os.path.join(os.path.dirname(os.path.abspath(a.out)), f"_closeup_tile_{os.getpid()}.png")
     for label, act, frame in rows:
         if act is None:
             arm.animation_data_clear()

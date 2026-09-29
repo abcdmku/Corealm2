@@ -121,6 +121,7 @@ class Body:
         shallow = dt <= 3.0 * self.h
         cut_at = 0.35 * self.height
         self.cut_edges = 0
+        cut = ([], [], [])
         for d in [(1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0), (1, -1, 0), (1, 0, 1), (1, 0, -1), (0, 1, 1), (0, 1, -1),
                   (1, 1, 1), (1, 1, -1), (1, -1, 1), (1, -1, -1)]:
             nb = idx + d
@@ -139,14 +140,53 @@ class Body:
             facing = ~same & shallow[a] & shallow[b] & (np.einsum("ij,ij->i", normals[a], normals[b]) < -0.2)
             touching = (same & (gap > cut_at)) | facing
             self.cut_edges += int(touching.sum())
-            a, b = a[~touching], b[~touching]
             step = np.linalg.norm(d) * self.h
             # Prefer the medial line: stepping through thin (near-surface) voxels costs more.
             w = step * (1.0 + 3.0 * (1.0 - np.minimum(dt[a], dt[b]) / np.maximum(local[a], local[b])) ** 2)
-            rows += [a, b]
-            cols += [b, a]
-            cost += [w, w]
-        self.graph = csr_matrix((np.concatenate(cost), (np.concatenate(rows), np.concatenate(cols))), shape=(len(idx), len(idx)))
+            rows += [a[~touching], b[~touching]]
+            cols += [b[~touching], a[~touching]]
+            cost += [w[~touching], w[~touching]]
+            cut[0].append(a[touching])
+            cut[1].append(b[touching])
+            cut[2].append(w[touching])
+        rows, cols, cost = np.concatenate(rows), np.concatenate(cols), np.concatenate(cost)
+        rows, cols, cost = self._reattach(len(idx), rows, cols, cost, *(np.concatenate(c) for c in cut))
+        self.graph = csr_matrix((cost, (rows, cols)), shape=(len(idx), len(idx)))
+
+    def _reattach(self, n, rows, cols, cost, ca, cb, cw, min_share=0.01):
+        """A separate mesh piece that only touches the body (a forearm or a claw modelled as its
+        own island) is cut off whole by the contact cuts and would vanish from the medial graph.
+        Each such piece of at least min_share of the core is joined again through the cut edges
+        to the neighbouring part it shares the most contact with."""
+        from scipy.sparse.csgraph import connected_components
+
+        self.reattached = []
+        for _ in range(8):
+            graph = csr_matrix((cost, (rows, cols)), shape=(n, n))
+            count, label = connected_components(graph, directed=False)
+            sizes = np.bincount(label, minlength=count)
+            main = int(np.argmax(sizes))
+            la, lb = label[ca], label[cb]
+            added = False
+            for c in np.argsort(-sizes):
+                if c == main or sizes[c] < min_share * n:
+                    continue
+                touch = ((la == c) & (lb != c)) | ((lb == c) & (la != c))
+                if not touch.any():
+                    continue
+                other = np.where(la[touch] == c, lb[touch], la[touch])
+                best = np.bincount(other, minlength=count).argmax()
+                pick = touch.copy()
+                pick[touch] = other == best
+                rows = np.concatenate([rows, ca[pick], cb[pick]])
+                cols = np.concatenate([cols, cb[pick], ca[pick]])
+                cost = np.concatenate([cost, cw[pick], cw[pick]])
+                self.reattached.append({"voxels": int(sizes[c]), "edges": int(pick.sum())})
+                added = True
+                break
+            if not added:
+                break
+        return rows, cols, cost
 
     def nearest_node(self, p):
         tree = getattr(self, "_tree", None)

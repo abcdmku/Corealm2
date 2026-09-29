@@ -1,0 +1,117 @@
+{
+ "class": "humanoid",
+ "profile": "knight",
+ "studio": {
+  "rootNode": "lava_src_70_root",
+  "map": {
+   "lava_src_52_hips": {
+    "bone": "pelvis"
+   },
+   "lava_src_47_spine": {
+    "bone": "spine_01"
+   },
+   "lava_src_46_ribs": {
+    "bone": "spine_02"
+   },
+   "lava_src_39_spine1": {
+    "bone": "spine_03"
+   },
+   "lava_src_45_neck": {
+    "bone": "neck_01"
+   },
+   "lava_src_44_head": {
+    "bone": "Head"
+   },
+   "lava_src_21_shoulder_R": {
+    "bone": "clavicle_r",
+    "kind": "arm"
+   },
+   "lava_src_20_upper_arm_R": {
+    "bone": "upperarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lava_src_19_forearm_R": {
+    "bone": "lowerarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lava_src_18_hand_R": {
+    "bone": "hand_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lava_src_49_thigh_R": {
+    "bone": "thigh_r",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "lava_src_48_shin_R": {
+    "bone": "calf_r",
+    "follow": 1.0,
+    "kind": "leg",
+    "tail": "lava_src_4_heel_R"
+   },
+   "lava_src_4_heel_R": {
+    "bone": "foot_r",
+    "kind": "leg",
+    "parent": "calf_r",
+    "tail": "lava_src_3_toe_R"
+   },
+   "lava_src_3_toe_R": {
+    "bone": "ball_r",
+    "kind": "leg"
+   },
+   "lava_src_38_shoulder_L": {
+    "bone": "clavicle_l",
+    "kind": "arm"
+   },
+   "lava_src_37_upper_arm_L": {
+    "bone": "upperarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lava_src_36_forearm_L": {
+    "bone": "lowerarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lava_src_35_hand_L": {
+    "bone": "hand_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "lava_src_51_thigh_L": {
+    "bone": "thigh_l",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "lava_src_50_shin_L": {
+    "bone": "calf_l",
+    "follow": 1.0,
+    "kind": "leg",
+    "tail": "lava_src_66_heel_L"
+   },
+   "lava_src_66_heel_L": {
+    "bone": "foot_l",
+    "kind": "leg",
+    "parent": "calf_l",
+    "tail": "lava_src_65_toe_L"
+   },
+   "lava_src_65_toe_L": {
+    "bone": "ball_l",
+    "kind": "leg"
+   }
+  },
+  "replace": [
+   "Death"
+  ],
+  "clips": {
+   "Death": {
+    "donor": "ual1",
+    "clip": "Death01",
+    "lift": true
+   }
+  }
+ }
+}

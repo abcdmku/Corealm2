@@ -1,0 +1,86 @@
+{
+  "donors": {
+    "scorpion": {"ref": "animal_scorpion"},
+    "spider": {"ref": "quat_enemy_spider"}
+  },
+  "primary": "scorpion",
+  "layouts": {
+    "scorpion": {
+      "root": "Scorpion_MAINSHJnt",
+      "hub": "Scorpion_ROOTSHJnt",
+      "legs": {
+        "l": [
+          ["Scorpion_l_FrontLeg_HipSHJnt", "Scorpion_l_FrontLeg_Knee1SHJnt", "Scorpion_l_FrontLeg_Knee2SHJnt"],
+          ["Scorpion_l_MidFrontLeg_HipSHJnt", "Scorpion_l_MidFrontLeg_Knee1SHJnt", "Scorpion_l_MidFrontLeg_Knee2SHJnt"],
+          ["Scorpion_l_MidBackLeg_HipSHJnt", "Scorpion_l_MidBackLeg_Knee1SHJnt", "Scorpion_l_MidBackLeg_Knee2SHJnt"],
+          ["Scorpion_l_BackLeg_HipSHJnt", "Scorpion_l_BackLeg_Knee1SHJnt", "Scorpion_l_BackLeg_Knee2SHJnt"]
+        ],
+        "r": [
+          ["Scorpion_r_FrontLeg_HipSHJnt", "Scorpion_r_FrontLeg_Knee1SHJnt", "Scorpion_r_FrontLeg_Knee2SHJnt"],
+          ["Scorpion_r_MidFrontLeg_HipSHJnt", "Scorpion_r_MidFrontLeg_Knee1SHJnt", "Scorpion_r_MidFrontLeg_Knee2SHJnt"],
+          ["Scorpion_r_MidBackLeg_HipSHJnt", "Scorpion_r_MidBackLeg_Knee1SHJnt", "Scorpion_r_MidBackLeg_Knee2SHJnt"],
+          ["Scorpion_r_BackLeg_HipSHJnt", "Scorpion_r_BackLeg_Knee1SHJnt", "Scorpion_r_BackLeg_Knee2SHJnt"]
+        ]
+      },
+      "palps": {
+        "l": ["Scorpion_l_Pedipalp_01_02SHJnt", "Scorpion_l_Pedipalp_01_03SHJnt", "Scorpion_l_Pedipalp_01_04SHJnt"],
+        "r": ["Scorpion_r_Pedipalp_01_02SHJnt", "Scorpion_r_Pedipalp_01_03SHJnt", "Scorpion_r_Pedipalp_01_04SHJnt"]
+      },
+      "walk": "Walk"
+    },
+    "spider": {
+      "root": "Root",
+      "hub": "Body",
+      "legs": {
+        "l": [
+          ["FrontLeg.L", "FrontLeg2.L", "FrontLeg3.L"],
+          ["MidFrontLeg.L", "MidFrontLeg2.L", "MidFrontLeg3.L"],
+          ["MidBackLeg.L", "MidBackLeg2.L", "MidBackLeg3.L"],
+          ["BackLeg.L", "BackLeg2.L", "BackLeg3.L"]
+        ],
+        "r": [
+          ["FrontLeg.R", "FrontLeg2.R", "FrontLeg3.R"],
+          ["MidFrontLeg.R", "MidFrontLeg2.R", "MidFrontLeg3.R"],
+          ["MidBackLeg.R", "MidBackLeg2.R", "MidBackLeg3.R"],
+          ["BackLeg.R", "BackLeg2.R", "BackLeg3.R"]
+        ]
+      },
+      "palps": null,
+      "walk": "HumanArmature|HumanArmature|Spider_Walk"
+    }
+  },
+  "profiles": {
+    "hexapod": {
+      "clips": {
+        "Idle": {"donor": "scorpion", "clip": "Idle", "loop": true},
+        "Walk": {"donor": "scorpion", "clip": "Walk", "loop": true},
+        "Run": {"donor": "scorpion", "clip": "Run", "loop": true},
+        "Attack": {"donor": "scorpion", "clip": "Attack"},
+        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"}
+      },
+      "hipRise": {"Death": 0.35}
+    },
+    "spider": {
+      "clips": {
+        "Idle": {"donor": "scorpion", "clip": "Idle", "loop": true},
+        "Walk": {"donor": "scorpion", "clip": "Walk", "loop": true},
+        "Run": {"donor": "scorpion", "clip": "Run", "loop": true},
+        "Attack": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Attack"},
+        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"}
+      },
+      "hipRise": {"Death": 0.35}
+    },
+    "claws": {
+      "clips": {
+        "Idle": {"donor": "scorpion", "clip": "Idle", "loop": true},
+        "Walk": {"donor": "scorpion", "clip": "Walk", "loop": true},
+        "Run": {"donor": "scorpion", "clip": "Run", "loop": true},
+        "Attack": {"donor": "scorpion", "clip": "Attack"},
+        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"}
+      },
+      "hipRise": {"Death": 0.35},
+      "frontBones": 2,
+      "groundPincers": true
+    }
+  }
+}

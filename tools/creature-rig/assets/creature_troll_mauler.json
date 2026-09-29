@@ -1,0 +1,147 @@
+{
+ "class": "humanoid",
+ "profile": "knight",
+ "studio": {
+  "rootNode": "Armature",
+  "map": {
+   "Bone004": {
+    "bone": "pelvis"
+   },
+   "Bone": {
+    "bone": "pelvis_b",
+    "donor": "pelvis",
+    "tail": "Bone001"
+   },
+   "Bone001": {
+    "bone": "spine_02",
+    "donor": "spine_02"
+   },
+   "Bone002": {
+    "bone": "spine_03"
+   },
+   "Bone003": {
+    "bone": "Head"
+   },
+   "shoulderL": {
+    "bone": "clavicle_l",
+    "kind": "arm"
+   },
+   "armL": {
+    "bone": "upperarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "forearmL": {
+    "bone": "lowerarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "handL": {
+    "bone": "hand_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "thighL": {
+    "bone": "thigh_l",
+    "follow": 0.0,
+    "kind": "leg"
+   },
+   "shinL": {
+    "bone": "calf_l",
+    "follow": 0.0,
+    "kind": "leg"
+   },
+   "footL": {
+    "bone": "foot_l",
+    "kind": "leg"
+   },
+   "foot_tipL": {
+    "bone": "ball_l",
+    "kind": "leg"
+   },
+   "soleL": {
+    "bone": "sole_l",
+    "donor": null,
+    "parent": "foot_l",
+    "noTail": true
+   },
+   "shoulderR": {
+    "bone": "clavicle_r",
+    "kind": "arm"
+   },
+   "armR": {
+    "bone": "upperarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "forearmR": {
+    "bone": "lowerarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "handR": {
+    "bone": "hand_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "thighR": {
+    "bone": "thigh_r",
+    "follow": 0.0,
+    "kind": "leg"
+   },
+   "shinR": {
+    "bone": "calf_r",
+    "follow": 0.0,
+    "kind": "leg"
+   },
+   "footR": {
+    "bone": "foot_r",
+    "kind": "leg"
+   },
+   "foot_tipR": {
+    "bone": "ball_r",
+    "kind": "leg"
+   },
+   "soleR": {
+    "bone": "sole_r",
+    "donor": null,
+    "parent": "foot_r",
+    "noTail": true
+   }
+  },
+  "hipMotion": 0.8,
+  "replace": [
+   "Walk",
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Walk": {
+    "donor": "ual1",
+    "clip": "Walk_Loop",
+    "loop": true
+   },
+   "Run": {
+    "donor": "ual1",
+    "clip": "Jog_Fwd_Loop",
+    "loop": true,
+    "hipMotion": 0.5
+   },
+   "Attack": {
+    "donor": "ual1",
+    "clip": "Punch_Cross"
+   },
+   "Hit": {
+    "donor": "ual1",
+    "clip": "Hit_Chest"
+   },
+   "Death": {
+    "donor": "ual1",
+    "clip": "Death01",
+    "lift": true
+   }
+  }
+ }
+}

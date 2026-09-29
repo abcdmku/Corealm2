@@ -10,7 +10,7 @@
  */
 import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { openDocument } from "./intake.mjs";
+import { floatArray, openDocument, setFloat } from "./intake.mjs";
 import { isMain, paths } from "./paths.mjs";
 
 const quatToMat = ([x, y, z, w]) => [
@@ -51,7 +51,9 @@ function vertexMatcher(vertices) {
     grid.get(k).push(i);
   });
   let worst = 0;
-  const match = (x, y, z) => {
+  // unused: a vertex no primitive references (Blender drops it on import); it is matched to its
+  // nearest merged vertex but does not count towards the match error.
+  const match = (x, y, z, unused = false) => {
     let best = -1;
     let bestD = Infinity;
     const [cx, cy, cz] = [x, y, z].map((v) => Math.round(v / cell));
@@ -68,7 +70,7 @@ function vertexMatcher(vertices) {
         if (d < bestD) { bestD = d; best = i; }
       });
     }
-    worst = Math.max(worst, Math.sqrt(bestD));
+    if (!unused) worst = Math.max(worst, Math.sqrt(bestD));
     return best;
   };
   return { match, worst: () => worst };
@@ -96,6 +98,8 @@ export async function assemble(assetId, work = paths.work(assetId)) {
     else container.addChild(node);
   }
   const names = rig.skeleton.map((bone) => bone.name);
+  // The runtime's hit overlay moves only bones marked hitRecoil (node extras, userData in three).
+  for (const name of rig.recoil ?? []) joints.get(name).setExtras({ ...joints.get(name).getExtras(), hitRecoil: true });
   const ibm = new Float32Array(names.length * 16);
   names.forEach((name, i) => ibm.set(invertRigid(world.get(name)), i * 16));
   const skin = doc.createSkin(`${assetId}_skin`)
@@ -106,19 +110,29 @@ export async function assemble(assetId, work = paths.work(assetId)) {
   // Weights: production vertices take the weights of the merged vertex at their position, so
   // vertices split along UV seams share weights and never crack apart.
   const matcher = vertexMatcher(rig.vertices);
+  const done = new Map(); // primitives sharing a POSITION accessor share its skin attributes
   for (const node of root.listNodes().filter((n) => n.getMesh())) {
     node.setSkin(skin);
     container.addChild(node);
     for (const primitive of node.getMesh().listPrimitives()) {
       const positionAccessor = primitive.getAttribute("POSITION");
+      if (done.has(positionAccessor)) {
+        const [J, W] = done.get(positionAccessor);
+        primitive.setAttribute("JOINTS_0", J).setAttribute("WEIGHTS_0", W);
+        continue;
+      }
       const position = positionAccessor.getArray();
       const count = position.length / 3;
       const normalAccessor = primitive.getAttribute("NORMAL");
-      const rebound = rig.bindVertices ? { position: position.slice(), normal: normalAccessor?.getArray().slice() } : null;
+      // Float copies: a quantized normal array cannot hold the turned normals.
+      const rebound = rig.bindVertices ? { position: floatArray(positionAccessor), normal: normalAccessor ? floatArray(normalAccessor) : null } : null;
       const J = new Uint16Array(count * 4);
       const W = new Float32Array(count * 4);
+      const used = new Uint8Array(count);
+      if (primitive.getIndices()) for (const i of primitive.getIndices().getArray()) used[i] = 1;
+      else used.fill(1);
       for (let v = 0; v < count; v += 1) {
-        const m = matcher.match(position[v * 3], position[v * 3 + 1], position[v * 3 + 2]);
+        const m = matcher.match(position[v * 3], position[v * 3 + 1], position[v * 3 + 2], !used[v]);
         if (rebound) {
           // The class re-posed the bind (arms lowered): take the re-posed position and turn the
           // normal by the same blended rotation.
@@ -139,11 +153,12 @@ export async function assemble(assetId, work = paths.work(assetId)) {
         }
       }
       if (rebound) {
-        positionAccessor.setArray(rebound.position);
-        if (rebound.normal) normalAccessor.setArray(rebound.normal);
+        setFloat(positionAccessor, rebound.position);
+        if (rebound.normal) setFloat(normalAccessor, rebound.normal);
       }
-      primitive.setAttribute("JOINTS_0", doc.createAccessor().setType("VEC4").setArray(J).setBuffer(buffer));
-      primitive.setAttribute("WEIGHTS_0", doc.createAccessor().setType("VEC4").setArray(W).setBuffer(buffer));
+      const skinAttributes = [doc.createAccessor().setType("VEC4").setArray(J).setBuffer(buffer), doc.createAccessor().setType("VEC4").setArray(W).setBuffer(buffer)];
+      done.set(positionAccessor, skinAttributes);
+      primitive.setAttribute("JOINTS_0", skinAttributes[0]).setAttribute("WEIGHTS_0", skinAttributes[1]);
     }
   }
   if (matcher.worst() > 1e-4) throw new Error(`vertex match off by ${matcher.worst()} m; mesh.glb and rig.json disagree`);

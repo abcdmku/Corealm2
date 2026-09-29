@@ -1,0 +1,160 @@
+{
+ "class": "humanoid",
+ "profile": "knight",
+ "studio": {
+  "rootNode": "Bip001",
+  "map": {
+   "Bip001_Pelvis": {
+    "bone": "pelvis"
+   },
+   "Bip001_Spine": {
+    "bone": "spine_01"
+   },
+   "Bip001_Spine1": {
+    "bone": "spine_03"
+   },
+   "Bip001_Neck": {
+    "bone": "neck_01"
+   },
+   "Bip001_Head": {
+    "bone": "Head"
+   },
+   "Bip001_L_Clavicle": {
+    "bone": "clavicle_l",
+    "kind": "arm"
+   },
+   "Bip001_L_UpperArm": {
+    "bone": "upperarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "Bip001_L_Forearm": {
+    "bone": "lowerarm_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "Bip001_L_Hand": {
+    "bone": "hand_l",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "Bip001_L_Thigh": {
+    "bone": "thigh_l",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "Bip001_L_Calf": {
+    "bone": "calf_l",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "Bip001_L_Foot": {
+    "bone": "foot_l",
+    "kind": "leg"
+   },
+   "Bip001_L_Toe0": {
+    "bone": "ball_l",
+    "kind": "leg"
+   },
+   "Bip001_R_Clavicle": {
+    "bone": "clavicle_r",
+    "kind": "arm"
+   },
+   "Bip001_R_UpperArm": {
+    "bone": "upperarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "Bip001_R_Forearm": {
+    "bone": "lowerarm_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "Bip001_R_Hand": {
+    "bone": "hand_r",
+    "follow": 1.0,
+    "kind": "arm"
+   },
+   "Bip001_R_Thigh": {
+    "bone": "thigh_r",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "Bip001_R_Calf": {
+    "bone": "calf_r",
+    "follow": 1.0,
+    "kind": "leg"
+   },
+   "Bip001_R_Foot": {
+    "bone": "foot_r",
+    "kind": "leg"
+   },
+   "Bip001_R_Toe0": {
+    "bone": "ball_r",
+    "kind": "leg"
+   }
+  },
+  "replace": [
+   "Idle",
+   "Walk",
+   "Run",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Idle": {
+    "donor": "ual1",
+    "clip": "Idle_Loop",
+    "loop": true,
+    "flatProp": {
+     "hand": "Bip001_L_Hand",
+     "node": "ArcherBow",
+     "from": 0,
+     "to": "up"
+    }
+   },
+   "Walk": {
+    "donor": "ual1",
+    "clip": "Walk_Loop",
+    "loop": true,
+    "flatProp": {
+     "hand": "Bip001_L_Hand",
+     "node": "ArcherBow",
+     "from": 0,
+     "to": "up"
+    }
+   },
+   "Run": {
+    "donor": "ual1",
+    "clip": "Jog_Fwd_Loop",
+    "loop": true,
+    "flatProp": {
+     "hand": "Bip001_L_Hand",
+     "node": "ArcherBow",
+     "from": 0,
+     "to": "up"
+    }
+   },
+   "Hit": {
+    "donor": "ual1",
+    "clip": "Hit_Chest",
+    "flatProp": {
+     "hand": "Bip001_L_Hand",
+     "node": "ArcherBow",
+     "from": 0,
+     "to": "up"
+    }
+   },
+   "Death": {
+    "donor": "ual1",
+    "clip": "Death01",
+    "flatProp": {
+     "hand": "Bip001_L_Hand",
+     "node": "ArcherBow",
+     "from": 0.35
+    },
+    "lift": true
+   }
+  }
+ }
+}

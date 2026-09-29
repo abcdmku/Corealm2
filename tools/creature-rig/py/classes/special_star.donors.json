@@ -1,0 +1,23 @@
+{
+  "donors": {
+    "star": {
+      "pack": "authored",
+      "name": "star",
+      "asset": "creature_hollow_star",
+      "source": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py)"
+    }
+  },
+  "primary": "star",
+  "profiles": {
+    "star": {
+      "clips": {
+        "Idle": { "donor": "star", "clip": "Idle", "loop": true },
+        "Walk": { "donor": "star", "clip": "Walk", "loop": true },
+        "Run": { "donor": "star", "clip": "Run", "loop": true },
+        "Attack": { "donor": "star", "clip": "Attack" },
+        "Hit": { "donor": "star", "clip": "Hit" },
+        "Death": { "donor": "star", "clip": "Death" }
+      }
+    }
+  }
+}
