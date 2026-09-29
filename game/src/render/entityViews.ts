@@ -490,9 +490,9 @@ const HUMANOID_CLIPS: Record<CharacterMotion, readonly string[]> = {
   // cycle is the same defect the animals had.
   walk: ["Walk_Loop", "Jog_Fwd_Loop"],
   run: ["Jog_Fwd_Loop", "Walk_Loop"],
-  // Humanoid enemies do not carry a weapon attachment. A punch reads correctly; a sword clip
-  // makes them swing a blade that is not there.
-  attack: ["Punch_Jab", "Sword_Attack", "Sword_Regular_A"],
+  // Humanoid enemies do not carry a weapon attachment, so a sword clip swings a blade that is not
+  // there. The overhand blow reads unarmed without the boxing guard that Punch_Jab holds.
+  attack: ["OverhandThrow", "Sword_Attack", "Sword_Regular_A"],
   hit: ["Hit_Chest", "Hit_Knockback"],
   death: ["Death01"],
 };
