@@ -1,5 +1,7 @@
 # Frog and crab ground gait repair
 
+> Archive only. The scripts that authored or repaired these clips were removed on 2026-09-29; the repo no longer generates animation (see `tools/creature-motion/README.md`). Commands below no longer run.
+
 All three staged GLBs pass the exported CPU skinning audit. They are ready for the root's production lab review. Public models and the live manifest were not edited.
 
 Only Walk and Run change. The writer appends sampler data to the original GLB BIN and replaces those two animation entries. Every original geometry, UV, normal, skin-weight, inverse-bind and image byte remains exact. Node identities, hierarchy, rest transforms, materials and the other six animation entries and sampler bytes remain unchanged. Both frog variants retain their own original materials.

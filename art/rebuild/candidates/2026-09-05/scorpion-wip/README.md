@@ -1,5 +1,7 @@
 # Scorpion Run checkpoint
 
+> Archive only. The scripts that authored or repaired these clips were removed on 2026-09-29; the repo no longer generates animation (see `tools/creature-motion/README.md`). Commands below no longer run.
+
 Frozen on the user's checkpoint request. This work is incomplete and must not be promoted. No browser, runtime/public asset, gameplay-speed or rate-cap changes were made in this round. The three frozen frog/crab staged GLBs still match their recorded SHA-256 hashes.
 
 ## Files
