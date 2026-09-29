@@ -1,7 +1,7 @@
 {
  "class": "pixelius",
  "profile": "studio",
- "notes": "PixeliusVita FreeTrial Monster16 (tailed claw crawler). Native Idle and Walk kept; Attack, Hit and Death retargeted from the Monster03 full pack (a heavy biped), rest-relative to each body's own Idle; the tail is a floor-aware spring chain that goes limp in Death. Run is omitted (the runtime falls back to the native crawl): the donor sprint lays the hunched body flat.",
+ "notes": "PixeliusVita FreeTrial Monster16 (tailed claw crawler). Native Idle and Walk kept; Hit and Death retargeted from the Monster03 full pack (a heavy biped), rest-relative to each body's own Idle; Attack is the Monster01 Attack03 (in place: both claws spread wide and slam down), because the Monster03 Attack01 swings the curled tail through the body and twists the torso inside out; the tail is a floor-aware spring chain that goes limp in Death. Run is omitted (the runtime falls back to the native crawl): the donor sprint lays the hunched body flat.",
  "studio": {
   "rootNode": "root",
   "referenceClip": "Idle",
@@ -19,8 +19,9 @@
   ],
   "clips": {
    "Attack": {
-    "donor": "pixelius_03",
-    "clip": "Monster03_Attack01"
+    "donor": "pixelius_01",
+    "clip": "Monster01_Attack03_InPlace",
+    "rest": "Monster01_Idle"
    },
    "Hit": {
     "donor": "pixelius_03",

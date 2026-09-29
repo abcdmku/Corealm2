@@ -50,7 +50,7 @@ const brief = (states: { name: string; clip: string | null; available: boolean; 
 
 describe('devdocs actor stage', () => {
   it('loads the shared animation library before a fresh humanoid is first drawn', async () => {
-    const shared = fixtureAssets(['Idle_Loop', 'Walk_Loop', 'Jog_Fwd_Loop', 'Punch_Jab', 'Hit_Chest', 'Death01']);
+    const shared = fixtureAssets(['Idle_Loop', 'Walk_Loop', 'Jog_Fwd_Loop', 'OverhandThrow', 'Hit_Chest', 'Death01']);
     const assets = fixtureAssets([]);
     let loaded = false;
     let finishLibraries!: () => void;

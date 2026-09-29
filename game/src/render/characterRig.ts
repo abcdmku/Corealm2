@@ -110,6 +110,11 @@ const CLIP_MOTION_MARKERS: Readonly<Record<string, readonly ClipMotionMarker[]>>
     { phase: 0.20, kind: "swing" },
     { phase: 0.42, kind: "impact" },
   ],
+  // The throwing hand is fastest between 0.23 and 0.30 and stops at knee height near 0.31.
+  OverhandThrow: [
+    { phase: 0.22, kind: "swing" },
+    { phase: 0.31, kind: "impact" },
+  ],
   Spell_Simple_Shoot: [
     { phase: 0.32, kind: "swing" },
     { phase: 0.42, kind: "impact" },

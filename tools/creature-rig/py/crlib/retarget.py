@@ -654,7 +654,13 @@ def lying_lift(skeleton, verts, joints, weights, result, hips, height):
     the leg IK instead."""
     rest_y = skeleton[hips].head[1]
     hips_y = np.array([p[1] for p in result["pelvis"]])
-    if (rest_y - hips_y).max() < 0.5 * rest_y:
+    # A low-slung body rolled onto its back (a crawler's death) keeps its hips high, yet lies:
+    # its hips turn more than 120 degrees from the bind.
+    def turned(f):
+        R, _ = forward(skeleton, result["L"][f], hips, result["pelvis"][f])
+        D = R[hips] @ skeleton[hips].frame.T
+        return np.trace(D) < 0.0
+    if (rest_y - hips_y).max() < 0.5 * rest_y and not any(turned(f) for f in range(result["n"])):
         return 0.0
     min_y = np.array([deform(skeleton, verts, joints, weights, result["L"][f], hips, result["pelvis"][f])[:, 1].min() for f in range(result["n"])])
     need = np.maximum(-min_y, 0.0)
