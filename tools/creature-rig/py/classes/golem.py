@@ -17,16 +17,12 @@ what makes a heavy body read as heavy and a rock or bark body move as rock or ba
   splits them between a bone and its parent or child (a shoulder plate between the clavicle and
   the upper arm). Thin loose pieces (fringes, moss) keep smooth weights.
 
-- brute_arms (authored motion set): arm layers for a brute whose arms reach the floor. A human
-  donor lets its arms hang straight down, which drives floor-length arms through the floor; these
-  takes carry the arms out from the body so the knuckles swing clear of it.
-
 Profiles are in golem.donors.json.
 """
 import numpy as np
 from scipy.sparse.csgraph import connected_components
 
-from classes import authored, humanoid
+from classes import humanoid
 from crlib.skin import adjacency, segment_distance
 
 NAME = "golem"
@@ -225,40 +221,3 @@ def cloth(body, sk, profile, heat):
 
 def recoil_bones(sk, plan, profile):
     return humanoid.recoil_bones(sk, plan, profile)
-
-
-# ------------------------------------------------------------------ authored arm layers
-@authored.motion("brute_arms")
-def brute_arms(spec):
-    """Arm takes on the UAL rig (T-pose rest, +X the creature's left) for layering over a UAL body
-    clip. The upper arms hang abduct degrees out from vertical and swing fore and aft against the
-    legs of the matching UAL gait (Walk_Loop and Jog_Fwd_Loop have the left foot forward and the
-    left arm back at frame 0); the forearms flex bend degrees forward and the hands wrist degrees
-    more, so long arms carry their fists forward at knee height instead of hanging to the floor.
-    Keys are about the T-pose's world axes, where the arms lie along X: a turn about +Z lowers the
-    right arm (negative, the left), and a turn about +Y swings the left arm and its forearm and
-    hand back (negative, forward) and, on the right arm, forward: one key swings the arms in
-    opposition.
-
-    spec: {"base": <UAL donor spec>, "abduct": degrees from vertical, "bend": forearm flex,
-    "wrist": hand flex (degrees)}."""
-    down = 90.0 - spec.get("abduct", 25.0)
-    bend, wrist = spec.get("bend", 45.0), spec.get("wrist", 20.0)
-
-    def arms(take, swing, flex=0.0, lift=None):
-        """swing: [(frame, degrees back for the left arm)], the right arm mirrored; flex: extra
-        forearm flex; lift: [(frame, extra abduction)] for both arms."""
-        lift = dict(lift or [(0, 0.0)])
-        at = lambda f: float(np.interp(f, sorted(lift), [lift[k] for k in sorted(lift)]))
-        take.key("upperarm_l", [(f, (0.0, a, -(down - at(f)))) for f, a in swing])
-        take.key("upperarm_r", [(f, (0.0, a, down - at(f))) for f, a in swing])
-        for side, sign in (("l", 1.0), ("r", -1.0)):
-            take.key(f"lowerarm_{side}", [(0, (0.0, -sign * (bend + flex), 0.0))])
-            take.key(f"hand_{side}", [(0, (0.0, -sign * wrist, 0.0))])
-        return take
-
-    idle = arms(authored.Take("Idle", 75, loop=True), [(0, 1.5), (38, -1.5)], 0.0, [(0, 0.0), (38, 2.0)])
-    walk = arms(authored.Take("Walk", 40, loop=True), [(0, 14.0), (20, -14.0)])
-    run = arms(authored.Take("Run", 28, loop=True), [(0, 20.0), (14, -20.0)], 15.0, [(0, 4.0), (7, 2.0), (14, 4.0), (21, 2.0)])
-    hit = arms(authored.Take("Hit", 10), [(0, 0.0), (3, 12.0), (10, 0.0)], 0.0, [(0, 0.0), (3, 10.0), (10, 0.0)])
-    return authored.Rig.donor(spec["base"]), [idle, walk, run, hit]

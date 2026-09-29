@@ -41,14 +41,15 @@ def to_local(skeleton, R):
     return {b.name: (R[b.name] if b.parent is None else R[b.parent].T @ R[b.name]) for b in skeleton.bones}
 
 
-def two_bone_ik(hip, knee_fk, goal, l1, l2):
-    """Knee position reaching goal, bending in the plane the FK knee bends in."""
+def two_bone_ik(hip, knee_fk, goal, l1, l2, bend=None):
+    """Knee position reaching goal, bending in the plane the FK knee bends in, or towards bend (a
+    world direction) when given."""
     d_vec = goal - hip
     d = np.linalg.norm(d_vec)
     d = np.clip(d, abs(l1 - l2) + 1e-4, l1 + l2 - 1e-4)
     u = normalize(d_vec)
     goal = hip + u * d
-    pole = knee_fk - hip
+    pole = (knee_fk - hip) if bend is None else np.asarray(bend, float)
     pole = pole - np.dot(pole, u) * u
     if np.linalg.norm(pole) < 1e-6:
         pole = np.array([0.0, 0.0, 1.0]) - np.dot([0, 0, 1.0], u) * u
@@ -58,22 +59,24 @@ def two_bone_ik(hip, knee_fk, goal, l1, l2):
     return hip + u * a + pole * h, goal
 
 
-def chain_ik(joints, goal, pivots):
+def chain_ik(joints, goal, pivots, bend=None):
     """N-segment leg IK that keeps the FK (donor) pose as its prior.
 
     joints are the FK positions [hip, knee..., effector]. For each pivot joint k in turn, the part
     of the chain above k and the part below k act as two rigid bones and are solved as two-bone IK
     in the plane the chain already bends in; every other joint keeps its donor angle. The first
     pivot usually reaches the goal. When it cannot (the leg would have to straighten or fold past
-    its reach), the next pivot takes the rest. Returns the swings [(k, upper, lower, reached)] to
-    apply to the bones above and below each pivot, and the solved joints."""
+    its reach), the next pivot takes the rest. bend (a world direction) replaces the FK plane for
+    the first pivot: a joint that must always bend one way (a bird's heel points back). Returns
+    the swings [(k, upper, lower, reached)] to apply to the bones above and below each pivot, and
+    the solved joints."""
     J = [np.asarray(j, float) for j in joints]
     n = len(J) - 1
     swings = []
     for k in pivots:
         l1 = np.linalg.norm(J[k] - J[0])
         l2 = np.linalg.norm(J[n] - J[k])
-        knee, reach = two_bone_ik(J[0], J[k], goal, l1, l2)
+        knee, reach = two_bone_ik(J[0], J[k], goal, l1, l2, bend if k == pivots[0] else None)
         upper = min_arc(J[k] - J[0], knee - J[0])
         J = [J[0] + upper @ (j - J[0]) for j in J]
         lower = min_arc(J[n] - J[k], reach - J[k])
@@ -109,10 +112,11 @@ def normalize_leg(leg):
     "scale": s|None}. The chain bones are the segments the IK bends (hip to ankle); the effector
     is the foot's head, or the last chain bone's tail when there is no foot (a spider's leg tip).
     scale multiplies the size ratio for this chain's effector path (a neck solved like a leg that
-    must not bury the beak). The tuple form (upper, lower, foot[, toe]) is a two-bone chain."""
+    must not bury the beak). bend is a bind-space direction the first pivot always bends towards,
+    carried by the bone the chain hangs from. The tuple form (upper, lower, foot[, toe]) is a two-bone chain."""
     if isinstance(leg, dict):
         return {"chain": list(leg["chain"]), "foot": leg.get("foot"), "toe": leg.get("toe"), "pivot": leg.get("pivot"),
-                "scale": float(leg.get("scale") or 1.0)}
+                "scale": float(leg.get("scale") or 1.0), "bend": leg.get("bend")}
     return {"chain": list(leg[:2]), "foot": leg[2], "toe": leg[3] if len(leg) > 3 else None, "pivot": None, "scale": 1.0}
 
 
@@ -311,6 +315,10 @@ class Retargeter:
             if mode == "vertical":
                 offset = np.array([0.0, offset[1], 0.0])
             offset[1] += clearance * landing[f]
+            if spec.get("pelvisLift") is not None:
+                # A lying clip re-solved with its penetration lift (rig.py, profile lyingLegIk): the
+                # legs reach from the lifted hips towards the floor instead of floating with them.
+                offset[1] += spec["pelvisLift"][f]
             pelvis = sk[self.hips].head + offset
             R, P = forward(sk, L, self.hips, pelvis)
             if use_ik:
@@ -420,7 +428,12 @@ class Retargeter:
         J = [P[b] for b in chain]
         last = sk[chain[-1]]
         J.append(P[foot] if foot else P[chain[-1]] + R[chain[-1]] @ (last.frame.T @ (last.tail - last.head)))
-        swings, _ = chain_ik(J, goal, leg["pivots"])
+        bend = None
+        if leg.get("bend") is not None:
+            # A fixed bend direction in bind space, carried by the bone the chain hangs from.
+            base = sk[chain[0]].parent
+            bend = R[base] @ (sk[base].frame.T @ np.asarray(leg["bend"], float)) if base else np.asarray(leg["bend"], float)
+        swings, _ = chain_ik(J, goal, leg["pivots"], bend)
         if swings:
             # How far the effector stays from the donor's path, as a share of the leg's length: a
             # donor that translates its hip joints (a stretching run) can ask for more reach than
@@ -642,7 +655,7 @@ def deform(skeleton, verts, joints, weights, local_R, hips, hips_pos):
     return out
 
 
-def lying_lift(skeleton, verts, joints, weights, result, hips, height):
+def lying_lift(skeleton, verts, joints, weights, result, hips, height, lead=None):
     """A body thicker or longer-waisted than the donor's goes through the floor when it falls and
     lies down. Only for clips whose hips drop to the floor (deaths, knock-downs): lift the hips by a
     smooth envelope of the penetration (a sliding max, then a sliding mean of the same span, so it
@@ -664,10 +677,20 @@ def lying_lift(skeleton, verts, joints, weights, result, hips, height):
     if not need.any():
         return 0.0
     span = 9
-    padded = np.pad(need, span, mode="edge")
-    envelope = np.array([padded[i:i + 2 * span + 1].max() for i in range(len(need))])
-    padded = np.pad(envelope, span // 2, mode="edge")
-    lift = np.array([padded[i:i + span].mean() for i in range(len(need))])
+    if lead is None:
+        padded = np.pad(need, span, mode="edge")
+        envelope = np.array([padded[i:i + 2 * span + 1].max() for i in range(len(need))])
+        padded = np.pad(envelope, span // 2, mode="edge")
+        lift = np.array([padded[i:i + span].mean() for i in range(len(need))])
+    else:
+        # lead frames of look-ahead only: the centred window starts lifting a falling body
+        # up to 0.45 s before it touches the floor, so a thick body floats mid-fall. The
+        # envelope looks lead frames ahead and span behind, and the smoothing only looks back.
+        padded = np.pad(need, (span, lead), mode="edge")
+        envelope = np.array([padded[i:i + span + lead + 1].max() for i in range(len(need))])
+        padded = np.pad(envelope, (span // 2, 0), mode="edge")
+        lift = np.array([padded[i:i + span // 2 + 1].mean() for i in range(len(need))])
     lift = np.maximum(lift, need)
     result["pelvis"] = [p + np.array([0.0, l, 0.0]) for p, l in zip(result["pelvis"], lift)]
+    result["liftCurve"] = lift
     return float(lift[-1])
