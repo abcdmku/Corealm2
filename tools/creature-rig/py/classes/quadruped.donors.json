@@ -113,8 +113,7 @@
         "Run": {
           "donor": "wolf",
           "clip": "Run",
-          "loop": true,
-          "ik": false
+          "loop": true
         },
         "Attack": {
           "donor": "wolf",
