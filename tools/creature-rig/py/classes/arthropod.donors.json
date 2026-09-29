@@ -1,7 +1,11 @@
 {
   "donors": {
-    "scorpion": {"ref": "animal_scorpion"},
-    "spider": {"ref": "quat_enemy_spider"}
+    "scorpion": {
+      "ref": "animal_scorpion"
+    },
+    "spider": {
+      "ref": "quat_enemy_spider"
+    }
   },
   "primary": "scorpion",
   "layouts": {
@@ -26,6 +30,7 @@
         "l": ["Scorpion_l_Pedipalp_01_02SHJnt", "Scorpion_l_Pedipalp_01_03SHJnt", "Scorpion_l_Pedipalp_01_04SHJnt"],
         "r": ["Scorpion_r_Pedipalp_01_02SHJnt", "Scorpion_r_Pedipalp_01_03SHJnt", "Scorpion_r_Pedipalp_01_04SHJnt"]
       },
+      "abdomen": "Scorpion_Abdomen_01_01SHJnt",
       "walk": "Walk"
     },
     "spider": {
@@ -46,6 +51,7 @@
         ]
       },
       "palps": null,
+      "abdomen": "Abdomen",
       "walk": "HumanArmature|HumanArmature|Spider_Walk"
     }
   },
@@ -56,9 +62,13 @@
         "Walk": {"donor": "scorpion", "clip": "Walk", "loop": true},
         "Run": {"donor": "scorpion", "clip": "Run", "loop": true},
         "Attack": {"donor": "scorpion", "clip": "Attack"},
-        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"}
+        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"},
+        "Hit": {"donor": "scorpion", "clip": "Die", "beat": [0, 8], "recover": 9, "gain": 1.5}
       },
-      "hipRise": {"Death": 0.35}
+      "hipRise": {"Death": 0.35},
+      "stride": {"Walk": 0.35, "Run": 0.7},
+      "duty": {"Run": 0.55},
+      "crouch": {"Idle": 0.1, "Walk": 0.1, "Run": 0.15, "Attack": 0.1, "Hit": 0.1}
     },
     "spider": {
       "clips": {
@@ -66,9 +76,13 @@
         "Walk": {"donor": "scorpion", "clip": "Walk", "loop": true},
         "Run": {"donor": "scorpion", "clip": "Run", "loop": true},
         "Attack": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Attack"},
-        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"}
+        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"},
+        "Hit": {"donor": "scorpion", "clip": "Die", "beat": [0, 8], "recover": 9, "gain": 1.5}
       },
-      "hipRise": {"Death": 0.35}
+      "hipRise": {"Death": 0.35},
+      "stride": {"Walk": 0.35, "Run": 0.7},
+      "duty": {"Run": 0.55},
+      "crouch": {"Idle": 0.2, "Walk": 0.2, "Run": 0.25, "Attack": 0.2, "Hit": 0.2}
     },
     "claws": {
       "clips": {
@@ -76,11 +90,15 @@
         "Walk": {"donor": "scorpion", "clip": "Walk", "loop": true},
         "Run": {"donor": "scorpion", "clip": "Run", "loop": true},
         "Attack": {"donor": "scorpion", "clip": "Attack"},
-        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"}
+        "Death": {"donor": "spider", "clip": "HumanArmature|HumanArmature|Spider_Death"},
+        "Hit": {"donor": "scorpion", "clip": "Die", "beat": [0, 8], "recover": 9, "gain": 1.0}
       },
       "hipRise": {"Death": 0.35},
       "frontBones": 2,
-      "groundPincers": true
+      "groundPincers": true,
+      "stride": {"Walk": 0.35, "Run": 0.7},
+      "duty": {"Run": 0.55},
+      "crouch": {}
     }
   }
 }
