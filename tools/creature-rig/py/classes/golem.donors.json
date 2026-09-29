@@ -60,7 +60,9 @@
         }
       },
       "heelPivot": true,
-      "cloth": false
+      "cloth": false,
+      "lyingLegIk": true,
+      "liftLead": 2
     },
     "golemPunch": {
       "legs": true,
@@ -90,8 +92,12 @@
           "hipMotion": 0.6
         },
         "Attack": {
-          "donor": "ual1",
-          "clip": "Punch_Cross"
+          "donor": "ual2",
+          "clip": [
+            "Sword_Regular_A",
+            "Sword_Regular_B",
+            "Sword_Regular_B_Rec"
+          ]
         },
         "Hit": {
           "donor": "ual1",
@@ -103,7 +109,9 @@
         }
       },
       "heelPivot": true,
-      "cloth": false
+      "cloth": false,
+      "lyingLegIk": true,
+      "liftLead": 2
     },
     "treant": {
       "legs": true,

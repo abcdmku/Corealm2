@@ -73,7 +73,19 @@
       },
       "Attack": {
         "donor": "ual2",
-        "clip": "Shield_Dash",
+        "clip": "OverhandThrow",
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ],
+        "hipMotion": 0.8
+      },
+      "Death": {
         "layers": [
           {
             "donor": "ual1",
@@ -86,5 +98,5 @@
       }
     }
   },
-  "notes": "The hanging arms are fused to the thighs, so the landmarks read the shoulder boulders as hands; the arm tips and joints are given here. The fists are joined to the knees in the mesh, so Walk and Run hold the arms in the idle carry (a donor arm swing tears the knee surface)."
+  "notes": "The hanging arms are fused to the thighs, so the landmarks read the shoulder boulders as hands; the arm tips and joints are given here. The fists are joined to the knees in the mesh, so every clip that moves the arms against the legs tears that bridge. Walk, Run and Attack hold the arms in the idle carry; the attack is the body of the UAL2 OverhandThrow (a heavy forward heave from the shoulders) with the arms held, which tears the knee bridge less than the Shield_Dash shoulder charge and does not kick a leg out sideways."
 }
