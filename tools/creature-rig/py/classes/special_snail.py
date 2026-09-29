@@ -199,3 +199,9 @@ def snail_extra(spec):
     hit.key("Bone007", [(0, 0), (3, (-5, 0, 0)), (7, (-4, 0, 0)), (12, (1, 0, 0)), (16, 0)])
     hit.move("Bone001", [(0, 0), (3, (0, 0, -0.006)), (7, (0, 0, -0.005)), (12, (0, 0, 0.001)), (16, 0)])
     return authored.Rig.donor({"ref": "animal_snail"}), [attack, hit]
+
+
+def recoil_bones(sk, plan, profile):
+    """The neck, head and eyestalks recoil; the shell (Bone001, the hips) and the foot chain
+    (Bone002-006, the front sole under Bone001) stay on the base pose."""
+    return ["Bone008", "Bone009", "head", "eye_l_01", "eye_l_02", "eye_r_01", "eye_r_02"]

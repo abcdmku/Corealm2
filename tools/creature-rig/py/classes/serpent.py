@@ -166,12 +166,12 @@ def cloth(body, sk, profile, heat):
 
 
 # ------------------------------------------------------------------ authored takes
-def _fitted(spec, cache_dir):
+def _fitted(spec):
     """The skeleton rig.py will fit: this class's fit on the asset's bind mesh."""
     from crlib.body import Body, load_blender_mesh
     import bpy
 
-    work = os.path.join(os.path.dirname(cache_dir), "work", spec["asset"])
+    work = spec["_work"]
     bpy.ops.wm.read_factory_settings(use_empty=True)
     _, V, F = load_blender_mesh(os.path.join(work, "mesh.glb"))
     sk, _ = fit(Body(V, F))
@@ -230,8 +230,7 @@ def _legs(sk):
 
 @authored.motion("centipede")
 def centipede_motion(spec):
-    cache_dir = spec["_cache"]
-    sk = _fitted(spec, cache_dir)
+    sk = _fitted(spec)
     n = sk.segments
     segs = [f"seg_{k:02d}" for k in range(n)]
     hips = sk.hips
