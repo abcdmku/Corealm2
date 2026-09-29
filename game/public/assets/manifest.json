@@ -1252,6 +1252,13 @@
       "license": "Standard Unity Asset Store EULA",
       "archiveSha256": "7bf8bea77679d5c6eaa60c7c32dd652a881d6875071c42c26d0fd9ea5815a634",
       "sourceArchive": "Free Fantasy Monster 10 Rig Animation PixeliusVita.unitypackage"
+    },
+    {
+      "id": "corealm-tripo-shalewake",
+      "name": "Corealm Shalewake (Tripo)",
+      "author": "Corealm",
+      "source": "tools/creature-rig/run.mjs",
+      "license": "LicenseRef-Corealm-Original"
     }
   ],
   "assets": [
@@ -23856,7 +23863,7 @@
     {
       "id": "creature_shale_elemental",
       "file": "models/creature/creature_shale_elemental.glb",
-      "pack": "corealm-rpg-earth-elemental-golem",
+      "pack": "corealm-tripo-shalewake",
       "category": "character",
       "is": "creature shale elemental",
       "tags": [
@@ -23865,19 +23872,19 @@
         "polish",
         "candidate"
       ],
-      "bytes": 7461292,
-      "sha256": "af464e081a66e5cea060032a93fdbd60d4c4e1ebb9b6c35e9a2c44ef4bf47b83",
+      "bytes": 7633796,
+      "sha256": "d24539ab9a18777b13cc91da1784eed970741d425ad3f92cf40a6ef7e1885845",
       "size": {
-        "x": 0.9593519118595175,
-        "y": 1.1297213757829578,
-        "z": 2.2492441400228476
+        "x": 1.174438,
+        "y": 1.071167,
+        "z": 2.248901
       },
       "base": {
-        "x": -0.4763208403308508,
-        "y": 9.202532420341087e-10,
-        "z": -1.1064047022286685
+        "x": -0.587219,
+        "y": 0,
+        "z": -1.115112
       },
-      "groundY": -3.245913139985264e-9,
+      "groundY": 0,
       "triangles": 5294,
       "animations": [
         "Idle",
@@ -23890,47 +23897,12 @@
       "materials": [
         "Material_tripo_node_3c423ccd-407d-4ce3-ae95-68eca78c41a3"
       ],
-      "walkClipSeconds": 0.9666666388511658,
-      "runClipSeconds": 0.5,
-      "attackSeconds": 0.699999988079071,
-      "contactNormalized": 0.715,
       "sourceProvenance": {
-        "url": "https://opengameart.org/content/earth-elemental-golem",
-        "author": "piacenti",
-        "license": "CC-BY-3.0",
-        "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
-        "sourceFiles": [
-          {
-            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
-            "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
-          },
-          {
-            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
-            "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
-          },
-          {
-            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
-            "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
-          },
-          {
-            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
-            "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
-          }
-        ],
-        "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
-        "weightReduction": {
-          "sourceMaximum": 8,
-          "runtimeMaximum": 4,
-          "maxDiscardedFraction": 0.20108696798913034,
-          "affectedControlVertices": 413,
-          "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
-          "refitVertices": 413,
-          "measuredError": {
-            "maxMeters": 0.022353774179003694,
-            "rmsMeters": 0.0009368683786992584,
-            "samples": 3082464
-          }
-        }
+        "generator": "Tripo Studio",
+        "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+        "sourceFile": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
+        "reference": "assets/art/tripo/references/stone-shalewake.png",
+        "rigMethod": "tools/creature-rig quadruped/salamander: skeleton fitted to the mesh, bone-heat weights, animal pack deluxe donor takes retargeted rest-relative"
       },
       "metadata": {
         "floorCorrection": {
@@ -24120,452 +24092,47 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "candidateReview": {
-        "labAccepted": false,
-        "worldIntegrated": false
+      "bounds": {
+        "min": [
+          -0.58721923828125,
+          0,
+          -1.1151123046875
+        ],
+        "max": [
+          0.58721923828125,
+          1.0711668729782104,
+          1.1337890625
+        ]
       },
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Bite",
+          "Hit": "Flinch baked from animal_crocodile Die (first beat) eased back to Idle frame 0: Hit",
+          "Death": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (quadruped/salamander): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand.",
+        "clipSeconds": {
+          "Idle": 5.300000190734863,
+          "Walk": 1.2666666507720947,
+          "Run": 0.800000011920929,
+          "Attack": 0.800000011920929,
+          "Hit": 0.6666666865348816,
+          "Death": 2.633333444595337
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_shale_elemental.glb",
+        "sourceSha256": "af464e081a66e5cea060032a93fdbd60d4c4e1ebb9b6c35e9a2c44ef4bf47b83"
       },
-      "impliedWalkMps": 1.2257047320830032,
-      "impliedRunMps": 1.9046970576575875,
-      "motionRepair": {
-        "family": "humanoids-plain",
-        "sourceSha256": "1860a058edebf0dcea1a8b8b1c7b844c1b55228441771344d6c1cb6833d4fbb3",
-        "sourceGitBlob": "cfb4589243dc0caa98c3afc94f502ffd2e735c79",
-        "donors": [
-          {
-            "id": "animal_boar",
-            "sourceGitBlob": "70e20b9ca76ddb9463787c1f733da262b6181d35",
-            "sourceSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d"
-          }
-        ],
-        "sourceMetadata": {
-          "floorCorrection": {
-            "Idle": {
-              "samples": 777,
-              "maximumLift": 0.0030224450555079796
-            },
-            "Walk": {
-              "samples": 113,
-              "maximumLift": 0.012560350374048214
-            },
-            "Run": {
-              "samples": 91,
-              "maximumLift": 0.012556478415976749
-            },
-            "Attack": {
-              "samples": 58,
-              "maximumLift": 0.0027840663714199182
-            },
-            "Hit": {
-              "samples": 35,
-              "maximumLift": 0.0076957327304453685
-            },
-            "HitLeft": {
-              "samples": 35,
-              "maximumLift": 0.0076957327304453685
-            },
-            "HitRight": {
-              "samples": 35,
-              "maximumLift": 0.0076957327304453685
-            },
-            "Death": {
-              "samples": 80,
-              "maximumLift": 0.06635493789459146
-            }
-          },
-          "family": "golem",
-          "height": 2.55,
-          "source": "Earth Elemental / Golem by piacenti, original first body",
-          "license": "CC-BY-3.0",
-          "rig": "original-earth-elemental-63-joint",
-          "provenance": {
-            "url": "https://opengameart.org/content/earth-elemental-golem",
-            "author": "piacenti",
-            "license": "CC-BY-3.0",
-            "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
-            "sourceFiles": [
-              {
-                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
-                "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
-              },
-              {
-                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
-                "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
-              },
-              {
-                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
-                "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
-              },
-              {
-                "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
-                "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
-              }
-            ],
-            "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
-            "weightReduction": {
-              "sourceMaximum": 8,
-              "runtimeMaximum": 4,
-              "maxDiscardedFraction": 0.20108696798913034,
-              "affectedControlVertices": 413,
-              "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
-              "refitVertices": 413,
-              "measuredError": {
-                "maxMeters": 0.022353774179003694,
-                "rmsMeters": 0.0009368683786992584,
-                "samples": 3082464
-              }
-            }
-          },
-          "textureBindings": [
-            {
-              "materialName": "earth_elemental_original_rock",
-              "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-color-gltf.png",
-              "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-normal-gltf.png",
-              "flipY": false
-            }
-          ],
-          "clipProvenance": [
-            {
-              "name": "Idle",
-              "source": "idle",
-              "take": "Default Take",
-              "firstFrame": 1,
-              "lastFrame": 208,
-              "fps": 24,
-              "derivation": "Original source take"
-            },
-            {
-              "name": "Walk",
-              "source": "walking",
-              "take": "Default Take",
-              "firstFrame": 337,
-              "lastFrame": 367,
-              "fps": 24,
-              "derivation": "Original source take"
-            },
-            {
-              "name": "Run",
-              "source": "walking",
-              "take": "Default Take",
-              "firstFrame": 337,
-              "lastFrame": 367,
-              "fps": 24,
-              "derivation": "Source walking at 1/0.7 speed; no native run take"
-            },
-            {
-              "name": "Attack",
-              "source": "right punch",
-              "take": "Default Take",
-              "firstFrame": 380,
-              "lastFrame": 395,
-              "fps": 24,
-              "derivation": "Original source take"
-            },
-            {
-              "name": "Hit",
-              "source": "take hit",
-              "take": "Default Take",
-              "firstFrame": 410,
-              "lastFrame": 419,
-              "fps": 24,
-              "derivation": "Original source take"
-            },
-            {
-              "name": "HitLeft",
-              "source": "take hit",
-              "take": "Default Take",
-              "firstFrame": 410,
-              "lastFrame": 419,
-              "fps": 24,
-              "derivation": "Alias of native take hit; no native directional hit takes"
-            },
-            {
-              "name": "HitRight",
-              "source": "take hit",
-              "take": "Default Take",
-              "firstFrame": 410,
-              "lastFrame": 419,
-              "fps": 24,
-              "derivation": "Alias of native take hit; no native directional hit takes"
-            },
-            {
-              "name": "Death",
-              "source": "death",
-              "take": "Default Take",
-              "firstFrame": 419,
-              "lastFrame": 440,
-              "fps": 24,
-              "derivation": "Original source take"
-            }
-          ],
-          "sourceAnimationCount": 10,
-          "attackContact": {
-            "normalized": 0.715,
-            "seconds": 0.5004999914765358
-          },
-          "animationAcceptance": "devdocs-approved",
-          "textureOrientation": "Original FBX UVs preserved; source base-color and normal image rows flipped once for glTF sampling",
-          "revision": "earth-elemental-source-1",
-          "runtimeTexturePolicy": {
-            "maxDimension": 2048,
-            "sharedByEncodedSha256": true,
-            "originalsPreserved": true
-          },
-          "gaitMeasurement": {
-            "status": "credible-geometry-estimate",
-            "visualContactAccepted": false,
-            "contactReview": "Moderate stride estimate. Left/right stance medians differ 18.37%; pooled median favors the longer right stance. Whole model rises to 40.93 mm above y=0 during gait. Speed matching cannot remove this vertical separation or every local slip."
-          }
-        },
-        "changes": [
-          "Corrected Shalewake parent-segment ownership and retargeted compatible studio quadruped actions."
-        ],
-        "warnings": [
-          "Candidate requires devdocs review of every motion state."
-        ],
-        "provenance": {
-          "donor": "animal_boar",
-          "weights": {
-            "vertices": 3188,
-            "dominantJointVertices": {
-              "Forepaw_L": 138,
-              "ForelegLower_L": 132,
-              "ForelegUpper_L": 317,
-              "ForelegUpper_R": 316,
-              "Neck": 132,
-              "SensingCleft": 81,
-              "Chest": 103,
-              "Spine": 247,
-              "Pelvis": 279,
-              "HindlegUpper_L": 251,
-              "HindlegUpper_R": 266,
-              "ForelegLower_R": 119,
-              "Forepaw_R": 166,
-              "Sense_R": 58,
-              "Sense_L": 43,
-              "HindlegLower_R": 173,
-              "HindlegLower_L": 179,
-              "Hindpaw_L": 98,
-              "Hindpaw_R": 90
-            },
-            "method": "Source-fitted outgoing anatomical segments, adjacent-bone initialization, UV-seam welding and connected-surface weight relaxation; four normalized influences"
-          },
-          "retarget": {
-            "mappedJoints": 17,
-            "poseNodes": 23,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 0.9318415473088135,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle",
-                "sourceSeconds": 6,
-                "seconds": 6,
-                "samples": 181,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.16320267989268125,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk",
-                "sourceSeconds": 0.9666666388511658,
-                "seconds": 0.9666666388511658,
-                "samples": 30,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.18700176181306188,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Run",
-                "sourceSeconds": 0.5,
-                "seconds": 0.5,
-                "samples": 16,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.18043044207101827,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Attack",
-                "sourceSeconds": 0.699999988079071,
-                "seconds": 0.699999988079071,
-                "samples": 22,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.27898164091940897,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit",
-                "sourceSeconds": 0.699999988079071,
-                "seconds": 0.699999988079071,
-                "samples": 22,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.23257964015624336,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death",
-                "sourceSeconds": 0.6333333253860474,
-                "seconds": 1.3333333253860473,
-                "samples": 21,
-                "loop": false,
-                "heldSeconds": 0.7,
-                "maximumGroundCorrection": 0.3142391586653053,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
-          },
-          "contact": {
-            "method": "Studio donor JawEnd maximum forward reach over 200 samples; native Attack timing retained",
-            "normalized": 0.715
-          }
-        },
-        "motion": {
-          "walkClipSeconds": 0.9666666388511658,
-          "runClipSeconds": 0.5,
-          "attackSeconds": 0.699999988079071,
-          "contactNormalized": 0.715,
-          "impliedWalkMps": 1.2257047320830032,
-          "impliedRunMps": 1.9046970576575875
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 6,
-              "samples": 95,
-              "maximumVertexMotion": 0.23913431846316535,
-              "maximumSpanRatio": 0.9838168614740839,
-              "minimumSpanRatio": 0.9778168465121789,
-              "loopSeam": 1.0962070265502118e-8,
-              "edgeStretchP99": 1.2196438527965028,
-              "maximumEdgeStretch": 1.9373431730155772,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 0.9666666388511658,
-              "samples": 65,
-              "maximumVertexMotion": 0.7295309495772824,
-              "maximumSpanRatio": 0.9557506352274611,
-              "minimumSpanRatio": 0.9497534507709221,
-              "loopSeam": 1.3365466868543796e-8,
-              "edgeStretchP99": 1.6655894289945699,
-              "maximumEdgeStretch": 3.246267356753165,
-              "stretchedEdgeFraction": 0.0001181753722524226
-            },
-            {
-              "name": "Run",
-              "seconds": 0.5,
-              "samples": 38,
-              "maximumVertexMotion": 0.5368429399357408,
-              "maximumSpanRatio": 0.9648839997227321,
-              "minimumSpanRatio": 0.9595333116687318,
-              "loopSeam": 1.3365466868543796e-8,
-              "edgeStretchP99": 1.584951441610598,
-              "maximumEdgeStretch": 3.3455453487065623,
-              "stretchedEdgeFraction": 0.0001181753722524226
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.699999988079071,
-              "samples": 78,
-              "maximumVertexMotion": 0.9311929288136063,
-              "maximumSpanRatio": 0.9887987523682704,
-              "minimumSpanRatio": 0.9590173681990305,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5202169345050758,
-              "maximumEdgeStretch": 2.543547228465716,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.699999988079071,
-              "samples": 49,
-              "maximumVertexMotion": 0.20706007048896477,
-              "maximumSpanRatio": 0.9781011601998715,
-              "minimumSpanRatio": 0.9660110901668119,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4022520077884735,
-              "maximumEdgeStretch": 2.0726523156557146,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.3333333730697632,
-              "samples": 46,
-              "maximumVertexMotion": 1.129876111451607,
-              "maximumSpanRatio": 1.0089917842258034,
-              "minimumSpanRatio": 0.9441742439601051,
-              "loopSeam": null,
-              "edgeStretchP99": 1.604021645284248,
-              "maximumEdgeStretch": 3.30063048466934,
-              "stretchedEdgeFraction": 0.0001181753722524226
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:32:52.364Z",
-          "by": "codex",
-          "sha256": "af464e081a66e5cea060032a93fdbd60d4c4e1ebb9b6c35e9a2c44ef4bf47b83",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_shale_elemental/evidence.json"
-        }
-      }
+      "walkClipSeconds": 1.266667,
+      "runClipSeconds": 0.8,
+      "impliedWalkMps": 0.876244,
+      "impliedRunMps": 1.392538,
+      "attackSeconds": 0.8,
+      "contactNormalized": 0.417
     },
     {
       "id": "corealm_oak_4",
@@ -25490,8 +25057,8 @@
         "rpg",
         "goblin_scout"
       ],
-      "bytes": 4783116,
-      "sha256": "4a274d8e9c15e7f22b4cc6e7978e5813a4437a3cda82c185b3cfc8323eedeb32",
+      "bytes": 5310476,
+      "sha256": "b4736ba42e1b9307f7a6b922c4afea1ea99fd28147279336a3074d4178285bce",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -25681,7 +25248,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Attack as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Attack as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.055 m).",
         "sources": [
           {
             "name": "Idle",
@@ -25746,8 +25313,8 @@
         "rpg",
         "goblin_archer"
       ],
-      "bytes": 5652752,
-      "sha256": "aa3dbabe7a500ae087deaa3da79218b3b7e9bb2189eefedd9a7fc83d21ab00d0",
+      "bytes": 6103800,
+      "sha256": "9259089b9dc5f9a6070ebda77b8916975a7448312bd44b9428309d7b447ee068",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -25953,7 +25520,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Shoot as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL Standard has no bow draw: Spell_Simple_Shoot (bow arm thrust forward) reads best of the native takes; the authored IK bow draw and frozen fingers are gone.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Shoot as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL Standard has no bow draw: Spell_Simple_Shoot (bow arm thrust forward) reads best of the native takes; the authored IK bow draw and frozen fingers are gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.074 m).",
         "sources": [
           {
             "name": "Idle",
@@ -26020,8 +25587,8 @@
         "caster",
         "candidate"
       ],
-      "bytes": 13146916,
-      "sha256": "230e5f6605d66d7adc3eca4407908d7680ccbc2cf31684f4f701232f4e0a6661",
+      "bytes": 13627796,
+      "sha256": "02f14b7f270388f8771959beaba2edfc9bec06bfc6dce97d5452e3f7d65d9836",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -26030,7 +25597,7 @@
       "base": {
         "x": -0.669191,
         "y": 0.008261,
-        "z": -0.767341
+        "z": -0.675415
       },
       "groundY": 0.0018606935011481667,
       "triangles": 19861,
@@ -26206,7 +25773,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Shoot as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The staff is re-gripped 9 cm lower on its shaft (the hand nearer its middle) so its foot clears the floor in Walk, Run and Hit. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.053 m).",
         "sources": [
           {
             "name": "Idle",
@@ -26245,9 +25812,9 @@
           },
           {
             "name": "Attack",
-            "source": "Spell_Simple_Shoot @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.5,
-            "channels": 163,
+            "source": "Spell_Simple_Enter + Spell_Simple_Exit @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 0.9666666984558105,
+            "channels": 168,
             "translationScale": 0.6728884461365268
           }
         ]
@@ -26255,9 +25822,9 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.652538,
-      "impliedRunMps": 4.019543,
-      "attackSeconds": 0.5,
+      "impliedWalkMps": 0.651617,
+      "impliedRunMps": 3.996409,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.42
     },
     {
@@ -26273,8 +25840,8 @@
         "candidate",
         "zombie-polish"
       ],
-      "bytes": 7462256,
-      "sha256": "61daadc3e64715cc98fa6e3851ea64379efb64fcc8efe2097eff65c22099ebf3",
+      "bytes": 7528008,
+      "sha256": "524bf6a3ad8e96c87a3672ac01975a93bb3e9dbe7aa5d3e13a98c142a2f38a35",
       "size": {
         "x": 1.717218,
         "y": 1.814025,
@@ -26305,7 +25872,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_zombie",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/sources/creature_zombie.glb",
-        "sourceSha256": "61daadc3e64715cc98fa6e3851ea64379efb64fcc8efe2097eff65c22099ebf3",
+        "sourceSha256": "524bf6a3ad8e96c87a3672ac01975a93bb3e9dbe7aa5d3e13a98c142a2f38a35",
         "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
@@ -26500,7 +26067,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.066 m).",
         "sources": [
           {
             "name": "Idle",
@@ -26973,8 +26540,8 @@
         "rpg",
         "grave_ghoul"
       ],
-      "bytes": 5782936,
-      "sha256": "b31bea9707d916692152e3f047f753ea973f5fac05aeb102572bc72846ed15cc",
+      "bytes": 5896020,
+      "sha256": "b5e2a4d528625a77fae8b72cd551a7da5c3fed466e2aa0ded56a486b50d3eb81",
       "size": {
         "x": 2.276295,
         "y": 1.556659,
@@ -27145,7 +26712,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death, Jog_Fwd_Loop as Run. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The extra spine crouch is gone.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death, Jog_Fwd_Loop as Run. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The extra spine crouch is gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.048 m).",
         "sources": [
           {
             "name": "Idle",
@@ -27210,8 +26777,8 @@
         "rpg",
         "wraith"
       ],
-      "bytes": 16069528,
-      "sha256": "075257426fca4c3dc6e586655be9b275720791e987d59f21068cba02bb3a896c",
+      "bytes": 16527836,
+      "sha256": "a49bc507e466b6cf033c39ec444f8d5df362808f826c8e545bdcb910c81e22f8",
       "size": {
         "x": 1.798829,
         "y": 1.753337,
@@ -27462,7 +27029,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Attack as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Sword_Attack's lunge drove the robe 27 cm through the floor and swung an empty hand; the cast matches the spell idle. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.163 m).",
         "sources": [
           {
             "name": "Idle",
@@ -27501,9 +27068,9 @@
           },
           {
             "name": "Attack",
-            "source": "Sword_Attack @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1.5333333015441895,
-            "channels": 175,
+            "source": "Spell_Simple_Enter + Spell_Simple_Exit @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 0.9666666984558105,
+            "channels": 171,
             "translationScale": 1.0348618644977292
           }
         ]
@@ -27511,7 +27078,7 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "attackSeconds": 1.533333,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.3
     },
     {
@@ -27649,8 +27216,8 @@
         "rpg",
         "iron_golem"
       ],
-      "bytes": 3450480,
-      "sha256": "0f53e18a35e01653948c5725f0e30c7e80ddacf436d2f000d41a43bdf01490e7",
+      "bytes": 3977820,
+      "sha256": "688e650b579a0c7b0747173c485468688fca36bc34e9f5291245e560bc7c356b",
       "size": {
         "x": 3.692076,
         "y": 2.172113,
@@ -28069,7 +27636,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Punch_Cross as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.35/x1.2/x1.3 retimes are gone.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.35/x1.2/x1.3 retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.286 m).",
         "sources": [
           {
             "name": "Idle",
@@ -28108,9 +27675,9 @@
           },
           {
             "name": "Attack",
-            "source": "Punch_Cross @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1,
-            "channels": 174,
+            "source": "Sword_Regular_A + Sword_Regular_A_Rec @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.399999976158142,
+            "channels": 177,
             "translationScale": 1.346389303121389
           }
         ]
@@ -28120,7 +27687,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.345295,
       "impliedRunMps": 7.998476,
-      "attackSeconds": 1,
+      "attackSeconds": 1.4,
       "contactNormalized": 0.38
     },
     {
@@ -28479,8 +28046,8 @@
         "candidate",
         "zombie-polish"
       ],
-      "bytes": 7607264,
-      "sha256": "860bb7fa9fdcdc5c33d53523586fa123cfed532376a18804d564d3da7010d123",
+      "bytes": 7673008,
+      "sha256": "27fe91ad84b93c17798f8842be96893e661de95be3edad9f21be1c3b40aeda97",
       "size": {
         "x": 1.73349,
         "y": 1.814013,
@@ -28511,7 +28078,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_plague_zombie",
         "sourceFile": "game/public/assets/models/creature/creature_plague_zombie.glb",
-        "sourceSha256": "860bb7fa9fdcdc5c33d53523586fa123cfed532376a18804d564d3da7010d123",
+        "sourceSha256": "27fe91ad84b93c17798f8842be96893e661de95be3edad9f21be1c3b40aeda97",
         "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
@@ -28706,7 +28273,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.093 m).",
         "sources": [
           {
             "name": "Idle",
@@ -33664,8 +33231,8 @@
         "polish",
         "candidate"
       ],
-      "bytes": 9636656,
-      "sha256": "231d2190f62ddee606da6b60cec3d6f19a76d1572f24c524cbae1a6593acf615",
+      "bytes": 9348748,
+      "sha256": "95a966402fb5b76cc4bcc5bc86b7f569f9b1ddd2cc52f6da35080f344de51c3a",
       "size": {
         "x": 2.351506,
         "y": 1.767802,
@@ -34106,7 +33673,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "earth elemental.fbx Default Take slices: idle, walking, right punch as Attack, take hit as Hit, death as Death, at native tempo (the x1.16 / x1.12 retimes and the chest sine are gone). No earth_source_ground / studio_contact_correction tracks; no Run (runtime Walk fallback).",
+        "notes": "earth elemental.fbx Default Take slices: idle, walking, right punch as Attack, take hit as Hit, death as Death, at native tempo (the x1.16 / x1.12 retimes and the chest sine are gone). No earth_source_ground / studio_contact_correction tracks; no Run (runtime Walk fallback). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.176 m).",
         "sources": [
           {
             "name": "Idle",
@@ -34827,8 +34394,8 @@
         "rpg",
         "stone_golem"
       ],
-      "bytes": 4686568,
-      "sha256": "cc44e40fd35eef6ff8a4eed2e7a40da196a823ea5742aa4b0216c83007c7ef85",
+      "bytes": 5188304,
+      "sha256": "8c47246c07f044ca00d329fce92952c5c6c33d11e316d4f51a3e329fc612c000",
       "size": {
         "x": 2.981588,
         "y": 2.71506,
@@ -35279,7 +34846,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Punch_Cross as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.07 retime and head/spine sines are gone.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.07 retime and head/spine sines are gone. Attack is the overhand hurl as a stone-palm smash, not the Punch_Cross boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.248 m).",
         "sources": [
           {
             "name": "Idle",
@@ -35318,9 +34885,9 @@
           },
           {
             "name": "Attack",
-            "source": "Punch_Cross @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1,
-            "channels": 173,
+            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.3333333730697632,
+            "channels": 176,
             "translationScale": 1.6141715620777068
           }
         ]
@@ -35330,7 +34897,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.570233,
       "impliedRunMps": 9.628564,
-      "attackSeconds": 1,
+      "attackSeconds": 1.333333,
       "contactNormalized": 0.15207652942041036
     },
     {
@@ -37759,8 +37326,8 @@
         "rpg",
         "beetle_golem"
       ],
-      "bytes": 2748860,
-      "sha256": "c874b8b257c0e616105f49431531cc384ee8ad74dfed71bdc221d400fbeb3ab6",
+      "bytes": 2724848,
+      "sha256": "a234186b3aff5b5c96c5632bb539ccbddad52debe3d155bf6b553bf909c348fd",
       "size": {
         "x": 3.054081,
         "y": 2.7621,
@@ -38451,7 +38018,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "BeetleGolem_v3.blend actions (48 Hz source record): Idle_Normal, Walk, Attack1, Attack2 as AttackSecondary, Hurt1 as Hit, Death, at native tempo; applied as deltas from the Mossbound binds. No torso/head sine, no x1.13/x1.21 retime, no ground wrappers, no Run.",
+        "notes": "BeetleGolem_v3.blend actions (48 Hz source record): Idle_Normal, Walk, Attack1, Attack2 as AttackSecondary, Hurt1 as Hit, Death, at native tempo; applied as deltas from the Mossbound binds. No torso/head sine, no x1.13/x1.21 retime, no ground wrappers, no Run. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.316 m).",
         "sources": [
           {
             "name": "Idle",
@@ -41530,8 +41097,8 @@
         "rpg",
         "banshee"
       ],
-      "bytes": 15998388,
-      "sha256": "a3775f045f62f59d937f9f8035e0f9adc7fe23375323a586267ba90a8a8ad143",
+      "bytes": 16485460,
+      "sha256": "87b5720b813f5d4dae7f3ac5c32ce93bf449a3878b68fd4c6b8e55c087b2b924",
       "size": {
         "x": 0.988337,
         "y": 2.650381,
@@ -42034,7 +41601,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Shoot as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.15 retime and the Idle-as-locomotion hover are gone.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.15 retime and the Idle-as-locomotion hover are gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.276 m).",
         "sources": [
           {
             "name": "Idle",
@@ -42073,9 +41640,9 @@
           },
           {
             "name": "Attack",
-            "source": "Spell_Simple_Shoot @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.5,
-            "channels": 169,
+            "source": "Spell_Simple_Enter + Spell_Simple_Exit @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 0.9666666984558105,
+            "channels": 171,
             "translationScale": 1.0348618644977292
           }
         ]
@@ -42083,7 +41650,7 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "attackSeconds": 0.5,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.46
     },
     {
@@ -43084,8 +42651,8 @@
         "keeper",
         "chainbound_archon"
       ],
-      "bytes": 19068052,
-      "sha256": "a7bd93fe6a4da59a2cb7af3e281ac76fe98ed27757a38bca9b3d3254dfc154e3",
+      "bytes": 19531736,
+      "sha256": "4d257d2e802c3eaeb742eb2d6efb5c863a8469f17f00a81af517e10bc0f75582",
       "size": {
         "x": 2.982572,
         "y": 3.083889,
@@ -43535,7 +43102,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Shoot as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.114 m).",
         "sources": [
           {
             "name": "Idle",
@@ -43574,9 +43141,9 @@
           },
           {
             "name": "Attack",
-            "source": "Spell_Simple_Shoot @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.5,
-            "channels": 170,
+            "source": "Spell_Simple_Enter + Spell_Simple_Exit @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 0.9666666984558105,
+            "channels": 171,
             "translationScale": 1.0348618644977292
           }
         ]
@@ -43584,7 +43151,7 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "attackSeconds": 0.5,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.42
     },
     {
@@ -51406,8 +50973,8 @@
         "regional_variant",
         "ivory_castellan"
       ],
-      "bytes": 6804340,
-      "sha256": "85bb93195a4eebd54e43942a03fbac169ab6064a3128050ee344f06b27ff405c",
+      "bytes": 7326832,
+      "sha256": "5830faf685731693e529254b28f154a2d1b3d1a0c0e777ed35620703cbece56f",
       "size": {
         "x": 5.203684,
         "y": 3.061419,
@@ -52145,7 +51712,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Punch_Cross as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The inherited iron-golem retimes are gone.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The inherited iron-golem retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.403 m).",
         "sources": [
           {
             "name": "Idle",
@@ -52184,9 +51751,9 @@
           },
           {
             "name": "Attack",
-            "source": "Punch_Cross @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1,
-            "channels": 174,
+            "source": "Sword_Regular_A + Sword_Regular_A_Rec @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.399999976158142,
+            "channels": 177,
             "translationScale": 1.346389303121389
           }
         ]
@@ -52196,7 +51763,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.896085,
       "impliedRunMps": 11.27321,
-      "attackSeconds": 1,
+      "attackSeconds": 1.4,
       "contactNormalized": 0.38
     },
     {
@@ -52439,8 +52006,8 @@
         "regional_variant",
         "moonpetal_stalker"
       ],
-      "bytes": 5230428,
-      "sha256": "d572a37f75e85736a9a8000a5141546697049dc168ceb8395d903b64d6dec2ce",
+      "bytes": 5751876,
+      "sha256": "a251695dacb8ddfc55e91c29693a25fe199ea1c5a0c0395bec6e3eacc04b5f51",
       "size": {
         "x": 1.672979,
         "y": 1.36907,
@@ -52828,7 +52395,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Attack as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The heath-jack x1.08 retime is gone.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Attack as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The heath-jack x1.08 retime is gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.054 m).",
         "sources": [
           {
             "name": "Idle",
@@ -56084,17 +55651,17 @@
         "mushroom",
         "candidate"
       ],
-      "bytes": 3477612,
-      "sha256": "d05e79e4b782b189904b64075497abf143064f10ddc36440f471310ab907d5f9",
+      "bytes": 3646624,
+      "sha256": "13f045104eb4762a8cacb736fdb3f9c4635267f42a6c4ec2426a6c6658712e99",
       "size": {
-        "x": 1.810009732798153,
-        "y": 1.8990721585070096,
-        "z": 1.650439368129137
+        "x": 1.81001,
+        "y": 1.899072,
+        "z": 1.623535
       },
       "base": {
-        "x": -0.9050048748275912,
-        "y": 0.002999941782050054,
-        "z": -0.8252196737020343
+        "x": -0.772803,
+        "y": 0,
+        "z": -0.798315
       },
       "triangles": 3889,
       "animations": [
@@ -56102,25 +55669,18 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "Thicket bark moss mushroom and luminous eyes"
       ],
-      "impliedWalkMps": null,
-      "impliedRunMps": null,
-      "walkClipSeconds": 1.159999966621399,
-      "runClipSeconds": 0.7400000095367432,
-      "attackSeconds": 0.8600000143051147,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "sourceFile": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/thicketwalker-64833df9-8eee-437f-9010-9ca3483dc015.glb",
         "sourceSha256": "1e41b47c9a4b80de1e828a8d45ec75220e7cdcc7eb017c37a776d4b37eee44f0",
         "originalTripoModelId": "64833df9-8eee-437f-9010-9ca3483dc015",
         "sourceTexture": "8K Tripo texture generation albedo; resized to 2K",
         "sourcePbrMaps": "none",
-        "rigMethod": "Authored 20-joint four-leg, canopy, neck and face skin; spatial anatomical weights; original topology retained after rigid +X to +Z basis transform."
+        "rigMethod": "tools/creature-rig special_reliquary (four-leg shell): skeleton fitted to the mesh, bone-heat weights, animal pack deluxe WildBoar takes retargeted rest-relative; the authored 20-joint rig and clips are retired"
       },
       "acceptance": {
         "exported": true,
@@ -56130,20 +55690,18 @@
       },
       "bounds": {
         "min": [
-          -0.9050048748275912,
-          0.002999941782050054,
-          -0.8252196737020343
+          -0.772803008556366,
+          0,
+          -0.7983149886131287
         ],
         "max": [
-          0.9050048579705618,
-          1.9020721002890597,
-          0.8252196944271025
+          1.037207007408142,
+          1.8990720510482788,
+          0.825219988822937
         ]
       },
       "groundY": 0,
       "vertices": 5303,
-      "measuredGait": null,
-      "locomotionPolicy": null,
       "metadata": {
         "family": "thicket_spirit",
         "region": "faeholme",
@@ -56165,177 +55723,33 @@
           "impliedRunMps": null
         }
       },
-      "motionRepair": {
-        "family": "specials",
-        "sourceSha256": "694b6cbe20c62b2d6c899b1b5899d7a8bd918dcef24bf68323e23f2ec2581acd",
-        "sourceGitBlob": "6b25d75eb784d8da3e4e5161a5766a305fe1e5fd",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "thicket_spirit",
-          "region": "faeholme",
-          "level": 46,
-          "anatomy": "Four thin legs beneath a mossy thicket canopy, mushroom crown and luminous face.",
-          "desiredInGameHeightMeters": 1.8990722656249999,
-          "elderPresentationScale": 1.2894736842105265,
-          "deathPose": "side collapse complete by 0.65 s and held through 1.5 s; CPU weighted floor sampled"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Attack",
+          "Death": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Die"
         },
-        "changes": [
-          "Removed nonuniform death shrinking; the thicket settles beyond its canopy rim onto the curved dome with all four limbs folded close.",
-          "Baked complete TRS states and ground contact after final model scaling; source mesh topology, UVs and all texture bytes remain unchanged."
-        ],
-        "provenance": {
-          "samples": [
-            {
-              "name": "Idle",
-              "seconds": 2.799999952316284,
-              "samples": 169,
-              "maxCorrection": 0.0021280614807846774,
-              "minY": 0.003,
-              "maxY": 1.9101692100404308
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.159999966621399,
-              "samples": 71,
-              "maxCorrection": 0.02538489954493604,
-              "minY": 0.002999999999999999,
-              "maxY": 1.9141188038617234
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7400000095367432,
-              "samples": 46,
-              "maxCorrection": 0.0816516068165112,
-              "minY": 0.002999999999999999,
-              "maxY": 1.927235047248758
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8600000143051147,
-              "samples": 53,
-              "maxCorrection": 0.0698709344401374,
-              "minY": 0.002999999999999999,
-              "maxY": 1.9355928829113764
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.47999998927116394,
-              "samples": 30,
-              "maxCorrection": 0.0020004630625470683,
-              "minY": 0.003,
-              "maxY": 1.9864214644631188
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5,
-              "samples": 91,
-              "maxCorrection": 1.6047981765808677,
-              "minY": 0.0029999999999998916,
-              "maxY": 2.084339805778617
-            }
-          ]
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (special_reliquary/reliquary): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.614 m).",
+        "clipSeconds": {
+          "Idle": 5.9666666984558105,
+          "Walk": 0.9333333373069763,
+          "Run": 0.46666666865348816,
+          "Attack": 0.6666666865348816,
+          "Death": 0.6000000238418579
         },
-        "motion": {
-          "walkClipSeconds": 1.159999966621399,
-          "runClipSeconds": 0.7400000095367432,
-          "attackSeconds": 0.8600000143051147,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.799999952316284,
-              "samples": 65,
-              "maximumVertexMotion": 0.025885920092377477,
-              "maximumSpanRatio": 1.003450782704261,
-              "minimumSpanRatio": 0.9984105256887122,
-              "loopSeam": 0,
-              "edgeStretchP99": 1.0274098324181782,
-              "maximumEdgeStretch": 1.2950228249974995,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.159999966621399,
-              "samples": 67,
-              "maximumVertexMotion": 0.23894006976691348,
-              "maximumSpanRatio": 1.0484729164036655,
-              "minimumSpanRatio": 0.9974616051057029,
-              "loopSeam": 2.0225290988027167e-10,
-              "edgeStretchP99": 1.2838418476430857,
-              "maximumEdgeStretch": 3.104480741992219,
-              "stretchedEdgeFraction": 0.00024055809477988935
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7400000095367432,
-              "samples": 97,
-              "maximumVertexMotion": 0.38905321900618317,
-              "maximumSpanRatio": 1.0979963234471297,
-              "minimumSpanRatio": 0.9980584289246207,
-              "loopSeam": 2.0225290988027167e-10,
-              "edgeStretchP99": 1.5604501861884787,
-              "maximumEdgeStretch": 5.133320255937127,
-              "stretchedEdgeFraction": 0.0019244647582391148
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8600000143051147,
-              "samples": 108,
-              "maximumVertexMotion": 0.2798544051953285,
-              "maximumSpanRatio": 1.01065366332989,
-              "minimumSpanRatio": 0.9776926203905386,
-              "loopSeam": null,
-              "edgeStretchP99": 1.1567531786098582,
-              "maximumEdgeStretch": 4.587590589282778,
-              "stretchedEdgeFraction": 0.0006013952369497233
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.47999998927116394,
-              "samples": 65,
-              "maximumVertexMotion": 0.23374273153945196,
-              "maximumSpanRatio": 1.043926817835904,
-              "minimumSpanRatio": 0.9870079918593112,
-              "loopSeam": null,
-              "edgeStretchP99": 1.17135650151918,
-              "maximumEdgeStretch": 2.4215191894920074,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5,
-              "samples": 64,
-              "maximumVertexMotion": 2.530357839333829,
-              "maximumSpanRatio": 1.0740026310307433,
-              "minimumSpanRatio": 0.9861164878541361,
-              "loopSeam": null,
-              "edgeStretchP99": 1.3962139724714866,
-              "maximumEdgeStretch": 4.001222159870762,
-              "stretchedEdgeFraction": 0.0013230695212893915
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:52:03.425Z",
-          "by": "codex",
-          "sha256": "d05e79e4b782b189904b64075497abf143064f10ddc36440f471310ab907d5f9",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/specials-v4/fairy_monster_21/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/fairy-garden/thicket-spirit.glb",
+        "sourceSha256": "d05e79e4b782b189904b64075497abf143064f10ddc36440f471310ab907d5f9"
+      },
+      "walkClipSeconds": 0.933333,
+      "runClipSeconds": 0.466667,
+      "impliedWalkMps": 2.600167,
+      "impliedRunMps": 5.051708,
+      "attackSeconds": 0.666667,
+      "contactNormalized": 0.6
     },
     {
       "id": "fairy_monster_27",
@@ -68729,8 +68143,8 @@
         "elite",
         "candidate"
       ],
-      "bytes": 15288448,
-      "sha256": "b99fcd50f8f69ee8ec849f658c4055a3035c3dcb928ba116efdff9051cab5d97",
+      "bytes": 15791988,
+      "sha256": "b99cf8fc47574c8f57b4fa810745ed53a2c22556a793132bb54d7367291753b3",
       "triangles": 9162,
       "size": {
         "x": 0.822808,
@@ -69007,7 +68421,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Attack as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.2 retime and Idle-as-Walk/Run are gone.",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.2 retime and Idle-as-Walk/Run are gone. Attack chains the cast enter and exit (Sword_Attack's lunge drove the robe 27 cm through the floor). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.128 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69046,9 +68460,9 @@
           },
           {
             "name": "Attack",
-            "source": "Sword_Attack @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1.5333333015441895,
-            "channels": 175,
+            "source": "Spell_Simple_Enter + Spell_Simple_Exit @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 0.9666666984558105,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           }
         ]
@@ -69056,7 +68470,7 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "attackSeconds": 1.533333,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.38
     },
     {
@@ -69553,8 +68967,8 @@
         "vellenwood",
         "candidate"
       ],
-      "bytes": 6819920,
-      "sha256": "94a11df413a42277e56bda5d3dbeb08159b42a5b3411e6385ef70dc67f08a157",
+      "bytes": 7309532,
+      "sha256": "b9f07e6c06c17320e70c3e0e53d1b92d811c01421810251cd4fa2349e2054056",
       "size": {
         "x": 1.668866,
         "y": 1.802487,
@@ -69639,7 +69053,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Punch_Jab as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.087 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69678,9 +69092,9 @@
           },
           {
             "name": "Attack",
-            "source": "Punch_Jab @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.8666666746139526,
-            "channels": 175,
+            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.3333333730697632,
+            "channels": 176,
             "translationScale": 1.0161774193209965
           }
         ]
@@ -69690,7 +69104,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.937633,
       "impliedRunMps": 5.842613,
-      "attackSeconds": 0.866667,
+      "attackSeconds": 1.333333,
       "contactNormalized": 0.233
     },
     {
@@ -69707,8 +69121,8 @@
         "karrowmoor",
         "candidate"
       ],
-      "bytes": 6876128,
-      "sha256": "20aa91bb907bd0cfb06e493a4102c3068066dfc28dc3578785a3bd1363e9845c",
+      "bytes": 7404800,
+      "sha256": "e1e2102f2f0c215a84ce10da5e2eb9de8ce9bdba42764695c71acf0c3305759a",
       "size": {
         "x": 1.858865,
         "y": 1.87455,
@@ -69793,7 +69207,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Punch_Jab as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.107 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69832,9 +69246,9 @@
           },
           {
             "name": "Attack",
-            "source": "Punch_Jab @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.8666666746139526,
-            "channels": 180,
+            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.3333333730697632,
+            "channels": 183,
             "translationScale": 1.0348618672527363
           }
         ]
@@ -69844,7 +69258,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.964825,
       "impliedRunMps": 6.068796,
-      "attackSeconds": 0.866667,
+      "attackSeconds": 1.333333,
       "contactNormalized": 0.233
     },
     {
@@ -69861,8 +69275,8 @@
         "kilnhalt",
         "candidate"
       ],
-      "bytes": 6838088,
-      "sha256": "05844c5c1df0b9be02078d4b256d048f486230ca32e02d3e410499369f07c60d",
+      "bytes": 7366760,
+      "sha256": "e87f04b3926c621336c06ba4834c6ac286c2b9c5121e893cf0e21f7a6db0a368",
       "size": {
         "x": 1.858865,
         "y": 1.87455,
@@ -69947,7 +69361,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Punch_Jab as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift.",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.107 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69986,9 +69400,9 @@
           },
           {
             "name": "Attack",
-            "source": "Punch_Jab @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.8666666746139526,
-            "channels": 180,
+            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.3333333730697632,
+            "channels": 183,
             "translationScale": 1.0348618672527363
           }
         ]
@@ -69998,7 +69412,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.964825,
       "impliedRunMps": 6.068796,
-      "attackSeconds": 0.866667,
+      "attackSeconds": 1.333333,
       "contactNormalized": 0.233
     },
     {

@@ -57,15 +57,15 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.525
   },
   "bandit_forest_ranger": {
-    "seconds": 0.866667,
+    "seconds": 1.333333,
     "contactNormalized": 0.233
   },
   "bandit_highland_ranger": {
-    "seconds": 0.866667,
+    "seconds": 1.333333,
     "contactNormalized": 0.233
   },
   "bandit_quarry_ranger": {
-    "seconds": 0.866667,
+    "seconds": 1.333333,
     "contactNormalized": 0.233
   },
   "boss_rhino_air": {
@@ -97,7 +97,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.433
   },
   "creature_ashbound_votary_elite": {
-    "seconds": 1.533333,
+    "seconds": 0.966667,
     "contactNormalized": 0.38
   },
   "creature_ashscale_monitor": {
@@ -201,7 +201,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "creature_chainbound_archon": {
-    "seconds": 0.5,
+    "seconds": 0.966667,
     "contactNormalized": 0.42
   },
   "creature_chalk_warden": {
@@ -261,7 +261,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.483
   },
   "creature_gloam_wraith": {
-    "seconds": 0.5,
+    "seconds": 0.966667,
     "contactNormalized": 0.46
   },
   "creature_gloamfang_reaver": {
@@ -277,7 +277,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.3
   },
   "creature_goblin_shaman": {
-    "seconds": 0.5,
+    "seconds": 0.966667,
     "contactNormalized": 0.42
   },
   "creature_gorge_mantis": {
@@ -301,11 +301,11 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.317
   },
   "creature_iron_golem": {
-    "seconds": 1,
+    "seconds": 1.4,
     "contactNormalized": 0.38
   },
   "creature_ivory_castellan": {
-    "seconds": 1,
+    "seconds": 1.4,
     "contactNormalized": 0.38
   },
   "creature_kiln_marrow": {
@@ -429,12 +429,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.55
   },
   "creature_scree_watcher": {
-    "seconds": 1,
+    "seconds": 1.333333,
     "contactNormalized": 0.15207652942041036
   },
   "creature_shale_elemental": {
-    "seconds": 0.699999988079071,
-    "contactNormalized": 0.715
+    "seconds": 0.8,
+    "contactNormalized": 0.417
   },
   "creature_silverthorn_harrow": {
     "seconds": 1.066667,
@@ -513,7 +513,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "creature_wraith": {
-    "seconds": 1.533333,
+    "seconds": 0.966667,
     "contactNormalized": 0.3
   },
   "creature_zombie": {
@@ -669,8 +669,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.583
   },
   "fairy_monster_21": {
-    "seconds": 0.8600000143051147,
-    "contactNormalized": 0.5
+    "seconds": 0.666667,
+    "contactNormalized": 0.6
   },
   "fairy_monster_27": {
     "seconds": 2.333333,
@@ -800,7 +800,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_gloamfang_reaver": 15.786,
   "creature_goblin_archer": 10.9405,
   "creature_goblin_scout": 11.1899,
-  "creature_goblin_shaman": 11.2547,
+  "creature_goblin_shaman": 11.1899,
   "creature_grave_ghoul": 14.1908,
   "creature_grave_lantern": 32.2116,
   "creature_heath_jack": 4.3563,
@@ -836,7 +836,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_rootdelve_badger": 6.3569,
   "creature_scree_bustard": 3.6824,
   "creature_scree_watcher": 26.96,
-  "creature_shale_elemental": 2.857,
+  "creature_shale_elemental": 3.3421,
   "creature_silverthorn_harrow": 4.5295,
   "creature_skeleton_archer": 17.2229,
   "creature_skeleton_archer_elite": 18.6527,
@@ -884,6 +884,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_monster_14": 0.5586,
   "fairy_monster_16": 5.8884,
   "fairy_monster_19": 3.3455,
+  "fairy_monster_21": 7.0724,
   "fairy_monster_27": 5.7317,
   "fairy_monster_28": 2.9769,
   "fairy_monster_30": 5.6853,
@@ -971,7 +972,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_gloamfang_reaver": 3.233887,
   "creature_goblin_archer": 1.992729,
   "creature_goblin_scout": 2.085174,
-  "creature_goblin_shaman": 2.088121,
+  "creature_goblin_shaman": 2.085174,
   "creature_gorge_mantis": 1.324591,
   "creature_grave_ghoul": 2.617375,
   "creature_grave_lantern": 8.639664,
@@ -1008,7 +1009,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_rootdelve_badger": 2.570402,
   "creature_scree_bustard": 2.580454,
   "creature_scree_watcher": 5.024744,
-  "creature_shale_elemental": 2.843635,
+  "creature_shale_elemental": 2.663782,
   "creature_silverthorn_harrow": 3.623593,
   "creature_skeleton_archer": 3.230447,
   "creature_skeleton_archer_elite": 3.488719,
@@ -1059,6 +1060,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "fairy_monster_14": 0.545741,
   "fairy_monster_16": 4.710727,
   "fairy_monster_19": 0.470429,
+  "fairy_monster_21": 5.824372,
   "fairy_monster_27": 3.510239,
   "fairy_monster_28": 2.381486,
   "fairy_monster_30": 4.548245,
