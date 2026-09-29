@@ -221,8 +221,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.483
   },
   "creature_cindercrest_salamander": {
-    "seconds": 1.0800000429153442,
-    "contactNormalized": 0.5416666666666666
+    "seconds": 0.8,
+    "contactNormalized": 0.417
   },
   "creature_crown_hart": {
     "seconds": 1.466667,
@@ -772,7 +772,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_cinder_penitent": 13.685,
   "creature_cinder_ravager": 20.2245,
   "creature_cinderback_crag": 8.7288,
-  "creature_cindercrest_salamander": 0.5968,
+  "creature_cindercrest_salamander": 2.1672,
   "creature_crown_hart": 5.2436,
   "creature_dewglass_weaver": 3.6281,
   "creature_duskoak_lynx": 12.1871,
@@ -939,7 +939,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_cinder_penitent": 2.905924,
   "creature_cinder_ravager": 6.295176,
   "creature_cinderback_crag": 2.549957,
-  "creature_cindercrest_salamander": 0.461289,
+  "creature_cindercrest_salamander": 1.777522,
   "creature_crown_hart": 2.597886,
   "creature_dewglass_weaver": 0.855825,
   "creature_duskoak_lynx": 2.38337,

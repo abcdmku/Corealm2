@@ -3079,41 +3079,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T04:36:54.105Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v4/creature_cindercrest_salamander/evidence.json.",
-      "at": "2026-09-28T20:21:16.464Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate ba4b7013a7f33078ed0ea972a0400f274528945edbedd6f5bb5c1b3810e8e6a1."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_crown_hart": {
     "status": "draft",
