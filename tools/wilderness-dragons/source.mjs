@@ -43,7 +43,8 @@ export function nameRig(root, identity) {
   for (const [path, node] of identity.byPath) if (counts.get(node.name) > 1) node.name = path.replace(/[^a-zA-Z0-9_]/g, '__');
 }
 
-export function importClip(source, targetIds, name, tempo = 1) {
+/** Bind one single-take FBX clip to the rig by source node identity; root bone XZ held at rest. */
+export function importClip(source, targetIds, name) {
   const sourceIds = identities(source), take = source.animations.find(a => a.name === 'Take 001') ?? source.animations[0];
   if (!take) throw new Error(`Missing dragon clip ${name}`);
   const seen = new Set();
@@ -53,11 +54,10 @@ export function importClip(source, targetIds, name, tempo = 1) {
     const track = original.clone(), property = track.name.slice(track.name.lastIndexOf('.') + 1);
     track.name = `${target.name}.${property}`;
     if (seen.has(track.name)) throw new Error(`Duplicate dragon channel ${track.name}`); seen.add(track.name);
-    track.times = Float32Array.from(track.times, t => t * tempo);
-    if (/^Root(?:_Pelvis)?$/i.test(target.name) && property === 'position') for (let i = 0; i < track.values.length; i += 3) {
+    if (target.isBone && !target.parent?.isBone && property === 'position') for (let i = 0; i < track.values.length; i += 3) {
       track.values[i] = target.position.x; track.values[i + 2] = target.position.z;
     }
     return track;
   });
-  return new THREE.AnimationClip(name, take.duration * tempo, tracks);
+  return new THREE.AnimationClip(name, take.duration, tracks);
 }
