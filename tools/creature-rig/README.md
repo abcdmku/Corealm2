@@ -17,6 +17,7 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
 | Path | Contents |
 |---|---|
 | `work/<id>/` | `mesh.glb` (bind-pose production mesh), `intake.json`, `rig.json`, `fit.png` (skeleton and dominant-bone weights), `validation.json` |
+| `donors/` | Donor files extracted from zips and Unity packages |
 | `models/<production path>` | The candidate GLB |
 | `sheets/{side,front,three-quarter}/` | Contact sheets that compare the candidate (`[0]`) with production (`[1]`) |
 | `sheets/closeup/<id>.png` | Joint close-ups: rows are the bind pose, then Idle, Walk, Run and Attack at 2 phases each; columns are front and side views of `upperarm_l`, `lowerarm_l`, `thigh_l`, `calf_l` and `spine_02` |
@@ -24,11 +25,12 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
 
 ## Steps
 
-1. **`intake.mjs`** bakes every production mesh node to its bind pose in world space. It grounds the lowest vertex at y=0 and centres the feet over the origin. It then searches `assets/art/tripo/**` and `~/Downloads` for a source export with the same geometry. A source rig is used only if it passes `rig-health.mjs`: bind-consistent, at most 60% rigid vertices, no root- or `neutral_bone`-dominated weight, and at least 12 weighted joints. Rig-page 8k exports always fail these gates.
+1. **`intake.mjs`** bakes every production mesh node to its bind pose in world space. It grounds the lowest vertex at y=0 and centres the feet over the origin. It then searches Tripo's own exports (`assets/art/tripo/exports` and `~/Downloads`) for a source with the same geometry. `assets/art/tripo/imports/creatures` is not searched: it holds the retired repo rigs, which pass the gates but have hand-typed joints. A source rig is used only if it passes `rig-health.mjs`: bind-consistent, at most 60% rigid vertices, no root-dominated weight, at most 35% on `neutral_bone`, and at least 12 weighted joints. Rig-page 8k exports always fail these gates.
 2. **`py/rig.py`** runs in Blender:
    - `crlib/body.py` voxelises the mesh. It seals holes with the smallest closing that stops the solid from growing, and removes thin sheets. It finds extremities and limb paths as medial geodesics, and cuts contacts between parts that only touch.
+   - A generic source rig (`bone_0 … bone_N`) is labelled by `crlib/labels.py` (see below) and handed to the class as `source["labels"]`.
    - The class module fits the skeleton. It then adds cloth or tail chains.
-   - Blender computes bone-heat weights. These are filled, made rigid only for loose pieces that are mostly bound to one bone, smoothed in 2 passes, limited to 4 influences and normalised.
+   - Blender computes bone-heat weights. These are filled, made rigid only for loose pieces that are mostly bound to one bone (and near it), smoothed in 2 passes, limited to 4 influences and normalised.
    - A T-posed body is re-bound with its arms at 50° using dual-quaternion skinning (`crlib/rebind.py`).
    - Donor clips are sampled at 30 fps and retargeted (`crlib/retarget.py`).
 3. **`assemble.mjs`** writes the GLB:
@@ -52,20 +54,137 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
 
 - Limbs (`follow: 1`) take the donor bone's world orientation. The target rest frame is the donor rest frame rotated onto the target bone. This matches a T-pose or A-pose rest to the donor's rest before transfer, and it carries bone roll over.
 - Torso, head and feet (`follow: 0`) add the donor's motion on top of their own rest. A hunched back stays hunched, and a sole that is flat at rest stays flat.
-- The hips translate by the donor offset times the leg-length ratio. Loop clips have their net horizontal travel removed.
-- Foot IK solves two-bone IK to the donor's scaled ankle path. It then pitches the foot and toes so the ball and toe tip follow the donor's scaled heights. This is exact while the donor foot is in contact and otherwise only stops the foot sinking.
+- Each donor drives the skeleton through its own rest frames (`Binding` in `crlib/skeleton.py`). `Bone.frame` is the bind frame and comes from the class's primary donor. Another donor gets the same rule applied to its own rest, so one class can mix donors whose rest poses and bone axes differ.
+- The hips translate in one of three modes, set by the profile's `hipMode` or per clip:
+  - `legs` (default): the donor's hip offset times the leg-length ratio.
+  - `vertical`: only the vertical part of that offset, for serpents and bodies that must not sway.
+  - `root`: the offset of the donor's highest moving bone, or of the plan's `hip_source`, for flyers whose donor bobs the root.
+
+  Loop clips have their net horizontal travel removed.
+- Leg IK works on chains of any length. For each leg, the part of the chain above the pivot joint and the part below it act as two rigid bones and are solved as two-bone IK towards the donor's scaled effector path. The solve stays in the plane the chain already bends in. Every other joint keeps its donor angle. The pivot is the donor's most bent joint. When that pivot alone cannot reach, the next most bent joint takes the rest. After the IK, the foot and toes pitch so the ball and the toe tip follow the donor's scaled heights. This is exact while the donor foot is in contact and otherwise only stops the foot sinking.
+- Some donors translate their hip joints, for example the animal-pack Wolf Run moves its hind hips by 35% of a bone length. These can ask for more reach than rigid bones have. `rig.json` records the worst miss per clip as `ikMiss`, a share of the leg length.
 - Chains with no donor twin are driven by a damped Verlet spring chain. These are capes (back sheets, plus their part above the hips that stands off the body), front flaps between the legs, and tails. The leg and torso capsules and the floor are colliders. The columns of one sheet are linked so the sheet cannot tear. Loops run for 3 cycles, and the leftover difference is spread over the cycle.
 - Lying clips (the hips drop below half their height) lift the hips by a smooth envelope of the floor penetration. No clip snaps to the floor per frame.
 - Takes that are authored to chain play as one clip, for example `["Melee_Hook", "Melee_Hook_Rec"]`.
 
-## Classes
+## Writing a class
 
-A class is one module and one donor map. They are found by name, so adding a class edits no shared file:
+A class is two files: `py/classes/<class>.py` and `py/classes/<class>.donors.json`. `rig.py` imports the module by the asset config's `class`, so adding a class edits no shared file.
 
-- `py/classes/<class>.py` must define `fit(body, donor, profile, source=None) -> (Skeleton, notes)` and `plan(sk, body, profile)`. It may also define:
-  - `cloth(body, sk, profile, heat) -> override`
-  - `bind_turns(sk, profile)`
-- `py/classes/<class>.donors.json` lists the donors (a zip and member, or an extracted file) and the profiles (clip choices per state, `legs`, overrides).
+### The module
+
+| Function | Required | Contract |
+|---|---|---|
+| `fit(body, donor, profile, source=None)` | yes | Returns `(Skeleton, notes)`. `donor` is the primary donor. Add bones with `sk.add(name, parent, head, tail, donor=, follow=, kind=)` in parent-first order. The first bone is the root. `kind` is one of `root`, `body`, `leg`, `arm`, `tail`, `cloth` or `wing`. `donor` names the primary donor's bone; `None` means the bone follows its parent (and a spring chain if `plan` lists it). `notes` is any JSON and ends up in `rig.json` as `fit`. |
+| `plan(sk, body, profile)` | yes | Returns `{"hips": <bone>, "legs": [...], "chains": [...], "colliders": [...], "hip_motion": <float>}`. It can also set `hip_mode` (`legs`, `vertical` or `root`), `hip_source` (a donor bone for `root` mode) and `scale` (a fixed size ratio instead of the leg-length one). |
+| `cloth(body, sk, profile, heat)` | no | Adds sheet chains (`heat=False` bones) and returns `override(W) -> (W, locked)` for the skin step. |
+| `bind_turns(sk, profile)` | no | Returns `{bone: rotation}`. It re-poses a bind that sits far from the donor's working range, for example spread wings or T-pose arms. |
+| `donor_map(sk, donor, profile)` | no | Returns `{primary donor bone or target bone: this donor's bone or None}` for a secondary donor. It is called once per donor; return `None` to use the donor spec's `map`. |
+
+A leg in `plan()["legs"]` is `{"chain": [bone, ...], "foot": bone or None, "toe": bone or None, "pivot": index or None}`:
+
+- `chain` holds the segments the IK bends, from hip to ankle.
+- The effector is the head of `foot`. With no foot it is the tail of the last chain bone, for example a spider's leg tip.
+- `toe` enables ball and toe contact. It needs a `foot`.
+- `pivot` forces the pivot joint: an index into the chain's joints, where 1 is the first knee.
+- The tuple `(upper, lower, foot[, toe])` is still accepted and means a two-bone chain. `humanoid.py` uses it.
+
+A spring chain in `chains` is `{"bones": [...], "stiffness", "damping", "gravity", "hang", "clearance", "group"}`, with the colliders `CapsuleCollider(sk, bone, radius)` from `crlib.retarget`. Legs whose bones have no twin in a clip's donor lose IK for that clip; `rig.json` lists them under `fit.donorGaps`.
+
+### Source rigs
+
+`source` is `None`, `{"kind": "fitted"}`, or `{"kind": "tripo-rig", "file", "joints": [{name, parent, position, weightShare}]}` with positions in the production mesh's space. For a generic `bone_N` rig, `source["labels"]` comes from `crlib/labels.py` and has these fields:
+
+| Field | Contents |
+|---|---|
+| `legs` | `[{side, order, chain, attach, tip}]`. `side` is `l` (+X, the creature's left) or `r`, and `order` is 0 at the front. |
+| `spine` | Pelvis to chest. |
+| `neck` | The joints between the chest and the head. |
+| `head` | The head joint. |
+| `headTip` | The tip beyond the head. |
+| `jaw` | The jaw chain, if any. |
+| `headExtras` | Other head chains, such as horns and ears. |
+| `tail` | The tail, or a spider's abdomen. |
+| `limbs` | `[{side, kind: "wing" or "arm", chain, attach, leaves}]` |
+| `legHubs` | Bones off the axis that only carry legs. |
+| `root` | A root lying on the ground under the body. |
+| `other` | Everything else. |
+
+To check a download, run:
+
+```sh
+py -3.13 tools/creature-rig/py/crlib/labels.py <rig.glb> --png out.png
+```
+
+It prints the labels and where the `neutral_bone` weight would go. The PNG shows the labelled tree over the mesh, with the mesh on `neutral_bone` in red. `reassign_neutral()` moves that weight to the nearest bone, for a class that reuses source weights.
+
+Verified results:
+
+| Rig | Labels | Gaps |
+|---|---|---|
+| Red dragon d20f1d55 | 4 legs, tail, spine, neck, head, and the left wing | Tripo rigged only the left wing. The skull and tail tip sit on `neutral_bone` (30%). |
+| Arachnid 0ea08166 | 6 legs, the abdomen as `tail`, and the leg hub as `head` | One right pedipalp (`arm`). The abdomen shell is on `neutral_bone` (8%). |
+
+### The donor map
+
+`<class>.donors.json` has three keys:
+
+- `donors`: `{key: spec}`.
+- `primary`: the donor that names the bones and sets the bind frames.
+- `profiles`: `{name: {clips: {State: {donor, clip, loop?, ik?, in_place?, hipMode?}}, hipMode?, hipMotion?, legs?, ...}}`.
+
+`clip` is a take name or a list of takes that chain.
+
+A donor spec is one of the following. Common options are `yaw` (degrees about +Y, so the donor faces +Z), `armature`, `map` and `source` (credit text).
+
+| Spec | Meaning |
+|---|---|
+| `{"ref": "<catalog key>", ...overrides}` | An entry of the shared catalog `py/donors.json`. Prefer this. |
+| `{"file": ...}`, `{"files": [...]}` | One GLB, FBX or `.blend` file; the takes are its actions. `"ranges": {take: [first, last]}` slices them. |
+| `{"zip": ..., "member": ...}`, `{"unitypackage": ..., "member": "Assets/..."}` | The same, extracted into `test-results/creature-motion/rig/donors/`. |
+| `{"rig": <file spec>, "takes": {"Walk": {"file": <file spec>, "range": [first, last], "action": ...}}}` | One take per file, or per range of a shared timeline. |
+| `{"pack": "animalpack", "name": "Wolf"}` | janpec Animal pack deluxe: the rig plus every `<Name>_<Take>` file, sliced by the Unity ranges in `clip-ranges.json`. This handles the `_exp` rigs. |
+| `{"pack": "unity", "package": <.unitypackage, extracted dir, or a list of them>, "rig": "Assets/…", "takes": "Assets/…/*.fbx"}` | A take per FBX. |
+
+Ranges are in the source file's own frames. Every take is resampled to 30 fps whatever the file's rate: Quaternius files are 24 fps. Donors whose importer keeps node axes (Maya and Max FBX: bones along X) are re-aligned so each rest frame's Y axis points at the bone's child. The same constant turn is applied to every sampled frame, and the donor report shows it as `realigned`.
+
+### Checking donors
+
+Run `donor_check.py` before writing a profile:
+
+```sh
+py -3.13 tools/creature-rig/py/donor_check.py <catalog key> [--tree]
+py -3.13 tools/creature-rig/py/donor_check.py --catalog
+py -3.13 tools/creature-rig/py/donor_check.py --class <class>
+```
+
+For each donor it prints:
+
+- file, source fps and bone count
+- whether the axes were re-aligned
+- the facing estimates (`rootToHead` and `toes` should be about `[0, 0, 1]`; otherwise set `yaw`)
+- per take: frames, seconds, source range, hub travel and height range, and `rest delta` (how far a take file's own skeleton is from the rig's)
+- the bone tree, with `--tree`
+
+### The catalog
+
+`py/donors.json` holds every donor below; all load and face +Z.
+
+| Keys | Source | Notes |
+|---|---|---|
+| `animal_{bear,cattle,chicken,crocodile,deer,firesalamander,goat,ibex,scorpion,viper,wildboar,wildrabbit,wolf}` | Animal pack deluxe, per-take FBX | Takes: `Idle`, `Walk`, `Run`, `Attack`, `Die`, `Eat`, … (Crocodile `Bite`, Wolf `IdleA/B/C`, `Howl`) |
+| `animal_{butterfly,common_frog,crab,iron_age_pig,octopus,rat,snail,swan_goose}` | Animal pack deluxe `_exp` rigs | Unity ranges on a shared timeline; bones are `Bone001…` |
+| `quat_enemy_{spider,wasp,snake,frog,rat}` | Quaternius Easy Enemy | `wasp` has `yaw: -90` |
+| `quat_farm_{cow,horse,zebra}` | Quaternius Farm Animals | |
+| `quat_monster_{dragon,bat,skeleton}` | Quaternius Monster pack | Flight takes |
+| `dm_{souleater,terrorbringer,usurper,nightmare}` | Dungeon Mason Four Evil Dragons | From the main checkout's extracted copy, else the Unity package. NightMare has no mesh file, so its rig is `idle01.fbx`. |
+| `dm_dragonboar` | Dungeon Mason Soul Eater and Dragon Boar | Unity package |
+| `pixelius_01` … `pixelius_06` | PixeliusVita `MonsterNN_AllAnim.fbx` | Unity packages; 01 has `_InPlace` takes |
+| `pixelius_07` … `pixelius_09` | PixeliusVita, from the production GLBs | The source ships `.anim` files; `monsters-build.ts` already converted them to native takes |
+
+The Dungeon Mason files are in centimetres. The ratios are scale-free, so only the numbers look large.
+
+### Existing classes
 
 | Class | Profile | Donor | Idle | Walk | Run | Attack | Hit | Death |
 |---|---|---|---|---|---|---|---|---|
@@ -79,9 +198,9 @@ The Quaternius Universal Animation Library (CC0) is extracted from `C:/Users/Bor
 
 ## Known limits
 
-- The healthy-source path (landmarks from a Tripo skeleton) is implemented but no humanoid creature in the manifest has a healthy source. Every Tripo humanoid export on disk that matches a production mesh fails the bind gate, so all three proofs used the fitted path.
 - Joint placement uses measured features. Unusual anatomy can still misplace a joint, so check `fit.png` for every new asset. A floating body's waist uses the biped ratio between the shoulders and the hand tips.
 - The shoulders and armpits of a T-posed body are re-bound to 50° with dual quaternions. Extreme overhead poses still pinch.
 - Cloth is a spring chain, not a cloth solver. Wide capes get 2 linked columns. Stretch percentiles on very fast clips (Run, the Sword_Attack spin) are dominated by the cape.
 - The Sword_Attack and Death01 clips travel. That travel is kept, and in-place removal applies only to loops.
 - No-root-motion clips report ground speed in `validation.json`. The runtime move speed should match it; the root owns that table.
+- Donor bone translation is not reproduced: only the hips translate. Stretchy donors (animal-pack runs, ARP `*_stretch` bones) lose that stretch, and the IK reports it as `ikMiss`.
