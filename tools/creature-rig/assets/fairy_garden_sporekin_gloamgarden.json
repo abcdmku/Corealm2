@@ -12,7 +12,53 @@
           "Spell_Simple_Exit"
         ]
       }
+    },
+    "landmarks": {
+      "tips": {
+        "foot_r": [
+          -0.643,
+          0.0,
+          0.118
+        ],
+        "foot_l": [
+          0.437,
+          0.008,
+          0.549
+        ]
+      },
+      "joints": {
+        "calf_r": [
+          -0.33,
+          0.33,
+          -0.2
+        ],
+        "foot_r": [
+          -0.34,
+          0.12,
+          -0.19
+        ],
+        "ball_r": [
+          -0.42,
+          0.02,
+          -0.04
+        ],
+        "calf_l": [
+          0.35,
+          0.33,
+          0.03
+        ],
+        "foot_l": [
+          0.39,
+          0.12,
+          0.1
+        ],
+        "ball_l": [
+          0.42,
+          0.02,
+          0.3
+        ]
+      }
     }
   },
-  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The mesh is modelled turned 30 degrees towards its left (feet and hands both lie on a line 30 degrees off X), so it is fitted facing forward and the bind is turned to face +Z. The overhand smash and the zombie claw both fold the spine far enough to lay the wide cap over the whole body, so it casts (Spell_Simple) instead: the branch arm thrusts forward and the cap stays up."
+  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The mesh is modelled turned 30 degrees towards its left (feet and hands both lie on a line 30 degrees off X), so it is fitted facing forward and the bind is turned to face +Z. The overhand smash and the zombie claw both fold the spine far enough to lay the wide cap over the whole body, so it casts (Spell_Simple) instead: the branch arm thrusts forward and the cap stays up. Its root feet splay from the floor and the fit ran each leg out along a sideways root, with the ankle on a root tip half a metre from the shin, so the roots near the shin rode the calf and sank; the knees, ankles, balls and forward root tips are given (faced frame)."
 }
