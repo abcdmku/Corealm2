@@ -1,1 +1,6 @@
-{ "class": "humanoid", "profile": "bandit" }
+{
+  "class": "humanoid",
+  "profile": "bandit",
+  "profileOverrides": { "cloth": false },
+  "notes": "The short coat and hood ride the body: as spring panels the coat tails stretched between the thighs."
+}

@@ -2,6 +2,7 @@
   "class": "arthropod",
   "profile": "hexapod",
   "profileOverrides": {
+    "abdomen": false,
     "clips": {
       "Run": {
         "donor": "scorpion",
@@ -11,5 +12,5 @@
     }
   },
   "maxRunCadenceHz": 5,
-  "notes": "Run is the scorpion's Run: the spider Walk's longer sweep folds this beetle's low middle knees 10 cm through the floor."
+  "notes": "Run is the scorpion's Run: the spider Walk's longer sweep folds this beetle's low middle knees 10 cm through the floor. No abdomen bone: the elytra and the abdomen under them are one shell with the thorax; an abdomen bone opened them like a clam in the spider Death."
 }
