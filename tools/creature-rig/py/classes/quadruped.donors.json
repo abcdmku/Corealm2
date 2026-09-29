@@ -6,7 +6,7 @@
         "DieFall": {
           "take": "Die",
           "range": [
-            59,
+            66,
             125
           ]
         }
@@ -126,7 +126,18 @@
         },
         "Death": {
           "donor": "wolf",
-          "clip": "DieFall"
+          "clip": "DieFall",
+          "chains": {
+            "tail_": {
+              "gravity": 60.0,
+              "stiffness": 4.0,
+              "damping": 6.0,
+              "ease": [
+                0.2,
+                0.45
+              ]
+            }
+          }
         }
       }
     },
@@ -313,7 +324,7 @@
           "clip": "Hit"
         },
         "Death": {
-          "donor": "cattle",
+          "donor": "croc",
           "clip": "Die"
         }
       }
