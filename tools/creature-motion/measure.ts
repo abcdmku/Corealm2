@@ -107,15 +107,20 @@ function sampleClip(root: THREE.Object3D, clip: THREE.AnimationClip, s: Sampler,
 function contactSpeed(frames: Float32Array[], duration: number, height: number): number | undefined {
   let floor = Infinity;
   for (const frame of frames) for (let i = 1; i < frame.length; i += 3) floor = Math.min(floor, frame[i]!);
-  const band = floor + Math.max(0.004, height * 0.012);
   const dt = duration / (frames.length - 1);
-  // A planted sole is a vertex that stays in the contact band for a stretch of the cycle while
-  // sliding back at a steady rate. Brief grazes (a tail tip, a wing dipping during a bound) are
-  // not stances, so only spans of at least 4% of the cycle with a consistent velocity count.
+  // A sole is a low vertex that lifts and plants during the cycle; a belly or tail that stays low
+  // throughout is not a foot, and on low-slung bodies it sits below the feet. A planted sole stays
+  // near its own lowest point for a stretch of the cycle while sliding back at a steady rate.
+  // Brief grazes are not stances, so only spans of at least 4% of the cycle with a consistent
+  // velocity count.
   const minSpan = Math.max(3, Math.round((frames.length - 1) * 0.04));
   const spans: { speed: number; length: number }[] = [];
   const count = frames[0]!.length / 3;
   for (let v = 0; v < count; v += 1) {
+    let low = Infinity, high = -Infinity;
+    for (const frame of frames) { low = Math.min(low, frame[v * 3 + 1]!); high = Math.max(high, frame[v * 3 + 1]!); }
+    if (low > floor + height * 0.08 || high - low < height * 0.03) continue;
+    const band = low + Math.max(0.003, height * 0.015);
     let start = -1;
     for (let f = 0; f <= frames.length; f += 1) {
       const inBand = f < frames.length && frames[f]![v * 3 + 1]! <= band;
@@ -177,7 +182,10 @@ export async function measureCreatureGlb(file: string): Promise<MotionMeasuremen
     const clip = clips.get(name);
     if (!clip) continue;
     result[`${key}ClipSeconds`] = +clip.duration.toFixed(6);
-    const speed = contactSpeed(sampleClip(root, clip, s, 160), clip.duration, size.y);
+    const measured = contactSpeed(sampleClip(root, clip, s, 160), clip.duration, size.y);
+    // A floating robe hem or a trailing edge can pass as a sole with a stride of a few centimetres,
+    // which would spin the cycle at chase speed. A real stride covers at least 2% of the body.
+    const speed = measured !== undefined && measured * clip.duration >= 0.02 * Math.max(size.x, size.y, size.z) ? measured : undefined;
     if (speed !== undefined) result[key === "walk" ? "impliedWalkMps" : "impliedRunMps"] = +speed.toFixed(6);
   }
   const attack = clips.get("Attack");

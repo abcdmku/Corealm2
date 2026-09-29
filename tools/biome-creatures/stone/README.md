@@ -18,7 +18,7 @@ The staged catalogue is `test-results/biome-creatures/stone/catalog.json`, suita
 | --- | --- |
 | Cairn Treader | Recessed head, broad shoulder shelf, shorter reaching arms and deeper palms. Native legs stay planted under its low torso. The chest transfers weight into the source punch. |
 | Flint Mandible | A deepened shovel cranium, broad digging claws and thicker shell mantle. Its native rig makes a braced sideways digging sweep. |
-| Vault Custodian | Knight helmet, chest, shoulder and hand shells replaced by a worn five-stone arch with a raised keystone, lintel fists and tapered limbs. Run derives from its heavy native walk at faster timing. |
+| Vault Custodian | Knight helmet, chest, shoulder and hand shells replaced by a worn five-stone arch with a raised keystone, lintel fists and tapered limbs. Run falls back to its native walk at runtime. |
 | Blind Cave Weaver | Source eyes removed. Dorsal abdomen has a deep cleft and widened shell lobes; elongated forelegs search in opposite phases while the head scans. All eight native feet retain contact. |
 | Scree Watcher | Every knight mesh replaced by one coherent family of eroded stone forms: tapered stilt legs, fused torso, enclosed split hood and flat forearms. Slow head scan and torso counter-turn retain the native attack and recoil rig. |
 

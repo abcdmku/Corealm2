@@ -14,9 +14,9 @@ const hollowPath=path.join(textureDir,'hollow-bough-albedo.png');
 if(args.includes('--chalk'))await copyFile(args[args.indexOf('--chalk')+1],chalkPath);
 if(args.includes('--hollow'))await copyFile(args[args.indexOf('--hollow')+1],hollowPath);
 const variants=[
- {id:'chalk_warden',base:'shale_elemental',axes:[1.16,.82,1.13],tempo:1.16,texture:chalkPath},
- {id:'hollow_bough',base:'mossback_sentinel',axes:[.84,1.08,.88],tempo:1.12,texture:hollowPath},
- {id:'pallid_shade',base:'wraith',axes:[.88,1.18,.92],tempo:1.22},
+ {id:'chalk_warden',base:'shale_elemental',axes:[1.16,.82,1.13],texture:chalkPath},
+ {id:'hollow_bough',base:'mossback_sentinel',axes:[.84,1.08,.88],texture:hollowPath},
+ {id:'pallid_shade',base:'wraith',axes:[.88,1.18,.92]},
 ];
 const catalogue={assets:[],files:{}};
 for(const v of variants){
@@ -60,12 +60,6 @@ for(const v of variants){
      mat.setEmissiveFactor([.07,.09,.12]).setMetallicFactor(0).setRoughnessFactor(1);
    }
  }
- // Slow the complete native takes, retaining their contact/recovery proportions and skeleton.
- const retimed=new Set();
- for(const animation of root.listAnimations())for(const sampler of animation.listSamplers()){
-   const input=sampler.getInput();if(!input||retimed.has(input))continue;
-   retimed.add(input);input.setArray(Float32Array.from(input.getArray(),t=>t*v.tempo));
- }
  await doc.transform(prune());
  const assetId=`creature_${v.id}`,filename=`${assetId}.glb`;await io.write(path.join(out,filename),doc);
  const bytes=await readFile(path.join(out,filename));
@@ -76,10 +70,10 @@ for(const v of variants){
    materials:root.listMaterials().map(m=>m.getName()),
    triangles:root.listMeshes().reduce((n,m)=>n+m.listPrimitives().reduce((s,p)=>s+(p.getIndices()?.getCount()??p.getAttribute('POSITION').getCount())/3,0),0),
    walkClipSeconds:clipSeconds('Walk'),runClipSeconds:clipSeconds('Run'),attackSeconds:clipSeconds('Attack'),
-   impliedWalkMps:parent.impliedWalkMps?v.axes[2]*parent.impliedWalkMps/v.tempo:undefined,
-   impliedRunMps:parent.impliedRunMps?v.axes[2]*parent.impliedRunMps/v.tempo:undefined,
+   impliedWalkMps:parent.impliedWalkMps?v.axes[2]*parent.impliedWalkMps:undefined,
+   impliedRunMps:parent.impliedRunMps?v.axes[2]*parent.impliedRunMps:undefined,
    metadata:{...parent.metadata,redesign:{sourceAssetId:parent.id,sourceSha256:parent.sha256,
-     axes:v.axes,clipTimeMultiplier:v.tempo,removedLeafCanopy:v.id==='hollow_bough',albedo:v.texture??null,
+     axes:v.axes,removedLeafCanopy:v.id==='hollow_bough',albedo:v.texture??null,
      generator:'tools/build-creature-redesign.mjs'}},acceptance:{exported:true,labAccepted:false,worldIntegrated:false}};
  catalogue.assets.push(asset);catalogue.files[assetId]=filename;console.log(`${v.id}: ${asset.triangles} triangles`);
  function clipSeconds(name){return Math.max(...root.listAnimations().find(a=>a.getName()===name).listSamplers().flatMap(s=>Array.from(s.getInput().getArray())));}

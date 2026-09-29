@@ -1,8 +1,6 @@
 /** CPU-only candidate exporter. It does not promote the public manifest. */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
 import path from 'node:path';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
@@ -19,7 +17,6 @@ import { tsImport } from 'tsx/esm/api';
 // Keep the documented plain-node entry point working with the TS pipeline's .js
 // import specifiers. Scoped tsx loading resolves those to their source .ts modules.
 const { duration, removeClip } = await tsImport('../creature-motion/pose.ts', import.meta.url);
-const git = promisify(execFile);
 
 async function runtimeTexture(file, flipY) {
   let pipeline = sharp(file).resize({ width: 2048, height: 2048, fit: 'inside', withoutEnlargement: true });
@@ -127,38 +124,6 @@ export async function exportBestiary(ids = BESTIARY_IDS, out = 'art/rebuild/cand
     const skinned = skinArticulated(object);
     const bytes = new Uint8Array(await new GLTFExporter().parseAsync(skinned, { binary: true, animations: clips, onlyVisible: false }));
     const doc = await io.readBinary(bytes);
-    let motionRepair;
-    const donorPins = [];
-    if (meta.requiredMotionRepair) {
-      const lava = id === 'kiln_marrow' && meta.family === 'lava_golem';
-      const troll = id === 'troll_mauler' && meta.family === 'troll';
-      const skeleton = ['skeleton_soldier', 'skeleton_archer', 'skeleton_mage'].includes(id) && meta.family === 'skeleton';
-      if ((!lava && !troll && !skeleton) || meta.requiredMotionRepair.profile !== 'studio') throw new Error(`${id}: unsupported required motion repair`);
-      const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
-      const repair = lava
-        ? (await tsImport('../tripo-creatures/profiles/studio-animals.ts', import.meta.url)).repairStudioAnimal
-        : troll ? (await tsImport('../tripo-creatures/profiles/studio-troll.ts', import.meta.url)).repairStudioTroll
-          : (await tsImport('../tripo-creatures/profiles/studio-skeleton.ts', import.meta.url)).repairStudioSkeleton;
-      // The archive family is lava_golem; its active studio body is Kiln Marrow.
-      motionRepair = await repair(doc, {
-        assetId: `creature_${id}`, entry: manifest.assets.find(entry => entry.id === `creature_${id}`),
-        readAsset: async donorId => {
-          const donor = manifest.assets.find(entry => entry.id === donorId);
-          if (!donor) throw new Error(`Missing native studio donor ${donorId}`);
-          const donorBytes = await readFile(path.join('game/public/assets', donor.file));
-          const sourceSha256 = createHash('sha256').update(donorBytes).digest('hex');
-          if (donor.sha256 && sourceSha256 !== donor.sha256) throw new Error(`Changed studio donor ${donorId}`);
-          const sourceGitBlob = (await git('git', ['rev-parse', `HEAD:game/public/assets/${donor.file}`])).stdout.trim();
-          const pinned = await git('git', ['cat-file', 'blob', sourceGitBlob], { encoding: 'buffer', maxBuffer: 128 * 1024 * 1024 });
-          if (createHash('sha256').update(pinned.stdout).digest('hex') !== sourceSha256) throw new Error(`Uncommitted studio donor ${donorId}`);
-          donorPins.push({ id: donorId, sourceSha256, sourceGitBlob });
-          return io.read(path.join('game/public/assets', donor.file));
-        },
-      });
-      delete meta.requiredMotionRepair;
-      meta.motionRepair = { ...motionRepair, donors: donorPins };
-      meta.approval = 'complete-six-state-candidate-needs-devdocs-review';
-    }
     removeClip(doc, 'HitLeft'); removeClip(doc, 'HitRight');
     for (const binding of meta.textureBindings ?? []) {
       const material = doc.getRoot().listMaterials().find(m => m.getName() === `animal_rpg_${id}_${binding.materialName}` || m.getName() === binding.materialName);
@@ -209,9 +174,11 @@ export async function exportBestiary(ids = BESTIARY_IDS, out = 'art/rebuild/cand
     boundsMixer.setTime(0); skinned.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(skinned, true), size = box.getSize(new THREE.Vector3());
     boundsMixer.stopAllAction(); boundsMixer.uncacheRoot(skinned);
-    const required = ['Idle','Walk','Run','Attack','Hit','Death'];
+    // Run and Hit have runtime fallbacks; Death does not. Bodies without a native Death go through
+    // native-export.ts, which keeps the current production Death.
+    const required = ['Idle','Walk','Attack','Death'];
     for (const name of required) if (!doc.getRoot().listAnimations().some(clip => clip.getName() === name && duration(clip) > 0)) throw new Error(`${id}: missing ${name}`);
-    const seconds = name => duration(doc.getRoot().listAnimations().find(clip => clip.getName() === name));
+    const seconds = name => { const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name); return clip ? duration(clip) : undefined; };
     const triangles = doc.getRoot().listMeshes().reduce((sum, mesh) => sum + mesh.listPrimitives().reduce((n, p) => n + (p.getIndices()?.getCount() ?? p.getAttribute('POSITION').getCount()) / 3, 0), 0);
     const entry = {
       id: `creature_${id}`, file: `models/creature/creature_${id}.glb`, candidateFile: `models/creature/creature_${id}.glb`,
@@ -222,14 +189,11 @@ export async function exportBestiary(ids = BESTIARY_IDS, out = 'art/rebuild/cand
       walkClipSeconds: seconds('Walk'), runClipSeconds: seconds('Run'),
       attackSeconds: seconds('Attack'),
       contactNormalized: meta.contactNormalized ?? meta.attackContactPhase ?? meta.attackContact ?? .45,
-      ...(motionRepair ? { motionRepair: { ...motionRepair, donors: donorPins } } : {}),
       sourceProvenance: meta.provenance ?? meta.sourceProvenance ?? { author: 'Corealm', license: 'Original project asset', generators: ['tools/rpg-bestiary/'], sourceInventory: 'source-inventory.json' },
       metadata: { ...meta, runtimeTexturePolicy: { maxDimension: 2048, sharedByEncodedSha256: true, originalsPreserved: true } }, acceptance: { exported: true, labAccepted: false, worldIntegrated: false },
     };
-    if(motionRepair?.motion)entry.metadata.gaitMeasurement={status:'measured-after-studio-motion-repair',visualContactAccepted:false,contacts:motionRepair.provenance?.contacts};
-    else if(measureAfterExport)entry.metadata.gaitMeasurement={status:'pending-exact-source-measurement',visualContactAccepted:false};
+    if(measureAfterExport)entry.metadata.gaitMeasurement={status:'pending-exact-source-measurement',visualContactAccepted:false};
     else applyGaitMetadata(entry);
-    Object.assign(entry, motionRepair?.motion);
     await mkdir(path.dirname(path.join(out, entry.candidateFile)), { recursive: true });
     await writeFile(path.join(out, entry.candidateFile), binary); assets.push(entry);
     console.log(JSON.stringify({ id, bytes: entry.bytes, triangles, bones: doc.getRoot().listSkins()[0]?.listJoints().length }));
