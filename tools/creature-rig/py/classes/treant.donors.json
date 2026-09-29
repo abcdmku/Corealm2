@@ -57,7 +57,9 @@
         }
       },
       "heelPivot": true,
-      "cloth": false
+      "cloth": false,
+      "lyingLegIk": true,
+      "liftLead": 2
     }
   }
 }
