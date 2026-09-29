@@ -18127,8 +18127,8 @@
         "grassland",
         "skinned"
       ],
-      "bytes": 18270724,
-      "sha256": "c713346883ed7bb8e706ce991339db967e219e8cd5d06d06c7b273e42e6c22b6",
+      "bytes": 18458120,
+      "sha256": "6bbbee13ff311502d49b7c49fef978d42b75763c23efe803f4b50792c02f66a8",
       "triangles": 14986,
       "size": {
         "x": 0.97031,
@@ -18162,9 +18162,9 @@
         "Death"
       ],
       "materials": [
-        "Wild horse · source hair",
-        "Wild horse · source coat",
-        "Wild horse · source eye"
+        "Wild horse Â· source hair",
+        "Wild horse Â· source coat",
+        "Wild horse Â· source eye"
       ],
       "metadata": {
         "id": "marchwild_horse",
@@ -18210,31 +18210,31 @@
         "native": [],
         "donor": {
           "Idle": "janpec Animal pack deluxe (Deer), Unity Asset Store licence: Idle",
-          "Walk": "janpec Animal pack deluxe (Deer), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Deer), Unity Asset Store licence: Run",
-          "Attack": "janpec Animal pack deluxe (Ibex), Unity Asset Store licence: Attack",
+          "Walk": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_deer Die (first beat) eased back to Idle frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Deer), Unity Asset Store licence: Die"
+          "Death": "Quaternius Farm Animals (Horse), CC0: Armature|Armature|Death"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (quadruped/equid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.331 m).",
+        "notes": "Rebuilt by tools/creature-rig (quadruped/equid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.409 m).",
         "clipSeconds": {
           "Idle": 5.300000190734863,
-          "Walk": 0.9333333373069763,
-          "Run": 0.6000000238418579,
-          "Attack": 1.5,
+          "Walk": 1.100000023841858,
+          "Run": 0.6333333253860474,
+          "Attack": 0.6666666865348816,
           "Hit": 0.6666666865348816,
-          "Death": 0.800000011920929
+          "Death": 1.0666667222976685
         },
         "sourceFile": "game/public/assets/models/creature/creature_marchwild_horse.glb",
-        "sourceSha256": "e706f14b3d1723297ad9943e0d559d98c9eaa7890ec2a1fd3ac510f3b6e7d3cd"
+        "sourceSha256": "c713346883ed7bb8e706ce991339db967e219e8cd5d06d06c7b273e42e6c22b6"
       },
-      "walkClipSeconds": 0.933333,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 2.071407,
-      "impliedRunMps": 5.202408,
-      "attackSeconds": 1.5,
-      "contactNormalized": 0.483
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.633333,
+      "impliedWalkMps": 1.652911,
+      "impliedRunMps": 4.437527,
+      "attackSeconds": 0.666667,
+      "contactNormalized": 0.167
     },
     {
       "id": "creature_redbrush_fox",
@@ -18252,8 +18252,8 @@
         "vetchrunner",
         "skinned"
       ],
-      "bytes": 7121308,
-      "sha256": "1a7788e0c543adbf9d1d2d7bdff5cf0d5afe93cea7de84777bfd0642ea098b6c",
+      "bytes": 7364784,
+      "sha256": "48de787f01738f46d8dce5dd4c73cdb25b0eb37cf36788606d67ad4adfc7c614",
       "size": {
         "x": 0.303223,
         "y": 0.515129,
@@ -18392,7 +18392,7 @@
           "Run": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_wolf Die (first beat) eased back to IdleA frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: DieFall"
         },
         "authored": [],
         "notes": "Rebuilt by tools/creature-rig (quadruped/canid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04, tail_05) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.028 m).",
@@ -18402,10 +18402,10 @@
           "Run": 0.5333333611488342,
           "Attack": 1.3666666746139526,
           "Hit": 0.6666666865348816,
-          "Death": 4.133333206176758
+          "Death": 2.200000047683716
         },
         "sourceFile": "game/public/assets/models/creature/creature_redbrush_fox.glb",
-        "sourceSha256": "3ac0710625256b6f1ee749da7fdeed2d592a3743e32a64c78cebefd49476baab"
+        "sourceSha256": "1a7788e0c543adbf9d1d2d7bdff5cf0d5afe93cea7de84777bfd0642ea098b6c"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.533333,
@@ -18427,8 +18427,8 @@
         "lynx",
         "candidate"
       ],
-      "bytes": 6453588,
-      "sha256": "f3f284694485bc191c877866aa45e6b814faf938ba5557f7b31af72dc3331d7c",
+      "bytes": 6683364,
+      "sha256": "6f117e88333534326e3ddc8f0a1e9b669c843ca016fa40f2e4323fe5f78e0867",
       "size": {
         "x": 0.464137,
         "y": 1.190671,
@@ -18505,7 +18505,7 @@
           "Run": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_wolf Die (first beat) eased back to IdleA frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: DieFall"
         },
         "authored": [],
         "notes": "Rebuilt by tools/creature-rig (quadruped/canid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.130 m).",
@@ -18515,10 +18515,10 @@
           "Run": 0.5333333611488342,
           "Attack": 1.3666666746139526,
           "Hit": 0.6666666865348816,
-          "Death": 4.133333206176758
+          "Death": 2.200000047683716
         },
         "sourceFile": "game/public/assets/models/creature/creature_duskoak_lynx.glb",
-        "sourceSha256": "f6964649fcb29d881f92320efa1e73171942e51924e0c14f7f157c16e105d30d"
+        "sourceSha256": "f3f284694485bc191c877866aa45e6b814faf938ba5557f7b31af72dc3331d7c"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.533333,
@@ -18687,8 +18687,8 @@
         "porcupine",
         "candidate"
       ],
-      "bytes": 6922012,
-      "sha256": "9ba054d4831b7267a55fa65686eaaced83c7cf2e66507e72c92bfd0a85d2c937",
+      "bytes": 7119468,
+      "sha256": "3da8e15512941aa4b4706484bceb528a27b2846c93950f4c73afdaf6e2bc928b",
       "size": {
         "x": 0.873636,
         "y": 0.862788,
@@ -18768,29 +18768,29 @@
           "Idle": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Walk",
           "Run": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Run",
-          "Attack": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Attack",
+          "Attack": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_wildboar Die (first beat) eased back to Idle frame 0: Hit",
           "Death": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (quadruped/porcupine): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.457 m).",
+        "notes": "Rebuilt by tools/creature-rig (quadruped/porcupine): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.390 m).",
         "clipSeconds": {
           "Idle": 5.9666666984558105,
           "Walk": 0.9333333373069763,
           "Run": 0.46666666865348816,
-          "Attack": 0.6666666865348816,
+          "Attack": 1.3666666746139526,
           "Hit": 0.6666666865348816,
           "Death": 0.6000000238418579
         },
         "sourceFile": "game/public/assets/models/creature/creature_quillback_porcupine.glb",
-        "sourceSha256": "3c8bc4a36c6d078ddc24d8737abd5ec335c882b41491422720689a971627a7fe"
+        "sourceSha256": "9ba054d4831b7267a55fa65686eaaced83c7cf2e66507e72c92bfd0a85d2c937"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.466667,
-      "impliedWalkMps": 0.757144,
-      "impliedRunMps": 1.366862,
-      "attackSeconds": 0.666667,
-      "contactNormalized": 0.15
+      "impliedWalkMps": 0.757208,
+      "impliedRunMps": 1.33486,
+      "attackSeconds": 1.366667,
+      "contactNormalized": 0.483
     },
     {
       "id": "creature_cairn_bighorn",
@@ -18805,8 +18805,8 @@
         "original",
         "skinned"
       ],
-      "bytes": 4105752,
-      "sha256": "617e4ab69e5b4fb4ecc5b76599d0850eb452208079e677d288a9693dcff52af8",
+      "bytes": 4308328,
+      "sha256": "7dca4642dfd2beaadcc58f37e03059bc678ae88722ffe16c66a6183c342fab80",
       "size": {
         "x": 0.855793,
         "y": 1.704276,
@@ -18934,20 +18934,20 @@
           "Run": "janpec Animal pack deluxe (Ibex), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Ibex), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_ibex Die (first beat) eased back to Idle frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Ibex), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (quadruped/caprid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.203 m).",
+        "notes": "Rebuilt by tools/creature-rig (quadruped/caprid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.093 m).",
         "clipSeconds": {
           "Idle": 5.300000190734863,
           "Walk": 0.9333333373069763,
           "Run": 0.4333333373069763,
           "Attack": 1.5,
           "Hit": 0.6666666865348816,
-          "Death": 0.800000011920929
+          "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_cairn_bighorn.glb",
-        "sourceSha256": "066a14007d38bf4f6e01cc676dd4f92726aa3cb08448cc05951a7c6c5fe7ae0a"
+        "sourceSha256": "617e4ab69e5b4fb4ecc5b76599d0850eb452208079e677d288a9693dcff52af8"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.433333,
@@ -18969,8 +18969,8 @@
         "original",
         "skinned"
       ],
-      "bytes": 2984228,
-      "sha256": "fc8a850e081359deffc13ea2d93dc73a4c3f3bbd97fd22009d3869d8f64f8970",
+      "bytes": 3189664,
+      "sha256": "1634115277605c75c5b7812620ba83589557b184d8892242f33d06ad2726fa43",
       "size": {
         "x": 2.409282,
         "y": 2.89902,
@@ -19086,20 +19086,20 @@
           "Run": "janpec Animal pack deluxe (Deer), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Ibex), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_deer Die (first beat) eased back to Idle frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Deer), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (quadruped/cervid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.652 m).",
+        "notes": "Rebuilt by tools/creature-rig (quadruped/cervid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.451 m).",
         "clipSeconds": {
           "Idle": 5.300000190734863,
           "Walk": 0.9333333373069763,
           "Run": 0.6000000238418579,
           "Attack": 1.5,
           "Hit": 0.6666666865348816,
-          "Death": 0.800000011920929
+          "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_marsh_moose.glb",
-        "sourceSha256": "1d4ae1689481ae1c64c149d6b0989c2ca036b9d53f59ee3cc42b1fa568b5b335"
+        "sourceSha256": "fc8a850e081359deffc13ea2d93dc73a4c3f3bbd97fd22009d3869d8f64f8970"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.6,
@@ -19121,8 +19121,8 @@
         "tapir",
         "candidate"
       ],
-      "bytes": 5349384,
-      "sha256": "b6410ab996eaae7285b13caeb5c2badae2bce59d681d44e6c729064984102051",
+      "bytes": 5534660,
+      "sha256": "fce8c9f80f59e5f281d70148246188d8c4314201ce81d415ffbc76a8363c8f8d",
       "size": {
         "x": 0.725955,
         "y": 1.123,
@@ -19214,12 +19214,12 @@
           "Death": 0.6000000238418579
         },
         "sourceFile": "game/public/assets/models/creature/creature_bracken_tapir.glb",
-        "sourceSha256": "6496155e78604172a6eeaaa2db3235795c2cfee1b39fa027a2141073675afaac"
+        "sourceSha256": "b6410ab996eaae7285b13caeb5c2badae2bce59d681d44e6c729064984102051"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.466667,
-      "impliedWalkMps": 1.722296,
-      "impliedRunMps": 2.867291,
+      "impliedWalkMps": 1.739836,
+      "impliedRunMps": 2.847969,
       "attackSeconds": 0.666667,
       "contactNormalized": 0.15
     },
@@ -19507,8 +19507,8 @@
         "quadruped",
         "armored"
       ],
-      "bytes": 2870516,
-      "sha256": "e571f16832823de3694e49398ee6c916bcf50c7f2a049a0de00f0426e3c9ebe7",
+      "bytes": 3079796,
+      "sha256": "0e3e322c16e4cbc7d266f44a8f2e16832431deedd8be5a39a49065d87610c1f9",
       "size": {
         "x": 1.856316,
         "y": 1.288985,
@@ -19651,25 +19651,25 @@
         "native": [],
         "donor": {
           "Idle": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Idle",
-          "Walk": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Walk",
+          "Walk": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Walk",
           "Attack": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Bite",
           "Hit": "Flinch baked from animal_crocodile Die (first beat) eased back to Idle frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (quadruped/tortoise): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand.",
+        "notes": "Rebuilt by tools/creature-rig (quadruped/tortoise): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.815 m).",
         "clipSeconds": {
           "Idle": 7.9666666984558105,
-          "Walk": 1.399999976158142,
+          "Walk": 1.100000023841858,
           "Attack": 0.800000011920929,
           "Hit": 0.6666666865348816,
-          "Death": 1.5333333015441895
+          "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_slateback_tortoise.glb",
-        "sourceSha256": "c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15"
+        "sourceSha256": "e571f16832823de3694e49398ee6c916bcf50c7f2a049a0de00f0426e3c9ebe7"
       },
-      "walkClipSeconds": 1.4,
-      "impliedWalkMps": 0.374097,
+      "walkClipSeconds": 1.1,
+      "impliedWalkMps": 0.698315,
       "attackSeconds": 0.8,
       "contactNormalized": 0.417
     },
@@ -29507,8 +29507,8 @@
         "gloam",
         "tripo"
       ],
-      "bytes": 2636456,
-      "sha256": "92bca5caf6d601e9abb50c60c36ebc4ba50e1b14ef79a96ab0b34fe18f1ba23c",
+      "bytes": 2879928,
+      "sha256": "2ec864fd428aecd26a2cf5ea1a741e4caa0514dff1fe4879f3784523f9d49c06",
       "size": {
         "x": 0.635118,
         "y": 0.999512,
@@ -29628,7 +29628,7 @@
           "Run": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_wolf Die (first beat) eased back to IdleA frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: DieFall"
         },
         "authored": [],
         "notes": "Rebuilt by tools/creature-rig (quadruped/canid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04, tail_05) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.037 m).",
@@ -29638,10 +29638,10 @@
           "Run": 0.5333333611488342,
           "Attack": 1.3666666746139526,
           "Hit": 0.6666666865348816,
-          "Death": 4.133333206176758
+          "Death": 2.200000047683716
         },
         "sourceFile": "game/public/assets/models/creature/creature_gloam_fox.glb",
-        "sourceSha256": "cefe96e89b1a570b86e3010f7efd6e6e17be76f4813eb3ff9f0e2033736297bd"
+        "sourceSha256": "92bca5caf6d601e9abb50c60c36ebc4ba50e1b14ef79a96ab0b34fe18f1ba23c"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.533333,
@@ -29663,8 +29663,8 @@
         "frost",
         "user-supplied"
       ],
-      "bytes": 6219700,
-      "sha256": "9f356c7144c1ba6a79a95aef1940dc17865ebe67f43e2a57db4e9cce722d379a",
+      "bytes": 6441804,
+      "sha256": "b65b89313d1500a4cf4de2bfd4336bc63f0c4dd8d9326cb0ea0cc15a4d301ccd",
       "size": {
         "x": 1.675781,
         "y": 1.488273,
@@ -29812,25 +29812,25 @@
         "native": [],
         "donor": {
           "Idle": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Idle",
-          "Walk": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Walk",
+          "Walk": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Walk",
           "Attack": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Bite",
           "Hit": "Flinch baked from animal_crocodile Die (first beat) eased back to Idle frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (quadruped/tortoise): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04, tail_05, tail_06) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand.",
+        "notes": "Rebuilt by tools/creature-rig (quadruped/tortoise): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04, tail_05, tail_06) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.566 m).",
         "clipSeconds": {
           "Idle": 7.9666666984558105,
-          "Walk": 1.399999976158142,
+          "Walk": 1.100000023841858,
           "Attack": 0.800000011920929,
           "Hit": 0.6666666865348816,
-          "Death": 1.5333333015441895
+          "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_rimeback_tortoise.glb",
-        "sourceSha256": "67480ba61cac1d90dbc3956a09a602029161c7cd1fb3511e1dbc4ee48698d463"
+        "sourceSha256": "9f356c7144c1ba6a79a95aef1940dc17865ebe67f43e2a57db4e9cce722d379a"
       },
-      "walkClipSeconds": 1.4,
-      "impliedWalkMps": 0.368901,
+      "walkClipSeconds": 1.1,
+      "impliedWalkMps": 0.613199,
       "attackSeconds": 0.8,
       "contactNormalized": 0.417
     },
@@ -37086,8 +37086,8 @@
         "user-supplied",
         "candidate"
       ],
-      "bytes": 5264384,
-      "sha256": "4d035c733c49de4e7478b5324de07283ff48f97a6fa9dc3a6d0b0cb8ab5ad2ab",
+      "bytes": 5508124,
+      "sha256": "b848a93070b55e4c820f2be5274c2f499a6a8a662b058aeb5f85b1b6879444f7",
       "triangles": 5156,
       "size": {
         "x": 0.964746,
@@ -37187,7 +37187,7 @@
           "Run": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Attack",
           "Hit": "Flinch baked from animal_wolf Die (first beat) eased back to IdleA frame 0: Hit",
-          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: Die"
+          "Death": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence: DieFall"
         },
         "authored": [],
         "notes": "Rebuilt by tools/creature-rig (quadruped/canid): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03, tail_04, tail_05) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.201 m).",
@@ -37197,10 +37197,10 @@
           "Run": 0.5333333611488342,
           "Attack": 1.3666666746139526,
           "Hit": 0.6666666865348816,
-          "Death": 4.133333206176758
+          "Death": 2.200000047683716
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_galeskin.glb",
-        "sourceSha256": "5391addd86eb2427fe3c4adba7c0f7d2d672dfee9266fe7a30b25c4f7d7bc1ac"
+        "sourceSha256": "4d035c733c49de4e7478b5324de07283ff48f97a6fa9dc3a6d0b0cb8ab5ad2ab"
       },
       "walkClipSeconds": 0.933333,
       "runClipSeconds": 0.533333,
