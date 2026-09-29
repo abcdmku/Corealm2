@@ -16669,39 +16669,38 @@
         "articulated",
         "plumage"
       ],
-      "bytes": 4797532,
-      "sha256": "f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107",
+      "bytes": 4873692,
+      "sha256": "ac21a62de33455c2616f74d467f840b268918a2d7437799048ccde3cf348ba1f",
       "size": {
-        "x": 0.5502929577789417,
-        "y": 0.9070428138889125,
-        "z": 0.999190968950342
+        "x": 0.550293,
+        "y": 0.906738,
+        "z": 0.999512
       },
       "base": {
-        "x": -0.27514648277970993,
-        "y": 1.5806306645493873e-9,
-        "z": -0.4997558534134461
+        "x": -0.275146,
+        "y": 0,
+        "z": -0.626221
       },
       "bounds": {
         "min": [
-          -0.27514648277970993,
-          1.5806306645493873e-9,
-          -0.4997558534134461
+          -0.275146484375,
+          0,
+          -0.626220703125
         ],
         "max": [
-          0.2751464749992318,
-          0.9070428154695431,
-          0.49943511553689585
+          0.275146484375,
+          0.9067384004592896,
+          0.3732909858226776
         ]
       },
       "groundY": 0,
       "triangles": 3964,
       "animations": [
-        "Death",
         "Idle",
         "Walk",
         "Run",
         "Attack",
-        "Hit"
+        "Death"
       ],
       "materials": [
         "Material_tripo_node_3abe54ae-8a01-474e-9f5d-6067964a543a"
@@ -16717,10 +16716,6 @@
         "candidateFile": "ryecrest-native-rig_candidate.glb",
         "candidateSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
       },
-      "walkClipSeconds": 1.100000023841858,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.8199999928474426,
-      "contactNormalized": 0.46,
       "metadata": {
         "is": "Ryecrest",
         "tags": [
@@ -16788,303 +16783,33 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "motionRepair": {
-        "family": "quadrupeds",
-        "sourceSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
-        "sourceGitBlob": "7375b5dbd111e543c18230fff40cbb50b418677b",
-        "donors": [
-          {
-            "id": "animal_chicken",
-            "sourceGitBlob": "1a851d53481497fb06b6207aff880810b93e6818",
-            "sourceSha256": "6f56f5cd48e2382cd83964fc18220ef8cb7e516909c127a03f8f9fc113bfab4b"
-          }
-        ],
-        "sourceMetadata": {
-          "is": "Ryecrest",
-          "tags": [
-            "creature",
-            "ground",
-            "bird",
-            "field",
-            "ryecrest",
-            "skinned",
-            "articulated",
-            "plumage"
-          ],
-          "provenance": {
-            "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
-            "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
-            "sourceSha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
-            "candidateSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
-          },
-          "walkClipSeconds": 1.1,
-          "runClipSeconds": 0.72,
-          "attackSeconds": 0.82,
-          "contactNormalized": 0.46,
-          "notes": "Small Fallowmarch field-margin groundbird with the reviewed 22-joint rig, 2K layered color and PBR maps, and six authored clips.",
-          "boneNames": [
-            "RyecrestRoot",
-            "Pelvis",
-            "Spine",
-            "Chest",
-            "Neck",
-            "Head",
-            "Beak",
-            "Wing_L",
-            "WingTip_L",
-            "Wing_R",
-            "WingTip_R",
-            "Tail",
-            "Thigh_L",
-            "Hock_L",
-            "Foot_L",
-            "Toe_L",
-            "RearToe_L",
-            "Thigh_R",
-            "Hock_R",
-            "Foot_R",
-            "Toe_R",
-            "RearToe_R"
-          ]
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: PeckDown + PeckUp",
+          "Death": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Die"
         },
-        "changes": [
-          "Corrected 761 skin indices on 496 vertices so wing and tail weights address their authored bones.",
-          "Added 306 missing reset channels so every take defines every property used by the other takes.",
-          "Smoothed 64 abrupt connected weight seams over 399 bird vertices.",
-          "Replaced the upright turkey death pose with the native studio chicken side fall, folded legs, surface grounding and held terminal pose."
-        ],
-        "provenance": {
-          "skinIndexRepair": {
-            "changedInfluences": 761,
-            "changedVertices": 496,
-            "declarationOrder": [
-              "RyecrestRoot",
-              "Pelvis",
-              "Spine",
-              "Chest",
-              "Neck",
-              "Head",
-              "Beak",
-              "Tail",
-              "Wing_L",
-              "WingTip_L",
-              "Wing_R",
-              "WingTip_R",
-              "Thigh_L",
-              "Hock_L",
-              "Foot_L",
-              "Toe_L",
-              "RearToe_L",
-              "Thigh_R",
-              "Hock_R",
-              "Foot_R",
-              "Toe_R",
-              "RearToe_R"
-            ],
-            "skinOrder": [
-              "RyecrestRoot",
-              "Pelvis",
-              "Spine",
-              "Chest",
-              "Neck",
-              "Head",
-              "Beak",
-              "Wing_L",
-              "WingTip_L",
-              "Wing_R",
-              "WingTip_R",
-              "Tail",
-              "Thigh_L",
-              "Hock_L",
-              "Foot_L",
-              "Toe_L",
-              "RearToe_L",
-              "Thigh_R",
-              "Hock_R",
-              "Foot_R",
-              "Toe_R",
-              "RearToe_R"
-            ],
-            "remap": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              11,
-              7,
-              8,
-              9,
-              10,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18,
-              19,
-              20,
-              21
-            ]
-          },
-          "addedResetChannels": 306,
-          "weightSeamRepair": {
-            "discontinuousEdges": 64,
-            "weldedVertices": 2118,
-            "changedVertices": 399,
-            "rings": 3,
-            "iterations": 12
-          },
-          "nativeDeath": {
-            "donorAssetId": "animal_chicken",
-            "donorTake": "Death",
-            "donorBind": {
-              "joints": 43,
-              "maximumBindError": 1.0467292848453935e-8,
-              "correctedRotations": [
-                {
-                  "joint": "Chicken_l_Toe_02_01SHJnt",
-                  "degrees": 11.551157640195608
-                },
-                {
-                  "joint": "Chicken_r_Wattle_01_01SHJnt",
-                  "degrees": 0.008552759567034586
-                }
-              ],
-              "method": "meshWorld multiplied by inverse inverse-bind matrix, reconstructed in parent-local space"
-            },
-            "anatomy": "Both birds face +Z. Target L is negative X and maps to studio r. Hip-to-knee, knee-to-ankle and ankle-to-toe directions follow the studio fall; torso and neck retain the target rest offsets.",
-            "mappedJoints": 16,
-            "poseNodes": 25,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 1.505446834772478,
-            "clips": [
-              {
-                "name": "Death",
-                "sourceTake": "Death",
-                "sourceSeconds": 1.5,
-                "seconds": 1.9,
-                "samples": 47,
-                "loop": false,
-                "heldSeconds": 0.4,
-                "maximumGroundCorrection": 0.12788030692845354,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
-          },
-          "geometry": "Positions, triangle topology, normals, UVs, materials, texture images, joint rest transforms and inverse binds remain unchanged. Weight values change only around proven connected skin discontinuities.",
-          "animation": "Turkey Idle, Walk, Run, Attack and Hit tracks and timings retained; Death derives from the native studio chicken take.",
-          "sourceBuilders": "assets/art/tripo/imports/creatures/ryecrest-native-rig/build.mjs"
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (bird/fowl): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Bird class, fowl profile (strideScale 0.7). Attack is the chicken Eat peck (frames 1-20 spliced to 214-230). The neck is IK-solved to the chicken head path in Idle/Walk/Run (head-bob); Attack and Death use the chicken neck angles. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 5.9666666984558105,
+          "Walk": 1,
+          "Run": 0.5333333611488342,
+          "Attack": 1.1666666269302368,
+          "Death": 1.4666666984558105
         },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Death",
-              "seconds": 1.899999976158142,
-              "samples": 99,
-              "maximumVertexMotion": 1.2809114413822416,
-              "maximumSpanRatio": 1.0896344374275015,
-              "minimumSpanRatio": 0.9510412317918813,
-              "loopSeam": null,
-              "edgeStretchP99": 1.585911844994421,
-              "maximumEdgeStretch": 6.096284457683003,
-              "stretchedEdgeFraction": 0.0032026841543388745
-            },
-            {
-              "name": "Idle",
-              "seconds": 2,
-              "samples": 97,
-              "maximumVertexMotion": 0.013850137097215453,
-              "maximumSpanRatio": 1.001903351028687,
-              "minimumSpanRatio": 0.9978170783694531,
-              "loopSeam": 4.4075933478429624e-11,
-              "edgeStretchP99": 1.017727059960619,
-              "maximumEdgeStretch": 1.1215790307193358,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.100000023841858,
-              "samples": 73,
-              "maximumVertexMotion": 0.14132221792742614,
-              "maximumSpanRatio": 1.0101322550759957,
-              "minimumSpanRatio": 0.9944789760851047,
-              "loopSeam": 3.9409934162326904e-17,
-              "edgeStretchP99": 1.2004390077791962,
-              "maximumEdgeStretch": 2.0053168422879035,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 74,
-              "maximumVertexMotion": 0.21002811066558624,
-              "maximumSpanRatio": 1.0107536725926318,
-              "minimumSpanRatio": 0.9908301751898146,
-              "loopSeam": 4.067919288805106e-17,
-              "edgeStretchP99": 1.2813599364107544,
-              "maximumEdgeStretch": 2.4478128133855934,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8199999928474426,
-              "samples": 77,
-              "maximumVertexMotion": 0.2623775728225471,
-              "maximumSpanRatio": 1.0016952405329764,
-              "minimumSpanRatio": 0.9656453424581717,
-              "loopSeam": null,
-              "edgeStretchP99": 1.469741017544549,
-              "maximumEdgeStretch": 4.6089288047304615,
-              "stretchedEdgeFraction": 0.0009150526155253927
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5199999809265137,
-              "samples": 50,
-              "maximumVertexMotion": 0.1694037927238343,
-              "maximumSpanRatio": 1.000664662488481,
-              "minimumSpanRatio": 0.9964502390821848,
-              "loopSeam": null,
-              "edgeStretchP99": 1.1953405757405642,
-              "maximumEdgeStretch": 2.995902823173781,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:42:13.938Z",
-          "by": "codex",
-          "sha256": "f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/quadrupeds-v2/creature_marchfield_turkey/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/creature/creature_marchfield_turkey.glb",
+        "sourceSha256": "f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107"
+      },
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.533333,
+      "impliedWalkMps": 0.236449,
+      "impliedRunMps": 1.242115,
+      "attackSeconds": 1.166667,
+      "contactNormalized": 0.55
     },
     {
       "id": "creature_antler_beetle",
@@ -18093,38 +17818,37 @@
         "articulated",
         "modeled-feathers"
       ],
-      "bytes": 2813268,
-      "sha256": "8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae",
+      "bytes": 2908376,
+      "sha256": "5532c9506946cbfa722671b066550fd89aae75f4d086ae9f9b0b438300ef3f2c",
       "size": {
-        "x": 0.46828923940658573,
-        "y": 1.6258554265786205,
-        "z": 1.5064609867270906
+        "x": 0.468289,
+        "y": 1.625855,
+        "z": 1.5068
       },
       "base": {
-        "x": -0.23413343638181688,
-        "y": 0.002636990756889942,
-        "z": -0.724999991172552
+        "x": -0.234145,
+        "y": 0,
+        "z": -0.705018
       },
       "bounds": {
         "min": [
-          -0.23413343638181688,
-          0.002636990756889942,
-          -0.724999991172552
+          -0.23414462804794312,
+          0,
+          -0.7050176858901978
         ],
         "max": [
-          0.23415580302476885,
-          1.6284924173355104,
-          0.7814609955545386
+          0.23414462804794312,
+          1.6258553266525269,
+          0.8017823100090027
         ]
       },
-      "groundY": 0.0026369750108570233,
+      "groundY": 0,
       "triangles": 34840,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -18134,99 +17858,6 @@
         "author": "Corealm",
         "source": "Original procedural sculpture authored for Corealm",
         "license": "Project-owned original geometry and animation"
-      },
-      "impliedWalkMps": 0.48,
-      "impliedRunMps": 1.3,
-      "walkClipSeconds": 1.2799999713897705,
-      "runClipSeconds": 0.5799999833106995,
-      "attackSeconds": 1.0499999523162842,
-      "contactNormalized": 0.455,
-      "measuredGait": {
-        "gait": {
-          "walk": {
-            "seconds": 1.2799999713897705,
-            "sampledFootBones": 2,
-            "stanceSamples": 124,
-            "measuredStanceMps": 0.4799804556357511,
-            "feet": [
-              {
-                "bone": "ToeL",
-                "minY": 0.024917440014667554,
-                "maxY": 0.07469340466683005,
-                "strideZ": 0.3917808939627615,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.4799804556357511
-              },
-              {
-                "bone": "ToeR",
-                "minY": 0.024917440121627606,
-                "maxY": 0.0746934036617603,
-                "strideZ": 0.3917793430167286,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.4799804556357511
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Root",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          },
-          "run": {
-            "seconds": 0.5799999833106995,
-            "sampledFootBones": 2,
-            "stanceSamples": 100,
-            "measuredStanceMps": 1.2999332522616793,
-            "feet": [
-              {
-                "bone": "ToeL",
-                "minY": 0.024852089583526492,
-                "maxY": 0.12995423205808215,
-                "strideZ": 0.3840026435489713,
-                "contactSamples": 50,
-                "stanceMedianMps": 1.2999332522616793
-              },
-              {
-                "bone": "ToeR",
-                "minY": 0.02485209083640368,
-                "maxY": 0.1299542339795962,
-                "strideZ": 0.38400059530070746,
-                "contactSamples": 50,
-                "stanceMedianMps": 1.2999352550094654
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Root",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          }
-        },
-        "loops": {
-          "Idle": {
-            "seconds": 3.200000047683716,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006580294996393713,
-            "maxScaleGap": 0
-          },
-          "Walk": {
-            "seconds": 1.2799999713897705,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006212324658089154,
-            "maxScaleGap": 0
-          },
-          "Run": {
-            "seconds": 0.5799999833106995,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0007018854713113902,
-            "maxScaleGap": 0
-          }
-        },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
       },
       "metadata": {
         "is": "Blackwater heron",
@@ -18293,112 +17924,32 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "motionRepair": {
-        "family": "quadrupeds",
-        "sourceSha256": "e61dd3c1be28ab0855e93daa55a08391ca8e62992309ccd1c00c638a44f858bc",
-        "sourceGitBlob": "3749814c6ff3f9177177bbae00be1aaa3af24b3e",
-        "donors": [],
-        "changes": [
-          "Removed retired directional hit clips; all impacts use Hit"
-        ],
-        "provenance": {
-          "audit": "Original Corealm articulated heron has consistent skin order and complete animated properties in every take. Preserve its seven-joint neck and authored foot IK while devdocs assesses its poses."
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: PeckDown + PeckUp",
+          "Death": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Die"
         },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3.200000047683716,
-              "samples": 86,
-              "maximumVertexMotion": 0.06595276698914461,
-              "maximumSpanRatio": 1.002589630955088,
-              "minimumSpanRatio": 0.9962971263666476,
-              "loopSeam": 3.4561176442551433e-9,
-              "edgeStretchP99": 1.0031441393596874,
-              "maximumEdgeStretch": 1.5004444158224575,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.2799999713897705,
-              "samples": 85,
-              "maximumVertexMotion": 0.3930905819703875,
-              "maximumSpanRatio": 0.9985722960520516,
-              "minimumSpanRatio": 0.9944619970818214,
-              "loopSeam": 1.3905011530901487e-8,
-              "edgeStretchP99": 1.0016333356654314,
-              "maximumEdgeStretch": 1.7427164400241448,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.5799999833106995,
-              "samples": 65,
-              "maximumVertexMotion": 0.3846220706758218,
-              "maximumSpanRatio": 0.9990144792195854,
-              "minimumSpanRatio": 0.9909658520589163,
-              "loopSeam": 1.375284913747566e-8,
-              "edgeStretchP99": 1.0044323139380875,
-              "maximumEdgeStretch": 1.8269526483656087,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.0499999523162842,
-              "samples": 64,
-              "maximumVertexMotion": 0.8147106037361932,
-              "maximumSpanRatio": 1.016242744338116,
-              "minimumSpanRatio": 0.9235453388138906,
-              "loopSeam": null,
-              "edgeStretchP99": 1.0548550432241466,
-              "maximumEdgeStretch": 1.6203212518623102,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.7599999904632568,
-              "samples": 113,
-              "maximumVertexMotion": 0.71030130739661,
-              "maximumSpanRatio": 1.0105496660954985,
-              "minimumSpanRatio": 0.9888945758737899,
-              "loopSeam": null,
-              "edgeStretchP99": 1.0332638756267156,
-              "maximumEdgeStretch": 1.6048384173786743,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.649999976158142,
-              "samples": 117,
-              "maximumVertexMotion": 1.6200465484262958,
-              "maximumSpanRatio": 1.028710427068343,
-              "minimumSpanRatio": 0.9657382630762829,
-              "loopSeam": null,
-              "edgeStretchP99": 1.0585971141276327,
-              "maximumEdgeStretch": 1.7403347803239948,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (bird/wader): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Bird class, wader profile (strideScale 0.5, hipMotion 0.6, no wing bones). Blender bone heat finds no solution on this many-piece sculpt; weights are distance weights with legs kept off the belly, whole toes to their own foot, and loose feathers/scales/claws bound whole to one bone. Attack is the chicken Eat peck (frames 1-20 spliced to 214-230). The neck is IK-solved to the chicken head path in Idle/Walk/Run (head-bob); Attack and Death use the chicken neck angles. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 5.9666666984558105,
+          "Walk": 1,
+          "Run": 0.5333333611488342,
+          "Attack": 1.1666666269302368,
+          "Death": 1.4666666984558105
         },
-        "review": {
-          "at": "2026-09-28T19:42:04.348Z",
-          "by": "codex",
-          "sha256": "8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/quadrupeds-v1/creature_blackwater_heron/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/creature/creature_blackwater_heron.glb",
+        "sourceSha256": "8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae"
+      },
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.533333,
+      "impliedRunMps": 2.396737,
+      "attackSeconds": 1.166667,
+      "contactNormalized": 0.35
     },
     {
       "id": "creature_scree_bustard",
@@ -18416,28 +17967,28 @@
         "articulated",
         "plumage"
       ],
-      "bytes": 5922368,
-      "sha256": "9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca",
+      "bytes": 6043092,
+      "sha256": "fa995af5f359c80df576844ddf86cd4cb74a1d11e10437198e9140f5219ef4b8",
       "size": {
-        "x": 0.5332031323713617,
-        "y": 0.9718810522920084,
-        "z": 0.998516413631362
+        "x": 0.533203,
+        "y": 0.970703,
+        "z": 0.998047
       },
       "base": {
-        "x": -0.26660156872078833,
-        "y": 0.002999999819706407,
-        "z": -0.4990234730181391
+        "x": -0.266602,
+        "y": 0,
+        "z": -0.56836
       },
       "bounds": {
         "min": [
-          -0.26660156872078833,
-          0.002999999819706407,
-          -0.4990234730181391
+          -0.2666015625,
+          0,
+          -0.5683596134185791
         ],
         "max": [
-          0.26660156365057347,
-          0.9748810521117148,
-          0.49949294061322297
+          0.2666015625,
+          0.970703125,
+          0.42968738079071045
         ]
       },
       "groundY": 0,
@@ -18447,7 +17998,6 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -18462,10 +18012,6 @@
         "candidateFile": "creature_scree_bustard.glb",
         "candidateSha256": "6c55018db7a34a46e06dc60cb5c7192ba69433cb8ae8564f40dc3722be2f1dd0"
       },
-      "walkClipSeconds": 1.100000023841858,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.8199999928474426,
-      "contactNormalized": 0.46,
       "metadata": {
         "is": "Scree Bustard",
         "tags": [
@@ -18531,399 +18077,33 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: PeckDown + PeckUp",
+          "Death": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (bird/fowl): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.148 m). Bird class, fowl profile (strideScale 0.7). Attack is the chicken Eat peck (frames 1-20 spliced to 214-230). The neck is IK-solved to the chicken head path in Idle/Walk/Run (head-bob); Attack and Death use the chicken neck angles. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 5.9666666984558105,
+          "Walk": 1,
+          "Run": 0.5333333611488342,
+          "Attack": 1.1666666269302368,
+          "Death": 1.4666666984558105
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_scree_bustard.glb",
+        "sourceSha256": "9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca"
       },
-      "motionRepair": {
-        "family": "quadrupeds",
-        "sourceSha256": "6c55018db7a34a46e06dc60cb5c7192ba69433cb8ae8564f40dc3722be2f1dd0",
-        "sourceGitBlob": "cc9445ace72454b046046f381f53a20b598f2c7d",
-        "donors": [
-          {
-            "id": "creature_marchfield_turkey",
-            "sourceGitBlob": "7375b5dbd111e543c18230fff40cbb50b418677b",
-            "sourceSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
-          },
-          {
-            "id": "animal_chicken",
-            "sourceGitBlob": "1a851d53481497fb06b6207aff880810b93e6818",
-            "sourceSha256": "6f56f5cd48e2382cd83964fc18220ef8cb7e516909c127a03f8f9fc113bfab4b"
-          }
-        ],
-        "sourceMetadata": {
-          "is": "Scree Bustard",
-          "tags": [
-            "creature",
-            "ground",
-            "bird",
-            "field",
-            "scree-bustard",
-            "skinned",
-            "articulated",
-            "plumage"
-          ],
-          "provenance": {
-            "sourceSha256": "650ea86923fe61bb6ec9a37d3a07ec8614cf2b17f8208d06ec40e6e95db62708",
-            "candidateSha256": "6c55018db7a34a46e06dc60cb5c7192ba69433cb8ae8564f40dc3722be2f1dd0"
-          },
-          "walkClipSeconds": 1.1,
-          "runClipSeconds": 0.72,
-          "attackSeconds": 0.82,
-          "contactNormalized": 0.46,
-          "notes": "Stocky Scree groundbird. Uses a named 22-joint non-humanoid rig, layered 2K base color and PBR maps, and six authored clips. Candidate visuals and gameplay remain unaccepted.",
-          "boneNames": [
-            "BustardRoot",
-            "Pelvis",
-            "Spine",
-            "Chest",
-            "Neck",
-            "Head",
-            "Beak",
-            "Wing_L",
-            "WingTip_L",
-            "Wing_R",
-            "WingTip_R",
-            "Tail",
-            "Thigh_L",
-            "Hock_L",
-            "Foot_L",
-            "Toe_L",
-            "RearToe_L",
-            "Thigh_R",
-            "Hock_R",
-            "Foot_R",
-            "Toe_R",
-            "RearToe_R"
-          ]
-        },
-        "changes": [
-          "Corrected 3193 skin indices on 2304 vertices so wing and tail weights address their authored bones.",
-          "Added 47 missing reset channels so every take defines every property used by the other takes.",
-          "Smoothed 439 abrupt connected weight seams over 7204 bird vertices.",
-          "Rotated the bustard mesh 180 degrees about Y to match its +Z rig, aligned Neck and Beak pivots with the source anatomy, and regenerated anatomical skin weights.",
-          "Adapted the reviewed turkey peck on Chest, Neck and Head so the bustard strikes with its beak.",
-          "Added whole-scene ground support for every bustard take, using actual deformed toe and body extrema while preserving local motion.",
-          "Folded the bustard Death legs using native studio chicken segment directions so the held corpse settles onto its body."
-        ],
-        "provenance": {
-          "skinIndexRepair": {
-            "changedInfluences": 3193,
-            "changedVertices": 2304,
-            "declarationOrder": [
-              "BustardRoot",
-              "Pelvis",
-              "Spine",
-              "Chest",
-              "Neck",
-              "Head",
-              "Beak",
-              "Tail",
-              "Wing_L",
-              "WingTip_L",
-              "Wing_R",
-              "WingTip_R",
-              "Thigh_L",
-              "Hock_L",
-              "Foot_L",
-              "Toe_L",
-              "RearToe_L",
-              "Thigh_R",
-              "Hock_R",
-              "Foot_R",
-              "Toe_R",
-              "RearToe_R"
-            ],
-            "skinOrder": [
-              "BustardRoot",
-              "Pelvis",
-              "Spine",
-              "Chest",
-              "Neck",
-              "Head",
-              "Beak",
-              "Wing_L",
-              "WingTip_L",
-              "Wing_R",
-              "WingTip_R",
-              "Tail",
-              "Thigh_L",
-              "Hock_L",
-              "Foot_L",
-              "Toe_L",
-              "RearToe_L",
-              "Thigh_R",
-              "Hock_R",
-              "Foot_R",
-              "Toe_R",
-              "RearToe_R"
-            ],
-            "remap": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              11,
-              7,
-              8,
-              9,
-              10,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18,
-              19,
-              20,
-              21
-            ]
-          },
-          "addedResetChannels": 47,
-          "weightSeamRepair": {
-            "discontinuousEdges": 439,
-            "weldedVertices": 2491,
-            "changedVertices": 7204,
-            "rings": 12,
-            "iterations": 40
-          },
-          "anatomicalCorrection": {
-            "rotation": "Rigid 180 degrees about Y into the +Z rig convention",
-            "rotatedAttributes": [
-              "POSITION",
-              "NORMAL"
-            ],
-            "pivotRepair": [
-              {
-                "joint": "Neck",
-                "previous": [
-                  0,
-                  0.69,
-                  0.21999999999999997
-                ],
-                "position": [
-                  0,
-                  0.69,
-                  0.376
-                ]
-              },
-              {
-                "joint": "Beak",
-                "previous": [
-                  0,
-                  0.825,
-                  0.43499999999999994
-                ],
-                "position": [
-                  0,
-                  0.865,
-                  0.425
-                ]
-              }
-            ],
-            "maximumBindError": 2.1457672083613488e-8,
-            "reweightedVertices": 7513,
-            "method": "Original anatomical region masks and Gaussian distance to incoming bone segments, regenerated against the canonical mesh and actual skin order before surface seam diffusion"
-          },
-          "authoredPeck": {
-            "donorAssetId": "creature_marchfield_turkey",
-            "donorTake": "Attack",
-            "replacedJoints": [
-              "Chest",
-              "Neck",
-              "Head"
-            ],
-            "source": "Reviewed Corealm-authored turkey peck; this is not a native studio take. All other bustard motion channels and timings remain unchanged."
-          },
-          "foldedDeath": {
-            "donorAssetId": "animal_chicken",
-            "donorTake": "Death",
-            "donorBind": {
-              "joints": 43,
-              "maximumBindError": 1.0467292848453935e-8,
-              "correctedRotations": [
-                {
-                  "joint": "Chicken_l_Toe_02_01SHJnt",
-                  "degrees": 11.551157640195608
-                },
-                {
-                  "joint": "Chicken_r_Wattle_01_01SHJnt",
-                  "degrees": 0.008552759567034586
-                }
-              ],
-              "method": "meshWorld multiplied by inverse inverse-bind matrix, reconstructed in parent-local space"
-            },
-            "startsNormalized": 0.28,
-            "completeNormalized": 0.83,
-            "changedJoints": [
-              "Thigh_L",
-              "Hock_L",
-              "Foot_L",
-              "Thigh_R",
-              "Hock_R",
-              "Foot_R"
-            ],
-            "openingBlend": {
-              "joints": [
-                "Chest",
-                "Head"
-              ],
-              "completeNormalized": 0.12
-            },
-            "method": "Match native held hip-to-knee, knee-to-ankle and ankle-to-toe directions in the torso rest basis. Smoothly blend the six Death leg rotations during the existing fall. The opening pose matches Idle and fades its small chest/head offsets before the fold begins."
-          },
-          "surfaceSupport": {
-            "node": "corealm_bustard_ground",
-            "floor": 0.003,
-            "method": "Shared adaptive ground-support sampling of the lowest deformed vertex throughout each final interpolated clip. Positive lift for live states; signed surface support for the folded Death. Local bone motion is not altered by this pass.",
-            "clips": [
-              {
-                "name": "Idle",
-                "samples": 385,
-                "uncorrectedMinimumY": -0.00499998757903377,
-                "minimumOffset": 0.0005,
-                "maximumLift": 0.00849998757903377
-              },
-              {
-                "name": "Walk",
-                "samples": 265,
-                "uncorrectedMinimumY": -0.021072313341340798,
-                "minimumOffset": 0.0005,
-                "maximumLift": 0.024571399392672666
-              },
-              {
-                "name": "Run",
-                "samples": 177,
-                "uncorrectedMinimumY": -0.02149681803959651,
-                "minimumOffset": 0.0005,
-                "maximumLift": 0.024980440970204333
-              },
-              {
-                "name": "Attack",
-                "samples": 241,
-                "uncorrectedMinimumY": -0.008000008494035404,
-                "minimumOffset": 0.002999992457126688,
-                "maximumLift": 0.011500008494035405
-              },
-              {
-                "name": "Hit",
-                "samples": 129,
-                "uncorrectedMinimumY": -0.0011449340070651965,
-                "minimumOffset": 0.002999992457126688,
-                "maximumLift": 0.0046448226910396784
-              },
-              {
-                "name": "Death",
-                "samples": 189,
-                "uncorrectedMinimumY": -0.08364494670981842,
-                "minimumOffset": -0.1876018677118928,
-                "maximumLift": 0.08713536855504198
-              }
-            ]
-          },
-          "geometry": "Positions, normals and any tangent XYZ undergo a rigid 180-degree Y rotation; tangent W, triangle topology, UVs, materials and texture images remain unchanged. Neck and Beak world pivots and their inverse binds change together, preserving the canonical rest geometry. All other world joint binds remain unchanged.",
-          "animation": "Bustard local Idle, Walk, Run and Hit tracks retained. Attack changes only three reviewed turkey peck rotations. Death folds six leg rotations into native studio directions and matches the opening chest/head pose to Idle. Each take adds whole-scene support; Death settles downward onto its actual support surface. Timings remain unchanged.",
-          "sourceBuilders": "assets/art/tripo/imports/creatures/audit-user-bustard/build-candidate.mjs"
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2,
-              "samples": 69,
-              "maximumVertexMotion": 0.014430283213441676,
-              "maximumSpanRatio": 1.0050228001691706,
-              "minimumSpanRatio": 0.9948632679473082,
-              "loopSeam": 5.86741842081051e-11,
-              "edgeStretchP99": 1.0132575544305045,
-              "maximumEdgeStretch": 1.067394799971926,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.100000023841858,
-              "samples": 70,
-              "maximumVertexMotion": 0.14142532956796203,
-              "maximumSpanRatio": 1.015360130600371,
-              "minimumSpanRatio": 0.9999999999956912,
-              "loopSeam": 7.537211704950435e-17,
-              "edgeStretchP99": 1.226877048295673,
-              "maximumEdgeStretch": 2.887444031707896,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 70,
-              "maximumVertexMotion": 0.2105571518654401,
-              "maximumSpanRatio": 1.0148323835286195,
-              "minimumSpanRatio": 0.9931810960251566,
-              "loopSeam": 5.757032495977481e-17,
-              "edgeStretchP99": 1.3083232670529976,
-              "maximumEdgeStretch": 3.8661866065359387,
-              "stretchedEdgeFraction": 0.00027171451861244454
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8199999928474426,
-              "samples": 64,
-              "maximumVertexMotion": 0.33730402125499703,
-              "maximumSpanRatio": 1.0438675447699741,
-              "minimumSpanRatio": 0.9999999999949732,
-              "loopSeam": null,
-              "edgeStretchP99": 1.1207949028192599,
-              "maximumEdgeStretch": 2.0654922379656755,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5199999809265137,
-              "samples": 63,
-              "maximumVertexMotion": 0.16212050962664976,
-              "maximumSpanRatio": 0.9999999999956912,
-              "minimumSpanRatio": 0.9721805344114752,
-              "loopSeam": null,
-              "edgeStretchP99": 1.09215140830586,
-              "maximumEdgeStretch": 1.857482428709864,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 74,
-              "maximumVertexMotion": 1.0221283233631742,
-              "maximumSpanRatio": 1.0995361316987855,
-              "minimumSpanRatio": 0.9670882326923348,
-              "loopSeam": null,
-              "edgeStretchP99": 1.3689995392247196,
-              "maximumEdgeStretch": 2.630635152188168,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:21:16.464Z",
-          "by": "codex",
-          "sha256": "9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/quadrupeds-v4/creature_scree_bustard/evidence.json"
-        }
-      }
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.533333,
+      "impliedWalkMps": 1.087608,
+      "impliedRunMps": 2.250365,
+      "attackSeconds": 1.166667,
+      "contactNormalized": 0.55
     },
     {
       "id": "creature_slag_centipede",

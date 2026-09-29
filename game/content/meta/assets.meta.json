@@ -1937,41 +1937,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T03:15:54.417Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_blackwater_heron/evidence.json.",
-      "at": "2026-09-28T19:42:04.348Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_blind_cave_weaver": {
     "status": "draft",
@@ -5457,41 +5431,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T03:15:54.417Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v2/creature_marchfield_turkey/evidence.json.",
-      "at": "2026-09-28T19:42:13.938Z",
-      "by": "codex",
-      "checks": {
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
-        },
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_marchwild_horse": {
     "status": "draft",
@@ -7345,41 +7293,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T03:15:54.417Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs idle/walk/run/attack/hit/death review; native studio reference comparison; held Death and Idle recovery verified. SHA256 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v4/creature_scree_bustard/evidence.json.",
-      "at": "2026-09-28T20:21:16.464Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_scree_watcher": {
     "status": "draft",
