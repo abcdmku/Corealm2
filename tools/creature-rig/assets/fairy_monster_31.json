@@ -1,7 +1,7 @@
 {
  "class": "pixelius",
  "profile": "studio",
- "notes": "PixeliusVita FreeTrial Monster31 (sword and shield knight). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster02 full pack, rest-relative to each body's own Idle. The sword and shield are skinned to their own root_dupli bones, which the native takes pose with a baked child-of; the new clips carry them on the hands.",
+ "notes": "PixeliusVita FreeTrial Monster31 (sword and shield knight). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster02 full pack, rest-relative to each body's own Idle. The sword and shield are skinned to their own root_dupli bones, which the native takes pose with a baked child-of; the new clips carry them on the hands. Run holds both arms at their Idle guard (sword angled back, shield up): with the sword arm free the Monster02 sprint swung the sword through the legs and over the head.",
  "studio": {
   "rootNode": "root",
   "referenceClip": "Idle",
@@ -27,7 +27,8 @@
     "clip": "Monster02_Run",
     "loop": true,
     "still": [
-     "shoulderl"
+     "shoulderl",
+     "shoulderr"
     ]
    },
    "Attack": {

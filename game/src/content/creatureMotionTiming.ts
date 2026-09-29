@@ -386,7 +386,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "creature_red_worm": {
     "seconds": 1.633333,
-    "contactNormalized": 0.15
+    "contactNormalized": 0.867
   },
   "creature_redbrush_fox": {
     "seconds": 1.366667,
@@ -450,11 +450,11 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "creature_skeleton_mage": {
     "seconds": 1.466667,
-    "contactNormalized": 0.15
+    "contactNormalized": 0.717
   },
   "creature_skeleton_mage_elite": {
     "seconds": 1.466667,
-    "contactNormalized": 0.15
+    "contactNormalized": 0.717
   },
   "creature_skeleton_soldier": {
     "seconds": 1.5,
@@ -489,8 +489,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4
   },
   "creature_troll_mauler": {
-    "seconds": 1,
-    "contactNormalized": 0.25
+    "seconds": 1.533333,
+    "contactNormalized": 0.583
   },
   "creature_vault_custodian": {
     "seconds": 1.066667,
@@ -661,20 +661,20 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4
   },
   "fairy_monster_16": {
-    "seconds": 2,
-    "contactNormalized": 0.583
+    "seconds": 2.333333,
+    "contactNormalized": 0.683
   },
   "fairy_monster_19": {
-    "seconds": 2.333333,
-    "contactNormalized": 0.567
+    "seconds": 2,
+    "contactNormalized": 0.583
   },
   "fairy_monster_21": {
     "seconds": 0.8600000143051147,
     "contactNormalized": 0.5
   },
   "fairy_monster_27": {
-    "seconds": 2,
-    "contactNormalized": 0.583
+    "seconds": 2.333333,
+    "contactNormalized": 0.65
   },
   "fairy_monster_28": {
     "seconds": 2,
@@ -840,8 +840,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_silverthorn_harrow": 4.5295,
   "creature_skeleton_archer": 17.2229,
   "creature_skeleton_archer_elite": 18.6527,
-  "creature_skeleton_mage": 17.6284,
-  "creature_skeleton_mage_elite": 18.7214,
+  "creature_skeleton_mage": 17.2715,
+  "creature_skeleton_mage_elite": 18.2562,
   "creature_skeleton_soldier": 4.8623,
   "creature_skeleton_soldier_elite": 5.4387,
   "creature_slag_centipede": 1.7536,
@@ -849,8 +849,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_slateback_tortoise": 1.5712,
   "creature_starroot_guardian": 8.4081,
   "creature_stone_golem": 15.4233,
-  "creature_thorn_maw": 1.4567,
-  "creature_troll_mauler": 20.1208,
+  "creature_thorn_maw": 1.4815,
+  "creature_troll_mauler": 4.7748,
   "creature_vault_custodian": 15.7036,
   "creature_voidstone_colossus": 19.0427,
   "creature_webweaver_spider": 2.9603,
@@ -883,8 +883,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_monster_11": 0.5067,
   "fairy_monster_14": 0.5586,
   "fairy_monster_16": 5.8884,
-  "fairy_monster_19": 3.2476,
-  "fairy_monster_27": 13.0726,
+  "fairy_monster_19": 3.3455,
+  "fairy_monster_27": 5.7317,
   "fairy_monster_28": 2.9769,
   "fairy_monster_30": 5.6853,
   "fairy_monster_31": 3.3073,
@@ -1011,8 +1011,8 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_silverthorn_harrow": 3.623593,
   "creature_skeleton_archer": 3.230447,
   "creature_skeleton_archer_elite": 3.488719,
-  "creature_skeleton_mage": 3.239625,
-  "creature_skeleton_mage_elite": 3.434002,
+  "creature_skeleton_mage": 3.222732,
+  "creature_skeleton_mage_elite": 3.424114,
   "creature_skeleton_soldier": 3.889823,
   "creature_skeleton_soldier_elite": 4.350997,
   "creature_slag_centipede": 0.888223,
@@ -1020,7 +1020,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_slateback_tortoise": 1.256966,
   "creature_starroot_guardian": 4.399666,
   "creature_stone_golem": 2.944956,
-  "creature_thorn_maw": 1.165372,
+  "creature_thorn_maw": 1.18523,
   "creature_troll_mauler": 3.819868,
   "creature_vault_custodian": 2.671683,
   "creature_voidstone_colossus": 3.437302,

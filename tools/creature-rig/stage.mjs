@@ -46,10 +46,13 @@ export function stage(assetId, work = paths.work(assetId)) {
   const file = path.join(paths.rigRoot, candidateFile);
   const bytes = readFileSync(file);
   const m = measure(file);
-  const donor = Object.fromEntries(rig.clips.map((c) => {
+  // Hand-keyed sets (authored.py) are donors to the retargeter but authored motion in provenance.
+  const isAuthored = (c) => /^Corealm authored/.test(rig.donors[c.donor.split(":")[0]] ?? "");
+  const donor = Object.fromEntries(rig.clips.filter((c) => !isAuthored(c)).map((c) => {
     const [key, clip] = c.donor.split(":");
     return [c.name, `${rig.donors[key] ?? key}: ${clip.replaceAll("+", " + ")}`];
   }));
+  const authored = rig.clips.filter(isAuthored).map((c) => c.name);
   const chains = rig.skeleton.filter((b) => b.kind === "cloth" || b.kind === "tail").map((b) => b.name);
   const record = {
     id: assetId,
@@ -73,7 +76,7 @@ export function stage(assetId, work = paths.work(assetId)) {
     motionProvenance: {
       native: [],
       donor,
-      authored: [],
+      authored,
       notes: [
         `Rebuilt by tools/creature-rig (${rig.class}/${rig.profile}): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind.`,
         "Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",

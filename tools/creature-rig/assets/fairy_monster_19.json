@@ -1,7 +1,7 @@
 {
  "class": "pixelius",
  "profile": "studio",
- "notes": "PixeliusVita FreeTrial Monster19 (bat-eared imp with a long tail). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster06 full pack (the tailed body; its eleven tail bones spread along the sixteen), rest-relative to each body's own Idle.",
+ "notes": "PixeliusVita FreeTrial Monster19 (bat-eared imp with a long tail). Native Idle and Walk kept; Hit and Death retargeted from the Monster06 full pack (the tailed body; its eleven tail bones spread along the sixteen), rest-relative to each body's own Idle. Run is the Monster01 Run (in place) and Attack the Monster02 Attack01 (one-arm wind-up, lunging claw swipe): the Monster06 Run stood the tail straight up and pitched the small body into the floor line, and its Attack01 folded the body over into a ball.",
  "studio": {
   "rootNode": "root",
   "referenceClip": "Idle",
@@ -19,13 +19,15 @@
   ],
   "clips": {
    "Run": {
-    "donor": "pixelius_06",
-    "clip": "Monster06_Run",
+    "donor": "pixelius_01",
+    "clip": "Monster01_Run_InPlace",
+    "rest": "Monster01_Idle",
     "loop": true
    },
    "Attack": {
-    "donor": "pixelius_06",
-    "clip": "Monster06_Attack01"
+    "donor": "pixelius_02",
+    "clip": "Monster02_Attack01",
+    "rest": "Monster02_Idle"
    },
    "Hit": {
     "donor": "pixelius_06",
