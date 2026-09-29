@@ -1,6 +1,7 @@
 """Skin weights: Blender bone-heat on the merged mesh, then clean-up.
 
-1. Bone heat (automatic weights) against the fitted armature, in bind pose.
+1. Bone heat (automatic weights) against the fitted armature, in bind pose (robust_heat: on the
+   render mesh, else a welded copy, else the outer surface of the voxel solid).
 2. Vertices heat could not reach take their mesh neighbours' weights; loose pieces heat skipped
    entirely take the weights of the nearest weighted surface.
 3. Loose pieces that heat already binds mostly to one bone (a helmet, a gauntlet, a pauldron, a
@@ -42,6 +43,142 @@ def bone_heat(mesh_obj, skeleton):
             if g.group in group_bone:
                 W[v.index, group_bone[g.group]] = g.weight
     return W
+
+
+def _heat_on(verts, faces, skeleton, name):
+    """Bone heat on a throwaway mesh (glTF coordinates); the mesh and its armature are removed."""
+    import bpy
+    from .mathx import BLENDER_FROM_GLTF
+
+    me = bpy.data.meshes.new(name)
+    me.from_pydata((np.asarray(verts) @ BLENDER_FROM_GLTF.T).tolist(), [], np.asarray(faces).tolist())
+    me.update()
+    obj = bpy.data.objects.new(name, me)
+    bpy.context.scene.collection.objects.link(obj)
+    active = bpy.context.view_layer.objects.active
+    try:
+        W = bone_heat(obj, skeleton)
+    finally:
+        arm = obj.parent
+        bpy.data.objects.remove(obj)
+        bpy.data.meshes.remove(me)
+        if arm is not None and arm.type == "ARMATURE":
+            bpy.data.objects.remove(arm)
+        bpy.context.view_layer.objects.active = active
+    return W
+
+
+def welded(verts, faces, tol):
+    """The mesh with vertices closer than tol merged and degenerate faces dropped. Returns
+    (verts, faces, index of each input vertex's welded vertex)."""
+    q = np.round(np.asarray(verts) / tol).astype(np.int64)
+    _, first, inverse = np.unique(q, axis=0, return_index=True, return_inverse=True)
+    inverse = inverse.ravel()
+    F = inverse[np.asarray(faces)]
+    F = F[(F[:, 0] != F[:, 1]) & (F[:, 1] != F[:, 2]) & (F[:, 2] != F[:, 0])]
+    return np.asarray(verts)[first], F, inverse
+
+
+def solid_proxy(body, max_quads=160000):
+    """The outer surface of the body's filled voxel solid, as a quad-split triangle mesh. A
+    double-walled or non-manifold shell hides every bone from bone heat; this surface is closed
+    and one-sided."""
+    from scipy import ndimage
+
+    S = ndimage.binary_fill_holes(body.solid)
+    h, origin = body.h, body.origin
+    step = 1
+    while True:
+        P = np.pad(S, 1)
+        quads = []
+        corner = {0: [(0, 0, 0), (0, 1, 0), (0, 1, 1), (0, 0, 1)],
+                  1: [(0, 0, 0), (0, 0, 1), (1, 0, 1), (1, 0, 0)],
+                  2: [(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)]}
+        for axis in range(3):
+            d = np.diff(P.astype(np.int8), axis=axis)
+            for sign in (1, -1):
+                idx = np.argwhere(d == sign)
+                base = idx.copy()
+                base[:, axis] += 1
+                q = base[:, None, :] + np.array(corner[axis])[None]
+                quads.append(q if sign == 1 else q[:, ::-1])
+        Q = np.concatenate(quads)
+        if len(Q) <= max_quads:
+            break
+        # Too fine for a quick heat solve: halve the grid.
+        step *= 2
+        S = np.pad(S, [(0, n % 2) for n in S.shape])
+        a, b, c = (n // 2 for n in S.shape)
+        S = S.reshape(a, 2, b, 2, c, 2).any(axis=(1, 3, 5))
+    uniq, inv = np.unique(Q.reshape(-1, 3), axis=0, return_inverse=True)
+    quad = inv.ravel().reshape(-1, 4)
+    verts = origin + (uniq - 1) * h * step
+    faces = np.vstack([quad[:, [0, 1, 2]], quad[:, [0, 2, 3]]])
+    return verts, faces
+
+
+def transfer(src_verts, src_W, dst_verts, k=4):
+    """Weights at dst from the k nearest src vertices, inverse-distance blended."""
+    d, i = cKDTree(src_verts).query(dst_verts, k=k)
+    w = 1.0 / np.maximum(d, 1e-9)
+    W = np.einsum("nk,nkb->nb", w, src_W[i])
+    return W / np.maximum(W.sum(1, keepdims=True), 1e-12)
+
+
+def robust_heat(mesh_obj, skeleton, body, weld_above=0.02, island_above=0.5, proxy_above=0.15, replace_above=0.3):
+    """Bone heat with three fallbacks. Returns (W, report).
+
+    1. Heat on the render mesh.
+    2. When more than weld_above of the vertices get no weight, heat again on a welded copy (near-
+       duplicate vertices make Blender's system singular) and keep it if it covers more.
+    3. When more than island_above is still missing, heat on each loose piece of the welded copy
+       on its own (one bad piece can sink the joined solve).
+    4. When more than proxy_above is still missing, heat on the outer surface of the filled voxel
+       solid (double-walled and non-manifold shells), transferred to the render mesh by the nearest
+       proxy surface points: to every vertex when more than replace_above was missing (a failed
+       solve's surviving rows are not trusted either), otherwise only to the missing ones.
+    """
+    V, F = body.verts, body.faces
+    W = bone_heat(mesh_obj, skeleton)
+    missing = lambda X: float((X.sum(1) < 1e-6).mean())
+    report = {"heatSource": "mesh", "heatMissingMesh": missing(W)}
+    if missing(W) > weld_above:
+        Vw, Fw, k = welded(V, F, 4e-4 * body.height)
+        Ww = _heat_on(Vw, Fw, skeleton, "heat_welded")
+        if missing(Ww[k]) < missing(W):
+            W = Ww[k]
+            report["heatSource"] = "welded"
+        if missing(W) > island_above:
+            # One loose piece can make the joined system unsolvable for every piece (armour sets):
+            # solve each loose piece of the welded mesh on its own.
+            Wi = np.zeros_like(Ww)
+            count, label = connected_components(adjacency(len(Vw), Fw), directed=False)
+            for c in range(count):
+                rows = np.nonzero(label == c)[0]
+                if len(rows) < 30:
+                    continue
+                remap = -np.ones(len(Vw), int)
+                remap[rows] = np.arange(len(rows))
+                faces = remap[Fw[np.all(label[Fw] == c, axis=1)]]
+                Wi[rows] = _heat_on(Vw[rows], faces, skeleton, "heat_piece")
+            if missing(Wi[k]) < missing(W):
+                W = Wi[k]
+                report["heatSource"] = "pieces"
+    if missing(W) > proxy_above:
+        Vp, Fp = solid_proxy(body)
+        Wp = _heat_on(Vp, Fp, skeleton, "heat_proxy")
+        covered = Wp.sum(1) > 1e-6
+        report["proxy"] = {"vertices": len(Vp), "coverage": round(float(covered.mean()), 4)}
+        if covered.any():
+            T = transfer(Vp[covered], Wp[covered], V)
+            rows = np.ones(len(V), bool) if missing(W) > replace_above else W.sum(1) < 1e-6
+            W = W.copy()
+            W[rows] = T[rows]
+            report["heatSource"] = "solid-proxy" if rows.all() else f"{report['heatSource']}+solid-proxy"
+    report["heatMissing"] = missing(W)
+    if report["heatMissing"] >= 1.0:
+        raise RuntimeError("bone heat found no weights on the mesh, a welded copy or the voxel-solid proxy")
+    return W, report
 
 
 def fill_unweighted(W, verts, faces, adj):
