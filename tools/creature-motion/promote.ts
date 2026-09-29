@@ -95,7 +95,26 @@ for (const id of ids) {
 console.log(JSON.stringify(report, null, 1));
 if (!apply) { console.log("dry run; pass --apply to promote"); process.exit(0); }
 
+// Repainted bodies record the body they were painted onto; they are rebuilt together, so the pin
+// follows the promoted source.
+for (const entry of manifest.assets) {
+  const provenance = entry.sourceProvenance as { sourceAssetId?: string; sourceSha256?: string } | undefined;
+  const source = provenance?.sourceAssetId && ids.includes(provenance.sourceAssetId)
+    ? manifest.assets.find((asset) => asset.id === provenance.sourceAssetId) : undefined;
+  if (source) provenance!.sourceSha256 = source.sha256 as string;
+}
 await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
+// Verdicts recorded against the replaced bytes no longer describe what ships: back to the review queue.
+const metaPath = path.join(repo, "game/content/meta/assets.meta.json");
+const meta = JSON.parse(await readFile(metaPath, "utf8")) as Record<string, { art?: unknown; history?: unknown[] }>;
+const at = new Date().toISOString();
+for (const id of ids) {
+  const record = meta[id];
+  if (!record?.art) continue;
+  delete record.art;
+  (record.history ??= []).push({ at, by: "claude", action: "art.review", detail: "verdicts cleared: motion rebuilt, awaiting owner review" });
+}
+await writeFile(metaPath, JSON.stringify(meta, null, 2) + "\n");
 const sorted = <T>(record: Record<string, T>) => Object.fromEntries(Object.entries(record).sort(([a], [b]) => a.localeCompare(b)));
 const text = `/** Attack duration and contact phase for each accepted production clip. */
 export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNormalized: number }> = ${JSON.stringify(sorted(motionTiming), null, 2)};

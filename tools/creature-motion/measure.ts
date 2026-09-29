@@ -109,20 +109,39 @@ function contactSpeed(frames: Float32Array[], duration: number, height: number):
   for (const frame of frames) for (let i = 1; i < frame.length; i += 3) floor = Math.min(floor, frame[i]!);
   const band = floor + Math.max(0.004, height * 0.012);
   const dt = duration / (frames.length - 1);
-  const dz: number[] = [];
-  for (let f = 1; f < frames.length; f += 1) {
-    const a = frames[f - 1]!, b = frames[f]!;
-    for (let i = 0; i < a.length; i += 3) {
-      if (a[i + 1]! > band || b[i + 1]! > band) continue;
-      dz.push((b[i + 2]! - a[i + 2]!) / dt);
+  // A planted sole is a vertex that stays in the contact band for a stretch of the cycle while
+  // sliding back at a steady rate. Brief grazes (a tail tip, a wing dipping during a bound) are
+  // not stances, so only spans of at least 4% of the cycle with a consistent velocity count.
+  const minSpan = Math.max(3, Math.round((frames.length - 1) * 0.04));
+  const spans: { speed: number; length: number }[] = [];
+  const count = frames[0]!.length / 3;
+  for (let v = 0; v < count; v += 1) {
+    let start = -1;
+    for (let f = 0; f <= frames.length; f += 1) {
+      const inBand = f < frames.length && frames[f]![v * 3 + 1]! <= band;
+      if (inBand && start < 0) start = f;
+      if (!inBand && start >= 0) {
+        const length = f - 1 - start;
+        if (length >= minSpan) {
+          const steps: number[] = [];
+          for (let g = start + 1; g < f; g += 1) steps.push((frames[g]![v * 3 + 2]! - frames[g - 1]![v * 3 + 2]!) / dt);
+          const mean = steps.reduce((sum, value) => sum + value, 0) / steps.length;
+          const spread = Math.sqrt(steps.reduce((sum, value) => sum + (value - mean) ** 2, 0) / steps.length);
+          if (Math.abs(mean) > 1e-3 && spread < Math.abs(mean) * 0.5) spans.push({ speed: mean, length });
+        }
+        start = -1;
+      }
     }
   }
-  if (dz.length < 16) return undefined;
-  // Creatures face +Z, so planted soles slide towards -Z. Take the magnitude of the dominant
-  // direction so a body authored facing -Z still measures.
-  const middle = median(dz)!;
-  const backward = dz.filter((value) => Math.sign(value) === Math.sign(middle) && Math.abs(value) > 1e-4).map(Math.abs);
-  const speed = median(backward);
+  if (spans.length < 4) return undefined;
+  // Creatures face +Z, so planted soles slide towards -Z. Take the dominant direction's magnitude
+  // so a body authored facing -Z still measures; weight each stance by its length.
+  const backward = spans.filter((span) => span.speed < 0).reduce((sum, span) => sum + span.length, 0);
+  const forward = spans.filter((span) => span.speed > 0).reduce((sum, span) => sum + span.length, 0);
+  const sign = backward >= forward ? -1 : 1;
+  const weighted = spans.filter((span) => Math.sign(span.speed) === sign)
+    .flatMap((span) => Array<number>(span.length).fill(Math.abs(span.speed)));
+  const speed = median(weighted);
   return speed !== undefined && speed > 1e-3 ? speed : undefined;
 }
 

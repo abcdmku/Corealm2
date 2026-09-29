@@ -29,7 +29,8 @@ function structure(doc: Document) {
       attributes: Object.fromEntries(p.listSemantics().filter(s => !s.startsWith('COLOR_')).sort().map(s => [s, accessor(p.getAttribute(s))])),
       targets: p.listTargets().map(t => Object.fromEntries(t.listSemantics().sort().map(s => [s, accessor(t.getAttribute(s))]))),
     }))),
-    nodes: nodes.map(n => ({ name: n.getName(), translation: n.getTranslation(), rotation: n.getRotation(), scale: n.getScale(),
+    // A scene's top-level node is named after the asset; everything under it is the shared rig.
+    nodes: nodes.map(n => ({ name: root.listScenes().some(scene => scene.listChildren().includes(n)) ? null : n.getName(), translation: n.getTranslation(), rotation: n.getRotation(), scale: n.getScale(),
       mesh: meshes.indexOf(n.getMesh()!), children: n.listChildren().map(c => nodes.indexOf(c)) })),
     skins: root.listSkins().map(s => ({ joints: s.listJoints().map(n => nodes.indexOf(n)), matrices: accessor(s.getInverseBindMatrices()) })),
     animations: root.listAnimations().map(a => ({ name: a.getName(), channels: a.listChannels().map(c => ({
