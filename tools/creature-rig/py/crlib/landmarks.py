@@ -2,7 +2,8 @@
 
 - Seed: the thickest core point near the midline in the torso band (the intake centres the feet
   on x=0; a big sleeve, a held censer or a shield can be thicker than the torso).
-- Head: the highest extremity near the midline, unless it rises well above the column that
+- Head: the highest extremity near the midline (with none, the highest midline core point),
+  unless it rises well above the column that
   continues the spine (an antenna, a branch, a horn tip). The column is tracked slab by slab from
   the seed upwards, each slab's piece touching the previous one, and ends where it thins to a
   stalk; its top is then the head. A head lower than the column top (hunched forward below the
@@ -95,16 +96,22 @@ def biped_tips(body, legs=True):
     if column:
         y_top, c_top, _ = column[-1]
         col_top = np.array([c_top[0], y_top, c_top[1]])
-    head = max(central, key=lambda e: pos(e)[1]) if central else None
-    if col_top is not None and (head is None or pos(head)[1] - col_top[1] > 0.08 * H):
+    if not central:
+        # Antlers, horns or a crest split the crown into side tips: the head top is then the
+        # highest core point on the midline above the torso.
+        mid = np.nonzero(np.abs(world[:, 0] - seed[0]) < 0.08 * H)[0]
+        top = int(mid[np.argmax(world[mid, 1])])
+        central = [{"node": top, "position": world[top], "distance": float(dist[top])}]
+        ext.append(central[0])
+        notes["headFromMidline"] = world[top].tolist()
+    head = max(central, key=lambda e: pos(e)[1])
+    if col_top is not None and pos(head)[1] - col_top[1] > 0.08 * H:
         # The highest midline tip is off the spine's column (an antenna, a branch, a horn) or
         # there is none: the column's top is the head.
         node = body.nearest_node(col_top)
-        notes["headFromColumn"] = {"replaced": None if head is None else pos(head).tolist(), "top": col_top.tolist()}
+        notes["headFromColumn"] = {"replaced": pos(head).tolist(), "top": col_top.tolist()}
         head = {"node": node, "position": world[node], "distance": float(dist[node])}
         ext.append(head)
-    if head is None:
-        raise RuntimeError("no head: no midline tip and no core column above the torso")
     others = [e for e in ext if e is not head]
     head_dist, head_pred = body.geodesic(pos(head))
     from_head = {id(e): path_nodes(head_pred, e["node"]) for e in others}

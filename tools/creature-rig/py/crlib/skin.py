@@ -68,6 +68,36 @@ def _heat_on(verts, faces, skeleton, name):
     return W
 
 
+def _heat_on_piece(mesh_obj, keep, skeleton):
+    """Bone heat on a copy of the mesh object holding only the vertices in keep (their original
+    polygons, in their original order); the copy and its armature are removed."""
+    import bmesh
+    import bpy
+
+    dup = mesh_obj.copy()
+    dup.data = mesh_obj.data.copy()
+    dup.parent = None
+    bpy.context.scene.collection.objects.link(dup)
+    bm = bmesh.new()
+    bm.from_mesh(dup.data)
+    bm.verts.ensure_lookup_table()
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not keep[v.index]], context="VERTS")
+    bm.to_mesh(dup.data)
+    bm.free()
+    active = bpy.context.view_layer.objects.active
+    try:
+        W = bone_heat(dup, skeleton)
+    finally:
+        arm = dup.parent
+        data = dup.data
+        bpy.data.objects.remove(dup)
+        bpy.data.meshes.remove(data)
+        if arm is not None and arm.type == "ARMATURE":
+            bpy.data.objects.remove(arm)
+        bpy.context.view_layer.objects.active = active
+    return W
+
+
 def welded(verts, faces, tol):
     """The mesh with vertices closer than tol merged and degenerate faces dropped. Returns
     (verts, faces, index of each input vertex's welded vertex)."""
@@ -132,41 +162,51 @@ def robust_heat(mesh_obj, skeleton, body, weld_above=0.02, island_above=0.5, pro
     1. Heat on the render mesh.
     2. When more than weld_above of the vertices get no weight, heat again on a welded copy (near-
        duplicate vertices make Blender's system singular) and keep it if it covers more.
-    3. When more than island_above is still missing, heat on each loose piece of the welded copy
-       on its own (one bad piece can sink the joined solve), for up to max_pieces pieces.
+    3. When more than island_above is still missing, heat on each loose piece of the mesh on its
+       own (one bad piece can sink the joined solve; a piece that still fails is welded), for up to
+       max_pieces pieces.
     4. When more than proxy_above is still missing, heat on the outer surface of the filled voxel
        solid (double-walled and non-manifold shells), transferred to the render mesh by the nearest
-       proxy surface points: to every vertex when more than replace_above was missing (a failed
-       solve's surviving rows are not trusted either), otherwise only to the missing ones.
+       proxy surface points: to every vertex when a joined solve left more than replace_above
+       unweighted (its surviving rows are not trusted either), otherwise only to the missing ones.
     """
     V, F = body.verts, body.faces
     W = bone_heat(mesh_obj, skeleton)
     missing = lambda X: float((X.sum(1) < 1e-6).mean())
     report = {"heatSource": "mesh", "heatMissingMesh": missing(W)}
     if missing(W) > weld_above:
+        report["heatMissingWelded"] = None
         Vw, Fw, k = welded(V, F, 4e-4 * body.height)
         Ww = _heat_on(Vw, Fw, skeleton, "heat_welded")
+        report["heatMissingWelded"] = missing(Ww[k])
         if missing(Ww[k]) < missing(W):
             W = Ww[k]
             report["heatSource"] = "welded"
-        if missing(W) > island_above:
-            # One loose piece can make the joined system unsolvable for every piece (armour sets):
-            # solve each loose piece of the welded mesh on its own.
-            Wi = np.zeros_like(Ww)
-            count, label = connected_components(adjacency(len(Vw), Fw), directed=False)
-            sizes = np.bincount(label, minlength=count)
-            # Hundreds of pieces (a sculpted plumage) would take minutes; the voxel proxy covers them.
-            for c in (range(count) if (sizes >= 30).sum() <= max_pieces else []):
-                rows = np.nonzero(label == c)[0]
-                if len(rows) < 30:
-                    continue
-                remap = -np.ones(len(Vw), int)
-                remap[rows] = np.arange(len(rows))
-                faces = remap[Fw[np.all(label[Fw] == c, axis=1)]]
-                Wi[rows] = _heat_on(Vw[rows], faces, skeleton, "heat_piece")
-            if missing(Wi[k]) < missing(W):
-                W = Wi[k]
-                report["heatSource"] = "pieces"
+    if missing(W) > island_above:
+        # One loose piece can make the joined system unsolvable for every piece (armour sets):
+        # solve each loose piece of the render mesh on its own, and a piece that still fails on
+        # a welded copy of itself.
+        Wi = np.zeros_like(W)
+        count, label = connected_components(adjacency(len(V), F), directed=False)
+        sizes = np.bincount(label, minlength=count)
+        # Hundreds of pieces (a sculpted plumage) would take minutes; the voxel proxy covers them.
+        for c in (range(count) if (sizes >= 30).sum() <= max_pieces else []):
+            rows = np.nonzero(label == c)[0]
+            if len(rows) < 30:
+                continue
+            remap = -np.ones(len(V), int)
+            remap[rows] = np.arange(len(rows))
+            faces = remap[F[np.all(label[F] == c, axis=1)]]
+            Wc = _heat_on_piece(mesh_obj, label == c, skeleton)
+            if missing(Wc) > 0.5:
+                Vc, Fc, kc = welded(V[rows], faces, 4e-4 * body.height)
+                Wc2 = _heat_on(Vc, Fc, skeleton, "heat_piece_welded")[kc]
+                Wc = Wc2 if missing(Wc2) < missing(Wc) else Wc
+            Wi[rows] = Wc
+        report["heatMissingPieces"] = missing(Wi)
+        if missing(Wi) < missing(W):
+            W = Wi
+            report["heatSource"] = "pieces"
     if missing(W) > proxy_above:
         Vp, Fp = solid_proxy(body)
         Wp = _heat_on(Vp, Fp, skeleton, "heat_proxy")
@@ -174,7 +214,9 @@ def robust_heat(mesh_obj, skeleton, body, weld_above=0.02, island_above=0.5, pro
         report["proxy"] = {"vertices": len(Vp), "coverage": round(float(covered.mean()), 4)}
         if covered.any():
             T = transfer(Vp[covered], Wp[covered], V)
-            rows = np.ones(len(V), bool) if missing(W) > replace_above else W.sum(1) < 1e-6
+            # A failed joined solve's surviving rows are not trusted; per-piece rows are.
+            broken = missing(W) > replace_above and report["heatSource"] != "pieces"
+            rows = np.ones(len(V), bool) if broken else W.sum(1) < 1e-6
             W = W.copy()
             W[rows] = T[rows]
             report["heatSource"] = "solid-proxy" if rows.all() else f"{report['heatSource']}+solid-proxy"
