@@ -2,7 +2,17 @@
   "class": "treant",
   "profile": "treant",
   "profileOverrides": {
-    "yaw": 30
+    "yaw": 30,
+    "clips": {
+      "Attack": {
+        "donor": "ual1",
+        "clip": [
+          "Spell_Simple_Enter",
+          "Spell_Simple_Shoot",
+          "Spell_Simple_Exit"
+        ]
+      }
+    }
   },
-  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The mesh is modelled turned 30 degrees towards its left (feet and hands both lie on a line 30 degrees off X), so it is fitted facing forward and the bind is turned to face +Z."
+  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The mesh is modelled turned 30 degrees towards its left (feet and hands both lie on a line 30 degrees off X), so it is fitted facing forward and the bind is turned to face +Z. The overhand smash and the zombie claw both fold the spine far enough to lay the wide cap over the whole body, so it casts (Spell_Simple) instead: the branch arm thrusts forward and the cap stays up."
 }

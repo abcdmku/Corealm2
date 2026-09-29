@@ -1,1 +1,41 @@
-{ "class": "treant", "profile": "treant" }
+{
+  "class": "treant",
+  "profile": "treant",
+  "profileOverrides": {
+    "landmarks": {
+      "joints": {
+        "upperarm_l": [
+          1.1682,
+          4.2604,
+          0.0687
+        ],
+        "lowerarm_l": [
+          1.7523,
+          3.6076,
+          0.2749
+        ],
+        "hand_l": [
+          2.1302,
+          2.9204,
+          0.4467
+        ],
+        "upperarm_r": [
+          -1.1682,
+          4.2604,
+          0.0687
+        ],
+        "lowerarm_r": [
+          -1.7523,
+          3.6076,
+          0.2749
+        ],
+        "hand_r": [
+          -2.1302,
+          2.9204,
+          0.4467
+        ]
+      }
+    }
+  },
+  "notes": "One Tripo treant mesh shared with fantasy_monster_03, fairy_guardian_03_gloamgarden, fairy_garden_sapling_faeholme, creature_mossback_sentinel and creature_silverthorn_harrow (uniform scale). Its hands rest against the thighs, so the fit's armpit probe stops at the hand and the whole arm rides the clavicle; the arm joints are given here (the same proportions of the height on every copy)."
+}

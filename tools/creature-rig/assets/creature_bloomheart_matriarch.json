@@ -1,1 +1,6 @@
-{ "class": "special_treant", "profile": "matriarch" }
+{ "class": "special_treant", "profile": "matriarch",
+  "profileOverrides": { "clips": {
+    "Attack": { "donor": "ual2", "clip": "OverhandThrow" },
+    "AttackB": { "donor": "ual1", "clip": ["Spell_Simple_Enter", "Spell_Simple_Shoot", "Spell_Simple_Exit"] },
+    "AttackC": { "donor": "ual2", "clip": "Zombie_Scratch" }
+  } } }

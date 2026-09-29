@@ -1,1 +1,26 @@
-{ "class": "treant", "profile": "treant" }
+{
+  "class": "treant",
+  "profile": "treant",
+  "profileOverrides": {
+    "landmarks": {
+      "joints": {
+        "upperarm_l": [
+          0.32,
+          1.49,
+          -0.22
+        ],
+        "lowerarm_l": [
+          0.6,
+          1.26,
+          -0.24
+        ],
+        "hand_l": [
+          0.8,
+          1.0,
+          0.08
+        ]
+      }
+    }
+  },
+  "notes": "Gloamgarden sapling: a bulb head on a root body. Its left hand rests against the thigh, so the fit's armpit probe stops at the hand and the whole left arm rides the clavicle; the left arm joints are given here (the right arm fits)."
+}
