@@ -11,6 +11,10 @@
           "Spell_Simple_Shoot",
           "Spell_Simple_Exit"
         ]
+      },
+      "Hit": {
+        "donor": "ual1",
+        "clip": "Hit_Head"
       }
     },
     "landmarks": {
