@@ -18,7 +18,7 @@ What the build does, per target:
   textures. The skin must equal the source skin (inverse bind matrix per joint name); joints are stored at the
   source rest pose.
 - Replaces every clip with the native take: Monster01–06 FBX AnimStacks (`_InPlace` preferred), Monster07–09
-  `.anim` curves sampled at 60 Hz by `convertMantisUnityAnimation` (checked against the Monster01 FBX takes,
+  `.anim` curves sampled at 60 Hz by `convertUnityAnimation` (`tools/creature-bodies/unity-anim.mjs`) (checked against the Monster01 FBX takes,
   which the studio ships in both forms). Idle, Walk, Run, Attack01 (mantis: Attack02), GetHit and Die become
   Idle, Walk, Run, Attack, Hit and Death.
 - Removes horizontal `root`/`rootx` travel. Nothing else: no floor sealing, loop-end edits, retiming or IK.

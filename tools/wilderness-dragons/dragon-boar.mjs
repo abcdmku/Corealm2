@@ -3,11 +3,11 @@
  * furnace grazer bodies (mesh, skin and textures unchanged).
  *
  * The previous clips were native except for a 240 Hz upward-only `Root.position` floor lift and a
- * loop-end key overwrite (tools/creature-expansion/monsters/basalt.mjs). Here each take is read
+ * loop-end key overwrite. Here each take is read
  * from its FBX, bound by source node identity, root XZ held at rest, and written as-is. The grazer's
  * animated `*_ground` wrapper is removed; its uniform scale node stays.
  *
- *   py -3 tools/creature-expansion/monsters/extract.py        # once, writes test-results/creature-expansion/...
+ *   py -3 tools/wilderness-dragons/extract-boar.py   # once, writes test-results/wilderness-dragons/dragon-boar
  *   node tools/wilderness-dragons/dragon-boar.mjs [--source <dir holding Assets/FreeDragons>] [--out ...]
  */
 import * as THREE from 'three';
@@ -16,7 +16,7 @@ import {prune} from '@gltf-transform/functions';
 import {sourceLoader, readFbx, identities, nameRig, importClip} from './source.mjs';
 import {io, option, manifestEntry, measure, stageCandidate, PUBLIC} from './stage.mjs';
 
-const SOURCE = `${option('source', 'test-results/creature-expansion/sources/monsters/basalt')}/Assets/FreeDragons`;
+const SOURCE = `${option('source', 'test-results/wilderness-dragons/dragon-boar')}/Assets/FreeDragons`;
 const OUT = option('out', 'test-results/creature-motion/dragons');
 const TAKES = {Idle: 'idle', Walk: 'walk', Run: 'run', Attack: 'HornAttack', Hit: 'GetHit', Death: 'Die'};
 const PATHS = {position: 'translation', quaternion: 'rotation', scale: 'scale'};

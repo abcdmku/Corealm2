@@ -1,8 +1,20 @@
 import * as THREE from 'three';
-import { loadFbx } from '../creature-expansion/monsters/common.mjs';
-import { convertMantisUnityAnimation } from '../creature-expansion/monsters/mantis.mjs';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { convertUnityAnimation } from '../creature-bodies/unity-anim.mjs';
 
 const PATHS = { position: 'translation', quaternion: 'rotation', scale: 'scale' };
+
+/** The source rig without textures (the build keeps production materials) or helper objects. */
+async function loadFbx(url) {
+  const manager = new THREE.LoadingManager();
+  manager.setURLModifier((resource) => /\.(png|jpe?g|tga|bmp)$/i.test(resource)
+    ? 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=' : resource);
+  const root = await new FBXLoader(manager).loadAsync(url);
+  const helpers = [];
+  root.traverse(node => { if (node.isLine || node.isPoints || node.isCamera || node.isLight) helpers.push(node); });
+  for (const node of helpers) node.removeFromParent();
+  return root;
+}
 
 /**
  * Reads PixeliusVita source takes and returns their keys unchanged apart from removing horizontal
@@ -34,7 +46,7 @@ window.extractPixeliusTakes = async function(spec) {
       source = `Monster${spec.number}_${suffix}.anim`;
       const response = await fetch(`${spec.animationBase}/${source}`);
       if (!response.ok) throw new Error(`Missing source animation ${source}`);
-      clip = convertMantisUnityAnimation(await response.text(), root, name);
+      clip = convertUnityAnimation(await response.text(), root, name);
     } else {
       const take = root.animations.find(c => c.name === `Monster${spec.number}_${suffix}_InPlace`)
         ?? root.animations.find(c => c.name === `Monster${spec.number}_${suffix}`);

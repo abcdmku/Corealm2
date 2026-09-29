@@ -26,7 +26,7 @@ The 10–90% night transition spans 90–185 metres on the seven sampled northwa
 - **Hollow Bough:** the complete native mossback rig with its leaf canopy removed, a narrower and taller body, petrified bark UV atlas, and slower native takes.
 - **Pallid Shade:** an elongated, translucent shroud using the native cloth textures. Idle, walk and run hover without foot cycling; attack and reaction takes retain their native poses and timing proportions.
 
-The generator is `tools/build-creature-redesign.mjs`; its durable atlas inputs are in `art/creature-redesign/`. Source licenses and provenance remain in the manifest. These are derivatives of existing complete bodies, not new meshes modelled from scratch.
+Their durable atlas inputs are in `art/creature-redesign/`. The generator (`tools/build-creature-redesign.mjs`), which also swapped Walk and Run for an Idle plus a sine hover bob, was removed on 2026-09-29. Source licenses and provenance remain in the manifest. These are derivatives of existing complete bodies, not new meshes modelled from scratch.
 
 The subsequent creature round completes fifteen regional designs:
 
@@ -61,7 +61,6 @@ Reproducible checks:
 
 ```sh
 npx tsx tools/wilderness-lab-test.ts
-npx tsx tools/creature-redesign-lab-test.ts
 npx tsx tools/wilderness-foliage-lab-test.ts
 npx tsx tools/wilderness-world-test.ts
 npm run navmesh:build
