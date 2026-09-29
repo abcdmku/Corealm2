@@ -96,16 +96,81 @@ def _source_joints(source):
     return found
 
 
+def _yaw(profile, sign=1.0):
+    """Rotation about +Y by the profile's "yaw" (degrees; a body modelled turned towards +X by that
+    much has yaw > 0), or None."""
+    deg = profile.get("yaw")
+    if not deg:
+        return None
+    a = np.radians(sign * deg)
+    return np.array([[np.cos(a), 0.0, np.sin(a)], [0.0, 1.0, 0.0], [-np.sin(a), 0.0, np.cos(a)]])
+
+
+def faced(body, profile):
+    """The body turned to face +Z, for fitting a mesh modelled turned about the vertical (profile
+    "yaw"). Every rule of the fit reads +Z as forward and X as the side, so it runs on this copy;
+    unface() turns the fitted skeleton back onto the mesh, and bind_turns() then turns the whole
+    bind to face +Z."""
+    from crlib.body import Body
+
+    R = _yaw(profile, -1.0)
+    return body if R is None else Body(body.verts @ R.T, body.faces)
+
+
+def unface(sk, profile, points=()):
+    """Turns a skeleton fitted on faced() back onto the mesh (and any extra point arrays)."""
+    R = _yaw(profile)
+    if R is None:
+        return
+    for b in sk.bones:
+        b.head, b.tail = R @ b.head, R @ b.tail
+    for p in points:
+        p[...] = p @ R.T
+
+
 def fit(body, donor, profile, source=None):
+    body_f = faced(body, profile)
+    sk, notes = fit_upright(body_f, donor, profile, source=source)
+    unface(sk, profile)
+    return sk, notes
+
+
+def fit_upright(body, donor, profile, source=None):
+    """The fit on a body facing +Z. Landmark overrides are in this frame."""
     H = body.height
     legs = profile.get("legs", True)
     # Seed, head, feet and hands come from the shared biped landmarks (crlib/landmarks.py): the
     # head on the spine's column (not an antenna or branch tip), feet told from floor-length
     # knuckles by where their paths part, hands on paths that run down the spine.
-    tips = biped_tips(body, legs=legs)
+    # A body the landmarks misread (a floor-length robe fusing the legs, arms fused to the thighs)
+    # names its tips in the asset config: profile "landmarks": {"tips": {"head" | "hand_l" |
+    # "hand_r" | "foot_l" | "foot_r": [x, y, z]}, "joints": {bone: [x, y, z]}}, in the intake
+    # mesh's space (glTF, feet on y=0). A tip snaps to the nearest core node; a joint replaces the
+    # fitted head of that bone, as a healthy source rig's joints do.
+    marks = profile.get("landmarks") or {}
+    tip_marks = marks.get("tips") or {}
+    given_feet = legs and "foot_l" in tip_marks and "foot_r" in tip_marks
+    tips = biped_tips(body, legs=legs and not given_feet)
     seed, ext, pred = tips["seed"], tips["ext"], tips["pred"]
     head_tip, feet, hands = tips["head"], tips["feet"], tips["hands"]
     head_dist, head_pred = tips["head_dist"], tips["head_pred"]
+    if tip_marks:
+        world0 = body.to_world(body.nodes)
+
+        def marked(p):
+            node = body.nearest_node(np.asarray(p, float))
+            e = {"node": node, "position": world0[node], "distance": float(tips["dist"][node])}
+            ext.append(e)
+            return e
+
+        if "head" in tip_marks:
+            head_tip = marked(tip_marks["head"])
+            head_dist, head_pred = body.geodesic(head_tip["position"])
+        for side in ("l", "r"):
+            if f"hand_{side}" in tip_marks:
+                hands[side] = marked(tip_marks[f"hand_{side}"])
+            if legs and f"foot_{side}" in tip_marks:
+                feet[side] = marked(tip_marks[f"foot_{side}"])
     others = [e for e in ext if e is not head_tip]
     nodes = {id(e): _path_nodes(pred, e["node"]) for e in ext}
     world = body.to_world(body.nodes)
@@ -277,7 +342,7 @@ def fit(body, donor, profile, source=None):
     notes.update({"shoulder_y": float(shoulder_y), "neck_y": float(neck_y), "hand_tip_y": float(hand_tip_y)})
 
     # A healthy source skeleton overrides the fitted joints it has; tips stay measured.
-    src = _source_joints(source)
+    src = {**_source_joints(source), **{k: np.asarray(v, float) for k, v in (marks.get("joints") or {}).items()}}
     if src:
         notes["sourceJoints"] = sorted(src)
         pelvis = src.get("pelvis", pelvis)
@@ -638,6 +703,7 @@ def bind_turns(sk, profile):
 
     target = np.radians(profile.get("bindArmAngle", 50.0))
     turns = {}
+    face = _yaw(profile, -1.0)
     for side in ("l", "r"):
         b = sk[f"upperarm_{side}"]
         d = normalize(b.tail - b.head)
@@ -645,4 +711,25 @@ def bind_turns(sk, profile):
             continue
         flat = normalize(np.array([d[0], 0.0, d[2]]))
         turns[b.name] = min_arc(d, flat * np.cos(target) + np.array([0.0, -np.sin(target), 0.0]))
+    if face is not None:
+        # The root turns the whole bind to face +Z; the arm turns, measured on the turned-away
+        # bind, are carried round with it.
+        turns = {k: face @ v @ face.T for k, v in turns.items()}
+        turns[sk.bones[0].name] = face
     return turns
+
+
+def recoil_bones(sk, plan, profile):
+    """The runtime's Hit recoil moves the upper body only: the spine above the pelvis, the neck,
+    the head and the arms, and whatever hangs from them. The root, the pelvis, the legs, cloth
+    hung from the pelvis and a floating body's tail stay on the evaluated base pose, so a flinch
+    never lifts a planted foot or a hem off the floor."""
+    upper = {"spine_01", "spine_02", "spine_03", "neck_01", "Head"}
+    arm = {"clavicle", "upperarm", "lowerarm", "hand"}
+    marked = set()
+    # Parent-first order: a bone below a recoiling one (a cape hung from the spine) moves with it,
+    # so it is marked too; the runtime keeps every unmarked bone's world transform.
+    for b in sk.bones:
+        if b.name in upper or b.name.rsplit("_", 1)[0] in arm or b.parent in marked:
+            marked.add(b.name)
+    return [b.name for b in sk.bones if b.name in marked]
