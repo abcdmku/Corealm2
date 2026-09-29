@@ -1,18 +1,22 @@
 {
   "class": "arthropod",
   "profile": "spider",
-  "orient": {
-    "pitch": 90,
-    "yaw": 180
-  },
   "profileOverrides": {
+    "clips": {
+      "Run": {
+        "donor": "spider",
+        "clip": "HumanArmature|HumanArmature|Spider_Walk",
+        "loop": true
+      }
+    },
     "crouch": {
       "Idle": 0,
       "Walk": 0,
       "Run": 0,
       "Attack": 0,
       "Hit": 0
-    },
-    "legArch": 35
-  }
+    }
+  },
+  "maxRunCadenceHz": 5.5,
+  "notes": "Production was promoted already stood up by orient {pitch 90, yaw 180} and with its legs arched by legArch 35 (4cf3842). The intake starts from that mesh, so neither is applied again. Run is the Quaternius spider's Walk: its stride on these legs is several times the scorpion Run's."
 }

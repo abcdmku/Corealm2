@@ -16,9 +16,10 @@ donor's pedipalp motion on top of their own rest (follow 0); legs do too, and th
 then plants each tip on the donor's scaled tip path, so a leg keeps its own modelled shape.
 
 Profiles (arthropod.donors.json): "hexapod" (beetles, crawlers, the crab), "spider" (the weavers:
-spider Attack) and "claws" (pincers that rest on the ground, the rift carapace). Death is the
-Quaternius spider's roll onto its back with its hop damped ("hipRise"). Hit has no donor take and
-is left to the runtime fallback.
+spider Attack) and "claws" (pincers that rest on the ground, the rift carapace). Walk and Run are
+the donor's own takes retargeted rest-relative: each tip follows the donor's tip path scaled by leg
+length, never a redrawn one. Death is the Quaternius spider's roll onto its back with its hop damped
+("hipRise"). Hit is the first beat of the scorpion's death take, eased back to its first frame.
 
 Donor layouts (which donor bones are the legs, palps and hub) live in arthropod.donors.json under
 "layouts", keyed by the class donor key.
@@ -397,7 +398,6 @@ def donor_map(sk, donor, profile):
     _damp_rise(donor, lay, profile)
     _rebase_palps(donor, lay, profile)
     _crouch(sk, donor, lay, profile)
-    _scuttle(sk, donor, lay, profile)
     _hit_beat(sk, donor, lay, profile)
     out = {}
     for b in sk.bones:
@@ -547,8 +547,8 @@ def _rebase_palps(donor, lay, profile):
 
 
 def _leg_scale(sk, donor, lay):
-    """The core's size ratio (target leg length over donor leg length, the pairs in use), so a
-    stride authored in body lengths lands at the same size after retargeting."""
+    """The core's size ratio (target leg length over donor leg length, the pairs in use), and the
+    target's mean leg length."""
     t, d = [], []
     for side in ("l", "r"):
         for o, bones in enumerate(sk.arth["legs"][side]):
@@ -588,86 +588,6 @@ def _crouch(sk, donor, lay, profile):
         donor.clips[spec["clip"]]["heads"][:, i, 1] -= drop / scale
         done.add(spec["clip"])
     donor._crouched = done
-
-
-def _scuttle(sk, donor, lay, profile):
-    """profile "stride": {State: body lengths per cycle}, "duty": {State: stance share}.
-
-    The scorpion's takes cover about 0.07 body lengths a cycle, which no chase cadence can turn
-    into a monster's pace. Each leg keeps the donor's timing (when it lifts and lands, so the
-    tripod or tetrapod phase is the donor's), but its tip path is re-drawn at the stride asked
-    for: planted, it slides straight back under the body at a constant speed (the ground speed of
-    an in-place cycle); lifted, it swings forward on an eased arc whose height grows with the
-    sweep. A Run may shorten its stance ("duty") around the donor's own swing centre, as scuttling
-    arthropods do. The sweep is shared by every leg (all planted tips slide at one speed) and
-    capped by the leg with the least fore-aft room; each leg centres it where it can reach. The
-    donor's sideways tip motion is kept. The core's chain IK then plants each tip on this path."""
-    strides = profile.get("stride") or {}
-    if not strides:
-        return
-    done = getattr(donor, "_scuttled", set())
-    scale, leg = _leg_scale(sk, donor, lay)
-    for state, bl in strides.items():
-        spec = profile["clips"].get(state)
-        if not spec or spec["donor"] != donor.key or not spec.get("loop") or spec["clip"] not in donor.clips or spec["clip"] in done:
-            continue
-        clip = spec["clip"]
-        heads = donor.clips[clip]["heads"]
-        n = len(heads)
-        P = n - 1  # the takes close on their first frame
-        report = []
-        # Every planted tip must slide at one speed, so the sweep is shared; each leg centres it
-        # where it can reach (a front leg reaches further back than forward).
-        reach = {}
-        for side in ("l", "r"):
-            for o, bones in enumerate(sk.arth["legs"][side]):
-                hip, tip0 = sk[bones[0]].head, sk[bones[-1]].tail
-                L = profile.get("reach", 0.95) * sum(np.linalg.norm(sk[b].tail - sk[b].head) for b in bones)
-                rel = tip0 - hip
-                rel[1] += (profile.get("crouch") or {}).get(state, 0.0) * sk["body"].head[1]
-                # |rel + dz * z| <= L  ->  dz in [-b - sqrt(disc), -b + sqrt(disc)]
-                disc = rel[2] ** 2 - (rel @ rel - L * L)
-                r = np.sqrt(max(disc, 0.0))
-                reach[(side, o)] = (-rel[2] - r, -rel[2] + r)
-            room = min(hi - lo for lo, hi in reach.values())
-        for side in ("l", "r"):
-            for o in range(len(sk.arth["legs"][side])):
-                chain = lay["legs"][side][sk.arth["subset"][o]]
-                last = chain[-1]
-                tip = _tip_path(donor, clip, last)
-                y = tip[:P, 1]
-                up = y > y.min() + 0.25 * np.ptp(y)
-                if not up.any() or up.all():
-                    continue
-                # Swing centre on the circle of frames (the donor's timing for this leg).
-                ang = 2 * np.pi * np.arange(P) / P
-                centre = (np.angle(np.sum(up * np.exp(1j * ang))) % (2 * np.pi)) / (2 * np.pi) * P
-                duty = (profile.get("duty") or {}).get(state, 1.0 - up.mean())
-                swing = (1.0 - duty) * P
-                sweep_t = min(bl * sk.arth["bodyLength"] * duty, room)
-                lo, hi = reach[(side, o)]
-                centre_t = float(np.clip(0.0, lo + sweep_t / 2, hi - sweep_t / 2))
-                sweep, shift = sweep_t / scale, centre_t / scale
-                lift = max(float(np.ptp(y)), profile.get("liftShare", 0.3) * sweep)
-                rest = donor.rest_tail[last]
-                new = tip.copy()
-                for f in range(n):
-                    u = ((f - (centre - swing / 2)) % P) / swing  # 0..1 in swing, >1 in stance
-                    if u <= 1.0:
-                        e = u * u * u * (u * (6 * u - 15) + 10)
-                        dz = shift - sweep / 2 + sweep * e
-                        dy = lift * np.sin(np.pi * u)
-                    else:
-                        v = (u * swing - swing) / (P - swing)
-                        dz = shift + sweep / 2 - sweep * v
-                        dy = 0.0
-                    new[f, 1] = rest[1] + dy
-                    new[f, 2] = rest[2] + dz
-                heads[:, donor.index(last)] += new - tip
-                report.append(round(sweep_t / leg, 2))
-        done.add(clip)
-        profile.setdefault("_scuttleReport", {})[state] = {"sweepOverLeg": report, "strideBodyLengths": bl}
-    donor._scuttled = done
 
 
 def _hit_beat(sk, donor, lay, profile):

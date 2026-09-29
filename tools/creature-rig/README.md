@@ -24,6 +24,7 @@ Every asset needs `tools/creature-rig/assets/<assetId>.json`:
 | `bind` | `"rest"` bakes a skinned production mesh in its joints' rest pose instead of its skin bind, for a file whose bind is contorted but whose rest stands well. `{"clip": "Idle"}` bakes it in the first frame of that production clip, for a file whose bind and node rest are both contorted (Blender's importer shows the first clip's pose, which is why such a file looks fine there) |
 | `orient` | `{"pitch", "roll", "yaw"}` in degrees, applied in that order about +X, +Z and +Y before grounding. For a body sculpted lying in the wrong plane (the reed strider: a top-view spider stood on end). A turned bind is always fitted; no source rig is matched |
 | `profileOverrides` | Optional changes to the profile. Objects merge key by key, so `{ "clips": { "Walk": { "speed": 0.8 } } }` changes one field of one clip; anything else replaces. |
+| `maxRunCadenceHz` | Optional run cycles per second the chase may reach (default 3), copied into the staged catalog entry. Scuttling bodies with short native strides set it higher |
 | `studio` | Runs [studio mode](#studio-mode) |
 | `notes` | Free text |
 

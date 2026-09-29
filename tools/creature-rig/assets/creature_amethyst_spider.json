@@ -1,1 +1,5 @@
-{ "class": "arthropod", "profile": "spider" }
+{
+  "class": "arthropod",
+  "profile": "spider",
+  "maxRunCadenceHz": 6.8
+}

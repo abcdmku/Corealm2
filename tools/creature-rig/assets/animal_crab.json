@@ -1,1 +1,15 @@
-{ "class": "arthropod", "profile": "hexapod" }
+{
+  "class": "arthropod",
+  "profile": "hexapod",
+  "profileOverrides": {
+    "clips": {
+      "Run": {
+        "donor": "scorpion",
+        "clip": "Run",
+        "loop": true
+      }
+    }
+  },
+  "maxRunCadenceHz": 8.4,
+  "notes": "Run is the scorpion's Run: the spider's Walk measures no planted stride on this flat body and sinks its tips."
+}

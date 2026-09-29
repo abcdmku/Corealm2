@@ -10,7 +10,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { accessor, readGlb } from "./glb.mjs";
-import { isMain, paths } from "./paths.mjs";
+import { assetConfig, isMain, paths } from "./paths.mjs";
 
 export function measure(file) {
   const glb = readGlb(file);
@@ -68,6 +68,8 @@ export function stage(assetId, work = paths.work(assetId)) {
     animations: m.animations,
     materials: m.materials,
     candidateFile,
+    // The run cadence the body's chase may reach (the asset config's maxRunCadenceHz; default 3).
+    ...(assetConfig(assetId).maxRunCadenceHz ? { maxRunCadenceHz: assetConfig(assetId).maxRunCadenceHz } : {}),
     motionProvenance: {
       native: [],
       donor,
