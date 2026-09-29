@@ -1582,7 +1582,7 @@
   },
   {
     "id": "population_bracken_north_striders",
-    "encounterId": "reed_wasp_t1_prowl",
+    "encounterId": "field_wasp_t1_prowl",
     "regionId": "fallowmarch",
     "centre": [
       -116,

@@ -75,9 +75,12 @@ export async function measure(doc, {feet = /^$/, head = null} = {}) {
   return {size: {x: size.x, y: size.y, z: size.z}, base: {x: idle.min.x, y: idle.min.y, z: idle.min.z}, clips, attackContact};
 }
 
-/** Write one candidate and upsert its catalog row. `set` overrides copied manifest fields. */
-export async function stageCandidate({out, id, doc, motionProvenance, measurement, set = {}}) {
-  const entry = await manifestEntry(id);
+/**
+ * Write one candidate and upsert its catalog row. `set` overrides copied manifest fields. A new
+ * asset id passes `entry`, the manifest row it starts from (id, file, pack, category, is, tags).
+ */
+export async function stageCandidate({out, id, doc, motionProvenance, measurement, set = {}, entry: template}) {
+  const entry = template ?? await manifestEntry(id);
   const bytes = Buffer.from(await io.writeBinary(doc));
   const candidateFile = `models/${entry.file.replace(/^models\//, '')}`;
   await mkdir(path.dirname(path.join(out, candidateFile)), {recursive: true});

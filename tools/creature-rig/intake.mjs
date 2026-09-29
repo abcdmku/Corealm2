@@ -17,12 +17,14 @@ import path from "node:path";
 import { NodeIO } from "@gltf-transform/core";
 import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 import { MeshoptDecoder } from "meshoptimizer";
-import { inspectRig, shapeKey } from "./rig-health.mjs";
+import { HEALTH_GATES, inspectRig, shapeKey } from "./rig-health.mjs";
 import { assetConfig, isMain, paths, repo } from "./paths.mjs";
 
+// Only Tripo's own exports. assets/art/tripo/imports/creatures holds the retired repo rigs
+// (candidates, polish passes, earlier production copies); they pass the health gates but their
+// joints are hand-typed constants, so they must never become landmarks.
 const SOURCE_ROOTS = [
   path.join(repo, "assets/art/tripo/exports"),
-  path.join(repo, "assets/art/tripo/imports/creatures"),
   "C:/Users/Borg/Downloads",
 ];
 
@@ -140,6 +142,9 @@ function listGlbs(dir, depth = 0, out = []) {
   return out;
 }
 
+// A verdict is only reused under the gates that produced it.
+const GATES_KEY = JSON.stringify(HEALTH_GATES);
+
 /** Cached health/shape index over every source root; re-inspects only changed files. */
 function sourceIndex() {
   const cacheFile = path.join(paths.rigRoot, "source-index.json");
@@ -147,7 +152,7 @@ function sourceIndex() {
   const index = {};
   for (const file of SOURCE_ROOTS.flatMap((root) => listGlbs(root))) {
     const stat = statSync(file);
-    const key = `${file}|${stat.size}|${stat.mtimeMs}`;
+    const key = `${file}|${stat.size}|${stat.mtimeMs}|${GATES_KEY}`;
     if (cache[key]) { index[key] = cache[key]; continue; }
     try {
       const report = inspectRig(file);

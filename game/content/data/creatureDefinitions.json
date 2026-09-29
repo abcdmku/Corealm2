@@ -3307,62 +3307,6 @@
     }
   },
   {
-    "id": "hollowroot_spider_t5",
-    "name": "Rootweaver",
-    "family": "hollowroot_spider",
-    "availability": "world",
-    "level": 7,
-    "profileId": "skirmisher",
-    "adjustments": {
-      "attackSpeedMs": 1200,
-      "aggroRadius": 6,
-      "behaviour": "aggressive",
-      "moveSpeedMps": 1.4,
-      "walkSpeedMps": 0.42,
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items",
-          "name": "Items",
-          "count": 1,
-          "drops": [
-            {
-              "itemId": "spider_thread",
-              "quantity": [
-                1,
-                3
-              ],
-              "chance": 0.75
-            },
-            {
-              "itemId": "venom_gland",
-              "quantity": [
-                1,
-                1
-              ],
-              "chance": 0.1
-            }
-          ],
-          "tables": []
-        }
-      ]
-    },
-    "presentation": {
-      "id": "hollowroot_spider",
-      "assetId": "creature_hollowroot_spider",
-      "scale": 1,
-      "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
-      "kind": "basic"
-    }
-  },
-  {
     "id": "cinder_ravager_t20",
     "name": "Armored Demon",
     "family": "cinder_ravager",
@@ -3715,94 +3659,6 @@
     }
   },
   {
-    "id": "heath_wasp_t1",
-    "name": "Heath Wasp",
-    "family": "heath_wasp",
-    "availability": "world",
-    "level": 2,
-    "profileId": "skirmisher",
-    "adjustments": {
-      "attackSpeedMs": 2400,
-      "aggroRadius": 5,
-      "behaviour": "aggressive",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4,
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items",
-          "name": "Items",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_venom_gland",
-              "rollId": "items"
-            }
-          ]
-        }
-      ]
-    },
-    "presentation": {
-      "id": "heath_wasp",
-      "assetId": "creature_heath_wasp",
-      "scale": 0.45,
-      "regionId": "fallowmarch",
-      "activity": "prowl",
-      "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
-      "kind": "basic"
-    }
-  },
-  {
-    "id": "reed_wasp_t1",
-    "name": "Slatewing Wasp",
-    "family": "reed_wasp",
-    "availability": "world",
-    "level": 2,
-    "profileId": "skirmisher",
-    "adjustments": {
-      "attackSpeedMs": 2400,
-      "aggroRadius": 5,
-      "behaviour": "aggressive",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4,
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items",
-          "name": "Items",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_venom_gland",
-              "rollId": "items"
-            }
-          ]
-        }
-      ]
-    },
-    "presentation": {
-      "id": "reed_wasp",
-      "assetId": "creature_reed_wasp",
-      "scale": 0.45,
-      "regionId": "fallowmarch",
-      "activity": "prowl",
-      "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
-      "kind": "basic"
-    }
-  },
-  {
     "id": "creek_crab_t1",
     "name": "Creek Crab",
     "family": "creek_crab",
@@ -4063,76 +3919,6 @@
       "activity": "forage",
       "description": "A small golden jackal with curled thorn horns, coarse fur and a dark dorsal ridge. It forages along the dusk hedges.",
       "kind": "basic"
-    }
-  },
-  {
-    "id": "moonweave_spider_t5",
-    "name": "Moonweaver",
-    "family": "moonweave_spider",
-    "availability": "world",
-    "level": 8,
-    "profileId": "skirmisher",
-    "adjustments": {
-      "attackSpeedMs": 2000,
-      "aggroRadius": 10,
-      "behaviour": "aggressive",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4,
-      "attackStyle": "melee",
-      "attackRangeM": 1.8
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items",
-          "name": "Items",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_earth_essence_earth_essence",
-              "rollId": "items"
-            }
-          ]
-        }
-      ]
-    },
-    "presentation": {
-      "id": "moonweave_spider",
-      "assetId": "creature_moonweave_spider",
-      "scale": 0.82,
-      "regionId": "vellenwood",
-      "activity": "patrol",
-      "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
-      "bodyFamily": "spider",
-      "rigFamily": "corealm_tripo_sixleg_weaver",
-      "movement": "arthropod",
-      "habitat": "woodland web hollows",
-      "respawnMs": 30000,
-      "nativeSize": [
-        0.47883458451618877,
-        0.5201364126930991,
-        0.5992070853997946
-      ],
-      "nativeBase": [
-        -0.23941729225809438,
-        0,
-        -0.2996035426998973
-      ],
-      "nativeVisualRadius": 0.38351391452009526,
-      "nativeBodyRadius": 0.2996035426998973,
-      "attack": {
-        "action": "fang bite",
-        "proposedMechanic": "melee",
-        "recoveryMs": 900
-      },
-      "source": {
-        "author": "Corealm / Tripo Studio",
-        "license": "LicenseRef-Corealm-Original",
-        "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
-      },
-      "acceptance": "candidate",
-      "kind": "rpg"
     }
   },
   {
@@ -4863,10 +4649,10 @@
     "presentation": {
       "id": "grave_lantern",
       "assetId": "creature_grave_lantern",
-      "scale": 0.92,
+      "scale": 1,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+      "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
       "kind": "basic"
     }
   },
@@ -5633,10 +5419,10 @@
     "presentation": {
       "id": "furnace_grazer",
       "assetId": "creature_furnace_grazer",
-      "scale": 1.35,
+      "scale": 1.2,
       "regionId": "wilderness",
       "activity": "graze",
-      "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+      "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
       "kind": "basic"
     }
   },
@@ -5714,7 +5500,7 @@
       "scale": 0.754334697009733,
       "regionId": "wilderness",
       "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+      "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
       "kind": "basic"
     }
   },
@@ -6616,60 +6402,6 @@
       "regionId": "crownward",
       "activity": "patrol",
       "description": "An old walking tree with silver bark and dark moss-green hollows. Heavy root hands drag beside its bowed trunk.",
-      "kind": "basic"
-    }
-  },
-  {
-    "id": "lantern_sprite_t30",
-    "name": "Lantern Sprite",
-    "family": "lantern_sprite",
-    "availability": "world",
-    "level": 30,
-    "profileId": "skirmisher",
-    "adjustments": {
-      "attackSpeedMs": 2000,
-      "aggroRadius": 5,
-      "behaviour": "territorial",
-      "moveSpeedMps": 0.9279999999999999,
-      "walkSpeedMps": 0.23199999999999998,
-      "attackStyle": "melee",
-      "attackRangeM": 1.8
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_mistweave_earth_essence",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_mistweave_earth_essence",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "presentation": {
-      "id": "lantern_sprite",
-      "assetId": "creature_lantern_sprite",
-      "scale": 0.45666127261378686,
-      "regionId": "gloamgarden",
-      "activity": "forage",
-      "description": "A small fairy leafwing with amber-veined wings, teal shell and a curled tapering abdomen.",
       "kind": "basic"
     }
   },
@@ -12471,6 +12203,30 @@
               "rollId": "items"
             }
           ]
+        },
+        {
+          "id": "thread",
+          "name": "Thread",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "spider_thread",
+              "quantity": [
+                1,
+                3
+              ],
+              "chance": 0.5
+            },
+            {
+              "itemId": "venom_gland",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.1
+            }
+          ],
+          "tables": []
         }
       ]
     },
@@ -17470,12 +17226,12 @@
   },
   {
     "id": "pack_fallowmarch_palewood_heath_scrub",
-    "baseId": "heath_wasp_t1",
+    "baseId": "field_wasp_t1",
     "availability": "world"
   },
   {
     "id": "pack_fallowmarch_palewood_reed_scrub",
-    "baseId": "reed_wasp_t1",
+    "baseId": "field_wasp_t1",
     "availability": "world"
   },
   {
@@ -17603,7 +17359,7 @@
   },
   {
     "id": "pack_vellenwood_marchgate_south_bramble",
-    "baseId": "moonweave_spider_t5",
+    "baseId": "webweaver_spider_t5",
     "availability": "world"
   },
   {
@@ -17679,7 +17435,7 @@
   },
   {
     "id": "hollowroot_spider_residents",
-    "baseId": "hollowroot_spider_t5",
+    "baseId": "webweaver_spider_t5",
     "availability": "world"
   },
   {
@@ -18062,16 +17818,7 @@
     "availability": "world",
     "name": "Ashen Ghoul",
     "level": 24,
-    "family": "grave_lantern",
-    "presentation": {
-      "id": "grave_lantern",
-      "assetId": "creature_grave_lantern",
-      "scale": 0.92,
-      "regionId": "wilderness",
-      "activity": "patrol",
-      "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
-      "kind": "basic"
-    }
+    "family": "grave_lantern"
   },
   {
     "id": "pack_kilnhalt_clinker_southern_approach_west",
@@ -19702,16 +19449,7 @@
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 58,
-    "presentation": {
-      "id": "basalt_maw",
-      "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
-      "regionId": "wilderness",
-      "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-      "kind": "basic"
-    }
+    "level": 58
   },
   {
     "id": "wilderness_east_rift_carapaces",
@@ -19793,16 +19531,7 @@
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 58,
-    "presentation": {
-      "id": "basalt_maw",
-      "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
-      "regionId": "wilderness",
-      "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-      "kind": "basic"
-    }
+    "level": 58
   },
   {
     "id": "nightglass_waterway_sentries",
@@ -19896,16 +19625,7 @@
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 58,
-    "presentation": {
-      "id": "basalt_maw",
-      "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
-      "regionId": "wilderness",
-      "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-      "kind": "basic"
-    }
+    "level": 58
   },
   {
     "id": "wilderness_foundry_west_carapaces",

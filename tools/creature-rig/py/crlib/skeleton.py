@@ -3,6 +3,10 @@
 Rest pose == bind pose. A bone's rest frame is its donor bone's rest frame turned by the shortest
 arc onto the target bone direction, so bone roll is consistent with the donor (and so twist
 transfers cleanly). Bones without a donor take their parent's frame turned the same way.
+
+Skeleton.frame is the bind frame, derived from the class's primary donor. Every other donor gets
+its own frames (Binding): the same rule applied to that donor's rest, so one class can mix donors
+whose rest poses and bone axes differ (ground takes from one studio, flight from another).
 """
 from dataclasses import dataclass, field
 
@@ -100,3 +104,38 @@ class Skeleton:
                 data.edit_bones[bone.name].parent = data.edit_bones[bone.parent]
         bpy.ops.object.mode_set(mode="OBJECT")
         return obj
+
+
+class Binding:
+    """How one donor drives the skeleton.
+
+    bone[target]  the donor bone driving it (Bone.donor, renamed by bone_map, which is keyed by
+                  Bone.donor or by the target bone name; None when this donor has no such bone,
+                  and the bone then follows its parent)
+    frame[target] the donor's rest frame turned onto the target bone (Skeleton.frame per donor)
+    fix[target]   frame.T @ Bone.frame: turns this donor's frame convention into the bind's, for
+                  bones that copy the donor's orientation (follow > 0); None for the primary donor
+    """
+
+    def __init__(self, skeleton, donor, bone_map=None, primary=False):
+        self.donor = donor
+        self.bone, self.frame, self.fix = {}, {}, {}
+        self.unmapped = []
+        bone_map = bone_map or {}
+        for b in skeleton.bones:
+            name = b.donor
+            if b.donor is not None:
+                if b.donor in bone_map:
+                    name = bone_map[b.donor]
+                elif b.name in bone_map:
+                    name = bone_map[b.name]
+            if name is not None and name not in donor.rest_frame:
+                self.unmapped.append(b.name)
+                name = None
+            self.bone[b.name] = name
+            if name is None:
+                continue
+            D = donor.rest_frame[name]
+            F = min_arc(D[:, 1], normalize(b.tail - b.head)) @ D
+            self.frame[b.name] = F
+            self.fix[b.name] = None if primary else F.T @ b.frame

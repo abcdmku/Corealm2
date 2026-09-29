@@ -1,0 +1,253 @@
+{
+ "donors": {
+  "animal_bear": {
+   "pack": "animalpack",
+   "name": "Bear",
+   "source": "janpec Animal pack deluxe (Bear), Unity Asset Store licence"
+  },
+  "animal_cattle": {
+   "pack": "animalpack",
+   "name": "Cattle",
+   "source": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence"
+  },
+  "animal_chicken": {
+   "pack": "animalpack",
+   "name": "Chicken",
+   "source": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence"
+  },
+  "animal_crocodile": {
+   "pack": "animalpack",
+   "name": "Crocodile",
+   "source": "janpec Animal pack deluxe (Crocodile), Unity Asset Store licence"
+  },
+  "animal_deer": {
+   "pack": "animalpack",
+   "name": "Deer",
+   "source": "janpec Animal pack deluxe (Deer), Unity Asset Store licence"
+  },
+  "animal_firesalamander": {
+   "pack": "animalpack",
+   "name": "FireSalamander",
+   "source": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence"
+  },
+  "animal_goat": {
+   "pack": "animalpack",
+   "name": "Goat",
+   "source": "janpec Animal pack deluxe (Goat), Unity Asset Store licence"
+  },
+  "animal_ibex": {
+   "pack": "animalpack",
+   "name": "Ibex",
+   "source": "janpec Animal pack deluxe (Ibex), Unity Asset Store licence"
+  },
+  "animal_scorpion": {
+   "pack": "animalpack",
+   "name": "Scorpion",
+   "source": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence"
+  },
+  "animal_viper": {
+   "pack": "animalpack",
+   "name": "Viper",
+   "source": "janpec Animal pack deluxe (Viper), Unity Asset Store licence"
+  },
+  "animal_wildboar": {
+   "pack": "animalpack",
+   "name": "WildBoar",
+   "source": "janpec Animal pack deluxe (WildBoar), Unity Asset Store licence"
+  },
+  "animal_wildrabbit": {
+   "pack": "animalpack",
+   "name": "WildRabbit",
+   "source": "janpec Animal pack deluxe (WildRabbit), Unity Asset Store licence"
+  },
+  "animal_wolf": {
+   "pack": "animalpack",
+   "name": "Wolf",
+   "source": "janpec Animal pack deluxe (Wolf), Unity Asset Store licence"
+  },
+  "animal_butterfly": {
+   "pack": "animalpack",
+   "name": "butterfly",
+   "source": "janpec Animal pack deluxe (butterfly), Unity Asset Store licence"
+  },
+  "animal_common_frog": {
+   "pack": "animalpack",
+   "name": "common_frog",
+   "source": "janpec Animal pack deluxe (common_frog), Unity Asset Store licence"
+  },
+  "animal_crab": {
+   "pack": "animalpack",
+   "name": "crab",
+   "source": "janpec Animal pack deluxe (crab), Unity Asset Store licence"
+  },
+  "animal_iron_age_pig": {
+   "pack": "animalpack",
+   "name": "iron_age_pig",
+   "source": "janpec Animal pack deluxe (iron_age_pig), Unity Asset Store licence"
+  },
+  "animal_octopus": {
+   "pack": "animalpack",
+   "name": "octopus",
+   "source": "janpec Animal pack deluxe (octopus), Unity Asset Store licence"
+  },
+  "animal_rat": {
+   "pack": "animalpack",
+   "name": "rat",
+   "source": "janpec Animal pack deluxe (rat), Unity Asset Store licence"
+  },
+  "animal_snail": {
+   "pack": "animalpack",
+   "name": "snail",
+   "source": "janpec Animal pack deluxe (snail), Unity Asset Store licence"
+  },
+  "animal_swan_goose": {
+   "pack": "animalpack",
+   "name": "swan_goose",
+   "source": "janpec Animal pack deluxe (swan_goose), Unity Asset Store licence"
+  },
+  "quat_enemy_spider": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+   "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+   "source": "Quaternius Easy Animated Enemy Pack (Spider), CC0"
+  },
+  "quat_enemy_wasp": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+   "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+   "source": "Quaternius Easy Animated Enemy Pack (Wasp), CC0",
+   "yaw": -90
+  },
+  "quat_enemy_snake": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+   "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Snake.fbx",
+   "source": "Quaternius Easy Animated Enemy Pack (Snake), CC0"
+  },
+  "quat_enemy_frog": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+   "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Frog.fbx",
+   "source": "Quaternius Easy Animated Enemy Pack (Frog), CC0"
+  },
+  "quat_enemy_rat": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+   "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Rat.fbx",
+   "source": "Quaternius Easy Animated Enemy Pack (Rat), CC0"
+  },
+  "quat_farm_cow": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Farm_Animals_Animated_by_Quaternius.zip",
+   "member": "FBX/Cow.fbx",
+   "source": "Quaternius Farm Animals (Cow), CC0"
+  },
+  "quat_farm_horse": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Farm_Animals_Animated_by_Quaternius.zip",
+   "member": "FBX/Horse.fbx",
+   "source": "Quaternius Farm Animals (Horse), CC0"
+  },
+  "quat_farm_zebra": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Farm_Animals_Animated_by_Quaternius.zip",
+   "member": "FBX/Zebra.fbx",
+   "source": "Quaternius Farm Animals (Zebra), CC0"
+  },
+  "quat_monster_dragon": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Monster_Pack_Animated_by_Quaternius.zip",
+   "member": "FBX/Dragon.fbx",
+   "source": "Quaternius Monster Pack (Dragon), CC0"
+  },
+  "quat_monster_bat": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Monster_Pack_Animated_by_Quaternius.zip",
+   "member": "FBX/Bat.fbx",
+   "source": "Quaternius Monster Pack (Bat), CC0"
+  },
+  "quat_monster_skeleton": {
+   "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Monster_Pack_Animated_by_Quaternius.zip",
+   "member": "FBX/Skeleton.fbx",
+   "source": "Quaternius Monster Pack (Skeleton), CC0"
+  },
+  "dm_souleater": {
+   "pack": "unity",
+   "package": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/wilderness-dragons/source",
+    "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/Dungeon Mason/3D ModelsCharactersCreatures/Dragon for Boss Monster PBR.unitypackage"
+   ],
+   "rig": "Assets/FourEvilDragonsPBR/Mesh/DragonSoulEaterMesh.fbx",
+   "takes": "Assets/FourEvilDragonsPBR/Animations/DragonSoulEater/*.fbx",
+   "source": "Dungeon Mason Dragon for Boss Monster PBR (DragonSoulEater), Unity Asset Store licence"
+  },
+  "dm_terrorbringer": {
+   "pack": "unity",
+   "package": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/wilderness-dragons/source",
+    "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/Dungeon Mason/3D ModelsCharactersCreatures/Dragon for Boss Monster PBR.unitypackage"
+   ],
+   "rig": "Assets/FourEvilDragonsPBR/Mesh/DragonTerrorBringerMesh.fbx",
+   "takes": "Assets/FourEvilDragonsPBR/Animations/DragonTerrorBringer/*.fbx",
+   "source": "Dungeon Mason Dragon for Boss Monster PBR (DragonTerrorBringer), Unity Asset Store licence"
+  },
+  "dm_usurper": {
+   "pack": "unity",
+   "package": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/wilderness-dragons/source",
+    "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/Dungeon Mason/3D ModelsCharactersCreatures/Dragon for Boss Monster PBR.unitypackage"
+   ],
+   "rig": "Assets/FourEvilDragonsPBR/Mesh/DragonUsurperMesh.fbx",
+   "takes": "Assets/FourEvilDragonsPBR/Animations/DragonUsurper/*.fbx",
+   "source": "Dungeon Mason Dragon for Boss Monster PBR (DragonUsurper), Unity Asset Store licence"
+  },
+  "dm_nightmare": {
+   "pack": "unity",
+   "package": [
+    "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/Dungeon Mason/3D ModelsCharactersCreatures/Dragon for Boss Monster PBR.unitypackage"
+   ],
+   "rig": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/idle01.fbx",
+   "takes": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/*.fbx",
+   "source": "Dungeon Mason Dragon for Boss Monster PBR (DragonNightMare), Unity Asset Store licence"
+  },
+  "dm_dragonboar": {
+   "pack": "unity",
+   "package": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/Dungeon Mason/3D ModelsCharactersCreatures/Dragon the Soul Eater and Dragon Boar.unitypackage",
+   "rig": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+   "takes": "Assets/FreeDragons/Animations/DragonBoar/*.fbx",
+   "source": "Dungeon Mason Dragon the Soul Eater and Dragon Boar (DragonBoar), Unity Asset Store licence"
+  },
+  "pixelius_01": {
+   "unitypackage": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/PixeliusVita/3D ModelsCharactersCreatures/FREE Fantasy Monster 01 Rework Game Ready Rig Animation PixeliusVita.unitypackage",
+   "member": "Assets/Stylized3DMonster/Monster01/Monster01_AllAnim.fbx",
+   "source": "PixeliusVita Fantasy Monster 01, Unity Asset Store licence"
+  },
+  "pixelius_02": {
+   "unitypackage": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/PixeliusVita/3D ModelsCharactersCreatures/Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage",
+   "member": "Assets/Stylized3DMonster/Monster02/Monster02_AllAnim.fbx",
+   "source": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence"
+  },
+  "pixelius_03": {
+   "unitypackage": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/PixeliusVita/3D ModelsCharactersCreatures/Fantasy Monster 3D Model 03 - Game Ready - PixeliusVita.unitypackage",
+   "member": "Assets/Stylized3DMonster/Monster03/Monster03_AllAnim.fbx",
+   "source": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence"
+  },
+  "pixelius_04": {
+   "unitypackage": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/PixeliusVita/3D ModelsCharactersCreatures/Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita.unitypackage",
+   "member": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
+   "source": "PixeliusVita Fantasy Monster 04, Unity Asset Store licence"
+  },
+  "pixelius_05": {
+   "unitypackage": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/PixeliusVita/3D ModelsCharactersCreatures/Fantasy Monster 3D Model 05 - Game Ready - PixeliusVita.unitypackage",
+   "member": "Assets/Stylized3DMonster/Monster05/Monster05_AllAnim.fbx",
+   "source": "PixeliusVita Fantasy Monster 05, Unity Asset Store licence"
+  },
+  "pixelius_06": {
+   "unitypackage": "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x/PixeliusVita/3D ModelsCharactersCreatures/Fantasy Monster 3D Model 06 - Game Ready - PixeliusVita.unitypackage",
+   "member": "Assets/Stylized3DMonster/Monster06/Monster06_AllAnim.fbx",
+   "source": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence"
+  },
+  "pixelius_07": {
+   "file": "C:/Users/Borg/Documents/GitHub/Corealm2/game/public/assets/models/fairy/fantasy_monster_07.glb",
+   "source": "PixeliusVita Fantasy Monster 07 native takes, from the production GLB (tools/fairy-terraces/monsters-build.ts)"
+  },
+  "pixelius_08": {
+   "file": "C:/Users/Borg/Documents/GitHub/Corealm2/game/public/assets/models/fairy/fantasy_monster_08.glb",
+   "source": "PixeliusVita Fantasy Monster 08 native takes, from the production GLB (tools/fairy-terraces/monsters-build.ts)"
+  },
+  "pixelius_09": {
+   "file": "C:/Users/Borg/Documents/GitHub/Corealm2/game/public/assets/models/fairy/fantasy_monster_09.glb",
+   "source": "PixeliusVita Fantasy Monster 09 native takes, from the production GLB (tools/fairy-terraces/monsters-build.ts)"
+  }
+ }
+}

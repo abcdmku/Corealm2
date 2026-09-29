@@ -19,7 +19,7 @@ with gzip.open(archive, 'rb') as stream, tarfile.open(fileobj=stream, mode='r|')
         if not name.endswith('/pathname'):
             continue
         relative = tf.extractfile(member).read().decode().splitlines()[0].strip('\x00')
-        if not any(x in relative for x in ['DragonTerrorBringer', 'DragonUsurper', 'DragonSoulEater']):
+        if not any(x in relative for x in ['DragonTerrorBringer', 'DragonUsurper', 'DragonSoulEater', 'DragonNightMare', 'DragonNightmare', 'DragonTheNightmare']):
             continue
         selected[name[:-len('/pathname')] + '/asset'] = relative
 with gzip.open(archive, 'rb') as stream, tarfile.open(fileobj=stream, mode='r|') as tf:
