@@ -1163,41 +1163,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T04:28:03.558Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_ashscale_monitor/evidence.json.",
-      "at": "2026-09-28T19:42:04.348Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_ashseal_warden": {
     "status": "draft",
@@ -6529,41 +6503,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T04:28:03.558Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v3/creature_rootdelve_badger/evidence.json.",
-      "at": "2026-09-28T19:52:05.261Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_scree_bustard": {
     "status": "draft",
@@ -7393,41 +7341,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T04:28:03.558Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_slateback_tortoise/evidence.json.",
-      "at": "2026-09-28T19:42:04.348Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_starroot_guardian": {
     "status": "draft",
