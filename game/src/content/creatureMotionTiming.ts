@@ -157,8 +157,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25
   },
   "creature_boss_galeskin": {
-    "seconds": 1.600000023841858,
-    "contactNormalized": 0.65
+    "seconds": 1.366667,
+    "contactNormalized": 0.767
   },
   "creature_boss_mossbound": {
     "seconds": 2.083333,
@@ -181,16 +181,16 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25
   },
   "creature_bracken_tapir": {
-    "seconds": 0.8999999761581421,
-    "contactNormalized": 0.48
+    "seconds": 0.666667,
+    "contactNormalized": 0.15
   },
   "creature_briar_harrow": {
     "seconds": 1.066667,
     "contactNormalized": 0.25
   },
   "creature_cairn_bighorn": {
-    "seconds": 1.0499999523162842,
-    "contactNormalized": 0.46
+    "seconds": 1.5,
+    "contactNormalized": 0.533
   },
   "creature_cairn_treader": {
     "seconds": 0.625,
@@ -233,8 +233,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.6
   },
   "creature_duskoak_lynx": {
-    "seconds": 1.0199999809265137,
-    "contactNormalized": 0.43
+    "seconds": 1.366667,
+    "contactNormalized": 0.517
   },
   "creature_fen_crawler": {
     "seconds": 0.766667,
@@ -257,8 +257,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.583
   },
   "creature_gloam_fox": {
-    "seconds": 1.399999976158142,
-    "contactNormalized": 0.5
+    "seconds": 1.366667,
+    "contactNormalized": 0.483
   },
   "creature_gloam_wraith": {
     "seconds": 0.5,
@@ -325,12 +325,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.55
   },
   "creature_marchwild_horse": {
-    "seconds": 0.9666666388511658,
-    "contactNormalized": 0.46
+    "seconds": 1.5,
+    "contactNormalized": 0.483
   },
   "creature_marsh_moose": {
-    "seconds": 1.2300000190734863,
-    "contactNormalized": 0.47
+    "seconds": 1.5,
+    "contactNormalized": 0.383
   },
   "creature_marsh_wasp": {
     "seconds": 1.125,
@@ -377,16 +377,16 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4336734873237641
   },
   "creature_quillback_porcupine": {
-    "seconds": 1.159999966621399,
-    "contactNormalized": 0.54
+    "seconds": 0.666667,
+    "contactNormalized": 0.15
   },
   "creature_red_wilderness_dragon": {
     "seconds": 1,
     "contactNormalized": 0.5
   },
   "creature_redbrush_fox": {
-    "seconds": 1.399999976158142,
-    "contactNormalized": 0.675
+    "seconds": 1.366667,
+    "contactNormalized": 0.7
   },
   "creature_reed_strider": {
     "seconds": 0.949999988079071,
@@ -409,8 +409,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.55
   },
   "creature_rimeback_tortoise": {
-    "seconds": 1.4500000476837158,
-    "contactNormalized": 0.5
+    "seconds": 0.8,
+    "contactNormalized": 0.417
   },
   "creature_road_bandit": {
     "seconds": 1,
@@ -757,15 +757,15 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_blind_cave_weaver": 1.6,
   "creature_bloomheart_matriarch": 6.9096,
   "creature_boss_cinderwake": 21.8919,
-  "creature_boss_galeskin": 6.1579,
+  "creature_boss_galeskin": 8.4368,
   "creature_boss_mossbound": 5.5386,
   "creature_boss_ordrun": 7.0386,
   "creature_boss_rootheart": 4.4281,
   "creature_boss_tempest_roc": 1.1036,
   "creature_boss_tideworn": 14.9749,
-  "creature_bracken_tapir": 3.1915,
+  "creature_bracken_tapir": 3.9825,
   "creature_briar_harrow": 3.8489,
-  "creature_cairn_bighorn": 4.4681,
+  "creature_cairn_bighorn": 6.1281,
   "creature_cairn_treader": 7.307,
   "creature_cave_roach": 8.1581,
   "creature_chalk_warden": 8.2842,
@@ -775,12 +775,12 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_cindercrest_salamander": 0.5968,
   "creature_crown_hart": 5.2436,
   "creature_dewglass_weaver": 1.7364,
-  "creature_duskoak_lynx": 5.0455,
+  "creature_duskoak_lynx": 12.1724,
   "creature_fen_crawler": 0.3919,
   "creature_flint_mandible": 1.0709,
   "creature_furnace_grazer": 5.5277,
   "creature_furnace_regent": 9.2859,
-  "creature_gloam_fox": 7.9344,
+  "creature_gloam_fox": 6.8434,
   "creature_gloamfang_reaver": 15.8176,
   "creature_goblin_archer": 10.9405,
   "creature_goblin_scout": 11.1899,
@@ -789,14 +789,14 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_grave_lantern": 32.2116,
   "creature_heath_jack": 4.3563,
   "creature_hollow_bough": 12.1196,
-  "creature_hollow_star": 1.9028,
   "creature_iron_golem": 22.3957,
   "creature_ivory_castellan": 31.565,
   "creature_kiln_marrow": 6.0086,
   "creature_kiln_salamander": 1.646,
   "creature_lava_golem": 4.1128,
   "creature_marchfield_turkey": 1.9874,
-  "creature_marsh_moose": 7.0213,
+  "creature_marchwild_horse": 9.3989,
+  "creature_marsh_moose": 10.6713,
   "creature_moonpetal_stalker": 11.1936,
   "creature_mossback_sentinel": 3.7948,
   "creature_nightforge_marshal": 26.2412,
@@ -806,14 +806,14 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_purple_wilderness_dragon": 11.2483,
   "creature_quarry_nightmare": 3.6853,
   "creature_quarry_snail": 0.0727,
-  "creature_quillback_porcupine": 2.6591,
+  "creature_quillback_porcupine": 1.6291,
   "creature_red_wilderness_dragon": 10.5707,
-  "creature_redbrush_fox": 4.5583,
+  "creature_redbrush_fox": 3.8222,
   "creature_reed_strider": 0.5,
   "creature_reedbank_goose": 0.6384,
   "creature_reedjaw_crocodile": 4.3705,
   "creature_revenant": 3.4639,
-  "creature_rimeback_tortoise": 0.6077,
+  "creature_rimeback_tortoise": 1.5411,
   "creature_road_bandit": 12.9658,
   "creature_rootdelve_badger": 11.9565,
   "creature_scree_bustard": 3.6006,
@@ -922,15 +922,14 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_blind_cave_weaver": 1.427719,
   "creature_bloomheart_matriarch": 5.527711,
   "creature_boss_cinderwake": 4.001836,
-  "creature_boss_galeskin": 2.029411,
   "creature_boss_mossbound": 4.430865,
   "creature_boss_ordrun": 5.630907,
   "creature_boss_rootheart": 3.542479,
   "creature_boss_tempest_roc": 0.3944,
   "creature_boss_tideworn": 2.695999,
-  "creature_bracken_tapir": 1.125,
+  "creature_bracken_tapir": 4.004538,
   "creature_briar_harrow": 3.079106,
-  "creature_cairn_bighorn": 1.8,
+  "creature_cairn_bighorn": 3.174139,
   "creature_cairn_treader": 5.845602,
   "creature_cave_roach": 6.523694,
   "creature_chalk_warden": 6.627369,
@@ -940,12 +939,12 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_cindercrest_salamander": 0.461289,
   "creature_crown_hart": 2.597886,
   "creature_dewglass_weaver": 1.549431,
-  "creature_duskoak_lynx": 1.563636,
+  "creature_duskoak_lynx": 2.441196,
   "creature_fen_crawler": 0.139615,
   "creature_flint_mandible": 0.382733,
   "creature_furnace_grazer": 4.012189,
   "creature_furnace_regent": 7.428753,
-  "creature_gloam_fox": 2.944905,
+  "creature_gloam_fox": 2.124133,
   "creature_gloamfang_reaver": 3.224249,
   "creature_goblin_archer": 1.992729,
   "creature_goblin_scout": 2.085174,
@@ -955,14 +954,14 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_grave_lantern": 8.639664,
   "creature_heath_jack": 1.296444,
   "creature_hollow_bough": 3.3928,
-  "creature_hollow_star": 0.619583,
   "creature_iron_golem": 4.304943,
   "creature_ivory_castellan": 6.06747,
   "creature_kiln_marrow": 4.806841,
   "creature_kiln_salamander": 1.341488,
   "creature_lava_golem": 2.712195,
   "creature_marchfield_turkey": 0.567478,
-  "creature_marsh_moose": 2.925,
+  "creature_marchwild_horse": 4.58309,
+  "creature_marsh_moose": 4.047251,
   "creature_moonpetal_stalker": 2.086044,
   "creature_mossback_sentinel": 3.035855,
   "creature_nightforge_marshal": 5.154792,
@@ -972,15 +971,15 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_purple_wilderness_dragon": 2.910722,
   "creature_quarry_nightmare": 1.401027,
   "creature_quarry_snail": 0.058185,
-  "creature_quillback_porcupine": 0.872727,
+  "creature_quillback_porcupine": 1.68478,
   "creature_red_wilderness_dragon": 2.735379,
-  "creature_redbrush_fox": 2.201219,
+  "creature_redbrush_fox": 1.128655,
   "creature_reed_strider": 0.226087,
   "creature_reedbank_goose": 0.478181,
   "creature_reedjaw_crocodile": 1.26829,
   "creature_revenant": 2.771113,
   "creature_rift_carapace": 0.723358,
-  "creature_rimeback_tortoise": 0.291271,
+  "creature_rimeback_tortoise": 1.232885,
   "creature_road_bandit": 2.365599,
   "creature_rootdelve_badger": 3.661285,
   "creature_scree_bustard": 2.610259,
