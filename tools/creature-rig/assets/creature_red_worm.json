@@ -1,7 +1,7 @@
 {
  "class": "serpent",
  "profile": "centipede",
- "notes": "SR Studios Worms FREE worm: a 6-joint chain from the tail (Worm_Rig_Main) to the head (Worm_Rig5). The pack has one take (Worm_Look), kept as the native Idle. Walk, Run, Attack and Death are the janpec Animal pack deluxe Viper Glide, FastGlide, Attack and Die, retargeted by arc length: each worm segment takes the world rotation of the viper spine bone at the same share of body length from the tail tip (Back_01_07, Back_01_04, Front_01_01, Front_01_05, Front_01_10, Head_Top), and the tail joint translates with the viper tail tip (hipMode root) at worm-to-viper length 0.135, so the body curve is the viper's. The strike is the viper's: only its front fifth rears, so it reads small. Hissing barely moves the body, so Hit is omitted (runtime flinch on the front half, hitRecoil from Worm_Rig3). The Quaternius snake was tried and rejected: its Attack buries the body in the floor.",
+ "notes": "SR Studios Worms FREE worm: a 6-joint chain from the tail (Worm_Rig_Main) to the head (Worm_Rig5). The pack has one take (Worm_Look), kept as the native Idle. Walk, Run, Attack and Death are the janpec Animal pack deluxe Viper Glide, FastGlide, Attack and Die, retargeted by arc length: each worm segment takes the world rotation of the viper spine bone at the same share of body length from the tail tip (Back_01_07, Back_01_04, Front_01_01, Front_01_05, Front_01_10, Head_Top), and the tail joint translates with the viper tail tip (hipMode root) at worm-to-viper length 0.135, so the body curve is the viper's. The strike is the viper Attack spread over the viper's front half only (studio remap: Front_01_04, 06, 08, 09, 11, Head_Top), because on the whole-body map only the viper's front fifth rears and the worm barely lifted its head; the worm now rears its front half and lunges. Hissing barely moves the body, so Hit is omitted (runtime flinch on the front half, hitRecoil from Worm_Rig3). The Quaternius snake was tried and rejected: its Attack buries the body in the floor.",
  "studio": {
   "rootNode": "Joints",
   "referenceClip": "Idle",
@@ -55,7 +55,14 @@
    },
    "Attack": {
     "donor": "viper",
-    "clip": "Attack"
+    "clip": "Attack",
+    "remap": {
+     "Worm_Rig_Main": "Viper_Front_01_04SHJnt",
+     "Worm_Rig1": "Viper_Front_01_06SHJnt",
+     "Worm_Rig2": "Viper_Front_01_08SHJnt",
+     "Worm_Rig3": "Viper_Front_01_09SHJnt",
+     "Worm_Rig4": "Viper_Front_01_11SHJnt"
+    }
    },
    "Death": {
     "donor": "viper",
