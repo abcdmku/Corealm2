@@ -1,1 +1,11 @@
-{ "class": "special_treant", "profile": "sovereign" }
+{
+  "class": "treant",
+  "profile": "treant",
+  "profileOverrides": {
+    "cloth": true,
+    "clips": {
+      "Attack": { "donor": "ual1", "clip": ["Spell_Simple_Enter", "Spell_Simple_Shoot", "Spell_Simple_Exit"] }
+    }
+  },
+  "notes": "Amethyst Sovereign: a crystal-crowned tree spirit with a leaf train. On the treant class (golem fit and skin, loose pieces bound to what they grow from) the crown's hundreds of loose crystals ride the head; on special_treant the crystals and a crown bud were bound to the arms and smeared sideways in the cast. The humanoid cape finder (cloth) turns the train into spring panels, so it hangs clear of the floor. It casts (Spell_Simple)."
+}
