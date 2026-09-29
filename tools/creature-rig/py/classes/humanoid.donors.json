@@ -313,7 +313,8 @@
         },
         "Attack": {
           "donor": "ual2",
-          "clip": "Zombie_Scratch"
+          "clip": "Zombie_Scratch",
+          "hipMotion": 0.7
         },
         "Hit": {
           "donor": "ual1",
