@@ -382,6 +382,12 @@ def main(work, cache):
                 if g.nodes[i]["name"] in mp:
                     clip_map[mp[g.nodes[i]["name"]]["bone"]] = None
                 stack += g.nodes[i].get("children", [])
+        # "remap": {node: donor bone or null} changes which donor bone drives a node in this clip
+        # only, e.g. a short worm spread over the viper's front half so the strike rears the body.
+        for node, donor_bone in spec.get("remap", {}).items():
+            b = mp[node]["bone"]
+            clip_map.pop(sk[b].donor, None)
+            clip_map[b] = donor_bone
         # A clip whose donor drives neither hips nor legs (an upper-body Hit) sets its own "scale".
         r = Retargeter(sk, d, dict(plan, hip_motion=1.0 if "hipMotion" in spec else plan["hip_motion"], **({"scale": spec["scale"]} if "scale" in spec else {})),
                        bone_map=clip_map, primary=False)
