@@ -47,9 +47,11 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
-      }
+      },
+      "shinGuard": true
     },
     "brute": {
       "legs": true,
@@ -82,7 +84,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       }
     },
@@ -148,9 +151,11 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
-      }
+      },
+      "shinGuard": true
     },
     "bandit": {
       "legs": true,
@@ -180,7 +185,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       }
     },
@@ -207,7 +213,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       },
       "shinGuard": true
@@ -244,7 +251,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       }
     },
@@ -280,7 +288,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       }
     },
@@ -315,7 +324,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       },
       "cloth": false
@@ -347,7 +357,8 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "ik": false
         }
       }
     }

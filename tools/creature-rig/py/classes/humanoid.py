@@ -130,16 +130,17 @@ def fit(body, donor, profile, source=None):
             if not cands:
                 raise RuntimeError(f"no {side} foot tip found; set legs:false for a floating body")
             feet[side] = max(cands, key=lambda e: pos(e)[2] - pos(e)[1])
-    # Hand tips: the lateral tips farthest from the head along the body (a knuckle or a thumb is
+    # Hand tips (sides measured from the midline x=0, where the intake centres the feet; the
+    # thickest point can sit off-centre beside a held censer): the lateral tips farthest from the head along the body (a knuckle or a thumb is
     # a tip too, but nearer).
     head_dist, head_pred = body.geodesic(pos(head_tip))
     hands = {}
     for side, sign in (("l", 1), ("r", -1)):
-        cands = [e for e in others if e not in feet.values() and pos(e)[1] > 0.2 * H and sign * (pos(e)[0] - seed[0]) > 0.1 * H]
+        cands = [e for e in others if e not in feet.values() and pos(e)[1] > 0.2 * H and sign * pos(e)[0] > 0.1 * H]
         if not cands:
             raise RuntimeError(f"no {side} hand tip found")
-        reach = max(sign * (pos(e)[0] - seed[0]) for e in cands)
-        cands = [e for e in cands if sign * (pos(e)[0] - seed[0]) >= 0.6 * reach]
+        reach = max(sign * pos(e)[0] for e in cands)
+        cands = [e for e in cands if sign * pos(e)[0] >= 0.6 * reach]
         hands[side] = max(cands, key=lambda e: head_dist[e["node"]])
 
     sk = Skeleton()
@@ -324,7 +325,9 @@ def fit(body, donor, profile, source=None):
 
     # ---------------------------------------------------------- assemble
     root_head = np.array([pelvis[0], 0.0, pelvis[2]])
-    sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor="root", follow=0.0, kind="root")
+    # The root stays on the floor while the hips move: it must not take skin weight (bone heat
+    # would hand it the hem or tail tip that hangs near the floor).
+    sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor="root", follow=0.0, kind="root", deform=False)
     sk.add("pelvis", "root", pelvis, spine_heads[0], donor="pelvis", follow=0.0)
     chain = ["spine_01", "spine_02", "spine_03"]
     for i, name in enumerate(chain):
@@ -418,7 +421,59 @@ def _floating_skirt(body, sk):
     return override
 
 
+def _heel_fix(body, sk):
+    """Below the ankle the heel belongs to the foot. A big boot or a heel far behind the ankle
+    joint is nearer the shin bone than the foot bone, so bone heat hands it to the calf and it
+    digs into the floor whenever the shin leans. The calf's share there moves to the foot,
+    blended over the band just above the ankle."""
+    V = body.verts
+    names = sk.names()
+    moves = []
+    # The heel point (the rearmost low vertex under each ankle), for a retargeter that keeps a
+    # heel strike from driving a long heel into the floor.
+    sk.heels = {}
+    for side in ("l", "r"):
+        if f"foot_{side}" not in sk:
+            continue
+        ankle = sk[f"foot_{side}"].head
+        near = np.linalg.norm(V[:, [0, 2]] - ankle[[0, 2]], axis=1) < 0.25 * body.height
+        # Only this foot's own sole: on this side of the midline and within a foot's length.
+        own = (np.sign(V[:, 0] - sk["pelvis"].head[0]) == np.sign(ankle[0] - sk["pelvis"].head[0]))
+        own &= np.linalg.norm(V[:, [0, 2]] - ankle[[0, 2]], axis=1) < 0.15 * body.height
+        sole = own & (V[:, 1] < 0.5 * ankle[1])
+        if sole.any():
+            sk.heels[f"foot_{side}"] = V[sole][int(np.argmin(V[sole][:, 2]))].copy()
+        t = np.clip((1.25 * ankle[1] - V[:, 1]) / (0.5 * ankle[1]), 0, 1) * near
+        moves.append((names.index(f"calf_{side}"), names.index(f"foot_{side}"), t))
+
+    def override(W):
+        W = W.copy()
+        for calf, foot, t in moves:
+            share = W[:, calf] * t
+            W[:, calf] -= share
+            W[:, foot] += share
+        return W, np.zeros(len(W), bool)
+
+    return override
+
+
 def cloth(body, sk, profile, heat):
+    sheet = _cloth(body, sk, profile, heat)
+    if "thigh_l" not in sk or not profile.get("heelFix", True):
+        return sheet
+    heel = _heel_fix(body, sk)
+    if sheet is None:
+        return heel
+
+    def both(W):
+        W, fixed = sheet(W)
+        W, _ = heel(W)
+        return W, fixed
+
+    return both
+
+
+def _cloth(body, sk, profile, heat):
     """Capes, tabards and loincloth flaps: thin sheets hanging below the hips get their own bone
     chains (front and back, one or two columns), so legs swing through their own space instead of
     dragging the sheet, and the sheet follows through. Returns the weight override for skin()."""
@@ -575,10 +630,35 @@ def cloth(body, sk, profile, heat):
             a = fa * aa + (1 - fa) * ab
         else:
             _, chain_w, a = blended[0]
+        # Where a hem is welded to a boot or a greave (one surface), the rings of the panel next to
+        # the leg ride the leg; otherwise the weld tears into a spike on every step.
+        a = a * _weld_release(idx, W)
         heat = W[idx] / np.maximum(W[idx].sum(1, keepdims=True), 1e-9)
         W[idx] = (1 - a)[:, None] * heat + a[:, None] * chain_w
         fixed[idx] = a > 0.5
         return W, fixed
+
+    leg_cols = [i for i, n in enumerate(names0) if n.split("_")[0] in ("thigh", "calf", "foot", "ball")]
+    knee_y = max(sk["calf_l"].head[1], sk["calf_r"].head[1])
+    adj = None
+
+    def _weld_release(idx, W):
+        nonlocal adj
+        if adj is None:
+            from crlib.skin import adjacency
+            adj = adjacency(len(V), body.faces)
+        panel = np.zeros(len(V), bool)
+        panel[idx] = True
+        dominant = np.argmax(W[:, :len(names0)], axis=1)
+        frontier = ~panel & np.isin(dominant, leg_cols)
+        ring = np.full(len(V), np.inf)
+        ring[frontier] = 0
+        low = panel & (V[:, 1] < knee_y)
+        for r in range(1, 4):
+            nxt = low & np.isinf(ring) & (np.asarray(adj @ frontier.astype(float)).ravel() > 0)
+            ring[nxt] = r
+            frontier = nxt
+        return np.clip((ring[idx] - 2.0) / 2.0, 0.0, 1.0)
 
     return override
 
