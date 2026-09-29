@@ -43,7 +43,6 @@ interface AnimalSpec {
   is: string;
   tags: string[];
   clips: [string, string, [number, number]?][];
-  synthAttack?: { reach?: number; dip?: number; ms?: number; base?: "Idle" | "Attack" };
   substitutes?: Record<string, string>;
 }
 
@@ -243,7 +242,6 @@ async function main(): Promise<void> {
           rig: `/.asset-cache/animal-pack/models/${spec.rig}`,
           texture: `/.asset-cache/animal-pack/tex/${spec.texture}`,
           clips: clipUrls,
-          synthAttack: spec.synthAttack ?? null,
         },
       );
 

@@ -86,13 +86,3 @@ export function removeClip(doc: Document, name: string): void {
     }
   }
 }
-
-export function curve(phases: number[], values: number[], phase: number): number {
-  let index = 1;
-  while (index < phases.length - 1 && phases[index]! < phase) index++;
-  const a = phases[index - 1]!;
-  const b = phases[index]!;
-  const t = Math.max(0, Math.min(1, (phase - a) / (b - a)));
-  const smooth = t * t * (3 - 2 * t);
-  return values[index - 1]! + (values[index]! - values[index - 1]!) * smooth;
-}
