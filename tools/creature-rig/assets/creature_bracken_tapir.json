@@ -1,1 +1,1 @@
-{ "class": "quadruped", "profile": "heavy" }
+{ "class": "quadruped", "profile": "heavy", "profileOverrides": { "rigidPaw": true } }
