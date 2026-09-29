@@ -1,1 +1,15 @@
-{ "class": "arthropod", "profile": "hexapod" }
+{
+  "class": "arthropod",
+  "profile": "hexapod",
+  "profileOverrides": {
+    "clips": {
+      "Run": {
+        "donor": "scorpion",
+        "clip": "Run",
+        "loop": true
+      }
+    }
+  },
+  "maxRunCadenceHz": 5,
+  "notes": "Run is the scorpion's Run: the spider Walk's longer sweep folds this beetle's low middle knees 10 cm through the floor."
+}
