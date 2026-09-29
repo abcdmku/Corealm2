@@ -537,12 +537,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.367
   },
   "fairy_garden_imp_faeholme": {
-    "seconds": 1,
-    "contactNormalized": 0.65
+    "seconds": 0.733333,
+    "contactNormalized": 0.183
   },
   "fairy_garden_imp_gloamgarden": {
-    "seconds": 1,
-    "contactNormalized": 0.65
+    "seconds": 0.733333,
+    "contactNormalized": 0.183
   },
   "fairy_garden_petalguard_faeholme": {
     "seconds": 1.4,
@@ -810,7 +810,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_kiln_marrow": 6.0086,
   "creature_kiln_salamander": 1.646,
   "creature_lava_golem": 19.5599,
-  "creature_marchfield_turkey": 1.9874,
+  "creature_marchfield_turkey": 1.9516,
   "creature_marchwild_horse": 9.3643,
   "creature_marsh_moose": 10.6714,
   "creature_moonpetal_stalker": 11.1936,
@@ -819,7 +819,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_orchid_reaper": 18.654,
   "creature_pearl_knight": 50.0615,
   "creature_plague_zombie": 3.9846,
-  "creature_prismatic_sprite": 0.1475,
+  "creature_prismatic_sprite": 0.1484,
   "creature_purple_wilderness_dragon": 11.2483,
   "creature_quarry_nightmare": 3.2321,
   "creature_quarry_snail": 0.0727,
@@ -834,7 +834,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_rimeback_tortoise": 1.5494,
   "creature_road_bandit": 13.16,
   "creature_rootdelve_badger": 6.3569,
-  "creature_scree_bustard": 3.6006,
+  "creature_scree_bustard": 3.6824,
   "creature_scree_watcher": 26.96,
   "creature_shale_elemental": 2.857,
   "creature_silverthorn_harrow": 4.5295,
@@ -981,7 +981,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_kiln_marrow": 4.806841,
   "creature_kiln_salamander": 1.341488,
   "creature_lava_golem": 4.414255,
-  "creature_marchfield_turkey": 0.567478,
+  "creature_marchfield_turkey": 1.369303,
   "creature_marchwild_horse": 4.63995,
   "creature_marsh_moose": 4.067989,
   "creature_moonpetal_stalker": 2.086044,
@@ -990,7 +990,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_orchid_reaper": 3.340086,
   "creature_pearl_knight": 9.15779,
   "creature_plague_zombie": 3.187702,
-  "creature_prismatic_sprite": 0.118033,
+  "creature_prismatic_sprite": 0.118688,
   "creature_purple_wilderness_dragon": 2.910722,
   "creature_quarry_nightmare": 1.832272,
   "creature_quarry_snail": 0.058185,
@@ -1005,7 +1005,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_rimeback_tortoise": 1.239507,
   "creature_road_bandit": 2.403916,
   "creature_rootdelve_badger": 2.570402,
-  "creature_scree_bustard": 2.610259,
+  "creature_scree_bustard": 2.580454,
   "creature_scree_watcher": 5.024744,
   "creature_shale_elemental": 2.843635,
   "creature_silverthorn_harrow": 3.623593,

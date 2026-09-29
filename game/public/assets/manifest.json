@@ -16489,8 +16489,8 @@
         "articulated",
         "plumage"
       ],
-      "bytes": 4873692,
-      "sha256": "ac21a62de33455c2616f74d467f840b268918a2d7437799048ccde3cf348ba1f",
+      "bytes": 4999392,
+      "sha256": "6f9739a8b32c5340074acf463ce15760e2b3c7feb8d84a2ba10241e8389fb11c",
       "size": {
         "x": 0.550293,
         "y": 0.906738,
@@ -16609,7 +16609,7 @@
           "Death": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (bird/fowl): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Bird class, fowl profile (strideScale 0.7). Attack is the chicken Eat peck (frames 1-20 spliced to 214-230). The neck is IK-solved to the chicken head path in Idle/Walk/Run (head-bob); Attack and Death use the chicken neck angles. Hit omitted (runtime fallback).",
+        "notes": "Rebuilt by tools/creature-rig (bird/fowl): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand.",
         "clipSeconds": {
           "Idle": 5.9666666984558105,
           "Walk": 1,
@@ -16618,12 +16618,12 @@
           "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_marchfield_turkey.glb",
-        "sourceSha256": "f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107"
+        "sourceSha256": "ac21a62de33455c2616f74d467f840b268918a2d7437799048ccde3cf348ba1f"
       },
       "walkClipSeconds": 1,
       "runClipSeconds": 0.533333,
-      "impliedWalkMps": 0.236449,
-      "impliedRunMps": 1.242115,
+      "impliedWalkMps": 0.570543,
+      "impliedRunMps": 1.21976,
       "attackSeconds": 1.166667,
       "contactNormalized": 0.55
     },
@@ -17535,8 +17535,8 @@
         "articulated",
         "plumage"
       ],
-      "bytes": 6043092,
-      "sha256": "fa995af5f359c80df576844ddf86cd4cb74a1d11e10437198e9140f5219ef4b8",
+      "bytes": 6168616,
+      "sha256": "5d81b5171f938c3e7615efc796ef2d3ecb2e983464ad762e91918f467002b303",
       "size": {
         "x": 0.533203,
         "y": 0.970703,
@@ -17651,7 +17651,7 @@
           "Death": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (bird/fowl): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.148 m). Bird class, fowl profile (strideScale 0.7). Attack is the chicken Eat peck (frames 1-20 spliced to 214-230). The neck is IK-solved to the chicken head path in Idle/Walk/Run (head-bob); Attack and Death use the chicken neck angles. Hit omitted (runtime fallback).",
+        "notes": "Rebuilt by tools/creature-rig (bird/fowl): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.148 m).",
         "clipSeconds": {
           "Idle": 5.9666666984558105,
           "Walk": 1,
@@ -17660,12 +17660,12 @@
           "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_scree_bustard.glb",
-        "sourceSha256": "9572415dca987229e7ed807af2c36e3c67b112c4e92a2618317654849293d6ca"
+        "sourceSha256": "fa995af5f359c80df576844ddf86cd4cb74a1d11e10437198e9140f5219ef4b8"
       },
       "walkClipSeconds": 1,
       "runClipSeconds": 0.533333,
-      "impliedWalkMps": 1.087608,
-      "impliedRunMps": 2.250365,
+      "impliedWalkMps": 1.075189,
+      "impliedRunMps": 2.301511,
       "attackSeconds": 1.166667,
       "contactNormalized": 0.55
     },
@@ -53242,8 +53242,8 @@
         "sprite",
         "user-supplied"
       ],
-      "bytes": 8255732,
-      "sha256": "78cba0507f088c6145896b65e56509ae67ab565d5a6a6c7cd23e4fd2d2c0c2c7",
+      "bytes": 8373708,
+      "sha256": "586571a335606b60a7d1bb1e513623eed3d3be7a1ee70ead53a9e6044fef9f3b",
       "size": {
         "x": 1.996094,
         "y": 1.996094,
@@ -53331,15 +53331,15 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Walk": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Run": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit + layered wasp Wasp_Flying (wings)",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest + layered wasp Wasp_Flying (wings)",
+          "Idle": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Walk": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Run": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit + layered wasp Wasp_Flying",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest + layered wasp Wasp_Flying",
           "Death": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Death"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (winged/fae): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights on the body, along-span membrane weights on 3-bone wing chains; rest == bind; no scale keys. Idle, Walk and Run all play the Quaternius wasp Wasp_Flying cycle: flight is this creature native locomotion, so its walk and run are the flying cycle (no foot contact). Hips translate vertically only; clips hover 0.280 m above the grounded bind, the clearance fading as the donor falls so Death lands. Arms follow a humanoid (UAL) in every clip: layered from Swim_Idle_Loop in flight, the main donor in Attack and Hit; wings are layered from Wasp_Flying in the humanoid clips. Legs are damped spring chains (no donor twin), not keyed by hand. Death lifts the hips by a smooth floor-penetration envelope (end lift 0.330 m). Hit recoil bones (node extras hitRecoil): 26 bones, everything past the root and hips.",
+        "notes": "Rebuilt by tools/creature-rig (winged/fae): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.329 m).",
         "clipSeconds": {
           "Idle": 1.5,
           "Walk": 1.5,
@@ -53349,12 +53349,12 @@
           "Death": 0.7333333492279053
         },
         "sourceFile": "game/public/assets/models/creature/creature_prismatic_sprite.glb",
-        "sourceSha256": "9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317"
+        "sourceSha256": "78cba0507f088c6145896b65e56509ae67ab565d5a6a6c7cd23e4fd2d2c0c2c7"
       },
       "walkClipSeconds": 1.5,
       "runClipSeconds": 1.5,
-      "impliedWalkMps": 0.032787,
-      "impliedRunMps": 0.032787,
+      "impliedWalkMps": 0.032969,
+      "impliedRunMps": 0.032969,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.25
     },
@@ -60445,8 +60445,8 @@
         "imagegen-variant",
         "candidate"
       ],
-      "bytes": 12641236,
-      "sha256": "ce7e3df1a1a3b02bab1ec647f0c992b05fa12c761828a3c3a135897cfbf4b808",
+      "bytes": 12748880,
+      "sha256": "7cf59f65adbaca7834071616fa7fc73b11a65dd84dc9460c2ae17739759b33e7",
       "size": {
         "x": 0.987793,
         "y": 0.960449,
@@ -60511,30 +60511,30 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Walk": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Run": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross + layered wasp Wasp_Flying (wings)",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest + layered wasp Wasp_Flying (wings)",
+          "Idle": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Walk": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Run": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Attack + layered UAL2 Zombie_Scratch (arms)",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest + layered wasp Wasp_Flying",
           "Death": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Death"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (winged/imp): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights on the body, along-span membrane weights on 3-bone wing chains; rest == bind; no scale keys. Idle, Walk and Run all play the Quaternius wasp Wasp_Flying cycle: flight is this creature native locomotion, so its walk and run are the flying cycle (no foot contact). Hips translate vertically only; clips hover 0.180 m above the grounded bind, the clearance fading as the donor falls so Death lands. Arms follow a humanoid (UAL) in every clip: layered from Swim_Idle_Loop in flight, the main donor in Attack and Hit; wings are layered from Wasp_Flying in the humanoid clips. Legs are damped spring chains (no donor twin), not keyed by hand. Death lifts the hips by a smooth floor-penetration envelope (end lift 0.377 m). Hit recoil bones (node extras hitRecoil): 26 bones, everything past the root and hips.",
+        "notes": "Rebuilt by tools/creature-rig (winged/imp): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.378 m).",
         "clipSeconds": {
           "Idle": 1.5,
           "Walk": 1.5,
           "Run": 1.5,
-          "Attack": 1,
+          "Attack": 0.7333333492279053,
           "Hit": 0.3333333432674408,
           "Death": 0.7333333492279053
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_imp_gloamgarden.glb",
-        "sourceSha256": "09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6"
+        "sourceSha256": "ce7e3df1a1a3b02bab1ec647f0c992b05fa12c761828a3c3a135897cfbf4b808"
       },
       "walkClipSeconds": 1.5,
       "runClipSeconds": 1.5,
-      "attackSeconds": 1,
-      "contactNormalized": 0.65
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.183
     },
     {
       "id": "fairy_garden_snail_gloamgarden",
@@ -61406,8 +61406,8 @@
         "imagegen-variant",
         "candidate"
       ],
-      "bytes": 12788372,
-      "sha256": "0c2904b909992e6f64a034008a17ae6cc6c4a8b3e0bb405ae1e62d23d907005d",
+      "bytes": 12896016,
+      "sha256": "30f422d88e9514ad4e05b9cb44a8b3eff317b7cceedbe8ceecbc44ba53e6a4ec",
       "size": {
         "x": 0.987793,
         "y": 0.960449,
@@ -61472,30 +61472,30 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Walk": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Run": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop (arms)",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross + layered wasp Wasp_Flying (wings)",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest + layered wasp Wasp_Flying (wings)",
+          "Idle": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Walk": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Run": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Flying + layered UAL Swim_Idle_Loop",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Attack + layered UAL2 Zombie_Scratch (arms)",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest + layered wasp Wasp_Flying",
           "Death": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Death"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (winged/imp): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights on the body, along-span membrane weights on 3-bone wing chains; rest == bind; no scale keys. Idle, Walk and Run all play the Quaternius wasp Wasp_Flying cycle: flight is this creature native locomotion, so its walk and run are the flying cycle (no foot contact). Hips translate vertically only; clips hover 0.180 m above the grounded bind, the clearance fading as the donor falls so Death lands. Arms follow a humanoid (UAL) in every clip: layered from Swim_Idle_Loop in flight, the main donor in Attack and Hit; wings are layered from Wasp_Flying in the humanoid clips. Legs are damped spring chains (no donor twin), not keyed by hand. Death lifts the hips by a smooth floor-penetration envelope (end lift 0.377 m). Hit recoil bones (node extras hitRecoil): 26 bones, everything past the root and hips.",
+        "notes": "Rebuilt by tools/creature-rig (winged/imp): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.378 m).",
         "clipSeconds": {
           "Idle": 1.5,
           "Walk": 1.5,
           "Run": 1.5,
-          "Attack": 1,
+          "Attack": 0.7333333492279053,
           "Hit": 0.3333333432674408,
           "Death": 0.7333333492279053
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_imp_faeholme.glb",
-        "sourceSha256": "5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea"
+        "sourceSha256": "0c2904b909992e6f64a034008a17ae6cc6c4a8b3e0bb405ae1e62d23d907005d"
       },
       "walkClipSeconds": 1.5,
       "runClipSeconds": 1.5,
-      "attackSeconds": 1,
-      "contactNormalized": 0.65
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.183
     },
     {
       "id": "fairy_garden_snail_faeholme",
