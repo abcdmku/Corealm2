@@ -95,6 +95,7 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
   - `speed`: a time-scale on the baked clip (0.8 plays the same frames over 1.25 times the duration). Heavy bodies use it for a slower Walk and Run.
   - `hipMotion`: a scale on this clip's hip translation, on top of the profile's `hipMotion`.
   - `hover`: `true` adds the donor's rest clearance above its ground (its lowest joint at rest) times the size ratio to the hips height; a number adds that many metres. The profile can set it for every clip. The clearance fades with the donor's hips height over its rest height, so a Death whose donor falls lands on the floor.
+  - `chains`: `{bone prefix: {gravity, stiffness, damping, ease}}` retunes the spring chains whose first bone starts with the prefix for this clip only; `ease: [start, end]` blends from the chain's base values over those clip fractions (a dragon's wings hold their shape, then go limp and lie down in its Death).
   - `layers`: `[{"donor", "clip", "bones": [...], "kinds": [...]}]`. The listed bones, or the bones of the listed kinds, take their rotations from another donor's take in the same clip (wings from a flyer on a body from a walker). A loop repeats the layer a whole number of times so its seam closes; a one-shot plays it in real time.
 
 ## Writing a class

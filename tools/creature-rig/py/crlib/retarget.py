@@ -515,7 +515,16 @@ class Retargeter:
                 for c, st, (tgt, _) in zip(chains, state, tg):
                     keep = np.exp(-c.get("damping", 6.0) * h)
                     for i in range(len(st["x"])):
-                        acc = c.get("stiffness", 40.0) * (tgt[i] - st["x"][i]) + np.array([0.0, -c.get("gravity", 0.0), 0.0])
+                        # "ease": [start, end] clip fractions over which stiffness and gravity blend
+                        # from the chain's base values to this clip's (a wing that goes limp).
+                        k, g = c.get("stiffness", 40.0), c.get("gravity", 0.0)
+                        if c.get("ease") and n > 1:
+                            a0, a1 = c["ease"]
+                            u = float(np.clip((f / (n - 1) - a0) / max(a1 - a0, 1e-6), 0, 1))
+                            u = u * u * (3 - 2 * u)
+                            k = c["base"].get("stiffness", 40.0) + u * (k - c["base"].get("stiffness", 40.0))
+                            g = c["base"].get("gravity", 0.0) + u * (g - c["base"].get("gravity", 0.0))
+                        acc = k * (tgt[i] - st["x"][i]) + np.array([0.0, -g, 0.0])
                         nxt = st["x"][i] + (st["x"][i] - st["prev"][i]) * keep + acc * h * h
                         st["prev"][i], st["x"][i] = st["x"][i], nxt
                 for _ in range(2):

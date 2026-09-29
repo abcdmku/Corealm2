@@ -154,7 +154,11 @@ def main(work, cache=None):
             lr = retargeter(layer["donor"])
             overlay(result, lr.sample(state, {"loop": spec.get("loop"), **layer, "ik": False}), bones)
         if plan["chains"]:
-            result = r.secondary(result, plan["chains"], plan["colliders"])
+            # A clip may retune spring chains: {"chains": {bone prefix: {gravity, stiffness, ...}}}
+            # (a dragon's wings drop onto the ground in its Death but hold their shape elsewhere).
+            tune = spec.get("chains") or {}
+            chains = [dict(c, base=c, **next((v for k, v in tune.items() if c["bones"][0].startswith(k)), {})) for c in plan["chains"]]
+            result = r.secondary(result, chains, plan["colliders"])
         lift = lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height)
         root = sk.bones[0]
         pelvis_local = [(root.frame.T @ (p - root.head)).tolist() for p in result["pelvis"]]
