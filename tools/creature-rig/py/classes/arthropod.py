@@ -767,6 +767,38 @@ def plan(sk, body, profile):
     return {"hips": "body", "legs": legs, "chains": [], "colliders": [], "hip_motion": profile.get("hipMotion", 1.0)}
 
 
+def bind_turns(sk, profile):
+    """profile "legArch" (degrees): a leg modelled running flat along the floor (the reed strider's
+    legs drop straight to a knee near the floor) has its femur raised by that angle and its tibia
+    turned back down until the tip is at its bind height again, so the knee is the leg's high
+    point, like a strider's or a spider's. A flat leg has no room to bend: the donor's knee bend
+    folds it through the floor. The mesh is re-posed once with dual quaternions; rest == bind."""
+    arch = profile.get("legArch")
+    if not arch:
+        return {}
+    from crlib.mathx import axis_angle
+
+    turns = {}
+    for side in ("l", "r"):
+        for bones in sk.arth["legs"][side]:
+            femur, tibia, tarsus = (sk[b] for b in bones)
+            out = femur.tail - femur.head
+            flat = normalize(np.array([out[0], 0.0, out[2]]))
+            axis = normalize(np.cross(flat, [0.0, 1.0, 0.0]))
+            up = axis_angle(axis, np.radians(arch))
+            knee = femur.head + up @ (femur.tail - femur.head)
+            rest_tip = tarsus.tail
+            # The tibia (and the tarsus with it) turns down about the raised knee until the tip is
+            # back at its bind height.
+            below = [up @ (p - femur.tail) for p in (tibia.tail, tarsus.tail)]
+            angles = np.radians(np.arange(0.0, -120.0, -0.25))
+            ys = np.array([knee[1] + (axis_angle(axis, a) @ below[1])[1] for a in angles])
+            k = int(np.argmin(np.abs(ys - rest_tip[1])))
+            turns[bones[0]] = up
+            turns[bones[1]] = axis_angle(axis, angles[k])
+    return turns
+
+
 def recoil_bones(sk, plan, profile):
     """The runtime Hit overlay moves the abdomen and the mandibles or pincers. Not the legs, and not
     the body bone either: the legs hang from it, so its recoil would swing every planted foot

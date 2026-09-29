@@ -1,0 +1,18 @@
+{
+  "class": "arthropod",
+  "profile": "spider",
+  "orient": {
+    "pitch": 90,
+    "yaw": 180
+  },
+  "profileOverrides": {
+    "crouch": {
+      "Idle": 0,
+      "Walk": 0,
+      "Run": 0,
+      "Attack": 0,
+      "Hit": 0
+    },
+    "legArch": 35
+  }
+}

@@ -180,6 +180,33 @@ export function bakeBindMesh(doc, { pose = "bind", clip = null } = {}) {
   return baked;
 }
 
+/** Turns every baked vertex and normal about the origin: "orient" {pitch, roll, yaw} in degrees,
+ * applied in that order (pitch about +X, roll about +Z, yaw about +Y). For a body sculpted lying
+ * in the wrong plane (a top-view spider stood on end), so the fit sees it standing on its legs,
+ * facing +Z. The candidate keeps the turned bind; production's orientation is not reused. */
+export function orientMesh(nodes, { pitch = 0, roll = 0, yaw = 0 } = {}) {
+  const rad = (d) => (d * Math.PI) / 180;
+  const rx = (a) => [[1, 0, 0], [0, Math.cos(a), -Math.sin(a)], [0, Math.sin(a), Math.cos(a)]];
+  const rz = (a) => [[Math.cos(a), -Math.sin(a), 0], [Math.sin(a), Math.cos(a), 0], [0, 0, 1]];
+  const ry = (a) => [[Math.cos(a), 0, Math.sin(a)], [0, 1, 0], [-Math.sin(a), 0, Math.cos(a)]];
+  const mul3 = (a, b) => a.map((row) => [0, 1, 2].map((c) => row[0] * b[0][c] + row[1] * b[1][c] + row[2] * b[2][c]));
+  const m = mul3(ry(rad(yaw)), mul3(rz(rad(roll)), rx(rad(pitch))));
+  const seen = new Set();
+  for (const node of nodes) for (const primitive of node.getMesh().listPrimitives()) {
+    for (const semantic of ["POSITION", "NORMAL"]) {
+      const accessor = primitive.getAttribute(semantic);
+      if (!accessor || seen.has(accessor)) continue;
+      seen.add(accessor);
+      const p = floatArray(accessor);
+      for (let i = 0; i < p.length; i += 3) {
+        const [x, y, z] = [p[i], p[i + 1], p[i + 2]];
+        for (let r = 0; r < 3; r += 1) p[i + r] = m[r][0] * x + m[r][1] * y + m[r][2] * z;
+      }
+      setFloat(accessor, p);
+    }
+  }
+}
+
 function boundsOf(nodes) {
   const min = [Infinity, Infinity, Infinity];
   const max = [-Infinity, -Infinity, -Infinity];
@@ -263,7 +290,7 @@ function matchingSources(production) {
 
 /** What an intake depends on: the forced source and the production file. */
 export function intakeKey(config, productionBytes) {
-  return createHash("sha256").update(JSON.stringify({ source: config.source ?? null, bind: config.bind ?? null, tool: 2 })).update(productionBytes).digest("hex").slice(0, 16);
+  return createHash("sha256").update(JSON.stringify({ source: config.source ?? null, bind: config.bind ?? null, tool: 2, orient: config.orient })).update(productionBytes).digest("hex").slice(0, 16);
 }
 
 /** True when <work>/intake.json is missing or was made from another source or production file. */
@@ -288,6 +315,7 @@ export async function intake(assetId, work = paths.work(assetId)) {
   const { io, doc } = await openDocument(productionFile);
   const bindClip = config.bind && typeof config.bind === "object" ? config.bind.clip : null;
   const meshNodes = bakeBindMesh(doc, { pose: config.bind === "rest" || bindClip ? "rest" : "bind", clip: bindClip });
+  if (config.orient) orientMesh(meshNodes, config.orient);
   const grounded = groundAndCentre(meshNodes);
   const vertexCount = meshNodes.reduce((n, node) => n + node.getMesh().listPrimitives().reduce((m, p) => m + p.getAttribute("POSITION").getCount(), 0), 0);
   mkdirSync(work, { recursive: true });
@@ -295,8 +323,9 @@ export async function intake(assetId, work = paths.work(assetId)) {
 
   // A healthy source rig is matched against the production geometry before it is trusted.
   const productionRaw = inspectRig(productionFile);
-  const candidates = config.source ? [{ file: path.resolve(repo, config.source), shapeError: 0 }] : matchingSources(productionRaw);
-  let source = { kind: "fitted", reason: "no healthy source rig matches the production geometry" };
+  // A turned bind ("orient") no longer shares the source rig's space, so it is always fitted.
+  const candidates = config.orient ? [] : config.source ? [{ file: path.resolve(repo, config.source), shapeError: 0 }] : matchingSources(productionRaw);
+  let source = { kind: "fitted", reason: config.orient ? "the bind is turned by orient" : "no healthy source rig matches the production geometry" };
   const considered = [];
   for (const candidate of candidates) {
     const report = inspectRig(candidate.file);
@@ -314,7 +343,7 @@ export async function intake(assetId, work = paths.work(assetId)) {
 
   const record = {
     assetId,
-    // Only the config fields intake uses. Class, profile and profileOverrides are read again by
+    // Only the config fields intake uses (source, bind, orient). Class, profile and profileOverrides are read again by
     // rig.py at rig time; run.mjs repeats the intake when these or the production file change.
     intakeKey: intakeKey(config, productionBytes),
     production: {
