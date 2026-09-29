@@ -157,6 +157,10 @@ def _add_wings(sk, body, parts, parent_of, mid_x, attached, off, gap):
         plane = np.abs((V - centre) @ vt[2])
         stray = plane > max(4 * np.median(plane), 0.04 * body.height)
         resting = stray | ((off[part["idx"]] < 3 * gap) & (span > 0.2 * span.max()))
+        if part.get("whole"):
+            # A wing modelled as its own loose piece moves whole: a vertex of it left with the
+            # body tears the membrane open at the hinge.
+            resting[:] = False
         part = {**part, "idx": part["idx"][~resting], "resting": int(resting.sum())}
         line = _centre_line(body, part)
         side = "l" if np.mean(body.verts[part["idx"], 0]) > mid_x else "r"
@@ -350,8 +354,9 @@ def _fit_insect(body, donor, profile):
 # A winged fae is a small humanoid: torso and head on a medial line, arms and legs as appendages.
 # Its flight (Idle, Walk, Run) is the wasp's: the pelvis carries the thorax's bob and pitch, the
 # wings the wasp's beat, with the arms layered from a humanoid treading the air (UAL
-# Swim_Idle_Loop). Its strike, hit and death are humanoid (UAL) takes with the wasp's wings layered
-# on. Arms copy their donor's orientation (follow 1), as a humanoid's do, so a humanoid take poses
+# Swim_Idle_Loop). Its hit is a humanoid (UAL) take with the wasp's wings layered on, its death the
+# wasp's fall. A sprite's strike is a humanoid cast with the wings layered on; an imp's is the
+# wasp's own lunge with its arms layered from a claw swipe (UAL2 Zombie_Scratch). Arms copy their donor's orientation (follow 1), as a humanoid's do, so a humanoid take poses
 # them whatever the bind. The legs dangle: they have no donor twin in either and hang as damped
 # spring chains from the pelvis, so they swing behind the body and never pass through the floor.
 ARM_DONOR = ("TopLeg1", "TopLeg2", "TopLeg3")
@@ -500,6 +505,7 @@ def _fit_fae(body, donor, profile):
         pieces = np.unique(label[part["idx"]])
         small = pieces[sizes[pieces] < 0.1 * len(V)]
         part["idx"] = np.unique(np.concatenate([part["idx"], np.nonzero(np.isin(label, small))[0]]))
+        part["whole"] = bool(len(small)) and bool(np.isin(label[part["idx"]], small).all())
     wing_specs = _add_wings(sk, body, wings, lambda p: "spine", mid_x, attached=False, off=off, gap=gap)
     sk.winged = {"wings": wing_specs}
     notes["wings"] = [{"name": w["name"], "root": w["line"][0].tolist(), "tip": w["line"][-1].tolist(), "leftToBody": w["part"]["resting"]} for w in wing_specs]
