@@ -28,7 +28,7 @@ import numpy as np  # noqa: E402
 from crlib import donor as donors_mod  # noqa: E402
 from crlib.glbpy import Glb  # noqa: E402
 from crlib.mathx import continuous_quats, matrix_from_quat, min_arc, normalize, orthonormalize, quat_from_matrix, slerp_matrix  # noqa: E402
-from crlib.retarget import Retargeter, forward  # noqa: E402
+from crlib.retarget import CapsuleCollider, Retargeter, forward  # noqa: E402
 from crlib.skeleton import Skeleton  # noqa: E402
 
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
@@ -265,6 +265,47 @@ def main(work, cache):
             if np.linalg.norm(tail - head) < 1e-4:
                 tail = head + [0, 0.1, 0]
         sk.add(v["bone"], logical_parent(n), head, tail, donor=v["donor"] if "donor" in v else v["bone"], follow=v.get("follow", 0.0), kind=v.get("kind", "body"))
+    # "hinges": rigid hanging pieces that are not joints (a mantle panel, a tabard plate on a
+    # prop node): each becomes a one-bone spring chain from its top edge to its bottom edge on the
+    # nearest mapped ancestor, so it trails and swings with the body and settles on the floor
+    # instead of riding the torso like armour. [{node, stiffness?, damping?, gravity?, clearance?,
+    # hang?, group?}]; hinges of one group are linked so a split panel keeps its spacing.
+    hinge_rel, hinge_pivot = {}, []
+    for hc in cfg.get("hinges", []):
+        n = hc["node"]
+        i = by_name[n]
+        pts = []
+        stack = [i]
+        while stack:
+            k = stack.pop()
+            stack += g.nodes[k].get("children", [])
+            if "mesh" in g.nodes[k]:
+                for prim in g.json["meshes"][g.nodes[k]["mesh"]]["primitives"]:
+                    P = g.accessor(prim["attributes"]["POSITION"])
+                    pts.append((np.hstack([P, np.ones((len(P), 1))]) @ world[k].T)[:, :3])
+        pts = np.vstack(pts)
+        if hc.get("pivotNode"):
+            # The strap end: a named child mesh's centre (a quiver's upper rim, not its feathers);
+            # the free end is the far band of the piece from there.
+            k = by_name[hc["pivotNode"]]
+            P = g.accessor(g.json["meshes"][g.nodes[k]["mesh"]]["primitives"][0]["attributes"]["POSITION"])
+            head = (np.hstack([P, np.ones((len(P), 1))]) @ world[k].T)[:, :3].mean(0)
+            dist = np.linalg.norm(pts - head, axis=1)
+            tail = pts[dist >= 0.9 * dist.max()].mean(0)
+        else:
+            top, bottom = pts[:, 1].max(), pts[:, 1].min()
+            band = 0.1 * (top - bottom)
+            head = pts[pts[:, 1] >= top - band].mean(0)
+            tail = pts[pts[:, 1] <= bottom + band].mean(0)
+        k = i
+        while k in g.parent and g.nodes[g.parent[k]].get("name") not in mp:
+            k = g.parent[k]
+        parent_node = g.parent[k]
+        sk.add(n, mp[g.nodes[parent_node]["name"]]["bone"], head, tail, donor=None, follow=0.0, kind="cloth")
+        hinge_rel[n] = world[i][:3, 3] - head
+        # The pivot rides its parent rigidly, so the floor lift keeps it (less the piece's own
+        # clearance, its half thickness) on the floor: a body lying on its quiver rests on it.
+        hinge_pivot.append((parent_node, np.linalg.inv(world[parent_node]) @ np.append(head, 1.0), hc.get("pivotClearance", hc.get("clearance", 0.0))))
     sk.solve_frames(primary)
     if "legs" in cfg:
         # Explicit legs in node names ({chain: [...], foot?, toe?, pivot?}), e.g. a crawler's arm chains.
@@ -276,6 +317,11 @@ def main(work, cache):
             # Any other skeleton: the chains of the bones mapped as kind "leg".
             legs = leg_chains(sk, {v["bone"] for v in mp.values() if v.get("kind") == "leg"})
     plan = {"hips": hips, "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
+    for hc in cfg.get("hinges", []):
+        spring_chains.append(dict({k: v for k, v in hc.items() if k != "node"}, bones=[hc["node"]]))
+    # "colliders": [{node, radius}] capsules along mapped joints that spring chains and hinges
+    # cannot pass through (the torso a mantle hangs against, the legs a loincloth swings between).
+    colliders = [CapsuleCollider(sk, mp[c["node"]]["bone"], c["radius"]) for c in cfg.get("colliders", [])]
     for key in ("hipMode", "hipSource", "scale"):
         if key in cfg:
             plan[{"hipMode": "hip_mode", "hipSource": "hip_source"}.get(key, key)] = cfg[key]
@@ -350,6 +396,22 @@ def main(work, cache):
         axis = np.linalg.svd(pts - pts.mean(0), full_matrices=False)[2][0]
         prop_axis[fp["node"]] = normalize(rot_scale(prop_offset[fp["node"]])[0] @ axis)
 
+    # Rigid meshes (a staff, a quiver, a mantle plate on a joint) count for the floor too: a
+    # body lying on its back must not bury what it carries.
+    rigid = []
+    hinged = set()
+    for hc in cfg.get("hinges", []):
+        stack = [by_name[hc["node"]]]
+        while stack:
+            k = stack.pop()
+            hinged.add(k)
+            stack += g.nodes[k].get("children", [])
+    for ni, node in enumerate(g.nodes):
+        if "mesh" in node and "skin" not in node and ni not in hinged:
+            for prim in g.json["meshes"][node["mesh"]]["primitives"]:
+                Pp = g.accessor(prim["attributes"]["POSITION"])
+                rigid.append((ni, np.hstack([Pp, np.ones((len(Pp), 1))])))
+
     def skinned_min_y(wm):
         mats = np.array([wm(j) @ ibm[k] for k, j in enumerate(skin["joints"])])
         low = np.inf
@@ -358,6 +420,10 @@ def main(work, cache):
             for c in range(4):
                 ys += Wp[:, c] * np.einsum("nj,nj->n", mats[Jp[:, c], 1, :], Ph)
             low = min(low, ys.min())
+        for ni, Ph in rigid:
+            low = min(low, (Ph @ wm(ni)[1]).min())
+        for ni, p, clearance in hinge_pivot:
+            low = min(low, wm(ni)[1] @ p - clearance)
         return low
 
     # The floor is where the rest pose stands.
@@ -405,11 +471,12 @@ def main(work, cache):
                     w = float(np.clip((b2 - u) / (b2 - a), 0, 1))
                 for b in lay["bones"]:
                     res["L"][f][b] = slerp_matrix(res["L"][f][b], src[b], w)
-        if spring_chains:
-            # A clip may retune a chain: {"springs": {first node: {gravity, stiffness, ease, ...}}}.
-            tune = spec.get("springs") or {}
-            chains = [dict(c, base=c, **tune.get(c["bones"][0], {})) for c in spring_chains]
-            res = r.secondary(res, chains, [], floor=floor_y)
+        # A clip may retune a chain: {"springs": {first node: {gravity, stiffness, ease, ...}}}.
+        tune = spec.get("springs") or {}
+        chains = [dict(c, base=c, **tune.get(c["bones"][0], {})) for c in spring_chains]
+        unsprung = dict(res, L=[dict(L) for L in res["L"]])
+        if chains:
+            res = r.secondary(res, chains, colliders, floor=floor_y)
         tracks = {n: {"rotation": [], "translation": []} for n in keyed}
         pys = [p[1] for p in res["pelvis"]]
         print(f"{state}: hips y rest {sk[hips].head[1]:.3f} range {min(pys):.3f}..{max(pys):.3f} scale {r.scale:.3f} ikMiss {res['ikMiss']:.4f}", file=sys.stderr)
@@ -443,6 +510,12 @@ def main(work, cache):
                         Mh[:3, :3] = (turn @ Rh) * sh[None, :]
             for n, hand in props.items():
                 new_world[by_name[n]] = new_world[by_name[hand]] @ prop_offset[n]
+            for n, rel in hinge_rel.items():
+                D = R[n] @ sk[n].frame.T
+                Mw = world[by_name[n]].copy()
+                Mw[:3, :3] = D @ Mw[:3, :3]
+                Mw[:3, 3] = P[n] + D @ rel
+                new_world[by_name[n]] = Mw
             cache_w = {}
 
             def wmat(i):
@@ -484,16 +557,28 @@ def main(work, cache):
                 env = np.array([padded[i:i + 2 * span + 1].max() for i in range(len(need))])
                 padded = np.pad(env, span // 2, mode="edge")
                 lift = np.maximum(np.array([padded[i:i + span].mean() for i in range(len(need))]), need)
+                # The clip starts from the reference stance on the floor and blends in from the
+                # clip before it: the centred envelope must not raise the first frames. Before
+                # the first frame that needs a lift it eases in from zero.
+                first = int(np.argmax(need > 0))
+                if first > 0:
+                    u = np.arange(first) / first
+                    lift[:first] *= u * u * (3 - 2 * u)
                 res["pelvis"] = [p + np.array([0.0, l, 0.0]) for p, l in zip(res["pelvis"], lift)]
                 print(f"{state}: lying lift max {lift.max():.3f} end {lift[-1]:.3f}", file=sys.stderr)
 
-        for n in list(props) + held:
+        if chains and (spec.get("land") or spec.get("lift")):
+            # Land and lift moved the hips after the springs were solved: solve them again from
+            # the moved body, so a chain or hinge settles on the floor where the body finally lies.
+            res = r.secondary(dict(unsprung, pelvis=res["pelvis"]), chains, colliders, floor=floor_y)
+
+        for n in list(props) + held + list(hinge_rel):
             tracks[n] = {"rotation": [], "translation": []}
         for f in range(res["n"]):
             # A prop on its own bone (a sword under the root, posed by the studio's child-of
             # constraint in the native takes) rides its hand at the reference offset (frame_world).
             new_world, wmat = frame_world(f, res["pelvis"][f])
-            for n in keyed + list(props):
+            for n in keyed + list(props) + list(hinge_rel):
                 i = by_name[n]
                 parent_w = wmat(g.parent[i]) if i in g.parent else np.eye(4)
                 L = np.linalg.inv(parent_w) @ new_world[i]
@@ -518,7 +603,7 @@ def main(work, cache):
                 Rf = matrix_from_quat(tracks[n]["rotation"][f])
                 tracks[n]["rotation"][f] = quat_from_matrix(slerp_matrix(Rf, G, w))
         clip_out = {"name": state, "fps": res["fps"], "frames": res["n"], "donor": f"{spec['donor']}:{spec['clip']}", "tracks": {}}
-        for n in keyed + list(props) + held:
+        for n in keyed + list(props) + held + list(hinge_rel):
             i = by_name[n]
             q = continuous_quats(tracks[n]["rotation"])
             entry = {"rotation": [x.tolist() for x in q]}
