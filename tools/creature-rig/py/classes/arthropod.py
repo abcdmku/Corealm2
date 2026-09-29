@@ -317,7 +317,10 @@ def fit(body, donor, profile, source=None):
     sk = Skeleton()
     sk.add("root", None, np.array([mid_x, 0.0, hub_z]), np.array([mid_x, 0.1 * H, hub_z]), donor=lay["root"], follow=0.0, kind="root")
     sk.add("body", "root", hub, front_pt, donor=lay["hub"], follow=0.0)
-    if np.linalg.norm(rear_pt - hub) > 0.1 * S:
+    # profile "abdomen": false keeps the abdomen on the body bone: a beetle's elytra are one
+    # shell with the thorax, and a separate abdomen bone opens them like a clam when the
+    # donor's abdomen swings (the spider's Death) or the runtime Hit recoils it.
+    if profile.get("abdomen", True) and np.linalg.norm(rear_pt - hub) > 0.1 * S:
         sk.add("abdomen", "body", hub, rear_pt, donor=lay.get("abdomen"), follow=0.0)
 
     leg_follow = profile.get("legFollow", 0.0)

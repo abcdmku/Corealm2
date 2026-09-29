@@ -269,6 +269,7 @@ An asset config with a `studio` block keeps the production file's own rig, skin 
 | `referenceClip` | Optional native clip whose first frame is the rest the donor is matched to |
 | `replace` | Native clips dropped before the new ones are added |
 | `clips` | Clip specs as in a profile, plus `still` (nodes whose mapped subtrees keep their reference pose on their parent in this clip: a shield arm holding its guard), `land` (a Death whose final pose floats or sinks moves its hips by the floor gap, eased in with the fall), `scale` (for a clip whose donor drives neither hips nor legs), `layer` (`{clip, bones, donor?, rate?, hold?, release?}`: an arm pose held from another take), `flatProp` (`{hand, node, from, to?}`: a long prop turned level, or upright with `to: "up"`), `gripRelease` (`[start, end]` fractions over which the grip lets go) and `lift` (lift the hips out of the floor while lying). Without `clips`, the class profile's clips are used. |
+| `clips.<State>.remap` | `{node: donor bone or null}`: which donor bone drives a node in this clip only (null leaves the node undriven) |
 | `grip` | `{hand node: native clip}`: the hand keeps its local rotation from that clip's first frame |
 | `hipMotion` | The body's hip motion; a clip's `hipMotion` replaces it |
 | `propPoseClip` | A native clip whose keys pose props under joints (a bow string) in the new clips |

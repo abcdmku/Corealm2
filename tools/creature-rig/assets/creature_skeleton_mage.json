@@ -1,6 +1,7 @@
 {
  "class": "humanoid",
  "profile": "knight",
+ "notes": "Attack casts Spell_Simple_Enter/Shoot/Exit with the free left hand while the right arm keeps the Idle_Torch_Loop@mirror staff hold and its native grip, so the staff stays upright; the mirrored cast swung the staff flat across the body. Idle, Walk, Run, Hit and Death are UAL1 retargets with the same staff hold.",
  "studio": {
   "rootNode": "Bip001",
   "map": {
@@ -144,10 +145,20 @@
    "Attack": {
     "donor": "ual1",
     "clip": [
-     "Spell_Simple_Enter@mirror",
-     "Spell_Simple_Shoot@mirror",
-     "Spell_Simple_Exit@mirror"
-    ]
+     "Spell_Simple_Enter",
+     "Spell_Simple_Shoot",
+     "Spell_Simple_Exit"
+    ],
+    "layer": {
+     "donor": "ual1",
+     "clip": "Idle_Torch_Loop@mirror",
+     "bones": [
+      "clavicle_r",
+      "upperarm_r",
+      "lowerarm_r",
+      "hand_r"
+     ]
+    }
    },
    "Hit": {
     "donor": "ual1",

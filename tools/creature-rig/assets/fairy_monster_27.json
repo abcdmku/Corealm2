@@ -1,7 +1,7 @@
 {
  "class": "pixelius",
  "profile": "studio",
- "notes": "PixeliusVita FreeTrial Monster27 (armoured tailed brute). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster03 full pack (a heavy biped with ears), rest-relative to each body's own Idle. The spline_def tail is a floor-aware spring chain (it drags on the floor, so any rigid hold buries it) that goes limp in Death.",
+ "notes": "PixeliusVita FreeTrial Monster27 (armoured tailed brute). Native Idle and Walk kept; Hit and Death retargeted from the Monster03 full pack (a heavy biped with ears), rest-relative to each body's own Idle. The spline_def tail is a floor-aware spring chain (it drags on the floor, so any rigid hold buries it) that goes limp in Death. Run is the Monster01 Run (in place, upright like the native Walk) and Attack the Monster01 Attack03 (both claws spread, then a two-arm slam): the Monster03 Run laid the hunched body flat and airborne, and its Attack01 buried the body 0.09 m in the floor and turned it over.",
  "studio": {
   "rootNode": "root",
   "referenceClip": "Idle",
@@ -19,13 +19,15 @@
   ],
   "clips": {
    "Run": {
-    "donor": "pixelius_03",
-    "clip": "Monster03_Run",
+    "donor": "pixelius_01",
+    "clip": "Monster01_Run_InPlace",
+    "rest": "Monster01_Idle",
     "loop": true
    },
    "Attack": {
-    "donor": "pixelius_03",
-    "clip": "Monster03_Attack01"
+    "donor": "pixelius_01",
+    "clip": "Monster01_Attack03_InPlace",
+    "rest": "Monster01_Idle"
    },
    "Hit": {
     "donor": "pixelius_03",
