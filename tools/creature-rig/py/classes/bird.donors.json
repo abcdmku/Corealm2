@@ -41,6 +41,7 @@
       "strideScale": 0.5,
       "wings": false,
       "rigidPieces": false,
+      "distanceWeights": true,
       "hipMotion": 0.6,
       "clips": {
         "Idle": { "donor": "chicken", "clip": "Idle", "loop": true },
