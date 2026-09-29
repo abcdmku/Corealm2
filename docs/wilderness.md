@@ -36,7 +36,7 @@ The subsequent creature round completes fifteen regional designs:
 | Stone and cavern | Cairn Treader, Flint Mandible, Vault Custodian, Blind Cave Weaver, Scree Watcher |
 | Ash and undead | Kiln Marrow, Slag Crawler, Cinder Penitent, Grave Lantern, Veil Reaper |
 
-These combine rebuilt silhouettes, authored mesh additions and deformation changes with mapped wood, bone, stone, iron, slag and cloth. Their generators and durable atlas inputs live under `tools/biome-creatures/` and `art/biome-creatures/`. Existing source rigs and animations remain the starting point; timing, articulation and geometry were revised and tested in motion. They are not fifteen unrelated rigs modelled from scratch.
+These combine rebuilt silhouettes, authored mesh additions and deformation changes with mapped wood, bone, stone, iron, slag and cloth. Their durable atlas inputs live under `art/biome-creatures/`. The `tools/biome-creatures/` generators, which also retimed and re-keyed clips, were removed on 2026-09-29; the bodies are rebuilt by `tools/creature-rig/`. Existing source rigs and animations remain the starting point; timing, articulation and geometry were revised and tested in motion. They are not fifteen unrelated rigs modelled from scratch.
 
 All 54 ordinary nonstarter groups in the original areas use these accepted bodies. Seven original bosses also use the new bodies while retaining their combat families, phases, rewards and identities. Twelve starter animal groups and five human bandit groups remain. Source models are available separately in the feature lab for comparison.
 

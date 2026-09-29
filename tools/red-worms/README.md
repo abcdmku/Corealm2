@@ -2,9 +2,7 @@
 
 The owner's September 12 request adds the small model from their owned Worms FREE package to the grass outside Millfield's south wall. Their follow-up reduces the first preview by 20% and darkens the red again. The production scale is 9.6, about 1.75 m long after the tier-one silhouette factor.
 
-`python tools/red-worms/extract.py` stages the owned Unity archive. `node tools/red-worms/build.mjs` converts its 736-triangle small model, source skeleton, normal map and Pink_Red albedo. The albedo's linear multiplier is `[0.52, 0.26, 0.15]`. The pack's Look clip becomes Idle; segment waves and bend reactions supply explicitly authored Walk, Run, Attack, Hit and Death clips. These additions are not represented as source animations.
-
-Review the candidate through `tools/lab-session.ts --catalog test-results/red-worms/assets/candidates.json`, spawning `species:red_worm`. After browser and screenshot acceptance, `node tools/red-worms/promote.mjs` verifies the candidate hash and updates only that asset and its pack in the manifest.
+`python tools/red-worms/extract.py` stages the owned Unity archive. The pack ships only a Look take; the Walk, Run, Attack, Hit and Death that `build.mjs` keyed as sine waves were removed on 2026-09-29 with the other repo motion generators. The worm is rebuilt by `tools/creature-rig/` (retargeted from a snake donor, or hand-keyed in Blender if that fails).
 
 The accepted lab run used real attack-button input, recorded worm health 8 to 0 and player health 23 to 18, checked the native idle and authored movement, and reported no browser or game errors. Images and semantic journals stay disposable under `test-results/red-worms/`.
 
