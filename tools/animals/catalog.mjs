@@ -116,7 +116,7 @@ export const ANIMALS = [
     // Unity records Crab_idle as frames 110-111, a single held pose, and a one-frame clip is
     // degenerate enough that optimization drops it outright - the crab shipped with no Idle at
     // all and fell back to scuttling in place. Widened to eight frames so it survives.
-    substitutes: { idle: "crab_walk (the pack ships a single-frame idle, which optimizes to a 0 s clip)", walk: "crab_walk (crab_run does not close its cycle and popped 52 degrees per loop)", attack: "source run placeholder; rebuild supplies articulated pinch" },
+    substitutes: { idle: "crab_walk (the pack ships a single-frame idle, which optimizes to a 0 s clip)", walk: "crab_walk (crab_run does not close its cycle and popped 52 degrees per loop)", attack: "source run placeholder" },
   },
 
   // ---------------------------------------------------------------- water, fishing shoals

@@ -4,7 +4,7 @@
  * own Idle, Walk, Run, Attack01, GetHit and Die takes (Unity `.anim` curves from InPlace_Anim).
  *
  * The takes exist only as Unity `.anim` Hermite curves; they are sampled at 60 Hz with their own
- * tangents (tools/creature-expansion/monsters/mantis.mjs: parse + sample, keys optimised
+ * tangents (./unity-anim.mjs: parse + sample, keys optimised
  * losslessly), undoing Unity's FBX X mirror and metre conversion. The Unity `root` object keeps
  * its Y and loses XZ. Each body keeps its current production material (texture-only skin) and its
  * placement node (uniform scale and XZ centring); nothing else from the old file is used.
@@ -18,7 +18,7 @@ import {copyToDocument, createDefaultPropertyResolver, prune, weld} from '@gltf-
 import {readFile} from 'node:fs/promises';
 import {sourceLoader, readFbx} from '../wilderness-dragons/source.mjs';
 import {io, option, measure, stageCandidate, manifestEntry, PUBLIC} from '../wilderness-dragons/stage.mjs';
-import {convertMantisUnityAnimation} from '../creature-expansion/monsters/mantis.mjs';
+import {convertUnityAnimation} from './unity-anim.mjs';
 
 const SOURCE = 'test-results/creature-bodies/source/monster10/Assets/Stylized3DMonster/Monster10';
 const OUT = option('out', 'test-results/creature-motion/bodies');
@@ -47,8 +47,7 @@ for (const id of IDS) {
   for (const [name, file] of Object.entries(TAKES)) {
     // Unity wraps long flow mappings onto a second line after a comma; unwrap before parsing.
     const text = (await readFile(`${SOURCE}/Anim/InPlace_Anim/${file}.anim`, 'utf8')).replace(/,\r?\n[ \t]+/g, ', ');
-    const clip = convertMantisUnityAnimation(text, rig, name);
-    clip.userData = {};
+    const clip = convertUnityAnimation(text, rig, name);
     clips.push(clip);
   }
   rig.traverse(n => { if (n.isMesh) { n.material = new THREE.MeshStandardMaterial({name: 'placeholder'}); if (n.isSkinnedMesh) n.normalizeSkinWeights(); } });

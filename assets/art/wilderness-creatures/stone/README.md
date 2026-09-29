@@ -1,16 +1,7 @@
 # Accepted stone-family rebuilds
 
-Run from the repository root:
+These maps were applied by `tools/wilderness-creatures/families/stone.mjs`, removed on 2026-09-29 because it also wrapped the native takes in a per-frame ground lift. The shipped bodies keep these textures; their motion comes from the native importers listed in `tools/creature-motion/README.md`.
 
-```text
-node tools/wilderness-creatures/families/stone.mjs --native-grazer
-node tools/wilderness-creatures/families/stone.mjs --native-maw
-node tools/wilderness-creatures/families/stone.mjs --native-colossus
-node tools/wilderness-creatures/families/stone.mjs --native-kiln
-```
+Grazer uses the native Dungeon Mason DragonBoar with the warm albedo edit. Maw uses the native PixeliusVita Monster04. Colossus uses the retained Quaternius humanoid and weighted knight armour with separate material factors. Kiln uses the complete gavlig Lava Golem with cooled ash albedo and fine ember maps, without the rejected collar/rib grafts.
 
-These flags automatically apply the accepted material revisions. The former explicit `--warm-hide`, `--readable-stone` and `--cool-ash` switches remain harmless but are unnecessary. Outputs are isolated native catalogs under `test-results/wilderness-creatures/families/stone/`; none of these commands promotes assets.
-
-Grazer uses the native Dungeon Mason DragonBoar with the warm albedo edit. Maw uses the native PixeliusVita Monster04. Colossus uses the retained Quaternius humanoid and weighted knight armour with separate material factors. Kiln uses the complete gavlig Lava Golem with cooled ash albedo and fine ember maps, without the rejected collar/rib grafts. Native source licensing and hashes are retained in each candidate catalog.
-
-No-argument invocation refuses to build. The historical `--legacy-rejected` branch is archival and produces rejected constructed bodies; it must not be promoted. Early mineral atlases and earlier Kiln atlas versions in this directory document rejected iterations. The accepted Kiln maps are `kiln-cooled-albedo-v2.png` and `kiln-cooled-emission-v2.png`.
+Early mineral atlases and earlier Kiln atlas versions in this directory document rejected iterations. The accepted Kiln maps are `kiln-cooled-albedo-v2.png` and `kiln-cooled-emission-v2.png`.

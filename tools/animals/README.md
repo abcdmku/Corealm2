@@ -119,10 +119,10 @@ animal's albedo by about 0.26 and they all shipped as silhouettes. `stage-textur
 
 **The pack has no attack animation for ten of these animals.** Substituting the nearest authored
 motion is what the converter did first and it is simply wrong: a deer and a chicken "attacked" by
-lowering their heads and feeding at the ground, and the frog attacked by hopping a metre and a half
-away. `synthesiseAttack` in `convert.js` authors a real strike instead - the body keeps a slice of
-its own idle, the root bone lunges forward along +Z and pitches down into the blow, then recovers.
-Tuned per animal by `synthAttack` in `catalog.mjs`.
+lowering their heads and feeding at the ground. A synthesized root lunge replaced that for a while
+and was removed as well. Attacks are now a native take that reads as a strike (a peck cut from the
+Eat take) or a take retargeted from a studio donor by `splice-native.ts`; with neither, Attack is
+omitted.
 
 **Root motion has to be stripped by BONE, not by name.** The named rigs call their root
 `*_MAINSHJnt`; every `_exp` rig calls it `Bone001` or `Bone002`. A name regex covered the first

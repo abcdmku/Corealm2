@@ -1,5 +1,7 @@
 # Staged quadruped rebuild
 
+> Archive only. The scripts that authored or repaired these clips were removed on 2026-09-29; the repo no longer generates animation (see `tools/creature-motion/README.md`). Commands below no longer run.
+
 Bighorn revision 5, Tapir revision 4 and Lynx revision 6 GLBs remain staged outside public. Bighorn and Tapir bytes are frozen. Lynx source revision 7 is ready but has not been exported or viewed. No asset in this package is finally accepted or world-integrated.
 
 Root retained the Bighorn/Tapir direction after their hardware views and lifecycle proof. A fresh critic then rejected both against the final art bar: toy-like eyes, smooth materials, poorly integrated extremities, and insufficient anatomical definition. This disagreement remains explicit; root owns the promotion decision. `promotion-catalogue.json` contains the exact normalized frozen pair and file map, and the promotion dry-run passed. Do not apply it as an acceptance claim.

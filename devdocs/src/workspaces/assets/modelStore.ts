@@ -36,7 +36,7 @@ async function repoModels(request: { entry: AssetEntry } | { remove: string }): 
   }
 }
 
-/** The build's default contact point of an attack clip with no authored one (`tools/build-creature-expansion.ts`). */
+/** The default contact point of an attack clip with no authored one. */
 export const DEFAULT_CONTACT_NORMALIZED = 0.45;
 
 /**

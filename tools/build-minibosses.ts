@@ -242,7 +242,6 @@ async function main(): Promise<void> {
             name: clip.name,
             take: clip.take,
           })),
-          synthAttack: null,
         },
       );
 

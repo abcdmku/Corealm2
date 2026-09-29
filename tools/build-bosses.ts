@@ -196,7 +196,6 @@ async function main(): Promise<void> {
           emissiveIntensity: spec.emissiveIntensity,
           extraScale: spec.extraScale,
           clips,
-          synthAttack: null,
         },
       );
 

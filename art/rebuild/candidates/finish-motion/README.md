@@ -1,5 +1,7 @@
 # Creature motion candidates
 
+> Archive only. The scripts that authored or repaired these clips were removed on 2026-09-29; the repo no longer generates animation (see `tools/creature-motion/README.md`). Commands below no longer run.
+
 These candidates are retained as the reproducible package 03 handoff. Public GLBs and the production manifest were not changed. Offline contact acceptance is complete for the six frog/crab clips and scorpion Run. Production browser motion acceptance is pending, so every manifest proposal has `promotable: false`.
 
 ## Staging and wiring
