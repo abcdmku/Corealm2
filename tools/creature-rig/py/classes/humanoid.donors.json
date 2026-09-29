@@ -55,6 +55,7 @@
     },
     "brute": {
       "legs": true,
+      "clothSeam": 0.1,
       "clips": {
         "Idle": {
           "donor": "ual1",
@@ -119,6 +120,7 @@
     },
     "guard": {
       "legs": true,
+      "clothSeam": 0.1,
       "clips": {
         "Idle": {
           "donor": "ual1",
@@ -156,6 +158,7 @@
     },
     "bandit": {
       "legs": true,
+      "clothSeam": 0.1,
       "clips": {
         "Idle": {
           "donor": "ual1",
@@ -189,6 +192,7 @@
     },
     "undead": {
       "legs": true,
+      "clothSeam": 0.1,
       "clips": {
         "Idle": {
           "donor": "ual2",
@@ -218,6 +222,7 @@
     },
     "ogre": {
       "legs": true,
+      "clothSeam": 0.1,
       "hipMotion": 0.85,
       "clips": {
         "Idle": {
@@ -252,6 +257,7 @@
     },
     "caster": {
       "legs": true,
+      "clothSeam": 0.1,
       "clips": {
         "Idle": {
           "donor": "ual1",
@@ -323,6 +329,7 @@
     },
     "fae": {
       "legs": true,
+      "clothSeam": 0.1,
       "clips": {
         "Idle": {
           "donor": "ual1",
