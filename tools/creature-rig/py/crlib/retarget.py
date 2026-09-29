@@ -311,6 +311,10 @@ class Retargeter:
             if mode == "vertical":
                 offset = np.array([0.0, offset[1], 0.0])
             offset[1] += clearance * landing[f]
+            if spec.get("pelvisLift") is not None:
+                # A lying clip re-solved with its penetration lift (rig.py, profile lyingLegIk): the
+                # legs reach from the lifted hips towards the floor instead of floating with them.
+                offset[1] += spec["pelvisLift"][f]
             pelvis = sk[self.hips].head + offset
             R, P = forward(sk, L, self.hips, pelvis)
             if use_ik:
@@ -664,4 +668,5 @@ def lying_lift(skeleton, verts, joints, weights, result, hips, height):
     lift = np.array([padded[i:i + span].mean() for i in range(len(need))])
     lift = np.maximum(lift, need)
     result["pelvis"] = [p + np.array([0.0, l, 0.0]) for p, l in zip(result["pelvis"], lift)]
+    result["liftCurve"] = lift
     return float(lift[-1])

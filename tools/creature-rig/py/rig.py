@@ -146,20 +146,30 @@ def main(work, cache=None):
         r = retargeter(spec["donor"])
         if r.bind.unmapped or r.skipped_legs:
             notes.setdefault("donorGaps", {})[spec["donor"]] = {"unmapped": r.bind.unmapped, "legsWithoutIk": r.skipped_legs}
-        result = r.sample(state, spec)
-        for layer in spec.get("layers", []):
-            # A body subset (listed bones, or bones of the listed kinds) driven by another donor's
-            # take in the same clip, e.g. wings from a flyer on a body from a walker.
-            bones = [b.name for b in sk.bones if b.name in layer.get("bones", []) or b.kind in layer.get("kinds", [])]
-            lr = retargeter(layer["donor"])
-            overlay(result, lr.sample(state, {"loop": spec.get("loop"), **layer, "ik": False}), bones)
-        if plan["chains"]:
-            # A clip may retune spring chains: {"chains": {bone prefix: {gravity, stiffness, ...}}}
-            # (a dragon's wings drop onto the ground in its Death but hold their shape elsewhere).
-            tune = spec.get("chains") or {}
-            chains = [dict(c, base=c, **next((v for k, v in tune.items() if c["bones"][0].startswith(k)), {})) for c in plan["chains"]]
-            result = r.secondary(result, chains, plan["colliders"])
+        def build(spec):
+            result = r.sample(state, spec)
+            for layer in spec.get("layers", []):
+                # A body subset (listed bones, or bones of the listed kinds) driven by another donor's
+                # take in the same clip, e.g. wings from a flyer on a body from a walker.
+                bones = [b.name for b in sk.bones if b.name in layer.get("bones", []) or b.kind in layer.get("kinds", [])]
+                lr = retargeter(layer["donor"])
+                overlay(result, lr.sample(state, {"loop": spec.get("loop"), **layer, "ik": False}), bones)
+            if plan["chains"]:
+                # A clip may retune spring chains: {"chains": {bone prefix: {gravity, stiffness, ...}}}
+                # (a dragon's wings drop onto the ground in its Death but hold their shape elsewhere).
+                tune = spec.get("chains") or {}
+                chains = [dict(c, base=c, **next((v for k, v in tune.items() if c["bones"][0].startswith(k)), {})) for c in plan["chains"]]
+                result = r.secondary(result, chains, plan["colliders"])
+            return result
+
+        result = build(spec)
         lift = lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height)
+        if lift > 0 and profile.get("lyingLegIk") and spec.get("ik", True) and plan.get("legs"):
+            # The lift clears a thick torso, but the legs rose with it and float. Solve the leg IK
+            # again from the lifted hips, so the feet reach for the floor, then clear what is left.
+            curve = result["liftCurve"]
+            result = build({**spec, "pelvisLift": curve})
+            lift += lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height)
         root = sk.bones[0]
         pelvis_local = [(root.frame.T @ (p - root.head)).tolist() for p in result["pelvis"]]
         out_clips.append({
