@@ -778,12 +778,14 @@ def donor_map(sk, donor, profile):
     r = roles(donor, profile)
     if not r:
         return None
+    # The role of each primary donor bone: from a profile role map when the primary has one.
+    inverse = {bone: role for mapped in ((profile or {}).get("roles") or {}).values() for role, bone in mapped.items() if bone}
     out = {}
     for b in sk.bones:
         if not b.donor:
             continue
         m = ROLE.match(b.donor)
-        role = m.group("role") if m else None
+        role = m.group("role") if m else inverse.get(b.donor)
         if role in r:
             out[b.name] = r[role]
         elif role and role.endswith("_Knee") and role + "1" in r:

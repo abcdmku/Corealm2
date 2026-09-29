@@ -80,6 +80,9 @@
     },
     "usurper": {
       "ref": "dm_usurper"
+    },
+    "dm_boar": {
+      "ref": "dm_dragonboar"
     }
   },
   "profiles": {
@@ -445,6 +448,38 @@
           "wing1_r": "Wing01_R",
           "wing2_r": "Wing02_R",
           "wing3_r": "WingIndex01_R"
+        },
+        "dm_boar": {
+          "MAIN": null,
+          "ROOT": "Root",
+          "Spine_01": "Spine1",
+          "Spine_02": null,
+          "Spine_Top": "Chest",
+          "Neck_01": null,
+          "Neck_02": null,
+          "Neck_03": null,
+          "Neck_Top": "Head",
+          "l_FrontLeg_Hip": "L_UpperArm",
+          "l_FrontLeg_Knee": "L_LowerArm",
+          "l_FrontLeg_Ankle": "L_Hand",
+          "l_FrontLeg_Ball": "L_Fingers",
+          "r_FrontLeg_Hip": "R_UpperArm",
+          "r_FrontLeg_Knee": "R_RowerArm",
+          "r_FrontLeg_Ankle": "R_Hand",
+          "r_FrontLeg_Ball": "R_Fingers",
+          "l_HindLeg_Hip": "L_UpperLeg",
+          "l_HindLeg_Knee": "L_LowerLeg",
+          "l_HindLeg_Ankle": "L_Feet",
+          "l_HindLeg_Ball": "L_Toes",
+          "r_HindLeg_Hip": "R_UpperReg",
+          "r_HindLeg_Knee": "R_RowerReg",
+          "r_HindLeg_Ankle": "R_Feet",
+          "r_HindLeg_Ball": "R_Toes",
+          "Tail_01_01": "joint5",
+          "Tail_01_02": "joint6",
+          "Tail_01_03": "joint7",
+          "Tail_01_04": "joint8",
+          "Tail_01_05": "joint8"
         }
       },
       "wings": [
@@ -478,9 +513,19 @@
           "clip": "getHit"
         },
         "Death": {
-          "donor": "usurper",
+          "donor": "dm_boar",
           "clip": "Die",
-          "hipMode": "vertical"
+          "chains": {
+            "wing_": {
+              "gravity": 80.0,
+              "stiffness": 4.0,
+              "damping": 6.0,
+              "ease": [
+                0.3,
+                0.55
+              ]
+            }
+          }
         }
       }
     }
