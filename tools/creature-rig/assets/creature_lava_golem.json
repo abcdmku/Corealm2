@@ -1,1 +1,1 @@
-{ "class": "golem", "profile": "golem", "notes": "Blocked: the forearms and claws are separate mesh islands, so the voxel core ends the arms at the elbows and the fit mislabels limbs (also on a finer grid). Needs landmarks from a healthy source rig; none matches this mesh." }
+{ "class": "golem", "profile": "golemPunch", "notes": "The long arms hang with the claws at knee height; the zombie scratch lunge drags them through the floor, so the attack is the cross punch." }

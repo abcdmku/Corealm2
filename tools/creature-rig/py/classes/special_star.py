@@ -86,7 +86,7 @@ def _fitted(spec):
     from crlib.body import Body, load_blender_mesh
     import bpy
 
-    work = os.path.join(os.path.dirname(spec["_cache"]), "work", spec["asset"])
+    work = spec["_work"]
     bpy.ops.wm.read_factory_settings(use_empty=True)
     _, V, F = load_blender_mesh(os.path.join(work, "mesh.glb"))
     sk, _ = fit(Body(V, F))
@@ -179,3 +179,9 @@ def star_motion(spec):
             death.key(f"{sp['name']}_{part}", ks)
     death.chain(tail, [(0, (4, 0, 0)), (8, (12, 6, 0)), (30, (-16, 0, 0)), (46, (-34, 0, 0)), (64, (-34, 0, 0))], delay=3, gain=TAIL_GAIN)
     return rig, [idle, walk, run, attack, hit, death]
+
+
+def recoil_bones(sk, plan, profile):
+    """Everything past the core recoils: the ring's spines and the trailing spike. The root and
+    the core (the hover) stay on the base pose."""
+    return [b.name for b in sk.bones if b.name not in ("root", "core")]

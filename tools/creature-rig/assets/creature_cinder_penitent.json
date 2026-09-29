@@ -1,0 +1,23 @@
+{
+  "class": "humanoid",
+  "profile": "caster",
+  "profileOverrides": {
+    "landmarks": {
+      "tips": {
+        "head": [0.0, 1.95, 0.05],
+        "hand_l": [0.43, 0.86, 0.1], "hand_r": [-0.43, 0.86, 0.1],
+        "foot_l": [0.33, 0.02, 0.17], "foot_r": [-0.33, 0.02, 0.17]
+      },
+      "joints": {
+        "pelvis": [0.0, 0.95, 0.04],
+        "spine_01": [0.0, 1.08, 0.04], "spine_02": [0.0, 1.22, 0.03], "spine_03": [0.0, 1.36, 0.01],
+        "neck_01": [0.0, 1.52, 0.02], "Head": [0.0, 1.66, 0.05],
+        "upperarm_l": [0.3, 1.42, 0.0], "lowerarm_l": [0.4, 1.15, 0.0], "hand_l": [0.42, 0.97, 0.08],
+        "upperarm_r": [-0.3, 1.42, 0.0], "lowerarm_r": [-0.4, 1.15, 0.0], "hand_r": [-0.42, 0.97, 0.08],
+        "thigh_l": [0.14, 0.95, 0.04], "calf_l": [0.2, 0.52, 0.04], "foot_l": [0.29, 0.13, -0.02], "ball_l": [0.32, 0.04, 0.11],
+        "thigh_r": [-0.14, 0.95, 0.04], "calf_r": [-0.2, 0.52, 0.04], "foot_r": [-0.29, 0.13, -0.02], "ball_r": [-0.32, 0.04, 0.11]
+      }
+    }
+  },
+  "notes": "The floor-length robe fuses the legs and the hanging arms into one solid, so the landmarks cannot find the crotch or the hands; every joint and tip is given here."
+}

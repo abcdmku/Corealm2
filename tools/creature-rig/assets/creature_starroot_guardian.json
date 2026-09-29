@@ -1,1 +1,53 @@
-{ "class": "golem", "profile": "treant", "notes": "Blocked: the long arms reach the floor and the humanoid fit takes them as legs; the real legs become cape chains. Needs a fit that tells feet from knuckles (for example by the pelvis-to-tip path) or a healthy source rig." }
+{
+  "class": "golem",
+  "profile": "treant",
+  "profileOverrides": {
+    "clips": {
+      "Idle": {
+        "layers": [
+          {
+            "donor": "brute_arms",
+            "clip": "Idle",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      },
+      "Walk": {
+        "layers": [
+          {
+            "donor": "brute_arms",
+            "clip": "Walk",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      },
+      "Run": {
+        "layers": [
+          {
+            "donor": "brute_arms",
+            "clip": "Run",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      },
+      "Hit": {
+        "layers": [
+          {
+            "donor": "brute_arms",
+            "clip": "Hit",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "notes": "The arms reach the floor. A human donor hangs them straight down and drives the knuckles through the floor, so Idle, Walk, Run and Hit carry the arms out from the body with the authored brute_arms layers."
+}

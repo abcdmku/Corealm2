@@ -1,1 +1,14 @@
-{ "class": "golem", "profile": "treant", "notes": "Blocked: a mushroom cap over a petal robe; the fit reads the robe as cape panels over the legs and the cap rim as extremities. Not a clean biped for the humanoid fit." }
+{
+  "class": "golem",
+  "profile": "treant",
+  "profileOverrides": {
+    "yaw": 30,
+    "clips": {
+      "Attack": {
+        "donor": "ual1",
+        "clip": "Punch_Cross"
+      }
+    }
+  },
+  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The mesh is modelled turned 30 degrees towards its left (feet and hands both lie on a line 30 degrees off X), so it is fitted facing forward and the bind is turned to face +Z. The hook attack folds the cap onto the floor, so it swings a cross punch."
+}
