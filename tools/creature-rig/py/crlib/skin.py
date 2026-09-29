@@ -125,14 +125,15 @@ def transfer(src_verts, src_W, dst_verts, k=4):
     return W / np.maximum(W.sum(1, keepdims=True), 1e-12)
 
 
-def robust_heat(mesh_obj, skeleton, body, weld_above=0.02, island_above=0.5, proxy_above=0.15, replace_above=0.3):
+def robust_heat(mesh_obj, skeleton, body, weld_above=0.02, island_above=0.5, proxy_above=0.15, replace_above=0.3,
+                max_pieces=150):
     """Bone heat with three fallbacks. Returns (W, report).
 
     1. Heat on the render mesh.
     2. When more than weld_above of the vertices get no weight, heat again on a welded copy (near-
        duplicate vertices make Blender's system singular) and keep it if it covers more.
     3. When more than island_above is still missing, heat on each loose piece of the welded copy
-       on its own (one bad piece can sink the joined solve).
+       on its own (one bad piece can sink the joined solve), for up to max_pieces pieces.
     4. When more than proxy_above is still missing, heat on the outer surface of the filled voxel
        solid (double-walled and non-manifold shells), transferred to the render mesh by the nearest
        proxy surface points: to every vertex when more than replace_above was missing (a failed
@@ -153,7 +154,9 @@ def robust_heat(mesh_obj, skeleton, body, weld_above=0.02, island_above=0.5, pro
             # solve each loose piece of the welded mesh on its own.
             Wi = np.zeros_like(Ww)
             count, label = connected_components(adjacency(len(Vw), Fw), directed=False)
-            for c in range(count):
+            sizes = np.bincount(label, minlength=count)
+            # Hundreds of pieces (a sculpted plumage) would take minutes; the voxel proxy covers them.
+            for c in (range(count) if (sizes >= 30).sum() <= max_pieces else []):
                 rows = np.nonzero(label == c)[0]
                 if len(rows) < 30:
                     continue
@@ -209,17 +212,18 @@ def segment_distance(points, heads, tails):
     return np.linalg.norm(rel - t[..., None] * ab[None], axis=2)
 
 
-def rigid_islands(W, faces, n, verts=None, skeleton=None, dominance=0.7, max_share=0.08, reach=2.0):
+def rigid_islands(W, faces, n, verts=None, skeleton=None, dominance=0.7, max_share=0.08, reach=2.0, exclude=()):
     """Loose pieces (up to max_share of the mesh) whose heat weight is mostly one bone. Heat can
     hand a piece to a bone it is far from (a thigh plate to the hand hanging next to it); when the
     heat bone is more than reach times as far from the piece as the nearest bone, the piece goes
-    to the nearest bone instead. Returns (labels, {piece: bone}, {piece: (heat bone, nearest)})."""
+    to the nearest bone instead. Bones in exclude never take a rigid piece (a piece mostly on one
+    keeps its smooth weights). Returns (labels, {piece: bone}, {piece: (heat bone, nearest)})."""
     adj = adjacency(n, faces)
     count, label = connected_components(adj, directed=False)
     sizes = np.bincount(label, minlength=count)
     rigid, moved = {}, {}
     if skeleton is not None:
-        usable = np.array([b.deform and b.heat and b.kind != "cloth" for b in skeleton.bones])
+        usable = np.array([b.deform and b.heat and b.kind != "cloth" and b.name not in exclude for b in skeleton.bones])
         heads = np.array([b.head for b in skeleton.bones])
         tails = np.array([b.tail for b in skeleton.bones])
     for c in range(count):
@@ -230,6 +234,8 @@ def rigid_islands(W, faces, n, verts=None, skeleton=None, dominance=0.7, max_sha
             continue
         bone = int(np.argmax(mass))
         if mass[bone] / mass.sum() < dominance:
+            continue
+        if skeleton is not None and not usable[bone]:
             continue
         if skeleton is not None:
             dist = segment_distance(verts[label == c], heads, tails).mean(0)
@@ -260,10 +266,11 @@ def limit(W, count=4):
     return W / np.maximum(s, 1e-12)
 
 
-def skin(mesh_obj, verts, faces, skeleton, heat=None, passes=2, rigid=True, overrides=None):
+def skin(mesh_obj, verts, faces, skeleton, heat=None, passes=2, rigid=True, overrides=None, rigid_exclude=()):
     """Returns (weights N x bones, report). heat: bone-heat weights already computed for the
     first bones of the skeleton (class modules read them to find cloth before adding its bones).
-    overrides(W) may replace rows (cloth panels)."""
+    overrides(W) may replace rows (cloth panels). rigid_exclude: bones the loose-piece rule never
+    binds a piece to."""
     names = [b.name for b in skeleton.bones]
     W = bone_heat(mesh_obj, skeleton) if heat is None else heat
     if W.shape[1] < len(names):
@@ -274,7 +281,7 @@ def skin(mesh_obj, verts, faces, skeleton, heat=None, passes=2, rigid=True, over
     locked = np.zeros(len(verts), bool)
     report = {"heatMissingShare": heat_missing, "rigidPieces": {}}
     if rigid:
-        label, pieces, moved = rigid_islands(W, faces, len(verts), verts, skeleton)
+        label, pieces, moved = rigid_islands(W, faces, len(verts), verts, skeleton, exclude=set(rigid_exclude))
         report["rigidMoved"] = [{"vertices": int((label == c).sum()), "heat": names[a], "nearest": names[b]} for c, (a, b) in moved.items()]
         for c, bone in pieces.items():
             rows = label == c

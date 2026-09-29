@@ -105,13 +105,15 @@ HIP_MODES = ("legs", "vertical", "root")
 
 
 def normalize_leg(leg):
-    """A plan leg: {"chain": [bone, ...], "foot": bone|None, "toe": bone|None, "pivot": k|None}.
-    The chain bones are the segments the IK bends (hip to ankle); the effector is the foot's head,
-    or the last chain bone's tail when there is no foot (a spider's leg tip). The tuple form
-    (upper, lower, foot[, toe]) is a two-bone chain."""
+    """A plan leg: {"chain": [bone, ...], "foot": bone|None, "toe": bone|None, "pivot": k|None,
+    "scale": s|None}. The chain bones are the segments the IK bends (hip to ankle); the effector
+    is the foot's head, or the last chain bone's tail when there is no foot (a spider's leg tip).
+    scale multiplies the size ratio for this chain's effector path (a neck solved like a leg that
+    must not bury the beak). The tuple form (upper, lower, foot[, toe]) is a two-bone chain."""
     if isinstance(leg, dict):
-        return {"chain": list(leg["chain"]), "foot": leg.get("foot"), "toe": leg.get("toe"), "pivot": leg.get("pivot")}
-    return {"chain": list(leg[:2]), "foot": leg[2], "toe": leg[3] if len(leg) > 3 else None, "pivot": None}
+        return {"chain": list(leg["chain"]), "foot": leg.get("foot"), "toe": leg.get("toe"), "pivot": leg.get("pivot"),
+                "scale": float(leg.get("scale") or 1.0)}
+    return {"chain": list(leg[:2]), "foot": leg[2], "toe": leg[3] if len(leg) > 3 else None, "pivot": None, "scale": 1.0}
 
 
 def skin_points(skeleton, R, P, verts, joints, weights):
@@ -272,13 +274,17 @@ class Retargeter:
         else:
             hips_path = clip["heads"][:, d.index(source)] - d.rest_head[source]
         # Hover: the vertical offset also carries the donor's rest clearance above its ground (a
-        # flyer's rest hovers) times the size ratio, or a fixed clearance in metres. A clip whose
-        # donor lands (Death) comes down by that clearance on its own.
+        # flyer's rest hovers) times the size ratio, or a fixed clearance in metres.
         hover = spec.get("hover", self.plan.get("hover"))
         if hover is True:
             clearance = self.scale * max(self.rest_clearance(), 0.0)
         else:
             clearance = float(hover or 0.0)
+        # The clearance fades with the donor's hips height over its rest height, so a donor that
+        # falls to its ground (Death) lands the body on the floor even with a fixed clearance.
+        landing = np.ones(n)
+        if clearance > 0 and source is not None and d.rest_head[source][1] > 1e-6:
+            landing = np.clip(clip["heads"][:, d.index(source), 1] / d.rest_head[source][1], 0.0, 1.0)
         drift = np.zeros((n, 3))
         if spec.get("loop") or spec.get("in_place", True):
             # In place: remove the net horizontal travel (keep sway and bob).
@@ -304,7 +310,7 @@ class Retargeter:
             offset = self.scale * hip_motion * (hips_path[f] - drift[f])
             if mode == "vertical":
                 offset = np.array([0.0, offset[1], 0.0])
-            offset[1] += clearance
+            offset[1] += clearance * landing[f]
             pelvis = sk[self.hips].head + offset
             R, P = forward(sk, L, self.hips, pelvis)
             if use_ik:
@@ -408,7 +414,8 @@ class Retargeter:
         sk, d, bind = self.sk, self.donor, self.bind
         chain, foot, toe = leg["chain"], leg["foot"], leg["toe"]
         donor_now = self._donor_joints(leg, f, clip)[-1]
-        goal = leg["target_rest"][-1] + self.scale * (donor_now - leg["donor_rest"][-1] - drift)
+        scale = self.scale * leg["scale"]
+        goal = leg["target_rest"][-1] + scale * (donor_now - leg["donor_rest"][-1] - drift)
         goal = goal + np.array([0.0, lift, 0.0])
         J = [P[b] for b in chain]
         last = sk[chain[-1]]
@@ -446,7 +453,7 @@ class Retargeter:
         contact = lift < 0.01
         lateral = R[foot] @ (sk[foot].frame.T @ np.array([1.0, 0.0, 0.0]))
         offset = R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
-        swing = self._pitch((chain[0], 0), offset, lateral, sk[toe].head[1] + self.scale * max(lift, 0.0) - goal[1], contact)
+        swing = self._pitch((chain[0], 0), offset, lateral, sk[toe].head[1] + scale * max(lift, 0.0) - goal[1], contact)
         R[foot] = swing @ R[foot]
         R[toe] = swing @ R[toe]
         ball = goal + R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
@@ -455,7 +462,7 @@ class Retargeter:
         tip_lift = tip_d[1] - d.rest_tail[toe_d][1]
         lateral = R[toe] @ (sk[toe].frame.T @ np.array([1.0, 0.0, 0.0]))
         offset = R[toe] @ (sk[toe].frame.T @ (sk[toe].tail - sk[toe].head))
-        R[toe] = self._pitch((chain[0], 1), offset, lateral, sk[toe].tail[1] + self.scale * max(tip_lift, 0.0) - ball[1], tip_lift < 0.01) @ R[toe]
+        R[toe] = self._pitch((chain[0], 1), offset, lateral, sk[toe].tail[1] + scale * max(tip_lift, 0.0) - ball[1], tip_lift < 0.01) @ R[toe]
         self._heel_clamp(foot, toe, goal, R)
         return (R[foot], R[toe])
 

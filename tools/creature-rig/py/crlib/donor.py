@@ -166,6 +166,14 @@ def expand(spec, cache_dir):
     if "pack" in spec:
         expanded = PACKS[spec["pack"]](spec, cache_dir)
         spec = {**{k: v for k, v in spec.items() if k not in ("takes", "rig")}, **expanded}
+    if spec.get("subTakes"):
+        # Named slices of another take's file, in that file's own frames:
+        # {"PeckDown": {"take": "Eat", "range": [1, 20]}}.
+        takes = dict(spec.get("takes") or {})
+        for name, sub in spec["subTakes"].items():
+            base = takes[sub["take"]]
+            takes[name] = {**(base if isinstance(base, dict) else {"file": base}), "range": sub["range"]}
+        spec["takes"] = takes
     return spec
 
 
@@ -194,6 +202,23 @@ class Donor:
 
     def roots(self):
         return [b for b in self.bones if self.parent[b] is None]
+
+    def mirror(self, name):
+        """Adds <name>@mirror: the take mirrored across the donor's sagittal plane (x -> -x), with
+        bones ending _l and _r swapped. Needs a donor that faces +Z (set its yaw)."""
+        M = np.diag([-1.0, 1.0, 1.0])
+        src = self.clips[name]
+        swap = lambda b: b[:-2] + ("_r" if b.endswith("_l") else "_l") if b.endswith(("_l", "_r")) else b
+        idx = {b: i for i, b in enumerate(self.bones)}
+        F, H = src["frames"], src["heads"]
+        frames, heads = np.zeros_like(F), np.zeros_like(H)
+        for b, i in idx.items():
+            j = idx.get(swap(b), i)
+            Dp, Db = self.rest_frame[self.bones[j]], self.rest_frame[b]
+            frames[:, i] = np.array([orthonormalize(M @ F[f, j] @ Dp.T @ M @ Db) for f in range(len(F))])
+            heads[:, i] = H[:, j] @ M
+        self.clips[name + "@mirror"] = {"frames": frames, "heads": heads, "fps": src["fps"], "duration": src["duration"]}
+        return name + "@mirror"
 
     def chain(self, names):
         """Joins takes authored to follow each other; the shared boundary frame is kept once."""
@@ -338,6 +363,9 @@ def load(key, spec, cache_dir, clip_names=None):
     donor.report = {"file": rest_file, "fps": file_fps, "bones": len(donor.bones), "takes": available}
     if clip_names is None:
         clip_names = available
+    # "<take>@mirror" is the take mirrored left <-> right, made after sampling.
+    mirrored = sorted({n for n in clip_names if n.endswith("@mirror")})
+    clip_names = sorted({n[:-len("@mirror")] if n.endswith("@mirror") else n for n in clip_names})
     lookup = {t.lower(): t for t in takes} if takes else {}
     by_file = {}
     for name in clip_names:
@@ -380,6 +408,8 @@ def load(key, spec, cache_dir, clip_names=None):
     donor.report["misalignedDegrees"], donor.report["realigned"] = _align(donor)
     if spec.get("yaw"):
         _turn(donor, axis_angle([0.0, 1.0, 0.0], np.radians(spec["yaw"])))
+    for name in mirrored:
+        donor.mirror(name[:-len("@mirror")])
     donor.report["yaw"] = spec.get("yaw", 0)
     donor.map = spec.get("map")
     donor.source = spec.get("source")

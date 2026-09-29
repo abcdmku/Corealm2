@@ -97,7 +97,8 @@ def main(work, cache=None):
     heat, heat_report = robust_heat(obj, sk, body)
     extra = cls.cloth(body, sk, profile, heat) if hasattr(cls, "cloth") else None
     W, skin_report = skin(obj, V, F, sk, heat=heat, passes=profile.get("smoothPasses", 2),
-                          rigid=profile.get("rigidPieces", True), overrides=extra)
+                          rigid=profile.get("rigidPieces", True), overrides=extra,
+                          rigid_exclude=list(profile.get("rigidExclude", [])) + list(getattr(sk, "rigid_exclude", [])))
     order = np.argsort(-W, axis=1)[:, :4]
     skin_report.update(heat_report)
     weights = np.take_along_axis(W, order, axis=1)
