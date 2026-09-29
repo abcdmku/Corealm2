@@ -24,6 +24,14 @@ Root tools in this folder:
 - `contact-sheet.mjs <glb> [<glb> ...]` renders every clip at fixed phases from one framing with the
   floor drawn, so a candidate can be judged against the file it replaces. Look at it; numbers are not
   acceptance.
+- `self-intersection.mjs <glb> [<glb> ...] [--manifest] [--json out.json]` measures body parts
+  passing through each other in every clip (15 fps plus the last frame, CPU skinning, tri-tri
+  tests per bone part). Joint creases between nearby bones and contacts already present at bind or
+  Idle's first frame don't count. It prints each model's worst frame (clip, time, phase, part
+  pairs) ranked by the excess intersection-curve length as a percentage of the body diagonal;
+  `--manifest` runs the whole creature set in about a minute on all cores. It measures curve
+  length, not depth, so a folded wing lying flush or stacked wing blades score without showing.
+  Render flagged frames with `contact-sheet.mjs --views audit` and look before calling it a fault.
 - `measure.ts <glb>` reads gait speed (planted skinned vertices sliding back), ground height (Idle)
   and attack contact from the skinned mesh, for any rig.
 - `promote.ts --catalog <json> --ids a,b [--apply]` is root-only. It copies reviewed candidates into
