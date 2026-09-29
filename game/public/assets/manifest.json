@@ -23195,15 +23195,15 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 9861360,
-      "sha256": "4365257bbd7aaa811b851f2d7d625383a1f4c2ab51204e840501bba83dd41ea4",
+      "bytes": 9988088,
+      "sha256": "cb86bbbe9720e13efdbb90131e401b147e0d751a0286d4128509f9e62babc197",
       "size": {
-        "x": 1.744094,
+        "x": 1.469849,
         "y": 2.122559,
         "z": 0.812988
       },
       "base": {
-        "x": -0.870809,
+        "x": -0.732985,
         "y": 0,
         "z": -0.41748
       },
@@ -23212,6 +23212,7 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -23302,12 +23303,12 @@
       },
       "bounds": {
         "min": [
-          -0.870809018611908,
+          -0.7329850196838379,
           0,
           -0.4174799919128418
         ],
         "max": [
-          0.8732849955558777,
+          0.7368639707565308,
           2.122559070587158,
           0.3955079913139343
         ]
@@ -23318,24 +23319,28 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.329 m). Golem class (golem): quiet torso bones [\"spine_02\",\"spine_03\",\"neck_01\"], heel-pivot foot joints, foot blocks weighted to the foot, rigid plates {\"lowerarm_l\":279,\"lowerarm_r\":278}. Joint landmarks from the healthy Tripo source rig beetle+golem.glb.",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.389 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
-        "sourceFile": "C:\\Users\\Borg\\Downloads\\beetle+golem.glb",
-        "sourceSha256": "cf6b4cec907e1c81490bfc0270e7b3d9818474fcc32cb7a9883d5522ee66c236"
+        "sourceFile": "game/public/assets/models/creature/creature_beetle_golem.glb",
+        "sourceSha256": "4365257bbd7aaa811b851f2d7d625383a1f4c2ab51204e840501bba83dd41ea4"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.94498,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 0.776534,
+      "impliedRunMps": 4.391087,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -23482,17 +23487,17 @@
         "image-generated-texture",
         "polish-candidate"
       ],
-      "bytes": 17291780,
-      "sha256": "ebbcca1ddfd865337c575a6053b85e3003823fb15f6edbbfacbd0cd2a1bef12f",
+      "bytes": 17355800,
+      "sha256": "4e68c8553e27d4bd7afa3d6b7f26ae47d2a2b9e648beea40274fb4ded9c6989a",
       "size": {
-        "x": 1.2502404399392275,
-        "y": 2.395846249778107,
-        "z": 0.9348204712795176
+        "x": 1.945122,
+        "y": 2.2,
+        "z": 1.086585
       },
       "base": {
-        "x": -0.5841352056016368,
-        "y": 3.5400558014500594e-9,
-        "z": 0.03810567194546184
+        "x": -0.99939,
+        "y": 0,
+        "z": -0.543293
       },
       "groundY": 0,
       "triangles": 2519,
@@ -23507,9 +23512,6 @@
       "materials": [
         "Lava Golem layered stone"
       ],
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.9333333373069763,
-      "attackSeconds": 0.8666666746139526,
       "sourceProvenance": {
         "sourceFile": "game/public/assets/models/creature/creature_lava_golem.glb",
         "sourceSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
@@ -23949,401 +23951,45 @@
       },
       "bounds": {
         "min": [
-          -0.5841352056016368,
-          3.5400558014500594e-9,
-          0.03810567194546184
+          -0.9993903636932373,
+          0,
+          -0.543292760848999
         ],
         "max": [
-          0.6661052343375906,
-          2.3958462533181626,
-          0.9729261432249795
+          0.9457317590713501,
+          2.200000047683716,
+          0.5432927012443542
         ]
       },
-      "contactNormalized": 0.2604166666666667,
-      "gaitCalibration": {
-        "status": "uncalibrated",
-        "impliedWalkMps": null,
-        "impliedRunMps": null
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.668 m).",
+        "clipSeconds": {
+          "Idle": 2.5,
+          "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
+          "Attack": 1,
+          "Hit": 0.3333333432674408,
+          "Death": 2.4000000953674316
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_lava_golem.glb",
+        "sourceSha256": "ebbcca1ddfd865337c575a6053b85e3003823fb15f6edbbfacbd0cd2a1bef12f"
       },
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
-        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
-      },
-      "impliedWalkMps": 0.8475609269481588,
-      "impliedRunMps": 1.468867720576837,
-      "measuredGait": null,
-      "locomotionPolicy": null,
-      "motionRepair": {
-        "family": "humanoids-plain",
-        "sourceSha256": "1ad51fe4fd7a162d03efc2b2a629f6b8b35befa0264a6ee7e269774e74c4b881",
-        "sourceGitBlob": "7eafc9f689f21b5be9ecd25fd7ddf598585173b2",
-        "donors": [
-          {
-            "id": "animation_library_1",
-            "sourceGitBlob": "3877615fd24a4b365c46a4e47966ebfdc417958c",
-            "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "changes": [
-          "Refitted source anatomy and corrected distal-joint skin ownership.",
-          "Replaced every action with animation_library_1 studio sequences, using world-space rest alignment and in-place locomotion."
-        ],
-        "warnings": [
-          "Candidate requires devdocs review of every motion state."
-        ],
-        "provenance": {
-          "donor": "animation_library_1",
-          "nativeSkinPreserved": false,
-          "landmarks": {
-            "hips": [
-              0,
-              0.139,
-              0.07
-            ],
-            "spine": [
-              0,
-              0.159,
-              0.059
-            ],
-            "chest": [
-              0,
-              0.185,
-              0.063
-            ],
-            "upper": [
-              0,
-              0.21300000000000002,
-              0.07
-            ],
-            "neck": [
-              0,
-              0.237,
-              0.081
-            ],
-            "head": [
-              0,
-              0.253,
-              0.103
-            ],
-            "Leftshoulder": [
-              -0.03,
-              0.21800000000000003,
-              0.073
-            ],
-            "Leftarm": [
-              -0.05800000000000001,
-              0.21900000000000003,
-              0.076
-            ],
-            "Leftelbow": [
-              -0.09,
-              0.179,
-              0.063
-            ],
-            "Lefthand": [
-              -0.123,
-              0.122,
-              0.071
-            ],
-            "Lefthip": [
-              -0.016,
-              0.131,
-              0.082
-            ],
-            "Leftknee": [
-              -0.031,
-              0.079,
-              0.104
-            ],
-            "Leftfoot": [
-              -0.033,
-              0.031,
-              0.079
-            ],
-            "Lefttoe": [
-              -0.033,
-              0.015,
-              0.077
-            ],
-            "Rightshoulder": [
-              0.03,
-              0.21800000000000003,
-              0.073
-            ],
-            "Rightarm": [
-              0.05800000000000001,
-              0.21900000000000003,
-              0.076
-            ],
-            "Rightelbow": [
-              0.09,
-              0.179,
-              0.063
-            ],
-            "Righthand": [
-              0.123,
-              0.122,
-              0.071
-            ],
-            "Righthip": [
-              0.016,
-              0.131,
-              0.082
-            ],
-            "Rightknee": [
-              0.031,
-              0.079,
-              0.104
-            ],
-            "Rightfoot": [
-              0.033,
-              0.031,
-              0.079
-            ],
-            "Righttoe": [
-              0.033,
-              0.015,
-              0.077
-            ]
-          },
-          "weights": {
-            "vertices": 4722,
-            "dominantJointVertices": {
-              "mixamorigLeftFoot": 10,
-              "mixamorigLeftLeg": 53,
-              "mixamorigLeftToeBase": 1,
-              "mixamorigLeftUpLeg": 89,
-              "mixamorigHips": 101,
-              "mixamorigSpine": 34,
-              "mixamorigLeftShoulder": 257,
-              "mixamorigSpine1": 26,
-              "mixamorigRightUpLeg": 62,
-              "mixamorigRightShoulder": 226,
-              "mixamorigSpine2": 70,
-              "mixamorigRightLeg": 58,
-              "mixamorigRightFoot": 21,
-              "mixamorigLeftHand": 580,
-              "mixamorigLeftForeArm": 497,
-              "mixamorigLeftArm": 212,
-              "mixamorigNeck": 1162,
-              "mixamorigRightArm": 55,
-              "mixamorigRightForeArm": 26,
-              "mixamorigRightHand": 621,
-              "mixamorigRightToeBase": 8,
-              "mixamorigHead": 553
-            },
-            "method": "Source-fitted outgoing anatomical segments, adjacent-bone initialization, UV-seam welding and connected-surface weight relaxation; four normalized influences"
-          },
-          "retarget": {
-            "mappedJoints": 22,
-            "poseNodes": 27,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 0.9318254889340829,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle_Loop",
-                "sourceSeconds": 2.5,
-                "seconds": 2.5,
-                "samples": 76,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.13645345912949708,
-                "removedHorizontalTravel": [
-                  0.000022479403428602542,
-                  0,
-                  -0.00009489599141284667
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk_Loop",
-                "sourceSeconds": 1.3333333730697632,
-                "seconds": 1.3333333730697632,
-                "samples": 42,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.1231329496525369,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  2.935754013602213e-8
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Jog_Fwd_Loop",
-                "sourceSeconds": 0.9333333373069763,
-                "seconds": 0.9333333373069763,
-                "samples": 30,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.22943352822898877,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  2.823394307203024e-8
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Punch_Jab",
-                "sourceSeconds": 0.8666666746139526,
-                "seconds": 0.8666666746139526,
-                "samples": 28,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.12619040272247858,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit_Chest",
-                "sourceSeconds": 0.3333333432674408,
-                "seconds": 0.3333333432674408,
-                "samples": 12,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.13575689312096043,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death01",
-                "sourceSeconds": 2.4000000953674316,
-                "seconds": 3.100000095367432,
-                "samples": 75,
-                "loop": false,
-                "heldSeconds": 0.7,
-                "maximumGroundCorrection": 0.18523831101341012,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
-          },
-          "spectralUpperBodyOnly": false
-        },
-        "motion": {
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.9333333373069763,
-          "attackSeconds": 0.8666666746139526,
-          "contactNormalized": 0.2604166666666667,
-          "impliedWalkMps": 0.8475609269481588,
-          "impliedRunMps": 1.468867720576837
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.5,
-              "samples": 99,
-              "maximumVertexMotion": 0.08846948090020308,
-              "maximumSpanRatio": 0.9132944112353872,
-              "minimumSpanRatio": 0.903263260379706,
-              "loopSeam": 1.821084265201313e-8,
-              "edgeStretchP99": 1.3840836257976032,
-              "maximumEdgeStretch": 2.891063022443767,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 89,
-              "maximumVertexMotion": 0.8862095891293499,
-              "maximumSpanRatio": 0.930826070613649,
-              "minimumSpanRatio": 0.8820348996171229,
-              "loopSeam": 2.7498984699612188e-8,
-              "edgeStretchP99": 1.411243471738933,
-              "maximumEdgeStretch": 2.600183952311931,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.9333333373069763,
-              "samples": 65,
-              "maximumVertexMotion": 1.5979556707891482,
-              "maximumSpanRatio": 1.0062515707195803,
-              "minimumSpanRatio": 0.9050409413843705,
-              "loopSeam": 4.884987953315426e-8,
-              "edgeStretchP99": 1.7279822822307553,
-              "maximumEdgeStretch": 4.180862464573994,
-              "stretchedEdgeFraction": 0.0004898758981058132
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8666666746139526,
-              "samples": 61,
-              "maximumVertexMotion": 1.5607855588888833,
-              "maximumSpanRatio": 1.0795724895215737,
-              "minimumSpanRatio": 0.8761379383194327,
-              "loopSeam": null,
-              "edgeStretchP99": 1.583908426260794,
-              "maximumEdgeStretch": 3.817491935940435,
-              "stretchedEdgeFraction": 0.0011430437622468974
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.3333333432674408,
-              "samples": 29,
-              "maximumVertexMotion": 0.6601455263394634,
-              "maximumSpanRatio": 0.9730914449651237,
-              "minimumSpanRatio": 0.9124711619103184,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4506873138135268,
-              "maximumEdgeStretch": 2.818764794943649,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 3.1000001430511475,
-              "samples": 109,
-              "maximumVertexMotion": 2.9781994213796064,
-              "maximumSpanRatio": 1.1707209664474487,
-              "minimumSpanRatio": 0.8574204785793648,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7619760759756815,
-              "maximumEdgeStretch": 3.6625828736763206,
-              "stretchedEdgeFraction": 0.0008164598301763554
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T18:56:41.058Z",
-          "by": "codex",
-          "sha256": "ebbcca1ddfd865337c575a6053b85e3003823fb15f6edbbfacbd0cd2a1bef12f",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-plain-v3/creature_lava_golem/evidence.json"
-        }
-      }
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 1.379455,
+      "impliedRunMps": 5.937841,
+      "attackSeconds": 1,
+      "contactNormalized": 0.283
     },
     {
       "id": "creature_shale_elemental",
@@ -28052,8 +27698,8 @@
         "stone",
         "tripo"
       ],
-      "bytes": 16835388,
-      "sha256": "6aac315fb047bba7b9236c4de97c1c04ed9b3b4afc7209dd89531e75a515a76c",
+      "bytes": 16962132,
+      "sha256": "01ca41f67a27c46707ed81fa09a5f019f226da838c0de833a46c7268bc659361",
       "triangles": 6778,
       "size": {
         "x": 1.330581,
@@ -28069,6 +27715,7 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -28143,24 +27790,28 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.529 m). Golem class (golem): quiet torso bones [\"spine_02\",\"spine_03\",\"neck_01\"], heel-pivot foot joints, foot blocks weighted to the foot, rigid plates {}.",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.529 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_stone_golem.glb",
-        "sourceSha256": "c06f0153c1ae644064dabdef18a14cfd3caefa9343e89dccad0c5ee1765b6a70"
+        "sourceSha256": "6aac315fb047bba7b9236c4de97c1c04ed9b3b4afc7209dd89531e75a515a76c"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.934957,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 0.920299,
+      "impliedRunMps": 4.682067,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -31575,17 +31226,17 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 2217768,
-      "sha256": "b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe",
+      "bytes": 2288436,
+      "sha256": "b3f356516abb63ae21bfe3700384748c1dd58b39c038e941622d1c0117f88a20",
       "size": {
-        "x": 1.8768595479394115,
-        "y": 2.727933109297103,
-        "z": 1.1933293214553964
+        "x": 2.04301,
+        "y": 2.659669,
+        "z": 0.884243
       },
       "base": {
-        "x": -1.0017314459141715,
-        "y": -3.6932782907118725e-8,
-        "z": -0.5668906813979878
+        "x": -1.01752,
+        "y": 0,
+        "z": -0.537641
       },
       "groundY": 0,
       "triangles": 4771,
@@ -31600,10 +31251,6 @@
       "materials": [
         "tripo_mat_52f94696-1c7b-48cb-896f-b9bb6a1a1709"
       ],
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2,
-      "contactNormalized": 0.5833333333333334,
       "sourceProvenance": {
         "author": "User-supplied static Tripo tree humanoid; Corealm anatomical rig and animation",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/sources/tree-humanoid-user-original.glb",
@@ -31686,386 +31333,48 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "locomotionPolicy": "definition-speed; authored in-place biped gait",
       "bounds": {
         "min": [
-          -1.0017314459141715,
-          -3.6932782907118725e-8,
-          -0.5668906813979878
+          -1.0175199508666992,
+          0,
+          -0.5376409888267517
         ],
         "max": [
-          0.8751281020252399,
-          2.72793307236432,
-          0.6264386400574086
+          1.0254900455474854,
+          2.6596689224243164,
+          0.3466019928455353
         ]
       },
       "vertices": 7492,
-      "acceptanceEvidence": {
-        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
-        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Melee_Hook + Melee_Hook_Rec",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (golem/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.640 m).",
+        "clipSeconds": {
+          "Idle": 2.5,
+          "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
+          "Attack": 1.0666667222976685,
+          "Hit": 0.3333333432674408,
+          "Death": 2.4000000953674316
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_hollow_bough.glb",
+        "sourceSha256": "b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe"
       },
-      "impliedWalkMps": 1.0602499628989004,
-      "impliedRunMps": 6.059795906292209,
-      "motionRepair": {
-        "family": "humanoids-plain",
-        "sourceSha256": "2fb302f98fd497a31b0e956586d876fedb13584fc4a84ea617a1c08ccd293dba",
-        "sourceGitBlob": "6350273c218ba4ddaa2d73c0fa07eca5232d6593",
-        "donors": [
-          {
-            "id": "fantasy_monster_02",
-            "sourceGitBlob": "597bfaae08cc82b9bbd3e3a02d2b354685ac39f0",
-            "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
-          }
-        ],
-        "sourceMetadata": {
-          "is": "User-supplied branch-armed rootwood humanoid",
-          "walkClipSeconds": 1.18,
-          "runClipSeconds": 0.78,
-          "attackSeconds": 1.2,
-          "contactSeconds": 0.52,
-          "contactNormalized": 0.43333333333333335,
-          "contactBasis": "Right branch arm and trunk lunge reach at 0.52 s.",
-          "renderedIdleHeightMeters": 2.672364589941184,
-          "gaitCalibration": "uncalibrated; in-place clips",
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.5833333333333334,
-            "seconds": 1.1666666666666667
-          }
-        },
-        "changes": [
-          "Refitted source anatomy and corrected distal-joint skin ownership.",
-          "Replaced every action with fantasy_monster_02 studio sequences, using world-space rest alignment and in-place locomotion."
-        ],
-        "warnings": [
-          "Candidate requires devdocs review of every motion state."
-        ],
-        "provenance": {
-          "donor": "fantasy_monster_02",
-          "nativeSkinPreserved": false,
-          "landmarks": {
-            "hips": [
-              0,
-              0.28499999642372126,
-              0
-            ],
-            "spine": [
-              0,
-              0.3700000047683715,
-              0
-            ],
-            "upper": [
-              0,
-              0.49000000953674305,
-              0
-            ],
-            "neck": [
-              0,
-              0.6249999999999998,
-              0
-            ],
-            "head": [
-              0.039062467869371176,
-              0.6989261358976364,
-              0
-            ],
-            "Leftarm": [
-              0.0019531091675162315,
-              0.5961428806185722,
-              -0.16856453865766524
-            ],
-            "Leftelbow": [
-              -0.0029297256842255592,
-              0.6002542108297347,
-              -0.30012710541486737
-            ],
-            "Lefthand": [
-              -0.000976594164967537,
-              0.5714748993515968,
-              -0.42346701174974444
-            ],
-            "Lefthip": [
-              0,
-              0.2800000011920929,
-              -0.07000000029802322
-            ],
-            "Leftknee": [
-              6.162975822039155e-33,
-              0.14000000059604642,
-              -0.09000000357627866
-            ],
-            "Leftfoot": [
-              6.162975822039155e-33,
-              0.025000000372529044,
-              -0.10499999672174454
-            ],
-            "Rightarm": [
-              0.0029297093860805035,
-              0.5961428806185722,
-              0.16856453865766524
-            ],
-            "Rightelbow": [
-              0.00781251210719347,
-              0.6002542108297347,
-              0.30012710541486737
-            ],
-            "Righthand": [
-              0.016601573675870895,
-              0.5714748993515968,
-              0.42346701174974444
-            ],
-            "Righthip": [
-              0,
-              0.2800000011920929,
-              0.07000000029802322
-            ],
-            "Rightknee": [
-              -6.162975822039155e-33,
-              0.14000000059604642,
-              0.09000000357627866
-            ],
-            "Rightfoot": [
-              -6.162975822039155e-33,
-              0.025000000372529044,
-              0.10499999672174454
-            ]
-          },
-          "weights": {
-            "vertices": 7492,
-            "dominantJointVertices": {
-              "Foot_R": 225,
-              "Knee_L": 299,
-              "LowerTrunk": 633,
-              "Chest": 865,
-              "Shoulder_R": 686,
-              "Shoulder_L": 711,
-              "Elbow_R": 390,
-              "Elbow_L": 344,
-              "Neck": 780,
-              "Crown": 985,
-              "Pelvis": 182,
-              "Foot_L": 225,
-              "Knee_R": 258,
-              "Hip_L": 297,
-              "Hip_R": 356,
-              "Wrist_R": 121,
-              "Wrist_L": 135
-            },
-            "method": "Source-fitted outgoing anatomical segments, adjacent-bone initialization, UV-seam welding and connected-surface weight relaxation; four normalized influences"
-          },
-          "retarget": {
-            "mappedJoints": 17,
-            "poseNodes": 25,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 0.9017021083783058,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle",
-                "sourceSeconds": 2.9666666984558105,
-                "seconds": 2.9666666984558105,
-                "samples": 91,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.12957496826860745,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk",
-                "sourceSeconds": 1.3333333730697632,
-                "seconds": 1.3333333730697632,
-                "samples": 42,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.1481189509396143,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Run",
-                "sourceSeconds": 0.6666666865348816,
-                "seconds": 0.6666666865348816,
-                "samples": 22,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.14623474947823198,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Attack",
-                "sourceSeconds": 2,
-                "seconds": 2,
-                "samples": 61,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.21166591470041016,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit",
-                "sourceSeconds": 0.6666666865348816,
-                "seconds": 0.6666666865348816,
-                "samples": 22,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.13447665843370993,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death",
-                "sourceSeconds": 1,
-                "seconds": 1.65,
-                "samples": 32,
-                "loop": false,
-                "heldSeconds": 0.65,
-                "maximumGroundCorrection": 0.5040260658072397,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
-          },
-          "spectralUpperBodyOnly": false
-        },
-        "motion": {
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.6666666865348816,
-          "attackSeconds": 2,
-          "contactNormalized": 0.5833333333333334,
-          "impliedWalkMps": 1.0602499628989004,
-          "impliedRunMps": 6.059795906292209
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Attack: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.9666666984558105,
-              "samples": 120,
-              "maximumVertexMotion": 0.2615741564142074,
-              "maximumSpanRatio": 0.8241234922914482,
-              "minimumSpanRatio": 0.8074462361643565,
-              "loopSeam": 1.4354748885560813e-8,
-              "edgeStretchP99": 1.93925369187096,
-              "maximumEdgeStretch": 5.543200622658357,
-              "stretchedEdgeFraction": 0.0017607265313687333
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 89,
-              "maximumVertexMotion": 1.1662270493099591,
-              "maximumSpanRatio": 0.82329935484036,
-              "minimumSpanRatio": 0.7718377726788622,
-              "loopSeam": 1.7437910665412846e-8,
-              "edgeStretchP99": 1.9063196206834314,
-              "maximumEdgeStretch": 6.466859873521297,
-              "stretchedEdgeFraction": 0.0025020850708924102
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6666666865348816,
-              "samples": 49,
-              "maximumVertexMotion": 2.023175017660314,
-              "maximumSpanRatio": 0.9056086021709555,
-              "minimumSpanRatio": 0.8043846649358759,
-              "loopSeam": 2.0093846262190448e-8,
-              "edgeStretchP99": 1.9775308442880841,
-              "maximumEdgeStretch": 7.877666646478694,
-              "stretchedEdgeFraction": 0.004262811602261144
-            },
-            {
-              "name": "Attack",
-              "seconds": 2,
-              "samples": 91,
-              "maximumVertexMotion": 2.2833284040511472,
-              "maximumSpanRatio": 0.9208600152705718,
-              "minimumSpanRatio": 0.7809563644070231,
-              "loopSeam": null,
-              "edgeStretchP99": 2.2445501224775954,
-              "maximumEdgeStretch": 10.351790627835616,
-              "stretchedEdgeFraction": 0.005467519228987119
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.6666666865348816,
-              "samples": 49,
-              "maximumVertexMotion": 0.9011661661997824,
-              "maximumSpanRatio": 0.8639679860687759,
-              "minimumSpanRatio": 0.8210067972286319,
-              "loopSeam": null,
-              "edgeStretchP99": 1.9532558861805702,
-              "maximumEdgeStretch": 5.794168189153981,
-              "stretchedEdgeFraction": 0.00259475488833287
-            },
-            {
-              "name": "Death",
-              "seconds": 1.649999976158142,
-              "samples": 91,
-              "maximumVertexMotion": 2.8676843935245753,
-              "maximumSpanRatio": 1.030381762692092,
-              "minimumSpanRatio": 0.7720938685421642,
-              "loopSeam": null,
-              "edgeStretchP99": 2.2456424776315895,
-              "maximumEdgeStretch": 12.17845525481752,
-              "stretchedEdgeFraction": 0.006486887220832175
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:32:52.364Z",
-          "by": "codex",
-          "sha256": "b4e0392ce545cf0e74b6c0c07d2018cd5ae7687d87a948b9bdedf02c510a4cfe",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_hollow_bough/evidence.json"
-        }
-      }
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 1.325022,
+      "impliedRunMps": 6.57285,
+      "attackSeconds": 1.066667,
+      "contactNormalized": 0.25
     },
     {
       "id": "creature_pallid_shade",
@@ -34557,29 +33866,29 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 8970476,
-      "sha256": "a69e8135f66b3cccd7535b95f079870eb7ede9e1ec795ba8e8626704f732c754",
+      "bytes": 9176468,
+      "sha256": "54546d99bee29e71d273fde5a6f5214113941373c99cfb8c3baa3f97803fe8d2",
       "triangles": 4612,
       "size": {
-        "x": 0.9746567956123663,
-        "y": 1.9607541210608843,
-        "z": 0.7580314044470171
+        "x": 0.972154,
+        "y": 2,
+        "z": 0.512946
       },
       "base": {
-        "x": -0.503549854544329,
-        "y": -2.6807864406577327e-8,
-        "z": -0.33079826606411594
+        "x": -0.486077,
+        "y": 0,
+        "z": -0.255496
       },
       "bounds": {
         "min": [
-          -0.503549854544329,
-          -2.6807864406577327e-8,
-          -0.33079826606411594
+          -0.4860772490501404,
+          0,
+          -0.25549593567848206
         ],
         "max": [
-          0.4711069410680373,
-          1.96075409425302,
-          0.4272331383829011
+          0.48607712984085083,
+          2,
+          0.25744983553886414
         ]
       },
       "groundY": 0,
@@ -34789,667 +34098,35 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.9081012658712565,
-      "impliedRunMps": 4.8874946483641235,
-      "contactNormalized": 0.25833333333333336,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.9333333373069763,
-      "attackSeconds": 0.8666666746139526,
-      "motionRepair": {
-        "family": "humanoids-colon",
-        "sourceSha256": "e320ed21c160e5b38c0b9f52ed8caaf1f6418c3c6c05ae7b2d8a32c2fe4ae815",
-        "sourceGitBlob": "c646a6e63a9654927b2a4b66d98121eaf2f7f969",
-        "donors": [
-          {
-            "id": "animation_library_1",
-            "sourceGitBlob": "3877615fd24a4b365c46a4e47966ebfdc417958c",
-            "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "changes": [
-          "Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.",
-          "Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.",
-          "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
-        ],
-        "provenance": {
-          "anatomy": {
-            "fittedPivots": {
-              "mixamorig:Hips": [
-                0,
-                0.9804787419082116,
-                0.04001954048604946
-              ],
-              "mixamorig:Spine": [
-                0,
-                1.1205471336093848,
-                0.04001954048604946
-              ],
-              "mixamorig:Spine1": [
-                0,
-                1.2906301806750948,
-                0.03001465536453709
-              ],
-              "mixamorig:Spine2": [
-                0,
-                1.4707181128623175,
-                0.010004885121512364
-              ],
-              "mixamorig:Neck": [
-                0,
-                1.6107865045634906,
-                0.010004885121512364
-              ],
-              "mixamorig:Head": [
-                0,
-                1.7008304706571018,
-                0.03001465536453709
-              ],
-              "mixamorig:LeftShoulder": [
-                0.18008793218722255,
-                1.5307474235913916,
-                0.010004885121512364
-              ],
-              "mixamorig:LeftArm": [
-                0.29014166852385853,
-                1.490727883105342,
-                0.010004885121512364
-              ],
-              "mixamorig:LeftForeArm": [
-                0.39419247378758715,
-                1.210591099702996,
-                0.010004885121512364
-              ],
-              "mixamorig:LeftHand": [
-                0.4302100602250316,
-                0.9504640865436745,
-                0.03001465536453709
-              ],
-              "mixamorig:LeftUpLeg": [
-                0.2061006335031547,
-                0.9604689716651869,
-                0.010004885121512364
-              ],
-              "mixamorig:LeftLeg": [
-                0.27013189828083384,
-                0.5302589114401552,
-                0.010004885121512364
-              ],
-              "mixamorig:LeftFoot": [
-                0.28613971447525355,
-                0.15007327682268545,
-                -0.010004885121512364
-              ],
-              "mixamorig:LeftToeBase": [
-                0.28613971447525355,
-                0.07003419585058655,
-                0.10405080526372858
-              ],
-              "mixamorig:LeftHandIndex1": [
-                0.4351357042770277,
-                0.9148899906125919,
-                0.0007354918934731135
-              ],
-              "mixamorig:LeftHandIndex2": [
-                0.4400613483290237,
-                0.8793158946815092,
-                0.0034719608112487015
-              ],
-              "mixamorig:LeftHandIndex3": [
-                0.44498699238101974,
-                0.8437417987504265,
-                0.006208429729024289
-              ],
-              "mixamorig:LeftHandIndex4": [
-                0.4499126364330159,
-                0.8081677028193439,
-                0.008944898646799877
-              ],
-              "mixamorig:LeftHandMiddle1": [
-                0.4351357042770277,
-                0.9148899906125919,
-                0.03275112428231268
-              ],
-              "mixamorig:LeftHandMiddle2": [
-                0.4400613483290237,
-                0.8793158946815092,
-                0.03548759320008826
-              ],
-              "mixamorig:LeftHandMiddle3": [
-                0.44498699238101974,
-                0.8437417987504265,
-                0.038224062117863854
-              ],
-              "mixamorig:LeftHandMiddle4": [
-                0.4499126364330159,
-                0.8081677028193439,
-                0.040960531035639444
-              ],
-              "mixamorig:LeftHandRing1": [
-                0.4351357042770277,
-                0.9148899906125919,
-                0.06476675667115224
-              ],
-              "mixamorig:LeftHandRing2": [
-                0.4400613483290237,
-                0.8793158946815092,
-                0.06750322558892782
-              ],
-              "mixamorig:LeftHandRing3": [
-                0.44498699238101974,
-                0.8437417987504265,
-                0.07023969450670342
-              ],
-              "mixamorig:LeftHandRing4": [
-                0.4499126364330159,
-                0.8081677028193439,
-                0.072976163424479
-              ],
-              "mixamorig:LeftHandPinky1": [
-                0.4351357042770277,
-                0.9148899906125919,
-                0.08877848096278192
-              ],
-              "mixamorig:LeftHandPinky2": [
-                0.4400613483290237,
-                0.8793158946815092,
-                0.09151494988055751
-              ],
-              "mixamorig:LeftHandPinky3": [
-                0.44498699238101974,
-                0.8437417987504265,
-                0.09425141879833308
-              ],
-              "mixamorig:LeftHandPinky4": [
-                0.4499126364330159,
-                0.8081677028193439,
-                0.09698788771610867
-              ],
-              "mixamorig:LeftHandThumb1": [
-                0.4351357042770277,
-                0.9148899906125919,
-                -0.03128014049536645
-              ],
-              "mixamorig:LeftHandThumb2": [
-                0.4400613483290237,
-                0.8793158946815092,
-                -0.028543671577590864
-              ],
-              "mixamorig:LeftHandThumb3": [
-                0.44498699238101974,
-                0.8437417987504265,
-                -0.025807202659815273
-              ],
-              "mixamorig:LeftHandThumb4": [
-                0.4499126364330159,
-                0.8081677028193439,
-                -0.023070733742039686
-              ],
-              "mixamorig:LeftToe_End": [
-                0.28613971447525355,
-                0.07003419585058655,
-                0.18408988623582748
-              ],
-              "mixamorig:RightShoulder": [
-                -0.18008793218722255,
-                1.5307474235913916,
-                0.010004885121512364
-              ],
-              "mixamorig:RightArm": [
-                -0.29014166852385853,
-                1.490727883105342,
-                0.010004885121512364
-              ],
-              "mixamorig:RightForeArm": [
-                -0.39419247378758715,
-                1.210591099702996,
-                0.010004885121512364
-              ],
-              "mixamorig:RightHand": [
-                -0.4302100602250316,
-                0.9504640865436745,
-                0.03001465536453709
-              ],
-              "mixamorig:RightUpLeg": [
-                -0.2061006335031547,
-                0.9604689716651869,
-                0.010004885121512364
-              ],
-              "mixamorig:RightLeg": [
-                -0.27013189828083384,
-                0.5302589114401552,
-                0.010004885121512364
-              ],
-              "mixamorig:RightFoot": [
-                -0.28613971447525355,
-                0.15007327682268545,
-                -0.010004885121512364
-              ],
-              "mixamorig:RightToeBase": [
-                -0.28613971447525355,
-                0.07003419585058655,
-                0.10405080526372858
-              ],
-              "mixamorig:RightHandIndex1": [
-                -0.4351357042770277,
-                0.9148899906125919,
-                0.0007354918934731135
-              ],
-              "mixamorig:RightHandIndex2": [
-                -0.4400613483290237,
-                0.8793158946815092,
-                0.0034719608112487015
-              ],
-              "mixamorig:RightHandIndex3": [
-                -0.44498699238101974,
-                0.8437417987504265,
-                0.006208429729024289
-              ],
-              "mixamorig:RightHandIndex4": [
-                -0.4499126364330159,
-                0.8081677028193439,
-                0.008944898646799877
-              ],
-              "mixamorig:RightHandMiddle1": [
-                -0.4351357042770277,
-                0.9148899906125919,
-                0.03275112428231268
-              ],
-              "mixamorig:RightHandMiddle2": [
-                -0.4400613483290237,
-                0.8793158946815092,
-                0.03548759320008826
-              ],
-              "mixamorig:RightHandMiddle3": [
-                -0.44498699238101974,
-                0.8437417987504265,
-                0.038224062117863854
-              ],
-              "mixamorig:RightHandMiddle4": [
-                -0.4499126364330159,
-                0.8081677028193439,
-                0.040960531035639444
-              ],
-              "mixamorig:RightHandRing1": [
-                -0.4351357042770277,
-                0.9148899906125919,
-                0.06476675667115224
-              ],
-              "mixamorig:RightHandRing2": [
-                -0.4400613483290237,
-                0.8793158946815092,
-                0.06750322558892782
-              ],
-              "mixamorig:RightHandRing3": [
-                -0.44498699238101974,
-                0.8437417987504265,
-                0.07023969450670342
-              ],
-              "mixamorig:RightHandRing4": [
-                -0.4499126364330159,
-                0.8081677028193439,
-                0.072976163424479
-              ],
-              "mixamorig:RightHandPinky1": [
-                -0.4351357042770277,
-                0.9148899906125919,
-                0.08877848096278192
-              ],
-              "mixamorig:RightHandPinky2": [
-                -0.4400613483290237,
-                0.8793158946815092,
-                0.09151494988055751
-              ],
-              "mixamorig:RightHandPinky3": [
-                -0.44498699238101974,
-                0.8437417987504265,
-                0.09425141879833308
-              ],
-              "mixamorig:RightHandPinky4": [
-                -0.4499126364330159,
-                0.8081677028193439,
-                0.09698788771610867
-              ],
-              "mixamorig:RightHandThumb1": [
-                -0.4351357042770277,
-                0.9148899906125919,
-                -0.03128014049536645
-              ],
-              "mixamorig:RightHandThumb2": [
-                -0.4400613483290237,
-                0.8793158946815092,
-                -0.028543671577590864
-              ],
-              "mixamorig:RightHandThumb3": [
-                -0.44498699238101974,
-                0.8437417987504265,
-                -0.025807202659815273
-              ],
-              "mixamorig:RightHandThumb4": [
-                -0.4499126364330159,
-                0.8081677028193439,
-                -0.023070733742039686
-              ],
-              "mixamorig:RightToe_End": [
-                -0.28613971447525355,
-                0.07003419585058655,
-                0.18408988623582748
-              ],
-              "mixamorig:HeadTop_End": [
-                0,
-                1.9609574838164232,
-                0.03001465536453709
-              ]
-            },
-            "method": "Measured anatomical pivots, source mesh and UVs preserved, matching inverse bind reconstruction"
-          },
-          "weights": {
-            "method": "Anatomical arm/leg/torso ownership with mesh-topology smoothing",
-            "dominantVertices": {
-              "RightToeBase": 42,
-              "RightFoot": 124,
-              "RightLeg": 254,
-              "RightUpLeg": 82,
-              "Hips": 64,
-              "Spine": 250,
-              "LeftUpLeg": 100,
-              "LeftLeg": 218,
-              "LeftToeBase": 36,
-              "Spine1": 246,
-              "Spine2": 131,
-              "Neck": 151,
-              "Head": 527,
-              "LeftShoulder": 10,
-              "LeftArm": 83,
-              "RightArm": 89,
-              "RightShoulder": 10,
-              "RightHand": 180,
-              "RightForeArm": 122,
-              "LeftFoot": 133,
-              "LeftHand": 126,
-              "LeftForeArm": 170
-            }
-          },
-          "retarget": {
-            "mappedJoints": 52,
-            "poseNodes": 70,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 0.983378497729236,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle_Loop",
-                "sourceSeconds": 2.5,
-                "seconds": 2.5,
-                "samples": 76,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.007586147639263149,
-                "removedHorizontalTravel": [
-                  0.000023723070720844345,
-                  0,
-                  -0.00010014608806509368
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk_Loop",
-                "sourceSeconds": 1.3333333730697632,
-                "seconds": 1.3333333730697632,
-                "samples": 42,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.020381477057959944,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  3.09817385967958e-8
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Jog_Fwd_Loop",
-                "sourceSeconds": 0.9333333373069763,
-                "seconds": 0.9333333373069763,
-                "samples": 30,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.2740036829841949,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  2.9795978810266196e-8
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Punch_Jab",
-                "sourceSeconds": 0.8666666746139526,
-                "seconds": 0.8666666746139526,
-                "samples": 28,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.03282760876928797,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit_Chest",
-                "sourceSeconds": 0.3333333432674408,
-                "seconds": 0.3333333432674408,
-                "samples": 12,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.023139139782519528,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death01",
-                "sourceSeconds": 2.4000000953674316,
-                "seconds": 1.5,
-                "samples": 34,
-                "loop": false,
-                "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.07668655552832274,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips",
-            "bindBounds": {
-              "min": [
-                -0.4860771749597237,
-                7.082625846846332e-10,
-                -0.2564728826877392
-              ],
-              "max": [
-                0.48607719374480735,
-                1.9999998799172902,
-                0.2564728816495122
-              ]
-            },
-            "measurements": {
-              "walk": {
-                "metresPerSecond": 0.9081012658712565,
-                "stanceSamples": 157,
-                "feet": [
-                  {
-                    "side": "Left",
-                    "metresPerSecond": 0.9240026226517623,
-                    "stanceSamples": 81,
-                    "contactIntervals": 92,
-                    "minimumVelocity": -0.23225596622959907,
-                    "maximumVelocity": 1.0422994863026684
-                  },
-                  {
-                    "side": "Right",
-                    "metresPerSecond": 0.9056681616061942,
-                    "stanceSamples": 76,
-                    "contactIntervals": 84,
-                    "minimumVelocity": -0.25387472955212165,
-                    "maximumVelocity": 0.9300056359243312
-                  }
-                ],
-                "sideRatio": 1.0202441267373825,
-                "method": "Target backward-foot speed during native donor ankle contact phases, sourceY bottom12% of per-clip range"
-              },
-              "run": {
-                "metresPerSecond": 4.8874946483641235,
-                "stanceSamples": 71,
-                "feet": [
-                  {
-                    "side": "Left",
-                    "metresPerSecond": 4.944739890579674,
-                    "stanceSamples": 38,
-                    "contactIntervals": 38,
-                    "minimumVelocity": 3.0210326588547978,
-                    "maximumVelocity": 6.201951600699123
-                  },
-                  {
-                    "side": "Right",
-                    "metresPerSecond": 4.878457625446724,
-                    "stanceSamples": 33,
-                    "contactIntervals": 33,
-                    "minimumVelocity": 2.1154609230765047,
-                    "maximumVelocity": 5.4620058574024
-                  }
-                ],
-                "sideRatio": 1.013586725605079,
-                "method": "Target backward-foot speed during native donor ankle contact phases, sourceY bottom12% of per-clip range"
-              },
-              "contactNormalized": 0.25833333333333336,
-              "strikingHand": "LeftHand",
-              "maximumReach": 0.7426379765143343
-            }
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
-        "warnings": [
-          "Requires every-state production devdocs visual review before promotion."
-        ],
-        "motion": {
-          "impliedWalkMps": 0.9081012658712565,
-          "impliedRunMps": 4.8874946483641235,
-          "contactNormalized": 0.25833333333333336,
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.9333333373069763,
-          "attackSeconds": 0.8666666746139526,
-          "groundY": 0
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (humanoid/caster): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03, tabard_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.229 m).",
+        "clipSeconds": {
+          "Idle": 2.5,
+          "Walk": 1.3333333730697632,
+          "Run": 0.9333333373069763,
+          "Attack": 1.4666666984558105,
+          "Hit": 0.3333333432674408,
+          "Death": 2.4000000953674316
         },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.5,
-              "samples": 111,
-              "maximumVertexMotion": 0.04911696772023816,
-              "maximumSpanRatio": 1.0155100425194117,
-              "minimumSpanRatio": 1.0097177133751758,
-              "loopSeam": 1.0879612418317988e-8,
-              "edgeStretchP99": 1.2267062016738444,
-              "maximumEdgeStretch": 4.771510351038157,
-              "stretchedEdgeFraction": 0.0006490134994807892
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 89,
-              "maximumVertexMotion": 0.8518750255232427,
-              "maximumSpanRatio": 1.0348674191518852,
-              "minimumSpanRatio": 0.9917007531576042,
-              "loopSeam": 6.909404344767115e-9,
-              "edgeStretchP99": 1.2015189725409563,
-              "maximumEdgeStretch": 6.673485372791047,
-              "stretchedEdgeFraction": 0.0006490134994807892
-            },
-            {
-              "name": "Run",
-              "seconds": 0.9333333373069763,
-              "samples": 65,
-              "maximumVertexMotion": 1.5508742834317757,
-              "maximumSpanRatio": 1.1038576680760759,
-              "minimumSpanRatio": 0.9598282840547046,
-              "loopSeam": 2.2510813508692034e-8,
-              "edgeStretchP99": 1.6967764546843762,
-              "maximumEdgeStretch": 12.995655006506995,
-              "stretchedEdgeFraction": 0.0014278296988577363
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8666666746139526,
-              "samples": 61,
-              "maximumVertexMotion": 0.7395367447262062,
-              "maximumSpanRatio": 1.1006719577180493,
-              "minimumSpanRatio": 1.0040593409257392,
-              "loopSeam": null,
-              "edgeStretchP99": 1.6403965704881636,
-              "maximumEdgeStretch": 5.02293660867447,
-              "stretchedEdgeFraction": 0.0010384215991692627
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.3333333432674408,
-              "samples": 29,
-              "maximumVertexMotion": 0.4313638894266625,
-              "maximumSpanRatio": 1.0169085172667145,
-              "minimumSpanRatio": 1.0105890652564813,
-              "loopSeam": null,
-              "edgeStretchP99": 1.2475998046951884,
-              "maximumEdgeStretch": 4.795424391938325,
-              "stretchedEdgeFraction": 0.0005192107995846313
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 2.4281323070421665,
-              "maximumSpanRatio": 1.123032568307412,
-              "minimumSpanRatio": 0.975781569833155,
-              "loopSeam": null,
-              "edgeStretchP99": 1.840245235369188,
-              "maximumEdgeStretch": 12.61776030240689,
-              "stretchedEdgeFraction": 0.0016874350986500518
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T18:40:56.872Z",
-          "by": "codex",
-          "sha256": "a69e8135f66b3cccd7535b95f079870eb7ede9e1ec795ba8e8626704f732c754",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v1/creature_cinder_penitent/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/creature/creature_cinder_penitent.glb",
+        "sourceSha256": "4b14880e3f5d8eea30c7b7f5861540d56f3c41ec7832f7030ca33bc1eaba8088"
+      },
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.933333,
+      "impliedWalkMps": 0.958193,
+      "impliedRunMps": 6.098982,
+      "attackSeconds": 1.466667,
+      "contactNormalized": 0.783
     },
     {
       "id": "creature_grave_lantern",
@@ -39763,8 +38440,8 @@
         "candidate",
         "rootheart"
       ],
-      "bytes": 14695528,
-      "sha256": "93a5573daeed60f8356f48d7ead4da8fb5c0c025035d5c52ad706859e354e012",
+      "bytes": 14813624,
+      "sha256": "44c2fab08135ab9a2b343d5b5d2e55d7683ff637fcf144cca482a1c79be9e75c",
       "size": {
         "x": 1.807177,
         "y": 2.282104,
@@ -39780,6 +38457,7 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -39844,24 +38522,28 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Melee_Hook + Melee_Hook_Rec",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.561 m). Golem class (treant): quiet torso bones [\"spine_03\"], heel-pivot foot joints, foot blocks weighted to the foot, rigid plates {}.",
+        "notes": "Rebuilt by tools/creature-rig (golem/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.561 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
           "Attack": 1.0666667222976685,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_rootheart.glb",
-        "sourceSha256": "2a1bff79ef8ee7b68ab895651b74ebc08e25c44dc849dd286107ce19b078212a"
+        "sourceSha256": "93a5573daeed60f8356f48d7ead4da8fb5c0c025035d5c52ad706859e354e012"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 1.107025,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 1.162087,
+      "impliedRunMps": 5.815508,
       "attackSeconds": 1.066667,
       "contactNormalized": 0.25
     },
@@ -40795,27 +39477,27 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 7717904,
-      "sha256": "6729b8837f1e1337c9114d5e903cac1e3d0ede66b5c348c3e059a6e2b5c5c002",
+      "bytes": 7840232,
+      "sha256": "8def94f898088ab60c8bac177d31cea1805754872a6840da960834fc35c36261",
       "size": {
-        "x": 3.14165,
-        "y": 2.955313,
-        "z": 1.247266
+        "x": 2.641131,
+        "y": 2.960718,
+        "z": 1.247298
       },
       "base": {
-        "x": -1.568545,
+        "x": -1.316712,
         "y": 0,
-        "z": -0.659844
+        "z": -0.659876
       },
       "bounds": {
         "min": [
-          -1.5685449838638306,
+          -1.3167120218276978,
           0,
-          -0.6598439812660217
+          -0.6598759889602661
         ],
         "max": [
-          1.573104977607727,
-          2.955312967300415,
+          1.3244190216064453,
+          2.9607179164886475,
           0.5874220132827759
         ]
       },
@@ -40825,6 +39507,7 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -40908,24 +39591,28 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.724 m). Golem class (golem): quiet torso bones [\"spine_02\",\"spine_03\",\"neck_01\"], heel-pivot foot joints, foot blocks weighted to the foot, rigid plates {\"Head\":36}. Joint landmarks from the healthy Tripo source rig rock+golem+3d+model.glb.",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.704 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
-        "sourceFile": "C:\\Users\\Borg\\Downloads\\rock+golem+3d+model.glb",
-        "sourceSha256": "6e522204a5996eea5497db46a03b1f62bd0375f84878dfb8d0e38fb9163ae751"
+        "sourceFile": "game/public/assets/models/creature/creature_boss_ordrun.glb",
+        "sourceSha256": "6729b8837f1e1337c9114d5e903cac1e3d0ede66b5c348c3e059a6e2b5c5c002"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 1.759659,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 1.387753,
+      "impliedRunMps": 7.707814,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -43501,8 +42188,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17416352,
-      "sha256": "040020ad99a01fbf18381788d22f951098734bbc73f4d03d67068f419174d10e",
+      "bytes": 17542944,
+      "sha256": "0d834fda392a486e00e6b20230a2d2167565420bfc64e65cb66e7a0b4598968a",
       "triangles": 8502,
       "size": {
         "x": 2.289845,
@@ -43530,6 +42217,7 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -43649,24 +42337,28 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.831 m). Golem class (golem): quiet torso bones [\"spine_02\",\"spine_03\",\"neck_01\"], heel-pivot foot joints, foot blocks weighted to the foot, rigid plates {}.",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.831 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_voidstone_colossus.glb",
-        "sourceSha256": "90d3ce06a586e912403234de1be892f5220c46ecb67a529e27bf25e76d7d9897"
+        "sourceSha256": "040020ad99a01fbf18381788d22f951098734bbc73f4d03d67068f419174d10e"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 1.080714,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 1.074157,
+      "impliedRunMps": 5.780828,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -44519,8 +43211,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17545376,
-      "sha256": "169a31d48c069cfd8fcbf8aa8abdd9e1ece5e681fd0ad7f42347bd8c767e4820",
+      "bytes": 17663900,
+      "sha256": "024e45501e1cc414a74d540b846dd9eb28d195af8915fed95716a96245cd07ce",
       "triangles": 8467,
       "size": {
         "x": 1.641864,
@@ -44528,18 +43220,18 @@
         "z": 0.827975
       },
       "base": {
-        "x": -0.852113,
+        "x": -0.802153,
         "y": 0,
         "z": -0.395566
       },
       "bounds": {
         "min": [
-          -0.8521130084991455,
+          -0.8021529912948608,
           0,
           -0.3955659866333008
         ],
         "max": [
-          0.7897509932518005,
+          0.8397109508514404,
           1.899999976158142,
           0.43240898847579956
         ]
@@ -44548,6 +43240,7 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -44667,26 +43360,30 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Shield_Dash",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.678 m). Golem class (golemPunch): quiet torso bones [\"spine_02\",\"spine_03\",\"neck_01\"], heel-pivot foot joints, foot blocks weighted to the foot, rigid plates {}.",
+        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.674 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Attack": 1,
+          "Run": 1.0980392694473267,
+          "Attack": 1.100000023841858,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_ashseal_warden.glb",
-        "sourceSha256": "d650c42ac2bf45bf98e0cd39a41c23b2afb157e3b0e4261694ca8a81ca40a371"
+        "sourceSha256": "169a31d48c069cfd8fcbf8aa8abdd9e1ece5e681fd0ad7f42347bd8c767e4820"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.690435,
-      "attackSeconds": 1,
-      "contactNormalized": 0.233
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 0.69054,
+      "impliedRunMps": 3.777173,
+      "attackSeconds": 1.1,
+      "contactNormalized": 0.15
     },
     {
       "id": "creature_furnace_regent",
@@ -45929,7 +44626,7 @@
       "id": "creature_hollow_star",
       "pack": "corealm-user-hollow-star",
       "category": "character",
-      "sha256": "f201e26723db1710076b92c3b35e56c6232ab10cf94a242c62ba3571fa17d183",
+      "sha256": "8d14fe51d36f57afc5137042ee304d9dd6cff50cab1d6a809490a8f5b3639ec9",
       "sourceProvenance": {
         "author": "User-supplied Tripo Hollow Star; Corealm radial rig and animation",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-user-hollow-star/sources/fantasy+symbol+3d+model.glb",
@@ -46006,7 +44703,7 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 4218956,
+      "bytes": 4369672,
       "size": {
         "x": 3.592968,
         "y": 3.564843,
@@ -46071,16 +44768,16 @@
       "vertices": 7169,
       "motionProvenance": {
         "native": [],
-        "donor": {},
-        "authored": [
-          "Idle",
-          "Walk",
-          "Run",
-          "Attack",
-          "Hit",
-          "Death"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (special_star/star): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Authored clips (Idle, Walk, Run, Attack, Hit, Death) are keyed on cubic spline curves with eased, auto-clamped tangents, sampled at 30 fps in Blender and retargeted through the same rest-relative path (Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py)).",
+        "donor": {
+          "Idle": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py): Idle",
+          "Walk": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py): Walk",
+          "Run": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py): Run",
+          "Attack": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py): Attack",
+          "Hit": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py): Hit",
+          "Death": "Corealm authored on the fitted Hollow Star skeleton (tools/creature-rig/py/classes/special_star.py): Death"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (special_star/star): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 4,
           "Walk": 1.5333333015441895,
@@ -46090,7 +44787,7 @@
           "Death": 2.133333444595337
         },
         "sourceFile": "game/public/assets/models/creature/creature_hollow_star.glb",
-        "sourceSha256": "b867d11df76e234cd03f9348c3e5c29baaa96f397c4b27fcb49533e950e35b82"
+        "sourceSha256": "f201e26723db1710076b92c3b35e56c6232ab10cf94a242c62ba3571fa17d183"
       },
       "walkClipSeconds": 1.533333,
       "runClipSeconds": 0.933333,
@@ -62858,29 +61555,29 @@
         "skinned",
         "candidate"
       ],
-      "bytes": 7571216,
-      "sha256": "d7ed9e54c963386f855df084974524bd78eff15d0f74d3e32743243048da39c3",
+      "bytes": 7715600,
+      "sha256": "5be19e269088788801422ea80655034a274e164f8ae2c63778ce0550ed2a0914",
       "triangles": 4154,
       "size": {
         "x": 0.346993,
         "y": 0.444336,
-        "z": 0.682739
+        "z": 0.776529
       },
       "base": {
         "x": -0.187852,
         "y": 0,
-        "z": -0.264004
+        "z": -0.275375
       },
       "bounds": {
         "min": [
           -0.18785199522972107,
           0,
-          -0.2640039920806885
+          -0.27537500858306885
         ],
         "max": [
           0.15914100408554077,
           0.4443359971046448,
-          0.41873499751091003
+          0.5011540055274963
         ]
       },
       "groundY": 0,
@@ -62947,13 +61644,12 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (snail), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (snail), Unity Asset Store licence: Walk",
+          "Attack": "Corealm authored on the animal-pack snail rig (tools/creature-rig/py/classes/special_snail.py): Attack",
+          "Hit": "Corealm authored on the animal-pack snail rig (tools/creature-rig/py/classes/special_snail.py): Hit",
           "Death": "janpec Animal pack deluxe (snail), Unity Asset Store licence: Die"
         },
-        "authored": [
-          "Attack",
-          "Hit"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (special_snail/snail): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (eye_l_01, eye_l_02, eye_r_01, eye_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.230 m). Authored clips (Attack, Hit) are keyed on cubic spline curves with eased, auto-clamped tangents, sampled at 30 fps in Blender and retargeted through the same rest-relative path (Corealm authored on the animal-pack snail rig (tools/creature-rig/py/classes/special_snail.py)). No Run clip (runtime Walk fallback).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (special_snail/snail): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (eye_l_01, eye_l_02, eye_r_01, eye_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.230 m).",
         "clipSeconds": {
           "Idle": 9,
           "Walk": 4.333333492279053,
@@ -62962,11 +61658,11 @@
           "Death": 2.6666667461395264
         },
         "sourceFile": "game/public/assets/models/fairy-garden/mooncap-snail-gloamgarden.glb",
-        "sourceSha256": "b8a996264753765fb52b587b65035faac0565874bb1bb0cc328e412d95a15ca5"
+        "sourceSha256": "d7ed9e54c963386f855df084974524bd78eff15d0f74d3e32743243048da39c3"
       },
       "walkClipSeconds": 4.333333,
       "attackSeconds": 1,
-      "contactNormalized": 0.667
+      "contactNormalized": 0.633
     },
     {
       "id": "fairy_garden_hart_gloamgarden",
@@ -64840,17 +63536,17 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6577504,
-      "sha256": "5f975e04fcbf439d5af50c69fbddab84143e469dc978c8887b266fb63aba4f31",
+      "bytes": 6590492,
+      "sha256": "d68f121485569b91e738c2b21c8eb635fe1ebd2bd6fd70600c909600a5a3815b",
       "size": {
-        "x": 1.6968350813079591,
-        "y": 3.0993088019256465,
-        "z": 1.114737621669261
+        "x": 1.857837,
+        "y": 2.961337,
+        "z": 0.824243
       },
       "base": {
-        "x": -0.8596307687523387,
-        "y": -1.6318211754073886e-8,
-        "z": -0.3510654235600558
+        "x": -0.928919,
+        "y": 0,
+        "z": -0.378626
       },
       "triangles": 4384,
       "animations": [
@@ -64865,12 +63561,6 @@
         "Nightbloom velvet petal, moss and blue-black bark",
         "Nightbloom bioluminescent flowers"
       ],
-      "impliedWalkMps": 0.9760865486767641,
-      "impliedRunMps": 5.66089207606857,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.9333333373069763,
-      "attackSeconds": 0.8666666746139526,
-      "contactNormalized": 0.25833333333333336,
       "sourceProvenance": {
         "source": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/pinkbud-plant-7508cd34-a17e-4945-8c38-e6ae4542f4b2.glb",
         "sourceSha256": "2249b8a7f602c279315664a53885872b7b461f8fc5cfd4bc42d3ec8f3f59ef92",
@@ -64940,339 +63630,18 @@
       },
       "bounds": {
         "min": [
-          -0.8596307687523387,
-          -1.6318211754073886e-8,
-          -0.3510654235600558
+          -0.9289184808731079,
+          0,
+          -0.3786255121231079
         ],
         "max": [
-          0.8372043125556203,
-          3.099308785607435,
-          0.7636721981092052
+          0.9289184808731079,
+          2.961337089538574,
+          0.44561767578125
         ]
       },
       "groundY": 0,
       "vertices": 2839,
-      "locomotionPolicy": null,
-      "measuredGait": null,
-      "motionRepair": {
-        "family": "humanoids-colon",
-        "sourceSha256": "f1e7c67fb75735c421585bf3b7f9caffc867faaf87ebdb25ecf95c49367df696",
-        "sourceGitBlob": "f8ead5d58f56b37a2e3bd3e01e2c72055007118b",
-        "donors": [
-          {
-            "id": "animation_library_1",
-            "sourceGitBlob": "3877615fd24a4b365c46a4e47966ebfdc417958c",
-            "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "sourceMetadata": {
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.25833333333333336,
-            "seconds": 0.22388889094193778
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.9591167866952897,
-            "impliedRunMps": 5.721788823820773
-          }
-        },
-        "changes": [
-          "Normalized complete rig and mesh from +X to +Z facing.",
-          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
-          "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
-        ],
-        "provenance": {
-          "previousMotion": "Rejected low-channel procedural stand-in clips; native segmented skin retained for studio retarget.",
-          "crownDeath": {
-            "sourceTake": "Death01",
-            "sourceNode": "Head",
-            "sourceSeconds": [
-              1,
-              1.4
-            ],
-            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
-          },
-          "retarget": {
-            "mappedJoints": 52,
-            "poseNodes": 70,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 1.073073602161477,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle_Loop",
-                "sourceSeconds": 2.5,
-                "seconds": 2.5,
-                "samples": 76,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.1230628142100591,
-                "removedHorizontalTravel": [
-                  0.000025886879783858303,
-                  0,
-                  -0.00010928053004061089
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk_Loop",
-                "sourceSeconds": 1.3333333730697632,
-                "seconds": 1.3333333730697632,
-                "samples": 42,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.16970302349536298,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  3.380761925754738e-8
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Jog_Fwd_Loop",
-                "sourceSeconds": 0.9333333373069763,
-                "seconds": 0.9333333373069763,
-                "samples": 30,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.1261521445460049,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  3.2513704932221255e-8
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Punch_Jab",
-                "sourceSeconds": 0.8666666746139526,
-                "seconds": 0.8666666746139526,
-                "samples": 28,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.1353178093862738,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit_Chest",
-                "sourceSeconds": 0.3333333432674408,
-                "seconds": 0.3333333432674408,
-                "samples": 12,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.12699299528259902,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death01",
-                "sourceSeconds": 2.4000000953674316,
-                "seconds": 1.5,
-                "samples": 34,
-                "loop": false,
-                "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.39885028417280327,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips",
-            "bindBounds": {
-              "min": [
-                -0.9289184126735608,
-                -4.2739605758532864e-7,
-                -0.4121216103681912
-              ],
-              "max": [
-                0.9289186103918774,
-                2.961336322023743,
-                0.41212151617170756
-              ]
-            },
-            "measurements": {
-              "walk": {
-                "metresPerSecond": 0.9760865486767641,
-                "stanceSamples": 157,
-                "feet": [
-                  {
-                    "side": "Left",
-                    "metresPerSecond": 0.9962996391050141,
-                    "stanceSamples": 81,
-                    "contactIntervals": 92,
-                    "minimumVelocity": -0.6727148628178247,
-                    "maximumVelocity": 1.2143319414585887
-                  },
-                  {
-                    "side": "Right",
-                    "metresPerSecond": 0.9579142965339703,
-                    "stanceSamples": 76,
-                    "contactIntervals": 84,
-                    "minimumVelocity": -0.7112804664222421,
-                    "maximumVelocity": 1.184903086183856
-                  }
-                ],
-                "sideRatio": 1.0400717921320664,
-                "method": "Target backward-foot speed during native donor ankle contact phases, sourceY bottom12% of per-clip range"
-              },
-              "run": {
-                "metresPerSecond": 5.66089207606857,
-                "stanceSamples": 71,
-                "feet": [
-                  {
-                    "side": "Left",
-                    "metresPerSecond": 5.721788823820773,
-                    "stanceSamples": 38,
-                    "contactIntervals": 38,
-                    "minimumVelocity": 5.142159173082203,
-                    "maximumVelocity": 7.68187967227106
-                  },
-                  {
-                    "side": "Right",
-                    "metresPerSecond": 5.44851467856085,
-                    "stanceSamples": 33,
-                    "contactIntervals": 33,
-                    "minimumVelocity": 3.05837090963556,
-                    "maximumVelocity": 7.001361757386127
-                  }
-                ],
-                "sideRatio": 1.0501557142417581,
-                "method": "Target backward-foot speed during native donor ankle contact phases, sourceY bottom12% of per-clip range"
-              },
-              "contactNormalized": 0.25833333333333336,
-              "strikingHand": "LeftHand",
-              "maximumReach": 0.8897246578166162
-            }
-          }
-        },
-        "warnings": [
-          "Requires every-state production devdocs visual review before promotion."
-        ],
-        "motion": {
-          "impliedWalkMps": 0.9760865486767641,
-          "impliedRunMps": 5.66089207606857,
-          "contactNormalized": 0.25833333333333336,
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.9333333373069763,
-          "attackSeconds": 0.8666666746139526,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "tripo_node_73697ba4-b1a7-46a9-ae6d-40be135f4ca3: nearly rigid single-joint skin; inspect articulation in devdocs",
-            "tripo_node_73697ba4-b1a7-46a9-ae6d-40be135f4ca3: nearly rigid single-joint skin; inspect articulation in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.5,
-              "samples": 113,
-              "maximumVertexMotion": 0.07392125051109324,
-              "maximumSpanRatio": 1.031618389619359,
-              "minimumSpanRatio": 1.0281129376684968,
-              "loopSeam": 3.5371469725973324e-8,
-              "edgeStretchP99": 1.453430027076472,
-              "maximumEdgeStretch": 3.1428441217602088,
-              "stretchedEdgeFraction": 0.0002788622420524261
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 89,
-              "maximumVertexMotion": 1.2459580750749393,
-              "maximumSpanRatio": 1.054272176041061,
-              "minimumSpanRatio": 1.0037270907820564,
-              "loopSeam": 1.7963398986298694e-8,
-              "edgeStretchP99": 1.5249865197117385,
-              "maximumEdgeStretch": 3.142843714201934,
-              "stretchedEdgeFraction": 0.0002788622420524261
-            },
-            {
-              "name": "Run",
-              "seconds": 0.9333333373069763,
-              "samples": 65,
-              "maximumVertexMotion": 2.0620931045110007,
-              "maximumSpanRatio": 1.0803945948359142,
-              "minimumSpanRatio": 0.9683095120543626,
-              "loopSeam": 2.294010406258223e-8,
-              "edgeStretchP99": 1.6700758168138183,
-              "maximumEdgeStretch": 3.142841945997298,
-              "stretchedEdgeFraction": 0.0002788622420524261
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8666666746139526,
-              "samples": 61,
-              "maximumVertexMotion": 0.9899811874106782,
-              "maximumSpanRatio": 1.1065650039295898,
-              "minimumSpanRatio": 1.0094560546511426,
-              "loopSeam": null,
-              "edgeStretchP99": 1.6207934170126277,
-              "maximumEdgeStretch": 3.1428419286313467,
-              "stretchedEdgeFraction": 0.0002788622420524261
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.3333333432674408,
-              "samples": 29,
-              "maximumVertexMotion": 1.0628948595310823,
-              "maximumSpanRatio": 1.0334140032052432,
-              "minimumSpanRatio": 1.0166674957209552,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5009795376991684,
-              "maximumEdgeStretch": 3.1717178064102884,
-              "stretchedEdgeFraction": 0.0002788622420524261
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5,
-              "samples": 93,
-              "maximumVertexMotion": 3.7933040265060187,
-              "maximumSpanRatio": 1.063212982499865,
-              "minimumSpanRatio": 0.9685493251589244,
-              "loopSeam": null,
-              "edgeStretchP99": 1.6825031945093116,
-              "maximumEdgeStretch": 3.142843159628364,
-              "stretchedEdgeFraction": 0.0002788622420524261
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:32:53.879Z",
-          "by": "codex",
-          "sha256": "5f975e04fcbf439d5af50c69fbddab84143e469dc978c8887b266fb63aba4f31",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/fairy_guardian_06_faeholme/evidence.json"
-        }
-      },
       "metadata": {
         "animationAcceptance": "devdocs-approved",
         "geometry": {
@@ -65287,7 +63656,36 @@
           "impliedWalkMps": 0.9760865486767641,
           "impliedRunMps": 5.66089207606857
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Melee_Hook + Melee_Hook_Rec",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (golem/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.731 m).",
+        "clipSeconds": {
+          "Idle": 2.5,
+          "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
+          "Attack": 1.0666667222976685,
+          "Hit": 0.3333333432674408,
+          "Death": 2.4000000953674316
+        },
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_guardian_06_faeholme.glb",
+        "sourceSha256": "5f975e04fcbf439d5af50c69fbddab84143e469dc978c8887b266fb63aba4f31"
+      },
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 1.123989,
+      "impliedRunMps": 5.557676,
+      "attackSeconds": 1.066667,
+      "contactNormalized": 0.25
     },
     {
       "id": "fairy_guardian_08_faeholme",
@@ -65807,17 +64205,17 @@
         "sporekin",
         "tripo"
       ],
-      "bytes": 13064724,
-      "sha256": "c9db3d447e91fe160a6ffaaaa4c941cfca49acfa6782bfa538fd0ac077c5e32b",
+      "bytes": 13175560,
+      "sha256": "68b2b0ee55e3c93228651b07694943a4fa3f27f4a00bb481eb23b89338555ca5",
       "size": {
-        "x": 1.4837039651671122,
-        "y": 2.0801398542047846,
-        "z": 1.3449521083025444
+        "x": 1.623142,
+        "y": 1.999023,
+        "z": 1.33692
       },
       "base": {
-        "x": -0.6922235494349838,
-        "y": 0.003000000023094102,
-        "z": -0.5663797646802542
+        "x": -0.824052,
+        "y": 0,
+        "z": -0.589666
       },
       "groundY": 0,
       "triangles": 4713,
@@ -65832,10 +64230,6 @@
       "materials": [
         "tripo_node_d2e3891c-ab20-4a10-af85-bde95a4d637b_material"
       ],
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.9333333373069763,
-      "attackSeconds": 0.8666666746139526,
-      "contactNormalized": 0.26666666666666666,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "projectId": "eab6d009-e9e3-4685-ad92-370117420c63",
@@ -66013,503 +64407,47 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.5535216182299598,
-      "impliedRunMps": 2.725442917319112,
-      "locomotionPolicy": null,
       "bounds": {
         "min": [
-          -0.6922235494349838,
-          0.003000000023094102,
-          -0.5663797646802542
+          -0.8240519762039185,
+          0,
+          -0.5896660089492798
         ],
         "max": [
-          0.7914804157321286,
-          2.0831398542278787,
-          0.7785723436222902
+          0.7990900278091431,
+          1.9990229606628418,
+          0.7472540140151978
         ]
       },
-      "measuredGait": null,
-      "motionRepair": {
-        "family": "specials",
-        "sourceSha256": "9a68639b48f8b1ca7c19ce5fb14df65231cb4de58581e8640d8900ee5ef75f48",
-        "sourceGitBlob": "db2aa05abe75c8aeaa5cc52d62b0b2782d622014",
-        "donors": [
-          {
-            "id": "animation_library_1",
-            "sourceGitBlob": "3877615fd24a4b365c46a4e47966ebfdc417958c",
-            "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "changes": [
-          "Removed sharp cross-foot and cross-arm weight seams on the connected fungal body; paired donor sides by world anatomy.",
-          "Rebuilt complete fungal poses and corrected the scaled mesh floor in every state; removed death-only body shrinking.",
-          "Baked complete TRS states and ground contact after final model scaling; source mesh topology, UVs and all texture bytes remain unchanged."
-        ],
-        "provenance": {
-          "fittedAnatomy": {
-            "pivots": {
-              "Hips": [
-                -0.075,
-                0.31,
-                0.045
-              ],
-              "Spine": [
-                -0.095,
-                0.43,
-                0.065
-              ],
-              "Spine1": [
-                -0.095,
-                0.53,
-                0.08
-              ],
-              "Spine2": [
-                -0.065,
-                0.64,
-                0.065
-              ],
-              "Neck": [
-                -0.066,
-                0.71,
-                0.053
-              ],
-              "Head": [
-                -0.065,
-                0.79,
-                0.065
-              ],
-              "Cap": [
-                -0.065,
-                0.87,
-                0.05
-              ],
-              "LeftShoulder": [
-                -0.01,
-                0.66,
-                0.13
-              ],
-              "LeftArm": [
-                0.03,
-                0.62,
-                0.2
-              ],
-              "LeftForeArm": [
-                0.11,
-                0.47,
-                0.32
-              ],
-              "LeftHand": [
-                0.17,
-                0.34,
-                0.33
-              ],
-              "LeftHandMiddle1": [
-                0.21,
-                0.23,
-                0.31
-              ],
-              "RightShoulder": [
-                -0.14,
-                0.66,
-                -0.02
-              ],
-              "RightArm": [
-                -0.17,
-                0.62,
-                -0.1
-              ],
-              "RightForeArm": [
-                -0.2,
-                0.54,
-                -0.25
-              ],
-              "RightHand": [
-                -0.12,
-                0.45,
-                -0.34
-              ],
-              "RightHandMiddle1": [
-                -0.075,
-                0.34,
-                -0.33
-              ],
-              "LeftUpLeg": [
-                -0.025,
-                0.285,
-                0.13
-              ],
-              "LeftLeg": [
-                0.03,
-                0.16,
-                0.218
-              ],
-              "LeftFoot": [
-                0.048,
-                0.065,
-                0.24
-              ],
-              "LeftToeBase": [
-                0.14,
-                0.022,
-                0.25
-              ],
-              "RightUpLeg": [
-                -0.13,
-                0.29,
-                -0.05
-              ],
-              "RightLeg": [
-                -0.15,
-                0.16,
-                -0.1
-              ],
-              "RightFoot": [
-                -0.175,
-                0.065,
-                -0.135
-              ],
-              "RightToeBase": [
-                -0.095,
-                0.022,
-                -0.16
-              ]
-            },
-            "forward": "+X source to +Z game",
-            "method": "Devdocs orbit plus triangle-contour limb centers, adjacent bone capsules, welded seam diffusion"
-          },
-          "retarget": {
-            "mappedJoints": 24,
-            "poseNodes": 30,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 0.6305786114526903,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle_Loop",
-                "sourceSeconds": 2.5,
-                "seconds": 2.5,
-                "samples": 76,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.11530113314169176,
-                "removedHorizontalTravel": [
-                  0.000015212109100501089,
-                  0,
-                  -0.00006421737032112061
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk_Loop",
-                "sourceSeconds": 1.3333333730697632,
-                "seconds": 1.3333333730697632,
-                "samples": 42,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.426752879792125,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  1.9866635023920245e-8
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Jog_Fwd_Loop",
-                "sourceSeconds": 0.9333333373069763,
-                "seconds": 0.9333333373069763,
-                "samples": 30,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.37407656981332543,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  1.910628205562487e-8
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Punch_Jab",
-                "sourceSeconds": 0.8666666746139526,
-                "seconds": 0.8666666746139526,
-                "samples": 28,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.11874652479468877,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit_Chest",
-                "sourceSeconds": 0.3333333432674408,
-                "seconds": 0.3333333432674408,
-                "samples": 12,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.11273571993674955,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death01",
-                "sourceSeconds": 2.4000000953674316,
-                "seconds": 1.5,
-                "samples": 34,
-                "loop": false,
-                "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.4023371482996554,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips",
-            "bindBounds": {
-              "min": [
-                -0.7993164056308266,
-                7.270531631197888e-10,
-                -0.6625976507730937
-              ],
-              "max": [
-                0.7993164036668149,
-                1.9990233989681874,
-                0.6625976656537524
-              ]
-            },
-            "measurements": {
-              "walk": {
-                "metresPerSecond": 0.5562854749408563,
-                "stanceSamples": 110
-              },
-              "run": {
-                "metresPerSecond": 0.8735101492293833,
-                "stanceSamples": 78
-              },
-              "contactNormalized": 1,
-              "strikingHand": "LeftHand",
-              "maximumReach": 0.13715116157674
-            }
-          },
-          "samples": [
-            {
-              "name": "Idle",
-              "seconds": 2.5,
-              "samples": 151,
-              "maxCorrection": 0.003002196853689885,
-              "minY": 0.003,
-              "maxY": 2.0841843053497797
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 82,
-              "maxCorrection": 0.008293953478932423,
-              "minY": 0.0029999999999999996,
-              "maxY": 2.3780144405366634
-            },
-            {
-              "name": "Run",
-              "seconds": 0.9333333373069763,
-              "samples": 58,
-              "maxCorrection": 0.03181331395303727,
-              "minY": 0.002999999999999999,
-              "maxY": 2.2622680728671485
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8666666746139526,
-              "samples": 54,
-              "maxCorrection": 0.003474964566115972,
-              "minY": 0.003,
-              "maxY": 2.18338365081686
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.3333333432674408,
-              "samples": 22,
-              "maxCorrection": 0.003005041980135216,
-              "minY": 0.003,
-              "maxY": 2.229393324369014
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5,
-              "samples": 91,
-              "maxCorrection": 0.03920176699750121,
-              "minY": 0.002999999999999999,
-              "maxY": 2.1719652924729647
-            }
-          ],
-          "gait": {
-            "walk": {
-              "metresPerSecond": 0.5535216182299598,
-              "stanceSamples": 167,
-              "sides": [
-                {
-                  "targetBone": "mixamorig:LeftFoot",
-                  "sourceBone": "foot_r",
-                  "metresPerSecond": 0.5809422241362768,
-                  "stanceSamples": 84
-                },
-                {
-                  "targetBone": "mixamorig:RightFoot",
-                  "sourceBone": "foot_l",
-                  "metresPerSecond": 0.542578004463576,
-                  "stanceSamples": 83
-                }
-              ]
-            },
-            "run": {
-              "metresPerSecond": 2.725442917319112,
-              "stanceSamples": 71,
-              "sides": [
-                {
-                  "targetBone": "mixamorig:LeftFoot",
-                  "sourceBone": "foot_r",
-                  "metresPerSecond": 2.640620895122452,
-                  "stanceSamples": 33
-                },
-                {
-                  "targetBone": "mixamorig:RightFoot",
-                  "sourceBone": "foot_l",
-                  "metresPerSecond": 2.7715345330505423,
-                  "stanceSamples": 38
-                }
-              ]
-            },
-            "method": "Target backward-foot speed during native studio donor contact phases"
-          },
-          "attackContact": {
-            "contactNormalized": 0.26666666666666666,
-            "strikingHand": "RightHand",
-            "method": "Peak +Z striking-hand reach relative to pelvis over 121 studio-jab samples"
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
-        "motion": {
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.9333333373069763,
-          "attackSeconds": 0.8666666746139526,
-          "contactNormalized": 0.26666666666666666,
-          "impliedWalkMps": 0.5535216182299598,
-          "impliedRunMps": 2.725442917319112,
-          "groundY": 0
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (golem/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.491 m).",
+        "clipSeconds": {
+          "Idle": 2.5,
+          "Walk": 1.3333333730697632,
+          "Run": 1.0980392694473267,
+          "Attack": 1,
+          "Hit": 0.3333333432674408,
+          "Death": 2.4000000953674316
         },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Attack: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.5,
-              "samples": 107,
-              "maximumVertexMotion": 0.07393303660327712,
-              "maximumSpanRatio": 1.002156197604379,
-              "minimumSpanRatio": 0.998307956518209,
-              "loopSeam": 1.9799861517347055e-8,
-              "edgeStretchP99": 1.539006911715737,
-              "maximumEdgeStretch": 7.551758081407101,
-              "stretchedEdgeFraction": 0.0008586966892472093
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 115,
-              "maximumVertexMotion": 0.7574164594659416,
-              "maximumSpanRatio": 1.0959636192735174,
-              "minimumSpanRatio": 1.0072552201489489,
-              "loopSeam": 3.0051852521987464e-8,
-              "edgeStretchP99": 1.5955256840422134,
-              "maximumEdgeStretch": 6.843927444145423,
-              "stretchedEdgeFraction": 0.0006678752027478294
-            },
-            {
-              "name": "Run",
-              "seconds": 0.9333333373069763,
-              "samples": 121,
-              "maximumVertexMotion": 1.573573816832517,
-              "maximumSpanRatio": 1.1134917009436252,
-              "minimumSpanRatio": 1.0076382918738227,
-              "loopSeam": 2.531654692794399e-8,
-              "edgeStretchP99": 1.8800727153390784,
-              "maximumEdgeStretch": 10.690578197204529,
-              "stretchedEdgeFraction": 0.0014311611487453487
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8666666746139526,
-              "samples": 113,
-              "maximumVertexMotion": 0.9557512746584408,
-              "maximumSpanRatio": 1.0337277991219715,
-              "minimumSpanRatio": 0.9746853345695065,
-              "loopSeam": null,
-              "edgeStretchP99": 1.8080982482699517,
-              "maximumEdgeStretch": 8.36876646470144,
-              "stretchedEdgeFraction": 0.001144928918996279
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.3333333432674408,
-              "samples": 49,
-              "maximumVertexMotion": 0.666614194397775,
-              "maximumSpanRatio": 1.0153283572921026,
-              "minimumSpanRatio": 0.9967922238244175,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5363746841441732,
-              "maximumEdgeStretch": 7.562943495152014,
-              "stretchedEdgeFraction": 0.0009541074324968991
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5,
-              "samples": 104,
-              "maximumVertexMotion": 2.7686844514351154,
-              "maximumSpanRatio": 1.172571100984744,
-              "minimumSpanRatio": 0.9495871640956437,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7680679153779058,
-              "maximumEdgeStretch": 8.357318846572712,
-              "stretchedEdgeFraction": 0.0012403396622459688
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:43:04.930Z",
-          "by": "codex",
-          "sha256": "c9db3d447e91fe160a6ffaaaa4c941cfca49acfa6782bfa538fd0ac077c5e32b",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/specials-v1/fairy_garden_sporekin_gloamgarden/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_sporekin_gloamgarden.glb",
+        "sourceSha256": "c9db3d447e91fe160a6ffaaaa4c941cfca49acfa6782bfa538fd0ac077c5e32b"
+      },
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 1.098039,
+      "impliedWalkMps": 0.740686,
+      "impliedRunMps": 3.64459,
+      "attackSeconds": 1,
+      "contactNormalized": 0.367
     },
     {
       "id": "fairy_garden_reliquary_gloamgarden",
