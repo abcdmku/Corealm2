@@ -1,1 +1,8 @@
-{ "class": "humanoid", "profile": "fae" }
+{
+  "class": "humanoid",
+  "profile": "fae",
+  "profileOverrides": {
+    "landmarks": { "tips": { "hand_l": [0.459, 0.693, 0.083], "hand_r": [-0.459, 0.693, 0.083] } }
+  },
+  "notes": "The wisp veil and the skirt panels are thin and far apart, so the landmarks take a skirt tip for the left hand; the hand tips are given here."
+}
