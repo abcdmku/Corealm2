@@ -21,7 +21,7 @@ Every asset needs `tools/creature-rig/assets/<assetId>.json`:
 |---|---|
 | `class`, `profile` | The class module and its profile, for example `{ "class": "humanoid", "profile": "brute" }` |
 | `source` | Optional forced source GLB for the intake |
-| `bind` | `"rest"` bakes a skinned production mesh in its joints' rest pose instead of its skin bind, for a file whose bind is contorted but whose rest stands well |
+| `bind` | `"rest"` bakes a skinned production mesh in its joints' rest pose instead of its skin bind, for a file whose bind is contorted but whose rest stands well. `{"clip": "Idle"}` bakes it in the first frame of that production clip, for a file whose bind and node rest are both contorted (Blender's importer shows the first clip's pose, which is why such a file looks fine there) |
 | `profileOverrides` | Optional changes to the profile. Objects merge key by key, so `{ "clips": { "Walk": { "speed": 0.8 } } }` changes one field of one clip; anything else replaces. |
 | `studio` | Runs [studio mode](#studio-mode) |
 | `notes` | Free text |

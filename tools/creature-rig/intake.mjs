@@ -97,12 +97,34 @@ function restSkinning(skin, primitive, count) {
   });
 }
 
+/** Sets every node a clip keys to that clip's first key (translation, rotation, scale), so a
+ * "rest" bake skins the mesh into the pose the studio animates from. A file whose bind and node
+ * rest are both contorted (a Tripo salamander with the tail curled over its back) usually stands
+ * well in its own Idle. */
+function poseAtClipStart(doc, name) {
+  const animation = doc.getRoot().listAnimations().find((a) => a.getName() === name);
+  if (!animation) throw new Error(`bind clip ${name} is not in the production file`);
+  const el = [];
+  for (const channel of animation.listChannels()) {
+    const node = channel.getTargetNode();
+    const path = channel.getTargetPath();
+    const out = channel.getSampler()?.getOutput();
+    if (!node || !out || !["translation", "rotation", "scale"].includes(path)) continue;
+    const v = out.getElement(0, el).slice();
+    if (path === "translation") node.setTranslation(v);
+    else if (path === "rotation") node.setRotation(v);
+    else node.setScale(v);
+  }
+}
+
 /** Bakes every mesh node's rest world transform into its vertices and strips skin and clips.
  * Positions and normals come out as float accessors. A skinned mesh is placed by its skin bind
  * (joint world x inverse bind); with pose "rest" it is skinned into the joints' rest pose instead,
- * for a source whose bind is contorted but whose rest stands well (config "bind": "rest"). */
-export function bakeBindMesh(doc, { pose = "bind" } = {}) {
+ * for a source whose bind is contorted but whose rest stands well (config "bind": "rest"), or
+ * into the first frame of a named clip (config "bind": {"clip": "Idle"}). */
+export function bakeBindMesh(doc, { pose = "bind", clip = null } = {}) {
   const root = doc.getRoot();
+  if (clip) poseAtClipStart(doc, clip);
   const scene = root.getDefaultScene() ?? root.listScenes()[0];
   const meshNodes = root.listNodes().filter((node) => node.getMesh());
   const baked = [];
@@ -264,7 +286,8 @@ export async function intake(assetId, work = paths.work(assetId)) {
   const productionBytes = readFileSync(productionFile);
 
   const { io, doc } = await openDocument(productionFile);
-  const meshNodes = bakeBindMesh(doc, { pose: config.bind === "rest" ? "rest" : "bind" });
+  const bindClip = config.bind && typeof config.bind === "object" ? config.bind.clip : null;
+  const meshNodes = bakeBindMesh(doc, { pose: config.bind === "rest" || bindClip ? "rest" : "bind", clip: bindClip });
   const grounded = groundAndCentre(meshNodes);
   const vertexCount = meshNodes.reduce((n, node) => n + node.getMesh().listPrimitives().reduce((m, p) => m + p.getAttribute("POSITION").getCount(), 0), 0);
   mkdirSync(work, { recursive: true });

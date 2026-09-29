@@ -77,6 +77,9 @@
       },
       "idle": "Idle",
       "source": "Flinch baked from animal_cattle Die (first beat) eased back to Idle frame 0"
+    },
+    "usurper": {
+      "ref": "dm_usurper"
     }
   },
   "profiles": {
@@ -393,6 +396,91 @@
         "Death": {
           "donor": "deer",
           "clip": "Die"
+        }
+      }
+    },
+    "dragon": {
+      "roles": {
+        "usurper": {
+          "MAIN": null,
+          "ROOT": "Root",
+          "Spine_01": "Spine01",
+          "Spine_02": "Spine02",
+          "Spine_Top": "Chest",
+          "Neck_01": "Neck01",
+          "Neck_02": "Neck02",
+          "Neck_03": "Neck03",
+          "Neck_Top": "Head",
+          "Head_JawEnd": "UpperMouth02",
+          "l_Clavicle_01_01": null,
+          "r_Clavicle_01_01": null,
+          "l_FrontLeg_Hip": "UpperArm_L",
+          "l_FrontLeg_Knee": "LowerArm_L",
+          "l_FrontLeg_Ankle": "Hand_L",
+          "l_FrontLeg_Ball": "Middle01_L",
+          "l_FrontLeg_Toe": "Middle3_L",
+          "r_FrontLeg_Hip": "UpperArm_R",
+          "r_FrontLeg_Knee": "RowerArm_R",
+          "r_FrontLeg_Ankle": "Hand_R",
+          "r_FrontLeg_Ball": "Middle01_R",
+          "r_FrontLeg_Toe": "Middle3_R",
+          "l_HindLeg_Hip": "UpperLeg_L",
+          "l_HindLeg_Knee": "LowerLeg_L",
+          "l_HindLeg_Ankle": "Feet_L",
+          "l_HindLeg_Ball": "MiddleToe01_L",
+          "l_HindLeg_Toe": "MiddleToe03_L",
+          "r_HindLeg_Hip": "UpperReg_R",
+          "r_HindLeg_Knee": "RowerReg_R",
+          "r_HindLeg_Ankle": "Feet_R",
+          "r_HindLeg_Ball": "MiddleToe01_R",
+          "r_HindLeg_Toe": "MiddleToe03_R",
+          "Tail_01_01": "joint19",
+          "Tail_01_02": "joint20",
+          "Tail_01_03": "joint21",
+          "Tail_01_04": "joint22",
+          "Tail_01_05": "joint23",
+          "wing1_l": "Wing01_L",
+          "wing2_l": "Wing02_L",
+          "wing3_l": "WingIndex01_L",
+          "wing1_r": "Wing01_R",
+          "wing2_r": "Wing02_R",
+          "wing3_r": "WingIndex01_R"
+        }
+      },
+      "wings": [
+        "wing1_{S}",
+        "wing2_{S}",
+        "wing3_{S}"
+      ],
+      "wingSpring": true,
+      "clips": {
+        "Idle": {
+          "donor": "usurper",
+          "clip": "idle01",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "usurper",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "usurper",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "usurper",
+          "clip": "attackMouth"
+        },
+        "Hit": {
+          "donor": "usurper",
+          "clip": "getHit"
+        },
+        "Death": {
+          "donor": "usurper",
+          "clip": "Die",
+          "hipMode": "vertical"
         }
       }
     }
