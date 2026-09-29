@@ -106,10 +106,17 @@ export function treeResource(species: TreeSpeciesDef): ResourceDef {
 export const HIGH_TIER_TREE_RESOURCES: readonly ResourceDef[] = RESOURCE_DATA.filter(resource => resource.archetype === "tree" && resource.tier >= 30 && !resource.id.includes("wilderness") && !resource.id.includes("gloam") && !resource.id.includes("fae"));
 export const HIGH_TIER_LOG_ITEMS: readonly ItemDef[] = ITEM_DATA.filter(item => item.id.endsWith("_log") && item.tier >= 30);
 
-/** Regional preference within a mixed forest; higher tiers remain visible at declining frequency. */
+/**
+ * Regional preference within a mixed forest; higher tiers remain visible at declining frequency.
+ * Scatter signatures hash these weights, and Chrome's Math.pow can land one ulp away from the
+ * minified `**` form (0.65^2.5), so the dev-server bake and the release disagreed. Rounding to 12
+ * significant digits makes the weight identical on every engine and code path.
+ */
 export function treeEncounterWeight(species: TreeSpeciesDef, areaLevel: number): number {
-  if (species.level <= areaLevel) return species.level === areaLevel ? 1 : .45 * Math.pow(.9, (areaLevel - species.level) / 10);
-  return .5 * Math.pow(.65, (species.level - areaLevel) / 10);
+  const weight = species.level <= areaLevel
+    ? species.level === areaLevel ? 1 : .45 * Math.pow(.9, (areaLevel - species.level) / 10)
+    : .5 * Math.pow(.65, (species.level - areaLevel) / 10);
+  return Number(weight.toPrecision(12));
 }
 
 speciesByAsset.set('fairy_hero_gloam_sheltered', { ...speciesByAsset.get('fairy_hero_gloam')!, trunkRadius: 1.75, height: 11 });
