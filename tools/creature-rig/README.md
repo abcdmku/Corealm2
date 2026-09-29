@@ -259,8 +259,9 @@ The Quaternius Universal Animation Library (CC0) is extracted from `C:/Users/Bor
 
 ## Known limits
 
-- A robe or petal skirt over the legs (the gloamgarden sporekin) is still read by the humanoid cape finder as panels; the legs are fitted and drive the walk, but the class's cloth step decides panels.
-- Knuckles of floor-length arms are fitted as hands, but a standing donor's arms then push them through the floor (the starroot guardian). Such bodies need a knuckle-walking donor or arm IK.
+- A robe or skirt over the legs can be misread as cape panels. Golem and treant profiles turn the cape finder off; a body modelled turned (the gloamgarden sporekin, about 30°) needs the profile `yaw` fit first.
+- When the fit misreads anatomy (fused robes, floor-length arms, antennae), give tips and joints in the asset config under `profileOverrides.landmarks {tips, joints}`.
+- Floor-length arms still lack a knuckle-walking donor: the starroot guardian keeps its previous production rig until one exists.
 
 - Joint placement uses measured features. Unusual anatomy can still misplace a joint, so check `fit.png` for every new asset. A floating body's waist uses the biped ratio between the shoulders and the hand tips.
 - The shoulders and armpits of a T-posed body are re-bound to 50° with dual quaternions. Extreme overhead poses still pinch.
