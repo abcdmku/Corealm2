@@ -386,7 +386,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "creature_red_worm": {
     "seconds": 1.633333,
-    "contactNormalized": 0.15
+    "contactNormalized": 0.867
   },
   "creature_redbrush_fox": {
     "seconds": 1.366667,
@@ -661,20 +661,20 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4
   },
   "fairy_monster_16": {
-    "seconds": 2,
-    "contactNormalized": 0.583
+    "seconds": 2.333333,
+    "contactNormalized": 0.683
   },
   "fairy_monster_19": {
-    "seconds": 2.333333,
-    "contactNormalized": 0.567
+    "seconds": 2,
+    "contactNormalized": 0.583
   },
   "fairy_monster_21": {
     "seconds": 0.8600000143051147,
     "contactNormalized": 0.5
   },
   "fairy_monster_27": {
-    "seconds": 2,
-    "contactNormalized": 0.583
+    "seconds": 2.333333,
+    "contactNormalized": 0.65
   },
   "fairy_monster_28": {
     "seconds": 2,
@@ -883,8 +883,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_monster_11": 0.5067,
   "fairy_monster_14": 0.5586,
   "fairy_monster_16": 5.8884,
-  "fairy_monster_19": 3.2476,
-  "fairy_monster_27": 13.0726,
+  "fairy_monster_19": 3.3455,
+  "fairy_monster_27": 5.7317,
   "fairy_monster_28": 2.9769,
   "fairy_monster_30": 5.6853,
   "fairy_monster_31": 3.3073,

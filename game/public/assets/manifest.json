@@ -55986,8 +55986,8 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1596376,
-      "sha256": "c2f944ee3d488244b328d2380029fdc0d5c9e76d8a93335161f04925be9f7a4f",
+      "bytes": 1605792,
+      "sha256": "d3689129623f50f48bd4e8aedaac1e43ec7454bcad0cbeb8ab1fc8faa18259db",
       "size": {
         "x": 0.743349,
         "y": 0.95,
@@ -56041,21 +56041,21 @@
           "Walk"
         ],
         "donor": {
-          "Attack": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Attack01",
+          "Attack": "PixeliusVita Fantasy Monster 01, Unity Asset Store licence: Monster01_Attack03_InPlace",
           "Hit": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_GetHit",
           "Death": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Die"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.173, foot IK, no scale keys). hitRecoil marks 23 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk) byte-identical to production (per-clip hashes checked); Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.173, foot IK, no scale keys). hitRecoil marks 23 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 8.866666793823242,
           "Walk": 2.6666667461395264,
-          "Attack": 2,
+          "Attack": 2.3333332538604736,
           "Hit": 0.6666666865348816,
           "Death": 1
         },
         "sourceFile": "game/public/assets/models/fairy/fairy_monster_16.glb",
-        "sourceSha256": "f95343176e83bfa0a2f662f87850706c1a6ff1124bf37a49def245b0089ea963"
+        "sourceSha256": "c2f944ee3d488244b328d2380029fdc0d5c9e76d8a93335161f04925be9f7a4f"
       },
       "bounds": {
         "min": [
@@ -56071,8 +56071,8 @@
       },
       "walkClipSeconds": 2.666667,
       "impliedWalkMps": 0.736051,
-      "attackSeconds": 2,
-      "contactNormalized": 0.583
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.683
     },
     {
       "id": "fairy_monster_21",
@@ -56352,8 +56352,8 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 2742052,
-      "sha256": "e8b4a82e0182a8f1ddf19d157941243b2e123776b928bba286bb47ff2561bf6c",
+      "bytes": 2736900,
+      "sha256": "8e2c479a16d219d6ffa2bc93f7e0408a28afdbe746d533cc2c569092d69a37b5",
       "size": {
         "x": 0.962977,
         "y": 1.45,
@@ -56407,31 +56407,31 @@
           "Walk"
         ],
         "donor": {
-          "Run": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Run",
-          "Attack": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Attack01",
+          "Run": "PixeliusVita Fantasy Monster 01, Unity Asset Store licence: Monster01_Run_InPlace",
+          "Attack": "PixeliusVita Fantasy Monster 01, Unity Asset Store licence: Monster01_Attack03_InPlace",
           "Hit": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_GetHit",
           "Death": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Die"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.954, foot IK, no scale keys). hitRecoil marks 63 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk) byte-identical to production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.954, foot IK, no scale keys). hitRecoil marks 63 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 1.3333333730697632,
           "Run": 0.6666666865348816,
-          "Attack": 2,
+          "Attack": 2.3333332538604736,
           "Hit": 0.6666666865348816,
           "Death": 1
         },
         "sourceFile": "game/public/assets/models/fairy/fairy_monster_27.glb",
-        "sourceSha256": "26cfaa6e91519d940edd550d2d757302b0848a19ac06c4d27d8a157776250941"
+        "sourceSha256": "e8b4a82e0182a8f1ddf19d157941243b2e123776b928bba286bb47ff2561bf6c"
       },
       "groundY": 0,
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.666667,
       "impliedWalkMps": 1.09695,
-      "impliedRunMps": 6.53629,
-      "attackSeconds": 2,
-      "contactNormalized": 0.583
+      "impliedRunMps": 2.865871,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.65
     },
     {
       "id": "fairy_monster_30",
@@ -60170,8 +60170,8 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1791668,
-      "sha256": "876c585fc7b991f4197156cc27c0628e66a7f41fddfaab7e05b64c626d87cc22",
+      "bytes": 1756932,
+      "sha256": "f3fb08d897c6db0fd32f6a0d2010014572537f050980ac568772e96d5fe2e340",
       "size": {
         "x": 0.920922,
         "y": 0.95,
@@ -60227,31 +60227,31 @@
           "Walk"
         ],
         "donor": {
-          "Run": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_Run",
-          "Attack": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_Attack01",
+          "Run": "PixeliusVita Fantasy Monster 01, Unity Asset Store licence: Monster01_Run_InPlace",
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
           "Hit": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_GetHit",
           "Death": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_Die"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.217, foot IK, no scale keys). hitRecoil marks 35 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk) byte-identical to production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.217, foot IK, no scale keys). hitRecoil marks 35 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 3,
           "Walk": 1,
           "Run": 0.6666666865348816,
-          "Attack": 2.3333332538604736,
+          "Attack": 2,
           "Hit": 0.6666666865348816,
           "Death": 1.1666666269302368
         },
         "sourceFile": "game/public/assets/models/fairy/fairy_monster_19.glb",
-        "sourceSha256": "831eb0dbb30e7132390846d65701579adf7f0bfb9e808e37135006ae23231629"
+        "sourceSha256": "876c585fc7b991f4197156cc27c0628e66a7f41fddfaab7e05b64c626d87cc22"
       },
       "groundY": 0,
       "walkClipSeconds": 1,
       "runClipSeconds": 0.666667,
       "impliedWalkMps": 0.196012,
-      "impliedRunMps": 1.62379,
-      "attackSeconds": 2.333333,
-      "contactNormalized": 0.567
+      "impliedRunMps": 1.672768,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_monster_34",
@@ -63059,7 +63059,7 @@
         "source-rig"
       ],
       "bytes": 2142112,
-      "sha256": "e913c01e86a459f0d2cc1bd7169c49c9eb07d83b92271531c0b11410323d02bd",
+      "sha256": "f295220474bfb7571e0cc279560414cd0f25ac86e374de96dc83daed0488f817",
       "size": {
         "x": 0.468122,
         "y": 0.95,
@@ -63119,7 +63119,7 @@
           "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.227, foot IK, no scale keys). Props on their own bones ride their hands at the reference offset (root_dupli_002x on handl, root_dupli_001x on handr). hitRecoil marks 7 joints under neckx. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk) byte-identical to production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.227, foot IK, no scale keys). Props on their own bones ride their hands at the reference offset (root_dupli_002x on handl, root_dupli_001x on handr). hitRecoil marks 7 joints under neckx. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 2,
@@ -63129,7 +63129,7 @@
           "Death": 1
         },
         "sourceFile": "game/public/assets/models/fairy/fairy_monster_31.glb",
-        "sourceSha256": "26627646221bf893f2d8749bd1215bda4646223a82a6643531cb3c4bf231875a"
+        "sourceSha256": "e913c01e86a459f0d2cc1bd7169c49c9eb07d83b92271531c0b11410323d02bd"
       },
       "groundY": 0,
       "walkClipSeconds": 2,
@@ -63152,7 +63152,7 @@
         "image-generated-texture"
       ],
       "bytes": 1015492,
-      "sha256": "bc64b8df5bb36e7135ffb31ec785965f6483db90c0ae6e0ad58faa9911ec7f69",
+      "sha256": "2a1e261f4f014ccb2bdcf24061264e5fcae7f3a474f1563307fd0aedc8bab78c",
       "size": {
         "x": 0.047047,
         "y": 0.038056,
@@ -63234,13 +63234,13 @@
           "Death": 1.9666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_red_worm.glb",
-        "sourceSha256": "3d10cd1323149b2a7e9b5f7981a7ab471e6a41fb8605ddcfc4d264c7c4f9b8e7"
+        "sourceSha256": "bc64b8df5bb36e7135ffb31ec785965f6483db90c0ae6e0ad58faa9911ec7f69"
       },
       "groundY": 0,
       "walkClipSeconds": 1.5,
       "runClipSeconds": 1.1,
       "attackSeconds": 1.633333,
-      "contactNormalized": 0.15
+      "contactNormalized": 0.867
     },
     {
       "id": "fairy_garden_spriggle_gloamgarden",
