@@ -60,6 +60,26 @@ and `GLTFExporter` both need DOM APIs Node does not have. Playwright is already 
 Outputs go to `game/public/assets/models/animal/`, and entries are merged into
 `game/public/assets/manifest.json` plus a durable copy in `tools/data/animal-assets.json`.
 
+## Native motion on the shipped bodies
+
+The shipped bodies carry reviewed textures, polished skins and rig additions that a full rebuild
+would lose, and their meshes, skins and rest poses never changed after the first import. So their
+motion is restored by splicing, not reconverting:
+
+```bash
+npx tsx tools/animals/splice-native.ts                      # every pack body
+npx tsx tools/animals/splice-native.ts --only animal_deer    # a subset
+npx tsx tools/animals/splice-native.ts --only animal_rabbit --out test-results/try   --try "Eat=WildRabbit_Eat.fbx"                            # preview another take as a clip
+```
+
+It reads each take straight from the extracted pack (`ANIMAL_PACK_DIR`, Unity ranges from
+`ANIMAL_PACK_RANGES`), binds tracks to production nodes by FBX identity, pins root XZ (root Y
+stays), appends at most one closing key to an open loop, and resamples at the 1e-4 default. It
+writes candidates and a `catalog.json` under `test-results/creature-motion/animals/`; production
+is never written. The take table (`BODIES`) is the record of which native take plays each state.
+States the pack lacks are omitted. Where a body has no attack of its own, `retarget-native.ts`
+retargets a same-template take rest-relative (world-space rotation deltas, no bone length change).
+
 ## Audio
 
 ```bash

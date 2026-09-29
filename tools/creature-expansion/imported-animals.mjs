@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import '/tools/animals/convert.js';
-import { authorMissingMotions, articulateSourceMesh } from './imported-animals/motions.mjs';
+import { articulateSourceMesh } from './imported-animals/articulation.mjs';
 
 const ROOT = '/test-results/creature-expansion/sources/animals';
 const pack = {
@@ -57,7 +57,7 @@ export const SPECIES = [
     ],
     // The source jaw reaches its minimum gape at sample 11/24, after its forward snap.
     contactNormalized: 11 / 24,
-    notes: 'Unused licensed crocodile body, source bite and distinct source walk/run. Authored neck and tail hit recoils leave all four support chains planted.',
+    notes: 'Unused licensed crocodile body, source bite and distinct source walk/run.',
   },
   {
     id: 'kiln_salamander', is: 'salamander', rig: 'FireSalamander_Rig.fbx',
@@ -70,7 +70,7 @@ export const SPECIES = [
       ['FireSalamander_Die.fbx', 'Death', [1, 80]],
     ],
     contactNormalized: 0.43,
-    notes: 'Unused licensed salamander body. Added lower-jaw articulation; throat-rise and forward spit gesture use a held source support pose. Distinct source walk/run.',
+    notes: 'Unused licensed salamander body. Added lower-jaw articulation. Distinct source walk/run; Attack is the crocodile bite retargeted by tools/animals/splice-native.ts.',
   },
   {
     id: 'reedbank_goose', is: 'goose', rig: 'swan_goose_rig_exp.FBX',
@@ -81,9 +81,11 @@ export const SPECIES = [
       ['swan_goose_walk_anim.FBX', 'Walk', [10, 40]],
       ['swan_goose_run_anim.FBX', 'Run', [60, 75]],
       ['swan_goose_die_anim.FBX', 'Death', [500, 530]],
+      // The native feeding lunge: bill down and forward to the ground and back to standing.
+      ['swan_goose_eat_anim.FBX', 'Attack', [700, 786]],
     ],
     contactNormalized: 0.46,
-    notes: 'Unused licensed goose body. Authored warning, neck-driven forward bill strike and paired wing flare. No feeding clip is used as Attack; both feet retain their source support pose.',
+    notes: 'Unused licensed goose body with fitted wing vanes (joints stay at rest). Attack is the native feeding lunge.',
   },
   {
     id: 'quarry_snail', is: 'snail', rig: 'snail_rig_exp.FBX',
@@ -95,7 +97,7 @@ export const SPECIES = [
       ['snail_die_anim.FBX', 'Death', [180, 260]],
     ],
     contactNormalized: 0.48,
-    notes: 'Unused licensed snail body, refined with a continuous curved spiral shell, modeled whorl gutters and a muscular foot margin. Source UVs/material remain. Rigid shell influence is separated from soft foot. Added eye-stalk articulation, retract/emerge rasp attack, neck and eye-stalk recoil, and a distinct authored traveling foot-wave faster crawl.',
+    notes: 'Unused licensed snail body, refined with a continuous curved spiral shell, modeled whorl gutters and a muscular foot margin. Source UVs/material remain. Rigid shell influence is separated from soft foot; added eye-stalk joints stay at rest. The pack has no snail run or attack, so neither ships.',
   },
 ];
 
@@ -128,8 +130,9 @@ export async function buildSpecies(id) {
     }
   });
   const articulation = articulateSourceMesh(object, id);
-  const authored = authorMissingMotions(object, gltf.animations, id, articulation);
-  const clips = [...gltf.animations.filter(clip => !authored.some(replacement => replacement.name === clip.name)), ...authored];
+  // Native takes only. States the pack lacks are omitted; tools/animals/splice-native.ts owns the
+  // motion of the shipped bodies, including the salamander's retargeted crocodile bite.
+  const clips = gltf.animations;
   const attack = clips.find(clip => clip.name === 'Attack');
   const gaitStance = {
     Walk: stanceSpeed(object, clips.find(clip => clip.name === 'Walk'), footBones[id]),
@@ -142,11 +145,11 @@ export async function buildSpecies(id) {
     meta: {
       is: species.is, tags: species.tags,
       provenance: { ...pack, sourceRig: species.rig, sourceManifest: `${ROOT.slice(1)}/source-provenance.json` },
-      attackSeconds: attack.duration, contactNormalized: species.contactNormalized,
+      ...(attack ? { attackSeconds: attack.duration, contactNormalized: species.contactNormalized } : {}),
       impliedWalkMps: gaitStance.Walk.mps || source.impliedWalkMps,
       impliedRunMps: gaitStance.Run.mps || source.impliedRunMps,
       walkClipSeconds: clips.find(clip => clip.name === 'Walk').duration,
-      runClipSeconds: clips.find(clip => clip.name === 'Run').duration,
+      ...(clips.some(clip => clip.name === 'Run') ? { runClipSeconds: clips.find(clip => clip.name === 'Run').duration } : {}),
       notes: species.notes,
       sourceClips: source.clips,
       articulation: articulation.report,

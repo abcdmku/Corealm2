@@ -1,23 +1,24 @@
 /**
- * Source FBX catalogue. Clip names are runtime contracts: Idle, Walk, Run, Attack, Death.
- * Every source walk and run remains distinct. Multi-motion takes use explicit Unity frame ranges.
- * Missing attack takes are recorded below; tools/rebuild-creature-motion.ts replaces them with
- * articulated species clips in a staged review build and supplies one Hit for combat.
- * The converter never layers root lunges over these source motions.
+ * Source FBX catalogue for tools/build-animals.ts (full reconversion). Clip names are runtime
+ * contracts: Idle, Walk, Run, Attack, Death. Every clip is a native take; multi-motion takes use
+ * explicit Unity frame ranges. States the pack never had are omitted, never synthesized: no Hit for
+ * any animal, no Run for hog/rat, no Attack for rabbit/frog/rat. The chicken's Attack is the opening
+ * strike of its own Eat take. Shipped bodies get their motion from tools/animals/splice-native.ts,
+ * which also retargets the goat headbutt onto the deer and the boar tusk toss onto the hog.
  */
 export const ANIMALS = [
   // ---------------------------------------------------------------- plains, Fallowmarch
   {
     id: "animal_chicken", rig: "Chicken_Rig.fbx", texture: "chicken_col14_unity.png",
     is: "chicken", tags: ["chicken", "hen", "fowl", "bird", "farm", "plains", "animal", "passive"],
-    clips: [["Chicken_Idle", "Idle"], ["Chicken_Walk", "Walk"], ["Chicken_Run", "Run"], ["Chicken_Eat", "Attack", [1, 40]], ["Chicken_Die", "Death"]],
-    substitutes: { attack: "source feeding placeholder; rebuild supplies articulated peck" },
+    clips: [["Chicken_Idle", "Idle"], ["Chicken_Walk", "Walk"], ["Chicken_Run", "Run"], ["Chicken_Eat", "Attack", [1, 26]], ["Chicken_Die", "Death"]],
+    substitutes: { attack: "peck: opening strike of the native Eat take" },
   },
   {
     id: "animal_chicken_speckled", rig: "Chicken_Rig.fbx", texture: "chicken_col_v3_unity.png",
     is: "chicken", tags: ["chicken", "hen", "fowl", "bird", "farm", "plains", "animal", "variant"],
-    clips: [["Chicken_Idle", "Idle"], ["Chicken_Walk", "Walk"], ["Chicken_Run", "Run"], ["Chicken_Eat", "Attack", [1, 40]], ["Chicken_Die", "Death"]],
-    substitutes: { attack: "source feeding placeholder; rebuild supplies articulated peck" },
+    clips: [["Chicken_Idle", "Idle"], ["Chicken_Walk", "Walk"], ["Chicken_Run", "Run"], ["Chicken_Eat", "Attack", [1, 26]], ["Chicken_Die", "Death"]],
+    substitutes: { attack: "peck: opening strike of the native Eat take" },
   },
   {
     id: "animal_cattle", rig: "Cattle_Rig.fbx", texture: "iron_age_cattle_col_unity.png",
@@ -37,34 +38,30 @@ export const ANIMALS = [
   {
     id: "animal_rabbit", rig: "WildRabbit_Rig.fbx", texture: "wild_rabbit_col5_unity.png",
     is: "rabbit", tags: ["rabbit", "bunny", "hare", "coney", "plains", "forest", "animal", "passive"],
-    clips: [["WildRabbit_Idle", "Idle"], ["WildRabbit_Walk", "Walk"], ["WildRabbit_Run", "Run"], ["WildRabbit_Eat", "Attack", [1, 26]], ["WildRabbit_Die", "Death"]],
-    substitutes: { attack: "source feeding placeholder; rebuild supplies articulated nip" },
+    clips: [["WildRabbit_Idle", "Idle"], ["WildRabbit_Walk", "Walk"], ["WildRabbit_Run", "Run"], ["WildRabbit_Die", "Death"]],
   },
   {
     id: "animal_rabbit_dark", rig: "WildRabbit_Rig.fbx", texture: "wild_rabbit_col_v3_unity.png",
     is: "rabbit", tags: ["rabbit", "bunny", "hare", "coney", "forest", "animal", "variant"],
-    clips: [["WildRabbit_Idle", "Idle"], ["WildRabbit_Walk", "Walk"], ["WildRabbit_Run", "Run"], ["WildRabbit_Eat", "Attack", [1, 26]], ["WildRabbit_Die", "Death"]],
-    substitutes: { attack: "source feeding placeholder; rebuild supplies articulated nip" },
+    clips: [["WildRabbit_Idle", "Idle"], ["WildRabbit_Walk", "Walk"], ["WildRabbit_Run", "Run"], ["WildRabbit_Die", "Death"]],
   },
   {
     id: "animal_frog", rig: "common_frog_rig_exp.FBX", texture: "common_frog_col_unity.png",
     is: "frog", tags: ["frog", "toad", "amphibian", "water", "marsh", "pond", "animal", "passive"],
-    clips: [["common_frog_idle_anim", "Idle"], ["common_frog_walk_anim", "Walk"], ["common_frog_run_anim", "Run"], ["common_frog_run_anim", "Attack"], ["common_frog_die_anim", "Death"]],
-    substitutes: { attack: "source hop placeholder; rebuild supplies articulated jaw snap" },
+    clips: [["common_frog_idle_anim", "Idle"], ["common_frog_walk_anim", "Walk"], ["common_frog_run_anim", "Run"], ["common_frog_die_anim", "Death"]],
   },
   {
     id: "animal_frog_green", rig: "common_frog_rig_exp.FBX", texture: "common_frog_col_v2_unity.png",
     is: "frog", tags: ["frog", "toad", "amphibian", "water", "marsh", "pool", "animal", "variant"],
-    clips: [["common_frog_idle_anim", "Idle"], ["common_frog_walk_anim", "Walk"], ["common_frog_run_anim", "Run"], ["common_frog_run_anim", "Attack"], ["common_frog_die_anim", "Death"]],
-    substitutes: { attack: "source hop placeholder; rebuild supplies articulated jaw snap" },
+    clips: [["common_frog_idle_anim", "Idle"], ["common_frog_walk_anim", "Walk"], ["common_frog_run_anim", "Run"], ["common_frog_die_anim", "Death"]],
   },
 
   // ---------------------------------------------------------------- forest, Vellenwood
   {
     id: "animal_deer", rig: "Deer_Rig.fbx", texture: "deer_col6_unity.png",
     is: "deer", tags: ["deer", "stag", "hart", "doe", "antler", "forest", "animal", "territorial"],
-    clips: [["Deer_Idle", "Idle"], ["Deer_Walk", "Walk"], ["Deer_Run", "Run"], ["Deer_Eat", "Attack", [1, 34]], ["Deer_Die", "Death"]],
-    substitutes: { attack: "source feeding placeholder; rebuild supplies articulated antler thrust" },
+    clips: [["Deer_Idle", "Idle"], ["Deer_Walk", "Walk"], ["Deer_Run", "Run"], ["Deer_Die", "Death"]],
+    substitutes: { attack: "none native; splice-native.ts retargets Goat_Attack" },
   },
   {
     id: "animal_coyote", rig: "Wolf_Rig.fbx", texture: "common_wolf_col2_unity.png",
@@ -74,8 +71,8 @@ export const ANIMALS = [
   {
     id: "animal_hog", rig: "iron_age_pig_rig_exp.FBX", texture: "iron_age_pig_col_unity.png",
     is: "hog", tags: ["hog", "pig", "swine", "forest", "bramble", "animal", "aggressive"],
-    clips: [["iron_age_pig_idle_anim", "Idle"], ["iron_age_pig_walk_anim", "Walk"], ["iron_age_pig_eat_anim", "Attack", [150, 186]], ["iron_age_pig_die_anim", "Death"]],
-    substitutes: { walk: "iron_age_pig_walk (pack ships no run cycle)", attack: "source feeding placeholder; rebuild supplies articulated tusk jab" },
+    clips: [["iron_age_pig_idle_anim", "Idle"], ["iron_age_pig_walk_anim", "Walk"], ["iron_age_pig_die_anim", "Death"]],
+    substitutes: { run: "none (pack ships no run cycle)", attack: "none native; splice-native.ts retargets the WildBoar_Attack head chain" },
   },
   {
     id: "animal_viper", rig: "Viper_Rig.fbx", texture: "asp_viper_col6_unity.png",
@@ -104,8 +101,8 @@ export const ANIMALS = [
   {
     id: "animal_rat", rig: "rat_rig_exp.FBX", texture: "rat_col13_unity.png",
     is: "rat", tags: ["rat", "rodent", "vermin", "cave", "dungeon", "animal", "aggressive"],
-    clips: [["rat_idle_anim", "Idle"], ["rat_walk_anim", "Walk"], ["rat_walk_anim", "Attack", [10, 30]], ["rat_die_anim", "Death"]],
-    substitutes: { walk: "rat_walk (pack ships no run cycle)", attack: "source walk placeholder; rebuild supplies articulated nip" },
+    clips: [["rat_idle_anim", "Idle"], ["rat_walk_anim", "Walk"], ["rat_die_anim", "Death"]],
+    substitutes: { run: "none (pack ships no run cycle)" },
   },
   {
     id: "animal_scorpion", rig: "Scorpion_Rig.fbx", texture: "scorpion_col15_unity.png",
