@@ -45,3 +45,33 @@ export class ActorInterpolation {
       this.from[1] + (this.to[1] - this.from[1]) * t, this.from[2] + (this.to[2] - this.from[2]) * t];
   }
 }
+
+/** What one authoritative update says about a replicated creature or NPC. */
+export interface ReplicatedActorFrame {
+  readonly position: Vec3;
+  readonly facing: number;
+  readonly dead: boolean;
+  /** Region and model: a change in either is a teleport, never a walk. */
+  readonly placement: string;
+}
+
+/**
+ * Applies one authoritative update to an actor's drawn motion.
+ *
+ * A body stops where it is drawn on the update that says it died, and holds there until it comes
+ * back. Snapping it to the authoritative position instead jerked every kill forward by the step
+ * the drawn body had not finished yet (0.3 m for a charging wolf), and interpolating to it slid
+ * the corpse along the ground under its death clip.
+ */
+export function followReplicatedActor(
+  motion: ActorInterpolation, previous: ReplicatedActorFrame | undefined, next: ReplicatedActorFrame,
+  now: number, intervalMs: number,
+): void {
+  if (previous && (previous.placement !== next.placement || (previous.dead && !next.dead))) {
+    motion.reset(next.position, next.facing, now);
+  } else if (next.dead) {
+    if (!previous?.dead) motion.freeze(now);
+  } else {
+    motion.push(next.position, now, next.facing, intervalMs);
+  }
+}

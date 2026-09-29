@@ -18,7 +18,7 @@ import { assetHostReadable, canStorePendingLaunch, joinRoute, launchWorld, store
 import type { SessionControllerPorts } from "./providers.js";
 import type { LocalLaunch } from "./localLaunch.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
-import { ActorInterpolation } from "../multiplayer/interpolation.js";
+import { ActorInterpolation, followReplicatedActor, type ReplicatedActorFrame } from "../multiplayer/interpolation.js";
 import {MovementPrediction} from "./movementPrediction.js";
 import {visibleRemotePlayers} from "./visiblePlayers.js";
 import {CrowdDetail} from "./crowdDetail.js";
@@ -180,6 +180,11 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     },
     reloadOnto:world=>reloadOnto(world,0)};
 }
+
+const actorFrame = (entity: SemanticEntity): ReplicatedActorFrame => ({
+  position: entity.position, facing: entity.view?.rotationY ?? 0, dead: entity.state === "dead",
+  placement: `${entity.regionId}|${entity.view?.assetId ?? "-"}`,
+});
 
 /** Shared browser presentation and session lifecycle; simulation remains behind the session boundary. */
 export async function installBrowserSession(ports: BrowserSessionPorts, options:{fixture?:boolean;/** A feature-lab session in a lab worker: the lab scene, and no picker on screen. */lab?:boolean;crowds?:boolean;equipment?:boolean}={},
@@ -383,12 +388,9 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       for (const entity of update.entities) {
         const previous = entities.get(entity.id);
         if (entity.view && ["enemy", "boss", "npc"].includes(entity.archetype)) {
-          let motion = entityInterpolation.get(entity.id);
-          const facing = entity.view.rotationY ?? 0;
-          if (!motion) { motion = new ActorInterpolation(entity.position, facing); entityInterpolation.set(entity.id, motion); }
-          else if (previous && (previous.regionId !== entity.regionId || (previous.state === "dead") !== (entity.state === "dead") || previous.view?.assetId !== entity.view.assetId)) {
-            motion.reset(entity.position, facing, receivedAt);
-          } else motion.push(entity.position, receivedAt, facing, motionInterval());
+          const motion = entityInterpolation.get(entity.id);
+          if (!motion) entityInterpolation.set(entity.id, new ActorInterpolation(entity.position, entity.view.rotationY ?? 0));
+          else followReplicatedActor(motion, previous && actorFrame(previous), actorFrame(entity), receivedAt, motionInterval());
         } else entityInterpolation.delete(entity.id);
         entities.set(entity.id, entity); replicatedEntities.upsert(entity);
       }
