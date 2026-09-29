@@ -83,10 +83,10 @@ window.sheet = async (urls, opts) => {
     const line = new THREE.GridHelper(radius * 8, 32, 0x7a8699, 0x4b5563); line.position.y = 0.0005; scene.add(line);
     scene.add(gltf.scene);
     const mixer = new THREE.AnimationMixer(gltf.scene);
-    const action = mixer.clipAction(clip); action.play();
+    const action = mixer.clipAction(clip); action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
     let minY = Infinity;
     for (let c = 0; c < cols; c += 1) {
-      const t = clip.duration * (cols === 1 ? 0 : c / (cols - 1));
+      const t = Math.min(clip.duration - 1e-4, clip.duration * (cols === 1 ? 0 : c / (cols - 1)));
       mixer.setTime(t);
       gltf.scene.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(gltf.scene, true);
