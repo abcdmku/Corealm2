@@ -110,7 +110,7 @@ export function buildSkeletonSource(id='skeleton_soldier') {
     textureBindings:[{materialName:'DS_Skeleton_standard',baseColorPath:path.join(materials,'DemoSkeleton.png'),flipY:true},{materialName:'DS_equipment_standard',baseColorPath:path.join(materials,'DemoEquipment.png'),flipY:true}],
     provenance:{publisher:'Polygon Blacksmith',package:'Dungeon Skeletons Demo.unitypackage',sha256:PACKAGE_HASH,license:'Standard Unity Asset Store EULA; local entitlement cache',mesh:'models/DungeonSkeleton_demo.FBX',textureNotes:'Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.'},
     animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:HIT_PROVENANCE},
-    requiredMotionRepair:{profile:'studio',implementation:'tools/tripo-creatures/profiles/studio-skeleton.ts',missingStates:['Death']},
+    nativeExport:'tools/rpg-bestiary/native-export.ts ships the three native takes; the demo has no Death take (needs death).',
     acceptance:'Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.',...variantMeta,...(unhorned?{helmetModification:unhorned}:{})};
   if(id!=='skeleton_soldier'){
     for(const name of ['Idle','Walk','Run'])meta.animationProvenance[name]+='; Corealm-derived role arm poses over source rig.';
