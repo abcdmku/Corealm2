@@ -1,7 +1,7 @@
 {
   "format": "corealm-world",
   "version": 1,
-  "revision": "764f0b6ced1522e98d2fb1acbf53a44a03553eca9d1486b9545a54debfb5a661",
+  "revision": "9b75275022c288a4a3fb0fc267ba6a354988adc6e622b1ae0998e5985ffbca6c",
   "scope": "game/1337/world",
   "tiles": [
     "-6:-5",
