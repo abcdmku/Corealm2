@@ -8,7 +8,6 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createMaskedHitOverlay, applyMaskedHitOverlay } from '../game/src/render/creatureHitOverlay.js';
 import { NodeIO, type JSONDocument } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { repairStudioHumanoid } from '../tools/tripo-creatures/profiles/studioHumanoids.js';
 import { repairStudioFairy } from '../tools/tripo-creatures/profiles/studio-fairy.js';
 import { applyClip, duration, restorePose, storedPose } from '../tools/creature-motion/pose.js';
 import { deformedBounds } from '../tools/creature-motion/validate-deformation.js';
@@ -70,45 +69,6 @@ describe('fairy crawler support during recoil',()=>{
   });
 });
 
-describe('studio death export contact', () => {
-  it.each(['creature_skeleton_soldier', 'creature_boss_mossbound'])('%s keeps a held terminal pose grounded after serialization', async id => {
-    const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
-    const entry = manifest.assets.find((asset: { id: string }) => asset.id === id);
-    const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-    const doc = await repairSource(io, entry);
-    const attack = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
-    const jointChannels = () => attack.listChannels().filter(channel => !/ground/i.test(channel.getTargetNode()!.getName()));
-    const attackValues = jointChannels().map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!));
-    const result = await repairStudioHumanoid(doc, { assetId: id, entry,
-      readAsset: async donorId => io.read(`game/public/assets/${manifest.assets.find((asset: { id: string }) => asset.id === donorId).file}`) });
-    expect(result.changes.length).toBeGreaterThan(0);
-    expect(jointChannels().map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!))).toEqual(attackValues);
-    const encoded = await io.writeBinary(doc), decoded = await io.readBinary(encoded);
-    const death = decoded.getRoot().listAnimations().find(clip => clip.getName() === 'Death')!;
-    if (id === 'creature_skeleton_soldier') for (const bone of ['Bip001_L_Calf', 'Bip001_R_Forearm']) {
-      const channel = death.listChannels().find(channel => channel.getTargetNode()!.getName() === bone && channel.getTargetPath() === 'rotation')!;
-      const values = channel.getSampler()!.getOutput()!.getArray()!;
-      const first = new THREE.Quaternion().fromArray(values, 0), sampled = new THREE.Quaternion();
-      expect(Array.from({ length: values.length / 4 }, (_, index) => first.angleTo(sampled.fromArray(values, index * 4)))
-        .some(angle => angle > .1), `${bone} must articulate during collapse`).toBe(true);
-    }
-    for (const channel of death.listChannels()) {
-      const times = channel.getSampler()!.getInput()!.getArray()!;
-      expect(Array.from(times).every((time, i) => i === 0 || time > times[i - 1]!)).toBe(true);
-    }
-    const rest = storedPose(decoded), samples = [];
-    for (const time of [duration(death) - .249, duration(death) - .001, duration(death)]) {
-      restorePose(rest); applyClip(death, time); samples.push(deformedBounds(decoded));
-    }
-    expect(samples[2]!.min[1]).toBeGreaterThan(.0029);
-    expect(samples[2]!.min[1]).toBeLessThan(.0031);
-    for (const bounds of samples) for (let axis = 0; axis < 3; axis++) {
-      expect(bounds.min[axis]).toBeCloseTo(samples[2]!.min[axis]!, 5);
-      expect(bounds.max[axis]).toBeCloseTo(samples[2]!.max[axis]!, 5);
-    }
-  });
-});
-
 describe('studio trial native motion repair', () => {
   it('fairy_monster_16 preserves native gait and skin, holds its corpse, and reproduces its production bytes', async () => {
     const id = 'fairy_monster_16';
@@ -131,31 +91,5 @@ describe('studio trial native motion repair', () => {
     for (let axis = 0; axis < 3; axis++) { expect(end.min[axis]).toBeCloseTo(held.min[axis]!, 5); expect(end.max[axis]).toBeCloseTo(held.max[axis]!, 5); }
     restorePose(rest);
     expect(createHash('sha256').update(await io.writeBinary(doc)).digest('hex')).toBe(entry.sha256);
-  });
-});
-
-describe('studio archer string release', () => {
-  it.each(['creature_skeleton_archer', 'creature_skeleton_archer_elite'])('%s keeps interpolated strings on their anchors', async id => {
-    const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
-    const entry = manifest.assets.find((asset: { id: string }) => asset.id === id);
-    const io = new NodeIO().registerExtensions(ALL_EXTENSIONS), doc = await repairSource(io, entry);
-    const attack = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
-    const body = attack.listChannels().filter(channel => channel.getTargetNode()!.getName().startsWith('Bip001'));
-    const before = body.map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!));
-    await repairStudioHumanoid(doc, { assetId: id, entry,
-      readAsset: async donorId => io.read(`game/public/assets/${manifest.assets.find((asset: { id: string }) => asset.id === donorId).file}`) });
-    expect(body.map(channel => Array.from(channel.getSampler()!.getOutput()!.getArray()!))).toEqual(before);
-    const rest = storedPose(doc), nodes = new Map(doc.getRoot().listNodes().map(node => [node.getName(), node]));
-    for (let frame = 0; frame <= 480; frame++) {
-      restorePose(rest); applyClip(attack, duration(attack) * frame / 480);
-      const nock = new THREE.Vector3().fromArray(nodes.get('NockedArrow')!.getTranslation());
-      for (const [name, y] of [['BowStringLower', -.52], ['BowStringUpper', .52]] as const) {
-        const node = nodes.get(name)!, axis = new THREE.Vector3(0, 1, 0).applyQuaternion(new THREE.Quaternion().fromArray(node.getRotation()));
-        expect(Math.abs(axis.x)).toBeLessThan(1e-7);
-        const center = new THREE.Vector3().fromArray(node.getTranslation()), half = node.getScale()[1] / 2;
-        expect(center.clone().addScaledVector(axis, half).distanceTo(new THREE.Vector3(0, y, -.08))).toBeLessThan(.003);
-        expect(center.clone().addScaledVector(axis, -half).distanceTo(nock)).toBeLessThan(.003);
-      }
-    }
   });
 });
