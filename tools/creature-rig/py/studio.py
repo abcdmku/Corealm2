@@ -6,14 +6,17 @@ native clips byte-identical.
 The asset config's "studio" block drives it (see README, "Studio mode"). The studio skeleton is
 read from the production GLB, at the first frame of studio.referenceClip when one is given. Mapped
 joints (studio.map: node name -> {bone, donor?, follow?, kind?, parent?, tail?, noTail?, noKey?,
-translate?}) form a crlib Skeleton with the class's donor bone names; the crlib Retargeter samples
-each donor clip (rest-relative, hips scaled by leg length, foot IK). Each mapped node's new world
-rotation is its retargeted frame rotation carried onto the node's own reference rotation; locals are
-taken against the node's real parent. Joints whose logical parent is not their node parent (IK-baked
-feet) also get translation keys so they stay on the limb. Writes <work>/studio.json for studio.mjs.
+translate?}, or "arp" for an Auto-Rig Pro skeleton driven by Auto-Rig Pro donors) form a crlib
+Skeleton with the class's donor bone names; the crlib Retargeter samples each donor clip
+(rest-relative, hips scaled by leg length, foot IK). Each mapped node's new world rotation is its
+retargeted frame rotation carried onto the node's own reference rotation; locals are taken against
+the node's real parent. Joints whose logical parent is not their node parent (IK-baked feet) also
+get translation keys so they stay on the limb. Writes <work>/studio.json for studio.mjs.
 """
+import copy
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -28,6 +31,69 @@ from crlib.retarget import Retargeter, forward  # noqa: E402
 from crlib.skeleton import Skeleton  # noqa: E402
 
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
+
+# Auto-Rig Pro deform bones that carry the class's canonical names (the hips, the spine and the
+# limbs), so the leg IK and the tail picks find them. Sided names end in l or r.
+ARP_CORE = {"rootx": ("pelvis", "body"), "spine_01x": ("spine_01", "body"), "spine_02x": ("spine_02", "body"),
+            "spine_03x": ("spine_03", "body"), "neckx": ("neck_01", "body"), "headx": ("Head", "body")}
+ARP_SIDED = {"shoulder": ("clavicle", "arm"), "arm_stretch": ("upperarm", "arm"), "forearm_stretch": ("lowerarm", "arm"),
+             "hand": ("hand", "arm"), "thigh_stretch": ("thigh", "leg"), "leg_stretch": ("calf", "leg"),
+             "foot": ("foot", "leg"), "toes_01": ("ball", "leg")}
+
+
+def arp_map(g, joints, donors, skip):
+    """{node: spec} for an Auto-Rig Pro skeleton driven by Auto-Rig Pro donors (PixeliusVita packs).
+    glTF drops the dots of ARP names (thigh_stretch.l -> thigh_stretchl). A joint is driven by the
+    donor bone of the same name when that bone hangs from the same parent in some donor, so a helmet
+    plume named c_tail under the head never takes a real tail's motion. Other joints stay unmapped
+    (they follow their parent; see holdUnmapped)."""
+    lookup, parent_of = {}, {}
+    for d in donors:
+        for b in d.bones:
+            key = b.replace(".", "")
+            lookup.setdefault(key, b)
+            parent_of.setdefault(key, (d.parent[b] or "").replace(".", ""))
+    out = {}
+    for i in joints:
+        n = g.nodes[i]["name"]
+        if n in skip or n not in lookup:
+            continue
+        node_parent = g.nodes[g.parent[i]]["name"] if i in g.parent else ""
+        if parent_of[n] != node_parent and not (n == "rootx"):
+            continue
+        spec = {"donor": lookup[n], "kind": "body"}
+        if n in ARP_CORE:
+            spec["bone"], spec["kind"] = ARP_CORE[n]
+        else:
+            m = re.fullmatch(r"(.+?)([lr])", n)
+            if m and m.group(1) in ARP_SIDED:
+                base, spec["kind"] = ARP_SIDED[m.group(1)]
+                spec["bone"] = f"{base}_{m.group(2)}"
+            else:
+                spec["bone"] = n
+                if "twist" in n:
+                    spec["noTail"] = True
+                if "_stretch" in n or "twist" in n or re.match(r"(shoulder|hand)", n):
+                    spec["kind"] = "leg" if re.match(r"(thigh|leg)_", n) else "arm"
+        out[n] = spec
+    return out
+
+
+def rested(d, take, clip=None, hub=None):
+    """The donor seen from the first frame of one of its takes: that pose becomes its rest, so a
+    clip transfers as motion away from the donor's own stance (its Idle) onto the target's. Takes
+    of one pack start at different ground positions (baked root motion): the rest moves over the
+    clip's first hub position, so only the clip's own travel and height change carry over."""
+    c = d.clips[take]
+    shift = np.zeros(3)
+    if clip is not None and hub is not None:
+        shift = d.clips[clip]["heads"][0][d.index(hub)] - c["heads"][0][d.index(hub)]
+        shift[1] = 0.0
+    r = copy.copy(d)
+    r.rest_frame = {b: c["frames"][0][i] for i, b in enumerate(d.bones)}
+    r.rest_head = {b: c["heads"][0][i] + shift for i, b in enumerate(d.bones)}
+    r.rest_tail = {b: r.rest_head[b] + r.rest_frame[b][:, 1] * np.linalg.norm(d.rest_tail[b] - d.rest_head[b]) for b in d.bones}
+    return r
 
 
 def main(work, cache):
@@ -45,12 +111,18 @@ def main(work, cache):
     # ---- donors: the class's donor map; clips from the studio block, else the class profile
     donor_map = json.load(open(os.path.join(HERE, "classes", f"{config['class']}.donors.json"), encoding="utf-8"))
     cfg = dict(cfg, clips=cfg.get("clips") or donor_map["profiles"][config["profile"]]["clips"])
-    primary_key = donor_map["primary"]
+    primary_key = cfg.get("primary", donor_map["primary"])
+    # A clip's "rest" (or studio.donorRest[donor]) names a donor take whose first frame is that
+    # donor's rest: the clip transfers as motion away from that stance.
+    for spec in cfg["clips"].values():
+        spec.setdefault("rest", cfg.get("donorRest", {}).get(spec["donor"]))
     needed = {}
     for spec in cfg["clips"].values():
         for part in [spec] + ([spec["layer"]] if spec.get("layer") else []):
             takes = part["clip"] if isinstance(part["clip"], list) else [part["clip"]]
             needed.setdefault(part.get("donor", spec.get("donor")), set()).update(takes)
+        if spec.get("rest"):
+            needed[spec["donor"]].add(spec["rest"])
     needed.setdefault(primary_key, set())
     donors = {k: donors_mod.load(k, donor_map["donors"][k], cache, sorted(v)) for k, v in needed.items()}
     primary = donors[primary_key]
@@ -60,8 +132,53 @@ def main(work, cache):
                 part["clip"] = donors[part.get("donor", spec.get("donor"))].chain(part["clip"])
 
     # ---- skeleton from the studio joints
-    mp = cfg["map"]  # node name -> {bone, donor, follow, kind, parent?}
-    pos = lambda n: world[by_name[n]][:3, 3]
+    props = cfg.get("props", {})  # prop node -> the hand node that carries it
+    if cfg["map"] == "arp":
+        mp = arp_map(g, joints, list(donors.values()), set(props))
+    else:
+        mp = dict(cfg["map"])  # node name -> {bone, donor, follow, kind, parent?}
+    # "chains": a target chain (a tail) driven by a donor chain of another length, spread by index
+    # along both: [{"from": first node, "donor": first donor bone, "in": donor key}]. Each chain
+    # follows its first joint child down.
+    def chain_down(first_child, start):
+        out = [start]
+        while True:
+            kids = first_child(out[-1])
+            if not kids:
+                return out
+            out.append(kids[0])
+    joint_names = {g.nodes[i]["name"] for i in joints}
+    for ch in cfg.get("chains", []):
+        d = donors[ch["in"]] if ch.get("in") else next(x for x in donors.values() if ch["donor"] in x.bones)
+        tgt = chain_down(lambda n: [g.nodes[c]["name"] for c in g.nodes[by_name[n]].get("children", []) if g.nodes[c]["name"] in joint_names], ch["from"])
+        src = chain_down(d.children, ch["donor"])[:ch.get("donorLength")]
+        for i, n in enumerate(tgt):
+            j = round(i * (len(src) - 1) / max(len(tgt) - 1, 1))
+            mp[n] = {"bone": n, "donor": src[j], "kind": "tail"}
+    # "springs": a chain with no donor twin (a tail dragging on the floor) follows its parent and
+    # is then driven by crlib's damped spring chain with the floor as a plane:
+    # [{"from": first node, stiffness?, damping?, gravity?, clearance?, hang?}].
+    spring_chains = []
+    for sc in cfg.get("springs", []):
+        tgt = chain_down(lambda n: [g.nodes[c]["name"] for c in g.nodes[by_name[n]].get("children", []) if g.nodes[c]["name"] in joint_names], sc["from"])
+        for n in tgt:
+            mp[n] = {"bone": n, "donor": None, "kind": "tail"}
+        spring_chains.append(dict({k: v for k, v in sc.items() if k != "from"}, bones=tgt))
+    for n, spec in cfg.get("mapOverrides", {}).items():
+        if spec is None:
+            mp.pop(n, None)
+        else:
+            mp[n] = dict(mp.get(n, {}), **spec)
+    # "donor" may name a bone per donor ({donor key: bone or null}) when donors of different rigs
+    # drive one skeleton; the primary donor's name is the bone's own.
+    bone_maps = {k: {} for k in donors}
+    for n, v in mp.items():
+        if isinstance(v.get("donor"), dict):
+            per = v["donor"]
+            for k in donors:
+                bone_maps[k][v["bone"]] = per.get(k)
+            v["donor"] = per.get(primary_key) or next((x for x in per.values() if x), None)
+    pos =lambda n: world[by_name[n]][:3, 3]
     bone_node = {v["bone"]: n for n, v in mp.items()}
     node_bone = {n: v["bone"] for n, v in mp.items()}
 
@@ -124,9 +241,16 @@ def main(work, cache):
                 tail = head + [0, 0.1, 0]
         sk.add(v["bone"], logical_parent(n), head, tail, donor=v["donor"] if "donor" in v else v["bone"], follow=v.get("follow", 0.0), kind=v.get("kind", "body"))
     sk.solve_frames(primary)
-    legs = [(f"thigh_{s}", f"calf_{s}", f"foot_{s}", f"ball_{s}") for s in ("l", "r") if f"thigh_{s}" in sk and f"ball_{s}" in sk]
-    legs += [(f"thigh_{s}", f"calf_{s}", f"foot_{s}") for s in ("l", "r") if f"thigh_{s}" in sk and f"ball_{s}" not in sk]
+    if "legs" in cfg:
+        # Explicit legs in node names ({chain: [...], foot?, toe?, pivot?}), e.g. a crawler's arm chains.
+        legs = [dict(leg, chain=[node_bone[x] for x in leg["chain"]], **{k: node_bone[leg[k]] for k in ("foot", "toe") if leg.get(k)}) for leg in cfg["legs"]]
+    else:
+        legs = [(f"thigh_{s}", f"calf_{s}", f"foot_{s}", f"ball_{s}") for s in ("l", "r") if f"thigh_{s}" in sk and f"ball_{s}" in sk]
+        legs += [(f"thigh_{s}", f"calf_{s}", f"foot_{s}") for s in ("l", "r") if f"thigh_{s}" in sk and f"ball_{s}" not in sk]
     plan = {"hips": "pelvis", "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
+    for key in ("hipMode", "scale"):
+        if key in cfg:
+            plan[{"hipMode": "hip_mode"}.get(key, key)] = cfg[key]
 
     # Node reference rotations (scale removed) for every mapped node.
     def rot_scale(Mw):
@@ -136,15 +260,19 @@ def main(work, cache):
     ref_rot = {n: rot_scale(world[by_name[n]])[0] for n in mp}
     keyed = [n for n in mp if not mp[n].get("noKey")]
     keyed_idx = {by_name[n] for n in keyed}
+    # holdUnmapped: every other joint (a tail tip, a plume, a helmet flap) is keyed at its
+    # reference pose, so it rides its parent as in the native Idle instead of snapping to bind.
+    held = [g.nodes[i]["name"] for i in joints if g.nodes[i]["name"] not in mp and g.nodes[i]["name"] not in props] if cfg.get("holdUnmapped") else []
+    prop_offset = {n: np.linalg.inv(world[by_name[hand]]) @ world[by_name[n]] for n, hand in props.items()}
 
     def rest_local(i):
-        return g.local(i, None)
+        return g.local(i, ref if cfg.get("holdUnmapped") else None)
 
     # Long axis of each prop node in its hand's frame (from its meshes' extent).
     prop_axis = {}
-    for spec in cfg["clips"].values():
-        fp = spec.get("flatProp")
-        if not fp or fp["node"] in prop_axis:
+    flat_props = lambda spec: spec.get("flatProp") if isinstance(spec.get("flatProp"), list) else [spec["flatProp"]] if spec.get("flatProp") else []
+    for fp in [fp for spec in cfg["clips"].values() for fp in flat_props(spec)]:
+        if fp["node"] in prop_axis or fp["node"] in props:
             continue
         pi = by_name[fp["node"]]
         pts = []
@@ -175,6 +303,25 @@ def main(work, cache):
                 Wp = g.accessor(prim["attributes"]["WEIGHTS_0"])[::3]
                 skinned.append((np.hstack([Pp, np.ones((len(Pp), 1))]), Jp, Wp))
 
+    # A skinned prop (its own bone, carried on a hand) takes its long axis from the vertices it
+    # owns, in its bone's frame, turned into the hand's frame by the carry offset.
+    for fp in [fp for spec in cfg["clips"].values() for fp in flat_props(spec)]:
+        if fp["node"] not in props or fp["node"] in prop_axis:
+            continue
+        k = skin["joints"].index(by_name[fp["node"]])
+        pts = []
+        for node in g.nodes:
+            if "mesh" in node and "skin" in node:
+                for prim in g.json["meshes"][node["mesh"]]["primitives"]:
+                    P = g.accessor(prim["attributes"]["POSITION"])
+                    J = g.accessor(prim["attributes"]["JOINTS_0"]).astype(int)
+                    W = g.accessor(prim["attributes"]["WEIGHTS_0"])
+                    own = J[np.arange(len(J)), W.argmax(1)] == k
+                    pts.append((ibm[k] @ np.hstack([P[own], np.ones((own.sum(), 1))]).T).T[:, :3])
+        pts = np.vstack(pts)
+        axis = np.linalg.svd(pts - pts.mean(0), full_matrices=False)[2][0]
+        prop_axis[fp["node"]] = normalize(rot_scale(prop_offset[fp["node"]])[0] @ axis)
+
     def skinned_min_y(wm):
         mats = np.array([wm(j) @ ibm[k] for k, j in enumerate(skin["joints"])])
         low = np.inf
@@ -186,14 +333,30 @@ def main(work, cache):
         return low
 
     # The floor is where the rest pose stands.
-    floor_y = skinned_min_y(lambda i: g.world(i)) if skinned else 0.0
+    floor_y = skinned_min_y(lambda i: g.world(i, ref if cfg.get("floor") == "reference" else None)) if skinned else 0.0
     print(f"rest floor {floor_y:.4f}", file=sys.stderr)
 
     out = {"clips": [], "replace": cfg.get("replace", []), "propPoseClip": cfg.get("propPoseClip"), "scale": None}
     for state, spec in cfg["clips"].items():
         d = donors[spec["donor"]]
-        # A clip hipMotion replaces the body's (the retargeter multiplies the two).
-        r = Retargeter(sk, d, dict(plan, hip_motion=1.0 if "hipMotion" in spec else plan["hip_motion"]))
+        if spec.get("rest"):
+            hub = bone_maps.get(spec["donor"], {}).get("pelvis", sk["pelvis"].donor)
+            d = rested(d, spec["rest"], spec["clip"], hub)
+        # A clip hipMotion replaces the body's (the retargeter multiplies the two). Every donor
+        # binds through its own rest frames (primary=False), which is exact for the primary too.
+        clip_map = dict(bone_maps.get(spec["donor"], {}))
+        # "still": joints (with everything mapped under them) that keep their reference pose on
+        # their parent in this clip, e.g. a shield arm holding its guard through a two-handed swipe.
+        for root_node in spec.get("still", []):
+            stack = [by_name[root_node]]
+            while stack:
+                i = stack.pop()
+                if g.nodes[i]["name"] in mp:
+                    clip_map[mp[g.nodes[i]["name"]]["bone"]] = None
+                stack += g.nodes[i].get("children", [])
+        # A clip whose donor drives neither hips nor legs (an upper-body Hit) sets its own "scale".
+        r = Retargeter(sk, d, dict(plan, hip_motion=1.0 if "hipMotion" in spec else plan["hip_motion"], **({"scale": spec["scale"]} if "scale" in spec else {})),
+                       bone_map=clip_map, primary=False)
         out["scale"] = r.scale
         res = r.sample(state, spec)
         if spec.get("layer"):
@@ -208,6 +371,11 @@ def main(work, cache):
                     w = float(np.clip((b2 - u) / (b2 - a), 0, 1))
                 for b in lay["bones"]:
                     res["L"][f][b] = slerp_matrix(res["L"][f][b], src[b], w)
+        if spring_chains:
+            # A clip may retune a chain: {"springs": {first node: {gravity, stiffness, ease, ...}}}.
+            tune = spec.get("springs") or {}
+            chains = [dict(c, base=c, **tune.get(c["bones"][0], {})) for c in spring_chains]
+            res = r.secondary(res, chains, [], floor=floor_y)
         tracks = {n: {"rotation": [], "translation": []} for n in keyed}
         pys = [p[1] for p in res["pelvis"]]
         print(f"{state}: pelvis y rest {sk['pelvis'].head[1]:.3f} range {min(pys):.3f}..{max(pys):.3f} scale {r.scale:.3f}", file=sys.stderr)
@@ -222,8 +390,7 @@ def main(work, cache):
                 Mw[:3, :3] = Wr * s[None, :]
                 Mw[:3, 3] = P[b]
                 new_world[by_name[n]] = Mw
-            fp = spec.get("flatProp")
-            if fp and res["n"] > 1:
+            for fp in flat_props(spec) if res["n"] > 1 else []:
                 # A long prop (staff, bow) lies flat once the body is down: turn the hand so the
                 # prop's long axis is horizontal, blended in from fp["from"].
                 u = f / (res["n"] - 1)
@@ -240,6 +407,8 @@ def main(work, cache):
                     if np.linalg.norm(flat) > 1e-6:
                         turn = slerp_matrix(np.eye(3), min_arc(axis_w, flat), w)
                         Mh[:3, :3] = (turn @ Rh) * sh[None, :]
+            for n, hand in props.items():
+                new_world[by_name[n]] = new_world[by_name[hand]] @ prop_offset[n]
             cache_w = {}
 
             def wmat(i):
@@ -252,6 +421,20 @@ def main(work, cache):
                 return m
 
             return new_world, wmat
+
+        if spec.get("land"):
+            # A body whose legs are shorter or longer than the donor's does not end its fall on the
+            # floor: move the hips by the final pose's floor gap, eased in with the fall itself
+            # (the share of the hips' total drop reached so far).
+            _, wm = frame_world(res["n"] - 1, res["pelvis"][-1])
+            gap = skinned_min_y(wm) - floor_y
+            ys = np.array([p[1] for p in res["pelvis"]])
+            drop = ys[0] - ys
+            total = drop[-1] if abs(drop[-1]) > 1e-4 else 0.0
+            u = np.clip(drop / total, 0, 1) if total else np.linspace(0, 1, res["n"])
+            u = np.maximum.accumulate(u * u * (3 - 2 * u))
+            res["pelvis"] = [p - np.array([0.0, gap * w, 0.0]) for p, w in zip(res["pelvis"], u)]
+            print(f"{state}: landing moves the hips {-gap:+.3f}", file=sys.stderr)
 
         if spec.get("lift"):
             # A bulkier body than the donor's sinks into the floor when it lies down: lift the hips
@@ -270,15 +453,22 @@ def main(work, cache):
                 res["pelvis"] = [p + np.array([0.0, l, 0.0]) for p, l in zip(res["pelvis"], lift)]
                 print(f"{state}: lying lift max {lift.max():.3f} end {lift[-1]:.3f}", file=sys.stderr)
 
+        for n in list(props) + held:
+            tracks[n] = {"rotation": [], "translation": []}
         for f in range(res["n"]):
+            # A prop on its own bone (a sword under the root, posed by the studio's child-of
+            # constraint in the native takes) rides its hand at the reference offset (frame_world).
             new_world, wmat = frame_world(f, res["pelvis"][f])
-            for n in keyed:
+            for n in keyed + list(props):
                 i = by_name[n]
                 parent_w = wmat(g.parent[i]) if i in g.parent else np.eye(4)
                 L = np.linalg.inv(parent_w) @ new_world[i]
-                own_s = np.array(g.nodes[i].get("scale", [1, 1, 1]))
                 Rl = orthonormalize(L[:3, :3] / np.linalg.norm(L[:3, :3], axis=0)[None, :])
                 tracks[n]["rotation"].append(quat_from_matrix(Rl))
+                tracks[n]["translation"].append(L[:3, 3].copy())
+            for n in held:
+                L = g.local(by_name[n], ref)
+                tracks[n]["rotation"].append(quat_from_matrix(orthonormalize(L[:3, :3] / np.linalg.norm(L[:3, :3], axis=0)[None, :])))
                 tracks[n]["translation"].append(L[:3, 3].copy())
         for n, clip_name in cfg.get("grip", {}).items():
             # A weapon hand keeps the native grip: its local rotation from the native clip's first
@@ -294,20 +484,34 @@ def main(work, cache):
                 Rf = matrix_from_quat(tracks[n]["rotation"][f])
                 tracks[n]["rotation"][f] = quat_from_matrix(slerp_matrix(Rf, G, w))
         clip_out = {"name": state, "fps": res["fps"], "frames": res["n"], "donor": f"{spec['donor']}:{spec['clip']}", "tracks": {}}
-        for n in keyed:
+        for n in keyed + list(props) + held:
             i = by_name[n]
             q = continuous_quats(tracks[n]["rotation"])
             entry = {"rotation": [x.tolist() for x in q]}
             t = np.array(tracks[n]["translation"])
             rest_t = np.array(g.nodes[i].get("translation", [0, 0, 0]))
-            if node_bone[n] == "pelvis" or mp[n].get("translate") or np.abs(t - rest_t).max() > 1e-4 * max(1.0, np.abs(rest_t).max()):
-                if node_bone[n] != "pelvis" and not mp[n].get("translate") and not mp[n].get("parent"):
+            spec_n = mp.get(n, {"translate": True})
+            if node_bone.get(n) == "pelvis" or spec_n.get("translate") or np.abs(t - rest_t).max() > 1e-4 * max(1.0, np.abs(rest_t).max()):
+                if node_bone.get(n) != "pelvis" and not spec_n.get("translate") and not spec_n.get("parent"):
                     print(f"warn: {state} {n} drifts {np.abs(t - rest_t).max():.2e} from rest translation", file=sys.stderr)
                 # Keyed wherever it differs from the node rest (a reference clip's own joint
                 # offsets, an IK-parented foot), so unkeyed rest never pulls a joint off its limb.
                 entry["translation"] = t.tolist()
             clip_out["tracks"][n] = entry
         out["clips"].append(clip_out)
+    # Bones the runtime hit overlay may turn (node extras hitRecoil): the joints under each listed
+    # root. Never a walking limb, nor an arm that carries a prop on its own bone (the prop would stay
+    # behind while the overlay turns the arm).
+    recoil = set()
+    for r in cfg.get("recoil", []):
+        stack = [by_name[r]]
+        while stack:
+            i = stack.pop()
+            if i in joints:
+                recoil.add(g.nodes[i]["name"])
+            stack += g.nodes[i].get("children", [])
+    out["recoil"] = sorted(recoil)
+    out["props"] = props
     out["legScale"] = out["scale"]
     out["skeleton"] = {b.name: {"head": b.head.tolist(), "tail": b.tail.tolist(), "parent": b.parent} for b in sk.bones}
     json.dump(out, open(os.path.join(work, "studio.json"), "w"))

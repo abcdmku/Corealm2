@@ -1,0 +1,67 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita FreeTrial Monster31 (sword and shield knight). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster02 full pack, rest-relative to each body's own Idle. The sword and shield are skinned to their own root_dupli bones, which the native takes pose with a baked child-of; the new clips carry them on the hands.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "map": "arp",
+  "holdUnmapped": true,
+  "props": {
+   "root_dupli_002x": "handl",
+   "root_dupli_001x": "handr"
+  },
+  "donorRest": {
+   "pixelius_02": "Monster02_Idle"
+  },
+  "replace": [
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Run": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_Run",
+    "loop": true,
+    "still": [
+     "shoulderl"
+    ]
+   },
+   "Attack": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_Attack01",
+    "still": [
+     "shoulderl"
+    ]
+   },
+   "Hit": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_GetHit"
+   },
+   "Death": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_Die",
+    "land": true,
+    "lift": true,
+    "flatProp": [
+     {
+      "hand": "handl",
+      "node": "root_dupli_002x",
+      "from": 0.3
+     },
+     {
+      "hand": "handr",
+      "node": "root_dupli_001x",
+      "from": 0.3
+     }
+    ]
+   }
+  },
+  "recoil": [
+   "neckx"
+  ]
+ }
+}

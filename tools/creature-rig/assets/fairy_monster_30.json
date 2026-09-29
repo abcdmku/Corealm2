@@ -1,0 +1,60 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita FreeTrial Monster30 (lava golem with two axes). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster02 full pack, rest-relative to each body's own Idle. The axes are skinned to their own root_dupli bones, which the native takes pose with a baked child-of; the new clips carry them on the hands, and only the neck and head recoil so the axes never lag an arm. Run is omitted (the runtime falls back to the native Walk): the donor sprint swings the long weapons through the floor. The weapons turn level as the body lands in Death.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "map": "arp",
+  "holdUnmapped": true,
+  "donorRest": {
+   "pixelius_02": "Monster02_Idle"
+  },
+  "replace": [
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Attack": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_Attack01"
+   },
+   "Hit": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_GetHit",
+    "still": [
+     "shoulderl",
+     "shoulderr"
+    ]
+   },
+   "Death": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_Die",
+    "land": true,
+    "lift": true,
+    "flatProp": [
+     {
+      "hand": "handl",
+      "node": "root_dupli_002x",
+      "from": 0.3
+     },
+     {
+      "hand": "handr",
+      "node": "root_dupli_001x",
+      "from": 0.3
+     }
+    ]
+   }
+  },
+  "recoil": [
+   "neckx"
+  ],
+  "props": {
+   "root_dupli_002x": "handl",
+   "root_dupli_001x": "handr"
+  }
+ }
+}

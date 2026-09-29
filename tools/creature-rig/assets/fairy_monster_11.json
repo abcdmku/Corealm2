@@ -1,0 +1,299 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita FreeTrial Monster11 (scorpion: walks on four ARP arm chains off rootx, claws are the dupli_003 arms on spine_03). No PixeliusVita full pack has this anatomy, so Run, Attack and Death are retargeted from the janpec Animal pack deluxe Scorpion (legs chain to legs with IK, pedipalps to the claws, the sting chain spread along each tail), rest-relative to each body's own Idle; Hit is the Monster02 GetHit on the spine, neck, head and claws only, with the walking legs and tails held. Native Idle and Walk kept. The runtime's crawler hit rule (creatureHitOverlay.ts) already limits the recoil to spine_01x and below, so no hitRecoil marks are added.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "primary": "scorpion",
+  "map": {
+   "rootx": {
+    "bone": "pelvis",
+    "donor": {
+     "scorpion": "Scorpion_ROOTSHJnt"
+    }
+   },
+   "spine_01x": {
+    "bone": "spine_01x",
+    "donor": {
+     "pixelius_02": "spine_01.x"
+    }
+   },
+   "spine_02x": {
+    "bone": "spine_02x",
+    "donor": {
+     "pixelius_02": "spine_02.x"
+    }
+   },
+   "spine_03x": {
+    "bone": "spine_03x",
+    "donor": {
+     "pixelius_02": "spine_03.x"
+    }
+   },
+   "neckx": {
+    "bone": "neckx",
+    "donor": {
+     "pixelius_02": "neck.x"
+    }
+   },
+   "headx": {
+    "bone": "headx",
+    "donor": {
+     "pixelius_02": "head.x"
+    }
+   },
+   "shoulderl": {
+    "bone": "shoulderl",
+    "donor": {
+     "scorpion": "Scorpion_l_FrontLeg_HipSHJnt"
+    },
+    "kind": "leg"
+   },
+   "arm_stretchl": {
+    "bone": "arm_stretchl",
+    "donor": {
+     "scorpion": "Scorpion_l_FrontLeg_Knee1SHJnt"
+    },
+    "kind": "leg"
+   },
+   "forearm_stretchl": {
+    "bone": "forearm_stretchl",
+    "donor": {
+     "scorpion": "Scorpion_l_FrontLeg_Knee2SHJnt"
+    },
+    "kind": "leg"
+   },
+   "handl": {
+    "bone": "handl",
+    "donor": {
+     "scorpion": "Scorpion_l_FrontLeg_AnkleSHJnt"
+    },
+    "kind": "leg"
+   },
+   "shoulderr": {
+    "bone": "shoulderr",
+    "donor": {
+     "scorpion": "Scorpion_r_FrontLeg_HipSHJnt"
+    },
+    "kind": "leg"
+   },
+   "arm_stretchr": {
+    "bone": "arm_stretchr",
+    "donor": {
+     "scorpion": "Scorpion_r_FrontLeg_Knee1SHJnt"
+    },
+    "kind": "leg"
+   },
+   "forearm_stretchr": {
+    "bone": "forearm_stretchr",
+    "donor": {
+     "scorpion": "Scorpion_r_FrontLeg_Knee2SHJnt"
+    },
+    "kind": "leg"
+   },
+   "handr": {
+    "bone": "handr",
+    "donor": {
+     "scorpion": "Scorpion_r_FrontLeg_AnkleSHJnt"
+    },
+    "kind": "leg"
+   },
+   "shoulder_dupli_002l": {
+    "bone": "shoulder_dupli_002l",
+    "donor": {
+     "scorpion": "Scorpion_l_MidFrontLeg_HipSHJnt"
+    },
+    "kind": "leg"
+   },
+   "arm_stretch_dupli_002l": {
+    "bone": "arm_stretch_dupli_002l",
+    "donor": {
+     "scorpion": "Scorpion_l_MidFrontLeg_Knee1SHJnt"
+    },
+    "kind": "leg"
+   },
+   "forearm_stretch_dupli_002l": {
+    "bone": "forearm_stretch_dupli_002l",
+    "donor": {
+     "scorpion": "Scorpion_l_MidFrontLeg_Knee2SHJnt"
+    },
+    "kind": "leg"
+   },
+   "hand_dupli_002l": {
+    "bone": "hand_dupli_002l",
+    "donor": {
+     "scorpion": "Scorpion_l_MidFrontLeg_AnkleSHJnt"
+    },
+    "kind": "leg"
+   },
+   "shoulder_dupli_002r": {
+    "bone": "shoulder_dupli_002r",
+    "donor": {
+     "scorpion": "Scorpion_r_MidFrontLeg_HipSHJnt"
+    },
+    "kind": "leg"
+   },
+   "arm_stretch_dupli_002r": {
+    "bone": "arm_stretch_dupli_002r",
+    "donor": {
+     "scorpion": "Scorpion_r_MidFrontLeg_Knee1SHJnt"
+    },
+    "kind": "leg"
+   },
+   "forearm_stretch_dupli_002r": {
+    "bone": "forearm_stretch_dupli_002r",
+    "donor": {
+     "scorpion": "Scorpion_r_MidFrontLeg_Knee2SHJnt"
+    },
+    "kind": "leg"
+   },
+   "hand_dupli_002r": {
+    "bone": "hand_dupli_002r",
+    "donor": {
+     "scorpion": "Scorpion_r_MidFrontLeg_AnkleSHJnt"
+    },
+    "kind": "leg"
+   },
+   "shoulder_dupli_003l": {
+    "bone": "shoulder_dupli_003l",
+    "donor": {
+     "scorpion": "Scorpion_l_Pedipalp_01_01SHJnt",
+     "pixelius_02": "shoulder.l"
+    },
+    "kind": "arm"
+   },
+   "arm_stretch_dupli_003l": {
+    "bone": "arm_stretch_dupli_003l",
+    "donor": {
+     "scorpion": "Scorpion_l_Pedipalp_01_02SHJnt",
+     "pixelius_02": "arm_stretch.l"
+    },
+    "kind": "arm"
+   },
+   "forearm_stretch_dupli_003l": {
+    "bone": "forearm_stretch_dupli_003l",
+    "donor": {
+     "scorpion": "Scorpion_l_Pedipalp_01_03SHJnt",
+     "pixelius_02": "forearm_stretch.l"
+    },
+    "kind": "arm"
+   },
+   "hand_dupli_003l": {
+    "bone": "hand_dupli_003l",
+    "donor": {
+     "scorpion": "Scorpion_l_Pedipalp_01_04SHJnt",
+     "pixelius_02": "hand.l"
+    },
+    "kind": "arm"
+   },
+   "shoulder_dupli_003r": {
+    "bone": "shoulder_dupli_003r",
+    "donor": {
+     "scorpion": "Scorpion_r_Pedipalp_01_01SHJnt",
+     "pixelius_02": "shoulder.r"
+    },
+    "kind": "arm"
+   },
+   "arm_stretch_dupli_003r": {
+    "bone": "arm_stretch_dupli_003r",
+    "donor": {
+     "scorpion": "Scorpion_r_Pedipalp_01_02SHJnt",
+     "pixelius_02": "arm_stretch.r"
+    },
+    "kind": "arm"
+   },
+   "forearm_stretch_dupli_003r": {
+    "bone": "forearm_stretch_dupli_003r",
+    "donor": {
+     "scorpion": "Scorpion_r_Pedipalp_01_03SHJnt",
+     "pixelius_02": "forearm_stretch.r"
+    },
+    "kind": "arm"
+   },
+   "hand_dupli_003r": {
+    "bone": "hand_dupli_003r",
+    "donor": {
+     "scorpion": "Scorpion_r_Pedipalp_01_04SHJnt",
+     "pixelius_02": "hand.r"
+    },
+    "kind": "arm"
+   }
+  },
+  "legs": [
+   {
+    "chain": [
+     "shoulderl",
+     "arm_stretchl",
+     "forearm_stretchl"
+    ],
+    "foot": "handl"
+   },
+   {
+    "chain": [
+     "shoulderr",
+     "arm_stretchr",
+     "forearm_stretchr"
+    ],
+    "foot": "handr"
+   },
+   {
+    "chain": [
+     "shoulder_dupli_002l",
+     "arm_stretch_dupli_002l",
+     "forearm_stretch_dupli_002l"
+    ],
+    "foot": "hand_dupli_002l"
+   },
+   {
+    "chain": [
+     "shoulder_dupli_002r",
+     "arm_stretch_dupli_002r",
+     "forearm_stretch_dupli_002r"
+    ],
+    "foot": "hand_dupli_002r"
+   }
+  ],
+  "holdUnmapped": true,
+  "chains": [
+   {
+    "from": "c_tail_00x",
+    "donor": "Scorpion_Sting_01_01SHJnt",
+    "in": "scorpion"
+   }
+  ],
+  "donorRest": {
+   "scorpion": "Idle",
+   "pixelius_02": "Monster02_Idle"
+  },
+  "replace": [
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Run": {
+    "donor": "scorpion",
+    "clip": "Run",
+    "loop": true
+   },
+   "Attack": {
+    "donor": "scorpion",
+    "clip": "Attack"
+   },
+   "Hit": {
+    "donor": "pixelius_02",
+    "clip": "Monster02_GetHit",
+    "scale": 1.0
+   },
+   "Death": {
+    "donor": "scorpion",
+    "clip": "Die",
+    "land": true,
+    "lift": true
+   }
+  }
+ }
+}

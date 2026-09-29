@@ -1,0 +1,59 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita FreeTrial Monster16 (tailed claw crawler). Native Idle and Walk kept; Attack, Hit and Death retargeted from the Monster03 full pack (a heavy biped), rest-relative to each body's own Idle; the tail is a floor-aware spring chain that goes limp in Death. Run is omitted (the runtime falls back to the native crawl): the donor sprint lays the hunched body flat.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "map": "arp",
+  "holdUnmapped": true,
+  "donorRest": {
+   "pixelius_03": "Monster03_Idle"
+  },
+  "replace": [
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Attack": {
+    "donor": "pixelius_03",
+    "clip": "Monster03_Attack01"
+   },
+   "Hit": {
+    "donor": "pixelius_03",
+    "clip": "Monster03_GetHit"
+   },
+   "Death": {
+    "donor": "pixelius_03",
+    "clip": "Monster03_Die",
+    "land": true,
+    "lift": true,
+    "springs": {
+     "c_tail_00x": {
+      "stiffness": 10,
+      "gravity": 12,
+      "ease": [
+       0.25,
+       0.7
+      ]
+     }
+    }
+   }
+  },
+  "recoil": [
+   "spine_01x"
+  ],
+  "springs": [
+   {
+    "from": "c_tail_00x",
+    "stiffness": 150,
+    "damping": 12,
+    "gravity": 1.5,
+    "clearance": 0.05
+   }
+  ]
+ }
+}

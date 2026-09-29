@@ -55,7 +55,7 @@ class Skeleton:
     def solve_frames(self, donor):
         for bone in self.bones:
             direction = normalize(bone.tail - bone.head)
-            if bone.donor:
+            if bone.donor and bone.donor in donor.rest_frame:
                 base = donor.rest_frame[bone.donor]
             elif bone.parent:
                 base = self.by_name[bone.parent].frame

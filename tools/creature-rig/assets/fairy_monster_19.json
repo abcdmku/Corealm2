@@ -1,0 +1,52 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita FreeTrial Monster19 (bat-eared imp with a long tail). Native Idle and Walk kept; Run, Attack, Hit and Death retargeted from the Monster06 full pack (the tailed body; its eleven tail bones spread along the sixteen), rest-relative to each body's own Idle.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "map": "arp",
+  "holdUnmapped": true,
+  "donorRest": {
+   "pixelius_06": "Monster06_Idle"
+  },
+  "replace": [
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Run": {
+    "donor": "pixelius_06",
+    "clip": "Monster06_Run",
+    "loop": true
+   },
+   "Attack": {
+    "donor": "pixelius_06",
+    "clip": "Monster06_Attack01"
+   },
+   "Hit": {
+    "donor": "pixelius_06",
+    "clip": "Monster06_GetHit"
+   },
+   "Death": {
+    "donor": "pixelius_06",
+    "clip": "Monster06_Die",
+    "land": true,
+    "lift": true
+   }
+  },
+  "recoil": [
+   "spine_01x"
+  ],
+  "chains": [
+   {
+    "from": "c_tail_00x",
+    "donor": "c_tail_00.x",
+    "in": "pixelius_06"
+   }
+  ]
+ }
+}

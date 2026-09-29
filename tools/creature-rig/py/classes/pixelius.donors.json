@@ -1,0 +1,33 @@
+{
+  "donors": {
+    "pixelius_01": {
+      "ref": "pixelius_01"
+    },
+    "pixelius_02": {
+      "ref": "pixelius_02"
+    },
+    "pixelius_03": {
+      "ref": "pixelius_03"
+    },
+    "pixelius_04": {
+      "ref": "pixelius_04"
+    },
+    "pixelius_05": {
+      "ref": "pixelius_05"
+    },
+    "pixelius_06": {
+      "ref": "pixelius_06"
+    },
+    "pixelius_08": {
+      "ref": "pixelius_08"
+    },
+    "pixelius_09": {
+      "ref": "pixelius_09"
+    },
+    "scorpion": {
+      "ref": "animal_scorpion"
+    }
+  },
+  "primary": "pixelius_02",
+  "profiles": {}
+}
