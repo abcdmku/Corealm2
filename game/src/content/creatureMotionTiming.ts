@@ -177,8 +177,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.296875
   },
   "creature_boss_tideworn": {
-    "seconds": 0.8666666746139526,
-    "contactNormalized": 0.25833333333333336
+    "seconds": 1.066667,
+    "contactNormalized": 0.25
   },
   "creature_bracken_tapir": {
     "seconds": 0.8999999761581421,
@@ -361,16 +361,16 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "creature_nightforge_marshal": {
-    "seconds": 0.8666666746139526,
-    "contactNormalized": 0.2604166666666667
+    "seconds": 1.533333,
+    "contactNormalized": 0.583
   },
   "creature_orchid_reaper": {
     "seconds": 1.5333333015441895,
     "contactNormalized": 0.275
   },
   "creature_pallid_shade": {
-    "seconds": 0.5,
-    "contactNormalized": 0.96875
+    "seconds": 1.466667,
+    "contactNormalized": 0.267
   },
   "creature_pearl_knight": {
     "seconds": 0.8666666746139526,
@@ -775,7 +775,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_boss_ordrun": 20.7633,
   "creature_boss_rootheart": 18.7218,
   "creature_boss_tempest_roc": 4.9395,
-  "creature_boss_tideworn": 20.2614,
+  "creature_boss_tideworn": 16.889,
   "creature_bracken_tapir": 3.1915,
   "creature_briar_harrow": 16.7395,
   "creature_cairn_bighorn": 4.4681,
@@ -812,7 +812,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_moonpetal_stalker": 11.1936,
   "creature_moonweave_spider": 2.2367,
   "creature_mossback_sentinel": 12.3527,
-  "creature_nightforge_marshal": 18.9809,
+  "creature_nightforge_marshal": 26.0718,
   "creature_orchid_reaper": 10.7347,
   "creature_pearl_knight": 25.8768,
   "creature_plague_zombie": 3.9846,
@@ -931,7 +931,6 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_boss_ordrun": 6.202091,
   "creature_boss_rootheart": 3.715518,
   "creature_boss_tempest_roc": 0.663882,
-  "creature_boss_tideworn": 4.133668,
   "creature_bracken_tapir": 1.125,
   "creature_briar_harrow": 3.32211,
   "creature_cairn_bighorn": 1.8,
@@ -969,7 +968,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_moonpetal_stalker": 2.086044,
   "creature_moonweave_spider": 0.233194,
   "creature_mossback_sentinel": 2.513135,
-  "creature_nightforge_marshal": 3.853662,
+  "creature_nightforge_marshal": 4.893189,
   "creature_orchid_reaper": 2.790522,
   "creature_pearl_knight": 5.308983,
   "creature_plague_zombie": 3.187702,
