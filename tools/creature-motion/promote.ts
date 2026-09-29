@@ -62,12 +62,14 @@ for (const id of ids) {
   const source = path.resolve(path.dirname(catalogFile), candidate.candidateFile ?? candidate.file!);
   const bytes = await readFile(source);
   const m: MotionMeasurement = await measureCreatureGlb(source);
-  const { candidateFile: _c, contactNormalized: authoredContact, ...fields } = candidate;
+  const { candidateFile: _c, contactNormalized: authoredContact, groundY: authoredGround, ...fields } = candidate;
   const entry: Entry = { ...(existing ?? {}), ...fields, id, file: destinationRelative } as Entry;
   for (const field of RETIRED_FIELDS) delete entry[field];
   Object.assign(entry, {
     bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex"),
-    size: m.size, base: m.base, triangles: m.triangles, groundY: m.groundY, animations: m.animations,
+    size: m.size, base: m.base, triangles: m.triangles, animations: m.animations,
+    // A hovering or wading body stands on its authored origin, not on its lowest idle point.
+    groundY: typeof authoredGround === "number" ? authoredGround : m.groundY,
   });
   if (m.walkClipSeconds) entry.walkClipSeconds = m.walkClipSeconds;
   if (m.runClipSeconds) entry.runClipSeconds = m.runClipSeconds;
@@ -85,7 +87,7 @@ for (const id of ids) {
   if (runStride) pursuit[id] = +(RUN_CADENCE_HZ * runStride).toFixed(4); else delete pursuit[id];
 
   report.push({ id, source: path.relative(repo, source), before: existing?.sha256, after: entry.sha256, animations: m.animations,
-    walk: m.impliedWalkMps, run: m.impliedRunMps, groundY: m.groundY, attack: m.attackSeconds, contact,
+    walk: m.impliedWalkMps, run: m.impliedRunMps, groundY: entry.groundY, attack: m.attackSeconds, contact,
     pursuitCeiling: pursuit[id], walkCeiling: walkCeiling[id] });
   if (apply) {
     await copyFile(source, path.join(repo, "game/public/assets", destinationRelative));
