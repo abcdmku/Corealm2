@@ -26919,8 +26919,8 @@
         "rpg",
         "skeleton_archer"
       ],
-      "bytes": 2058504,
-      "sha256": "6e682bdf15a6011e9eb62e110593f9f127d5c2202762123a0acfb6b03cb5c815",
+      "bytes": 1986248,
+      "sha256": "b1f9f83327a08e6ac5ab23daf3a2b8ed794fa191fe049058a69568cea86b04b2",
       "size": {
         "x": 0.595131,
         "y": 1.814391,
@@ -26934,12 +26934,12 @@
       "groundY": 0.0032741110492161326,
       "triangles": 2340,
       "animations": [
-        "Attack",
         "Idle",
         "Walk",
         "Run",
         "Hit",
-        "Death"
+        "Death",
+        "Attack"
       ],
       "materials": [
         "animal_rpg_skeleton_archer_DS_Skeleton_standard",
@@ -27099,35 +27099,34 @@
         ]
       },
       "motionProvenance": {
-        "native": [
-          "Attack"
-        ],
+        "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (UAL1, CC0): Idle_Loop",
           "Walk": "Quaternius Universal Animation Library (UAL1, CC0): Walk_Loop",
           "Run": "Quaternius Universal Animation Library (UAL1, CC0): Jog_Fwd_Loop",
           "Hit": "Quaternius Universal Animation Library (UAL1, CC0): Hit_Chest",
-          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01"
+          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Pistol_Aim_Neutral + Pistol_Shoot"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Attack) kept byte-identical from production; Idle, Walk, Run, Hit, Death added by a rest-relative UAL retarget onto the existing skeleton (scratch studio_rig.py over crlib.retarget: hips scaled by leg length 1.039, foot IK, no scale keys). Death lifts the hips by a smooth envelope of the skinned mesh's floor penetration (no per-frame snap). Wrapper nodes are not keyed by the added clips; existing wrapper tracks in native clips are untouched.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk, Run, Hit, Death) byte-identical to production (per-clip hashes checked); Attack added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.039, foot IK, no scale keys).",
         "clipSeconds": {
-          "Attack": 1.5499999523162842,
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
           "Hit": 0.3333333432674408,
-          "Death": 2.4000000953674316
+          "Death": 2.4000000953674316,
+          "Attack": 0.800000011920929
         },
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_archer.glb",
-        "sourceSha256": "ab5099ca4c3644a1a8e45e31a583ce9c105e884b7a03ba922c09b94f67db1525"
+        "sourceSha256": "6e682bdf15a6011e9eb62e110593f9f127d5c2202762123a0acfb6b03cb5c815"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.009515,
       "impliedRunMps": 6.151022,
-      "attackSeconds": 1.55,
-      "contactNormalized": 0.2
+      "attackSeconds": 0.8,
+      "contactNormalized": 0.15
     },
     {
       "id": "creature_grave_ghoul",
@@ -32386,8 +32385,8 @@
         "thorn_maw",
         "tripo"
       ],
-      "bytes": 2161492,
-      "sha256": "9e3459aa8bad1b7c14aa25893f15551b6a091201ad1330debe1563bc77f05e3c",
+      "bytes": 2169556,
+      "sha256": "13358a635b9f29a2483e80e9afaac564492a2e1fc1b12fd5b4c29e6c63b4d812",
       "size": {
         "x": 1.514844,
         "y": 1.599219,
@@ -32480,16 +32479,16 @@
           "Hit",
           "Death"
         ],
-        "notes": "Rebuilt by tools/creature-rig (rooted/maw): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tendril_l_01, tendril_l_02, tendril_l_03, leaf_l_01, leaf_l_02, tendril_r_01, tendril_r_02, tendril_r_03, leaf_r_01, leaf_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Authored clips (Idle, Attack, Hit, Death) are keyed on cubic spline curves with eased, auto-clamped tangents, sampled at 30 fps in Blender and retargeted through the same rest-relative path (Corealm authored on the animal-pack crocodile rig (tools/creature-rig/py/classes/rooted.py)). No Run clip: the crocodile gallop twisted the root feet, so the runtime Walk fallback applies. Candidate built from a mesh.glb whose int8 NORMAL accessor was rewritten as float32 (intake bug, see report).",
+        "notes": "Rebuilt by tools/creature-rig (rooted/maw): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tendril_l_01, tendril_l_02, tendril_l_03, leaf_l_01, leaf_l_02, tendril_r_01, tendril_r_02, tendril_r_03, leaf_r_01, leaf_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Authored clips (Idle, Attack, Hit, Death) are keyed on cubic spline curves with eased, auto-clamped tangents, sampled at 30 fps in Blender and retargeted through the same rest-relative path (Corealm authored on the animal-pack crocodile rig (tools/creature-rig/py/classes/rooted.py)). No Run clip: the crocodile gallop twisted the root feet, so the runtime Walk fallback applies. Candidate built from a mesh.glb whose int8 NORMAL accessor was rewritten as float32 (intake bug, see report). Death re-keyed (tools/creature-rig/py/classes/rooted.py, motion set maw) as a collapse: the root legs buckle over the planted feet, the trunk topples sideways onto the floor, the maw slams down with a rebound and settles (2.4 s). Spliced into production: Idle, Walk, Attack and Hit byte-identical; the rebuilt skeleton's joint rests and inverse binds equal production's.",
         "clipSeconds": {
           "Idle": 3.200000047683716,
           "Walk": 1.399999976158142,
           "Attack": 1.3333333730697632,
           "Hit": 0.6000000238418579,
-          "Death": 2
+          "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_thorn_maw.glb",
-        "sourceSha256": "29bd6042bb5fe6b7b1fcacc2dca5e7a7066804a189e55c8aad8df6748af71337"
+        "sourceSha256": "9e3459aa8bad1b7c14aa25893f15551b6a091201ad1330debe1563bc77f05e3c"
       },
       "walkClipSeconds": 1.4,
       "impliedWalkMps": 0.346837,
@@ -60518,8 +60517,8 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1306588,
-      "sha256": "75f1292114461758405ef0992c1c4466eabb1efd30c7d70f6bbfacbe2acbb65d",
+      "bytes": 1341780,
+      "sha256": "97bfa535f084060f7f8ee772395f6fb5b2a56e72b41eddf458363804dfedd466",
       "size": {
         "x": 0.941982,
         "y": 0.846003,
@@ -60563,19 +60562,41 @@
           "Attack",
           "Hit"
         ],
-        "donor": {},
-        "authored": [
-          "Death"
-        ],
-        "notes": "Free Fantasy Monster 10 (PixeliusVita) takes Idle=InPlace_Anim/Monster10_Idle.anim, Walk=InPlace_Anim/Monster10_Walk_InPlace.anim, Run=InPlace_Anim/Monster10_Run_InPlace.anim, Attack=InPlace_Anim/Monster10_Attack01_InPlace.anim, Hit=InPlace_Anim/Monster10_GetHit.anim: Unity Hermite curves sampled at 60 Hz with their tangents, keys optimised losslessly, Unity root XZ removed, on the pack's Monster10.fbx mesh and rig (same mesh as the trial body 10). Uniform scale 0.00851717774873821, XZ centring kept from the previous file. Material and texture from the previous production file. Death is the previous production clip (repo-authored), kept because the native Monster10_Die stretches the head and tail on this body."
+        "donor": {
+          "Death": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk, Run, Attack, Hit) byte-identical to production (per-clip hashes checked); Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 4.458, foot IK, no scale keys). hitRecoil marks 28 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 1.5000001192092896,
+          "Walk": 0.6333333849906921,
+          "Run": 0.30000001192092896,
+          "Attack": 2.766666889190674,
+          "Hit": 0.6333333849906921,
+          "Death": 2.633333444595337
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_10.glb",
+        "sourceSha256": "75f1292114461758405ef0992c1c4466eabb1efd30c7d70f6bbfacbe2acbb65d"
       },
       "groundY": 0.0052,
+      "bounds": {
+        "min": [
+          -55.29850769042969,
+          0.6451132893562317,
+          -127.5979232788086
+        ],
+        "max": [
+          55.29850769042969,
+          99.97383117675781,
+          72.05921936035156
+        ]
+      },
       "walkClipSeconds": 0.633333,
       "runClipSeconds": 0.3,
       "impliedWalkMps": 0.689498,
       "impliedRunMps": 1.698477,
       "attackSeconds": 2.766667,
-      "contactNormalized": 0.5
+      "contactNormalized": 0.617
     },
     {
       "id": "fairy_monster_19",
@@ -60973,8 +60994,8 @@
         "skinned",
         "candidate"
       ],
-      "bytes": 7715600,
-      "sha256": "5be19e269088788801422ea80655034a274e164f8ae2c63778ce0550ed2a0914",
+      "bytes": 7696912,
+      "sha256": "07489f1fa046f6d718d148483a34a4b5fe85c6e284ffd3d552b8a9d0fefb6e16",
       "triangles": 4154,
       "size": {
         "x": 0.346993,
@@ -61002,8 +61023,6 @@
       "animations": [
         "Idle",
         "Walk",
-        "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -61062,25 +61081,19 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (snail), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (snail), Unity Asset Store licence: Walk",
-          "Attack": "Corealm authored on the animal-pack snail rig (tools/creature-rig/py/classes/special_snail.py): Attack",
-          "Hit": "Corealm authored on the animal-pack snail rig (tools/creature-rig/py/classes/special_snail.py): Hit",
           "Death": "janpec Animal pack deluxe (snail), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (special_snail/snail): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (eye_l_01, eye_l_02, eye_r_01, eye_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.230 m).",
+        "notes": "Rebuilt by tools/creature-rig (special_snail/snail): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (eye_l_01, eye_l_02, eye_r_01, eye_r_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.230 m). Attack and Hit (Corealm-authored on the snail rig) removed under the no-generated-animation rule: no studio donor has a snail strike; Attack is empty and Hit falls back to the runtime flinch. hitRecoil marks on the neck, head and eyestalks kept.",
         "clipSeconds": {
           "Idle": 9,
           "Walk": 4.333333492279053,
-          "Attack": 1,
-          "Hit": 0.5333333611488342,
           "Death": 2.6666667461395264
         },
         "sourceFile": "game/public/assets/models/fairy-garden/mooncap-snail-gloamgarden.glb",
-        "sourceSha256": "d7ed9e54c963386f855df084974524bd78eff15d0f74d3e32743243048da39c3"
+        "sourceSha256": "5be19e269088788801422ea80655034a274e164f8ae2c63778ce0550ed2a0914"
       },
-      "walkClipSeconds": 4.333333,
-      "attackSeconds": 1,
-      "contactNormalized": 0.633
+      "walkClipSeconds": 4.333333
     },
     {
       "id": "fairy_garden_hart_gloamgarden",
@@ -63622,17 +63635,17 @@
         "source-rig",
         "image-generated-texture"
       ],
-      "bytes": 1075660,
-      "sha256": "3d10cd1323149b2a7e9b5f7981a7ab471e6a41fb8605ddcfc4d264c7c4f9b8e7",
+      "bytes": 1015492,
+      "sha256": "bc64b8df5bb36e7135ffb31ec785965f6483db90c0ae6e0ad58faa9911ec7f69",
       "size": {
-        "x": 0.04704650697447787,
-        "y": 0.03805613807514629,
-        "z": 0.20270504951477047
+        "x": 0.047047,
+        "y": 0.038056,
+        "z": 0.202705
       },
       "base": {
-        "x": -0.02352325343996233,
-        "y": -0.00004070411572375254,
-        "z": -0.10135252475738522
+        "x": -0.023523,
+        "y": -0.000041,
+        "z": -0.101353
       },
       "triangles": 736,
       "animations": [
@@ -63640,16 +63653,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "red_worm_moist_ringed_cuticle"
       ],
-      "walkClipSeconds": 2.4,
-      "runClipSeconds": 1.5,
-      "attackSeconds": 1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "upstreamPack": "sr-studios-worms-free",
         "upstreamSource": "https://assetstore.unity.com/packages/3d/characters/worms-free-342926",
@@ -63677,7 +63685,46 @@
         "exported": true,
         "labAccepted": true,
         "worldIntegrated": false
-      }
+      },
+      "bounds": {
+        "min": [
+          -1.7870821952819824,
+          -0.01965409517288208,
+          -2.7936043739318848
+        ],
+        "max": [
+          -0.6109195351600647,
+          0.9317493438720703,
+          2.274021863937378
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle"
+        ],
+        "donor": {
+          "Walk": "janpec Animal pack deluxe (Viper), Unity Asset Store licence: Glide",
+          "Run": "janpec Animal pack deluxe (Viper), Unity Asset Store licence: FastGlide",
+          "Attack": "janpec Animal pack deluxe (Viper), Unity Asset Store licence: Attack",
+          "Death": "janpec Animal pack deluxe (Viper), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and kept clips (Idle) byte-identical to production (per-clip hashes checked); Walk, Run, Attack, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.135, foot IK, no scale keys). hitRecoil marks 3 joints under Worm_Rig3. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 8.291666030883789,
+          "Walk": 1.5,
+          "Run": 1.100000023841858,
+          "Attack": 1.6333333253860474,
+          "Death": 1.9666666984558105
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_red_worm.glb",
+        "sourceSha256": "3d10cd1323149b2a7e9b5f7981a7ab471e6a41fb8605ddcfc4d264c7c4f9b8e7"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 1.5,
+      "runClipSeconds": 1.1,
+      "attackSeconds": 1.633333,
+      "contactNormalized": 0.15
     },
     {
       "id": "fairy_garden_spriggle_gloamgarden",
@@ -63693,8 +63740,8 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 1728936,
-      "sha256": "3ac53549f6e932ddeea38ffc4009d5d06457f9ed9534ddc9c4d7a04a2412141a",
+      "bytes": 1764128,
+      "sha256": "af9deb81e628efeb7c3a69576cc8530268ebadf9420fcbfd1e7e194905fb2e37",
       "size": {
         "x": 0.941982,
         "y": 0.846003,
@@ -63725,7 +63772,7 @@
         "texture": "Assets/Stylized3DMonster/Monster10_FreeTrial/Shader_Texture/Texture/Monster10_Color04.png",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "sourceAssetId": "fairy_monster_10",
-        "sourceSha256": "75f1292114461758405ef0992c1c4466eabb1efd30c7d70f6bbfacbe2acbb65d",
+        "sourceSha256": "97bfa535f084060f7f8ee772395f6fb5b2a56e72b41eddf458363804dfedd466",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_garden_spriggle_gloamgarden.png",
@@ -63760,19 +63807,41 @@
           "Attack",
           "Hit"
         ],
-        "donor": {},
-        "authored": [
-          "Death"
-        ],
-        "notes": "Free Fantasy Monster 10 (PixeliusVita) takes Idle=InPlace_Anim/Monster10_Idle.anim, Walk=InPlace_Anim/Monster10_Walk_InPlace.anim, Run=InPlace_Anim/Monster10_Run_InPlace.anim, Attack=InPlace_Anim/Monster10_Attack01_InPlace.anim, Hit=InPlace_Anim/Monster10_GetHit.anim: Unity Hermite curves sampled at 60 Hz with their tangents, keys optimised losslessly, Unity root XZ removed, on the pack's Monster10.fbx mesh and rig (same mesh as the trial body 10). Uniform scale 0.00851717774873821, XZ centring kept from the previous file. Material and texture from the previous production file. Death is the previous production clip (repo-authored), kept because the native Monster10_Die stretches the head and tail on this body."
+        "donor": {
+          "Death": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk, Run, Attack, Hit) byte-identical to production (per-clip hashes checked); Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 4.458, foot IK, no scale keys). hitRecoil marks 28 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 1.5000001192092896,
+          "Walk": 0.6333333849906921,
+          "Run": 0.30000001192092896,
+          "Attack": 2.766666889190674,
+          "Hit": 0.6333333849906921,
+          "Death": 2.633333444595337
+        },
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_spriggle_gloamgarden.glb",
+        "sourceSha256": "3ac53549f6e932ddeea38ffc4009d5d06457f9ed9534ddc9c4d7a04a2412141a"
       },
       "groundY": 0.0052,
+      "bounds": {
+        "min": [
+          -55.29850769042969,
+          0.6451132893562317,
+          -127.5979232788086
+        ],
+        "max": [
+          55.29850769042969,
+          99.97383117675781,
+          72.05921936035156
+        ]
+      },
       "walkClipSeconds": 0.633333,
       "runClipSeconds": 0.3,
       "impliedWalkMps": 0.689498,
       "impliedRunMps": 1.698477,
       "attackSeconds": 2.766667,
-      "contactNormalized": 0.5
+      "contactNormalized": 0.617
     },
     {
       "id": "fairy_garden_sporekin_gloamgarden",
@@ -64487,8 +64556,8 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 1750392,
-      "sha256": "0a9a3c7e2e6a451a082e066b77de9af609fa5b973b4dfbb350e120df6369c869",
+      "bytes": 1785588,
+      "sha256": "df6269b899deaec3470add3b1149eb2d8cce48782c48cf65711afc7bff99b3b4",
       "size": {
         "x": 0.941982,
         "y": 0.846003,
@@ -64519,7 +64588,7 @@
         "texture": "Assets/Stylized3DMonster/Monster10_FreeTrial/Shader_Texture/Texture/Monster10_Color04.png",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "sourceAssetId": "fairy_monster_10",
-        "sourceSha256": "75f1292114461758405ef0992c1c4466eabb1efd30c7d70f6bbfacbe2acbb65d",
+        "sourceSha256": "97bfa535f084060f7f8ee772395f6fb5b2a56e72b41eddf458363804dfedd466",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_garden_spriggle_faeholme.png",
@@ -64554,19 +64623,41 @@
           "Attack",
           "Hit"
         ],
-        "donor": {},
-        "authored": [
-          "Death"
-        ],
-        "notes": "Free Fantasy Monster 10 (PixeliusVita) takes Idle=InPlace_Anim/Monster10_Idle.anim, Walk=InPlace_Anim/Monster10_Walk_InPlace.anim, Run=InPlace_Anim/Monster10_Run_InPlace.anim, Attack=InPlace_Anim/Monster10_Attack01_InPlace.anim, Hit=InPlace_Anim/Monster10_GetHit.anim: Unity Hermite curves sampled at 60 Hz with their tangents, keys optimised losslessly, Unity root XZ removed, on the pack's Monster10.fbx mesh and rig (same mesh as the trial body 10). Uniform scale 0.00851717774873821, XZ centring kept from the previous file. Material and texture from the previous production file. Death is the previous production clip (repo-authored), kept because the native Monster10_Die stretches the head and tail on this body."
+        "donor": {
+          "Death": "janpec Animal pack deluxe (FireSalamander), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk, Run, Attack, Hit) byte-identical to production (per-clip hashes checked); Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 4.458, foot IK, no scale keys). hitRecoil marks 28 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 1.5000001192092896,
+          "Walk": 0.6333333849906921,
+          "Run": 0.30000001192092896,
+          "Attack": 2.766666889190674,
+          "Hit": 0.6333333849906921,
+          "Death": 2.633333444595337
+        },
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_spriggle_faeholme.glb",
+        "sourceSha256": "0a9a3c7e2e6a451a082e066b77de9af609fa5b973b4dfbb350e120df6369c869"
       },
       "groundY": 0.0052,
+      "bounds": {
+        "min": [
+          -55.29850769042969,
+          0.6451132893562317,
+          -127.5979232788086
+        ],
+        "max": [
+          55.29850769042969,
+          99.97383117675781,
+          72.05921936035156
+        ]
+      },
       "walkClipSeconds": 0.633333,
       "runClipSeconds": 0.3,
       "impliedWalkMps": 0.689498,
       "impliedRunMps": 1.698477,
       "attackSeconds": 2.766667,
-      "contactNormalized": 0.5
+      "contactNormalized": 0.617
     },
     {
       "id": "fairy_garden_sporekin_faeholme",
@@ -69517,8 +69608,8 @@
         "imagegen-texture",
         "archer"
       ],
-      "bytes": 12210292,
-      "sha256": "b8172c6d2625883591c74465bcd08fc134ece43c4cfbdfe9687087c9384f6800",
+      "bytes": 12138036,
+      "sha256": "e48b19451edc58ee34279e6368cc233d3f5aa0a139030fc6969766dc306cfd10",
       "size": {
         "x": 0.73872,
         "y": 2.064298,
@@ -69532,12 +69623,12 @@
       "groundY": 0.0035360399331534234,
       "triangles": 2436,
       "animations": [
-        "Attack",
         "Idle",
         "Walk",
         "Run",
         "Hit",
-        "Death"
+        "Death",
+        "Attack"
       ],
       "materials": [
         "animal_rpg_skeleton_archer_DS_Skeleton_standard",
@@ -69555,7 +69646,7 @@
         "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
         "sourceAssetId": "creature_skeleton_archer",
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_archer.glb",
-        "sourceSha256": "6e682bdf15a6011e9eb62e110593f9f127d5c2202762123a0acfb6b03cb5c815",
+        "sourceSha256": "b1f9f83327a08e6ac5ab23daf3a2b8ed794fa191fe049058a69568cea86b04b2",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_archer_elite.glb",
         "candidateSha256": "98d76ac03960f9a5d47763b24e809f35fcf744550cdc67f29ea4ba91639bb1e3",
         "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
@@ -69636,35 +69727,34 @@
         ]
       },
       "motionProvenance": {
-        "native": [
-          "Attack"
-        ],
+        "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (UAL1, CC0): Idle_Loop",
           "Walk": "Quaternius Universal Animation Library (UAL1, CC0): Walk_Loop",
           "Run": "Quaternius Universal Animation Library (UAL1, CC0): Jog_Fwd_Loop",
           "Hit": "Quaternius Universal Animation Library (UAL1, CC0): Hit_Chest",
-          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01"
+          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Pistol_Aim_Neutral + Pistol_Shoot"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Attack) kept byte-identical from production; Idle, Walk, Run, Hit, Death added by a rest-relative UAL retarget onto the existing skeleton (scratch studio_rig.py over crlib.retarget: hips scaled by leg length 1.123, foot IK, no scale keys). Death lifts the hips by a smooth envelope of the skinned mesh's floor penetration (no per-frame snap). Wrapper nodes are not keyed by the added clips; existing wrapper tracks in native clips are untouched.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk, Run, Hit, Death) byte-identical to production (per-clip hashes checked); Attack added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.123, foot IK, no scale keys).",
         "clipSeconds": {
-          "Attack": 1.5499999523162842,
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
           "Hit": 0.3333333432674408,
-          "Death": 2.4000000953674316
+          "Death": 2.4000000953674316,
+          "Attack": 0.800000011920929
         },
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_archer_elite.glb",
-        "sourceSha256": "53fd49ed71a61388a630ed2481e474298ca4fd38a2488f4fca774883fcf188a2"
+        "sourceSha256": "b8172c6d2625883591c74465bcd08fc134ece43c4cfbdfe9687087c9384f6800"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.090225,
       "impliedRunMps": 6.661684,
-      "attackSeconds": 1.55,
-      "contactNormalized": 0.2
+      "attackSeconds": 0.8,
+      "contactNormalized": 0.15
     },
     {
       "id": "creature_skeleton_mage_elite",

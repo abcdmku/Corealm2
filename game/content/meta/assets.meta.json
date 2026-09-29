@@ -5827,25 +5827,15 @@
         "by": "user",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T13:19:06.865Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "at": "2026-09-27T16:39:34.943Z",
-      "by": "user",
-      "checks": {
-        "state:death": {
-          "verdict": "approved"
-        },
-        "state:idle": {
-          "verdict": "approved"
-        },
-        "state:walk": {
-          "verdict": "approved"
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_redbrush_fox": {
     "status": "draft",

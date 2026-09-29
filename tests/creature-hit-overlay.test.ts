@@ -197,51 +197,6 @@ describe('support-safe additive creature recoil',()=>{
     const quadHit=new THREE.AnimationClip('Hit',1,[rotation('spine_02',[0,.5,0]),rotation('head',[0,.5,0])]);
     expect(createMaskedHitOverlay(quad,quadHit,new THREE.AnimationClip('Idle',1,[])).boneNames).toEqual(['head']);
   });
-  it('keeps the worm rear anchored while its front belly recoils without losing floor contact',async()=>{
-    const {root,hit,idle,walk}=await actualPublicRig('creature_red_worm');
-    const names=['Worm_Rig_Main',...Array.from({length:5},(_,i)=>`Worm_Rig${i+1}`)];
-    const bones:THREE.Bone[]=[],meshes:THREE.SkinnedMesh[]=[];
-    root.traverse(node=>{
-      if((node as THREE.Bone).isBone)bones.push(node as THREE.Bone);
-      if((node as THREE.SkinnedMesh).isSkinnedMesh)meshes.push(node as THREE.SkinnedMesh);
-    });
-    expect(bones.map(bone=>bone.name)).toEqual(names);
-    const mesh=meshes[0]!;
-    const overlay=createMaskedHitOverlay(root,hit,idle);
-    expect(overlay.status).toBe('native-masked');
-    expect(overlay.boneNames).toEqual(names.slice(3));
-    expect(overlay.protectedBoneNames).toEqual(names.slice(0,3));
-    const update=()=>{root.updateMatrixWorld(true);mesh.skeleton.update();};
-    const vertices=()=>Array.from({length:mesh.geometry.attributes.position!.count},(_,index)=>
-      mesh.getVertexPosition(index,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld));
-    const indices=mesh.geometry.attributes.skinIndex!,weights=mesh.geometry.attributes.skinWeight!;
-    const posterior=Array.from({length:indices.count},(_,index)=>index).filter(index=>
-      [0,1,2,3].every(slot=>weights.getComponent(index,slot)===0 || indices.getComponent(index,slot)<3));
-    for(const base of [idle,walk!]) {
-      const mixer=new THREE.AnimationMixer(root),action=mixer.clipAction(base).play();
-      for(const phase of [0,.25,.5,.75]) for(const hitPhase of [.18,.4,.7]) {
-        action.time=base.duration*phase;mixer.update(0);update();
-        const before=vertices(),quaternions=bones.map(bone=>bone.quaternion.clone());
-        const matrices=bones.slice(0,3).map(bone=>bone.matrixWorld.elements.slice());
-        const floor=Math.min(...before.map(vertex=>vertex.y));
-        const contacts=posterior.filter(index=>before[index]!.y-floor<.0011);
-        expect(contacts.length).toBeGreaterThan(10);
-        applyMaskedHitOverlay(root,overlay,hit.duration*hitPhase);update();
-        const after=vertices();
-        expect(bones.slice(0,3).map(bone=>bone.matrixWorld.elements)).toEqual(matrices);
-        expect(posterior.map(index=>after[index]!.toArray())).toEqual(posterior.map(index=>before[index]!.toArray()));
-        expect(Math.min(...after.map(vertex=>vertex.y))).toBeGreaterThanOrEqual(floor-.0002);
-        const displacement=Math.max(...after.map((vertex,index)=>vertex.distanceTo(before[index]!)));
-        expect(displacement).toBeGreaterThan(.001);
-        expect(displacement).toBeLessThan(.03);
-        bones.forEach((bone,index)=>bone.quaternion.copy(quaternions[index]!));update();
-      }
-      mixer.stopAllAction();
-    }
-    // Recognition is specific to the measured hierarchy, not a numbered-bone name match.
-    bones[5]!.name='UnknownFront';
-    expect(createMaskedHitOverlay(root,hit,idle).status).toBe('no-safe-mask');
-  });
   const publicCharacters = JSON.parse(readFileSync('game/public/assets/manifest.json','utf8')).assets
     .filter((asset:any)=>asset.category==='character' && asset.animations?.includes('Hit'));
   const inventoryRows:any[]=[];

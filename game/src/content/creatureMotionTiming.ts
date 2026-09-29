@@ -384,6 +384,10 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "seconds": 1,
     "contactNormalized": 0.5
   },
+  "creature_red_worm": {
+    "seconds": 1.633333,
+    "contactNormalized": 0.15
+  },
   "creature_redbrush_fox": {
     "seconds": 1.366667,
     "contactNormalized": 0.7
@@ -437,12 +441,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25
   },
   "creature_skeleton_archer": {
-    "seconds": 1.55,
-    "contactNormalized": 0.2
+    "seconds": 0.8,
+    "contactNormalized": 0.15
   },
   "creature_skeleton_archer_elite": {
-    "seconds": 1.55,
-    "contactNormalized": 0.2
+    "seconds": 0.8,
+    "contactNormalized": 0.15
   },
   "creature_skeleton_mage": {
     "seconds": 1.466667,
@@ -564,10 +568,6 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "seconds": 1.066667,
     "contactNormalized": 0.25
   },
-  "fairy_garden_snail_gloamgarden": {
-    "seconds": 1,
-    "contactNormalized": 0.633
-  },
   "fairy_garden_sporekin_faeholme": {
     "seconds": 1.066667,
     "contactNormalized": 0.25
@@ -578,11 +578,11 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "fairy_garden_spriggle_faeholme": {
     "seconds": 2.766667,
-    "contactNormalized": 0.5
+    "contactNormalized": 0.617
   },
   "fairy_garden_spriggle_gloamgarden": {
     "seconds": 2.766667,
-    "contactNormalized": 0.5
+    "contactNormalized": 0.617
   },
   "fairy_garden_veilspirit_faeholme": {
     "seconds": 1.466667,
@@ -650,7 +650,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "fairy_monster_10": {
     "seconds": 2.766667,
-    "contactNormalized": 0.5
+    "contactNormalized": 0.617
   },
   "fairy_monster_11": {
     "seconds": 0.766667,
