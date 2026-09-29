@@ -9404,7 +9404,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2782524,
+      "bytes": 3083004,
       "size": {
         "x": 0.364074,
         "y": 1.061678,
@@ -9425,7 +9425,7 @@
       "materials": [
         "animal_coyote_mat"
       ],
-      "sha256": "a0d452bf129c5bccf6210b5d24011571cfb4218e8637e3d2866995927321dd6a",
+      "sha256": "15688bc2ce70be13493f5ec652f199837c75e65a30d0eb2a17848b8510cfc65d",
       "groundY": -0.003,
       "triangles": 5612,
       "metadata": {
@@ -9451,7 +9451,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Native Animal pack deluxe takes spliced by node identity into the current production file (mesh, skin, textures unchanged). Idle 7.000s 150ch seam 1.00x, dropped 6 non-deforming/unbound tracks Walk 0.967s 150ch seam 1.00x, dropped 6 non-deforming/unbound tracks Run 0.567s 150ch seam 1.00x, dropped 6 non-deforming/unbound tracks Attack 1.400s 150ch seam 0.00x, dropped 6 non-deforming/unbound tracks Death 4.167s 150ch seam 0.00x, dropped 6 non-deforming/unbound tracks"
+        "notes": "Native Animal pack deluxe takes spliced by node identity into the current production file (mesh, skin, textures unchanged). Death: native Wolf_Die.fbx frames 56-125 (from the rear-up; the take's walk-in is cut) Idle 7.000s 150ch seam 1.00x, dropped 6 non-deforming/unbound tracks Walk 0.967s 150ch seam 1.00x, dropped 6 non-deforming/unbound tracks Run 0.567s 150ch seam 1.00x, dropped 6 non-deforming/unbound tracks Attack 1.400s 150ch seam 0.00x, dropped 6 non-deforming/unbound tracks Death 2.300s 150ch seam 0.00x, dropped 6 non-deforming/unbound tracks"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.566667,
