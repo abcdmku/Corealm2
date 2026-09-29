@@ -4649,10 +4649,10 @@
     "presentation": {
       "id": "grave_lantern",
       "assetId": "creature_grave_lantern",
-      "scale": 0.92,
+      "scale": 1,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+      "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
       "kind": "basic"
     }
   },
@@ -5066,7 +5066,7 @@
       "scale": 0.754334697009733,
       "regionId": "wilderness",
       "activity": "prowl",
-      "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+      "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
       "kind": "basic"
     }
   },
@@ -5228,7 +5228,7 @@
       "scale": 0.7340616505132458,
       "regionId": "wilderness",
       "activity": "prowl",
-      "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+      "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
       "kind": "basic"
     }
   },
@@ -5419,10 +5419,10 @@
     "presentation": {
       "id": "furnace_grazer",
       "assetId": "creature_furnace_grazer",
-      "scale": 1.35,
+      "scale": 1.2,
       "regionId": "wilderness",
       "activity": "graze",
-      "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+      "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
       "kind": "basic"
     }
   },
@@ -5500,7 +5500,7 @@
       "scale": 0.754334697009733,
       "regionId": "wilderness",
       "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+      "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
       "kind": "basic"
     }
   },
@@ -17818,16 +17818,7 @@
     "availability": "world",
     "name": "Ashen Ghoul",
     "level": 24,
-    "family": "grave_lantern",
-    "presentation": {
-      "id": "grave_lantern",
-      "assetId": "creature_grave_lantern",
-      "scale": 0.92,
-      "regionId": "wilderness",
-      "activity": "patrol",
-      "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
-      "kind": "basic"
-    }
+    "family": "grave_lantern"
   },
   {
     "id": "pack_kilnhalt_clinker_southern_approach_west",
@@ -19458,16 +19449,7 @@
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 58,
-    "presentation": {
-      "id": "basalt_maw",
-      "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
-      "regionId": "wilderness",
-      "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-      "kind": "basic"
-    }
+    "level": 58
   },
   {
     "id": "wilderness_east_rift_carapaces",
@@ -19549,16 +19531,7 @@
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 58,
-    "presentation": {
-      "id": "basalt_maw",
-      "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
-      "regionId": "wilderness",
-      "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-      "kind": "basic"
-    }
+    "level": 58
   },
   {
     "id": "nightglass_waterway_sentries",
@@ -19652,16 +19625,7 @@
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 58,
-    "presentation": {
-      "id": "basalt_maw",
-      "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
-      "regionId": "wilderness",
-      "activity": "prowl",
-      "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-      "kind": "basic"
-    }
+    "level": 58
   },
   {
     "id": "wilderness_foundry_west_carapaces",

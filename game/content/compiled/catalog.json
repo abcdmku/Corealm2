@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "3232507f405d46d3b98db0bf8b8c2e1e4c689b699d371a10f0216845f9fdd175",
-  "formulaRevision": "db359c57e65e95f59a15261407c705bb6a29ee6ae92560ecf5ac93820987adfc",
+  "revision": "5acd0a81bdec23efb1d95abda7b72315b7ea143f2e2e892fc5157950bdaa23ae",
+  "formulaRevision": "47e82d3bb5bfe372c21e8a67c37b88afaf9e077751c7ab578ca1f6ee1cdce6ec",
   "tables": {
     "items": [
       {
@@ -27638,10 +27638,10 @@
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28043,7 +28043,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28205,7 +28205,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28380,10 +28380,10 @@
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28453,7 +28453,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40832,16 +40832,7 @@
         "name": "Ashen Ghoul",
         "family": "grave_lantern",
         "availability": "world",
-        "level": 24,
-        "presentation": {
-          "id": "grave_lantern",
-          "assetId": "creature_grave_lantern",
-          "scale": 0.92,
-          "regionId": "wilderness",
-          "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
-          "kind": "basic"
-        }
+        "level": 24
       },
       {
         "id": "pack_kilnhalt_clinker_southern_approach_west",
@@ -42467,15 +42458,6 @@
         "family": "basalt_maw",
         "availability": "world",
         "level": 58,
-        "presentation": {
-          "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
-          "regionId": "wilderness",
-          "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-          "kind": "basic"
-        },
         "adjustments": {
           "maxHealth": 219,
           "attackLevel": 66,
@@ -42558,15 +42540,6 @@
         "family": "basalt_maw",
         "availability": "world",
         "level": 58,
-        "presentation": {
-          "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
-          "regionId": "wilderness",
-          "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-          "kind": "basic"
-        },
         "adjustments": {
           "maxHealth": 217,
           "attackLevel": 65,
@@ -42661,15 +42634,6 @@
         "family": "basalt_maw",
         "availability": "world",
         "level": 58,
-        "presentation": {
-          "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
-          "regionId": "wilderness",
-          "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-          "kind": "basic"
-        },
         "adjustments": {
           "maxHealth": 219,
           "attackLevel": 66,
@@ -98376,10 +98340,10 @@
           "presentation": {
             "id": "grave_lantern",
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "regionId": "wilderness",
             "activity": "patrol",
-            "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+            "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
             "kind": "basic"
           },
           "adjustments": {
@@ -98466,14 +98430,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "grave_lantern_t20",
             "name": "Ashen Ghoul",
@@ -100083,7 +100047,7 @@
             "scale": 0.754334697009733,
             "regionId": "wilderness",
             "activity": "prowl",
-            "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+            "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
             "kind": "basic"
           },
           "adjustments": {
@@ -100204,7 +100168,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
           "stats": {
             "id": "baby_lava_dragon_t50",
             "name": "Cinder Dreadwing",
@@ -100749,7 +100713,7 @@
             "scale": 0.7340616505132458,
             "regionId": "wilderness",
             "activity": "prowl",
-            "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+            "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
             "kind": "basic"
           },
           "adjustments": {
@@ -100870,7 +100834,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
           "stats": {
             "id": "purple_wilderness_dragon_t70",
             "name": "Violet Dreadwing",
@@ -101444,10 +101408,10 @@
           "presentation": {
             "id": "furnace_grazer",
             "assetId": "creature_furnace_grazer",
-            "scale": 1.35,
+            "scale": 1.2,
             "regionId": "wilderness",
             "activity": "graze",
-            "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+            "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
             "kind": "basic"
           },
           "adjustments": {
@@ -101585,14 +101549,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "furnace_grazer_t50",
             "name": "Furnace Grazer",
@@ -101701,7 +101665,7 @@
             "scale": 0.754334697009733,
             "regionId": "wilderness",
             "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+            "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
             "kind": "basic"
           },
           "adjustments": {
@@ -101862,7 +101826,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "basalt_maw_t50",
             "name": "Basalt Maw",
@@ -143214,7 +143178,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
           "stats": {
             "id": "baby_lava_dragon_t70",
             "name": "Cinder Dreadwing",
@@ -144454,7 +144418,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "basalt_maw_t70",
             "name": "Basalt Maw",
@@ -145953,14 +145917,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "furnace_grazer_t70",
             "name": "Furnace Grazer",
@@ -147169,14 +147133,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "grave_lantern_t50",
             "name": "Ashen Ghoul",
@@ -147459,14 +147423,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "grave_lantern_t70",
             "name": "Ashen Ghoul",
@@ -149528,7 +149492,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
           "stats": {
             "id": "purple_wilderness_dragon_t50",
             "name": "Violet Dreadwing",
@@ -168585,16 +168549,7 @@
           "name": "Ashen Ghoul",
           "family": "grave_lantern",
           "availability": "world",
-          "level": 24,
-          "presentation": {
-            "id": "grave_lantern",
-            "assetId": "creature_grave_lantern",
-            "scale": 0.92,
-            "regionId": "wilderness",
-            "activity": "patrol",
-            "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
-            "kind": "basic"
-          }
+          "level": 24
         },
         "enemy": {
           "id": "cinder_adders",
@@ -168654,14 +168609,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "cinder_adders",
             "name": "Ashen Ghoul",
@@ -168732,6 +168687,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "adjustments",
           "loot"
         ]
@@ -177246,14 +177202,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "wilderness_east_furnace_herd",
             "name": "Furnace Grazer",
@@ -177364,15 +177320,6 @@
           "family": "basalt_maw",
           "availability": "world",
           "level": 58,
-          "presentation": {
-            "id": "basalt_maw",
-            "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
-            "regionId": "wilderness",
-            "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-            "kind": "basic"
-          },
           "adjustments": {
             "maxHealth": 219,
             "attackLevel": 66,
@@ -177468,15 +177415,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_furnace_grazer",
+        "assetId": "creature_basalt_maw",
         "scale": 0.754334697009733,
         "presentation": {
           "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "wilderness_east_basalt_prowl",
             "name": "Basalt Maw",
@@ -177582,6 +177529,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "loot"
         ]
       },
@@ -178760,15 +178708,6 @@
           "family": "basalt_maw",
           "availability": "world",
           "level": 58,
-          "presentation": {
-            "id": "basalt_maw",
-            "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
-            "regionId": "wilderness",
-            "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-            "kind": "basic"
-          },
           "adjustments": {
             "maxHealth": 217,
             "attackLevel": 65,
@@ -178864,15 +178803,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_furnace_grazer",
+        "assetId": "creature_basalt_maw",
         "scale": 0.754334697009733,
         "presentation": {
           "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "far_cinder_smithy_sentries",
             "name": "Basalt Maw",
@@ -178978,6 +178917,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "loot"
         ]
       },
@@ -179922,7 +179862,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
           "stats": {
             "id": "wilderness_lava_hatchling_nest",
             "name": "Cinder Dreadwing",
@@ -180310,14 +180250,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "wilderness_furnace_grazers",
             "name": "Furnace Grazer",
@@ -180428,15 +180368,6 @@
           "family": "basalt_maw",
           "availability": "world",
           "level": 58,
-          "presentation": {
-            "id": "basalt_maw",
-            "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
-            "regionId": "wilderness",
-            "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-            "kind": "basic"
-          },
           "adjustments": {
             "maxHealth": 219,
             "attackLevel": 66,
@@ -180532,15 +180463,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_furnace_grazer",
+        "assetId": "creature_basalt_maw",
         "scale": 0.754334697009733,
         "presentation": {
           "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "wilderness_basalt_maw_hollow",
             "name": "Basalt Maw",
@@ -180646,6 +180577,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "loot"
         ]
       },
@@ -182281,7 +182213,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
           "stats": {
             "id": "wilderness_central_purple_dragons",
             "name": "Violet Dreadwing",
@@ -188241,14 +188173,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "population_broken_watch_lanterns",
             "name": "Ashen Ghoul",
@@ -189697,14 +189629,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "population_abbey_east_lanterns",
             "name": "Ashen Ghoul",
@@ -190570,14 +190502,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "population_aqueduct_west_lanterns",
             "name": "Ashen Ghoul",
@@ -230634,10 +230566,10 @@
       {
         "id": "grave_lantern",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "regionId": "wilderness",
         "activity": "patrol",
-        "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+        "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
         "stats": {
           "id": "grave_lantern_t20",
           "name": "Ashen Ghoul",
@@ -231243,7 +231175,7 @@
         "scale": 0.754334697009733,
         "regionId": "wilderness",
         "activity": "prowl",
-        "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
+        "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
         "stats": {
           "id": "baby_lava_dragon_t50",
           "name": "Cinder Dreadwing",
@@ -231480,7 +231412,7 @@
         "scale": 0.7340616505132458,
         "regionId": "wilderness",
         "activity": "prowl",
-        "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
+        "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
         "stats": {
           "id": "purple_wilderness_dragon_t70",
           "name": "Violet Dreadwing",
@@ -231722,10 +231654,10 @@
       {
         "id": "furnace_grazer",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "regionId": "wilderness",
         "activity": "graze",
-        "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+        "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
         "stats": {
           "id": "furnace_grazer_t50",
           "name": "Furnace Grazer",
@@ -231812,7 +231744,7 @@
         "scale": 0.754334697009733,
         "regionId": "wilderness",
         "activity": "prowl",
-        "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+        "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
         "stats": {
           "id": "basalt_maw_t50",
           "name": "Basalt Maw",
@@ -279985,7 +279917,7 @@
             "name": "Ashen Ghoul",
             "tier": 24,
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "centre": [
               190,
               267
@@ -280230,7 +280162,7 @@
             "name": "Ashen Ghoul",
             "tier": 24,
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "centre": [
               -92,
               314
@@ -280290,7 +280222,7 @@
             "name": "Ashen Ghoul",
             "tier": 24,
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "centre": [
               -86,
               416
@@ -280667,7 +280599,7 @@
             "name": "Furnace Grazer",
             "tier": 50,
             "assetId": "creature_furnace_grazer",
-            "scale": 1.35,
+            "scale": 1.2,
             "centre": [
               565,
               650
@@ -280681,7 +280613,7 @@
             "family": "basalt_maw",
             "name": "Basalt Maw",
             "tier": 58,
-            "assetId": "creature_furnace_grazer",
+            "assetId": "creature_basalt_maw",
             "scale": 0.754334697009733,
             "centre": [
               420,
@@ -280771,7 +280703,7 @@
             "family": "basalt_maw",
             "name": "Basalt Maw",
             "tier": 58,
-            "assetId": "creature_furnace_grazer",
+            "assetId": "creature_basalt_maw",
             "scale": 0.754334697009733,
             "centre": [
               647.6094351084759,
@@ -280877,7 +280809,7 @@
             "name": "Furnace Grazer",
             "tier": 50,
             "assetId": "creature_furnace_grazer",
-            "scale": 1.35,
+            "scale": 1.2,
             "centre": [
               190,
               484
@@ -280891,7 +280823,7 @@
             "family": "basalt_maw",
             "name": "Basalt Maw",
             "tier": 58,
-            "assetId": "creature_furnace_grazer",
+            "assetId": "creature_basalt_maw",
             "scale": 0.754334697009733,
             "centre": [
               -8,
@@ -281262,7 +281194,7 @@
             "name": "Ashen Ghoul",
             "tier": 54,
             "assetId": "creature_grave_lantern",
-            "scale": 0.8508076044790863,
+            "scale": 0.9247908744337895,
             "centre": [
               -249,
               489
@@ -281337,7 +281269,7 @@
             "name": "Ashen Ghoul",
             "tier": 54,
             "assetId": "creature_grave_lantern",
-            "scale": 0.8508076044790863,
+            "scale": 0.9247908744337895,
             "centre": [
               -92.88,
               589.83
@@ -281382,7 +281314,7 @@
             "name": "Ashen Ghoul",
             "tier": 54,
             "assetId": "creature_grave_lantern",
-            "scale": 0.8508076044790863,
+            "scale": 0.9247908744337895,
             "centre": [
               -250,
               664
@@ -294912,7 +294844,7 @@
         "cinder_adders": {
           "id": "cinder_adders",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "cinder_adders",
             "name": "Ashen Ghoul",
@@ -294969,7 +294901,7 @@
               }
             ]
           },
-          "bodyRadius": 0.44156301424010574
+          "bodyRadius": 1.085210456615447
         },
         "kilnroad_reavers": {
           "id": "kilnroad_reavers",
@@ -296022,7 +295954,7 @@
         "population_emberfast_west_lanterns_1": {
           "id": "grave_lantern_t20",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "grave_lantern_t20",
             "name": "Ashen Ghoul",
@@ -296079,7 +296011,7 @@
               }
             ]
           },
-          "bodyRadius": 0.44156301424010574
+          "bodyRadius": 1.085210456615447
         },
         "population_emberfast_east_penitents": {
           "id": "cinder_penitent_t20",
@@ -296278,7 +296210,7 @@
         "population_ashback_north_lanterns": {
           "id": "grave_lantern_t20",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "grave_lantern_t20",
             "name": "Ashen Ghoul",
@@ -296335,7 +296267,7 @@
               }
             ]
           },
-          "bodyRadius": 0.44156301424010574
+          "bodyRadius": 1.085210456615447
         },
         "population_north_track_penitents": {
           "id": "cinder_penitent_t20",
@@ -298817,7 +298749,7 @@
         "wilderness_east_furnace_herd": {
           "id": "wilderness_east_furnace_herd",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "stats": {
             "id": "wilderness_east_furnace_herd",
             "name": "Furnace Grazer",
@@ -298897,11 +298829,11 @@
               }
             ]
           },
-          "bodyRadius": 3.018725052474558
+          "bodyRadius": 2.662388470212562
         },
         "wilderness_east_basalt_prowl": {
           "id": "wilderness_east_basalt_prowl",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "stats": {
             "id": "wilderness_east_basalt_prowl",
@@ -298990,7 +298922,7 @@
               }
             ]
           },
-          "bodyRadius": 1.7073109203022563
+          "bodyRadius": 2.6673230699942407
         },
         "wilderness_east_rift_carapaces": {
           "id": "wilderness_east_rift_carapaces",
@@ -299489,7 +299421,7 @@
         },
         "far_cinder_smithy_sentries": {
           "id": "far_cinder_smithy_sentries",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "stats": {
             "id": "far_cinder_smithy_sentries",
@@ -299578,7 +299510,7 @@
               }
             ]
           },
-          "bodyRadius": 1.7073109203022563
+          "bodyRadius": 2.6673230699942407
         },
         "nightglass_waterway_sentries": {
           "id": "nightglass_waterway_sentries",
@@ -300010,7 +299942,7 @@
               }
             ]
           },
-          "bodyRadius": 1.1519199999999998
+          "bodyRadius": 2.39245
         },
         "wilderness_cinderback_scree": {
           "id": "wilderness_cinderback_scree",
@@ -300100,7 +300032,7 @@
         "wilderness_furnace_grazers": {
           "id": "wilderness_furnace_grazers",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "stats": {
             "id": "wilderness_furnace_grazers",
             "name": "Furnace Grazer",
@@ -300180,11 +300112,11 @@
               }
             ]
           },
-          "bodyRadius": 3.018725052474558
+          "bodyRadius": 2.662388470212562
         },
         "wilderness_basalt_maw_hollow": {
           "id": "wilderness_basalt_maw_hollow",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "stats": {
             "id": "wilderness_basalt_maw_hollow",
@@ -300273,7 +300205,7 @@
               }
             ]
           },
-          "bodyRadius": 1.7073109203022563
+          "bodyRadius": 2.6673230699942407
         },
         "wilderness_foundry_west_carapaces": {
           "id": "wilderness_foundry_west_carapaces",
@@ -300999,7 +300931,7 @@
               }
             ]
           },
-          "bodyRadius": 3.706532458492966
+          "bodyRadius": 3.54082
         },
         "wilderness_eastern_red_dragons": {
           "id": "wilderness_eastern_red_dragons",
@@ -303108,7 +303040,7 @@
         "population_broken_watch_lanterns": {
           "id": "population_broken_watch_lanterns",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "population_broken_watch_lanterns",
             "name": "Ashen Ghoul",
@@ -303211,7 +303143,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47283809154664475
+          "bodyRadius": 1.162073870963953
         },
         "population_last_light_west_penitents": {
           "id": "population_last_light_west_penitents",
@@ -303648,7 +303580,7 @@
         "population_abbey_east_lanterns": {
           "id": "population_abbey_east_lanterns",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "population_abbey_east_lanterns",
             "name": "Ashen Ghoul",
@@ -303751,7 +303683,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47283809154664475
+          "bodyRadius": 1.162073870963953
         },
         "population_black_keep_east_reapers": {
           "id": "population_black_keep_east_reapers",
@@ -303972,7 +303904,7 @@
         "population_aqueduct_west_lanterns": {
           "id": "population_aqueduct_west_lanterns",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "population_aqueduct_west_lanterns",
             "name": "Ashen Ghoul",
@@ -304075,7 +304007,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47283809154664475
+          "bodyRadius": 1.162073870963953
         },
         "population_silent_stones_reapers": {
           "id": "population_silent_stones_reapers",
