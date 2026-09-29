@@ -1,0 +1,78 @@
+{
+  "donors": {
+    "ual1": {
+      "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library[Standard].zip",
+      "member": "Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb",
+      "files": [
+        "D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"
+      ],
+      "source": "Quaternius Universal Animation Library (Standard), CC0"
+    },
+    "bear": {
+      "ref": "animal_bear"
+    },
+    "bear_flinch": {
+      "pack": "authored",
+      "name": "flinch_bear",
+      "base": {
+        "ref": "animal_bear"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_bear Die (first beat) eased back to Idle frame 0"
+    },
+    "cattle": {
+      "ref": "animal_cattle"
+    }
+  },
+  "primary": "ual1",
+  "profiles": {
+    "knuckle": {
+      "legs": true,
+      "rigidByThickness": true,
+      "soleJoints": true,
+      "heelPivot": true,
+      "cloth": false,
+      "clips": {
+        "Idle": {
+          "donor": "bear",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "bear",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "bear",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "bear",
+          "clip": "Attack"
+        },
+        "Hit": {
+          "donor": "bear_flinch",
+          "clip": "Hit"
+        },
+        "Death": {
+          "donor": "cattle",
+          "clip": "Die",
+          "hipMotion": 0.2
+        }
+      },
+      "lean": 35,
+      "headKeep": 1.0,
+      "donorRoles": {
+        "cattle": {
+          "spine_01": null,
+          "spine_02": null,
+          "spine_03": null,
+          "neck_01": null,
+          "Head": null
+        }
+      }
+    }
+  }
+}

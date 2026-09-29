@@ -22,6 +22,7 @@ Every asset needs `tools/creature-rig/assets/<assetId>.json`:
 | `class`, `profile` | The class module and its profile, for example `{ "class": "humanoid", "profile": "brute" }` |
 | `source` | Optional forced source GLB for the intake |
 | `bind` | `"rest"` bakes a skinned production mesh in its joints' rest pose instead of its skin bind, for a file whose bind is contorted but whose rest stands well. `{"clip": "Idle"}` bakes it in the first frame of that production clip, for a file whose bind and node rest are both contorted (Blender's importer shows the first clip's pose, which is why such a file looks fine there) |
+| `orient` | `{"pitch", "roll", "yaw"}` in degrees, applied in that order about +X, +Z and +Y before grounding. For a body sculpted lying in the wrong plane (the reed strider: a top-view spider stood on end). A turned bind is always fitted; no source rig is matched |
 | `profileOverrides` | Optional changes to the profile. Objects merge key by key, so `{ "clips": { "Walk": { "speed": 0.8 } } }` changes one field of one clip; anything else replaces. |
 | `studio` | Runs [studio mode](#studio-mode) |
 | `notes` | Free text |
@@ -235,8 +236,11 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | golem | treant | UAL1 + UAL2 | Idle_Loop | Walk_Loop | (none) | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
 | bird | fowl, wader | Animal pack Chicken | Idle | Walk | Run | Eat 1–20 + 214–230 (peck) | (none; runtime fallback) | Die |
 | winged | wasp, fae | Quaternius wasp | Wasp_Flying | Wasp_Flying | Wasp_Flying | Wasp_Attack | (none; runtime fallback) | Wasp_Death |
+| knuckle | knuckle | UAL1 (fit only) + Animal pack Bear, Cattle | Bear Idle | Bear Walk | Bear Run | Bear Attack (rear-up, two-arm slam) | Bear Die flinch | Cattle Die |
 
-The quadruped, arthropod, serpent, rooted and special_* classes (snail, star, reliquary, treant, quad, with authored takes in `authored.py`) list their profiles in their own `.donors.json` files.
+The quadruped, arthropod, serpent, rooted, knuckle and special_* classes (snail, star, reliquary, treant, quad, with authored takes in `authored.py`) list their profiles in their own `.donors.json` files.
+
+The knuckle class is for upright bodies whose floor-length arms are front legs (the starroot guardian). It takes the golem fit and drives it by role from the bear: arms are the front legs, legs the hind legs, and every bone adds the donor's motion to its own rest. Its profile `lean` re-poses the bind into a forward carriage (the arms swing back until the hands are at their bind height), `headKeep` turns the head back up, the front paws' turn is replaced by the hub's so the hands keep their hang, and `donorRoles` (`{donor key: {bone: role or null}}`) remaps bones for one donor (the cattle Death leaves the torso and head riding the pelvis). The arthropod profile option `legArch` (degrees) raises each femur and turns the tibia back down to the tip's bind height, for legs modelled flat along the floor.
 
 The spirit profile has no leg bones. A 3-bone tail chain runs from the waist to the lowest tip. The golem class reuses the humanoid fit and adds quiet torso bones, sole joints, a heel pivot, foot blocks and rigid plates. The bird class solves the neck like a leg towards the chicken's head path. The winged class (on its own branch until merged) fits span chains for the wings.
 
@@ -261,7 +265,6 @@ The Quaternius Universal Animation Library (CC0) is extracted from `C:/Users/Bor
 
 - A robe or skirt over the legs can be misread as cape panels. Golem and treant profiles turn the cape finder off; a body modelled turned (the gloamgarden sporekin, about 30°) needs the profile `yaw` fit first.
 - When the fit misreads anatomy (fused robes, floor-length arms, antennae), give tips and joints in the asset config under `profileOverrides.landmarks {tips, joints}`.
-- Floor-length arms still lack a knuckle-walking donor: the starroot guardian keeps its previous production rig until one exists.
 
 - Joint placement uses measured features. Unusual anatomy can still misplace a joint, so check `fit.png` for every new asset. A floating body's waist uses the biped ratio between the shoulders and the hand tips.
 - The shoulders and armpits of a T-posed body are re-bound to 50° with dual quaternions. Extreme overhead poses still pinch.
