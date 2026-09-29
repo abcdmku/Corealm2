@@ -1,0 +1,168 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita FreeTrial Monster10 (a Monster10 body: a shelled lizard on four ARP arm chains off rootx, front claws on spine_03, a six-bone tail). Native Idle, Walk, Run, Attack and Hit kept. The pack's own Monster10_Die stretches the head and tail on this mesh, and every PixeliusVita full-pack Die is a biped falling on its back, which stands this horizontal body on its tail (tried Monster02, 03, 04 and 06, also turned 90 degrees). Death is therefore the janpec Animal pack deluxe FireSalamander Die (the closest studio anatomy: a four-legged lizard), rest-relative to each body's own Idle: the legs from the salamander legs with IK, the spine from its spine, the tail spread along the salamander tail; the neck and head ride the chest (mapped, the salamander head roll creased the face), the claws and skull plates ride their parents. The body rolls onto its side, legs out, tail flat on the floor. The Crocodile Die was also tried: clean, but the body only settles and does not read as dead.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "primary": "salamander",
+  "map": {
+   "rootx": {
+    "bone": "pelvis",
+    "donor": "FireSalamander_ROOTSHJnt"
+   },
+   "spine_01x": {
+    "bone": "spine_01x",
+    "donor": "FireSalamander_Spine_01SHJnt"
+   },
+   "spine_02x": {
+    "bone": "spine_02x",
+    "donor": "FireSalamander_Spine_02SHJnt"
+   },
+   "spine_03x": {
+    "bone": "spine_03x",
+    "donor": "FireSalamander_Spine_04SHJnt"
+   },
+   "shoulderl": {
+    "bone": "shoulderl",
+    "donor": "FireSalamander_l_FrontLeg_HipSHJnt",
+    "kind": "leg"
+   },
+   "arm_stretchl": {
+    "bone": "arm_stretchl",
+    "donor": "FireSalamander_l_FrontLeg_KneeSHJnt",
+    "kind": "leg"
+   },
+   "forearm_stretchl": {
+    "bone": "forearm_stretchl",
+    "donor": "FireSalamander_l_FrontLeg_AnkleSHJnt",
+    "kind": "leg"
+   },
+   "handl": {
+    "bone": "handl",
+    "donor": "FireSalamander_l_FrontLeg_BallSHJnt",
+    "kind": "leg"
+   },
+   "shoulder_dupli_002l": {
+    "bone": "shoulder_dupli_002l",
+    "donor": "FireSalamander_l_HindLeg_HipSHJnt",
+    "kind": "leg"
+   },
+   "arm_stretch_dupli_002l": {
+    "bone": "arm_stretch_dupli_002l",
+    "donor": "FireSalamander_l_HindLeg_KneeSHJnt",
+    "kind": "leg"
+   },
+   "forearm_stretch_dupli_002l": {
+    "bone": "forearm_stretch_dupli_002l",
+    "donor": "FireSalamander_l_HindLeg_AnkleSHJnt",
+    "kind": "leg"
+   },
+   "hand_dupli_002l": {
+    "bone": "hand_dupli_002l",
+    "donor": "FireSalamander_l_HindLeg_BallSHJnt",
+    "kind": "leg"
+   },
+   "shoulderr": {
+    "bone": "shoulderr",
+    "donor": "FireSalamander_r_FrontLeg_HipSHJnt",
+    "kind": "leg"
+   },
+   "arm_stretchr": {
+    "bone": "arm_stretchr",
+    "donor": "FireSalamander_r_FrontLeg_KneeSHJnt",
+    "kind": "leg"
+   },
+   "forearm_stretchr": {
+    "bone": "forearm_stretchr",
+    "donor": "FireSalamander_r_FrontLeg_AnkleSHJnt",
+    "kind": "leg"
+   },
+   "handr": {
+    "bone": "handr",
+    "donor": "FireSalamander_r_FrontLeg_BallSHJnt",
+    "kind": "leg"
+   },
+   "shoulder_dupli_002r": {
+    "bone": "shoulder_dupli_002r",
+    "donor": "FireSalamander_r_HindLeg_HipSHJnt",
+    "kind": "leg"
+   },
+   "arm_stretch_dupli_002r": {
+    "bone": "arm_stretch_dupli_002r",
+    "donor": "FireSalamander_r_HindLeg_KneeSHJnt",
+    "kind": "leg"
+   },
+   "forearm_stretch_dupli_002r": {
+    "bone": "forearm_stretch_dupli_002r",
+    "donor": "FireSalamander_r_HindLeg_AnkleSHJnt",
+    "kind": "leg"
+   },
+   "hand_dupli_002r": {
+    "bone": "hand_dupli_002r",
+    "donor": "FireSalamander_r_HindLeg_BallSHJnt",
+    "kind": "leg"
+   }
+  },
+  "legs": [
+   {
+    "chain": [
+     "shoulderl",
+     "arm_stretchl",
+     "forearm_stretchl"
+    ],
+    "foot": "handl"
+   },
+   {
+    "chain": [
+     "shoulder_dupli_002l",
+     "arm_stretch_dupli_002l",
+     "forearm_stretch_dupli_002l"
+    ],
+    "foot": "hand_dupli_002l"
+   },
+   {
+    "chain": [
+     "shoulderr",
+     "arm_stretchr",
+     "forearm_stretchr"
+    ],
+    "foot": "handr"
+   },
+   {
+    "chain": [
+     "shoulder_dupli_002r",
+     "arm_stretch_dupli_002r",
+     "forearm_stretch_dupli_002r"
+    ],
+    "foot": "hand_dupli_002r"
+   }
+  ],
+  "holdUnmapped": true,
+  "chains": [
+   {
+    "from": "c_tail_00x",
+    "donor": "FireSalamander_Tail_01_01SHJnt",
+    "in": "salamander"
+   }
+  ],
+  "donorRest": {
+   "salamander": "Idle"
+  },
+  "replace": [
+   "Death"
+  ],
+  "recoil": [
+   "spine_01x"
+  ],
+  "clips": {
+   "Death": {
+    "donor": "salamander",
+    "clip": "Die",
+    "land": true,
+    "lift": true
+   }
+  }
+ }
+}

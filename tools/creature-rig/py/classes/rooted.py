@@ -9,7 +9,7 @@ and the curled tendrils on top have no donor twin; they are spring chains that f
 
 A plant does not idle, strike, flinch or die like a crocodile, so Idle, Attack, Hit and Death are
 authored on the crocodile rig (motion set "maw"): a slow sway with a breathing maw, a snap with a
-rear-back anticipation, overshoot and settle, a recoil, and a wilt.
+rear-back anticipation, overshoot and settle, a recoil, and a collapse onto the floor.
 """
 import numpy as np
 
@@ -144,16 +144,30 @@ def maw_motion(spec):
     hit.key(TOP, [(0, 0), (2, (5, 0, 0)), (6, (6, 0, 0)), (12, (-2, 0, 0)), (18, 0)])
     hit.key(JAW, [(0, 0), (2, (-5, 0, 0)), (6, (-6, 0, 0)), (12, (3, 0, 0)), (18, 0)])
 
-    death = authored.Take("Death", 60)
-    # A wilt: a last shudder, the maw gapes and droops forward, the bulb sags onto the roots and
-    # tips to one side; everything settles by frame 44 and holds.
-    death.move(ROOT, [(0, 0), (6, (0, 0.03 * HIP, -0.03 * HIP)), (20, (0, -0.15 * HIP, 0.02 * HIP)), (36, (0.03 * HIP, -0.30 * HIP, 0.05 * HIP)), (44, (0.04 * HIP, -0.33 * HIP, 0.06 * HIP)), (60, (0.04 * HIP, -0.33 * HIP, 0.06 * HIP))])
-    death.key(ROOT, [(0, 0), (6, (-3, 0, -1)), (22, (4, 0, 4)), (38, (6, 0, 10)), (44, (5, 0, 9)), (60, (5, 0, 9))])
-    death.chain(SPINE[3:], [(0, 0), (8, (-2, 0, 0)), (24, (5, 0, 3)), (40, (7, 0, 6)), (60, (7, 0, 6))], delay=2, gain=[0.8, 1.0])
-    death.chain(NECK, [(0, 0), (6, (-8, 2, 0)), (22, (8, 0, 6)), (38, (12, -2, 12)), (46, (11, -2, 11)), (60, (11, -2, 11))], delay=2, gain=[0.4, 0.55, 0.7])
-    death.key(TOP, [(0, 0), (6, (-10, 0, 0)), (20, (-18, 0, 0)), (34, (-8, 0, 0)), (44, (-10, 0, 0)), (60, (-10, 0, 0))])
-    death.key(JAW, [(0, 0), (6, (12, 0, 0)), (22, (24, 0, 0)), (36, (14, 0, 0)), (46, (16, 0, 0)), (60, (16, 0, 0))])
-    death.key(JAW_END, [(0, 0), (10, (8, 0, 0)), (28, (18, 0, 0)), (44, (14, 0, 0)), (60, (14, 0, 0))])
+    death = authored.Take("Death", 72)
+    # A collapse: a last shudder with the maw gaping (0-6); the root legs buckle under the bulb
+    # (6-20: the hips drop over the planted feet, so the knees fold); the trunk topples onto its
+    # side and forward (18-34) with the maw lagging, then slamming down onto the floor (34-38);
+    # a small rebound (38-46) and the maw flopping after it; everything settles by 56 and holds.
+    # A positive Z turn tips the top towards -X, so the bulb slides that way as it falls.
+    death.move(ROOT, [(0, 0), (5, (0, 0.04 * HIP, -0.02 * HIP)), (14, (-0.03 * HIP, -0.35 * HIP, 0.04 * HIP)),
+                      (24, (-0.10 * HIP, -0.52 * HIP, 0.08 * HIP)), (33, (-0.15 * HIP, -0.65 * HIP, 0.10 * HIP)),
+                      (40, (-0.16 * HIP, -0.59 * HIP, 0.10 * HIP)), (48, (-0.16 * HIP, -0.65 * HIP, 0.10 * HIP)),
+                      (56, (-0.16 * HIP, -0.63 * HIP, 0.10 * HIP)), (72, (-0.16 * HIP, -0.63 * HIP, 0.10 * HIP))])
+    death.key(ROOT, [(0, 0), (5, (-4, 0, -2)), (14, (1, 0, 6)), (24, (3, 0, 16)), (33, (4, 0, 30)),
+                     (40, (3, 0, 25)), (48, (4, 0, 31)), (56, (4, 0, 30)), (72, (4, 0, 30))])
+    death.chain(SPINE[3:], [(0, 0), (5, (-4, 0, -1)), (16, (1, 0, 4)), (30, (3, 0, 10)), (38, (4, 0, 12)),
+                            (46, (2, 0, 9)), (56, (3, 0, 10)), (72, (3, 0, 10))], delay=2, gain=[0.8, 1.0])
+    # The neck lags the trunk on the way down, whips nose-down and sideways as the maw hits the
+    # floor, rebounds and flops back.
+    death.chain(NECK, [(0, 0), (5, (-12, 3, 0)), (16, (-8, 2, 4)), (26, (2, 0, 10)), (34, (10, -3, 16)),
+                       (38, (13, -4, 19)), (44, (6, -3, 13)), (50, (11, -4, 17)), (58, (10, -4, 16)), (72, (10, -4, 16))],
+                delay=2, gain=[0.4, 0.55, 0.7])
+    death.key(TOP, [(0, 0), (5, (-16, 0, 0)), (14, (-24, 0, 0)), (30, (-10, 0, 0)), (37, (4, 0, 0)),
+                    (43, (-14, 0, 0)), (50, (-4, 0, 0)), (58, (-8, 0, 0)), (72, (-8, 0, 0))])
+    death.key(JAW, [(0, 0), (5, (16, 0, 0)), (14, (26, 0, 0)), (30, (18, 0, 0)), (37, (6, 0, 0)),
+                    (43, (22, 0, 0)), (50, (12, 0, 0)), (58, (16, 0, 0)), (72, (16, 0, 0))])
+    death.key(JAW_END, [(0, 0), (10, (10, 0, 0)), (26, (20, 0, 0)), (38, (4, 0, 0)), (46, (18, 0, 0)), (56, (12, 0, 0)), (72, (12, 0, 0))])
     for take in (idle, attack, hit, death):
         take.plant(*LEGS)
     return authored.Rig.donor({"ref": "animal_crocodile"}), [idle, attack, hit, death]

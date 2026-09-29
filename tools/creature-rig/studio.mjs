@@ -112,23 +112,28 @@ export function stageStudio(assetId, work = paths.work(assetId)) {
   const production = readGlb(path.join(paths.publicAssets, entry.file));
   const candidate = readGlb(file);
   const added = data.clips.map((c) => c.name);
-  const native = [];
+  // A kept clip keeps the provenance production records for it: an earlier retarget stays a donor
+  // clip and an authored clip stays authored; anything else is the studio's own take.
+  const kept = entry.motionProvenance ?? {};
+  const native = [], keptDonor = {}, authored = [];
   for (const a of candidate.json.animations) {
     if (added.includes(a.name)) continue;
     const p = production.json.animations.find((x) => x.name === a.name);
-    if (!p || clipHash(production, p) !== clipHash(candidate, a)) throw new Error(`${assetId} ${a.name}: native clip changed`);
-    native.push(a.name);
+    if (!p || clipHash(production, p) !== clipHash(candidate, a)) throw new Error(`${assetId} ${a.name}: kept clip changed`);
+    if (kept.donor?.[a.name]) keptDonor[a.name] = kept.donor[a.name];
+    else if (kept.authored?.includes(a.name)) authored.push(a.name);
+    else native.push(a.name);
   }
   const donorMap = JSON.parse(readFileSync(path.join(paths.tool, "py/classes", `${config.class}.donors.json`), "utf8"));
   const donorCatalog = JSON.parse(readFileSync(path.join(paths.tool, "py/donors.json"), "utf8"));
   const bytes = readFileSync(file);
   const m = measure(file);
-  const donor = Object.fromEntries(data.clips.map((c) => {
+  const donor = Object.fromEntries([...Object.entries(keptDonor), ...data.clips.map((c) => {
     const [key, clip] = c.donor.split(":");
     const spec = donorMap.donors[key] ?? {};
     const source = spec.source ?? (spec.ref ? donorCatalog.donors[spec.ref]?.source : undefined) ?? key;
     return [c.name, `${source}: ${clip.replaceAll("+", " + ")}`];
-  }));
+  })]);
   const candidateFile = path.relative(paths.rigRoot, file).replaceAll("\\", "/");
   const record = {
     id: assetId, file: entry.file, pack: entry.pack, category: entry.category, is: entry.is, tags: entry.tags,
@@ -137,9 +142,9 @@ export function stageStudio(assetId, work = paths.work(assetId)) {
     motionProvenance: {
       native,
       donor,
-      authored: [],
+      authored,
       notes: [
-        `Studio rig, skin, mesh and native clips (${native.join(", ") || "none"}) kept byte-identical from production (per-clip hashes checked); ${added.join(", ")} added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length ${data.legScale.toFixed(3)}, foot IK, no scale keys).`,
+        `Studio rig, skin, mesh and kept clips (${[...native, ...Object.keys(keptDonor), ...authored].join(", ") || "none"}) byte-identical to production (per-clip hashes checked); ${added.join(", ")} added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length ${data.legScale.toFixed(3)}, foot IK, no scale keys).`,
         config.studio.grip ? `Weapon hands keep their native grip (${Object.keys(config.studio.grip).join(", ")}).` : null,
         Object.keys(data.props ?? {}).length ? `Props on their own bones ride their hands at the reference offset (${Object.entries(data.props).map(([p, h]) => `${p} on ${h}`).join(", ")}).` : null,
         data.recoil?.length ? `hitRecoil marks ${data.recoil.length} joints under ${(config.studio.recoil ?? []).join(", ")}.` : null,

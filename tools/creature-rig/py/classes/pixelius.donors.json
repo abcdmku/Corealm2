@@ -26,6 +26,9 @@
     },
     "scorpion": {
       "ref": "animal_scorpion"
+    },
+    "salamander": {
+      "ref": "animal_firesalamander"
     }
   },
   "primary": "pixelius_02",

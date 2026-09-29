@@ -1,6 +1,7 @@
 {
  "class": "humanoid",
  "profile": "knight",
+ "notes": "Attack is the UAL1 Pistol_Shoot (after a short Pistol_Aim_Neutral hold): the two-handed aim and recoil held on the bow reads as a loosed shot; the bow stays in the left hand, turned upright. No UAL take draws a bow string. Idle, Walk, Run, Hit and Death are the earlier promoted UAL retargets (Idle_Loop, Walk_Loop, Jog_Fwd_Loop, Hit_Chest, Death01), kept byte-identical.",
  "studio": {
   "rootNode": "Bip001",
   "map": {
@@ -95,65 +96,21 @@
    }
   },
   "replace": [
-   "Idle",
-   "Walk",
-   "Run",
-   "Hit",
-   "Death"
+   "Attack"
   ],
   "clips": {
-   "Idle": {
+   "Attack": {
     "donor": "ual1",
-    "clip": "Idle_Loop",
-    "loop": true,
+    "clip": [
+     "Pistol_Aim_Neutral",
+     "Pistol_Shoot"
+    ],
     "flatProp": {
      "hand": "Bip001_L_Hand",
      "node": "ArcherBow",
      "from": 0,
      "to": "up"
     }
-   },
-   "Walk": {
-    "donor": "ual1",
-    "clip": "Walk_Loop",
-    "loop": true,
-    "flatProp": {
-     "hand": "Bip001_L_Hand",
-     "node": "ArcherBow",
-     "from": 0,
-     "to": "up"
-    }
-   },
-   "Run": {
-    "donor": "ual1",
-    "clip": "Jog_Fwd_Loop",
-    "loop": true,
-    "flatProp": {
-     "hand": "Bip001_L_Hand",
-     "node": "ArcherBow",
-     "from": 0,
-     "to": "up"
-    }
-   },
-   "Hit": {
-    "donor": "ual1",
-    "clip": "Hit_Chest",
-    "flatProp": {
-     "hand": "Bip001_L_Hand",
-     "node": "ArcherBow",
-     "from": 0,
-     "to": "up"
-    }
-   },
-   "Death": {
-    "donor": "ual1",
-    "clip": "Death01",
-    "flatProp": {
-     "hand": "Bip001_L_Hand",
-     "node": "ArcherBow",
-     "from": 0.35
-    },
-    "lift": true
    }
   }
  }

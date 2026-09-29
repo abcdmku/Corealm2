@@ -1,5 +1,6 @@
 {
   "donors": {
+    "viper": { "ref": "animal_viper" },
     "centipede": {
       "pack": "authored",
       "name": "centipede",

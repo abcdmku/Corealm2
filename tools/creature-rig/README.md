@@ -238,7 +238,7 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | winged | wasp, fae | Quaternius wasp | Wasp_Flying | Wasp_Flying | Wasp_Flying | Wasp_Attack | (none; runtime fallback) | Wasp_Death |
 | knuckle | knuckle | UAL1 (fit only) + Animal pack Bear, Cattle | Bear Idle | Bear Walk | Bear Run | Bear Attack (rear-up, two-arm slam) | Bear Die flinch | Cattle Die |
 
-The quadruped, arthropod, serpent, rooted, knuckle and special_* classes (snail, star, reliquary, treant, quad, with authored takes in `authored.py`) list their profiles in their own `.donors.json` files.
+The quadruped, arthropod, serpent, rooted, knuckle and special_* classes (snail, star, reliquary, treant, quad; the star, reliquary, treant and maw have authored takes in `authored.py`) list their profiles in their own `.donors.json` files.
 
 The knuckle class is for upright bodies whose floor-length arms are front legs (the starroot guardian). It takes the golem fit and drives it by role from the bear: arms are the front legs, legs the hind legs, and every bone adds the donor's motion to its own rest. Its profile `lean` re-poses the bind into a forward carriage (the arms swing back until the hands are at their bind height), `headKeep` turns the head back up, the front paws' turn is replaced by the hub's so the hands keep their hang, and `donorRoles` (`{donor key: {bone: role or null}}`) remaps bones for one donor (the cattle Death leaves the torso and head riding the pelvis). The arthropod profile option `legArch` (degrees) raises each femur and turns the tibia back down to the tip's bind height, for legs modelled flat along the floor.
 
@@ -246,7 +246,7 @@ The spirit profile has no leg bones. A 3-bone tail chain runs from the waist to 
 
 ## Studio mode
 
-An asset config with a `studio` block keeps the production file's own rig, skin and native clips and only adds retargeted clips. `run.mjs` then skips the intake, runs `py/studio.py` for the rig step, and `studio.mjs` for assemble and review. The review stage hashes every kept clip (sampler bytes, targets and interpolation) against production and fails if a native clip changed.
+An asset config with a `studio` block keeps the production file's own rig, skin and native clips and only adds retargeted clips. `run.mjs` then skips the intake, runs `py/studio.py` for the rig step, and `studio.mjs` for assemble and review. The review stage hashes every kept clip (sampler bytes, targets and interpolation) against production and fails if one changed. A kept clip keeps the provenance production records for it (an earlier retarget stays a donor clip, an authored clip stays authored).
 
 | Key | Meaning |
 |---|---|
@@ -261,7 +261,7 @@ An asset config with a `studio` block keeps the production file's own rig, skin 
 | `props` | `{prop node: hand node}`: a prop skinned to its own bone (a sword on a `root_dupli` bone that the native takes pose with a baked child-of) rides the hand at the reference offset. `flatProp` (one or a list) also takes these nodes |
 | `recoil` | Nodes whose joint subtrees get `hitRecoil: true` for the runtime hit overlay. Never a walking limb, nor an arm that carries a `props` bone (the overlay would leave the prop behind) |
 | `floor` | `"reference"`: the floor is the skinned minimum of the reference pose instead of bind |
-| `hipMode`, `scale` | Plan overrides for the hips mode and the size ratio |
+| `hipMode`, `hipSource`, `scale` | Plan overrides for the hips mode, the donor bone whose translation drives the hips in `root` mode (a worm's tail joint follows the viper's tail tip), and the size ratio |
 | `rootNode` | The studio node under which the root sits on the floor |
 | `hips` | The class bone that carries the hips translation (default `pelvis`) |
 | `legs` | Optional leg chains in class bone names, as a plan's legs (`{chain, foot, toe, pivot?}`). Without it, every chain of bones mapped with `kind: "leg"` becomes a leg: followed down from its first leg bone while it has one leg child, four or more bones end in a foot and a toe (ball contact), three in a foot, two drive the tail of the last bone. Each leg gets the retargeter's IK towards the donor's scaled effector path, so a body driven forward over planted feet does not slide them, on any skeleton |

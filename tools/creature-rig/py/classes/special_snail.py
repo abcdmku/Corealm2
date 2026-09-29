@@ -6,13 +6,11 @@ bone for bone; every bone adds the donor's motion to its own rest (follow 0), be
 head lies on the ground while a garden snail holds its head up. The shell is bound rigidly to
 Bone001. The eyestalks have no donor twin: they are spring chains that follow through.
 
-The snail donor has no strike and no flinch, so Attack and Hit are authored on the same rig
-(authored motion set "snail_extra"): a rear-back and lunge with the eyestalks trailing, and a
-tuck into the shell.
+The snail donor has no strike and no flinch, and no other donor has a snail strike, so the body
+ships without Attack and Hit (the runtime's missing-hit flinch applies).
 """
 import numpy as np
 
-from classes import authored
 from crlib.body import resample
 from crlib.skeleton import Skeleton
 from crlib.skin import adjacency
@@ -166,39 +164,6 @@ def bind_turns(sk, profile):
     for s in ("l", "r"):
         turns[f"eye_{s}_01"] = axis_angle([1.0, 0, 0], -lean)
     return turns
-
-
-# ------------------------------------------------------------------ authored takes
-@authored.motion("snail_extra")
-def snail_extra(spec):
-    """Attack and Hit for the animal-pack snail rig (the donor has Idle, Walk and Die only).
-
-    Bone axes: +X is the snail's left, +Y up, +Z forward; a positive X rotation tips a bone that
-    points forward downwards. Bone007 is the front foot, Bone008 the neck, Bone009 the head,
-    Bone001 the shell, Bone002-006 the foot back to the tail.
-    """
-    neck = ["Bone007", "Bone008", "Bone009"]
-    attack = authored.Take("Attack", 30)
-    # Anticipation: the head draws back and up (frames 0-11), the foot's front gathers; the strike
-    # snaps forward and down at frame 15, overshoots, holds the rasp and settles back by 30.
-    attack.key("Bone007", [(0, 0), (9, (-8, 0, 0)), (13, (2, 0, 0)), (16, (5, 0, 0)), (22, (3, 0, 0)), (30, 0)])
-    attack.key("Bone008", [(0, 0), (4, (-8, 2, 0)), (11, (-20, 3, 0)), (15, (10, -1, 0)), (17, (13, -1, 0)), (22, (8, 0, 0)), (27, (2, 0, 0)), (30, 0)])
-    attack.key("Bone009", [(0, 0), (6, (-6, 2, 1)), (12, (-16, 4, 2)), (16, (14, 0, -1)), (19, (18, 0, 0)), (23, (10, 0, 0)), (28, (2, 0, 0)), (30, 0)])
-    attack.key("Bone001", [(0, 0), (10, (-4, 0, 0)), (16, (-0.5, 0, 0)), (21, (-1, 0, 0)), (30, 0)])
-    attack.key("Bone002", [(0, 0), (10, (3, 0, 0)), (16, (-3, 0, 0)), (30, 0)])
-    attack.chain(["Bone003", "Bone004", "Bone005", "Bone006"], [(0, 0), (10, (4, 0, 0)), (16, (-4, 0, 0)), (24, (1, 0, 0)), (30, 0)], delay=2, gain=[1.0, 0.8, 0.6, 0.4])
-    attack.move("Bone001", [(0, 0), (10, (0, 0, -0.004)), (16, (0, 0, 0.006)), (22, (0, 0, 0.003)), (30, 0)])
-
-    hit = authored.Take("Hit", 16)
-    # A flinch into the shell: the head ducks back and down fast (frames 0-4), the shell rocks
-    # back with it and the body recovers with a small overshoot.
-    hit.key("Bone008", [(0, 0), (3, (-20, 0, 0)), (6, (-26, 0, 0)), (11, (-6, 0, 0)), (14, (2, 0, 0)), (16, 0)])
-    hit.key("Bone009", [(0, 0), (3, (18, 0, 0)), (6, (30, 0, 0)), (11, (10, 0, 0)), (14, (-2, 0, 0)), (16, 0)])
-    hit.key("Bone001", [(0, 0), (2, (-6, 0, 1)), (5, (-7, 0, 1)), (10, (-1, 0, -0.5)), (13, (0.3, 0, 0)), (16, 0)])
-    hit.key("Bone002", [(0, 0), (2, (6, 0, -1)), (5, (7, 0, -1)), (10, (1, 0, 0.5)), (13, (-0.3, 0, 0)), (16, 0)])
-    hit.key("Bone007", [(0, 0), (3, (-5, 0, 0)), (7, (-4, 0, 0)), (12, (1, 0, 0)), (16, 0)])
-    hit.move("Bone001", [(0, 0), (3, (0, 0, -0.006)), (7, (0, 0, -0.005)), (12, (0, 0, 0.001)), (16, 0)])
-    return authored.Rig.donor({"ref": "animal_snail"}), [attack, hit]
 
 
 def recoil_bones(sk, plan, profile):

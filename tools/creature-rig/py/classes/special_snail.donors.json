@@ -1,11 +1,6 @@
 {
   "donors": {
-    "snail": { "ref": "animal_snail" },
-    "snail_extra": {
-      "pack": "authored",
-      "name": "snail_extra",
-      "source": "Corealm authored on the animal-pack snail rig (tools/creature-rig/py/classes/special_snail.py)"
-    }
+    "snail": { "ref": "animal_snail" }
   },
   "primary": "snail",
   "profiles": {
@@ -13,8 +8,6 @@
       "clips": {
         "Idle": { "donor": "snail", "clip": "Idle", "loop": true },
         "Walk": { "donor": "snail", "clip": "Walk", "loop": true },
-        "Attack": { "donor": "snail_extra", "clip": "Attack" },
-        "Hit": { "donor": "snail_extra", "clip": "Hit" },
         "Death": { "donor": "snail", "clip": "Die" }
       }
     }

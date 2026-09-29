@@ -1,0 +1,70 @@
+{
+ "class": "serpent",
+ "profile": "centipede",
+ "notes": "SR Studios Worms FREE worm: a 6-joint chain from the tail (Worm_Rig_Main) to the head (Worm_Rig5). The pack has one take (Worm_Look), kept as the native Idle. Walk, Run, Attack and Death are the janpec Animal pack deluxe Viper Glide, FastGlide, Attack and Die, retargeted by arc length: each worm segment takes the world rotation of the viper spine bone at the same share of body length from the tail tip (Back_01_07, Back_01_04, Front_01_01, Front_01_05, Front_01_10, Head_Top), and the tail joint translates with the viper tail tip (hipMode root) at worm-to-viper length 0.135, so the body curve is the viper's. The strike is the viper's: only its front fifth rears, so it reads small. Hissing barely moves the body, so Hit is omitted (runtime flinch on the front half, hitRecoil from Worm_Rig3). The Quaternius snake was tried and rejected: its Attack buries the body in the floor.",
+ "studio": {
+  "rootNode": "Joints",
+  "referenceClip": "Idle",
+  "primary": "viper",
+  "map": {
+   "Worm_Rig_Main": {
+    "bone": "pelvis",
+    "donor": "Viper_Back_01_07SHJnt"
+   },
+   "Worm_Rig1": {
+    "bone": "seg_1",
+    "donor": "Viper_Back_01_04SHJnt"
+   },
+   "Worm_Rig2": {
+    "bone": "seg_2",
+    "donor": "Viper_Front_01_01SHJnt"
+   },
+   "Worm_Rig3": {
+    "bone": "seg_3",
+    "donor": "Viper_Front_01_05SHJnt"
+   },
+   "Worm_Rig4": {
+    "bone": "seg_4",
+    "donor": "Viper_Front_01_10SHJnt"
+   },
+   "Worm_Rig5": {
+    "bone": "Head",
+    "donor": "Viper_Head_TopSHJnt"
+   }
+  },
+  "hipMode": "root",
+  "hipSource": "Viper_Back_01_10SHJnt",
+  "scale": 0.135,
+  "replace": [
+   "Walk",
+   "Run",
+   "Attack",
+   "Hit",
+   "Death"
+  ],
+  "clips": {
+   "Walk": {
+    "donor": "viper",
+    "clip": "Glide",
+    "loop": true
+   },
+   "Run": {
+    "donor": "viper",
+    "clip": "FastGlide",
+    "loop": true
+   },
+   "Attack": {
+    "donor": "viper",
+    "clip": "Attack"
+   },
+   "Death": {
+    "donor": "viper",
+    "clip": "Die",
+    "lift": true
+   }
+  },
+  "recoil": [
+   "Worm_Rig3"
+  ]
+ }
+}

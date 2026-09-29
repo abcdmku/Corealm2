@@ -276,9 +276,9 @@ def main(work, cache):
             # Any other skeleton: the chains of the bones mapped as kind "leg".
             legs = leg_chains(sk, {v["bone"] for v in mp.values() if v.get("kind") == "leg"})
     plan = {"hips": hips, "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
-    for key in ("hipMode", "scale"):
+    for key in ("hipMode", "hipSource", "scale"):
         if key in cfg:
-            plan[{"hipMode": "hip_mode"}.get(key, key)] = cfg[key]
+            plan[{"hipMode": "hip_mode", "hipSource": "hip_source"}.get(key, key)] = cfg[key]
 
     # Node reference rotations (scale removed) for every mapped node.
     def rot_scale(Mw):
