@@ -86,15 +86,24 @@ def _source_joints(source):
     by_name = {j["name"]: np.array(j["position"]) for j in source["joints"]}
     found = {ours: next((by_name[n] for n in names if n in by_name), None) for ours, names in SOURCE_NAMES.items()}
     found = {k: v for k, v in found.items() if v is not None}
-    if "upperarm_l" in found and "upperarm_r" in found and found["upperarm_l"][0] <= found["upperarm_r"][0]:
-        return {}  # mirrored or turned relative to the production mesh: do not trust it
+    if "upperarm_l" in found and "upperarm_r" in found:
+        span = found["upperarm_l"] - found["upperarm_r"]
+        # Mirrored, or turned about the vertical relative to the production mesh (a source
+        # exported with another forward axis): do not trust it.
+        if span[0] <= 0 or abs(span[0]) < 0.9 * np.linalg.norm(span):
+            return {}
     return found
 
 
 def fit(body, donor, profile, source=None):
     H = body.height
     legs = profile.get("legs", True)
-    seed = body.to_world(np.unravel_index(np.argmax(body.dt), body.dt.shape))
+    # The torso is the thickest part on the midline (the intake centres the feet on x=0). A big
+    # sleeve, a held censer or a shield can be thicker, so the search stays near the midline.
+    x = body.origin[0] + (np.arange(body.dt.shape[0]) + 0.5) * body.h
+    y = body.origin[1] + (np.arange(body.dt.shape[1]) + 0.5) * body.h - body.min[1]
+    torso = (np.abs(x) < 0.1 * H)[:, None, None] & ((y > 0.45 * H) & (y < 0.85 * H))[None, :, None]
+    seed = body.to_world(np.unravel_index(np.argmax(np.where(torso, body.dt, -1)), body.dt.shape))
     ext, dist, pred = body.extremities(seed, 0.07 * H, 0.12 * H)
     nodes = {id(e): _path_nodes(pred, e["node"]) for e in ext}
     world = body.to_world(body.nodes)
@@ -102,6 +111,14 @@ def fit(body, donor, profile, source=None):
 
     # Head top: the highest tip near the body's midline.
     central = [e for e in ext if abs(pos(e)[0] - seed[0]) < 0.15 * H and pos(e)[1] > seed[1]]
+    if not central:
+        # Antlers, horns or a crest split the crown into side tips: the head top is then the
+        # highest core point on the midline above the torso.
+        world_nodes = body.to_world(body.nodes)
+        mid = np.nonzero(np.abs(world_nodes[:, 0] - seed[0]) < 0.08 * H)[0]
+        top = int(mid[np.argmax(world_nodes[mid, 1])])
+        central = [{"node": top, "position": world_nodes[top], "distance": 0.0}]
+        ext = ext + central
     head_tip = max(central, key=lambda e: pos(e)[1])
     others = [e for e in ext if e is not head_tip]
 
@@ -113,16 +130,17 @@ def fit(body, donor, profile, source=None):
             if not cands:
                 raise RuntimeError(f"no {side} foot tip found; set legs:false for a floating body")
             feet[side] = max(cands, key=lambda e: pos(e)[2] - pos(e)[1])
-    # Hand tips: the lateral tips farthest from the head along the body (a knuckle or a thumb is
+    # Hand tips (sides measured from the midline x=0, where the intake centres the feet; the
+    # thickest point can sit off-centre beside a held censer): the lateral tips farthest from the head along the body (a knuckle or a thumb is
     # a tip too, but nearer).
     head_dist, head_pred = body.geodesic(pos(head_tip))
     hands = {}
     for side, sign in (("l", 1), ("r", -1)):
-        cands = [e for e in others if e not in feet.values() and pos(e)[1] > 0.2 * H and sign * (pos(e)[0] - seed[0]) > 0.1 * H]
+        cands = [e for e in others if e not in feet.values() and pos(e)[1] > 0.2 * H and sign * pos(e)[0] > 0.1 * H]
         if not cands:
             raise RuntimeError(f"no {side} hand tip found")
-        reach = max(sign * (pos(e)[0] - seed[0]) for e in cands)
-        cands = [e for e in cands if sign * (pos(e)[0] - seed[0]) >= 0.6 * reach]
+        reach = max(sign * pos(e)[0] for e in cands)
+        cands = [e for e in cands if sign * pos(e)[0] >= 0.6 * reach]
         hands[side] = max(cands, key=lambda e: head_dist[e["node"]])
 
     sk = Skeleton()
@@ -226,7 +244,14 @@ def fit(body, donor, profile, source=None):
                 if len(b) > 2 and np.ptp(b[:, 2]) <= 1.35 * shin_depth:
                     ankle_y = y
                     break
-            ankle_y = float(np.clip(ankle_y, 0.02 * H, 0.12 * H))
+            # A boot or a greave keeps the foot's extent wide far up the shin; an ankle above the
+            # donor's proportion puts the lower shin on the foot bone, which then digs its toe
+            # into the floor on every toe-off.
+            # (ankleCap, a multiple of the donor's ankle-to-hip proportion, lowers such an ankle.)
+            cap = 0.12 * H
+            if profile.get("ankleCap"):
+                cap = min(cap, profile["ankleCap"] * donor.rest_head[f"foot_{side}"][1] / donor.rest_head[f"thigh_{side}"][1] * hip[1])
+            ankle_y = float(np.clip(ankle_y, 0.02 * H, cap))
             ak = _nearest_index(lower_path[:, 1:2], [ankle_y])
             ankle = _section(body, lower_path[ak], [0, 1, 0], 0.08 * H)
             ankle[1] = ankle_y
@@ -300,7 +325,9 @@ def fit(body, donor, profile, source=None):
 
     # ---------------------------------------------------------- assemble
     root_head = np.array([pelvis[0], 0.0, pelvis[2]])
-    sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor="root", follow=0.0, kind="root")
+    # The root stays on the floor while the hips move: it must not take skin weight (bone heat
+    # would hand it the hem or tail tip that hangs near the floor).
+    sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor="root", follow=0.0, kind="root", deform=False)
     sk.add("pelvis", "root", pelvis, spine_heads[0], donor="pelvis", follow=0.0)
     chain = ["spine_01", "spine_02", "spine_03"]
     for i, name in enumerate(chain):
@@ -344,6 +371,8 @@ def plan(sk, body, profile):
     from crlib.retarget import CapsuleCollider
 
     legs = [(f"thigh_{s}", f"calf_{s}", f"foot_{s}", f"ball_{s}") for s in ("l", "r") if f"thigh_{s}" in sk]
+    if not profile.get("toePitch", True):
+        legs = [leg[:3] for leg in legs]
     colliders = []
     for bone in [n for leg in legs for n in leg[:2]] + ["pelvis", "spine_01", "spine_02", "spine_03"]:
         b = sk[bone]
@@ -359,11 +388,98 @@ def plan(sk, body, profile):
             "hip_motion": profile.get("hipMotion", 1.0)}
 
 
+def _floating_skirt(body, sk):
+    """A floating body's skirt or tail rides the waist and the tail chain only. Bone heat (or the
+    rigid-piece rule) hands a skirt panel that a hand rests on to that hand, which then lifts
+    the panel with every arm swing."""
+    names = sk.names()
+    arm = [i for i, n in enumerate(names) if n.split("_")[0] in ("clavicle", "upperarm", "lowerarm", "hand")]
+    keep = [i for i, n in enumerate(names) if n in ("pelvis", "spine_01") or sk[n].kind == "tail"]
+    waist = sk["pelvis"].head[1]
+    rows = np.nonzero(body.verts[:, 1] < waist - 0.02 * body.height)[0]
+
+    def override(W):
+        W = W.copy()
+        fixed = np.zeros(len(W), bool)
+        R = W[rows]
+        armed = R[:, arm].sum(1) > 0.01
+        if not armed.any():
+            return W, fixed
+        sub = rows[armed]
+        K = np.zeros_like(W[sub])
+        K[:, keep] = W[sub][:, keep]
+        empty = K.sum(1) < 1e-6
+        if empty.any():
+            # No waist or tail weight at all: the nearest tail bone by height.
+            tails = [i for i in keep if sk[names[i]].kind == "tail"] or keep
+            mid = np.array([0.5 * (sk[names[i]].head[1] + sk[names[i]].tail[1]) for i in tails])
+            pick = np.argmin(np.abs(body.verts[sub[empty], 1][:, None] - mid[None, :]), axis=1)
+            K[np.nonzero(empty)[0], np.array(tails)[pick]] = 1.0
+        W[sub] = K / K.sum(1, keepdims=True)
+        return W, fixed
+
+    return override
+
+
+def _heel_fix(body, sk):
+    """Below the ankle the heel belongs to the foot. A big boot or a heel far behind the ankle
+    joint is nearer the shin bone than the foot bone, so bone heat hands it to the calf and it
+    digs into the floor whenever the shin leans. The calf's share there moves to the foot,
+    blended over the band just above the ankle."""
+    V = body.verts
+    names = sk.names()
+    moves = []
+    # The heel point (the rearmost low vertex under each ankle), for a retargeter that keeps a
+    # heel strike from driving a long heel into the floor.
+    sk.heels = {}
+    for side in ("l", "r"):
+        if f"foot_{side}" not in sk:
+            continue
+        ankle = sk[f"foot_{side}"].head
+        near = np.linalg.norm(V[:, [0, 2]] - ankle[[0, 2]], axis=1) < 0.25 * body.height
+        # Only this foot's own sole: on this side of the midline and within a foot's length.
+        own = (np.sign(V[:, 0] - sk["pelvis"].head[0]) == np.sign(ankle[0] - sk["pelvis"].head[0]))
+        own &= np.linalg.norm(V[:, [0, 2]] - ankle[[0, 2]], axis=1) < 0.15 * body.height
+        sole = own & (V[:, 1] < 0.5 * ankle[1])
+        if sole.any():
+            sk.heels[f"foot_{side}"] = V[sole][int(np.argmin(V[sole][:, 2]))].copy()
+        t = np.clip((1.25 * ankle[1] - V[:, 1]) / (0.5 * ankle[1]), 0, 1) * near
+        moves.append((names.index(f"calf_{side}"), names.index(f"foot_{side}"), t))
+
+    def override(W):
+        W = W.copy()
+        for calf, foot, t in moves:
+            share = W[:, calf] * t
+            W[:, calf] -= share
+            W[:, foot] += share
+        return W, np.zeros(len(W), bool)
+
+    return override
+
+
 def cloth(body, sk, profile, heat):
+    sheet = _cloth(body, sk, profile, heat)
+    if "thigh_l" not in sk or not profile.get("heelFix", True):
+        return sheet
+    heel = _heel_fix(body, sk)
+    if sheet is None:
+        return heel
+
+    def both(W):
+        W, fixed = sheet(W)
+        W, _ = heel(W)
+        return W, fixed
+
+    return both
+
+
+def _cloth(body, sk, profile, heat):
     """Capes, tabards and loincloth flaps: thin sheets hanging below the hips get their own bone
     chains (front and back, one or two columns), so legs swing through their own space instead of
     dragging the sheet, and the sheet follows through. Returns the weight override for skin()."""
-    if not profile.get("cloth", True) or "thigh_l" not in sk:
+    if "thigh_l" not in sk:
+        return _floating_skirt(body, sk)
+    if not profile.get("cloth", True):
         return None
     H = body.height
     V = body.verts
@@ -391,10 +507,17 @@ def cloth(body, sk, profile, heat):
     shoulder_y = min(sk["upperarm_l"].head[1], sk["upperarm_r"].head[1])
     torso_sheet = thin & (V[:, 1] >= hips_y + 0.03 * H) & (V[:, 1] <= shoulder_y) & (np.abs(V[:, 0] - sk["pelvis"].head[0]) < shoulder_x)
     thin &= V[:, 1] < hips_y + 0.03 * H
+    guard = profile.get("shinGuard", False)
     for side in ("l", "r"):
         for bone in (f"thigh_{side}", f"calf_{side}", f"foot_{side}", f"ball_{side}"):
             b = sk[bone]
-            thin &= clear_of(b.head, b.tail, 1.5 * body.radius_at(0.5 * (b.head + b.tail)) + 0.02 * H)
+            # shinGuard: below the knee a strip wrapped round the shin is on the leg, not a
+            # hanging panel (tattered wraps); a knight's long cape keeps the default reach.
+            reach = 2.0 if guard and bone.startswith("calf") else 1.5
+            thin &= clear_of(b.head, b.tail, reach * body.radius_at(0.5 * (b.head + b.tail)) + 0.02 * H)
+    if guard:
+        # A boot sole or heel rim is thin too; nothing at ankle height is a hanging panel.
+        thin &= V[:, 1] > max(sk["foot_l"].head[1], sk["foot_r"].head[1])
     spine = [sk[n] for n in ("pelvis", "spine_01", "spine_02", "spine_03", "neck_01")]
     spine_z = np.interp(V[:, 1], [b.head[1] for b in spine], [b.head[2] for b in spine])
     # A sheet that hangs below the hips carries its part above the hips with it (a cape from the
@@ -507,10 +630,35 @@ def cloth(body, sk, profile, heat):
             a = fa * aa + (1 - fa) * ab
         else:
             _, chain_w, a = blended[0]
+        # Where a hem is welded to a boot or a greave (one surface), the rings of the panel next to
+        # the leg ride the leg; otherwise the weld tears into a spike on every step.
+        a = a * _weld_release(idx, W)
         heat = W[idx] / np.maximum(W[idx].sum(1, keepdims=True), 1e-9)
         W[idx] = (1 - a)[:, None] * heat + a[:, None] * chain_w
         fixed[idx] = a > 0.5
         return W, fixed
+
+    leg_cols = [i for i, n in enumerate(names0) if n.split("_")[0] in ("thigh", "calf", "foot", "ball")]
+    knee_y = max(sk["calf_l"].head[1], sk["calf_r"].head[1])
+    adj = None
+
+    def _weld_release(idx, W):
+        nonlocal adj
+        if adj is None:
+            from crlib.skin import adjacency
+            adj = adjacency(len(V), body.faces)
+        panel = np.zeros(len(V), bool)
+        panel[idx] = True
+        dominant = np.argmax(W[:, :len(names0)], axis=1)
+        frontier = ~panel & np.isin(dominant, leg_cols)
+        ring = np.full(len(V), np.inf)
+        ring[frontier] = 0
+        low = panel & (V[:, 1] < knee_y)
+        for r in range(1, 4):
+            nxt = low & np.isinf(ring) & (np.asarray(adj @ frontier.astype(float)).ravel() > 0)
+            ring[nxt] = r
+            frontier = nxt
+        return np.clip((ring[idx] - 2.0) / 2.0, 0.0, 1.0)
 
     return override
 
