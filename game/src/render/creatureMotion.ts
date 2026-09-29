@@ -31,13 +31,20 @@ export function createCreaturePlayback(
   };
 }
 
+/**
+ * Cross-fades to `clip` from wherever the current one is.
+ *
+ * `holdOutgoing` freezes the clip being faded out on its current frame instead of letting it run
+ * through the fade. A death passes it: a creature killed mid-stride blends from the stride it was
+ * in, and does not take further steps while it falls.
+ */
 export function transitionCreaturePlayback(
   state: CreaturePlayback, clip: THREE.AnimationClip, timeScale: number, loop: boolean,
-  transitionSeconds: number,
+  transitionSeconds: number, holdOutgoing = false,
 ): void {
   state.previousClip = state.clip;
   state.previousTime = state.time;
-  state.previousTimeScale = state.timeScale;
+  state.previousTimeScale = holdOutgoing ? 0 : state.timeScale;
   state.previousLoop = state.loop;
   state.transitionSeconds = transitionSeconds;
   state.transitionElapsed = 0;
