@@ -233,7 +233,7 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | humanoid | spirit (`legs: false`) | UAL1 | Idle_Loop | Walk_Loop | (none; falls back to Walk) | Spell_Simple_Enter + Shoot + Exit | Hit_Chest | Death01 |
 | humanoid | guard, bandit, undead, ogre, caster, beast, fae | UAL1 + UAL2 | see `humanoid.donors.json` | | | | | |
 | golem | golem | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Zombie_Scratch | Hit_Chest | Death01 |
-| golem | golemPunch | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Punch_Cross | Hit_Chest | Death01 |
+| golem | golemPunch | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Sword_Regular_A + B + B_Rec (claw sweeps) | Hit_Chest | Death01 |
 | golem | treant | UAL1 + UAL2 | Idle_Loop | Walk_Loop | (none) | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
 | bird | fowl, wader | Animal pack Chicken | Idle | Walk | Run | Eat 1–20 + 214–230 (peck) | (none; runtime fallback) | Die |
 | winged | wasp, fae | Quaternius wasp | Wasp_Flying | Wasp_Flying | Wasp_Flying | Wasp_Attack | (none; runtime fallback) | Wasp_Death |
