@@ -1,1 +1,1 @@
-{ "class": "quadruped", "profile": "tortoise" }
+{ "class": "quadruped", "profile": "tortoise", "profileOverrides": { "shellLimbRadius": 0.05 } }
