@@ -1,6 +1,7 @@
 /**
- * Offline frog/crab repair. Public assets are read-only inputs.
- * npx tsx tools/repair-ground-creature-gaits.ts [animal_frog|animal_frog_green|animal_crab]
+ * Offline crab gait repair. Public assets are read-only inputs.
+ * npx tsx tools/repair-ground-creature-gaits.ts [animal_crab]
+ * Frog and scorpion gaits are native pack takes again (tools/animals/splice-native.ts).
  *
  * Keeps the entire original BIN prefix and every original non-animation object.
  * Only Walk/Run entries are replaced; new sampler buffers are appended.
@@ -16,8 +17,8 @@ import { applyClip, duration, restorePose, storedPose } from './creature-motion/
 import { contactAt, createSkinReader, fract, type BakedGait } from './lib/ground-gait.js';
 
 const OUT = resolve('art/rebuild/candidates/finish-motion/ground-creature-gaits');
-const IDS = ['animal_frog', 'animal_frog_green', 'animal_crab'] as const;
-// Frog Run has 1920 authored intervals; twice that density also checks every key midpoint.
+const IDS = ['animal_crab'] as const;
+// Twice the densest authored cycle, so every key midpoint is checked too.
 const SAMPLES = 3840;
 const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS);
 const sha = (bytes: string | Uint8Array): string => createHash('sha256').update(bytes).digest('hex');
@@ -239,67 +240,34 @@ export function auditGroundGait(doc: Document, gait: BakedGait, meshName: string
 
 async function main() {
   const requested = process.argv.slice(2);
-  if (requested[0] === '--asset') {
-    if (requested.length !== 2 || requested[1] !== 'animal_scorpion') throw new Error('The separate --asset path currently owns only animal_scorpion');
-    await stageScorpionRun();
-    return;
-  }
   const ids = requested.length ? IDS.filter(id => requested.includes(id)) : [...IDS];
-  if (!ids.length || requested.some(id => !IDS.includes(id as typeof IDS[number]))) throw new Error('Only frog, frog_green and crab belong to this repair');
+  if (!ids.length || requested.some(id => !IDS.includes(id as typeof IDS[number]))) throw new Error('Only the crab belongs to this repair');
   await mkdir(OUT, { recursive: true });
   const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
   const results: any[] = [];
   for (const id of ids) {
     const asset = manifest.assets.find((asset: any) => asset.id === id), sourceFile = resolve('game/public/assets', asset.file);
     const source = await readFile(sourceFile), doc = await io.readBinary(source), floorY = asset.groundY ?? asset.base.y;
-    const author = id === 'animal_crab' ? (await import('./lib/crab-ground-gait.js')).authorCrabGait : (await import('./lib/frog-ground-gait.js')).authorFrogGait;
+    const author = (await import('./lib/crab-ground-gait.js')).authorCrabGait;
     const gaits = (['Walk', 'Run'] as const).map(name => {
       const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === name)!;
       return author(doc, name, duration(clip), floorY);
     });
     const output = appendGaitAnimations(source, gaits), destination = resolve(OUT, `${id}.glb`);
     const restored = await io.readBinary(output);
-    const audit = gaits.map(gait => auditGroundGait(restored, gait, id === 'animal_crab' ? 'crab_exp8' : 'lloop', floorY));
+    const audit = gaits.map(gait => auditGroundGait(restored, gait, 'crab_exp8', floorY));
     const row = { id, sourceFile, stagedFile: destination, sourceSha256: sha(source), sha256: sha(output), sourceBytes: source.length, bytes: output.length, passed: audit.every(row => row.passed), preserved: { originalBinBytes: true, geometryUvNormalsSkinWeightsInverseBinds: true, materialTextureImages: true, nodeHierarchyIdentityRestTransforms: true, nonlocomotionAnimationJSONAndSamplerBytes: true }, set: { impliedWalkMps: gaits[0]!.nativeMps, impliedRunMps: gaits[1]!.nativeMps, walkClipSeconds: gaits[0]!.seconds, runClipSeconds: gaits[1]!.seconds }, audit };
     await writeFile(destination, output);
     await writeFile(resolve(OUT, `${id}.json`), JSON.stringify(row, null, 2));
     results.push(row);
     console.log(JSON.stringify({ id, passed: row.passed, bytes: output.length, clips: audit.map(row => ({ name: row.name, failures: row.failures, maxSlip: Math.max(...row.feet.map(foot => foot.primarySlipMps.max ?? Infinity)), maxPenetration: row.maximumMeshPenetrationM, loop: row.maximumLoopPositionM })) }));
   }
-  const generatorFiles = ['tools/repair-ground-creature-gaits.ts', 'tools/lib/ground-gait.ts', 'tools/lib/crab-ground-gait.ts', 'tools/lib/frog-ground-gait.ts', 'tools/creature-motion/pose.ts'];
+  const generatorFiles = ['tools/repair-ground-creature-gaits.ts', 'tools/lib/ground-gait.ts', 'tools/lib/crab-ground-gait.ts', 'tools/creature-motion/pose.ts'];
   const generator = await Promise.all(generatorFiles.map(async file => ({ file, sha256: sha(await readFile(file)) })));
   const report = { generatedAt: new Date().toISOString(), generator, visualAccepted: false, publicAssetsWritten: false, limitations: 'Straight steady-cycle bake. Runtime acceleration, arbitrary root turning and crossfade contacts still require production lab review. No camera or browser test runs in this tool.', assets: results };
   await writeFile(resolve(OUT, 'report.json'), JSON.stringify(report, null, 2));
   await writeFile(resolve(OUT, 'manifest-updates.json'), JSON.stringify(results.map(({ id, sourceSha256, sha256, bytes, set, passed }) => ({ id, sourceSha256, sha256, bytes, set, offlinePassed: passed, visualAccepted: false, promotable: false })), null, 2));
   if (results.some(row => !row.passed)) process.exitCode = 1;
-}
-
-/** Separate Run-only output. Never writes the frozen frog/crab staging directory. */
-async function stageScorpionRun(): Promise<void> {
-  const out = resolve('art/rebuild/candidates/finish-motion/scorpion-ground-gait'), id = 'animal_scorpion';
-  await mkdir(out, { recursive: true });
-  const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
-  const asset = manifest.assets.find((asset: any) => asset.id === id), sourceFile = resolve('game/public/assets', asset.file);
-  const source = await readFile(sourceFile), sourceSha256 = sha(source);
-  if (sourceSha256 !== '69997972b3cd201feb1e20dc123fa0de64981b384be50de94b192446b42bc704') throw new Error('Scorpion source GLB changed; review the new source before applying this Run repair');
-  const doc = await io.readBinary(source), floorY = asset.groundY ?? asset.base.y;
-  const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Run')!;
-  const gait = (await import('./lib/scorpion-ground-gait.js')).authorScorpionRun(doc, duration(clip), floorY);
-  const output = appendGaitAnimations(source, [gait]);
-  const sourceAnimations = readRawGlb(source).json.animations, outputAnimations = readRawGlb(output).json.animations;
-  sourceAnimations.forEach((clip: any, index: number) => { if (clip.name !== 'Run' && JSON.stringify(clip) !== JSON.stringify(outputAnimations[index])) throw new Error(`Scorpion ${clip.name} changed outside Run scope`); });
-  const restored = await io.readBinary(output), audit = auditGroundGait(restored, gait, 'Scorpion_Mesh', floorY);
-  const stagedFile = resolve(out, `${id}.glb`);
-  const generatorFiles = ['tools/repair-ground-creature-gaits.ts', 'tools/lib/scorpion-ground-gait.ts', 'tools/lib/ground-gait.ts', 'tools/creature-motion/pose.ts'];
-  const generator = await Promise.all(generatorFiles.map(async file => ({ file, sha256: sha(await readFile(file)) })));
-  const row = { id, sourceFile, stagedFile, sourceSha256, sha256: sha(output), sourceBytes: source.length, bytes: output.length, passed: audit.passed, visualAccepted: false,
-    preserved: { originalBinBytes: true, geometryUvNormalsSkinWeightsInverseBinds: true, materialTextureImages: true, nodeHierarchyIdentityRestTransforms: true, allSevenOtherClipsIncludingWalk: true, originalGroundY: floorY },
-    set: { impliedRunMps: gait.nativeMps, runClipSeconds: gait.seconds }, generator, audit };
-  await writeFile(stagedFile, output);
-  await writeFile(resolve(out, 'report.json'), JSON.stringify(row, null, 2));
-  await writeFile(resolve(out, 'manifest-updates.json'), JSON.stringify([{ id, sourceSha256, sha256: row.sha256, bytes: row.bytes, set: row.set, offlinePassed: row.passed, visualAccepted: false, promotable: false }], null, 2));
-  console.log(JSON.stringify({ id, passed: row.passed, bytes: output.length, failures: audit.failures, nativeMps: gait.nativeMps, maxIndividualSlip: Math.max(...audit.feet.map(foot => foot.primaryVertexSlipMps.max ?? Infinity)), maxContactPlaneSlip: Math.max(...audit.feet.map(foot => foot.allPhasePhysicalPlaneSlipMps.max ?? Infinity)), maxPenetration: audit.maximumMeshPenetrationM, loop: audit.maximumWholeMeshLoopPositionM }));
-  if (!row.passed) process.exitCode = 1;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();

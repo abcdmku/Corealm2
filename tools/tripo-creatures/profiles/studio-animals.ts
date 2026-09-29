@@ -3,16 +3,15 @@ import { AnimationClip, Group, InterpolateDiscrete, InterpolateLinear, Matrix4, 
   QuaternionKeyframeTrack, Vector3, VectorKeyframeTrack } from 'three';
 import { loadContactHelpers } from '../../calibrate-legacy-gait.js';
 import { addChannel, applyClip, duration, removeClip, restorePose, storedPose } from '../../creature-motion/pose.js';
-import { authorSmallMammalGait } from '../../creature-motion/small-mammal-gait.js';
+import { ASSETS as nativePackBodies, BODIES as nativePackTakes } from '../../animals/splice-native.js';
 import { deformedBounds } from '../../creature-motion/validate-deformation.js';
-import { auditGroundGait } from '../../repair-ground-creature-gaits.js';
 import type { CreatureRepairContext, CreatureRepairResult } from '../repairProfile.js';
 import { limitGroundCorrectionSpeed, sampleGroundSupport } from '../retarget.js';
 
-// Inactive hog retains its five authored states. Ambient fish, including the world fishing resource,
-// retain their genuine swim cycles and are reviewed in that role rather than as
-// six-state combatants. Rat lacks a Run and the two lava rigs need new motion; every other
-// studio animal keeps its native takes, which the owner confirmed as reference quality.
+// Animal pack deluxe bodies ship the studio's own takes, spliced by tools/animals/splice-native.ts;
+// the states the pack never had (Hit everywhere, Run for hog/rat/snail, Attack for rabbit/rat/frog/
+// snail) are omitted and the runtime falls back. Ambient fish keep their swim cycles. The two lava
+// rigs still need new motion.
 export const studioAnimalIds = [
   'animal_cattle', 'animal_chicken', 'animal_chicken_speckled', 'animal_coyote',
   'animal_deer', 'animal_frog', 'animal_goat', 'animal_hog', 'animal_rabbit', 'animal_rat', 'animal_viper',
@@ -105,41 +104,6 @@ export function contactRig(doc: Document) {
   return { root, clips };
 }
 
-async function completeRatRun(doc: Document, context: CreatureRepairContext): Promise<CreatureRepairResult> {
-  if (doc.getRoot().listAnimations().some(clip => clip.getName() === 'Run')) {
-    throw new Error('Rat repair expects the pinned five-state source; refusing to overwrite an existing Run');
-  }
-  const floorY = context.entry.groundY ?? context.entry.base?.y ?? deformedBounds(doc).min[1]!;
-  const gait = authorSmallMammalGait(doc, context.assetId, 'Run', .5, floorY, .27);
-  const clip = doc.createAnimation('Run').setExtras({
-    source: 'Corealm authored physical-paw run on the original rat skeleton',
-    implementation: 'tools/creature-motion/small-mammal-gait.ts',
-    nativeSourceMissingRun: true,
-  });
-  for (const track of gait.tracks) addChannel(doc, clip, track.node, track.path, track.times, track.values);
-  // Inspect the actual Float32 channels over two cycles and their interpolation
-  // midpoints, including all weighted sole vertices and the complete mesh.
-  const audit = auditGroundGait(doc, gait, 'rat_exp15', floorY, 7680);
-  if (!audit.passed) throw new Error(`Rat Run contact audit failed: ${audit.failures.join('; ')}`);
-  const { measureContactGait } = await loadContactHelpers(), rig = contactRig(doc);
-  const measurement = measureContactGait(rig.root, rig.clips.find(take => take.name === 'Run'), {
-    samples: 960, axis: 'z', direction: 1,
-    groups: [['Bone029'], ['Bone029(mirrored)'], ['Bone034'], ['Bone034(mirrored)']],
-  });
-  if (!(measurement.speedMps && measurement.speedMps > 0)
-    || Math.abs(measurement.speedMps - gait.nativeMps) > .01) {
-    throw new Error(`Rat Run has inconsistent contact speed: ${measurement.speedMps}`);
-  }
-  return {
-    changes: ['Added the missing rat Run using the existing physical-paw authoring pipeline; retained the five original states.'],
-    provenance: { nativeSourceMissingRun: true, preservedNativeClips: ['Idle', 'Walk', 'Attack', 'Hit', 'Death'],
-      geometryAndSkinWeightsUnchanged: true, gaitAuthor: 'tools/creature-motion/small-mammal-gait.ts',
-      gaitDiagnostics: gait.diagnostics, contactAudit: audit, contactMeasurement: measurement,
-      requiresDevdocsReview: true },
-    motion: { runClipSeconds: gait.seconds, impliedRunMps: measurement.speedMps },
-  };
-}
-
 /**
  * The gavlig skeleton has heel and hand controllers beside the hips, rather than below
  * the shin and forearm. Reconstruct those endpoints after FK retargeting; simply copying
@@ -149,7 +113,7 @@ async function completeRatRun(doc: Document, context: CreatureRepairContext): Pr
 export async function repairStudioAnimal(doc: Document, context: CreatureRepairContext): Promise<CreatureRepairResult> {
   if (!(studioAnimalIds as readonly string[]).includes(context.assetId)) throw new Error(`Unsupported studio animal ${context.assetId}`);
   if (!['creature_kiln_marrow', 'creature_furnace_regent'].includes(context.assetId)) {
-    const result: CreatureRepairResult = context.assetId === 'animal_rat' ? await completeRatRun(doc, context) : {
+    const result: CreatureRepairResult = {
       changes: [], provenance: { preservedNativeClips: doc.getRoot().listAnimations()
         .map(clip => clip.getName()).filter(name => !['HitLeft', 'HitRight'].includes(name)),
       geometryAndSkinWeightsUnchanged: true, normalizationOnly: true, requiresDevdocsReview: true },
@@ -158,8 +122,9 @@ export async function repairStudioAnimal(doc: Document, context: CreatureRepairC
       removeClip(doc, 'HitLeft'); removeClip(doc, 'HitRight');
       result.changes.push('Removed retired directional hit clips; retained the original Hit and all other native curves.');
     }
-    const requiredStates = context.assetId === 'animal_hog'
-      ? ['Idle', 'Walk', 'Attack', 'Hit', 'Death'] : ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
+    const packBody = nativePackBodies[context.assetId];
+    const requiredStates = packBody ? Object.keys(nativePackTakes[packBody]!.states)
+      : ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
     for (const name of requiredStates) {
       if (!doc.getRoot().listAnimations().some(clip => clip.getName() === name)) {
         throw new Error(`Studio animal ${context.assetId} has no canonical ${name}`);
