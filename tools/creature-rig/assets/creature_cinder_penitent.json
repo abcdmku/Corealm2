@@ -2,6 +2,7 @@
   "class": "humanoid",
   "profile": "caster",
   "profileOverrides": {
+    "cloth": false,
     "landmarks": {
       "tips": {
         "head": [0.0, 1.95, 0.05],

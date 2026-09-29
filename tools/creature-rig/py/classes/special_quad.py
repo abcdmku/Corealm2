@@ -41,13 +41,13 @@ def leg_names(donor, side, end):
     return out
 
 
-def _track_leg(body, foot_xz, others, top):
+def _track_leg(body, foot_xz, others, top, lift=0.0):
     """Slab centroids of one leg from the floor up, until the leg's piece of the slab joins
     another leg's or grows into the body. Returns (points [n, 3], join height)."""
     pts = []
     prev = np.asarray(foot_xz, float)
     counts = []
-    y = 0.03 * body.height
+    y = lift + 0.03 * body.height
     while y < top:
         comps = body.slab(y, 1.5 * body.h)
         if not comps:
@@ -76,7 +76,13 @@ def feet(body):
         for end, sz in (("Front", 1), ("Hind", -1)):
             sel = low[(sx * (low[:, 0] - c[0]) > 0) & (sz * (low[:, 2] - c[2]) > 0)]
             if len(sel) < 5:
-                raise RuntimeError(f"no {side} {end} foot on the floor")
+                # A leg modelled shorter than the others (it hangs above the floor at bind):
+                # take that quadrant's own lowest band below mid height instead.
+                quad = V[(sx * (V[:, 0] - c[0]) > 0) & (sz * (V[:, 2] - c[2]) > 0) & (V[:, 1] < 0.5 * body.height)]
+                if len(quad):
+                    sel = quad[quad[:, 1] < quad[:, 1].min() + 0.04 * body.height]
+                if len(sel) < 5 or sel[:, 1].min() > 0.15 * body.height:
+                    raise RuntimeError(f"no {side} {end} foot on the floor")
             out[(side, end)] = sel
     return out, c
 
@@ -94,7 +100,8 @@ def fit_quad(body, donor, profile, head_tip, head_base=None, head_joint=None):
     starts = {k: np.median(v[:, [0, 2]], axis=0) for k, v in contacts.items()}
     for key, xz in starts.items():
         others = [o for k, o in starts.items() if k != key]
-        tracks[key], joins[key] = _track_leg(body, xz, others, top)
+        foot_y = float(contacts[key][:, 1].min())  # above 0 only for a short leg (feet() fallback)
+        tracks[key], joins[key] = _track_leg(body, xz, others, top, foot_y if foot_y > 0.04 * H else 0.0)
     notes = {"legJoin": {f"{k[0]}_{k[1]}": round(float(v), 4) for k, v in joins.items()}}
 
     legs = {}
@@ -181,7 +188,9 @@ def fit_quad(body, donor, profile, head_tip, head_base=None, head_joint=None):
             sk.add(n, parent, pos[n], tail, donor=n, follow=follow, kind="leg")
             parent = n
     sk.quad = {"prefix": P, "legs": {f"{s}_{e}": [n for n in leg["names"] if n != leg["toe"]] for (s, e), leg in legs.items()},
-               "joinY": float(np.mean(list(joins.values())))}
+               "joinY": float(np.mean(list(joins.values()))),
+               # Each foot's floor contact (its lowest mesh point): a short leg's is above the floor.
+               "feet": {f"{s}_{e}": pts[np.argmin(pts[:, 1])].tolist() for (s, e), pts in contacts.items()}}
     notes.update({"root": root.tolist(), "chest": chest.tolist(), "headTip": head_tip.tolist()})
     return sk, notes
 
@@ -195,6 +204,28 @@ def quad_legs(sk):
         chain = names[: names.index(ankle)]
         out.append({"chain": chain, "foot": ankle, "toe": ball})
     return out
+
+
+def touchdown_turns(sk, tolerance=0.01):
+    """A leg modelled shorter than the others hangs its foot above the floor at bind. Turn such a
+    leg at its hip, in its own vertical plane, until its floor contact is at the lowest foot's
+    height (the quadruped class does the same for a lifted Tripo hind leg). {hip bone: turn}."""
+    from crlib.mathx import min_arc
+    feet = {k: np.asarray(p, float) for k, p in sk.quad["feet"].items()}
+    floor = min(p[1] for p in feet.values())
+    turns = {}
+    for key, names in sk.quad["legs"].items():
+        hip = sk[names[0]].head
+        lift = feet[key][1] - floor
+        if lift <= tolerance * hip[1]:
+            continue
+        v = feet[key] - hip
+        L = float(np.linalg.norm(v))
+        down = min(hip[1] - floor, L)
+        flat = np.array([v[0], 0.0, v[2]])
+        flat = flat / max(np.linalg.norm(flat), 1e-9)
+        turns[names[0]] = min_arc(v, flat * np.sqrt(max(L * L - down * down, 0.0)) + np.array([0.0, -down, 0.0]))
+    return turns
 
 
 def rigid_body_override(body, sk, keep, band=0.06):

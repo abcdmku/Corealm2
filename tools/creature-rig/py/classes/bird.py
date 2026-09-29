@@ -21,7 +21,9 @@ The neck and head sit on the medial path from the body to the beak tip: the head
 the neck narrows behind the skull, the neck base is where the path leaves the body bulk.
 
 Profile keys (bird.donors.json): strideScale (times the leg-length ratio: the size ratio for hips
-and foot and head paths), hipMotion, neckIk (default true), wings (default true), rigidPieces. The donor "chicken_reach"
+and foot and head paths), hipMotion, neckIk (default true), wings (default true), rigidPieces,
+distanceWeights (a many-piece sculpt weighted by distance with whole loose pieces; see cloth()).
+The donor "chicken_reach"
 is the same rig with the neck base unmapped: that drops the neck IK for the peck (Eat frames 1-20
 spliced to 214-230, a 4 degree seam) and the fall, whose scaled head paths would bury the beak.
 """
@@ -149,10 +151,12 @@ def _leg_joints(trace, sections, sign, mid_x, donor):
     rel = pts[ai:top + 1] - ankle
     t = np.clip(rel @ chord / max(chord @ chord, 1e-12), 0, 1)
     off = rel - t[:, None] * chord
-    # A sculpted leg can bow slightly forward at the heel; the corner is the heel either way.
-    back = np.abs(off[:, 2])
+    # A bird's heel points backwards. A leg sculpted straight, or bowed forwards (a wader's), has
+    # no heel corner to find: a forward bow is not a joint, and taking it for the heel puts the
+    # heel high under the belly and bends it the wrong way.
+    back = -off[:, 2]
     hk = int(np.argmax(back))
-    how = "corner" if off[hk, 2] < 0 else "forward corner"
+    how = "corner"
     if back[hk] < 0.012 * H or not (0.15 < t[hk] < 0.85):
         above = [i for i in range(ai, top) if areas[i] >= 1.35 * shank and ys[i] > ankle[1] + 0.2 * (entry[1] - ankle[1])]
         if above:
@@ -339,7 +343,12 @@ def fit(body, donor, profile, source=None):
 def plan(sk, body, profile):
     from crlib.retarget import CapsuleCollider
 
-    legs = [{"chain": [f"thigh_{s}", f"tarsus_{s}"], "foot": f"foot_{s}", "toe": f"toe_{s}", "pivot": 1} for s in ("l", "r")]
+    # The heel always bends backwards in the leg's own fore-and-aft plane. Left to the donor's
+    # plane it swings sideways: a long or deeply bent bird leg turns the chicken's small hip roll
+    # into a heel that crosses under the body, and a straight wader leg flips its heel through the
+    # side between forwards and backwards.
+    legs = [{"chain": [f"thigh_{s}", f"tarsus_{s}"], "foot": f"foot_{s}", "toe": f"toe_{s}", "pivot": 1,
+             "bend": [0.0, 0.0, -1.0]} for s in ("l", "r")]
     if profile.get("neckIk", True):
         # The head-bob: a walking bird holds its head still in the world and then thrusts it
         # forward. Copying the chicken's neck angles onto a neck of other proportions loses that, so
@@ -370,7 +379,9 @@ def cloth(body, sk, profile, heat):
     from crlib.skin import segment_distance
 
     empty = heat.sum(1) < 1e-6
-    if empty.mean() < 0.5:
+    # The skin step's proxy heat now solves such a mesh, but its weights still split each loose
+    # feather between bones, so the plumage ruffles; the profile's distanceWeights keeps this path.
+    if empty.mean() < 0.5 and not profile.get("distanceWeights"):
         return None
     # What heat did solve on such a mesh is not trustworthy either: weight every row.
     empty[:] = True

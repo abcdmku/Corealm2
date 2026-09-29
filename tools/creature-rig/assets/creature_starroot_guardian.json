@@ -1,5 +1,8 @@
 {
   "class": "knuckle",
   "profile": "knuckle",
-  "notes": "A treant with floor-length arms: it knuckle-walks. The arms are the bear's front legs, the legs its hind legs (knuckle class)."
+  "notes": "A treant with floor-length arms: it knuckle-walks. The arms are the bear's front legs, the legs its hind legs (knuckle class). Production is the promoted candidate, whose bind already carries the 35 degree knuckle-walker lean; lean 0 keeps a re-rig from it from leaning the body twice (a re-run with the class lean pitched the torso onto the floor and sank Death 26 cm).",
+  "profileOverrides": {
+    "lean": 0
+  }
 }

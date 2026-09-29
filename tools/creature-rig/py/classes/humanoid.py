@@ -421,21 +421,44 @@ def plan(sk, body, profile):
             "hip_motion": profile.get("hipMotion", 1.0)}
 
 
-def _floating_skirt(body, sk):
+def _floating_skirt(body, sk, profile):
     """A floating body's skirt or tail rides the waist and the tail chain only. Bone heat (or the
     rigid-piece rule) hands a skirt panel that a hand rests on to that hand, which then lifts
-    the panel with every arm swing."""
+    the panel with every arm swing.
+
+    Profile "freeHands": the hands hang below the waist clear of the skirt (claws over a wisp
+    tail) and keep their own weights: a vertex is kept on the arm when arm bones dominate it and
+    arm-dominated edges join it to the arm above the waist. Without it the hand below the waist
+    is handed to the tail and tears off the wrist whenever the arm moves. A long sleeve that
+    hangs into the skirt is joined to the arm too, so a sleeved body leaves it off."""
+    from scipy.sparse import csr_matrix
+    from scipy.sparse.csgraph import connected_components
+
     names = sk.names()
     arm = [i for i, n in enumerate(names) if n.split("_")[0] in ("clavicle", "upperarm", "lowerarm", "hand")]
     keep = [i for i, n in enumerate(names) if n in ("pelvis", "spine_01") or sk[n].kind == "tail"]
     waist = sk["pelvis"].head[1]
-    rows = np.nonzero(body.verts[:, 1] < waist - 0.02 * body.height)[0]
+    low = body.verts[:, 1] < waist - 0.02 * body.height
+    rows = np.nonzero(low)[0]
+    F = body.faces
+    e = np.vstack([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]])
+    free_hands = profile.get("freeHands", False)
+
+    def own_arm(W):
+        if not free_hands:
+            return np.zeros(len(W), bool)
+        armdom = np.isin(np.argmax(W, axis=1), arm)
+        k = e[armdom[e[:, 0]] & armdom[e[:, 1]]]
+        n = len(W)
+        _, label = connected_components(csr_matrix((np.ones(len(k)), (k[:, 0], k[:, 1])), shape=(n, n)), directed=False)
+        up = np.unique(label[armdom & ~low])
+        return armdom & np.isin(label, up)
 
     def override(W):
         W = W.copy()
         fixed = np.zeros(len(W), bool)
         R = W[rows]
-        armed = R[:, arm].sum(1) > 0.01
+        armed = (R[:, arm].sum(1) > 0.01) & ~own_arm(W)[rows]
         if not armed.any():
             return W, fixed
         sub = rows[armed]
@@ -511,7 +534,7 @@ def _cloth(body, sk, profile, heat):
     chains (front and back, one or two columns), so legs swing through their own space instead of
     dragging the sheet, and the sheet follows through. Returns the weight override for skin()."""
     if "thigh_l" not in sk:
-        return _floating_skirt(body, sk)
+        return _floating_skirt(body, sk, profile)
     if not profile.get("cloth", True):
         return None
     H = body.height
@@ -666,6 +689,8 @@ def _cloth(body, sk, profile, heat):
         # Where a hem is welded to a boot or a greave (one surface), the rings of the panel next to
         # the leg ride the leg; otherwise the weld tears into a spike on every step.
         a = a * _weld_release(idx, W)
+        if seam:
+            a = a * _seam_release(idx)
         heat = W[idx] / np.maximum(W[idx].sum(1, keepdims=True), 1e-9)
         W[idx] = (1 - a)[:, None] * heat + a[:, None] * chain_w
         fixed[idx] = a > 0.5
@@ -674,6 +699,32 @@ def _cloth(body, sk, profile, heat):
     leg_cols = [i for i, n in enumerate(names0) if n.split("_")[0] in ("thigh", "calf", "foot", "ball")]
     knee_y = max(sk["calf_l"].head[1], sk["calf_r"].head[1])
     adj = None
+    # clothSeam (a share of the height): a panel that is one surface with the legs or the body
+    # (a robe's skirt, a coat's tails, a tabard sewn to the belt) blends from the body's weights
+    # to the chain over this distance along the surface from where it joins them, at every
+    # height. Without it the chain and the leg part at the join and the sheet tears into strips
+    # whenever a leg swings.
+    seam = profile.get("clothSeam")
+
+    def _seam_release(idx):
+        from scipy.sparse import csr_matrix
+        from scipy.sparse.csgraph import dijkstra
+
+        panel = np.zeros(len(V), bool)
+        panel[idx] = True
+        F = body.faces
+        e = np.vstack([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]])
+        e = e[panel[e[:, 0]] | panel[e[:, 1]]]
+        length = np.maximum(np.linalg.norm(V[e[:, 0]] - V[e[:, 1]], axis=1), 1e-9)
+        G = csr_matrix((np.concatenate([length, length]), (np.concatenate([e[:, 0], e[:, 1]]), np.concatenate([e[:, 1], e[:, 0]]))), shape=(len(V), len(V)))
+        joined = np.unique(np.concatenate([e[~panel[e[:, 0]], 0], e[~panel[e[:, 1]], 1]]))
+        if not len(joined):
+            return np.ones(len(idx))
+        dist = dijkstra(G, directed=False, indices=joined, min_only=True)
+        hops = dijkstra(G.astype(bool).astype(float), directed=False, indices=joined, min_only=True)
+        # The band is at least three rings wide, so a coarse mesh blends and does not step.
+        t = np.minimum(np.clip(dist[idx] / (seam * H), 0.0, 1.0), np.clip(hops[idx] / 3.0, 0.0, 1.0))
+        return t * t * (3 - 2 * t)
 
     def _weld_release(idx, W):
         nonlocal adj

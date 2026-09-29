@@ -64,8 +64,8 @@
                   "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
         "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
                  "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
-        "Attack": { "donor": "ual1", "clip": "Punch_Cross",
-                    "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
+        "Attack": { "donor": "wasp", "clip": "Wasp_Attack",
+                    "layers": [{ "donor": "ual2", "clip": "Zombie_Scratch", "kinds": ["arm"] }] },
         "Hit": { "donor": "ual1", "clip": "Hit_Chest",
                  "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
         "Death": { "donor": "wasp", "clip": "Wasp_Death" }

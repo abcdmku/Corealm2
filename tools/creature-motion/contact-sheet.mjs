@@ -3,7 +3,7 @@
  * from the side with the floor line drawn. Motion is judged by looking at it, not by key counts.
  *
  *   node tools/creature-motion/contact-sheet.mjs <glb> [<glb> ...] [--out dir] [--clips Idle,Walk]
- *        [--phases 8] [--view side|front|three-quarter|...] [--views audit|a,b] [--size 220]
+ *        [--phases 8] [--view side|front|three-quarter|...] [--views audit|a,b] [--size 220] [--frame each]
  *
  * One camera never shows every fault: an arm through the chest hides from the side, a knee bending
  * backwards hides from the front. `--views audit` renders the five audit angles (front, side, back,
@@ -81,17 +81,23 @@ window.sheet = async (urls, opts) => {
   renderer.setScissorTest(true);
   renderer.setClearColor(0x1d2127, 1);
   renderer.clear();
-  const size3 = rest.getSize(new THREE.Vector3()), centre = rest.getCenter(new THREE.Vector3());
-  const radius = Math.max(size3.x, size3.y, size3.z) * 0.62;
-  const dir = new THREE.Vector3(...opts.dir);
-  const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 1000);
-  camera.position.copy(centre).addScaledVector(dir.normalize(), radius / Math.tan(THREE.MathUtils.degToRad(15)) * 1.05);
-  camera.lookAt(centre);
+  const dir = new THREE.Vector3(...opts.dir).normalize();
+  const frame = (box) => {
+    const size3 = box.getSize(new THREE.Vector3()), centre = box.getCenter(new THREE.Vector3());
+    const radius = Math.max(size3.x, size3.y, size3.z) * 0.62;
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 1000);
+    camera.position.copy(centre).addScaledVector(dir, radius / Math.tan(THREE.MathUtils.degToRad(15)) * 1.05);
+    camera.lookAt(centre);
+    return { camera, radius };
+  };
+  // --frame each: every block is framed on its own rest bounds, for surveys of unrelated bodies.
+  const framings = loaded.map((gltf) => frame(opts.frameEach ? new THREE.Box3().setFromObject(gltf.scene) : rest));
   const info = [];
   const H = rows.length * (size + label);
   for (let r = 0; r < rows.length; r += 1) {
     const { block, clip } = rows[r];
     const gltf = loaded[block];
+    const { camera, radius } = framings[block];
     const scene = new THREE.Scene();
     scene.add(new THREE.HemisphereLight(0xffffff, 0x404050, 2.0));
     const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(3, 6, 4); scene.add(key);
@@ -140,7 +146,7 @@ await page.waitForFunction(() => window.ready === true);
 const urls = files.map((file) => `${base}/file?path=${encodeURIComponent(path.resolve(file))}`);
 for (const view of views) {
   await page.setViewportSize({ width: 1600, height: 1000 });
-  const result = await page.evaluate(([u, o]) => window.sheet(u, o), [urls, { phases, cell, dir: VIEWS[view], clips: clipFilter ? clipFilter.split(",") : [] }]);
+  const result = await page.evaluate(([u, o]) => window.sheet(u, o), [urls, { phases, cell, dir: VIEWS[view], frameEach: option("frame", "") === "each", clips: clipFilter ? clipFilter.split(",") : [] }]);
   await page.setViewportSize({ width: result.width, height: result.height });
   const name = path.basename(files[0], ".glb") + (files.length > 1 ? `-vs${files.length - 1}` : "") + `-${view}.png`;
   // Label each row after the fact: the WebGL canvas has no text, so write an overlay and shoot.

@@ -157,6 +157,10 @@ def _add_wings(sk, body, parts, parent_of, mid_x, attached, off, gap):
         plane = np.abs((V - centre) @ vt[2])
         stray = plane > max(4 * np.median(plane), 0.04 * body.height)
         resting = stray | ((off[part["idx"]] < 3 * gap) & (span > 0.2 * span.max()))
+        if part.get("whole"):
+            # A wing modelled as its own loose piece moves whole: a vertex of it left with the
+            # body tears the membrane open at the hinge.
+            resting[:] = False
         part = {**part, "idx": part["idx"][~resting], "resting": int(resting.sum())}
         line = _centre_line(body, part)
         side = "l" if np.mean(body.verts[part["idx"], 0]) > mid_x else "r"
@@ -178,7 +182,8 @@ def _add_wings(sk, body, parts, parent_of, mid_x, attached, off, gap):
             bones.append(name)
             parent = name
         w["bones"] = bones
-        w["attached"] = attached
+        # A wing modelled in one piece with the body blends into it at the hinge.
+        w["attached"] = attached or not w["part"].get("whole", False)
     return specs
 
 
@@ -227,6 +232,10 @@ def _wing_override(body, sk, wings):
             heat = W[idx] / np.maximum(W[idx].sum(1, keepdims=True), 1e-9)
             W[idx] = (1 - a)[:, None] * heat + a[:, None] * chain_w
             fixed[idx] = a > 0.5
+        for bone, idx in getattr(sk, "winged", {}).get("ride", []):
+            W[idx] = 0.0
+            W[idx, names.index(bone)] = 1.0
+            fixed[idx] = True
         return W, fixed
 
     return override
@@ -350,8 +359,9 @@ def _fit_insect(body, donor, profile):
 # A winged fae is a small humanoid: torso and head on a medial line, arms and legs as appendages.
 # Its flight (Idle, Walk, Run) is the wasp's: the pelvis carries the thorax's bob and pitch, the
 # wings the wasp's beat, with the arms layered from a humanoid treading the air (UAL
-# Swim_Idle_Loop). Its strike, hit and death are humanoid (UAL) takes with the wasp's wings layered
-# on. Arms copy their donor's orientation (follow 1), as a humanoid's do, so a humanoid take poses
+# Swim_Idle_Loop). Its hit is a humanoid (UAL) take with the wasp's wings layered on, its death the
+# wasp's fall. A sprite's strike is a humanoid cast with the wings layered on; an imp's is the
+# wasp's own lunge with its arms layered from a claw swipe (UAL2 Zombie_Scratch). Arms copy their donor's orientation (follow 1), as a humanoid's do, so a humanoid take poses
 # them whatever the bind. The legs dangle: they have no donor twin in either and hang as damped
 # spring chains from the pelvis, so they swing behind the body and never pass through the floor.
 ARM_DONOR = ("TopLeg1", "TopLeg2", "TopLeg3")
@@ -495,13 +505,35 @@ def _fit_fae(body, donor, profile):
 
     # A loose wing piece is a wing whole: its part near the body would otherwise keep heat weights
     # and shear off the moving wing.
+    # A loose piece goes to the one wing holding most of it, so a stray vertex of the hind wing
+    # the appendage split handed to the fore wing does not stretch between the two.
     label, sizes = _loose_pieces(body)
-    for part in wings:
-        pieces = np.unique(label[part["idx"]])
-        small = pieces[sizes[pieces] < 0.1 * len(V)]
-        part["idx"] = np.unique(np.concatenate([part["idx"], np.nonzero(np.isin(label, small))[0]]))
+    owner = {}
+    for i, part in enumerate(wings):
+        for c, k in zip(*np.unique(label[part["idx"]], return_counts=True)):
+            if sizes[c] < 0.1 * len(V) and k > owner.get(c, (None, 0))[1]:
+                owner[c] = (i, k)
+    for i, part in enumerate(wings):
+        small = np.array([c for c, (j, _) in owner.items() if j == i], int)
+        keep = part["idx"][~np.isin(label[part["idx"]], list(owner))]
+        part["idx"] = np.unique(np.concatenate([keep, np.nonzero(np.isin(label, small))[0]]))
+        part["whole"] = bool(len(small)) and bool(np.isin(label[part["idx"]], small).all())
     wing_specs = _add_wings(sk, body, wings, lambda p: "spine", mid_x, attached=False, off=off, gap=gap)
-    sk.winged = {"wings": wing_specs}
+    # A loose piece on the midline below the chest (a tail spike hanging between the legs) rides
+    # the pelvis: bone heat hands it to one thigh, whose dangling spring then tears it off the body.
+    in_wing = np.zeros(len(V), bool)
+    for w in wing_specs:
+        in_wing[w["part"]["idx"]] = True
+    ride = []
+    for c in np.nonzero(sizes < 0.08 * len(V))[0]:
+        idx = np.nonzero(label == c)[0]
+        P = V[idx]
+        if in_wing[idx].any() or not (P[:, 0].min() < mid_x < P[:, 0].max()):
+            continue
+        if abs(P[:, 0].mean() - mid_x) < 0.05 * H and P[:, 1].mean() < path[chest_i][1]:
+            ride.append(("pelvis", idx))
+    sk.winged = {"wings": wing_specs, "ride": ride}
+    notes["ridesPelvis"] = int(sum(len(i) for _, i in ride))
     notes["wings"] = [{"name": w["name"], "root": w["line"][0].tolist(), "tip": w["line"][-1].tolist(), "leftToBody": w["part"]["resting"]} for w in wing_specs]
     return sk, notes
 
