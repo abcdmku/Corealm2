@@ -1,9 +1,10 @@
 """Rooted plant class: a flower maw on a thorn bulb, carried by four hooked root legs.
 
-The Thorn Maw roams (it walks and runs in game), so its legs and bulb are a four-legged body
-(special_quad) named after the animal-pack crocodile, whose sprawled legs match the splayed roots:
-Walk and Run are the crocodile's own gait. The maw is the crocodile's head: Head_Top carries the
-upper lip and Head_Jaw the lower lip, hinged at the back of the cup. Leaves hanging at the sides
+The Thorn Maw roams (it walks and chases in game), so its legs and bulb are a four-legged body
+(special_quad) named after the animal-pack crocodile, whose sprawled legs match the splayed roots.
+Walk is the crocodile's own gait; its gallop twists the root feet, so Run is left to the
+runtime's Walk fallback. The maw is the crocodile's head: Head_Top carries the upper lip and
+Head_Jaw the lower lip, hinged at the back of the cup. Leaves hanging at the sides
 and the curled tendrils on top have no donor twin; they are spring chains that follow through.
 
 A plant does not idle, strike, flinch or die like a crocodile, so Idle, Attack, Hit and Death are

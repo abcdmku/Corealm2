@@ -16,7 +16,6 @@
       "clips": {
         "Idle": { "donor": "maw", "clip": "Idle", "loop": true },
         "Walk": { "donor": "croc", "clip": "Walk", "loop": true },
-        "Run": { "donor": "croc", "clip": "Run", "loop": true },
         "Attack": { "donor": "maw", "clip": "Attack" },
         "Hit": { "donor": "maw", "clip": "Hit" },
         "Death": { "donor": "maw", "clip": "Death" }
