@@ -143,12 +143,12 @@
     ]
   },
   {
-    "id": "reed_wasp_t1_prowl",
-    "name": "Slatewing Wasp",
+    "id": "field_wasp_t1_prowl",
+    "name": "Field Wasp",
     "activity": "prowl",
     "members": [
       {
-        "creatureId": "reed_wasp_t1",
+        "creatureId": "field_wasp_t1",
         "weight": 1
       }
     ]
@@ -166,7 +166,7 @@
   },
   {
     "id": "pack_fallowmarch_palewood_heath_scrub_patrol",
-    "name": "Heath Wasp",
+    "name": "Field Wasp",
     "activity": "patrol",
     "members": [
       {
@@ -177,7 +177,7 @@
   },
   {
     "id": "pack_fallowmarch_palewood_reed_scrub_patrol",
-    "name": "Slatewing Wasp",
+    "name": "Field Wasp",
     "activity": "patrol",
     "members": [
       {

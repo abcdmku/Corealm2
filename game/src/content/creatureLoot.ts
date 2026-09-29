@@ -23,7 +23,7 @@ export const CREATURE_TROPHY_BY_SPECIES = {
     quarry_snail: "snail_mucus",
     antler_beetle: "beetle_mandible",
     slag_centipede: "centipede_chitin",
-    hollowroot_spider: "spider_thread",
+    webweaver_spider: "spider_thread",
     cinder_ravager: "ravager_talon",
     basalt_drake: "drake_scale",
     gorge_mantis: "mantis_scythe",

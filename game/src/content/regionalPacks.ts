@@ -228,9 +228,9 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
   },
   {
     "id": "hollowroot_spider_residents",
-    "assetId": "creature_hollowroot_spider",
+    "assetId": "creature_webweaver_spider",
     "scale": 1,
-    "baseEnemyDefId": "hollowroot_spider_t5",
+    "baseEnemyDefId": "webweaver_spider_t5",
     "activity": "prowl",
     "nativeBodyRadius": 0.4958496391773224,
     "nativeVisualRadius": 0.6347229222344468

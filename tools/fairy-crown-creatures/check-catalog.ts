@@ -16,7 +16,7 @@ const catalog = JSON.parse(await readFile('tools/fairy-crown-creatures/catalog.j
 const assets = new Map<string, any>(manifest.assets.map((asset: any) => [asset.id, asset]));
 const items = new Set(ALL_ITEMS.map(item => item.id));
 const rows = [];
-assert.equal(FAIRY_CROWN_SPECIES.length, 12);
+assert.equal(FAIRY_CROWN_SPECIES.length, 11);
 assert.equal(FAIRY_CROWN_BOSS_IDS.length, 3);
 for (const species of FAIRY_CROWN_SPECIES) {
   const form = FAIRY_CROWN_FORMS.find(form => form.id === species.id)!;

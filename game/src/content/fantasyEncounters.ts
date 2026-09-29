@@ -10,5 +10,5 @@ export function inStarterWildlifeArea(regionId:RegionId, centre:Spot, radius=0):
 
 /** Species restricted to starter wildlife habitats. */
 export function isStarterAnimalAsset(assetId:string):boolean {
-  return assetId.startsWith('animal_') || /^creature_(redbrush_fox|marchwild_horse|reedbank_goose|marchfield_turkey|field_wasp|heath_wasp|reed_wasp)$/.test(assetId);
+  return assetId.startsWith('animal_') || /^creature_(redbrush_fox|marchwild_horse|reedbank_goose|marchfield_turkey|field_wasp)$/.test(assetId);
 }
