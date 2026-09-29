@@ -18,7 +18,7 @@
  * CREATURE_RIG_BPY on PYTHONPATH (default D:/CorealmAgentCache/bpy-5.2).
  */
 import { spawnSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { assemble } from "./assemble.mjs";
 import { intake, intakeStale } from "./intake.mjs";
@@ -75,7 +75,8 @@ async function runAsset(id) {
     for (const view of ["side", "front", "three-quarter"])
       run(process.execPath, [path.join(repo, "tools/creature-motion/contact-sheet.mjs"), model, production, "--out", path.join(paths.sheets, view), "--phases", "8", "--size", "200", "--view", view], "contact-sheet");
     mkdirSync(path.join(paths.sheets, "closeup"), { recursive: true });
-    const joints = ["upperarm_l", "lowerarm_l", "thigh_l", "calf_l", "spine_02"].join(",");
+    // The class picks the joints its close-ups frame (rig.json "closeup").
+    const joints = JSON.parse(readFileSync(path.join(work, "rig.json"), "utf8")).closeup.join(",");
     run(python[0], [...python.slice(1), path.join(paths.tool, "py/closeup.py"), "--", model, path.join(paths.sheets, "closeup", `${id}.png`), "--clips", "Idle,Walk,Run,Attack", "--phases", "2", "--joints", joints], "closeup.py");
     console.log(`${id}: sheets in ${path.relative(repo, paths.sheets)}/{side,front,three-quarter,closeup}; catalog entry staged`);
   }

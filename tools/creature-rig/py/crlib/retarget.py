@@ -84,21 +84,21 @@ def chain_ik(joints, goal, pivots):
     return swings, J
 
 
-def _pitch_to(offset, axis, target_dy, exact):
-    """Rotation about axis (the bone's lateral axis) that brings the offset's height to
-    target_dy: exactly when the donor foot is in contact, otherwise only up to it (no sinking)."""
-    now = offset[1]
-    if not exact and now >= target_dy:
-        return np.eye(3)
-    angles = np.radians(np.arange(-80, 80.5, 0.5))
+def _pitch_to(offset, axis, target_dy, exact, prev=0.0):
+    """Angle about axis (the bone's lateral axis) that brings the offset's height to target_dy:
+    exactly when the donor foot is in contact, otherwise only up to it (no sinking). prev is the
+    angle this joint took on the previous frame: a hanging foot can often be lifted by pitching
+    either way, and without memory the choice flips between frames; a released contact eases
+    back towards the donor's angle instead of snapping to it."""
+    angles = np.radians(np.arange(-120, 120.5, 0.5))
     ys = np.array([(axis_angle(axis, a) @ offset)[1] for a in angles])
-    ok = ys >= target_dy - 1e-4 if not exact else np.ones_like(ys, bool)
-    cost = np.abs(ys - target_dy) + 0.02 * np.abs(angles)
-    if not exact:
-        cost = np.where(ok, np.abs(angles), np.inf)
+    if exact:
+        cost = np.abs(ys - target_dy) + 0.02 * np.abs(angles) + 0.05 * np.abs(angles - prev)
+    else:
+        cost = np.where(ys >= target_dy - 1e-4, np.abs(angles - 0.6 * prev), np.inf)
         if not np.isfinite(cost).any():
-            cost = -ys
-    return axis_angle(axis, angles[int(np.argmin(cost))])
+            cost = -ys + 0.05 * np.abs(angles - prev)
+    return float(angles[int(np.argmin(cost))])
 
 
 HIP_MODES = ("legs", "vertical", "root")
@@ -114,8 +114,43 @@ def normalize_leg(leg):
     return {"chain": list(leg[:2]), "foot": leg[2], "toe": leg[3] if len(leg) > 3 else None, "pivot": None}
 
 
+def skin_points(skeleton, R, P, verts, joints, weights):
+    """Linear-blend-skinned positions of a few bind vertices for a pose given as world rotations
+    and heads (bind pose == rest)."""
+    names = skeleton.names()
+    A = np.array([R[n] @ skeleton[n].frame.T for n in names])
+    t = np.array([P[n] - A[i] @ skeleton[n].head for i, n in enumerate(names)])
+    out = np.zeros_like(verts)
+    for k in range(joints.shape[1]):
+        j = joints[:, k]
+        out += weights[:, k:k + 1] * (np.einsum("nij,nj->ni", A[j], verts) + t[j])
+    return out
+
+
+def sole_points(skeleton, leg, verts, joints, weights, share=0.3, limit=400):
+    """The bind vertices under a leg's foot: skinned at least share to the foot and toe bones (the
+    last chain bone for a leg without a foot), in the lowest band of that region."""
+    names = skeleton.names()
+    bones = [b for b in (leg["foot"], leg["toe"]) if b] or [leg["chain"][-1]]
+    cols = [names.index(b) for b in bones]
+    own = (weights * np.isin(joints, cols)).sum(1)
+    sel = np.nonzero(own >= share)[0]
+    if not len(sel):
+        return None
+    ankle = skeleton[leg["foot"]].head[1] if leg["foot"] else skeleton[leg["chain"][-1]].tail[1]
+    low = verts[sel, 1].min()
+    height = max(b.head[1] for b in skeleton.bones) - low
+    band = max(0.5 * (ankle - low), 0.02 * height)
+    sel = sel[verts[sel, 1] <= low + band]
+    if len(sel) > limit:
+        sel = sel[np.argsort(verts[sel, 1])[:limit]]
+    return verts[sel], joints[sel], weights[sel]
+
+
 class Retargeter:
-    def __init__(self, skeleton, donor, plan, bone_map=None, primary=True):
+    def __init__(self, skeleton, donor, plan, bone_map=None, primary=True, skin=None):
+        """skin: (bind vertices, joints, weights) of the skinned mesh. With it the leg IK keeps the
+        lowest points of each sole, not only the ball and toe joints, on or above the floor."""
         from .skeleton import Binding
 
         self.sk = skeleton
@@ -142,6 +177,7 @@ class Retargeter:
                 bend = [np.arccos(np.clip(np.dot(normalize(Jd[i] - Jd[i - 1]), normalize(Jd[i + 1] - Jd[i])), -1, 1))
                         for i in range(1, len(Jd) - 1)]
                 leg["pivots"] = [int(i) + 1 for i in np.argsort(bend, kind="stable")[::-1]]
+            leg["sole"] = sole_points(sk, leg, *skin) if skin is not None else None
             self.legs.append(leg)
         # Size ratio for the hips and the leg effectors: target hip-to-effector length over the
         # donor's (rest), or the hips height when no leg is driven; a plan may fix it.
@@ -154,7 +190,15 @@ class Retargeter:
         else:
             t_len = sk[self.hips].head[1]
             d_len = d.rest_head[bind.bone[self.hips]][1]
+            if plan.get("hover"):
+                # A hovering donor's hips height includes its clearance; the grounded bind's does not.
+                d_len -= max(self.rest_clearance(), 0.0)
             self.scale = t_len / d_len
+
+    def rest_clearance(self):
+        """The donor's rest height above its ground: its lowest joint at rest (a flyer hovers)."""
+        d = self.donor
+        return float(min(min(p[1] for p in d.rest_head.values()), min(p[1] for p in d.rest_tail.values())))
 
     # ------------------------------------------------------------------ legs
     def _joints_rest(self, leg):
@@ -227,6 +271,14 @@ class Retargeter:
             hips_path = np.zeros((n, 3))
         else:
             hips_path = clip["heads"][:, d.index(source)] - d.rest_head[source]
+        # Hover: the vertical offset also carries the donor's rest clearance above its ground (a
+        # flyer's rest hovers) times the size ratio, or a fixed clearance in metres. A clip whose
+        # donor lands (Death) comes down by that clearance on its own.
+        hover = spec.get("hover", self.plan.get("hover"))
+        if hover is True:
+            clearance = self.scale * max(self.rest_clearance(), 0.0)
+        else:
+            clearance = float(hover or 0.0)
         drift = np.zeros((n, 3))
         if spec.get("loop") or spec.get("in_place", True):
             # In place: remove the net horizontal travel (keep sway and bob).
@@ -234,32 +286,130 @@ class Retargeter:
             drift[:, [0, 2]] = np.outer(np.linspace(0, 1, n), travel[[0, 2]])
             if not spec.get("loop"):
                 drift[:, [0, 2]] = 0.0
-        hip_motion = self.plan.get("hip_motion", 1.0)
+        # Per-clip energy: hipMotion scales this clip's hip translation on top of the plan's.
+        hip_motion = self.plan.get("hip_motion", 1.0) * spec.get("hipMotion", 1.0)
         self.ik_miss = 0.0
+        self.sole_lift = 0.0
+        self._pitch_prev = {}
+        use_ik = spec.get("ik", True) and bool(self.legs)
+        # A loop's first frame continues from its last: one silent pass warms the pitch memory.
+        frames = ([f for f in range(n)] if not (use_ik and spec.get("loop")) else list(range(n)) * 2)
         out_R, out_T = [], []
-        for f in range(n):
+        for pass_index, f in enumerate(frames):
+            if pass_index == n and len(frames) > n:
+                out_R, out_T = [], []
+                self.ik_miss = self.sole_lift = 0.0
             T = self._world_targets(spec["clip"], f)
             L = to_local(sk, T)
             offset = self.scale * hip_motion * (hips_path[f] - drift[f])
             if mode == "vertical":
                 offset = np.array([0.0, offset[1], 0.0])
+            offset[1] += clearance
             pelvis = sk[self.hips].head + offset
             R, P = forward(sk, L, self.hips, pelvis)
-            if spec.get("ik", True):
-                for leg in self.legs:
-                    self._solve_leg(leg, clip, f, R, P, drift[f])
+            if use_ik:
+                R = self._solve_legs(clip, f, R, P, drift[f], pelvis)
                 L = to_local(sk, R)
             out_R.append(L)
             out_T.append(pelvis)
-        return {"n": n, "fps": clip["fps"], "L": out_R, "pelvis": out_T, "loop": bool(spec.get("loop")),
-                "hipMode": mode, "hipSource": source, "ikMiss": self.ik_miss}
+        # Playback speed is a time-scale on the baked clip: the same frames at speed x the rate.
+        fps = clip["fps"] * float(spec.get("speed", 1.0))
+        return {"n": n, "fps": fps, "L": out_R, "pelvis": out_T, "loop": bool(spec.get("loop")),
+                "hipMode": mode, "hipSource": source, "ikMiss": self.ik_miss, "soleLift": self.sole_lift,
+                "hover": clearance}
 
-    def _solve_leg(self, leg, clip, f, R, P, drift):
-        """Chain IK towards the donor's scaled effector path, then foot and toe pitch for contact."""
+    def _solve_legs(self, clip, f, R_fk, P, drift, pelvis, floor=0.0, passes=8):
+        """Leg IK for every leg, then sole contact: when a sole's lowest skinned point is below the
+        floor (a heel at heel strike, a toe at toe-off), that foot rises rigidly (same orientation,
+        IK goal lifted) until the point is on the floor. A sole point partly weighted to the shin
+        rises less than the goal, so each leg's lift is a bracketed root search (secant inside the
+        bracket), and the lowest lift that clears the floor wins."""
+        sk = self.sk
+        n_legs = len(self.legs)
+        tol = 1e-3 * max(sk[self.hips].head[1], 1e-6)
+        soles = [i for i, leg in enumerate(self.legs) if leg["sole"] is not None]
+        lifts = [0.0] * n_legs
+        keep = [None] * n_legs
+        lo = [(0.0, None)] * n_legs          # (lift, height of the lowest sole point) below the floor
+        hi = [None] * n_legs                 # the lowest lift found that clears the floor
+        settled = [i not in soles for i in range(n_legs)]
+
+        def solve(lift_values):
+            R = dict(R_fk)
+            for i, leg in enumerate(self.legs):
+                kept = self._solve_leg(leg, clip, f, R, P, drift, lift=lift_values[i], keep=keep[i])
+                keep[i] = keep[i] or kept
+            return R
+
+        for _ in range(passes):
+            R = solve(lifts)
+            if all(settled):
+                break
+            R2, P2 = forward(sk, to_local(sk, R), self.hips, pelvis)
+            for i in soles:
+                if settled[i]:
+                    continue
+                g = skin_points(sk, R2, P2, *self.legs[i]["sole"])[:, 1].min() - floor
+                if g >= -tol:
+                    if hi[i] is None or lifts[i] < hi[i][0]:
+                        hi[i] = (lifts[i], g)
+                    if g <= 2 * tol or lifts[i] == 0.0:
+                        settled[i] = True
+                        continue
+                else:
+                    lo[i] = (lifts[i], g)
+                (l0, g0), top = lo[i], hi[i]
+                if top is None:
+                    # No lift clears the floor yet: raise by the penetration (more once a raise
+                    # has shown the point rises slower than the goal).
+                    lifts[i] = l0 + (1.5 if l0 > 0 else 1.0) * (-g0)
+                else:
+                    l1, g1 = top
+                    t = (-g0) / max(g1 - g0, 1e-9) if g0 is not None else 0.5
+                    lifts[i] = l0 + float(np.clip(t, 0.1, 0.9)) * (l1 - l0)
+        final = [hi[i][0] if (i in soles and not settled[i] and hi[i] is not None) else lifts[i] for i in range(n_legs)]
+        if final != lifts:
+            R = solve(final)
+        self.sole_lift = max(self.sole_lift, max(final))
+        return R
+
+    def _pitch(self, slot, offset, axis, target_dy, exact):
+        prev = self._pitch_prev.get(slot, 0.0)
+        a = _pitch_to(offset, axis, target_dy, exact, prev)
+        self._pitch_prev[slot] = a
+        return axis_angle(axis, a)
+
+    def _heel_clamp(self, foot, toe, ankle, R):
+        """A heel far behind the ankle is levered into the floor by a toe-up foot (heel strike).
+        When the class records sk.heels, the foot and toes pitch back just enough to keep that
+        heel at or above its bind height."""
+        sk = self.sk
+        heel = getattr(sk, "heels", {}).get(foot)
+        if heel is None or sk[foot].head[2] - heel[2] < 0.5 * sk[foot].head[1]:
+            return
+        off = R[foot] @ (sk[foot].frame.T @ (heel - sk[foot].head))
+        if ankle[1] + off[1] >= heel[1] - 1e-4:
+            return
+        lateral = R[foot] @ (sk[foot].frame.T @ np.array([1.0, 0.0, 0.0]))
+        angles = np.radians(np.arange(-60, 60.25, 0.25))
+        ys = np.array([(axis_angle(lateral, a) @ off)[1] for a in angles])
+        ok = ankle[1] + ys >= heel[1] - 1e-4
+        if not ok.any():
+            return
+        turn = axis_angle(lateral, angles[ok][int(np.argmin(np.abs(angles[ok])))])
+        R[foot] = turn @ R[foot]
+        if toe:
+            R[toe] = turn @ R[toe]
+
+    def _solve_leg(self, leg, clip, f, R, P, drift, lift=0.0, keep=None):
+        """Chain IK towards the donor's scaled effector path, then foot and toe pitch for contact.
+        lift raises the goal; keep (the foot and toe world rotations of the unlifted solve) then
+        holds the foot's orientation so it rises rigidly. Returns the foot and toe rotations."""
         sk, d, bind = self.sk, self.donor, self.bind
         chain, foot, toe = leg["chain"], leg["foot"], leg["toe"]
         donor_now = self._donor_joints(leg, f, clip)[-1]
         goal = leg["target_rest"][-1] + self.scale * (donor_now - leg["donor_rest"][-1] - drift)
+        goal = goal + np.array([0.0, lift, 0.0])
         J = [P[b] for b in chain]
         last = sk[chain[-1]]
         J.append(P[foot] if foot else P[chain[-1]] + R[chain[-1]] @ (last.frame.T @ (last.tail - last.head)))
@@ -275,8 +425,15 @@ class Retargeter:
                 R[b] = upper @ R[b]
             for b in chain[k:]:
                 R[b] = lower @ R[b]
-        if not (foot and toe and swings):
-            return
+        if keep is not None:
+            for b, rot in zip((foot, toe), keep):
+                if b and rot is not None:
+                    R[b] = rot
+            return keep
+        if not (foot and swings):
+            return None
+        if not toe:
+            return (R[foot], None)
         # The foot keeps its donor world orientation (the ankle absorbs the change). It and the
         # toes pitch so the ball and the toe tip follow the donor's scaled heights: a heel-off
         # rolls over the ball instead of pushing it into the floor. This is exact while the donor
@@ -289,7 +446,7 @@ class Retargeter:
         contact = lift < 0.01
         lateral = R[foot] @ (sk[foot].frame.T @ np.array([1.0, 0.0, 0.0]))
         offset = R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
-        swing = _pitch_to(offset, lateral, sk[toe].head[1] + self.scale * max(lift, 0.0) - goal[1], contact)
+        swing = self._pitch((chain[0], 0), offset, lateral, sk[toe].head[1] + self.scale * max(lift, 0.0) - goal[1], contact)
         R[foot] = swing @ R[foot]
         R[toe] = swing @ R[toe]
         ball = goal + R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
@@ -298,7 +455,9 @@ class Retargeter:
         tip_lift = tip_d[1] - d.rest_tail[toe_d][1]
         lateral = R[toe] @ (sk[toe].frame.T @ np.array([1.0, 0.0, 0.0]))
         offset = R[toe] @ (sk[toe].frame.T @ (sk[toe].tail - sk[toe].head))
-        R[toe] = _pitch_to(offset, lateral, sk[toe].tail[1] + self.scale * max(tip_lift, 0.0) - ball[1], tip_lift < 0.01) @ R[toe]
+        R[toe] = self._pitch((chain[0], 1), offset, lateral, sk[toe].tail[1] + self.scale * max(tip_lift, 0.0) - ball[1], tip_lift < 0.01) @ R[toe]
+        self._heel_clamp(foot, toe, goal, R)
+        return (R[foot], R[toe])
 
     # ------------------------------------------------------------- secondary
     def secondary(self, result, chains, colliders, floor=0.0, cycles=3):
@@ -395,6 +554,30 @@ class Retargeter:
                     for f in range(n):
                         result["L"][f][b] = result["L"][f][b] @ slerp_matrix(np.eye(3), fix, f / (n - 1))
         return result
+
+
+def overlay(result, layer, bones):
+    """Donor layers: the listed bones take their local rotations from another donor's clip (wings
+    from a flyer on a body from a walker). A looping clip repeats the layer a whole number of
+    times so the seam still closes; a one-shot plays it in real time, looping it if the layer
+    loops and holding its last frame otherwise."""
+    n, m = result["n"], layer["n"]
+    if m < 2 or not bones:
+        return result
+    main_len = (n - 1) / result["fps"]
+    layer_len = (m - 1) / layer["fps"]
+    cycles = max(1, int(round(main_len / layer_len)))
+    for f in range(n):
+        if result["loop"]:
+            x = (((f / max(n - 1, 1)) * cycles) % 1.0 if f < n - 1 else 0.0) * (m - 1)
+        else:
+            t = f / result["fps"]
+            x = (t % layer_len if layer["loop"] else min(t, layer_len)) * layer["fps"]
+        a = min(int(np.floor(x)), m - 1)
+        b = min(a + 1, m - 1)
+        for bone in bones:
+            result["L"][f][bone] = slerp_matrix(layer["L"][a][bone], layer["L"][b][bone], x - a)
+    return result
 
 
 class CapsuleCollider:
