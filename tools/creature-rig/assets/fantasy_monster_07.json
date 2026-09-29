@@ -1,0 +1,26 @@
+{
+ "class": "pixelius",
+ "profile": "studio",
+ "notes": "PixeliusVita Fantasy Monster07. Native Idle, Walk, Run, Attack and Hit kept. The native Monster07_Die.anim cannot ship: sampled straight from its curves (no root motion: m_HasGenericRootTransform 0, the root position curve holds y 0), it ends with root.x at 0.017 m and the toes 0.57 m below the root plane, where Monster08/09's Die (same library, same sampling) end with root.x at 0.12 m and the legs about 0.2 m down; only a lift track could show it. Death is retargeted from the Monster09 Die (the four-winged flyer with the same skeleton family), rest-relative to each body's own Idle, landed on the floor.",
+ "studio": {
+  "rootNode": "root",
+  "referenceClip": "Idle",
+  "floor": "reference",
+  "map": "arp",
+  "holdUnmapped": true,
+  "donorRest": {
+   "pixelius_09": "Idle"
+  },
+  "replace": [
+   "Death"
+  ],
+  "clips": {
+   "Death": {
+    "donor": "pixelius_09",
+    "clip": "Death",
+    "land": true,
+    "lift": true
+   }
+  }
+ }
+}
