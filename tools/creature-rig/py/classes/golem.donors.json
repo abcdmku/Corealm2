@@ -43,7 +43,6 @@
           "donor": "ual1",
           "clip": "Jog_Fwd_Loop",
           "loop": true,
-          "speed": 0.85,
           "hipMotion": 0.6
         },
         "Attack": {
@@ -88,7 +87,6 @@
           "donor": "ual1",
           "clip": "Jog_Fwd_Loop",
           "loop": true,
-          "speed": 0.85,
           "hipMotion": 0.6
         },
         "Attack": {
@@ -135,7 +133,6 @@
           "donor": "ual1",
           "clip": "Jog_Fwd_Loop",
           "loop": true,
-          "speed": 0.85,
           "hipMotion": 0.6
         },
         "Attack": {
