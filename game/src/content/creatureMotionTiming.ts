@@ -450,11 +450,11 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "creature_skeleton_mage": {
     "seconds": 1.466667,
-    "contactNormalized": 0.15
+    "contactNormalized": 0.717
   },
   "creature_skeleton_mage_elite": {
     "seconds": 1.466667,
-    "contactNormalized": 0.15
+    "contactNormalized": 0.717
   },
   "creature_skeleton_soldier": {
     "seconds": 1.5,
@@ -489,8 +489,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4
   },
   "creature_troll_mauler": {
-    "seconds": 1,
-    "contactNormalized": 0.25
+    "seconds": 1.533333,
+    "contactNormalized": 0.583
   },
   "creature_vault_custodian": {
     "seconds": 1.066667,
@@ -840,8 +840,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_silverthorn_harrow": 4.5295,
   "creature_skeleton_archer": 17.2229,
   "creature_skeleton_archer_elite": 18.6527,
-  "creature_skeleton_mage": 17.6284,
-  "creature_skeleton_mage_elite": 18.7214,
+  "creature_skeleton_mage": 17.2715,
+  "creature_skeleton_mage_elite": 18.2562,
   "creature_skeleton_soldier": 4.8623,
   "creature_skeleton_soldier_elite": 5.4387,
   "creature_slag_centipede": 1.7536,
@@ -850,7 +850,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_starroot_guardian": 8.4081,
   "creature_stone_golem": 15.4233,
   "creature_thorn_maw": 1.4567,
-  "creature_troll_mauler": 20.1208,
+  "creature_troll_mauler": 4.7748,
   "creature_vault_custodian": 15.7036,
   "creature_voidstone_colossus": 19.0427,
   "creature_webweaver_spider": 2.9603,
@@ -1011,8 +1011,8 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_silverthorn_harrow": 3.623593,
   "creature_skeleton_archer": 3.230447,
   "creature_skeleton_archer_elite": 3.488719,
-  "creature_skeleton_mage": 3.239625,
-  "creature_skeleton_mage_elite": 3.434002,
+  "creature_skeleton_mage": 3.222732,
+  "creature_skeleton_mage_elite": 3.424114,
   "creature_skeleton_soldier": 3.889823,
   "creature_skeleton_soldier_elite": 4.350997,
   "creature_slag_centipede": 0.888223,

@@ -28139,7 +28139,7 @@
         "skeleton_mage"
       ],
       "bytes": 1629964,
-      "sha256": "2a5ce6b8ecb711ac2c313a85d8606d13a0ab8c21338952437b37fe0ef72746e2",
+      "sha256": "1769e3e034e897b2dbf95b85db1ebef57140fdd1ef742787de38d561aeb6b3e5",
       "size": {
         "x": 0.666624,
         "y": 1.888771,
@@ -28283,15 +28283,15 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Universal Animation Library (UAL1, CC0): Idle_Torch_Loop@mirror",
-          "Walk": "Quaternius Universal Animation Library (UAL1, CC0): Walk_Loop",
-          "Run": "Quaternius Universal Animation Library (UAL1, CC0): Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library (UAL1, CC0): Spell_Simple_Enter@mirror + Spell_Simple_Shoot@mirror + Spell_Simple_Exit@mirror",
-          "Hit": "Quaternius Universal Animation Library (UAL1, CC0): Hit_Chest",
-          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01"
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Torch_Loop@mirror",
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (none) kept byte-identical from production; Idle, Walk, Run, Attack, Hit, Death added by a rest-relative UAL retarget onto the existing skeleton (scratch studio_rig.py over crlib.retarget: hips scaled by leg length 1.039, foot IK, no scale keys). Weapon hand keeps its native grip (Bip001_R_Hand); in Death the grip fades out as the body falls. The staff arm holds the UAL Idle_Torch_Loop (mirrored) arm pose over Walk/Run/Hit so the staff stays upright. Death lifts the hips by a smooth envelope of the skinned mesh's floor penetration (no per-frame snap). Wrapper nodes are not keyed by the added clips; existing wrapper tracks in native clips are untouched.",
+        "notes": "Studio rig, skin, mesh and kept clips (none) byte-identical to production (per-clip hashes checked); Idle, Walk, Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.039, foot IK, no scale keys). Weapon hands keep their native grip (Bip001_R_Hand). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 1.2666666507720947,
           "Walk": 1.3333333730697632,
@@ -28301,14 +28301,14 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_mage.glb",
-        "sourceSha256": "fd13aba02eac2a60183ec1ce0a9ec76cee1f1e5f157dcefeae0af95470447010"
+        "sourceSha256": "2a5ce6b8ecb711ac2c313a85d8606d13a0ab8c21338952437b37fe0ef72746e2"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.012383,
-      "impliedRunMps": 6.295842,
+      "impliedWalkMps": 1.007104,
+      "impliedRunMps": 6.168388,
       "attackSeconds": 1.466667,
-      "contactNormalized": 0.15
+      "contactNormalized": 0.717
     },
     {
       "id": "creature_revenant",
@@ -69236,7 +69236,7 @@
         "mage"
       ],
       "bytes": 11569792,
-      "sha256": "91889151923f6a574ef667df0c395a4ccf6270ab8cd3d4734d4e05ab21512b3c",
+      "sha256": "d26dbb03313690a4ff78fd86b8ed501f6ebad6b259840a3ecbc97866d6371c32",
       "size": {
         "x": 0.87768,
         "y": 2.083311,
@@ -69273,7 +69273,7 @@
         "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
         "sourceAssetId": "creature_skeleton_mage",
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_mage.glb",
-        "sourceSha256": "2a5ce6b8ecb711ac2c313a85d8606d13a0ab8c21338952437b37fe0ef72746e2",
+        "sourceSha256": "1769e3e034e897b2dbf95b85db1ebef57140fdd1ef742787de38d561aeb6b3e5",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_mage_elite.glb",
         "candidateSha256": "c1a9a36a72ffbf2881e2a7d71e58053470de202fff40269c3737a21354d4bf35",
         "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
@@ -69362,15 +69362,15 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Universal Animation Library (UAL1, CC0): Idle_Torch_Loop@mirror",
-          "Walk": "Quaternius Universal Animation Library (UAL1, CC0): Walk_Loop",
-          "Run": "Quaternius Universal Animation Library (UAL1, CC0): Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library (UAL1, CC0): Spell_Simple_Enter@mirror + Spell_Simple_Shoot@mirror + Spell_Simple_Exit@mirror",
-          "Hit": "Quaternius Universal Animation Library (UAL1, CC0): Hit_Chest",
-          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01"
+          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Torch_Loop@mirror",
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (none) kept byte-identical from production; Idle, Walk, Run, Attack, Hit, Death added by a rest-relative UAL retarget onto the existing skeleton (scratch studio_rig.py over crlib.retarget: hips scaled by leg length 1.102, foot IK, no scale keys). Weapon hand keeps its native grip (Bip001_R_Hand); in Death the grip fades out as the body falls. The staff arm holds the UAL Idle_Torch_Loop (mirrored) arm pose over Walk/Run/Hit so the staff stays upright. Death lifts the hips by a smooth envelope of the skinned mesh's floor penetration (no per-frame snap). Wrapper nodes are not keyed by the added clips; existing wrapper tracks in native clips are untouched.",
+        "notes": "Studio rig, skin, mesh and kept clips (none) byte-identical to production (per-clip hashes checked); Idle, Walk, Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.102, foot IK, no scale keys). Weapon hands keep their native grip (Bip001_R_Hand). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 1.2666666507720947,
           "Walk": 1.3333333730697632,
@@ -69380,14 +69380,14 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_skeleton_mage_elite.glb",
-        "sourceSha256": "e2fba492150365f0a0ef8ed7760f733fdb6441763ae9697c76465fa1537c82b1"
+        "sourceSha256": "91889151923f6a574ef667df0c395a4ccf6270ab8cd3d4734d4e05ab21512b3c"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.073126,
-      "impliedRunMps": 6.686212,
+      "impliedWalkMps": 1.070036,
+      "impliedRunMps": 6.520084,
       "attackSeconds": 1.466667,
-      "contactNormalized": 0.15
+      "contactNormalized": 0.717
     },
     {
       "id": "creature_skeleton_soldier_elite",
@@ -70457,7 +70457,6 @@
       "animations": [
         "Idle",
         "Walk",
-        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -70467,8 +70466,8 @@
         "animal_rpg_troll_mauler_eye",
         "animal_rpg_troll_mauler_med"
       ],
-      "bytes": 16768284,
-      "sha256": "80af783fa372e6263411c2d3870ff9d89a4d22bafe22e6c85955efb12ba2775f",
+      "bytes": 16757884,
+      "sha256": "b6dd181e016e4f46bac919ab626e93f1138f356ee2d8180500ca2145c65f1771",
       "sourceProvenance": {
         "upstream": {
           "sourceUrl": "https://opengameart.org/content/troll-mauler",
@@ -70920,30 +70919,26 @@
         ],
         "donor": {
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
-          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Sword_Attack",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Idle) kept byte-identical from production (per-clip hashes checked); Walk, Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.265, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "notes": "Studio rig, skin, mesh and kept clips (Idle) byte-identical to production (per-clip hashes checked); Walk, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.265, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 1.6666666269302368,
           "Walk": 1.3333333730697632,
-          "Run": 0.9333333373069763,
-          "Attack": 1,
+          "Attack": 1.5333333015441895,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_troll_mauler.glb",
-        "sourceSha256": "7da7f4ce6ed6903a21db867a1b6a0f7e147a1fc8d399a8e65aa5e5b7c5e325a3"
+        "sourceSha256": "80af783fa372e6263411c2d3870ff9d89a4d22bafe22e6c85955efb12ba2775f"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.193709,
-      "impliedRunMps": 7.185991,
-      "attackSeconds": 1,
-      "contactNormalized": 0.25
+      "attackSeconds": 1.533333,
+      "contactNormalized": 0.583
     },
     {
       "id": "creature_cave_roach",
