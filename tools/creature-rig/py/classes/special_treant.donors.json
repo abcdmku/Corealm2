@@ -3,13 +3,17 @@
     "ual1": {
       "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library[Standard].zip",
       "member": "Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb",
-      "files": ["D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"],
+      "files": [
+        "D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"
+      ],
       "source": "Quaternius Universal Animation Library (Standard), CC0"
     },
     "ual2": {
       "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library_2[Standard].zip",
       "member": "Universal Animation Library 2[Standard]/Unreal-Godot/UAL2_Standard.glb",
-      "files": ["D:/corealm-scratch/anim-audit/refs/ual/UAL2_Standard.glb"],
+      "files": [
+        "D:/corealm-scratch/anim-audit/refs/ual/UAL2_Standard.glb"
+      ],
       "source": "Quaternius Universal Animation Library 2 (Standard), CC0"
     }
   },
@@ -20,23 +24,32 @@
       "hipMotion": 0.8,
       "bindArmAngle": 35,
       "clips": {
-        "Idle": { "donor": "ual1", "clip": "Idle_Loop", "loop": true },
-        "Walk": { "donor": "ual1", "clip": "Walk_Loop", "loop": true },
-        "Attack": { "donor": "ual1", "clip": "Punch_Cross" },
-        "Hit": { "donor": "ual1", "clip": "Hit_Chest" },
-        "Death": { "donor": "ual1", "clip": "Death01" }
-      }
-    },
-    "sovereign": {
-      "legs": true,
-      "hipMotion": 0.8,
-      "bindArmAngle": 35,
-      "clips": {
-        "Idle": { "donor": "ual1", "clip": "Idle_Loop", "loop": true },
-        "Walk": { "donor": "ual1", "clip": "Walk_Loop", "loop": true },
-        "Attack": { "donor": "ual1", "clip": ["Spell_Simple_Enter", "Spell_Simple_Shoot", "Spell_Simple_Exit"] },
-        "Hit": { "donor": "ual1", "clip": "Hit_Chest" },
-        "Death": { "donor": "ual1", "clip": "Death01" }
+        "Idle": {
+          "donor": "ual1",
+          "clip": "Idle_Loop",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "ual1",
+          "clip": "Walk_Loop",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "ual1",
+          "clip": [
+            "Spell_Simple_Enter",
+            "Spell_Simple_Shoot",
+            "Spell_Simple_Exit"
+          ]
+        },
+        "Hit": {
+          "donor": "ual1",
+          "clip": "Hit_Chest"
+        },
+        "Death": {
+          "donor": "ual1",
+          "clip": "Death01"
+        }
       }
     }
   }

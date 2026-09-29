@@ -92,7 +92,7 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
 - Some donors translate their hip joints, for example the animal-pack Wolf Run moves its hind hips by 35% of a bone length. These can ask for more reach than rigid bones have. `rig.json` records the worst miss per clip as `ikMiss`, a share of the leg length.
 - Chains with no donor twin are driven by a damped Verlet spring chain. These are capes (back sheets, plus their part above the hips that stands off the body), front flaps between the legs, and tails. The leg and torso capsules and the floor are colliders. The columns of one sheet are linked so the sheet cannot tear. Loops run for 3 cycles, and the leftover difference is spread over the cycle.
 - Lying clips (the hips drop below half their height) lift the hips by a smooth envelope of the floor penetration. No clip snaps to the floor per frame. A profile with `lyingLegIk: true` then solves the leg IK again from the lifted hips, so a thick torso that needs the lift does not leave the legs floating above the floor with it. The lift's window is centred, so it starts rising up to 0.45 s before the body reaches the floor; `liftLead: <frames>` limits the look-ahead to that many frames (the smoothing then only looks back), so a thick body does not float mid-fall.
-- Takes that are authored to chain play as one clip, for example `["Melee_Hook", "Melee_Hook_Rec"]`. A take named `<take>@mirror` is the take mirrored left to right.
+- Takes that are authored to chain play as one clip, for example `["Sword_Regular_A", "Sword_Regular_A_Rec"]`. A take named `<take>@mirror` is the take mirrored left to right.
 - A clip spec can also set:
   - `speed`: a time-scale on the baked clip (0.8 plays the same frames over 1.25 times the duration). Heavy bodies use it for a slower Walk and Run.
   - `hipMotion`: a scale on this clip's hip translation, on top of the profile's `hipMotion`.
@@ -229,12 +229,11 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | Class | Profile | Donor | Idle | Walk | Run | Attack | Hit | Death |
 |---|---|---|---|---|---|---|---|---|
 | humanoid | knight | UAL1 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | Sword_Attack | Hit_Chest | Death01 |
-| humanoid | brute | UAL1 + UAL2 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
+| humanoid | brute | UAL1 + UAL2 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | OverhandThrow | Hit_Chest | Death01 |
 | humanoid | spirit (`legs: false`) | UAL1 | Idle_Loop | Walk_Loop | (none; falls back to Walk) | Spell_Simple_Enter + Shoot + Exit | Hit_Chest | Death01 |
 | humanoid | guard, bandit, undead, ogre, caster, beast, fae | UAL1 + UAL2 | see `humanoid.donors.json` | | | | | |
 | golem | golem | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Zombie_Scratch | Hit_Chest | Death01 |
 | golem | golemPunch | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Sword_Regular_A + B + B_Rec (claw sweeps) | Hit_Chest | Death01 |
-| golem | treant | UAL1 + UAL2 | Idle_Loop | Walk_Loop | (none) | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
 | bird | fowl, wader | Animal pack Chicken | Idle | Walk | Run | Eat 1–20 + 214–230 (peck) | (none; runtime fallback) | Die |
 | winged | wasp, fae | Quaternius wasp | Wasp_Flying | Wasp_Flying | Wasp_Flying | Wasp_Attack | (none; runtime fallback) | Wasp_Death |
 | knuckle | knuckle | UAL1 (fit only) + Animal pack Bear, Cattle | Bear Idle | Bear Walk | Bear Run | Bear Attack (rear-up, two-arm slam) | Bear Die flinch | Cattle Die |
