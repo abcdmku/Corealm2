@@ -86,8 +86,23 @@ def fit(body, donor, profile, source=None):
 
 
 def cloth(body, sk, profile, heat):
-    """No cloth: the root toes ride the feet (see special_quad.feet_override)."""
-    return feet_override(body, sk)
+    """No cloth: the root toes ride the feet (see special_quad.feet_override). The bulb's belly
+    hangs as low as the feet's band between the legs; it keeps its heat weights (vertices that
+    heat gives mostly to the torso, not to a leg), or a stepping hind foot drags a flap of the
+    belly down to the floor."""
+    feet = feet_override(body, sk)
+    names = sk.names()
+    legs = [[names.index(n) for n in chain] for chain in sk.quad["legs"].values()]
+
+    def override(W):
+        out, locked = feet(W)
+        leg_mass = np.max([W[:, cols].sum(1) for cols in legs], axis=0)
+        belly = leg_mass < 0.5 * np.maximum(W.sum(1), 1e-9)
+        out[belly] = W[belly]
+        locked = locked & ~belly
+        return out, locked
+
+    return override
 
 
 def plan(sk, body, profile):
