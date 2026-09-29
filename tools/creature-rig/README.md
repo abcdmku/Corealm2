@@ -248,6 +248,8 @@ An asset config with a `studio` block keeps the production file's own rig, skin 
 |---|---|
 | `map` | `{studio node name: {bone, donor?, follow?, kind?, parent?, tail?, noTail?, noKey?, translate?}}`. `bone` is the class's bone name (UE names for humanoids). `parent` names a logical parent when the node's own parent is not on the limb (IK-baked feet); such nodes also get translation keys. |
 | `rootNode` | The studio node under which the root sits on the floor |
+| `hips` | The class bone that carries the hips translation (default `pelvis`) |
+| `legs` | Optional leg chains in class bone names, as a plan's legs (`{chain, foot, toe, pivot?}`). Without it, every chain of bones mapped with `kind: "leg"` becomes a leg: followed down from its first leg bone while it has one leg child, four or more bones end in a foot and a toe (ball contact), three in a foot, two drive the tail of the last bone. Each leg gets the retargeter's IK towards the donor's scaled effector path, so a body driven forward over planted feet does not slide them, on any skeleton |
 | `referenceClip` | Optional native clip whose first frame is the rest the donor is matched to |
 | `replace` | Native clips dropped before the new ones are added |
 | `clips` | Clip specs as in a profile, plus `layer` (`{clip, bones, donor?, rate?, hold?, release?}`: an arm pose held from another take), `flatProp` (`{hand, node, from, to?}`: a long prop turned level, or upright with `to: "up"`), `gripRelease` (`[start, end]` fractions over which the grip lets go) and `lift` (lift the hips out of the floor while lying). Without `clips`, the class profile's clips are used. |
