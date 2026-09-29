@@ -15,21 +15,6 @@
         "D:/corealm-scratch/anim-audit/refs/ual/UAL2_Standard.glb"
       ],
       "source": "Quaternius Universal Animation Library 2 (Standard), CC0"
-    },
-    "brute_arms": {
-      "pack": "authored",
-      "name": "brute_arms",
-      "base": {
-        "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library[Standard].zip",
-        "member": "Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb",
-        "files": [
-          "D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"
-        ]
-      },
-      "abduct": 30,
-      "source": "Corealm authored arm carry on the UAL rig (tools/creature-rig/py/classes/golem.py)",
-      "bend": 60,
-      "wrist": 25
     }
   },
   "primary": "ual1",
