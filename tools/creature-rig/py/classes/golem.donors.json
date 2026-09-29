@@ -51,42 +51,10 @@
           "donor": "ual1",
           "clip": "Death01"
         }
-      }
+      },
+      "heelPivot": true
     },
-    "treant": {
-      "legs": true,
-      "rigidByThickness": true,
-      "soleJoints": true,
-      "branches": false,
-      "quietBones": [
-        "spine_03"
-      ],
-      "clips": {
-        "Idle": {
-          "donor": "ual1",
-          "clip": "Idle_Loop",
-          "loop": true
-        },
-        "Walk": {
-          "donor": "ual2",
-          "clip": "Zombie_Walk_Fwd_Loop",
-          "loop": true
-        },
-        "Attack": {
-          "donor": "ual2",
-          "clip": "Zombie_Scratch"
-        },
-        "Hit": {
-          "donor": "ual1",
-          "clip": "Hit_Chest"
-        },
-        "Death": {
-          "donor": "ual1",
-          "clip": "Death01"
-        }
-      }
-    },
-    "golemFine": {
+    "golemPunch": {
       "legs": true,
       "rigidByThickness": true,
       "soleJoints": true,
@@ -107,8 +75,8 @@
           "loop": true
         },
         "Attack": {
-          "donor": "ual2",
-          "clip": "Zombie_Scratch"
+          "donor": "ual1",
+          "clip": "Punch_Cross"
         },
         "Hit": {
           "donor": "ual1",
@@ -119,7 +87,43 @@
           "clip": "Death01"
         }
       },
-      "refitThinShare": 0
+      "heelPivot": true
+    },
+    "treant": {
+      "legs": true,
+      "rigidByThickness": true,
+      "soleJoints": true,
+      "quietBones": [
+        "spine_03"
+      ],
+      "clips": {
+        "Idle": {
+          "donor": "ual1",
+          "clip": "Idle_Loop",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "ual1",
+          "clip": "Walk_Loop",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "ual2",
+          "clip": [
+            "Melee_Hook",
+            "Melee_Hook_Rec"
+          ]
+        },
+        "Hit": {
+          "donor": "ual1",
+          "clip": "Hit_Chest"
+        },
+        "Death": {
+          "donor": "ual1",
+          "clip": "Death01"
+        }
+      },
+      "heelPivot": true
     }
   }
 }

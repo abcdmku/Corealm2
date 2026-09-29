@@ -1,1 +1,1 @@
-{ "class": "golem", "profile": "golemFine" }
+{ "class": "golem", "profile": "golem", "notes": "Blocked: the forearms and claws are separate mesh islands, so the voxel core ends the arms at the elbows and the fit mislabels limbs (also on a finer grid). Needs landmarks from a healthy source rig; none matches this mesh." }
