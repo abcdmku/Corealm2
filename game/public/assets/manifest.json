@@ -9967,7 +9967,7 @@
         "creek",
         "user-supplied"
       ],
-      "bytes": 7208176,
+      "bytes": 7316152,
       "size": {
         "x": 0.314385,
         "y": 0.108233,
@@ -9989,7 +9989,7 @@
       "materials": [
         "tripo_mat_d907274b-cfef-4368-a703-024a793505f7"
       ],
-      "sha256": "9c032e776cdc6324205d286ca60797b327834bde298d036112ce8fceb4017771",
+      "sha256": "901eb7c1280cb7b76cebd04192c7501d4d446b6f0138fec9257ec94940774a59",
       "groundY": 0,
       "bounds": {
         "min": [
@@ -10095,11 +10095,8 @@
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [1,2,3], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.164 m).",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -10109,15 +10106,15 @@
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/animal/animal_crab.glb",
-        "sourceSha256": "a44ccccd9fd87d4b6c0b680d4f7eb82b745b13d901b48bf7de85de8f41fcda98"
+        "sourceSha256": "9c032e776cdc6324205d286ca60797b327834bde298d036112ce8fceb4017771"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.129445,
-      "impliedRunMps": 0.416666,
+      "impliedWalkMps": 0.078084,
+      "impliedRunMps": 0.131492,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.433,
-      "maxRunCadenceHz": 5
+      "maxRunCadenceHz": 8.4
     },
     {
       "id": "animal_perch",
@@ -16683,8 +16680,8 @@
         "antler_beetle",
         "forest"
       ],
-      "bytes": 2938356,
-      "sha256": "5de436675e44fbaa45be3bc8c99700d2a332fc2c955a2d807dfec96b78e52736",
+      "bytes": 3042384,
+      "sha256": "30629cb6a5d46038ff7dc7a90b4334116f6f14e2c7d91d8d371a35684cab5696",
       "size": {
         "x": 2.077752,
         "y": 0.951139,
@@ -16804,11 +16801,8 @@
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.754 m).",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -16818,12 +16812,12 @@
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_antler_beetle.glb",
-        "sourceSha256": "0f685404cc7be7db2661b612157ef6f8b9953d7012fdaf55491a6b40c26c53ef"
+        "sourceSha256": "5de436675e44fbaa45be3bc8c99700d2a332fc2c955a2d807dfec96b78e52736"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.871405,
-      "impliedRunMps": 2.754979,
+      "impliedWalkMps": 0.424631,
+      "impliedRunMps": 0.649432,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.433,
       "maxRunCadenceHz": 5
@@ -22889,8 +22883,8 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 8716176,
-      "sha256": "cc2645e40d5450bf283e77d7b500e064b2f0168430898ebaa7f8961864049a24",
+      "bytes": 8819624,
+      "sha256": "33065eb4fbbb058df90fe6f4139f8c81e21a6274a973c2454165516545f13d6e",
       "size": {
         "x": 0.79248,
         "y": 0.860836,
@@ -23041,11 +23035,8 @@
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -23054,16 +23045,16 @@
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
-        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
-        "sourceSha256": "2ac12ef29e868d8a625869b9c2d78db3f2f9bbbe26e9e9777e0aa92fce10b5b5"
+        "sourceFile": "D:\\corealm-wt\\cm-arth-donor\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "cc2645e40d5450bf283e77d7b500e064b2f0168430898ebaa7f8961864049a24"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.339903,
-      "impliedRunMps": 1.114334,
+      "impliedWalkMps": 0.14359,
+      "impliedRunMps": 0.640753,
       "attackSeconds": 0.733333,
       "contactNormalized": 0.6,
-      "maxRunCadenceHz": 5
+      "maxRunCadenceHz": 7.7
     },
     {
       "id": "creature_marsh_wasp",
@@ -30700,8 +30691,8 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 8837200,
-      "sha256": "9f4f32aca036cc6e56e7db97496fb2465b810abe4e871329ee78ddee48551453",
+      "bytes": 8940648,
+      "sha256": "6333d1304652ff1634dbf6b6b49ab7059d8ef64cf36b6a45dfa23fb0e69a3ead",
       "size": {
         "x": 0.478835,
         "y": 0.520136,
@@ -30856,11 +30847,8 @@
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -30869,16 +30857,16 @@
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
-        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
-        "sourceSha256": "872885c49abf7e7c5208da4ca04d6698e9cb39fb8dcc626b4228e846a1387a12"
+        "sourceFile": "D:\\corealm-wt\\cm-arth-donor\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "9f4f32aca036cc6e56e7db97496fb2465b810abe4e871329ee78ddee48551453"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.205377,
-      "impliedRunMps": 0.673306,
+      "impliedWalkMps": 0.08676,
+      "impliedRunMps": 0.387157,
       "attackSeconds": 0.733333,
       "contactNormalized": 0.6,
-      "maxRunCadenceHz": 5
+      "maxRunCadenceHz": 6.8
     },
     {
       "id": "creature_chalk_warden",
@@ -31825,8 +31813,8 @@
         "arthropod",
         "six-legged"
       ],
-      "bytes": 13879708,
-      "sha256": "0f0041a17f88037a09715ba0a538f95957fc7cf87934c3e26ee65c00c70937e7",
+      "bytes": 13986488,
+      "sha256": "e72c1aaf303e9063e5cee0db58ab6b2a020466b31f25f9cd193559fc5a7565d6",
       "size": {
         "x": 0.460737,
         "y": 0.501646,
@@ -31914,34 +31902,31 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7666666507720947,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_fen_crawler.glb",
-        "sourceSha256": "d1e5bb952eef732960f5fcbf6b0044ac8c76c139900e804fa4c8d6f79f2d8937"
+        "sourceSha256": "0f0041a17f88037a09715ba0a538f95957fc7cf87934c3e26ee65c00c70937e7"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.230981,
-      "impliedRunMps": 0.779439,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.146954,
+      "impliedRunMps": 0.279424,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.567,
-      "maxRunCadenceHz": 5
+      "maxRunCadenceHz": 8.4
     },
     {
       "id": "creature_reed_strider",
@@ -31957,17 +31942,17 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 5322740,
-      "sha256": "851d73825f582234925fef2b7023775f0d234957bd6a01e55566bd09bdd40918",
+      "bytes": 5420036,
+      "sha256": "2ae6afe66b944a3877302e36f11d4ba46856e9307b7f03918619f91e2dc2ad12",
       "size": {
         "x": 1.026023,
         "y": 0.549339,
         "z": 0.851871
       },
       "base": {
-        "x": -0.512367,
-        "y": -0.004417,
-        "z": -0.451172
+        "x": -0.513012,
+        "y": 0,
+        "z": -0.429096
       },
       "groundY": 0,
       "triangles": 4874,
@@ -32334,14 +32319,14 @@
       },
       "bounds": {
         "min": [
-          -0.5123670101165771,
-          -0.004416999872773886,
-          -0.45117199420928955
+          -0.5130115151405334,
+          0,
+          -0.4290964901447296
         ],
         "max": [
-          0.5136560201644897,
-          0.5449219942092896,
-          0.4006989896297455
+          0.5130115151405334,
+          0.5493389964103699,
+          0.4227744936943054
         ]
       },
       "motionProvenance": {
@@ -32349,28 +32334,31 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.277 m).",
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.273 m).",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7333333492279053,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_reed_strider.glb",
-        "sourceSha256": "5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d"
+        "sourceSha256": "851d73825f582234925fef2b7023775f0d234957bd6a01e55566bd09bdd40918"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.429253,
+      "impliedRunMps": 0.66133,
       "attackSeconds": 0.733333,
-      "contactNormalized": 0.6
+      "contactNormalized": 0.65,
+      "maxRunCadenceHz": 5.5
     },
     {
       "id": "creature_thorn_maw",
@@ -33222,8 +33210,8 @@
         "cooling-crust",
         "image-generated-texture"
       ],
-      "bytes": 22700212,
-      "sha256": "6d0c707ea6e2c047c93bf4bb12bf2479e8804a0625b232f55e3e4265a8f3e438",
+      "bytes": 22790804,
+      "sha256": "dffd15e3b257088f7cec452bff87e36db54f524d1947948eb6d832b47c6a5aa7",
       "triangles": 5310,
       "size": {
         "x": 0.799643,
@@ -33344,34 +33332,31 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 0 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7666666507720947,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_slag_crawler.glb",
-        "sourceSha256": "70f76f073681f197fc60366ea0db84614bf57c83c60ef51c0c2190b987712dfc"
+        "sourceSha256": "6d0c707ea6e2c047c93bf4bb12bf2479e8804a0625b232f55e3e4265a8f3e438"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.464549,
-      "impliedRunMps": 1.233361,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.293361,
+      "impliedRunMps": 0.422564,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.483,
-      "maxRunCadenceHz": 5
+      "maxRunCadenceHz": 5.1
     },
     {
       "id": "creature_cinder_penitent",
@@ -34446,8 +34431,8 @@
         "tripo",
         "flint"
       ],
-      "bytes": 15969160,
-      "sha256": "685923de401e6249ce8f8ab54d8343a16edfb3aad98bb4a2e0ba78ebf0d8bec6",
+      "bytes": 16075940,
+      "sha256": "03cf5428da2ba221aff5ad068f45882a9f15c4ff424af3e10b37b9ba8c3124b7",
       "size": {
         "x": 1.258916,
         "y": 1.370693,
@@ -34535,31 +34520,28 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7666666507720947,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_flint_mandible.glb",
-        "sourceSha256": "06edbc211956bb37f9e8be6cfbcd6f5b9f8c4d48f85bab4220ee3fc20e8f2dca"
+        "sourceSha256": "685923de401e6249ce8f8ab54d8343a16edfb3aad98bb4a2e0ba78ebf0d8bec6"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.631141,
-      "impliedRunMps": 2.130029,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.401531,
+      "impliedRunMps": 0.76348,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.567,
       "maxRunCadenceHz": 5
@@ -34944,8 +34926,8 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 7992476,
-      "sha256": "c8f35877bd6df4123eb8fec4f1406cf145077e8c2830b6a5df41ced8e4f6ca54",
+      "bytes": 8095928,
+      "sha256": "6dd8ff6dd25848f7a22991b1ce36c4cfa4a5312721d1412df1ab65081e22ada2",
       "size": {
         "x": 0.79248,
         "y": 0.860836,
@@ -35093,11 +35075,8 @@
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -35106,13 +35085,13 @@
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
-        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
-        "sourceSha256": "ddf81317ba2f816c881a599a87444ac76dc55654bdb811fdf6f6598f479776b5"
+        "sourceFile": "D:\\corealm-wt\\cm-arth-donor\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "c8f35877bd6df4123eb8fec4f1406cf145077e8c2830b6a5df41ced8e4f6ca54"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.339903,
-      "impliedRunMps": 1.114334,
+      "impliedWalkMps": 0.14359,
+      "impliedRunMps": 0.640753,
       "attackSeconds": 0.733333,
       "contactNormalized": 0.6,
       "maxRunCadenceHz": 5
@@ -37664,8 +37643,8 @@
         "mineral-shell",
         "six-legged"
       ],
-      "bytes": 14593656,
-      "sha256": "4c2ec7c4562dece04133c9fdbdfe05c3c11a05d51ac02c2c2b921b8aab8c6fe2",
+      "bytes": 14700436,
+      "sha256": "34d9c7108d31ab49b47148d43077a6e8ece674358f3acd4292369e01e5387207",
       "size": {
         "x": 1.297852,
         "y": 1.413086,
@@ -37779,34 +37758,31 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7666666507720947,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_tempest_roc.glb",
-        "sourceSha256": "a8dcb2f7ecdad24b7d61d89dcfb3b0827134453b980cdf11c84043e92451e395"
+        "sourceSha256": "4c2ec7c4562dece04133c9fdbdfe05c3c11a05d51ac02c2c2b921b8aab8c6fe2"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.65066,
-      "impliedRunMps": 2.195831,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.413773,
+      "impliedRunMps": 0.786857,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.567,
-      "maxRunCadenceHz": 6
+      "maxRunCadenceHz": 7.5
     },
     {
       "id": "creature_boss_galeskin",
@@ -40782,8 +40758,8 @@
         "ember-fissures",
         "image-generated-texture"
       ],
-      "bytes": 23134092,
-      "sha256": "cbfb45dd6f7d0a831349eaf0c81ed8535748744d791cb242f263ac565b53368b",
+      "bytes": 23224684,
+      "sha256": "2721c5c8fffc003a5519d9f19ae2ccd77410ee93cb5ea267f0e3ab62e6e0fcc9",
       "triangles": 5310,
       "size": {
         "x": 1.888046,
@@ -40904,31 +40880,28 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 0 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7666666507720947,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_cinderback_crag.glb",
-        "sourceSha256": "ed2e2f80595bae65c49478af732c51821297abdfcf3bc25bbff87c2a88d214da"
+        "sourceSha256": "cbfb45dd6f7d0a831349eaf0c81ed8535748744d791cb242f263ac565b53368b"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 1.099119,
-      "impliedRunMps": 2.90959,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.69404,
+      "impliedRunMps": 1.005687,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.483,
       "maxRunCadenceHz": 5
@@ -41559,8 +41532,8 @@
         "arachnid",
         "user-supplied"
       ],
-      "bytes": 5736772,
-      "sha256": "9e6518feebb92817be7935f3cee2c0bdba382176f9e805cb1160b9e0b010c376",
+      "bytes": 5819060,
+      "sha256": "dc9913582b7736a37608904cca972da56f850e24d2eb8888c8049d2fa4249849",
       "size": {
         "x": 2.345411,
         "y": 2.143457,
@@ -41667,31 +41640,28 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Run": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Walk",
           "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/claws): production mesh, UVs and materials kept; carapace + abdomen bones, 2 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,3], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/claws): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.411 m).",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
-          "Run": 0.6000000238418579,
+          "Run": 0.8333333134651184,
           "Attack": 0.7666666507720947,
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
         "sourceFile": "game/public/assets/models/creature/creature_rift_carapace.glb",
-        "sourceSha256": "1ea3b477f6989ecedf17a875fd3e5bb647338d23623bb74af4ac0f551c3c8546"
+        "sourceSha256": "9e6518feebb92817be7935f3cee2c0bdba382176f9e805cb1160b9e0b010c376"
       },
       "walkClipSeconds": 0.966667,
-      "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.753825,
-      "impliedRunMps": 2.431917,
+      "runClipSeconds": 0.833333,
+      "impliedWalkMps": 0.311792,
+      "impliedRunMps": 1.359794,
       "attackSeconds": 0.766667,
       "contactNormalized": 0.55,
       "maxRunCadenceHz": 5
@@ -53298,8 +53268,8 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 8709916,
-      "sha256": "33b3adf53c167717a1dd7db9d727ccef40fdcfab52d348254ac1e405d03956ba",
+      "bytes": 8813368,
+      "sha256": "7f1a4bde03f892fddd9c1ec11f1698d78352024415d6900ae23c0b0462c6c141",
       "size": {
         "x": 0.860065,
         "y": 0.93425,
@@ -53454,11 +53424,8 @@
           "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
           "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
         },
-        "authored": [
-          "Walk (stride)",
-          "Run (stride)"
-        ],
-        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; carapace + abdomen bones, 3 leg pairs (femur/tibia/tarsus), 2 mandible/pincer chains; weights split per limb, carapace rigid; rest == bind. Legs pair with the scorpion donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk tripod phase). Walk and Run keep each leg's donor lift/land timing but re-draw its tip path at an authored stride (0.35 and 0.7 body lengths per cycle, Run stance 55%, eased swing arc, one shared stance speed so planted tips do not slide), the body riding lower; chain IK plants the tips and the core sole contact keeps pads above the floor. Hit: first beat (frames 0-8) of the scorpion Die take, x1.5 (x1 on ground-resting claws), shell tilt and recoil capped to the leg reach, legs held planted, eased back to its first frame over 9 frames. Death: Quaternius spider roll onto its back, hub hop damped to 35%. hitRecoil bones: abdomen and mandibles/pincers (legs hang from the body bone, so it is not a recoil bone).",
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
         "clipSeconds": {
           "Idle": 2.9666666984558105,
           "Walk": 0.9666666388511658,
@@ -53467,13 +53434,13 @@
           "Death": 1.0333333015441895,
           "Hit": 0.5666666626930237
         },
-        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
-        "sourceSha256": "80a942f8bae394778af5b52f7b5b59978ea4bdc6a63201ce59a714b1c6809ad5"
+        "sourceFile": "D:\\corealm-wt\\cm-arth-donor\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "33b3adf53c167717a1dd7db9d727ccef40fdcfab52d348254ac1e405d03956ba"
       },
       "walkClipSeconds": 0.966667,
       "runClipSeconds": 0.6,
-      "impliedWalkMps": 0.36889,
-      "impliedRunMps": 1.209367,
+      "impliedWalkMps": 0.155835,
+      "impliedRunMps": 0.695397,
       "attackSeconds": 0.733333,
       "contactNormalized": 0.6,
       "maxRunCadenceHz": 5
