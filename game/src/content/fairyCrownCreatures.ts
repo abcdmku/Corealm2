@@ -36,10 +36,6 @@ export const FAIRY_CROWN_FORMS: readonly RegionalForm[] = [
     name: 'Silverthorn Harrow', regionId: 'crownward', tier: 40, level: 44, nativeScale: 1.05,
     activity: 'patrol', behaviour: 'territorial',
     description: 'An old walking tree with silver bark and dark moss-green hollows. Heavy root hands drag beside its bowed trunk.' },
-  { id: 'lantern_sprite', sourceSpeciesId: 'marsh_wasp', sourceAssetId: 'creature_marsh_wasp',
-    name: 'Lantern Sprite', regionId: 'gloamgarden', tier: 30, level: 28, nativeScale: .58,
-    activity: 'forage', behaviour: 'territorial',
-    description: 'A small winged garden spirit with a teal body and translucent lilac wings. Soft mint light gathers on its existing shell markings.' },
   { id: 'moonpetal_stalker', sourceSpeciesId: 'heath_jack', sourceAssetId: 'creature_heath_jack',
     name: 'Moonpetal Stalker', regionId: 'gloamgarden', tier: 30, level: 32, nativeScale: .85,
     activity: 'prowl', behaviour: 'aggressive',
@@ -77,4 +73,4 @@ export const FAIRY_CROWN_SOURCE_ASSETS: Readonly<Record<string, string>> = Objec
 
 export const FAIRY_CROWN_BOSS_IDS = FAIRY_CROWN_FORMS.filter(form => form.boss).map(form => form.id);
 
-export const FAIRY_CROWN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["pearl_knight", "ivory_castellan", "crown_hart", "silverthorn_harrow", "lantern_sprite", "moonpetal_stalker", "dewglass_weaver", "bloomheart_matriarch", "prismatic_sprite", "orchid_reaper", "starroot_guardian", "amethyst_sovereign"]);
+export const FAIRY_CROWN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["pearl_knight", "ivory_castellan", "crown_hart", "silverthorn_harrow", "moonpetal_stalker", "dewglass_weaver", "bloomheart_matriarch", "prismatic_sprite", "orchid_reaper", "starroot_guardian", "amethyst_sovereign"]);

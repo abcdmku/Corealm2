@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "84929bf18309a4b10aa50d7ae4528717831f52a7be20eb46e18c5ce98ae25edf",
-  "formulaRevision": "6b64465ac1aa70f853ed0b6bc91e2fb192ef4286abd91eb7cc27d9e620abc396",
+  "revision": "2bba23eda76fd9db097b056d7765ce394c5d2e99c56e8af2edea77da806bc757",
+  "formulaRevision": "1a8f025805d936e0698189f88b8c006cc3b58ad3609fc4006709f562107dadec",
   "tables": {
     "items": [
       {
@@ -26321,62 +26321,6 @@
         }
       },
       {
-        "id": "hollowroot_spider_t5",
-        "name": "Rootweaver",
-        "family": "hollowroot_spider",
-        "availability": "world",
-        "level": 7,
-        "profileId": "skirmisher",
-        "presentation": {
-          "id": "hollowroot_spider",
-          "assetId": "creature_hollowroot_spider",
-          "scale": 1,
-          "regionId": "vellenwood",
-          "activity": "prowl",
-          "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
-          "kind": "basic"
-        },
-        "adjustments": {
-          "attackSpeedMs": 1200,
-          "aggroRadius": 6,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.4,
-          "walkSpeedMps": 0.42,
-          "gold": [
-            0,
-            0
-          ]
-        },
-        "loot": {
-          "rolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "spider_thread",
-                  "quantity": [
-                    1,
-                    3
-                  ],
-                  "chance": 0.75
-                },
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.1
-                }
-              ],
-              "tables": []
-            }
-          ]
-        }
-      },
-      {
         "id": "cinder_ravager_t20",
         "name": "Armored Demon",
         "family": "cinder_ravager",
@@ -26729,94 +26673,6 @@
         }
       },
       {
-        "id": "heath_wasp_t1",
-        "name": "Heath Wasp",
-        "family": "heath_wasp",
-        "availability": "world",
-        "level": 2,
-        "profileId": "skirmisher",
-        "presentation": {
-          "id": "heath_wasp",
-          "assetId": "creature_heath_wasp",
-          "scale": 0.45,
-          "regionId": "fallowmarch",
-          "activity": "prowl",
-          "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
-          "kind": "basic"
-        },
-        "adjustments": {
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ]
-        },
-        "loot": {
-          "rolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [],
-              "tables": [
-                {
-                  "tableId": "shared_venom_gland",
-                  "rollId": "items"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "reed_wasp_t1",
-        "name": "Slatewing Wasp",
-        "family": "reed_wasp",
-        "availability": "world",
-        "level": 2,
-        "profileId": "skirmisher",
-        "presentation": {
-          "id": "reed_wasp",
-          "assetId": "creature_reed_wasp",
-          "scale": 0.45,
-          "regionId": "fallowmarch",
-          "activity": "prowl",
-          "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
-          "kind": "basic"
-        },
-        "adjustments": {
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ]
-        },
-        "loot": {
-          "rolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [],
-              "tables": [
-                {
-                  "tableId": "shared_venom_gland",
-                  "rollId": "items"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
         "id": "creek_crab_t1",
         "name": "Creek Crab",
         "family": "creek_crab",
@@ -27075,76 +26931,6 @@
                 }
               ],
               "tables": []
-            }
-          ]
-        }
-      },
-      {
-        "id": "moonweave_spider_t5",
-        "name": "Moonweaver",
-        "family": "moonweave_spider",
-        "availability": "world",
-        "level": 8,
-        "profileId": "skirmisher",
-        "presentation": {
-          "id": "moonweave_spider",
-          "assetId": "creature_moonweave_spider",
-          "scale": 0.82,
-          "regionId": "vellenwood",
-          "activity": "patrol",
-          "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
-          "bodyFamily": "spider",
-          "rigFamily": "corealm_tripo_sixleg_weaver",
-          "movement": "arthropod",
-          "habitat": "woodland web hollows",
-          "respawnMs": 30000,
-          "nativeSize": [
-            0.47883458451618877,
-            0.5201364126930991,
-            0.5992070853997946
-          ],
-          "nativeBase": [
-            -0.23941729225809438,
-            0,
-            -0.2996035426998973
-          ],
-          "nativeVisualRadius": 0.38351391452009526,
-          "nativeBodyRadius": 0.2996035426998973,
-          "attack": {
-            "action": "fang bite",
-            "proposedMechanic": "melee",
-            "recoveryMs": 900
-          },
-          "source": {
-            "author": "Corealm / Tripo Studio",
-            "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
-          },
-          "acceptance": "candidate",
-          "kind": "rpg"
-        },
-        "adjustments": {
-          "attackSpeedMs": 2000,
-          "aggroRadius": 10,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "attackStyle": "melee",
-          "attackRangeM": 1.8
-        },
-        "loot": {
-          "rolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [],
-              "tables": [
-                {
-                  "tableId": "shared_earth_essence_earth_essence",
-                  "rollId": "items"
-                }
-              ]
             }
           ]
         }
@@ -27852,10 +27638,10 @@
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28594,10 +28380,10 @@
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28667,7 +28453,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "kind": "basic"
         },
         "adjustments": {
@@ -29626,60 +29412,6 @@
               "tables": [
                 {
                   "tableId": "shared_crownhide_air_essence",
-                  "rollId": "items_2"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "lantern_sprite_t30",
-        "name": "Lantern Sprite",
-        "family": "lantern_sprite",
-        "availability": "world",
-        "level": 30,
-        "profileId": "skirmisher",
-        "presentation": {
-          "id": "lantern_sprite",
-          "assetId": "creature_lantern_sprite",
-          "scale": 0.45666127261378686,
-          "regionId": "gloamgarden",
-          "activity": "forage",
-          "description": "A small fairy leafwing with amber-veined wings, teal shell and a curled tapering abdomen.",
-          "kind": "basic"
-        },
-        "adjustments": {
-          "attackSpeedMs": 2000,
-          "aggroRadius": 5,
-          "behaviour": "territorial",
-          "moveSpeedMps": 0.9279999999999999,
-          "walkSpeedMps": 0.23199999999999998,
-          "attackStyle": "melee",
-          "attackRangeM": 1.8
-        },
-        "loot": {
-          "rolls": [
-            {
-              "id": "items_1",
-              "name": "Items 1",
-              "count": 1,
-              "drops": [],
-              "tables": [
-                {
-                  "tableId": "shared_mistweave_earth_essence",
-                  "rollId": "items_1"
-                }
-              ]
-            },
-            {
-              "id": "items_2",
-              "name": "Items 2",
-              "count": 1,
-              "drops": [],
-              "tables": [
-                {
-                  "tableId": "shared_mistweave_earth_essence",
                   "rollId": "items_2"
                 }
               ]
@@ -35522,6 +35254,30 @@
                   "rollId": "items"
                 }
               ]
+            },
+            {
+              "id": "thread",
+              "name": "Thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "spider_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.5
+                },
+                {
+                  "itemId": "venom_gland",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.1
+                }
+              ],
+              "tables": []
             }
           ]
         }
@@ -40484,12 +40240,12 @@
       },
       {
         "id": "pack_fallowmarch_palewood_heath_scrub",
-        "baseId": "heath_wasp_t1",
+        "baseId": "field_wasp_t1",
         "availability": "world"
       },
       {
         "id": "pack_fallowmarch_palewood_reed_scrub",
-        "baseId": "reed_wasp_t1",
+        "baseId": "field_wasp_t1",
         "availability": "world"
       },
       {
@@ -40617,7 +40373,7 @@
       },
       {
         "id": "pack_vellenwood_marchgate_south_bramble",
-        "baseId": "moonweave_spider_t5",
+        "baseId": "webweaver_spider_t5",
         "availability": "world"
       },
       {
@@ -40693,7 +40449,7 @@
       },
       {
         "id": "hollowroot_spider_residents",
-        "baseId": "hollowroot_spider_t5",
+        "baseId": "webweaver_spider_t5",
         "availability": "world"
       },
       {
@@ -41076,16 +40832,7 @@
         "name": "Ashen Ghoul",
         "family": "grave_lantern",
         "availability": "world",
-        "level": 24,
-        "presentation": {
-          "id": "grave_lantern",
-          "assetId": "creature_grave_lantern",
-          "scale": 0.92,
-          "regionId": "wilderness",
-          "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
-          "kind": "basic"
-        }
+        "level": 24
       },
       {
         "id": "pack_kilnhalt_clinker_southern_approach_west",
@@ -42711,15 +42458,6 @@
         "family": "basalt_maw",
         "availability": "world",
         "level": 58,
-        "presentation": {
-          "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
-          "regionId": "wilderness",
-          "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-          "kind": "basic"
-        },
         "adjustments": {
           "maxHealth": 219,
           "attackLevel": 66,
@@ -42802,15 +42540,6 @@
         "family": "basalt_maw",
         "availability": "world",
         "level": 58,
-        "presentation": {
-          "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
-          "regionId": "wilderness",
-          "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-          "kind": "basic"
-        },
         "adjustments": {
           "maxHealth": 217,
           "attackLevel": 65,
@@ -42905,15 +42634,6 @@
         "family": "basalt_maw",
         "availability": "world",
         "level": 58,
-        "presentation": {
-          "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
-          "regionId": "wilderness",
-          "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-          "kind": "basic"
-        },
         "adjustments": {
           "maxHealth": 219,
           "attackLevel": 66,
@@ -61775,12 +61495,12 @@
         ]
       },
       {
-        "id": "reed_wasp_t1_prowl",
-        "name": "Slatewing Wasp",
+        "id": "field_wasp_t1_prowl",
+        "name": "Field Wasp",
         "activity": "prowl",
         "members": [
           {
-            "creatureId": "reed_wasp_t1",
+            "creatureId": "field_wasp_t1",
             "weight": 1
           }
         ]
@@ -61798,7 +61518,7 @@
       },
       {
         "id": "pack_fallowmarch_palewood_heath_scrub_patrol",
-        "name": "Heath Wasp",
+        "name": "Field Wasp",
         "activity": "patrol",
         "members": [
           {
@@ -61809,7 +61529,7 @@
       },
       {
         "id": "pack_fallowmarch_palewood_reed_scrub_patrol",
-        "name": "Slatewing Wasp",
+        "name": "Field Wasp",
         "activity": "patrol",
         "members": [
           {
@@ -65453,7 +65173,7 @@
       },
       {
         "id": "population_bracken_north_striders",
-        "encounterId": "reed_wasp_t1_prowl",
+        "encounterId": "field_wasp_t1_prowl",
         "regionId": "fallowmarch",
         "centre": [
           -116,
@@ -81048,7 +80768,7 @@
       {
         "id": "slayer_aevra_trails",
         "speaker": "Master Aevra",
-        "text": "Lantern sprites drift along the lit paths. Moonpetal stalkers defend their beds, and the deeper dewglass weavers keep to the shaded trellises. Watch a creature before you approach it. A forager may ignore you; the one guarding a bloom may not.",
+        "text": "Lantern imps drift along the lit paths. Moonpetal stalkers defend their beds, and the deeper dewglass weavers keep to the shaded trellises. Watch a creature before you approach it. A forager may ignore you; the one guarding a bloom may not.",
         "options": [
           {
             "id": "slayer_aevra_trails#back",
@@ -93648,188 +93368,6 @@
         "inheritedFields": []
       },
       {
-        "id": "hollowroot_spider_t5",
-        "definition": {
-          "id": "hollowroot_spider_t5",
-          "name": "Rootweaver",
-          "family": "hollowroot_spider",
-          "availability": "world",
-          "level": 7,
-          "profileId": "skirmisher",
-          "presentation": {
-            "id": "hollowroot_spider",
-            "assetId": "creature_hollowroot_spider",
-            "scale": 1,
-            "regionId": "vellenwood",
-            "activity": "prowl",
-            "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
-            "kind": "basic"
-          },
-          "adjustments": {
-            "attackSpeedMs": 1200,
-            "aggroRadius": 6,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.4,
-            "walkSpeedMps": 0.42,
-            "gold": [
-              0,
-              0
-            ]
-          },
-          "loot": {
-            "rolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "spider_thread",
-                    "quantity": [
-                      1,
-                      3
-                    ],
-                    "chance": 0.75
-                  },
-                  {
-                    "itemId": "venom_gland",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.1
-                  }
-                ],
-                "tables": []
-              }
-            ]
-          }
-        },
-        "enemy": {
-          "id": "hollowroot_spider_t5",
-          "name": "Rootweaver",
-          "family": "hollowroot_spider",
-          "tier": 7,
-          "maxHealth": 22,
-          "attackLevel": 8,
-          "defenceLevel": 6,
-          "accuracy": 8,
-          "armour": 7,
-          "magicArmour": 7,
-          "maxHit": 3,
-          "attackSpeedMs": 1200,
-          "aggroRadius": 6,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.4,
-          "walkSpeedMps": 0.42,
-          "gold": [
-            0,
-            0
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 2,
-          "lootRolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "spider_thread",
-                  "quantity": [
-                    1,
-                    3
-                  ],
-                  "chance": 0.75
-                },
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.1
-                }
-              ]
-            }
-          ]
-        },
-        "availability": "world",
-        "assetId": "creature_hollowroot_spider",
-        "scale": 1,
-        "presentation": {
-          "id": "hollowroot_spider",
-          "assetId": "creature_hollowroot_spider",
-          "scale": 1,
-          "regionId": "vellenwood",
-          "activity": "prowl",
-          "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
-          "stats": {
-            "id": "hollowroot_spider_t5",
-            "name": "Rootweaver",
-            "family": "hollowroot_spider",
-            "tier": 7,
-            "maxHealth": 22,
-            "attackLevel": 8,
-            "defenceLevel": 6,
-            "accuracy": 8,
-            "armour": 7,
-            "magicArmour": 7,
-            "maxHit": 3,
-            "attackSpeedMs": 1200,
-            "aggroRadius": 6,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.4,
-            "walkSpeedMps": 0.42,
-            "gold": [
-              0,
-              0
-            ],
-            "attackStyle": "melee",
-            "attackRangeM": 2,
-            "lootRolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "spider_thread",
-                    "quantity": [
-                      1,
-                      3
-                    ],
-                    "chance": 0.75
-                  },
-                  {
-                    "itemId": "venom_gland",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.1
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "profileId": "skirmisher",
-        "level": 7,
-        "adjustments": {
-          "attackSpeedMs": 1200,
-          "aggroRadius": 6,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.4,
-          "walkSpeedMps": 0.42,
-          "gold": [
-            0,
-            0
-          ]
-        },
-        "inheritedFields": []
-      },
-      {
         "id": "cinder_ravager_t20",
         "definition": {
           "id": "cinder_ravager_t20",
@@ -95116,314 +94654,6 @@
         "inheritedFields": []
       },
       {
-        "id": "heath_wasp_t1",
-        "definition": {
-          "id": "heath_wasp_t1",
-          "name": "Heath Wasp",
-          "family": "heath_wasp",
-          "availability": "world",
-          "level": 2,
-          "profileId": "skirmisher",
-          "presentation": {
-            "id": "heath_wasp",
-            "assetId": "creature_heath_wasp",
-            "scale": 0.45,
-            "regionId": "fallowmarch",
-            "activity": "prowl",
-            "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
-            "kind": "basic"
-          },
-          "adjustments": {
-            "attackSpeedMs": 2400,
-            "aggroRadius": 5,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.6,
-            "walkSpeedMps": 0.4,
-            "gold": [
-              0,
-              0
-            ]
-          },
-          "loot": {
-            "rolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [],
-                "tables": [
-                  {
-                    "tableId": "shared_venom_gland",
-                    "rollId": "items"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "enemy": {
-          "id": "heath_wasp_t1",
-          "name": "Heath Wasp",
-          "family": "heath_wasp",
-          "tier": 2,
-          "maxHealth": 9,
-          "attackLevel": 2,
-          "defenceLevel": 2,
-          "accuracy": 2,
-          "armour": 2,
-          "magicArmour": 2,
-          "maxHit": 2,
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 2,
-          "lootRolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    2
-                  ],
-                  "chance": 0.65
-                }
-              ]
-            }
-          ]
-        },
-        "availability": "world",
-        "assetId": "creature_heath_wasp",
-        "scale": 0.45,
-        "presentation": {
-          "id": "heath_wasp",
-          "assetId": "creature_heath_wasp",
-          "scale": 0.45,
-          "regionId": "fallowmarch",
-          "activity": "prowl",
-          "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
-          "stats": {
-            "id": "heath_wasp_t1",
-            "name": "Heath Wasp",
-            "family": "heath_wasp",
-            "tier": 2,
-            "maxHealth": 9,
-            "attackLevel": 2,
-            "defenceLevel": 2,
-            "accuracy": 2,
-            "armour": 2,
-            "magicArmour": 2,
-            "maxHit": 2,
-            "attackSpeedMs": 2400,
-            "aggroRadius": 5,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.6,
-            "walkSpeedMps": 0.4,
-            "gold": [
-              0,
-              0
-            ],
-            "attackStyle": "melee",
-            "attackRangeM": 2,
-            "lootRolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "venom_gland",
-                    "quantity": [
-                      1,
-                      2
-                    ],
-                    "chance": 0.65
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "profileId": "skirmisher",
-        "level": 2,
-        "adjustments": {
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ]
-        },
-        "inheritedFields": []
-      },
-      {
-        "id": "reed_wasp_t1",
-        "definition": {
-          "id": "reed_wasp_t1",
-          "name": "Slatewing Wasp",
-          "family": "reed_wasp",
-          "availability": "world",
-          "level": 2,
-          "profileId": "skirmisher",
-          "presentation": {
-            "id": "reed_wasp",
-            "assetId": "creature_reed_wasp",
-            "scale": 0.45,
-            "regionId": "fallowmarch",
-            "activity": "prowl",
-            "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
-            "kind": "basic"
-          },
-          "adjustments": {
-            "attackSpeedMs": 2400,
-            "aggroRadius": 5,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.6,
-            "walkSpeedMps": 0.4,
-            "gold": [
-              0,
-              0
-            ]
-          },
-          "loot": {
-            "rolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [],
-                "tables": [
-                  {
-                    "tableId": "shared_venom_gland",
-                    "rollId": "items"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "enemy": {
-          "id": "reed_wasp_t1",
-          "name": "Slatewing Wasp",
-          "family": "reed_wasp",
-          "tier": 2,
-          "maxHealth": 9,
-          "attackLevel": 2,
-          "defenceLevel": 2,
-          "accuracy": 2,
-          "armour": 2,
-          "magicArmour": 2,
-          "maxHit": 2,
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 2,
-          "lootRolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    2
-                  ],
-                  "chance": 0.65
-                }
-              ]
-            }
-          ]
-        },
-        "availability": "world",
-        "assetId": "creature_reed_wasp",
-        "scale": 0.45,
-        "presentation": {
-          "id": "reed_wasp",
-          "assetId": "creature_reed_wasp",
-          "scale": 0.45,
-          "regionId": "fallowmarch",
-          "activity": "prowl",
-          "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
-          "stats": {
-            "id": "reed_wasp_t1",
-            "name": "Slatewing Wasp",
-            "family": "reed_wasp",
-            "tier": 2,
-            "maxHealth": 9,
-            "attackLevel": 2,
-            "defenceLevel": 2,
-            "accuracy": 2,
-            "armour": 2,
-            "magicArmour": 2,
-            "maxHit": 2,
-            "attackSpeedMs": 2400,
-            "aggroRadius": 5,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.6,
-            "walkSpeedMps": 0.4,
-            "gold": [
-              0,
-              0
-            ],
-            "attackStyle": "melee",
-            "attackRangeM": 2,
-            "lootRolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "venom_gland",
-                    "quantity": [
-                      1,
-                      2
-                    ],
-                    "chance": 0.65
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "profileId": "skirmisher",
-        "level": 2,
-        "adjustments": {
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ]
-        },
-        "inheritedFields": []
-      },
-      {
         "id": "creek_crab_t1",
         "definition": {
           "id": "creek_crab_t1",
@@ -96306,258 +95536,6 @@
             0,
             0
           ]
-        },
-        "inheritedFields": []
-      },
-      {
-        "id": "moonweave_spider_t5",
-        "definition": {
-          "id": "moonweave_spider_t5",
-          "name": "Moonweaver",
-          "family": "moonweave_spider",
-          "availability": "world",
-          "level": 8,
-          "profileId": "skirmisher",
-          "presentation": {
-            "id": "moonweave_spider",
-            "assetId": "creature_moonweave_spider",
-            "scale": 0.82,
-            "regionId": "vellenwood",
-            "activity": "patrol",
-            "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
-            "bodyFamily": "spider",
-            "rigFamily": "corealm_tripo_sixleg_weaver",
-            "movement": "arthropod",
-            "habitat": "woodland web hollows",
-            "respawnMs": 30000,
-            "nativeSize": [
-              0.47883458451618877,
-              0.5201364126930991,
-              0.5992070853997946
-            ],
-            "nativeBase": [
-              -0.23941729225809438,
-              0,
-              -0.2996035426998973
-            ],
-            "nativeVisualRadius": 0.38351391452009526,
-            "nativeBodyRadius": 0.2996035426998973,
-            "attack": {
-              "action": "fang bite",
-              "proposedMechanic": "melee",
-              "recoveryMs": 900
-            },
-            "source": {
-              "author": "Corealm / Tripo Studio",
-              "license": "LicenseRef-Corealm-Original",
-              "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
-            },
-            "acceptance": "candidate",
-            "kind": "rpg"
-          },
-          "adjustments": {
-            "attackSpeedMs": 2000,
-            "aggroRadius": 10,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.6,
-            "walkSpeedMps": 0.4,
-            "attackStyle": "melee",
-            "attackRangeM": 1.8
-          },
-          "loot": {
-            "rolls": [
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [],
-                "tables": [
-                  {
-                    "tableId": "shared_earth_essence_earth_essence",
-                    "rollId": "items"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "enemy": {
-          "id": "moonweave_spider_t5",
-          "name": "Moonweaver",
-          "family": "moonweave_spider",
-          "tier": 8,
-          "maxHealth": 25,
-          "attackLevel": 9,
-          "defenceLevel": 7,
-          "accuracy": 10,
-          "armour": 8,
-          "magicArmour": 8,
-          "maxHit": 3,
-          "attackSpeedMs": 2000,
-          "aggroRadius": 10,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            24,
-            48
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 1.8,
-          "lootRolls": [
-            {
-              "id": "gold",
-              "name": "Gold",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "gold",
-                  "quantity": [
-                    24,
-                    48
-                  ],
-                  "chance": 1
-                }
-              ]
-            },
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "earth_essence",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.15
-                },
-                {
-                  "itemId": "earth_essence",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.25
-                }
-              ]
-            }
-          ]
-        },
-        "availability": "world",
-        "assetId": "creature_moonweave_spider",
-        "scale": 0.82,
-        "presentation": {
-          "id": "moonweave_spider",
-          "assetId": "creature_moonweave_spider",
-          "scale": 0.82,
-          "regionId": "vellenwood",
-          "activity": "patrol",
-          "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
-          "bodyFamily": "spider",
-          "rigFamily": "corealm_tripo_sixleg_weaver",
-          "movement": "arthropod",
-          "habitat": "woodland web hollows",
-          "respawnMs": 30000,
-          "nativeSize": [
-            0.47883458451618877,
-            0.5201364126930991,
-            0.5992070853997946
-          ],
-          "nativeBase": [
-            -0.23941729225809438,
-            0,
-            -0.2996035426998973
-          ],
-          "nativeVisualRadius": 0.38351391452009526,
-          "nativeBodyRadius": 0.2996035426998973,
-          "attack": {
-            "action": "fang bite",
-            "proposedMechanic": "melee",
-            "recoveryMs": 900
-          },
-          "source": {
-            "author": "Corealm / Tripo Studio",
-            "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
-          },
-          "acceptance": "candidate",
-          "stats": {
-            "id": "moonweave_spider_t5",
-            "name": "Moonweaver",
-            "family": "moonweave_spider",
-            "tier": 8,
-            "maxHealth": 25,
-            "attackLevel": 9,
-            "defenceLevel": 7,
-            "accuracy": 10,
-            "armour": 8,
-            "magicArmour": 8,
-            "maxHit": 3,
-            "attackSpeedMs": 2000,
-            "aggroRadius": 10,
-            "behaviour": "aggressive",
-            "moveSpeedMps": 1.6,
-            "walkSpeedMps": 0.4,
-            "gold": [
-              24,
-              48
-            ],
-            "attackStyle": "melee",
-            "attackRangeM": 1.8,
-            "lootRolls": [
-              {
-                "id": "gold",
-                "name": "Gold",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "gold",
-                    "quantity": [
-                      24,
-                      48
-                    ],
-                    "chance": 1
-                  }
-                ]
-              },
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "earth_essence",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.15
-                  },
-                  {
-                    "itemId": "earth_essence",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.25
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "profileId": "skirmisher",
-        "level": 8,
-        "adjustments": {
-          "attackSpeedMs": 2000,
-          "aggroRadius": 10,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "attackStyle": "melee",
-          "attackRangeM": 1.8
         },
         "inheritedFields": []
       },
@@ -99362,10 +98340,10 @@
           "presentation": {
             "id": "grave_lantern",
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "regionId": "wilderness",
             "activity": "patrol",
-            "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+            "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
             "kind": "basic"
           },
           "adjustments": {
@@ -99452,14 +98430,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "grave_lantern_t20",
             "name": "Ashen Ghoul",
@@ -102430,10 +101408,10 @@
           "presentation": {
             "id": "furnace_grazer",
             "assetId": "creature_furnace_grazer",
-            "scale": 1.35,
+            "scale": 1.2,
             "regionId": "wilderness",
             "activity": "graze",
-            "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+            "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
             "kind": "basic"
           },
           "adjustments": {
@@ -102571,14 +101549,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "furnace_grazer_t50",
             "name": "Furnace Grazer",
@@ -102687,7 +101665,7 @@
             "scale": 0.754334697009733,
             "regionId": "wilderness",
             "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+            "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
             "kind": "basic"
           },
           "adjustments": {
@@ -102848,7 +101826,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "basalt_maw_t50",
             "name": "Basalt Maw",
@@ -106733,260 +105711,6 @@
           "behaviour": "territorial",
           "moveSpeedMps": 1.2,
           "walkSpeedMps": 0.4,
-          "attackStyle": "melee",
-          "attackRangeM": 1.8
-        },
-        "inheritedFields": []
-      },
-      {
-        "id": "lantern_sprite_t30",
-        "definition": {
-          "id": "lantern_sprite_t30",
-          "name": "Lantern Sprite",
-          "family": "lantern_sprite",
-          "availability": "world",
-          "level": 30,
-          "profileId": "skirmisher",
-          "presentation": {
-            "id": "lantern_sprite",
-            "assetId": "creature_lantern_sprite",
-            "scale": 0.45666127261378686,
-            "regionId": "gloamgarden",
-            "activity": "forage",
-            "description": "A small fairy leafwing with amber-veined wings, teal shell and a curled tapering abdomen.",
-            "kind": "basic"
-          },
-          "adjustments": {
-            "attackSpeedMs": 2000,
-            "aggroRadius": 5,
-            "behaviour": "territorial",
-            "moveSpeedMps": 0.9279999999999999,
-            "walkSpeedMps": 0.23199999999999998,
-            "attackStyle": "melee",
-            "attackRangeM": 1.8
-          },
-          "loot": {
-            "rolls": [
-              {
-                "id": "items_1",
-                "name": "Items 1",
-                "count": 1,
-                "drops": [],
-                "tables": [
-                  {
-                    "tableId": "shared_mistweave_earth_essence",
-                    "rollId": "items_1"
-                  }
-                ]
-              },
-              {
-                "id": "items_2",
-                "name": "Items 2",
-                "count": 1,
-                "drops": [],
-                "tables": [
-                  {
-                    "tableId": "shared_mistweave_earth_essence",
-                    "rollId": "items_2"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "enemy": {
-          "id": "lantern_sprite_t30",
-          "name": "Lantern Sprite",
-          "family": "lantern_sprite",
-          "tier": 30,
-          "maxHealth": 82,
-          "attackLevel": 33,
-          "defenceLevel": 27,
-          "accuracy": 36,
-          "armour": 30,
-          "magicArmour": 30,
-          "maxHit": 10,
-          "attackSpeedMs": 2000,
-          "aggroRadius": 5,
-          "behaviour": "territorial",
-          "moveSpeedMps": 0.9279999999999999,
-          "walkSpeedMps": 0.23199999999999998,
-          "gold": [
-            90,
-            180
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 1.8,
-          "lootRolls": [
-            {
-              "id": "gold",
-              "name": "Gold",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "gold",
-                  "quantity": [
-                    90,
-                    180
-                  ],
-                  "chance": 1
-                }
-              ]
-            },
-            {
-              "id": "items_1",
-              "name": "Items 1",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "mistweave",
-                  "quantity": [
-                    1,
-                    3
-                  ],
-                  "chance": 0.75
-                }
-              ]
-            },
-            {
-              "id": "items_2",
-              "name": "Items 2",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "earth_essence",
-                  "quantity": [
-                    2,
-                    4
-                  ],
-                  "chance": 0.55
-                },
-                {
-                  "itemId": "chaos_rune",
-                  "quantity": [
-                    1,
-                    2
-                  ],
-                  "chance": 0.18
-                },
-                {
-                  "itemId": "cosmic_essence",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.14
-                }
-              ]
-            }
-          ]
-        },
-        "availability": "world",
-        "assetId": "creature_lantern_sprite",
-        "scale": 0.45666127261378686,
-        "presentation": {
-          "id": "lantern_sprite",
-          "assetId": "creature_lantern_sprite",
-          "scale": 0.45666127261378686,
-          "regionId": "gloamgarden",
-          "activity": "forage",
-          "description": "A small fairy leafwing with amber-veined wings, teal shell and a curled tapering abdomen.",
-          "stats": {
-            "id": "lantern_sprite_t30",
-            "name": "Lantern Sprite",
-            "family": "lantern_sprite",
-            "tier": 30,
-            "maxHealth": 82,
-            "attackLevel": 33,
-            "defenceLevel": 27,
-            "accuracy": 36,
-            "armour": 30,
-            "magicArmour": 30,
-            "maxHit": 10,
-            "attackSpeedMs": 2000,
-            "aggroRadius": 5,
-            "behaviour": "territorial",
-            "moveSpeedMps": 0.9279999999999999,
-            "walkSpeedMps": 0.23199999999999998,
-            "gold": [
-              90,
-              180
-            ],
-            "attackStyle": "melee",
-            "attackRangeM": 1.8,
-            "lootRolls": [
-              {
-                "id": "gold",
-                "name": "Gold",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "gold",
-                    "quantity": [
-                      90,
-                      180
-                    ],
-                    "chance": 1
-                  }
-                ]
-              },
-              {
-                "id": "items_1",
-                "name": "Items 1",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "mistweave",
-                    "quantity": [
-                      1,
-                      3
-                    ],
-                    "chance": 0.75
-                  }
-                ]
-              },
-              {
-                "id": "items_2",
-                "name": "Items 2",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "earth_essence",
-                    "quantity": [
-                      2,
-                      4
-                    ],
-                    "chance": 0.55
-                  },
-                  {
-                    "itemId": "chaos_rune",
-                    "quantity": [
-                      1,
-                      2
-                    ],
-                    "chance": 0.18
-                  },
-                  {
-                    "itemId": "cosmic_essence",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.14
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "profileId": "skirmisher",
-        "level": 30,
-        "adjustments": {
-          "attackSpeedMs": 2000,
-          "aggroRadius": 5,
-          "behaviour": "territorial",
-          "moveSpeedMps": 0.9279999999999999,
-          "walkSpeedMps": 0.23199999999999998,
           "attackStyle": "melee",
           "attackRangeM": 1.8
         },
@@ -136461,6 +135185,30 @@
                     "rollId": "items"
                   }
                 ]
+              },
+              {
+                "id": "thread",
+                "name": "Thread",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "spider_thread",
+                    "quantity": [
+                      1,
+                      3
+                    ],
+                    "chance": 0.5
+                  },
+                  {
+                    "itemId": "venom_gland",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.1
+                  }
+                ],
+                "tables": []
               }
             ]
           }
@@ -136501,6 +135249,29 @@
                     1
                   ],
                   "chance": 0.15
+                }
+              ]
+            },
+            {
+              "id": "thread",
+              "name": "Thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "spider_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.5
+                },
+                {
+                  "itemId": "venom_gland",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.1
                 }
               ]
             }
@@ -136580,6 +135351,29 @@
                       1
                     ],
                     "chance": 0.15
+                  }
+                ]
+              },
+              {
+                "id": "thread",
+                "name": "Thread",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "spider_thread",
+                    "quantity": [
+                      1,
+                      3
+                    ],
+                    "chance": 0.5
+                  },
+                  {
+                    "itemId": "venom_gland",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.1
                   }
                 ]
               }
@@ -145624,7 +144418,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "basalt_maw_t70",
             "name": "Basalt Maw",
@@ -147123,14 +145917,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "furnace_grazer_t70",
             "name": "Furnace Grazer",
@@ -148339,14 +147133,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "grave_lantern_t50",
             "name": "Ashen Ghoul",
@@ -148629,14 +147423,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "grave_lantern_t70",
             "name": "Ashen Ghoul",
@@ -163085,13 +161879,13 @@
         "id": "pack_fallowmarch_palewood_heath_scrub",
         "definition": {
           "id": "pack_fallowmarch_palewood_heath_scrub",
-          "baseId": "heath_wasp_t1",
+          "baseId": "field_wasp_t1",
           "availability": "world"
         },
         "enemy": {
           "id": "pack_fallowmarch_palewood_heath_scrub",
-          "name": "Heath Wasp",
-          "family": "heath_wasp",
+          "name": "Field Wasp",
+          "family": "field_wasp",
           "tier": 2,
           "maxHealth": 9,
           "attackLevel": 2,
@@ -163130,19 +161924,19 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_heath_wasp",
+        "assetId": "creature_field_wasp",
         "scale": 0.45,
         "presentation": {
-          "id": "heath_wasp",
-          "assetId": "creature_heath_wasp",
+          "id": "field_wasp",
+          "assetId": "creature_field_wasp",
           "scale": 0.45,
           "regionId": "fallowmarch",
           "activity": "prowl",
-          "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
+          "description": "A small leaf-armored wasp with moss and amber chitin, veined petal wings and a hooked thorn stinger.",
           "stats": {
             "id": "pack_fallowmarch_palewood_heath_scrub",
-            "name": "Heath Wasp",
-            "family": "heath_wasp",
+            "name": "Field Wasp",
+            "family": "field_wasp",
             "tier": 2,
             "maxHealth": 9,
             "attackLevel": 2,
@@ -163208,13 +162002,13 @@
         "id": "pack_fallowmarch_palewood_reed_scrub",
         "definition": {
           "id": "pack_fallowmarch_palewood_reed_scrub",
-          "baseId": "reed_wasp_t1",
+          "baseId": "field_wasp_t1",
           "availability": "world"
         },
         "enemy": {
           "id": "pack_fallowmarch_palewood_reed_scrub",
-          "name": "Slatewing Wasp",
-          "family": "reed_wasp",
+          "name": "Field Wasp",
+          "family": "field_wasp",
           "tier": 2,
           "maxHealth": 9,
           "attackLevel": 2,
@@ -163253,19 +162047,19 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_reed_wasp",
+        "assetId": "creature_field_wasp",
         "scale": 0.45,
         "presentation": {
-          "id": "reed_wasp",
-          "assetId": "creature_reed_wasp",
+          "id": "field_wasp",
+          "assetId": "creature_field_wasp",
           "scale": 0.45,
           "regionId": "fallowmarch",
           "activity": "prowl",
-          "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
+          "description": "A small leaf-armored wasp with moss and amber chitin, veined petal wings and a hooked thorn stinger.",
           "stats": {
             "id": "pack_fallowmarch_palewood_reed_scrub",
-            "name": "Slatewing Wasp",
-            "family": "reed_wasp",
+            "name": "Field Wasp",
+            "family": "field_wasp",
             "tier": 2,
             "maxHealth": 9,
             "attackLevel": 2,
@@ -164691,20 +163485,20 @@
         "id": "pack_vellenwood_marchgate_south_bramble",
         "definition": {
           "id": "pack_vellenwood_marchgate_south_bramble",
-          "baseId": "moonweave_spider_t5",
+          "baseId": "webweaver_spider_t5",
           "availability": "world"
         },
         "enemy": {
           "id": "pack_vellenwood_marchgate_south_bramble",
-          "name": "Moonweaver",
-          "family": "moonweave_spider",
-          "tier": 8,
-          "maxHealth": 25,
-          "attackLevel": 9,
-          "defenceLevel": 7,
-          "accuracy": 10,
-          "armour": 8,
-          "magicArmour": 8,
+          "name": "Briar Weaver",
+          "family": "webweaver_spider",
+          "tier": 7,
+          "maxHealth": 22,
+          "attackLevel": 8,
+          "defenceLevel": 6,
+          "accuracy": 8,
+          "armour": 7,
+          "magicArmour": 7,
           "maxHit": 3,
           "attackSpeedMs": 2000,
           "aggroRadius": 10,
@@ -164712,27 +163506,12 @@
           "moveSpeedMps": 1.6,
           "walkSpeedMps": 0.4,
           "gold": [
-            24,
-            48
+            0,
+            0
           ],
           "attackStyle": "melee",
           "attackRangeM": 1.8,
           "lootRolls": [
-            {
-              "id": "gold",
-              "name": "Gold",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "gold",
-                  "quantity": [
-                    24,
-                    48
-                  ],
-                  "chance": 1
-                }
-              ]
-            },
             {
               "id": "items",
               "name": "Items",
@@ -164745,46 +163524,61 @@
                     1
                   ],
                   "chance": 0.15
+                }
+              ]
+            },
+            {
+              "id": "thread",
+              "name": "Thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "spider_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.5
                 },
                 {
-                  "itemId": "earth_essence",
+                  "itemId": "venom_gland",
                   "quantity": [
                     1,
                     1
                   ],
-                  "chance": 0.25
+                  "chance": 0.1
                 }
               ]
             }
           ]
         },
         "availability": "world",
-        "assetId": "creature_moonweave_spider",
-        "scale": 0.82,
+        "assetId": "creature_webweaver_spider",
+        "scale": 0.8,
         "presentation": {
-          "id": "moonweave_spider",
-          "assetId": "creature_moonweave_spider",
-          "scale": 0.82,
+          "id": "webweaver_spider",
+          "assetId": "creature_webweaver_spider",
+          "scale": 0.8,
           "regionId": "vellenwood",
           "activity": "patrol",
-          "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
+          "description": "A small six-legged briar weaver with amber and ivory shell markings, jointed searching legs and a quick snapping mouth.",
           "bodyFamily": "spider",
-          "rigFamily": "corealm_tripo_sixleg_weaver",
+          "rigFamily": "tripo_sixleg_weaver",
           "movement": "arthropod",
           "habitat": "woodland web hollows",
           "respawnMs": 30000,
           "nativeSize": [
-            0.47883458451618877,
-            0.5201364126930991,
-            0.5992070853997946
+            0.79248046875,
+            0.8608357906341553,
+            0.9916992783546448
           ],
           "nativeBase": [
-            -0.23941729225809438,
+            -0.396240234375,
             0,
-            -0.2996035426998973
+            -0.4958496391773224
           ],
-          "nativeVisualRadius": 0.38351391452009526,
-          "nativeBodyRadius": 0.2996035426998973,
+          "nativeVisualRadius": 0.6347229222344468,
+          "nativeBodyRadius": 0.4958496391773224,
           "attack": {
             "action": "fang bite",
             "proposedMechanic": "melee",
@@ -164793,20 +163587,20 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
+            "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
           },
           "acceptance": "candidate",
           "stats": {
             "id": "pack_vellenwood_marchgate_south_bramble",
-            "name": "Moonweaver",
-            "family": "moonweave_spider",
-            "tier": 8,
-            "maxHealth": 25,
-            "attackLevel": 9,
-            "defenceLevel": 7,
-            "accuracy": 10,
-            "armour": 8,
-            "magicArmour": 8,
+            "name": "Briar Weaver",
+            "family": "webweaver_spider",
+            "tier": 7,
+            "maxHealth": 22,
+            "attackLevel": 8,
+            "defenceLevel": 6,
+            "accuracy": 8,
+            "armour": 7,
+            "magicArmour": 7,
             "maxHit": 3,
             "attackSpeedMs": 2000,
             "aggroRadius": 10,
@@ -164814,27 +163608,12 @@
             "moveSpeedMps": 1.6,
             "walkSpeedMps": 0.4,
             "gold": [
-              24,
-              48
+              0,
+              0
             ],
             "attackStyle": "melee",
             "attackRangeM": 1.8,
             "lootRolls": [
-              {
-                "id": "gold",
-                "name": "Gold",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "gold",
-                    "quantity": [
-                      24,
-                      48
-                    ],
-                    "chance": 1
-                  }
-                ]
-              },
               {
                 "id": "items",
                 "name": "Items",
@@ -164847,14 +163626,29 @@
                       1
                     ],
                     "chance": 0.15
+                  }
+                ]
+              },
+              {
+                "id": "thread",
+                "name": "Thread",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "spider_thread",
+                    "quantity": [
+                      1,
+                      3
+                    ],
+                    "chance": 0.5
                   },
                   {
-                    "itemId": "earth_essence",
+                    "itemId": "venom_gland",
                     "quantity": [
                       1,
                       1
                     ],
-                    "chance": 0.25
+                    "chance": 0.1
                   }
                 ]
               }
@@ -164862,13 +163656,17 @@
           }
         },
         "profileId": "skirmisher",
-        "level": 8,
+        "level": 7,
         "adjustments": {
           "attackSpeedMs": 2000,
           "aggroRadius": 10,
           "behaviour": "aggressive",
           "moveSpeedMps": 1.6,
           "walkSpeedMps": 0.4,
+          "gold": [
+            0,
+            0
+          ],
           "attackStyle": "melee",
           "attackRangeM": 1.8
         },
@@ -166034,13 +164832,13 @@
         "id": "hollowroot_spider_residents",
         "definition": {
           "id": "hollowroot_spider_residents",
-          "baseId": "hollowroot_spider_t5",
+          "baseId": "webweaver_spider_t5",
           "availability": "world"
         },
         "enemy": {
           "id": "hollowroot_spider_residents",
-          "name": "Rootweaver",
-          "family": "hollowroot_spider",
+          "name": "Briar Weaver",
+          "family": "webweaver_spider",
           "tier": 7,
           "maxHealth": 22,
           "attackLevel": 8,
@@ -166049,21 +164847,36 @@
           "armour": 7,
           "magicArmour": 7,
           "maxHit": 3,
-          "attackSpeedMs": 1200,
-          "aggroRadius": 6,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
           "behaviour": "aggressive",
-          "moveSpeedMps": 1.4,
-          "walkSpeedMps": 0.42,
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
           "gold": [
             0,
             0
           ],
           "attackStyle": "melee",
-          "attackRangeM": 2,
+          "attackRangeM": 1.8,
           "lootRolls": [
             {
               "id": "items",
               "name": "Items",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "earth_essence",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.15
+                }
+              ]
+            },
+            {
+              "id": "thread",
+              "name": "Thread",
               "count": 1,
               "drops": [
                 {
@@ -166072,7 +164885,7 @@
                     1,
                     3
                   ],
-                  "chance": 0.75
+                  "chance": 0.5
                 },
                 {
                   "itemId": "venom_gland",
@@ -166087,19 +164900,47 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_hollowroot_spider",
-        "scale": 1,
+        "assetId": "creature_webweaver_spider",
+        "scale": 0.8,
         "presentation": {
-          "id": "hollowroot_spider",
-          "assetId": "creature_hollowroot_spider",
-          "scale": 1,
+          "id": "webweaver_spider",
+          "assetId": "creature_webweaver_spider",
+          "scale": 0.8,
           "regionId": "vellenwood",
-          "activity": "prowl",
-          "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
+          "activity": "patrol",
+          "description": "A small six-legged briar weaver with amber and ivory shell markings, jointed searching legs and a quick snapping mouth.",
+          "bodyFamily": "spider",
+          "rigFamily": "tripo_sixleg_weaver",
+          "movement": "arthropod",
+          "habitat": "woodland web hollows",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.79248046875,
+            0.8608357906341553,
+            0.9916992783546448
+          ],
+          "nativeBase": [
+            -0.396240234375,
+            0,
+            -0.4958496391773224
+          ],
+          "nativeVisualRadius": 0.6347229222344468,
+          "nativeBodyRadius": 0.4958496391773224,
+          "attack": {
+            "action": "fang bite",
+            "proposedMechanic": "melee",
+            "recoveryMs": 900
+          },
+          "source": {
+            "author": "Corealm / Tripo Studio",
+            "license": "LicenseRef-Corealm-Original",
+            "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+          },
+          "acceptance": "candidate",
           "stats": {
             "id": "hollowroot_spider_residents",
-            "name": "Rootweaver",
-            "family": "hollowroot_spider",
+            "name": "Briar Weaver",
+            "family": "webweaver_spider",
             "tier": 7,
             "maxHealth": 22,
             "attackLevel": 8,
@@ -166108,21 +164949,36 @@
             "armour": 7,
             "magicArmour": 7,
             "maxHit": 3,
-            "attackSpeedMs": 1200,
-            "aggroRadius": 6,
+            "attackSpeedMs": 2000,
+            "aggroRadius": 10,
             "behaviour": "aggressive",
-            "moveSpeedMps": 1.4,
-            "walkSpeedMps": 0.42,
+            "moveSpeedMps": 1.6,
+            "walkSpeedMps": 0.4,
             "gold": [
               0,
               0
             ],
             "attackStyle": "melee",
-            "attackRangeM": 2,
+            "attackRangeM": 1.8,
             "lootRolls": [
               {
                 "id": "items",
                 "name": "Items",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "earth_essence",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.15
+                  }
+                ]
+              },
+              {
+                "id": "thread",
+                "name": "Thread",
                 "count": 1,
                 "drops": [
                   {
@@ -166131,7 +164987,7 @@
                       1,
                       3
                     ],
-                    "chance": 0.75
+                    "chance": 0.5
                   },
                   {
                     "itemId": "venom_gland",
@@ -166149,15 +165005,17 @@
         "profileId": "skirmisher",
         "level": 7,
         "adjustments": {
-          "attackSpeedMs": 1200,
-          "aggroRadius": 6,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
           "behaviour": "aggressive",
-          "moveSpeedMps": 1.4,
-          "walkSpeedMps": 0.42,
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
           "gold": [
             0,
             0
-          ]
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8
         },
         "inheritedFields": [
           "name",
@@ -169691,16 +168549,7 @@
           "name": "Ashen Ghoul",
           "family": "grave_lantern",
           "availability": "world",
-          "level": 24,
-          "presentation": {
-            "id": "grave_lantern",
-            "assetId": "creature_grave_lantern",
-            "scale": 0.92,
-            "regionId": "wilderness",
-            "activity": "patrol",
-            "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
-            "kind": "basic"
-          }
+          "level": 24
         },
         "enemy": {
           "id": "cinder_adders",
@@ -169760,14 +168609,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "cinder_adders",
             "name": "Ashen Ghoul",
@@ -169838,6 +168687,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "adjustments",
           "loot"
         ]
@@ -178352,14 +177202,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "wilderness_east_furnace_herd",
             "name": "Furnace Grazer",
@@ -178470,15 +177320,6 @@
           "family": "basalt_maw",
           "availability": "world",
           "level": 58,
-          "presentation": {
-            "id": "basalt_maw",
-            "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
-            "regionId": "wilderness",
-            "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-            "kind": "basic"
-          },
           "adjustments": {
             "maxHealth": 219,
             "attackLevel": 66,
@@ -178574,15 +177415,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_furnace_grazer",
+        "assetId": "creature_basalt_maw",
         "scale": 0.754334697009733,
         "presentation": {
           "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "wilderness_east_basalt_prowl",
             "name": "Basalt Maw",
@@ -178688,6 +177529,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "loot"
         ]
       },
@@ -179866,15 +178708,6 @@
           "family": "basalt_maw",
           "availability": "world",
           "level": 58,
-          "presentation": {
-            "id": "basalt_maw",
-            "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
-            "regionId": "wilderness",
-            "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-            "kind": "basic"
-          },
           "adjustments": {
             "maxHealth": 217,
             "attackLevel": 65,
@@ -179970,15 +178803,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_furnace_grazer",
+        "assetId": "creature_basalt_maw",
         "scale": 0.754334697009733,
         "presentation": {
           "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "far_cinder_smithy_sentries",
             "name": "Basalt Maw",
@@ -180084,6 +178917,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "loot"
         ]
       },
@@ -181416,14 +180250,14 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "regionId": "wilderness",
           "activity": "graze",
-          "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+          "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
           "stats": {
             "id": "wilderness_furnace_grazers",
             "name": "Furnace Grazer",
@@ -181534,15 +180368,6 @@
           "family": "basalt_maw",
           "availability": "world",
           "level": 58,
-          "presentation": {
-            "id": "basalt_maw",
-            "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
-            "regionId": "wilderness",
-            "activity": "prowl",
-            "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
-            "kind": "basic"
-          },
           "adjustments": {
             "maxHealth": 219,
             "attackLevel": 66,
@@ -181638,15 +180463,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_furnace_grazer",
+        "assetId": "creature_basalt_maw",
         "scale": 0.754334697009733,
         "presentation": {
           "id": "basalt_maw",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+          "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
           "stats": {
             "id": "wilderness_basalt_maw_hollow",
             "name": "Basalt Maw",
@@ -181752,6 +180577,7 @@
         },
         "inheritedFields": [
           "profileId",
+          "presentation",
           "loot"
         ]
       },
@@ -189347,14 +188173,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "population_broken_watch_lanterns",
             "name": "Ashen Ghoul",
@@ -190803,14 +189629,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "population_abbey_east_lanterns",
             "name": "Ashen Ghoul",
@@ -191676,14 +190502,14 @@
         },
         "availability": "world",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "presentation": {
           "id": "grave_lantern",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+          "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
           "stats": {
             "id": "population_aqueduct_west_lanterns",
             "name": "Ashen Ghoul",
@@ -196470,55 +195296,6 @@
         ]
       },
       {
-        "id": "hollowroot_spider_t5",
-        "name": "Rootweaver",
-        "family": "hollowroot_spider",
-        "tier": 7,
-        "maxHealth": 22,
-        "attackLevel": 8,
-        "defenceLevel": 6,
-        "accuracy": 8,
-        "armour": 7,
-        "magicArmour": 7,
-        "maxHit": 3,
-        "attackSpeedMs": 1200,
-        "aggroRadius": 6,
-        "behaviour": "aggressive",
-        "moveSpeedMps": 1.4,
-        "walkSpeedMps": 0.42,
-        "gold": [
-          0,
-          0
-        ],
-        "attackStyle": "melee",
-        "attackRangeM": 2,
-        "lootRolls": [
-          {
-            "id": "items",
-            "name": "Items",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "spider_thread",
-                "quantity": [
-                  1,
-                  3
-                ],
-                "chance": 0.75
-              },
-              {
-                "itemId": "venom_gland",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.1
-              }
-            ]
-          }
-        ]
-      },
-      {
         "id": "cinder_ravager_t20",
         "name": "Armored Demon",
         "family": "cinder_ravager",
@@ -196910,88 +195687,6 @@
         ]
       },
       {
-        "id": "heath_wasp_t1",
-        "name": "Heath Wasp",
-        "family": "heath_wasp",
-        "tier": 2,
-        "maxHealth": 9,
-        "attackLevel": 2,
-        "defenceLevel": 2,
-        "accuracy": 2,
-        "armour": 2,
-        "magicArmour": 2,
-        "maxHit": 2,
-        "attackSpeedMs": 2400,
-        "aggroRadius": 5,
-        "behaviour": "aggressive",
-        "moveSpeedMps": 1.6,
-        "walkSpeedMps": 0.4,
-        "gold": [
-          0,
-          0
-        ],
-        "attackStyle": "melee",
-        "attackRangeM": 2,
-        "lootRolls": [
-          {
-            "id": "items",
-            "name": "Items",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "venom_gland",
-                "quantity": [
-                  1,
-                  2
-                ],
-                "chance": 0.65
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "reed_wasp_t1",
-        "name": "Slatewing Wasp",
-        "family": "reed_wasp",
-        "tier": 2,
-        "maxHealth": 9,
-        "attackLevel": 2,
-        "defenceLevel": 2,
-        "accuracy": 2,
-        "armour": 2,
-        "magicArmour": 2,
-        "maxHit": 2,
-        "attackSpeedMs": 2400,
-        "aggroRadius": 5,
-        "behaviour": "aggressive",
-        "moveSpeedMps": 1.6,
-        "walkSpeedMps": 0.4,
-        "gold": [
-          0,
-          0
-        ],
-        "attackStyle": "melee",
-        "attackRangeM": 2,
-        "lootRolls": [
-          {
-            "id": "items",
-            "name": "Items",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "venom_gland",
-                "quantity": [
-                  1,
-                  2
-                ],
-                "chance": 0.65
-              }
-            ]
-          }
-        ]
-      },
-      {
         "id": "creek_crab_t1",
         "name": "Creek Crab",
         "family": "creek_crab",
@@ -197217,70 +195912,6 @@
               },
               {
                 "itemId": "air_essence",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.25
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "moonweave_spider_t5",
-        "name": "Moonweaver",
-        "family": "moonweave_spider",
-        "tier": 8,
-        "maxHealth": 25,
-        "attackLevel": 9,
-        "defenceLevel": 7,
-        "accuracy": 10,
-        "armour": 8,
-        "magicArmour": 8,
-        "maxHit": 3,
-        "attackSpeedMs": 2000,
-        "aggroRadius": 10,
-        "behaviour": "aggressive",
-        "moveSpeedMps": 1.6,
-        "walkSpeedMps": 0.4,
-        "gold": [
-          24,
-          48
-        ],
-        "attackStyle": "melee",
-        "attackRangeM": 1.8,
-        "lootRolls": [
-          {
-            "id": "gold",
-            "name": "Gold",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "gold",
-                "quantity": [
-                  24,
-                  48
-                ],
-                "chance": 1
-              }
-            ]
-          },
-          {
-            "id": "items",
-            "name": "Items",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "earth_essence",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.15
-              },
-              {
-                "itemId": "earth_essence",
                 "quantity": [
                   1,
                   1
@@ -200549,93 +199180,6 @@
                   2
                 ],
                 "chance": 0.18
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "lantern_sprite_t30",
-        "name": "Lantern Sprite",
-        "family": "lantern_sprite",
-        "tier": 30,
-        "maxHealth": 82,
-        "attackLevel": 33,
-        "defenceLevel": 27,
-        "accuracy": 36,
-        "armour": 30,
-        "magicArmour": 30,
-        "maxHit": 10,
-        "attackSpeedMs": 2000,
-        "aggroRadius": 5,
-        "behaviour": "territorial",
-        "moveSpeedMps": 0.9279999999999999,
-        "walkSpeedMps": 0.23199999999999998,
-        "gold": [
-          90,
-          180
-        ],
-        "attackStyle": "melee",
-        "attackRangeM": 1.8,
-        "lootRolls": [
-          {
-            "id": "gold",
-            "name": "Gold",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "gold",
-                "quantity": [
-                  90,
-                  180
-                ],
-                "chance": 1
-              }
-            ]
-          },
-          {
-            "id": "items_1",
-            "name": "Items 1",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "mistweave",
-                "quantity": [
-                  1,
-                  3
-                ],
-                "chance": 0.75
-              }
-            ]
-          },
-          {
-            "id": "items_2",
-            "name": "Items 2",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "earth_essence",
-                "quantity": [
-                  2,
-                  4
-                ],
-                "chance": 0.55
-              },
-              {
-                "itemId": "chaos_rune",
-                "quantity": [
-                  1,
-                  2
-                ],
-                "chance": 0.18
-              },
-              {
-                "itemId": "cosmic_essence",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.14
               }
             ]
           }
@@ -210571,6 +209115,29 @@
                 "chance": 0.15
               }
             ]
+          },
+          {
+            "id": "thread",
+            "name": "Thread",
+            "count": 1,
+            "drops": [
+              {
+                "itemId": "spider_thread",
+                "quantity": [
+                  1,
+                  3
+                ],
+                "chance": 0.5
+              },
+              {
+                "itemId": "venom_gland",
+                "quantity": [
+                  1,
+                  1
+                ],
+                "chance": 0.1
+              }
+            ]
           }
         ]
       },
@@ -218549,8 +217116,8 @@
       },
       {
         "id": "pack_fallowmarch_palewood_heath_scrub",
-        "name": "Heath Wasp",
-        "family": "heath_wasp",
+        "name": "Field Wasp",
+        "family": "field_wasp",
         "tier": 2,
         "maxHealth": 9,
         "attackLevel": 2,
@@ -218590,8 +217157,8 @@
       },
       {
         "id": "pack_fallowmarch_palewood_reed_scrub",
-        "name": "Slatewing Wasp",
-        "family": "reed_wasp",
+        "name": "Field Wasp",
+        "family": "field_wasp",
         "tier": 2,
         "maxHealth": 9,
         "attackLevel": 2,
@@ -219114,15 +217681,15 @@
       },
       {
         "id": "pack_vellenwood_marchgate_south_bramble",
-        "name": "Moonweaver",
-        "family": "moonweave_spider",
-        "tier": 8,
-        "maxHealth": 25,
-        "attackLevel": 9,
-        "defenceLevel": 7,
-        "accuracy": 10,
-        "armour": 8,
-        "magicArmour": 8,
+        "name": "Briar Weaver",
+        "family": "webweaver_spider",
+        "tier": 7,
+        "maxHealth": 22,
+        "attackLevel": 8,
+        "defenceLevel": 6,
+        "accuracy": 8,
+        "armour": 7,
+        "magicArmour": 7,
         "maxHit": 3,
         "attackSpeedMs": 2000,
         "aggroRadius": 10,
@@ -219130,27 +217697,12 @@
         "moveSpeedMps": 1.6,
         "walkSpeedMps": 0.4,
         "gold": [
-          24,
-          48
+          0,
+          0
         ],
         "attackStyle": "melee",
         "attackRangeM": 1.8,
         "lootRolls": [
-          {
-            "id": "gold",
-            "name": "Gold",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "gold",
-                "quantity": [
-                  24,
-                  48
-                ],
-                "chance": 1
-              }
-            ]
-          },
           {
             "id": "items",
             "name": "Items",
@@ -219163,14 +217715,29 @@
                   1
                 ],
                 "chance": 0.15
+              }
+            ]
+          },
+          {
+            "id": "thread",
+            "name": "Thread",
+            "count": 1,
+            "drops": [
+              {
+                "itemId": "spider_thread",
+                "quantity": [
+                  1,
+                  3
+                ],
+                "chance": 0.5
               },
               {
-                "itemId": "earth_essence",
+                "itemId": "venom_gland",
                 "quantity": [
                   1,
                   1
                 ],
-                "chance": 0.25
+                "chance": 0.1
               }
             ]
           }
@@ -219601,8 +218168,8 @@
       },
       {
         "id": "hollowroot_spider_residents",
-        "name": "Rootweaver",
-        "family": "hollowroot_spider",
+        "name": "Briar Weaver",
+        "family": "webweaver_spider",
         "tier": 7,
         "maxHealth": 22,
         "attackLevel": 8,
@@ -219611,21 +218178,36 @@
         "armour": 7,
         "magicArmour": 7,
         "maxHit": 3,
-        "attackSpeedMs": 1200,
-        "aggroRadius": 6,
+        "attackSpeedMs": 2000,
+        "aggroRadius": 10,
         "behaviour": "aggressive",
-        "moveSpeedMps": 1.4,
-        "walkSpeedMps": 0.42,
+        "moveSpeedMps": 1.6,
+        "walkSpeedMps": 0.4,
         "gold": [
           0,
           0
         ],
         "attackStyle": "melee",
-        "attackRangeM": 2,
+        "attackRangeM": 1.8,
         "lootRolls": [
           {
             "id": "items",
             "name": "Items",
+            "count": 1,
+            "drops": [
+              {
+                "itemId": "earth_essence",
+                "quantity": [
+                  1,
+                  1
+                ],
+                "chance": 0.15
+              }
+            ]
+          },
+          {
+            "id": "thread",
+            "name": "Thread",
             "count": 1,
             "drops": [
               {
@@ -219634,7 +218216,7 @@
                   1,
                   3
                 ],
-                "chance": 0.75
+                "chance": 0.5
               },
               {
                 "itemId": "venom_gland",
@@ -230262,63 +228844,6 @@
         }
       },
       {
-        "id": "hollowroot_spider",
-        "assetId": "creature_hollowroot_spider",
-        "scale": 1,
-        "regionId": "vellenwood",
-        "activity": "prowl",
-        "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
-        "stats": {
-          "id": "hollowroot_spider_t5",
-          "name": "Rootweaver",
-          "family": "hollowroot_spider",
-          "tier": 7,
-          "maxHealth": 22,
-          "attackLevel": 8,
-          "defenceLevel": 6,
-          "accuracy": 8,
-          "armour": 7,
-          "magicArmour": 7,
-          "maxHit": 3,
-          "attackSpeedMs": 1200,
-          "aggroRadius": 6,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.4,
-          "walkSpeedMps": 0.42,
-          "gold": [
-            0,
-            0
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 2,
-          "lootRolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "spider_thread",
-                  "quantity": [
-                    1,
-                    3
-                  ],
-                  "chance": 0.75
-                },
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.1
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
         "id": "cinder_ravager",
         "assetId": "creature_cinder_ravager",
         "scale": 1,
@@ -230758,104 +229283,6 @@
         }
       },
       {
-        "id": "heath_wasp",
-        "assetId": "creature_heath_wasp",
-        "scale": 0.45,
-        "regionId": "fallowmarch",
-        "activity": "prowl",
-        "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
-        "stats": {
-          "id": "heath_wasp_t1",
-          "name": "Heath Wasp",
-          "family": "heath_wasp",
-          "tier": 2,
-          "maxHealth": 9,
-          "attackLevel": 2,
-          "defenceLevel": 2,
-          "accuracy": 2,
-          "armour": 2,
-          "magicArmour": 2,
-          "maxHit": 2,
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 2,
-          "lootRolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    2
-                  ],
-                  "chance": 0.65
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "reed_wasp",
-        "assetId": "creature_reed_wasp",
-        "scale": 0.45,
-        "regionId": "fallowmarch",
-        "activity": "prowl",
-        "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
-        "stats": {
-          "id": "reed_wasp_t1",
-          "name": "Slatewing Wasp",
-          "family": "reed_wasp",
-          "tier": 2,
-          "maxHealth": 9,
-          "attackLevel": 2,
-          "defenceLevel": 2,
-          "accuracy": 2,
-          "armour": 2,
-          "magicArmour": 2,
-          "maxHit": 2,
-          "attackSpeedMs": 2400,
-          "aggroRadius": 5,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            0,
-            0
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 2,
-          "lootRolls": [
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "venom_gland",
-                  "quantity": [
-                    1,
-                    2
-                  ],
-                  "chance": 0.65
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
         "id": "creek_crab",
         "assetId": "animal_crab",
         "scale": 2.8,
@@ -231131,106 +229558,6 @@
                 },
                 {
                   "itemId": "air_essence",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.25
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "moonweave_spider",
-        "assetId": "creature_moonweave_spider",
-        "scale": 0.82,
-        "regionId": "vellenwood",
-        "activity": "patrol",
-        "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
-        "bodyFamily": "spider",
-        "rigFamily": "corealm_tripo_sixleg_weaver",
-        "movement": "arthropod",
-        "habitat": "woodland web hollows",
-        "respawnMs": 30000,
-        "nativeSize": [
-          0.47883458451618877,
-          0.5201364126930991,
-          0.5992070853997946
-        ],
-        "nativeBase": [
-          -0.23941729225809438,
-          0,
-          -0.2996035426998973
-        ],
-        "nativeVisualRadius": 0.38351391452009526,
-        "nativeBodyRadius": 0.2996035426998973,
-        "attack": {
-          "action": "fang bite",
-          "proposedMechanic": "melee",
-          "recoveryMs": 900
-        },
-        "source": {
-          "author": "Corealm / Tripo Studio",
-          "license": "LicenseRef-Corealm-Original",
-          "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
-        },
-        "acceptance": "candidate",
-        "stats": {
-          "id": "moonweave_spider_t5",
-          "name": "Moonweaver",
-          "family": "moonweave_spider",
-          "tier": 8,
-          "maxHealth": 25,
-          "attackLevel": 9,
-          "defenceLevel": 7,
-          "accuracy": 10,
-          "armour": 8,
-          "magicArmour": 8,
-          "maxHit": 3,
-          "attackSpeedMs": 2000,
-          "aggroRadius": 10,
-          "behaviour": "aggressive",
-          "moveSpeedMps": 1.6,
-          "walkSpeedMps": 0.4,
-          "gold": [
-            24,
-            48
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 1.8,
-          "lootRolls": [
-            {
-              "id": "gold",
-              "name": "Gold",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "gold",
-                  "quantity": [
-                    24,
-                    48
-                  ],
-                  "chance": 1
-                }
-              ]
-            },
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "earth_essence",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.15
-                },
-                {
-                  "itemId": "earth_essence",
                   "quantity": [
                     1,
                     1
@@ -232239,10 +230566,10 @@
       {
         "id": "grave_lantern",
         "assetId": "creature_grave_lantern",
-        "scale": 0.92,
+        "scale": 1,
         "regionId": "wilderness",
         "activity": "patrol",
-        "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
+        "description": "A gaunt, hunched ghoul with violet flesh, rust-brown bindings and long bone-blade claws. It stalks the ruins with glowing eyes.",
         "stats": {
           "id": "grave_lantern_t20",
           "name": "Ashen Ghoul",
@@ -233327,10 +231654,10 @@
       {
         "id": "furnace_grazer",
         "assetId": "creature_furnace_grazer",
-        "scale": 1.35,
+        "scale": 1.2,
         "regionId": "wilderness",
         "activity": "graze",
-        "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
+        "description": "A heavy armoured rhino with a horned brow plate and dark hide traced with glowing markings. It grazes the ash flats and lowers its horn before charging.",
         "stats": {
           "id": "furnace_grazer_t50",
           "name": "Furnace Grazer",
@@ -233417,7 +231744,7 @@
         "scale": 0.754334697009733,
         "regionId": "wilderness",
         "activity": "prowl",
-        "description": "A lean horned predator with ochre plates over dark hide. Long hooked claws and powerful hind legs carry it across the basalt wastes.",
+        "description": "A wingless horned dragon with mottled ochre hide and a ridge of bone spikes. Hooked claws and heavy hind legs carry it low across the basalt wastes.",
         "stats": {
           "id": "basalt_maw_t50",
           "name": "Basalt Maw",
@@ -234879,101 +233206,6 @@
                     2
                   ],
                   "chance": 0.18
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "lantern_sprite",
-        "assetId": "creature_lantern_sprite",
-        "scale": 0.45666127261378686,
-        "regionId": "gloamgarden",
-        "activity": "forage",
-        "description": "A small fairy leafwing with amber-veined wings, teal shell and a curled tapering abdomen.",
-        "stats": {
-          "id": "lantern_sprite_t30",
-          "name": "Lantern Sprite",
-          "family": "lantern_sprite",
-          "tier": 30,
-          "maxHealth": 82,
-          "attackLevel": 33,
-          "defenceLevel": 27,
-          "accuracy": 36,
-          "armour": 30,
-          "magicArmour": 30,
-          "maxHit": 10,
-          "attackSpeedMs": 2000,
-          "aggroRadius": 5,
-          "behaviour": "territorial",
-          "moveSpeedMps": 0.9279999999999999,
-          "walkSpeedMps": 0.23199999999999998,
-          "gold": [
-            90,
-            180
-          ],
-          "attackStyle": "melee",
-          "attackRangeM": 1.8,
-          "lootRolls": [
-            {
-              "id": "gold",
-              "name": "Gold",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "gold",
-                  "quantity": [
-                    90,
-                    180
-                  ],
-                  "chance": 1
-                }
-              ]
-            },
-            {
-              "id": "items_1",
-              "name": "Items 1",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "mistweave",
-                  "quantity": [
-                    1,
-                    3
-                  ],
-                  "chance": 0.75
-                }
-              ]
-            },
-            {
-              "id": "items_2",
-              "name": "Items 2",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "earth_essence",
-                  "quantity": [
-                    2,
-                    4
-                  ],
-                  "chance": 0.55
-                },
-                {
-                  "itemId": "chaos_rune",
-                  "quantity": [
-                    1,
-                    2
-                  ],
-                  "chance": 0.18
-                },
-                {
-                  "itemId": "cosmic_essence",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.14
                 }
               ]
             }
@@ -246031,6 +244263,29 @@
                     1
                   ],
                   "chance": 0.15
+                }
+              ]
+            },
+            {
+              "id": "thread",
+              "name": "Thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "spider_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.5
+                },
+                {
+                  "itemId": "venom_gland",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.1
                 }
               ]
             }
@@ -267611,12 +265866,12 @@
           ]
         },
         {
-          "id": "reed_wasp_t1_prowl",
-          "name": "Slatewing Wasp",
+          "id": "field_wasp_t1_prowl",
+          "name": "Field Wasp",
           "activity": "prowl",
           "members": [
             {
-              "creatureId": "reed_wasp_t1",
+              "creatureId": "field_wasp_t1",
               "weight": 1
             }
           ]
@@ -267634,7 +265889,7 @@
         },
         {
           "id": "pack_fallowmarch_palewood_heath_scrub_patrol",
-          "name": "Heath Wasp",
+          "name": "Field Wasp",
           "activity": "patrol",
           "members": [
             {
@@ -267645,7 +265900,7 @@
         },
         {
           "id": "pack_fallowmarch_palewood_reed_scrub_patrol",
-          "name": "Slatewing Wasp",
+          "name": "Field Wasp",
           "activity": "patrol",
           "members": [
             {
@@ -271289,7 +269544,7 @@
         },
         {
           "id": "population_bracken_north_striders",
-          "encounterId": "reed_wasp_t1_prowl",
+          "encounterId": "field_wasp_t1_prowl",
           "regionId": "fallowmarch",
           "centre": [
             -116,
@@ -280347,10 +278602,10 @@
           },
           {
             "id": "pack_fallowmarch_palewood_heath_scrub",
-            "family": "heath_wasp",
-            "name": "Heath Wasp",
+            "family": "field_wasp",
+            "name": "Field Wasp",
             "tier": 2,
-            "assetId": "creature_heath_wasp",
+            "assetId": "creature_field_wasp",
             "scale": 0.45,
             "centre": [
               -307,
@@ -280363,10 +278618,10 @@
           },
           {
             "id": "pack_fallowmarch_palewood_reed_scrub",
-            "family": "reed_wasp",
-            "name": "Slatewing Wasp",
+            "family": "field_wasp",
+            "name": "Field Wasp",
             "tier": 2,
-            "assetId": "creature_reed_wasp",
+            "assetId": "creature_field_wasp",
             "scale": 0.45,
             "centre": [
               -337,
@@ -280589,10 +278844,10 @@
           },
           {
             "id": "population_bracken_north_striders",
-            "family": "reed_wasp",
-            "name": "Slatewing Wasp",
+            "family": "field_wasp",
+            "name": "Field Wasp",
             "tier": 2,
-            "assetId": "creature_reed_wasp",
+            "assetId": "creature_field_wasp",
             "scale": 0.45,
             "centre": [
               -116,
@@ -280760,11 +279015,11 @@
           },
           {
             "id": "pack_vellenwood_marchgate_south_bramble",
-            "family": "moonweave_spider",
-            "name": "Moonweaver",
-            "tier": 8,
-            "assetId": "creature_moonweave_spider",
-            "scale": 0.82,
+            "family": "webweaver_spider",
+            "name": "Briar Weaver",
+            "tier": 7,
+            "assetId": "creature_webweaver_spider",
+            "scale": 0.8,
             "centre": [
               23,
               29
@@ -280881,11 +279136,11 @@
           },
           {
             "id": "hollowroot_spider_residents",
-            "family": "hollowroot_spider",
-            "name": "Rootweaver",
+            "family": "webweaver_spider",
+            "name": "Briar Weaver",
             "tier": 7,
-            "assetId": "creature_hollowroot_spider",
-            "scale": 1,
+            "assetId": "creature_webweaver_spider",
+            "scale": 0.8,
             "centre": [
               -12.21,
               64.65
@@ -281662,7 +279917,7 @@
             "name": "Ashen Ghoul",
             "tier": 24,
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "centre": [
               190,
               267
@@ -281907,7 +280162,7 @@
             "name": "Ashen Ghoul",
             "tier": 24,
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "centre": [
               -92,
               314
@@ -281967,7 +280222,7 @@
             "name": "Ashen Ghoul",
             "tier": 24,
             "assetId": "creature_grave_lantern",
-            "scale": 0.92,
+            "scale": 1,
             "centre": [
               -86,
               416
@@ -282344,7 +280599,7 @@
             "name": "Furnace Grazer",
             "tier": 50,
             "assetId": "creature_furnace_grazer",
-            "scale": 1.35,
+            "scale": 1.2,
             "centre": [
               565,
               650
@@ -282358,7 +280613,7 @@
             "family": "basalt_maw",
             "name": "Basalt Maw",
             "tier": 58,
-            "assetId": "creature_furnace_grazer",
+            "assetId": "creature_basalt_maw",
             "scale": 0.754334697009733,
             "centre": [
               420,
@@ -282448,7 +280703,7 @@
             "family": "basalt_maw",
             "name": "Basalt Maw",
             "tier": 58,
-            "assetId": "creature_furnace_grazer",
+            "assetId": "creature_basalt_maw",
             "scale": 0.754334697009733,
             "centre": [
               647.6094351084759,
@@ -282554,7 +280809,7 @@
             "name": "Furnace Grazer",
             "tier": 50,
             "assetId": "creature_furnace_grazer",
-            "scale": 1.35,
+            "scale": 1.2,
             "centre": [
               190,
               484
@@ -282568,7 +280823,7 @@
             "family": "basalt_maw",
             "name": "Basalt Maw",
             "tier": 58,
-            "assetId": "creature_furnace_grazer",
+            "assetId": "creature_basalt_maw",
             "scale": 0.754334697009733,
             "centre": [
               -8,
@@ -282939,7 +281194,7 @@
             "name": "Ashen Ghoul",
             "tier": 54,
             "assetId": "creature_grave_lantern",
-            "scale": 0.8508076044790863,
+            "scale": 0.9247908744337895,
             "centre": [
               -249,
               489
@@ -283014,7 +281269,7 @@
             "name": "Ashen Ghoul",
             "tier": 54,
             "assetId": "creature_grave_lantern",
-            "scale": 0.8508076044790863,
+            "scale": 0.9247908744337895,
             "centre": [
               -92.88,
               589.83
@@ -283059,7 +281314,7 @@
             "name": "Ashen Ghoul",
             "tier": 54,
             "assetId": "creature_grave_lantern",
-            "scale": 0.8508076044790863,
+            "scale": 0.9247908744337895,
             "centre": [
               -250,
               664
@@ -291009,12 +289264,12 @@
         },
         "pack_fallowmarch_palewood_heath_scrub": {
           "id": "pack_fallowmarch_palewood_heath_scrub",
-          "assetId": "creature_heath_wasp",
+          "assetId": "creature_field_wasp",
           "scale": 0.45,
           "stats": {
             "id": "pack_fallowmarch_palewood_heath_scrub",
-            "name": "Heath Wasp",
-            "family": "heath_wasp",
+            "name": "Field Wasp",
+            "family": "field_wasp",
             "tier": 2,
             "maxHealth": 9,
             "attackLevel": 2,
@@ -291052,16 +289307,16 @@
               }
             ]
           },
-          "bodyRadius": 0.33783890757602014
+          "bodyRadius": 0.37053554408951006
         },
         "pack_fallowmarch_palewood_reed_scrub": {
           "id": "pack_fallowmarch_palewood_reed_scrub",
-          "assetId": "creature_reed_wasp",
+          "assetId": "creature_field_wasp",
           "scale": 0.45,
           "stats": {
             "id": "pack_fallowmarch_palewood_reed_scrub",
-            "name": "Slatewing Wasp",
-            "family": "reed_wasp",
+            "name": "Field Wasp",
+            "family": "field_wasp",
             "tier": 2,
             "maxHealth": 9,
             "attackLevel": 2,
@@ -291099,7 +289354,7 @@
               }
             ]
           },
-          "bodyRadius": 0.39232891236571854
+          "bodyRadius": 0.37053554408951006
         },
         "pack_fallowmarch_corven_ford_southeast_pack": {
           "id": "creek_crab_t1",
@@ -291901,13 +290156,13 @@
           "bodyRadius": 0.449784
         },
         "population_bracken_north_striders": {
-          "id": "reed_wasp_t1",
-          "assetId": "creature_reed_wasp",
+          "id": "field_wasp_t1",
+          "assetId": "creature_field_wasp",
           "scale": 0.45,
           "stats": {
-            "id": "reed_wasp_t1",
-            "name": "Slatewing Wasp",
-            "family": "reed_wasp",
+            "id": "field_wasp_t1",
+            "name": "Field Wasp",
+            "family": "field_wasp",
             "tier": 2,
             "maxHealth": 9,
             "attackLevel": 2,
@@ -291945,7 +290200,7 @@
               }
             ]
           },
-          "bodyRadius": 0.39232891236571854
+          "bodyRadius": 0.37053554408951006
         },
         "population_northgate_outer_jacks": {
           "id": "granary_rat_t1",
@@ -292704,19 +290959,19 @@
         },
         "pack_vellenwood_marchgate_south_bramble": {
           "id": "pack_vellenwood_marchgate_south_bramble",
-          "assetId": "creature_moonweave_spider",
-          "scale": 0.82,
+          "assetId": "creature_webweaver_spider",
+          "scale": 0.8,
           "stats": {
             "id": "pack_vellenwood_marchgate_south_bramble",
-            "name": "Moonweaver",
-            "family": "moonweave_spider",
-            "tier": 8,
-            "maxHealth": 25,
-            "attackLevel": 9,
-            "defenceLevel": 7,
-            "accuracy": 10,
-            "armour": 8,
-            "magicArmour": 8,
+            "name": "Briar Weaver",
+            "family": "webweaver_spider",
+            "tier": 7,
+            "maxHealth": 22,
+            "attackLevel": 8,
+            "defenceLevel": 6,
+            "accuracy": 8,
+            "armour": 7,
+            "magicArmour": 7,
             "maxHit": 3,
             "attackSpeedMs": 2000,
             "aggroRadius": 10,
@@ -292724,27 +290979,12 @@
             "moveSpeedMps": 1.6,
             "walkSpeedMps": 0.4,
             "gold": [
-              24,
-              48
+              0,
+              0
             ],
             "attackStyle": "melee",
             "attackRangeM": 1.8,
             "lootRolls": [
-              {
-                "id": "gold",
-                "name": "Gold",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "gold",
-                    "quantity": [
-                      24,
-                      48
-                    ],
-                    "chance": 1
-                  }
-                ]
-              },
               {
                 "id": "items",
                 "name": "Items",
@@ -292757,20 +290997,35 @@
                       1
                     ],
                     "chance": 0.15
+                  }
+                ]
+              },
+              {
+                "id": "thread",
+                "name": "Thread",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "spider_thread",
+                    "quantity": [
+                      1,
+                      3
+                    ],
+                    "chance": 0.5
                   },
                   {
-                    "itemId": "earth_essence",
+                    "itemId": "venom_gland",
                     "quantity": [
                       1,
                       1
                     ],
-                    "chance": 0.25
+                    "chance": 0.1
                   }
                 ]
               }
             ]
           },
-          "bodyRadius": 0.27669209468314143
+          "bodyRadius": 0.4410036762894284
         },
         "pack_vellenwood_mossbound_west_bramble": {
           "id": "pack_vellenwood_mossbound_west_bramble",
@@ -293239,12 +291494,12 @@
         },
         "hollowroot_spider_residents": {
           "id": "hollowroot_spider_residents",
-          "assetId": "creature_hollowroot_spider",
-          "scale": 1,
+          "assetId": "creature_webweaver_spider",
+          "scale": 0.8,
           "stats": {
             "id": "hollowroot_spider_residents",
-            "name": "Rootweaver",
-            "family": "hollowroot_spider",
+            "name": "Briar Weaver",
+            "family": "webweaver_spider",
             "tier": 7,
             "maxHealth": 22,
             "attackLevel": 8,
@@ -293253,21 +291508,36 @@
             "armour": 7,
             "magicArmour": 7,
             "maxHit": 3,
-            "attackSpeedMs": 1200,
-            "aggroRadius": 6,
+            "attackSpeedMs": 2000,
+            "aggroRadius": 10,
             "behaviour": "aggressive",
-            "moveSpeedMps": 1.4,
-            "walkSpeedMps": 0.42,
+            "moveSpeedMps": 1.6,
+            "walkSpeedMps": 0.4,
             "gold": [
               0,
               0
             ],
             "attackStyle": "melee",
-            "attackRangeM": 2,
+            "attackRangeM": 1.8,
             "lootRolls": [
               {
                 "id": "items",
                 "name": "Items",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "earth_essence",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.15
+                  }
+                ]
+              },
+              {
+                "id": "thread",
+                "name": "Thread",
                 "count": 1,
                 "drops": [
                   {
@@ -293276,7 +291546,7 @@
                       1,
                       3
                     ],
-                    "chance": 0.75
+                    "chance": 0.5
                   },
                   {
                     "itemId": "venom_gland",
@@ -293290,7 +291560,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5512545953617854
+          "bodyRadius": 0.4410036762894284
         },
         "population_marchgate_root_maws": {
           "id": "thorn_maw_t10",
@@ -296574,7 +294844,7 @@
         "cinder_adders": {
           "id": "cinder_adders",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "cinder_adders",
             "name": "Ashen Ghoul",
@@ -296631,7 +294901,7 @@
               }
             ]
           },
-          "bodyRadius": 0.44156301424010574
+          "bodyRadius": 1.085210456615447
         },
         "kilnroad_reavers": {
           "id": "kilnroad_reavers",
@@ -297684,7 +295954,7 @@
         "population_emberfast_west_lanterns_1": {
           "id": "grave_lantern_t20",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "grave_lantern_t20",
             "name": "Ashen Ghoul",
@@ -297741,7 +296011,7 @@
               }
             ]
           },
-          "bodyRadius": 0.44156301424010574
+          "bodyRadius": 1.085210456615447
         },
         "population_emberfast_east_penitents": {
           "id": "cinder_penitent_t20",
@@ -297940,7 +296210,7 @@
         "population_ashback_north_lanterns": {
           "id": "grave_lantern_t20",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "grave_lantern_t20",
             "name": "Ashen Ghoul",
@@ -297997,7 +296267,7 @@
               }
             ]
           },
-          "bodyRadius": 0.44156301424010574
+          "bodyRadius": 1.085210456615447
         },
         "population_north_track_penitents": {
           "id": "cinder_penitent_t20",
@@ -300479,7 +298749,7 @@
         "wilderness_east_furnace_herd": {
           "id": "wilderness_east_furnace_herd",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "stats": {
             "id": "wilderness_east_furnace_herd",
             "name": "Furnace Grazer",
@@ -300559,11 +298829,11 @@
               }
             ]
           },
-          "bodyRadius": 3.018725052474558
+          "bodyRadius": 2.662388470212562
         },
         "wilderness_east_basalt_prowl": {
           "id": "wilderness_east_basalt_prowl",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "stats": {
             "id": "wilderness_east_basalt_prowl",
@@ -300652,7 +298922,7 @@
               }
             ]
           },
-          "bodyRadius": 1.7073109203022563
+          "bodyRadius": 2.6673230699942407
         },
         "wilderness_east_rift_carapaces": {
           "id": "wilderness_east_rift_carapaces",
@@ -301151,7 +299421,7 @@
         },
         "far_cinder_smithy_sentries": {
           "id": "far_cinder_smithy_sentries",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "stats": {
             "id": "far_cinder_smithy_sentries",
@@ -301240,7 +299510,7 @@
               }
             ]
           },
-          "bodyRadius": 1.7073109203022563
+          "bodyRadius": 2.6673230699942407
         },
         "nightglass_waterway_sentries": {
           "id": "nightglass_waterway_sentries",
@@ -301762,7 +300032,7 @@
         "wilderness_furnace_grazers": {
           "id": "wilderness_furnace_grazers",
           "assetId": "creature_furnace_grazer",
-          "scale": 1.35,
+          "scale": 1.2,
           "stats": {
             "id": "wilderness_furnace_grazers",
             "name": "Furnace Grazer",
@@ -301842,11 +300112,11 @@
               }
             ]
           },
-          "bodyRadius": 3.018725052474558
+          "bodyRadius": 2.662388470212562
         },
         "wilderness_basalt_maw_hollow": {
           "id": "wilderness_basalt_maw_hollow",
-          "assetId": "creature_furnace_grazer",
+          "assetId": "creature_basalt_maw",
           "scale": 0.754334697009733,
           "stats": {
             "id": "wilderness_basalt_maw_hollow",
@@ -301935,7 +300205,7 @@
               }
             ]
           },
-          "bodyRadius": 1.7073109203022563
+          "bodyRadius": 2.6673230699942407
         },
         "wilderness_foundry_west_carapaces": {
           "id": "wilderness_foundry_west_carapaces",
@@ -304770,7 +303040,7 @@
         "population_broken_watch_lanterns": {
           "id": "population_broken_watch_lanterns",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "population_broken_watch_lanterns",
             "name": "Ashen Ghoul",
@@ -304873,7 +303143,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47283809154664475
+          "bodyRadius": 1.162073870963953
         },
         "population_last_light_west_penitents": {
           "id": "population_last_light_west_penitents",
@@ -305310,7 +303580,7 @@
         "population_abbey_east_lanterns": {
           "id": "population_abbey_east_lanterns",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "population_abbey_east_lanterns",
             "name": "Ashen Ghoul",
@@ -305413,7 +303683,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47283809154664475
+          "bodyRadius": 1.162073870963953
         },
         "population_black_keep_east_reapers": {
           "id": "population_black_keep_east_reapers",
@@ -305634,7 +303904,7 @@
         "population_aqueduct_west_lanterns": {
           "id": "population_aqueduct_west_lanterns",
           "assetId": "creature_grave_lantern",
-          "scale": 0.92,
+          "scale": 1,
           "stats": {
             "id": "population_aqueduct_west_lanterns",
             "name": "Ashen Ghoul",
@@ -305737,7 +304007,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47283809154664475
+          "bodyRadius": 1.162073870963953
         },
         "population_silent_stones_reapers": {
           "id": "population_silent_stones_reapers",
@@ -315951,15 +314221,6 @@
         "tier": 25
       }
     },
-    "enemies:hollowroot_spider_t5": {
-      "collection": "creatureDefinitions",
-      "id": "hollowroot_spider_t5",
-      "formula": "creature.combat",
-      "profile": "skirmisher",
-      "inputs": {
-        "tier": 7
-      }
-    },
     "enemies:cinder_ravager_t20": {
       "collection": "creatureDefinitions",
       "id": "cinder_ravager_t20",
@@ -316014,24 +314275,6 @@
         "tier": 2
       }
     },
-    "enemies:heath_wasp_t1": {
-      "collection": "creatureDefinitions",
-      "id": "heath_wasp_t1",
-      "formula": "creature.combat",
-      "profile": "skirmisher",
-      "inputs": {
-        "tier": 2
-      }
-    },
-    "enemies:reed_wasp_t1": {
-      "collection": "creatureDefinitions",
-      "id": "reed_wasp_t1",
-      "formula": "creature.combat",
-      "profile": "skirmisher",
-      "inputs": {
-        "tier": 2
-      }
-    },
     "enemies:creek_crab_t1": {
       "collection": "creatureDefinitions",
       "id": "creek_crab_t1",
@@ -316075,15 +314318,6 @@
       "profile": "grazer",
       "inputs": {
         "tier": 1
-      }
-    },
-    "enemies:moonweave_spider_t5": {
-      "collection": "creatureDefinitions",
-      "id": "moonweave_spider_t5",
-      "formula": "creature.combat",
-      "profile": "skirmisher",
-      "inputs": {
-        "tier": 8
       }
     },
     "enemies:rimeback_tortoise_t10": {
@@ -316480,15 +314714,6 @@
       "profile": "brute",
       "inputs": {
         "tier": 47
-      }
-    },
-    "enemies:lantern_sprite_t30": {
-      "collection": "creatureDefinitions",
-      "id": "lantern_sprite_t30",
-      "formula": "creature.combat",
-      "profile": "skirmisher",
-      "inputs": {
-        "tier": 30
       }
     },
     "enemies:moonpetal_stalker_t30": {
@@ -318774,7 +316999,7 @@
       "formula": "creature.combat",
       "profile": "skirmisher",
       "inputs": {
-        "tier": 8
+        "tier": 7
       }
     },
     "enemies:pack_vellenwood_mossbound_west_bramble": {
@@ -319999,7 +318224,7 @@
       "collection": "placements",
       "id": "population_bracken_north_striders",
       "inputs": {
-        "encounterId": "reed_wasp_t1_prowl"
+        "encounterId": "field_wasp_t1_prowl"
       }
     },
     "placements:population_northgate_outer_jacks": {

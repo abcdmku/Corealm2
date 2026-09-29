@@ -87,7 +87,7 @@ async function run(): Promise<void> {
   const roster: any[] = await page.evaluate(async () => {
     const d: any = window.__gameDebug;
     return (await d.listEntities()).filter((e: any) => e.combat || e.view?.assetId?.startsWith('animal_')
-      || /^creature_(redbrush_fox|marchwild_horse|reedbank_goose|marchfield_turkey|field_wasp|heath_wasp|reed_wasp)$/.test(e.view?.assetId ?? '')).map((e: any) => ({
+      || /^creature_(redbrush_fox|marchwild_horse|reedbank_goose|marchfield_turkey|field_wasp)$/.test(e.view?.assetId ?? '')).map((e: any) => ({
       id: e.id, groupId: e.meta?.groupId, archetype: e.archetype, family: e.meta?.family,
       regionId: e.regionId, tier: e.tier, state: e.state, position: e.position,
       assetId: e.view?.assetId, scale: e.view?.scale, materialTier: e.view?.materialTier,

@@ -3244,7 +3244,7 @@
   {
     "id": "slayer_aevra_trails",
     "speaker": "Master Aevra",
-    "text": "Lantern sprites drift along the lit paths. Moonpetal stalkers defend their beds, and the deeper dewglass weavers keep to the shaded trellises. Watch a creature before you approach it. A forager may ignore you; the one guarding a bloom may not.",
+    "text": "Lantern imps drift along the lit paths. Moonpetal stalkers defend their beds, and the deeper dewglass weavers keep to the shaded trellises. Watch a creature before you approach it. A forager may ignore you; the one guarding a bloom may not.",
     "options": [
       {
         "id": "slayer_aevra_trails#back",

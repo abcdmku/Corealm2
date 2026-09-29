@@ -201,7 +201,11 @@ export function createMaskedHitOverlay(
   // accessory "root" hanging off the spine moves with the spine anyway.
   const carriedByUpperBody=(bone:THREE.Object3D)=>{for(let node=bone.parent;node;node=node.parent)if(upperName.test(node.name)||headName.test(node.name))return true;return false;};
   for(const bone of bones)if((/root|main|hips|pelvis/i.test(bone.name) && !/tree/i.test(bone.name) && !carriedByUpperBody(bone)) || bone.name==='beetle_1_Bone')blocked.add(bone);
-  const knownUpright = bones.some(bone => /^(lava_src_|earth_|forest_src_)/.test(bone.name)) || isNamedUprightBiped(bones);
+  // A legless floating body (robed spirits on the UE mannequin chain) has no planted support at all,
+  // so its spine, arms and head can take the whole recoil.
+  const names=new Set(bones.map(bone=>bone.name));
+  const floatingUpright = !supports.length && ['pelvis','spine_01','clavicle_l','clavicle_r'].every(name=>names.has(name));
+  const knownUpright = floatingUpright || bones.some(bone => /^(lava_src_|earth_|forest_src_)/.test(bone.name)) || isNamedUprightBiped(bones);
   const safe = new Set(bones.filter(bone => !blocked.has(bone)
     && !/IK|target/i.test(bone.name)
     && (headName.test(bone.name) || beetleUpper.test(bone.name) || (knownUpright && (upperName.test(bone.name) || hasArmAncestor(bone))))));
@@ -211,7 +215,7 @@ export function createMaskedHitOverlay(
   }
   const result: MaskedHitOverlayResult = { clip:null, status:"no-safe-mask", sourceClip:nativeHit.name,
     boneNames:[], excludedBoneNames:bones.filter(bone=>!safe.has(bone)).map(bone=>bone.name),protectedBoneNames:bones.filter(bone=>blocked.has(bone)).map(bone=>bone.name) };
-  if ((!supports.length && !explicit) || !safe.size || !(nativeHit.duration > 0) || !Number.isFinite(nativeHit.duration)) return result;
+  if ((!supports.length && !explicit && !floatingUpright) || !safe.size || !(nativeHit.duration > 0) || !Number.isFinite(nativeHit.duration)) return result;
   const reference = new Map<THREE.Bone, THREE.KeyframeTrack>();
   for (const track of referenceIdle.tracks) { const bone=trackBone(root,track);if(bone)reference.set(bone,track); }
   const tracks: THREE.QuaternionKeyframeTrack[] = [];

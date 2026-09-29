@@ -7,19 +7,19 @@ import type { HabitatDef } from './worldHabitats.js';
 /** Compact undressed encounters. No disabled regional-pack dressing is activated here. */
 const pockets = [
  ['gloam_fox', -280, -145], ['redbrush_fox', -280, -115],
- ['moonweave_spider', 23, 29], ['webweaver_spider', 279, 91],
+ ['webweaver_spider', 279, 91],
  ['rimeback_tortoise', 305, -43], ['slateback_tortoise', 7, -14],
  ['cindercrest_salamander', -258, 238], ['kiln_salamander', 214, 427],
 ] as const;
 const reservedPockets: Readonly<Record<string, string>> = {
- moonweave_spider: 'pack_vellenwood_marchgate_south_bramble',
  webweaver_spider: 'pack_vellenwood_mossbound_west_bramble',
  rimeback_tortoise: 'pack_karrowmoor_tarn_track_east_mandibles',
  slateback_tortoise: 'pack_karrowmoor_moor_road_far_west_watch',
  cindercrest_salamander: 'pack_kilnhalt_clinker_southern_approach_west',
  kiln_salamander: 'pack_kilnhalt_cinderpine_northwest_outer',
 };
-export const REGIONAL_VARIANT_RESERVED_PACK_IDS = Object.values(reservedPockets);
+// Briar Weavers hold the Marchgate south bramble through its authored content placement.
+export const REGIONAL_VARIANT_RESERVED_PACK_IDS = [...Object.values(reservedPockets), 'pack_vellenwood_marchgate_south_bramble'];
 const catalogue = [...REGIONAL_CREATURE_VARIANTS, ...CREATURE_EXPANSION, ...RPG_BESTIARY];
 export const REGIONAL_VARIANT_HABITATS: readonly HabitatDef[] = pockets.map(([id,x,z]) => {
  const species=catalogue.find(row=>row.id===id)!;

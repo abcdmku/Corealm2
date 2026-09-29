@@ -10,7 +10,7 @@
  * metadata left by retired repair pipelines is dropped. Dry run unless --apply.
  */
 import { createHash } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { measureCreatureGlb, type MotionMeasurement } from "./measure.js";
 
@@ -53,12 +53,18 @@ type Entry = Record<string, unknown> & { id: string; file: string };
 interface Candidate { id: string; file?: string; candidateFile?: string; motionProvenance?: unknown; contactNormalized?: number; [key: string]: unknown }
 
 const catalogFile = path.resolve(catalogPath);
-const catalog = JSON.parse(await readFile(catalogFile, "utf8")) as { assets: Candidate[] };
+const catalog = JSON.parse(await readFile(catalogFile, "utf8")) as {
+  assets: Candidate[];
+  /** Source packs the candidates come from; merged into the manifest by id. */
+  packs?: { id: string; [key: string]: unknown }[];
+  /** Asset ids whose last wearer was consolidated away; removed from the manifest with their GLB. */
+  retireAssetIds?: string[];
+};
 const ids = args.includes("--all") ? catalog.assets.map((asset) => asset.id) : (option("--ids") ?? "").split(",").filter(Boolean);
 if (!ids.length) throw new Error("Use --ids a,b or --all");
 
 const manifestPath = path.join(repo, "game/public/assets/manifest.json");
-const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as { assets: Entry[] };
+const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as { assets: Entry[]; packs: { id: string }[] };
 const timingPath = path.join(repo, "game/src/content/creatureMotionTiming.ts");
 const timing = await import(`file:///${timingPath.replace(/\\/g, "/")}?t=${Date.now()}`) as {
   CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNormalized: number }>;
@@ -123,11 +129,24 @@ for (const entry of manifest.assets) {
     ? manifest.assets.find((asset) => asset.id === provenance.sourceAssetId) : undefined;
   if (source) provenance!.sourceSha256 = source.sha256 as string;
 }
+for (const pack of catalog.packs ?? []) {
+  const index = manifest.packs.findIndex((existing) => existing.id === pack.id);
+  if (index >= 0) manifest.packs[index] = { ...manifest.packs[index], ...pack }; else manifest.packs.push(pack);
+}
+const retired = catalog.retireAssetIds ?? [];
+for (const id of retired) {
+  const index = manifest.assets.findIndex((asset) => asset.id === id);
+  if (index < 0) continue;
+  await rm(path.join(repo, "game/public/assets", manifest.assets[index]!.file), { force: true });
+  manifest.assets.splice(index, 1);
+  delete motionTiming[id]; delete pursuit[id]; delete walkCeiling[id];
+}
 await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 // Verdicts recorded against the replaced bytes no longer describe what ships: back to the review queue.
 const metaPath = path.join(repo, "game/content/meta/assets.meta.json");
 const meta = JSON.parse(await readFile(metaPath, "utf8")) as Record<string, { art?: unknown; history?: unknown[] }>;
 const at = new Date().toISOString();
+for (const id of retired) delete meta[id];
 for (const id of ids) {
   const record = meta[id];
   if (!record?.art) continue;

@@ -5,10 +5,10 @@ import type { HabitatDef } from "./worldHabitats.js";
 /** Small encounters in existing screened pack pockets. No camp props for wild creatures. */
 const pockets = [
   ["marchfield_east_wolf_ground", "grass_viper", -47, 45, 3],
-  // One of each wasp replaces the original three identical residents in this pocket.
+  // Three single Field Wasps replace the original three identical residents in this pocket.
   ["palewood_far_south_scrub", "field_wasp", -338, -134, 1],
-  ["palewood_heath_scrub", "heath_wasp", -332, -134, 1],
-  ["palewood_reed_scrub", "reed_wasp", -335, -129, 1],
+  ["palewood_heath_scrub", "field_wasp", -332, -134, 1],
+  ["palewood_reed_scrub", "field_wasp", -335, -129, 1],
   ["corven_ford_southeast_pack", "creek_crab", -40, -170, 3],
   ["bracken_northeast_spiders", "briar_spider", -104, 133, 3],
   ["coldbrace_northwest_raiders", "granary_rat", -176, -18, 3],
