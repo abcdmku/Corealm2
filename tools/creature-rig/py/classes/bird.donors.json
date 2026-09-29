@@ -1,0 +1,57 @@
+{
+  "donors": {
+    "chicken": {
+      "rig": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Models/Chicken_Rig.fbx",
+      "takes": {
+        "Idle": { "file": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Animations/Chicken_Idle.fbx", "range": [1, 180] },
+        "Walk": { "file": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Animations/Chicken_Walk.fbx", "range": [1, 31] },
+        "Run": { "file": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Animations/Chicken_Run.fbx", "range": [1, 17] }
+      },
+      "source": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence"
+    },
+    "chicken_reach": {
+      "rig": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Models/Chicken_Rig.fbx",
+      "takes": {
+        "Die": { "file": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Animations/Chicken_Die.fbx", "range": [1, 45] },
+        "PeckDown": { "file": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Animations/Chicken_Eat.fbx", "range": [1, 20] },
+        "PeckUp": { "file": "C:/Users/Borg/.t3/tmp/animalpack/extracted/Assets/Animal pack deluxe/Animations/Chicken_Eat.fbx", "range": [214, 230] }
+      },
+      "map": {
+        "Chicken_Chest_01_03SHJnt": null
+      },
+      "source": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence"
+    }
+  },
+  "primary": "chicken",
+  "profiles": {
+    "fowl": {
+      "strideScale": 0.7,
+      "clips": {
+        "Idle": { "donor": "chicken", "clip": "Idle", "loop": true },
+        "Walk": { "donor": "chicken", "clip": "Walk", "loop": true },
+        "Run": { "donor": "chicken", "clip": "Run", "loop": true },
+        "Attack": {
+          "donor": "chicken_reach",
+          "clip": ["PeckDown", "PeckUp"]
+        },
+        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical" }
+      }
+    },
+    "wader": {
+      "strideScale": 0.5,
+      "wings": false,
+      "rigidPieces": false,
+      "hipMotion": 0.6,
+      "clips": {
+        "Idle": { "donor": "chicken", "clip": "Idle", "loop": true },
+        "Walk": { "donor": "chicken", "clip": "Walk", "loop": true },
+        "Run": { "donor": "chicken", "clip": "Run", "loop": true },
+        "Attack": {
+          "donor": "chicken_reach",
+          "clip": ["PeckDown", "PeckUp"]
+        },
+        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical" }
+      }
+    }
+  }
+}
