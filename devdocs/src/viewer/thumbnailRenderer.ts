@@ -55,24 +55,29 @@ function idle(): Promise<void> {
 }
 
 /**
- * A PNG of the canvas as just drawn. `toDataURL` on a WebGPU canvas makes the page wait for the GPU
- * to finish and read the pixels back, which is the pause a tile coming into view caused. The
- * snapshot is taken in the caller's task (so it is this frame) and encoded off the page's thread.
+ * A PNG of pixels read back from the GPU. The pixels arrive premultiplied (the stage clears to
+ * transparent black) and bottom row first under the WebGL2 fallback; a PNG wants neither.
  */
-async function snapshotPng(canvas: HTMLCanvasElement): Promise<string> {
-  if (typeof createImageBitmap !== 'function' || typeof OffscreenCanvas !== 'function') return canvas.toDataURL('image/png');
-  const bitmap = await createImageBitmap(canvas);
-  try {
-    const copy = new OffscreenCanvas(bitmap.width, bitmap.height);
-    copy.getContext('2d')!.drawImage(bitmap, 0, 0);
-    const blob = await copy.convertToBlob({ type: 'image/png' });
-    return await new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result));
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(blob);
-    });
-  } finally { bitmap.close(); }
+async function encodePng(pixels: Uint8Array, flipY: boolean): Promise<string> {
+  const size = THUMBNAIL_SIZE, row = size * 4;
+  const image = new ImageData(size, size);
+  for (let y = 0; y < size; y++) {
+    const from = (flipY ? size - 1 - y : y) * row;
+    for (let x = 0; x < row; x += 4) {
+      const alpha = pixels[from + x + 3]!, at = y * row + x;
+      const scale = alpha ? 255 / alpha : 0;
+      image.data[at] = Math.min(255, Math.round(pixels[from + x]! * scale));
+      image.data[at + 1] = Math.min(255, Math.round(pixels[from + x + 1]! * scale));
+      image.data[at + 2] = Math.min(255, Math.round(pixels[from + x + 2]! * scale));
+      image.data[at + 3] = alpha;
+    }
+  }
+  const canvas = new OffscreenCanvas(size, size);
+  canvas.getContext('2d')!.putImageData(image, 0, 0);
+  const bytes = new Uint8Array(await (await canvas.convertToBlob({ type: 'image/png' })).arrayBuffer());
+  let binary = '';
+  for (let at = 0; at < bytes.length; at += 0x8000) binary += String.fromCharCode(...bytes.subarray(at, at + 0x8000));
+  return `data:image/png;base64,${btoa(binary)}`;
 }
 
 class ThumbnailStage {
@@ -81,6 +86,13 @@ class ThumbnailStage {
   private readonly camera = new THREE.PerspectiveCamera(38, 1, .01, 2000);
   private readonly stage = new THREE.Group();
   private environment?: THREE.RenderTarget;
+  /**
+   * Frames are drawn here, not to the canvas, and read back with an async copy. Reading a WebGPU
+   * canvas (`toDataURL`, `createImageBitmap`) holds the page until the GPU has drained, and on a busy
+   * GPU that froze the tab while a page of tiles rendered. As the output target it still gets tone
+   * mapping and the sRGB transfer, like the canvas did.
+   */
+  private readonly output = new THREE.RenderTarget(THUMBNAIL_SIZE, THUMBNAIL_SIZE, { depthBuffer: false });
   lost = false;
 
   constructor() {
@@ -97,6 +109,7 @@ class ThumbnailStage {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.setClearColor(THUMBNAIL_BACKGROUND, THUMBNAIL_BACKGROUND_ALPHA);
+    this.renderer.setOutputRenderTarget(this.output);
     this.scene.environmentIntensity = .65;
     // Same rig as ViewerCore / production itemIconRenderer so tiles match the viewer.
     this.scene.add(new THREE.HemisphereLight(0xfff1dc, 0x302821, 1.25));
@@ -165,9 +178,9 @@ class ThumbnailStage {
       // and a page of creature tiles would hold the page for as long as that takes on a slow GPU.
       await this.renderer.compileAsync(this.scene, this.camera).catch(() => undefined);
       this.renderer.render(this.scene, this.camera);
-      // Read the canvas in the same task as the draw, before the frame is presented.
       if (this.lost || this.renderer.info.render.triangles === 0) return undefined;
-      return await snapshotPng(this.renderer.domElement as HTMLCanvasElement);
+      const pixels = await this.renderer.readRenderTargetPixelsAsync(this.output, 0, 0, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+      return await encodePng(pixels as Uint8Array, !(this.renderer.backend as { isWebGPUBackend?: boolean }).isWebGPUBackend);
     } finally {
       mixer.stopAllAction();
       mixer.uncacheRoot(model.animationRoot);
@@ -179,6 +192,7 @@ class ThumbnailStage {
     this.scene.traverse(object => { if (object instanceof THREE.DirectionalLight) object.shadow.dispose(); });
     this.scene.clear();
     this.environment?.dispose();
+    this.output.dispose();
     this.renderer.dispose();
   }
 }

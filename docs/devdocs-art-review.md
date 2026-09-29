@@ -144,9 +144,11 @@ selected in the Variants strip, base or variant.
 
 ### Thumbnails (September 28, 2026)
 
-Creature thumbnails for the base game ship with the build in `game/public/assets/thumbnails/`
-(`index.json` lists the keys), baked by `npx tsx tools/bake-art-thumbnails.ts --base <repo devdocs>`.
+Thumbnails of the base game's creatures, and of the body models they wear, ship with the build in
+`game/public/assets/thumbnails/` (`index.json` lists the keys), baked by
+`npx tsx tools/bake-art-thumbnails.ts --base <repo devdocs>`.
 The editor uses a shipped thumbnail first, then its cache (the checkout's, or a live server's file
 store), and renders only what neither has: a look a server changed. Re-run the bake after creature
 looks change so the base game's tiles stay free to show. Renders take turns on one stage and wait for
-idle time, so scrolling stays responsive while one is drawn.
+idle time, and each frame is drawn to a render target and read back asynchronously: reading a WebGPU
+canvas waits for the GPU to drain, which froze the tab while a page of tiles rendered.

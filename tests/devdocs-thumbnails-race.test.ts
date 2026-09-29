@@ -12,10 +12,16 @@ let drawn = "";
 vi.mock("three/webgpu", async original => ({
   ...await original<typeof import("three/webgpu")>(),
   WebGPURenderer: class {
-    shadowMap = {}; info = { render: { triangles: 12 } };
-    domElement = { toDataURL: () => `data:image/png;base64,${Buffer.from(drawn).toString("base64")}` };
+    shadowMap = {}; info = { render: { triangles: 12 } }; backend = { isWebGPUBackend: true };
     onDeviceLost?: () => void; outputColorSpace = ""; toneMapping = 0; toneMappingExposure = 1;
-    async init() {} setPixelRatio() {} setSize() {} setClearColor() {} dispose() {}
+    async init() {} setPixelRatio() {} setSize() {} setClearColor() {} setOutputRenderTarget() {} dispose() {}
+    /** The copy is queued with the draw: it holds what was drawn then, one opaque pixel per character. */
+    async readRenderTargetPixelsAsync(_target: unknown, _x: number, _y: number, width: number, height: number) {
+      const pixels = new Uint8Array(width * height * 4);
+      [...drawn].forEach((char, index) => pixels.set([char.charCodeAt(0), 0, 0, 255], index * 4));
+      await new Promise(resolve => setTimeout(resolve, 5));
+      return pixels;
+    }
     async compileAsync() { await new Promise(resolve => setTimeout(resolve, 5)); }
     render(scene: THREE.Scene) {
       const names: string[] = [];
@@ -40,6 +46,17 @@ const CAPABILITIES: DevdocsCapabilities = { write: true, meta: false, requests: 
 
 beforeEach(() => {
   vi.stubGlobal("document", { createElement: () => ({ width: 0, height: 0 }), baseURI: "http://localhost:5173/" });
+  vi.stubGlobal("ImageData", class { data: Uint8ClampedArray; constructor(width: number, height: number) { this.data = new Uint8ClampedArray(width * height * 4); } });
+  // The "PNG" is the red channel of the opaque pixels, so the test reads back what was drawn.
+  vi.stubGlobal("OffscreenCanvas", class {
+    image?: ImageData;
+    getContext() { return { putImageData: (image: ImageData) => { this.image = image; } }; }
+    async convertToBlob() {
+      const text: number[] = [];
+      for (let at = 0; this.image!.data[at + 3] === 255; at += 4) text.push(this.image!.data[at]!);
+      return new Blob([String.fromCharCode(...text)]);
+    }
+  });
   setBackend({ kind: "repo", label: "repo", assetBaseUrl: "", capabilities: CAPABILITIES } as Partial<DevdocsBackend> as DevdocsBackend);
 });
 afterEach(() => { vi.unstubAllGlobals(); });

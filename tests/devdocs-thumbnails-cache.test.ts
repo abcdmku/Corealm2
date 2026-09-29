@@ -14,9 +14,10 @@ let renders = 0;
 vi.mock("three/webgpu", async original => ({
   ...await original<typeof import("three/webgpu")>(),
   WebGPURenderer: class {
-    shadowMap = {}; info = { render: { triangles: 12 } }; domElement = { toDataURL: () => PNG };
+    shadowMap = {}; info = { render: { triangles: 12 } }; backend = { isWebGPUBackend: true };
     onDeviceLost?: () => void; outputColorSpace = ""; toneMapping = 0; toneMappingExposure = 1;
-    async init() {} setPixelRatio() {} setSize() {} setClearColor() {} dispose() {}
+    async init() {} setPixelRatio() {} setSize() {} setClearColor() {} setOutputRenderTarget() {} dispose() {}
+    async readRenderTargetPixelsAsync(_target: unknown, _x: number, _y: number, width: number, height: number) { return new Uint8Array(width * height * 4); }
     render() { renders++; }
     async compileAsync() {}
   },
@@ -47,6 +48,11 @@ function install(kind: "repo" | "server", capabilities: Partial<DevdocsCapabilit
 beforeEach(async () => {
   renders = 0;
   vi.stubGlobal("document", { createElement: () => ({ width: 0, height: 0 }), baseURI: "http://localhost:5173/" });
+  vi.stubGlobal("ImageData", class { data: Uint8ClampedArray; constructor(width: number, height: number) { this.data = new Uint8ClampedArray(width * height * 4); } });
+  vi.stubGlobal("OffscreenCanvas", class {
+    getContext() { return { putImageData() {} }; }
+    async convertToBlob() { return new Blob([Buffer.from(PNG.split(",")[1]!, "base64")]); }
+  });
   (await import("../devdocs/src/viewer/registry.js")).setContentFiles("", {});
 });
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
