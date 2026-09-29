@@ -317,7 +317,7 @@ def fit(body, donor, profile, source=None):
     sk.add("root", None, np.array([mid_x, 0.0, hub_z]), np.array([mid_x, 0.1 * H, hub_z]), donor=lay["root"], follow=0.0, kind="root")
     sk.add("body", "root", hub, front_pt, donor=lay["hub"], follow=0.0)
     if np.linalg.norm(rear_pt - hub) > 0.1 * S:
-        sk.add("abdomen", "body", hub, rear_pt, donor=None, follow=0.0)
+        sk.add("abdomen", "body", hub, rear_pt, donor=lay.get("abdomen"), follow=0.0)
 
     leg_follow = profile.get("legFollow", 0.0)
     for side, _ in SIDES:
@@ -366,7 +366,14 @@ def fit(body, donor, profile, source=None):
             check[f"{g['side']}{g['order']}"] = {"hip": round(float(np.linalg.norm(pos[lateral[0]] - mine["hip"]) / S), 3),
                                                   "tip": round(float(np.linalg.norm(pos[g["tip"]] - mine["tip"]) / S), 3)}
         notes["sourceCheck"] = {"file": source.get("file"), "legs": len(source["labels"]["legs"]), "offsetsOverSize": check}
-    sk.arth = {"subset": subset, "legs": {s: [g.get("bones") for g in fitted[s] if g.get("bones")] for s in fitted}, "blob": blob}
+    pads = []
+    for side in fitted:
+        for g in fitted[side]:
+            h, t = g["joints"][2], g["joints"][3]
+            pads.append(np.median([body.radius_at(h + u * (t - h)) for u in (0.3, 0.5, 0.7)]) / max(np.linalg.norm(t - h), 1e-9))
+    notes["footPad"] = round(float(np.median(pads)), 3) if pads else 0.0
+    sk.arth = {"pad": notes["footPad"], "subset": subset, "legs": {s: [g.get("bones") for g in fitted[s] if g.get("bones")] for s in fitted}, "blob": blob,
+               "bodyLength": float(np.ptp(V[:, 2])), "belly": float(bp[:, 1].min())}
     return sk, notes
 
 
@@ -389,12 +396,17 @@ def donor_map(sk, donor, profile):
     lay = _layout(donor)
     _damp_rise(donor, lay, profile)
     _rebase_palps(donor, lay, profile)
+    _crouch(sk, donor, lay, profile)
+    _scuttle(sk, donor, lay, profile)
+    _hit_beat(sk, donor, lay, profile)
     out = {}
     for b in sk.bones:
         if b.name == "root":
             out[b.name] = lay["root"]
         elif b.name == "body":
             out[b.name] = lay["hub"]
+        elif b.name == "abdomen":
+            out[b.name] = lay.get("abdomen")
         elif b.name.startswith("leg_"):
             side, order, k = b.name[4], int(b.name[5]), int(b.name.split("_")[-1]) - 1
             idx = sk.arth["subset"][order]
@@ -415,7 +427,7 @@ def cloth(body, sk, profile, heat):
     the limb bone heat mostly gives it to, else the nearest capsule). A vertex keeps only its own
     limb's weight plus the carapace, so a foot modelled against its neighbour never takes that
     neighbour's weight, and the shell carries no limb weight except in a thin band at each limb's
-    base: plates stay rigid. When bone heat fails outright, envelope weights stand in for it."""
+    base: plates stay rigid."""
     from crlib.skin import segment_distance
 
     V = body.verts
@@ -441,18 +453,6 @@ def cloth(body, sk, profile, heat):
             radii.append(max(np.median([body.radius_at(p) for p in samples]), body.h))
         D[:, k] = (segment_distance(V, heads, tails) - np.array(radii)[None, :]).min(1)
     band = profile.get("hipBand", 1.5) * body.h
-    empty = heat.sum(1) < 1e-6
-    if empty.mean() > 0.3:
-        # Bone heat failed on this mesh (it does on some loose-piece Tripo meshes): envelope
-        # weights from the capsule distances instead, written into the heat the skin step reads.
-        heads = np.array([b.head for b in sk.bones])
-        tails = np.array([b.tail for b in sk.bones])
-        radii = np.array([max(body.radius_at(0.5 * (b.head + b.tail)), body.h) for b in sk.bones])
-        d = np.maximum(segment_distance(V[empty], heads, tails) - radii[None, :], 0.0) + 0.5 * radii[None, :]
-        w = 1.0 / d ** 4
-        w[:, [i for i, b in enumerate(sk.bones) if b.kind == "root"]] = 0.0
-        heat[empty] = w / w.sum(1, keepdims=True)
-        sk.arth["heatFallback"] = float(empty.mean())
     # Which limb a vertex belongs to: the limb bone heat mostly gives it to (heat spreads inside
     # the surface, so a pincer's finger stays with the pincer even where a leg passes close
     # behind it); where heat is split between limbs (feet modelled touching), the nearest capsule.
@@ -525,11 +525,12 @@ def _damp_rise(donor, lay, profile):
 
 
 def _rebase_palps(donor, lay, profile):
-    """The scorpion's Walk and Run takes hold the pedipalps 22-25 degrees off the rig's rest for the
-    whole cycle (their take files carry another rest), while Idle holds them at rest. On a crab's
+    """The scorpion's Walk and Run takes hold the pedipalps 22-25 degrees (the tail base 5) off the
+    rig's rest for the whole cycle (their take files carry another rest), while Idle holds them at
+    rest. On a crab's
     claw that is a visible roll every time the gait starts. In loop takes the palps' motion is
     taken relative to the take's first frame instead, so only the cycle's own movement transfers."""
-    palps = [b for side in (lay.get("palps") or {}).values() for b in side]
+    palps = [b for side in (lay.get("palps") or {}).values() for b in side] + ([lay["abdomen"]] if lay.get("abdomen") else [])
     if not palps or not profile.get("palpRebase", True):
         return
     done = getattr(donor, "_rebased", set())
@@ -543,6 +544,211 @@ def _rebase_palps(donor, lay, profile):
             frames[:, i] = frames[:, i] @ fix
         done.add(spec["clip"])
     donor._rebased = done
+
+
+def _leg_scale(sk, donor, lay):
+    """The core's size ratio (target leg length over donor leg length, the pairs in use), so a
+    stride authored in body lengths lands at the same size after retargeting."""
+    t, d = [], []
+    for side in ("l", "r"):
+        for o, bones in enumerate(sk.arth["legs"][side]):
+            t.append(sum(np.linalg.norm(sk[b].tail - sk[b].head) for b in bones))
+            chain = lay["legs"][side][sk.arth["subset"][o]]
+            J = [donor.rest_head[b] for b in chain] + [donor.rest_tail[chain[-1]]]
+            d.append(sum(np.linalg.norm(J[i + 1] - J[i]) for i in range(len(J) - 1)))
+    return float(np.mean(t) / np.mean(d)), float(np.mean(t))
+
+
+def _tip_path(donor, clip, bone):
+    heads = donor.clips[clip]["heads"]
+    frames = donor.clips[clip]["frames"]
+    i = donor.index(bone)
+    return heads[:, i] + np.einsum("fij,j->fi", frames[:, i], donor.rest_frame[bone].T @ (donor.rest_tail[bone] - donor.rest_head[bone]))
+
+
+def _crouch(sk, donor, lay, profile):
+    """profile "crouch": {State: share of the hips' height}: the body rides that much lower for
+    the whole take (the hub's path is lowered; the leg tips stay where the donor puts them, so the
+    legs bend more). A scuttle runs crouched, and the weavers stand in the low, splayed crouch
+    their production idle had."""
+    done = getattr(donor, "_crouched", set())
+    if sk.arth["pad"] > profile.get("stumpyPad", 0.2):
+        # Stumpy feet (the slag crawler's pads are a third as thick as they are long) cannot bend
+        # under a lower body: the pad tips and digs into the floor. They stand as modelled.
+        return
+    i = donor.index(lay["hub"])
+    scale, _ = _leg_scale(sk, donor, lay)
+    for state, share in (profile.get("crouch") or {}).items():
+        spec = profile["clips"].get(state)
+        if not spec or spec["donor"] != donor.key or spec["clip"] not in donor.clips or spec["clip"] in done:
+            continue
+        # A low-slung body (the slag crawler) has little room under its belly: never more than
+        # half of it.
+        drop = min(share * sk["body"].head[1], 0.5 * sk.arth["belly"])
+        donor.clips[spec["clip"]]["heads"][:, i, 1] -= drop / scale
+        done.add(spec["clip"])
+    donor._crouched = done
+
+
+def _scuttle(sk, donor, lay, profile):
+    """profile "stride": {State: body lengths per cycle}, "duty": {State: stance share}.
+
+    The scorpion's takes cover about 0.07 body lengths a cycle, which no chase cadence can turn
+    into a monster's pace. Each leg keeps the donor's timing (when it lifts and lands, so the
+    tripod or tetrapod phase is the donor's), but its tip path is re-drawn at the stride asked
+    for: planted, it slides straight back under the body at a constant speed (the ground speed of
+    an in-place cycle); lifted, it swings forward on an eased arc whose height grows with the
+    sweep. A Run may shorten its stance ("duty") around the donor's own swing centre, as scuttling
+    arthropods do. The sweep is shared by every leg (all planted tips slide at one speed) and
+    capped by the leg with the least fore-aft room; each leg centres it where it can reach. The
+    donor's sideways tip motion is kept. The core's chain IK then plants each tip on this path."""
+    strides = profile.get("stride") or {}
+    if not strides:
+        return
+    done = getattr(donor, "_scuttled", set())
+    scale, leg = _leg_scale(sk, donor, lay)
+    for state, bl in strides.items():
+        spec = profile["clips"].get(state)
+        if not spec or spec["donor"] != donor.key or not spec.get("loop") or spec["clip"] not in donor.clips or spec["clip"] in done:
+            continue
+        clip = spec["clip"]
+        heads = donor.clips[clip]["heads"]
+        n = len(heads)
+        P = n - 1  # the takes close on their first frame
+        report = []
+        # Every planted tip must slide at one speed, so the sweep is shared; each leg centres it
+        # where it can reach (a front leg reaches further back than forward).
+        reach = {}
+        for side in ("l", "r"):
+            for o, bones in enumerate(sk.arth["legs"][side]):
+                hip, tip0 = sk[bones[0]].head, sk[bones[-1]].tail
+                L = profile.get("reach", 0.95) * sum(np.linalg.norm(sk[b].tail - sk[b].head) for b in bones)
+                rel = tip0 - hip
+                rel[1] += (profile.get("crouch") or {}).get(state, 0.0) * sk["body"].head[1]
+                # |rel + dz * z| <= L  ->  dz in [-b - sqrt(disc), -b + sqrt(disc)]
+                disc = rel[2] ** 2 - (rel @ rel - L * L)
+                r = np.sqrt(max(disc, 0.0))
+                reach[(side, o)] = (-rel[2] - r, -rel[2] + r)
+            room = min(hi - lo for lo, hi in reach.values())
+        for side in ("l", "r"):
+            for o in range(len(sk.arth["legs"][side])):
+                chain = lay["legs"][side][sk.arth["subset"][o]]
+                last = chain[-1]
+                tip = _tip_path(donor, clip, last)
+                y = tip[:P, 1]
+                up = y > y.min() + 0.25 * np.ptp(y)
+                if not up.any() or up.all():
+                    continue
+                # Swing centre on the circle of frames (the donor's timing for this leg).
+                ang = 2 * np.pi * np.arange(P) / P
+                centre = (np.angle(np.sum(up * np.exp(1j * ang))) % (2 * np.pi)) / (2 * np.pi) * P
+                duty = (profile.get("duty") or {}).get(state, 1.0 - up.mean())
+                swing = (1.0 - duty) * P
+                sweep_t = min(bl * sk.arth["bodyLength"] * duty, room)
+                lo, hi = reach[(side, o)]
+                centre_t = float(np.clip(0.0, lo + sweep_t / 2, hi - sweep_t / 2))
+                sweep, shift = sweep_t / scale, centre_t / scale
+                lift = max(float(np.ptp(y)), profile.get("liftShare", 0.3) * sweep)
+                rest = donor.rest_tail[last]
+                new = tip.copy()
+                for f in range(n):
+                    u = ((f - (centre - swing / 2)) % P) / swing  # 0..1 in swing, >1 in stance
+                    if u <= 1.0:
+                        e = u * u * u * (u * (6 * u - 15) + 10)
+                        dz = shift - sweep / 2 + sweep * e
+                        dy = lift * np.sin(np.pi * u)
+                    else:
+                        v = (u * swing - swing) / (P - swing)
+                        dz = shift + sweep / 2 - sweep * v
+                        dy = 0.0
+                    new[f, 1] = rest[1] + dy
+                    new[f, 2] = rest[2] + dz
+                heads[:, donor.index(last)] += new - tip
+                report.append(round(sweep_t / leg, 2))
+        done.add(clip)
+        profile.setdefault("_scuttleReport", {})[state] = {"sweepOverLeg": report, "strideBodyLengths": bl}
+    donor._scuttled = done
+
+
+def _hit_beat(sk, donor, lay, profile):
+    """profile "clips"."Hit": {donor, clip, "beat": [first, last], "recover": frames}: the donor
+    take's first beat (the scorpion's death flinch: the body tips back and drops, pincers snap in)
+    played to its peak, then eased back to its first frame by slerping every bone and lerping every
+    head over "recover" frames. The source is sampled motion, not a curve typed here."""
+    spec = profile["clips"].get("Hit")
+    if not spec or spec["donor"] != donor.key or "beat" not in spec or spec["clip"] not in donor.clips:
+        return
+    from crlib.mathx import slerp_matrix
+
+    src = donor.clips[spec["clip"]]
+    a, b = spec["beat"]
+    g = spec.get("gain", 1.0)
+    # "gain" scales the beat's motion away from its first frame (1.5: the scorpion flinches a
+    # third of a hip height; the recoil should read on a large shell at game distance).
+    frames = [np.array([slerp_matrix(src["frames"][a, i], src["frames"][f, i], g) for i in range(len(donor.bones))]) for f in range(a, b + 1)]
+    heads = [src["heads"][a] + g * (src["heads"][f] - src["heads"][a]) for f in range(a, b + 1)]
+    peak_f, peak_h = frames[-1], heads[-1]
+    R = spec.get("recover", 9)
+    for k in range(1, R + 1):
+        t = k / R
+        w = t * t * (3 - 2 * t)
+        frames.append(np.array([slerp_matrix(peak_f[i], src["frames"][a, i], w) for i in range(len(donor.bones))]))
+        heads.append((1 - w) * peak_h + w * src["heads"][a])
+    # The flinch drops the hub; keep the belly off the floor (at most 70% of its clearance, the
+    # crouch included; 15% on stumpy feet, which dig in when the legs fold).
+    heads = np.array(heads)
+    hub = donor.index(lay["hub"])
+    scale, leg = _leg_scale(sk, donor, lay)
+    stumpy = sk.arth["pad"] > profile.get("stumpyPad", 0.2)
+    room = 0.15 if stumpy else 0.7
+    floor = donor.rest_head[lay["hub"]][1] - room * sk.arth["belly"] / scale
+    lift = np.maximum(floor - heads[:, hub, 1], 0.0)
+    # The shell recoils back by at most 6% of a leg's length: further and the legs, planted
+    # below, would have to reach past their length.
+    back = heads[:, hub, [0, 2]] - heads[0, hub, [0, 2]]
+    cap = 0.06 * leg / scale
+    norm = np.linalg.norm(back, axis=1)
+    shrink = np.where(norm > cap, cap / np.maximum(norm, 1e-12), 1.0) - 1.0
+    below_h = [j for j, bone in enumerate(donor.bones) if _descends(donor, bone, lay["hub"])]
+    for j in below_h:
+        heads[:, j, 0] += shrink * back[:, 0]
+        heads[:, j, 2] += shrink * back[:, 1]
+    below = [j for j, bone in enumerate(donor.bones) if _descends(donor, bone, lay["hub"])]
+    heads[:, below, 1] += lift[:, None]
+    # The shell tips back by at most the angle that moves its ends by 20% of a leg (6% on stumpy
+    # feet, whose pads pitch into the floor as the legs fold): the scorpion's
+    # tilt on a long, short-legged shell (the slag crawler) lifts the front legs off the floor and
+    # folds the back ones through it.
+    ang_cap = np.arcsin(min(1.0, (0.06 if stumpy else 0.2) * leg / max(0.5 * sk.arth["bodyLength"], 1e-9)))
+    legs_used = {b for side in ("l", "r") for o in range(len(sk.arth["legs"][side])) for b in lay["legs"][side][sk.arth["subset"][o]]}
+    ride = [j for j in below_h if donor.bones[j] not in legs_used]
+    for f in range(len(frames)):
+        D = frames[f][hub] @ frames[0][hub].T
+        angle = np.arccos(np.clip((np.trace(D) - 1) / 2, -1, 1))
+        if angle <= ang_cap:
+            continue
+        C = slerp_matrix(np.eye(3), D, ang_cap / angle) @ D.T
+        c = heads[f, hub].copy()
+        for j in ride:
+            frames[f][j] = C @ frames[f][j]
+            heads[f, j] = c + C @ (heads[f, j] - c)
+    # Feet stay planted where they stood: the flinch is the shell's, and the runtime overlay
+    # layers it on locomotion with the legs protected anyway.
+    # The legs also keep their segments' orientations (a stumpy pad tipped by the death take's
+    # leg curl digs into the floor); the chain IK alone bends them under the moving shell.
+    frames = np.array(frames)
+    for side in ("l", "r"):
+        for o in range(len(sk.arth["legs"][side])):
+            chain = lay["legs"][side][sk.arth["subset"][o]]
+            for bone in chain:
+                frames[:, donor.index(bone)] = frames[0, donor.index(bone)]
+            last = chain[-1]
+            j = donor.index(last)
+            tip = heads[:, j] + np.einsum("fij,j->fi", frames[:, j], donor.rest_frame[last].T @ (donor.rest_tail[last] - donor.rest_head[last]))
+            heads[:, j] += tip[0] - tip
+    name = f"{spec['clip']} beat {a}-{b} recovered"
+    donor.clips[name] = {"frames": frames, "heads": heads, "fps": src["fps"], "duration": (len(frames) - 1) / src["fps"]}
+    spec["clip"] = name
 
 
 def _descends(donor, bone, ancestor):
@@ -559,3 +765,16 @@ def plan(sk, body, profile):
         for bones in sk.arth["legs"][side]:
             legs.append({"chain": bones, "foot": None, "toe": None, "pivot": None})
     return {"hips": "body", "legs": legs, "chains": [], "colliders": [], "hip_motion": profile.get("hipMotion", 1.0)}
+
+
+def recoil_bones(sk, plan, profile):
+    """The runtime Hit overlay moves the abdomen and the mandibles or pincers. Not the legs, and not
+    the body bone either: the legs hang from it, so its recoil would swing every planted foot
+    through the floor under the locomotion it is layered on."""
+    return [b.name for b in sk.bones if b.name == "abdomen" or b.name.startswith("palp_")]
+
+
+def closeup_joints(sk, profile):
+    """Knees of a front, a middle and a back leg, the first mandible or pincer joint, the shell."""
+    names = [f"leg_l0_2", f"leg_l1_2", f"leg_r{max(len(sk.arth['legs']['r']) - 1, 0)}_2", "palp_l0_1", "body"]
+    return [n for n in names if n in sk]
