@@ -9967,42 +9967,39 @@
         "creek",
         "user-supplied"
       ],
-      "bytes": 6917604,
+      "bytes": 6989220,
       "size": {
-        "x": 0.30368306157210223,
-        "y": 0.10823259390461348,
-        "z": 0.36332159379223566
+        "x": 0.314385,
+        "y": 0.108233,
+        "z": 0.36332
       },
       "base": {
-        "x": -0.1518415319096771,
-        "y": 0.0006299980233804699,
-        "z": -0.09167871681343692
+        "x": -0.157192,
+        "y": 0,
+        "z": -0.176222
       },
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
-      "walkClipSeconds": 1.100000023841858,
       "materials": [
         "tripo_mat_d907274b-cfef-4368-a703-024a793505f7"
       ],
-      "runClipSeconds": 0.6800000071525574,
-      "sha256": "d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41",
+      "sha256": "9ca8e0b5056d98ad772c94d2492d008f3ec27fad11d788d9cf88001e8ab11e54",
       "groundY": 0,
       "bounds": {
         "min": [
-          -0.1518415319096771,
-          0.0006299980233804699,
-          -0.09167871681343692
+          -0.1571923792362213,
+          0,
+          -0.17622241377830505
         ],
         "max": [
-          0.15184152966242512,
-          0.10886259192799395,
-          0.27164287697879874
+          0.1571923792362213,
+          0.10823315382003784,
+          0.1870979368686676
         ]
       },
       "vertices": 3784,
@@ -10023,8 +10020,6 @@
         "Leg_R_3",
         "Leg_R_4"
       ],
-      "attackSeconds": 0.949999988079071,
-      "contactNormalized": 0.40625,
       "metadata": {
         "walkClipSeconds": 1,
         "runClipSeconds": 0.62,
@@ -10089,176 +10084,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [1,2,3], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
+        },
+        "sourceFile": "game/public/assets/models/animal/animal_crab.glb",
+        "sourceSha256": "d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41",
+        "missing": [
+          "Hit"
+        ]
       },
-      "impliedWalkMps": 0.03368983957219251,
-      "impliedRunMps": 0.08119190482587596,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "e556441ffc1f01c44f67da56a5de6dd5ebbfad8d284334a52d2d0bd5290836e8",
-        "sourceGitBlob": "36f03ab49d6dff3e27d759177acc074a43c983d7",
-        "donors": [],
-        "changes": [
-          "Replaced rigid limbs with articulated appendage chains and continuous topology-aware joint collars",
-          "Baked planted foot contacts, attack reach, and held constant-scale shell settlement with folded limbs",
-          "Aligned tilted source support plane using the three pairs of anatomical toe markers"
-        ],
-        "provenance": {
-          "weights": {
-            "vertices": 3784,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 7
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "solverTargetError": 8.022341494801565e-17,
-              "maxFloorCorrection": 0.001574471584791281
-            },
-            {
-              "name": "Walk",
-              "solverTargetError": 8.44865542934803e-17,
-              "maxFloorCorrection": 0.0006297879321348348
-            },
-            {
-              "name": "Run",
-              "solverTargetError": 8.681095151474679e-17,
-              "maxFloorCorrection": 0.0032173651740196115
-            },
-            {
-              "name": "Attack",
-              "solverTargetError": 6.882421111842467e-17,
-              "maxFloorCorrection": 0.000629502872527196
-            },
-            {
-              "name": "Hit",
-              "solverTargetError": 6.391838484083785e-17,
-              "maxFloorCorrection": 0.00377964551335384
-            },
-            {
-              "name": "Death",
-              "solverTargetError": 5.931130932667741e-17,
-              "maxFloorCorrection": 0.032782967948095654
-            }
-          ],
-          "sourcePitchRadians": 0.7100454679337551,
-          "walkingLegs": 6,
-          "originalGeometryAndTexturesPreserved": true,
-          "attackContactNormalized": 0.40625,
-          "contactBasis": "First maximum forward position of attacking claw endpoints or mineral head carrier, sampled at 65 clip phases",
-          "strideFit": {
-            "walkStride": 0.0252,
-            "runStride": 0.033126297168957396,
-            "maximumCommonStride": 0.033126297168957396,
-            "method": "Forward extent of each fixed-length support chain at sole height, with a 5 percent reach margin"
-          }
-        },
-        "motion": {
-          "walkClipSeconds": 1.1,
-          "runClipSeconds": 0.68,
-          "impliedWalkMps": 0.03368983957219251,
-          "impliedRunMps": 0.08119190482587596,
-          "attackSeconds": 0.95,
-          "contactNormalized": 0.40625,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 65,
-              "maximumVertexMotion": 0.0017421194125239678,
-              "maximumSpanRatio": 0.9865332631070377,
-              "minimumSpanRatio": 0.9862346712643897,
-              "loopSeam": 2.052876757548569e-9,
-              "edgeStretchP99": 1.1619003131199144,
-              "maximumEdgeStretch": 2.8384810903431426,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.100000023841858,
-              "samples": 90,
-              "maximumVertexMotion": 0.029829865601023343,
-              "maximumSpanRatio": 1.00516757024747,
-              "minimumSpanRatio": 0.9862882943789066,
-              "loopSeam": 2.998419151054916e-9,
-              "edgeStretchP99": 1.270651090012365,
-              "maximumEdgeStretch": 3.4638913801554825,
-              "stretchedEdgeFraction": 0.0004653868528214078
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6800000071525574,
-              "samples": 97,
-              "maximumVertexMotion": 0.042016454036402286,
-              "maximumSpanRatio": 1.0122340827042688,
-              "minimumSpanRatio": 0.9858547723923693,
-              "loopSeam": 3.0583461568891898e-9,
-              "edgeStretchP99": 1.336714881306727,
-              "maximumEdgeStretch": 3.727691133067821,
-              "stretchedEdgeFraction": 0.0005817335660267597
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.949999988079071,
-              "samples": 66,
-              "maximumVertexMotion": 0.05152727650781246,
-              "maximumSpanRatio": 1.0212625409139513,
-              "minimumSpanRatio": 0.986272513969206,
-              "loopSeam": null,
-              "edgeStretchP99": 1.568315561343941,
-              "maximumEdgeStretch": 6.443702222745072,
-              "stretchedEdgeFraction": 0.002559627690517743
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 69,
-              "maximumVertexMotion": 0.03297128215717229,
-              "maximumSpanRatio": 0.9899375378663323,
-              "minimumSpanRatio": 0.983443138215063,
-              "loopSeam": null,
-              "edgeStretchP99": 1.3345085329415702,
-              "maximumEdgeStretch": 3.0238037076148316,
-              "stretchedEdgeFraction": 0.0002326934264107039
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 78,
-              "maximumVertexMotion": 0.0705653289827355,
-              "maximumSpanRatio": 1.0087418354363433,
-              "minimumSpanRatio": 0.9834292600175257,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5798523430095721,
-              "maximumEdgeStretch": 4.987141388134642,
-              "stretchedEdgeFraction": 0.0015125072716695752
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:46:05.041Z",
-          "by": "codex",
-          "sha256": "d11c9aff6ec71c79c0975185b8a877c6f4e0d6aa4df04699d32b75b546373f41",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropods-v2/animal_crab/evidence.json"
-        }
-      }
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.07832,
+      "impliedRunMps": 0.127294,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.433
     },
     {
       "id": "animal_perch",
@@ -16824,38 +16679,37 @@
         "antler_beetle",
         "forest"
       ],
-      "bytes": 2658736,
-      "sha256": "1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286",
+      "bytes": 2727336,
+      "sha256": "1e935887cee162e5e7133eca7cba9174c7644c345c8e800684618a7ef9c604a5",
       "size": {
-        "x": 2.0816417218826655,
-        "y": 0.9541955903794552,
-        "z": 2.5756505355238914
+        "x": 2.077752,
+        "y": 0.951139,
+        "z": 2.575651
       },
       "base": {
-        "x": -1.0408208609413327,
-        "y": 0.007037123709740951,
-        "z": -0.9549999944865704
+        "x": -1.038185,
+        "y": 0,
+        "z": -0.947137
       },
       "bounds": {
         "min": [
-          -1.0408208609413327,
-          0.007037123709740951,
-          -0.9549999944865704
+          -1.0381850004196167,
+          0,
+          -0.9471368789672852
         ],
         "max": [
-          1.0408208609413327,
-          0.9612327140891962,
-          1.620650541037321
+          1.0395673513412476,
+          0.9511387348175049,
+          1.6285136938095093
         ]
       },
-      "groundY": 0.007037158068269489,
+      "groundY": 0,
       "triangles": 33250,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -16867,163 +16721,6 @@
         "antler_beetle_joint"
       ],
       "sourceProvenance": "Original Corealm procedural sculpture and eight clips; base GLB SHA-256 20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779. Four image-generated layered chitin surfaces; master atlas SHA-256 cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154.",
-      "impliedWalkMps": 0.4464285714285714,
-      "impliedRunMps": 1.4035087719298247,
-      "walkClipSeconds": 1.2599999904632568,
-      "runClipSeconds": 0.699999988079071,
-      "attackSeconds": 1.100000023841858,
-      "contactNormalized": 0.5,
-      "measuredGait": {
-        "gait": {
-          "walk": {
-            "seconds": 1.2599999904632568,
-            "sampledFootBones": 6,
-            "stanceSamples": 372,
-            "measuredStanceMps": 0.44637437794205637,
-            "feet": [
-              {
-                "bone": "antler_beetle_leg_L_1_tarsus",
-                "minY": 0.0597509035966759,
-                "maxY": 0.17929537831870695,
-                "strideZ": 0.35976322763614943,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.4464118846085068
-              },
-              {
-                "bone": "antler_beetle_leg_L_2_tarsus",
-                "minY": 0.054811259640277776,
-                "maxY": 0.17460349127676078,
-                "strideZ": 0.35962065376354474,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.44637949877667904
-              },
-              {
-                "bone": "antler_beetle_leg_L_3_tarsus",
-                "minY": 0.054840302331015334,
-                "maxY": 0.17446737036039667,
-                "strideZ": 0.3584956292649598,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.4461265642277983
-              },
-              {
-                "bone": "antler_beetle_leg_R_1_tarsus",
-                "minY": 0.05992677200011309,
-                "maxY": 0.17943894846640124,
-                "strideZ": 0.359665961237965,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.446278272418331
-              },
-              {
-                "bone": "antler_beetle_leg_R_2_tarsus",
-                "minY": 0.05480649822352779,
-                "maxY": 0.17464580372703198,
-                "strideZ": 0.3597646824387587,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.4465104961602331
-              },
-              {
-                "bone": "antler_beetle_leg_R_3_tarsus",
-                "minY": 0.054689511679283764,
-                "maxY": 0.17426127458026602,
-                "strideZ": 0.3562162698866088,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.44626226873749275
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "antler_beetle_root",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          },
-          "run": {
-            "seconds": 0.699999988079071,
-            "sampledFootBones": 6,
-            "stanceSamples": 322,
-            "measuredStanceMps": 1.402526620606417,
-            "feet": [
-              {
-                "bone": "antler_beetle_leg_L_1_tarsus",
-                "minY": 0.05975293995482106,
-                "maxY": 0.23957332981012575,
-                "strideZ": 0.5584181071613012,
-                "contactSamples": 56,
-                "stanceMedianMps": 1.4048126867808577
-              },
-              {
-                "bone": "antler_beetle_leg_L_2_tarsus",
-                "minY": 0.05477203299058081,
-                "maxY": 0.23457331625818134,
-                "strideZ": 0.558364482071499,
-                "contactSamples": 56,
-                "stanceMedianMps": 1.402111082170128
-              },
-              {
-                "bone": "antler_beetle_leg_L_3_tarsus",
-                "minY": 0.054676057718827054,
-                "maxY": 0.2345733409099759,
-                "strideZ": 0.5027688564680383,
-                "contactSamples": 49,
-                "stanceMedianMps": 1.401567423230538
-              },
-              {
-                "bone": "antler_beetle_leg_R_1_tarsus",
-                "minY": 0.059715897257983375,
-                "maxY": 0.23957331776569135,
-                "strideZ": 0.5584082863059961,
-                "contactSamples": 56,
-                "stanceMedianMps": 1.402526620606417
-              },
-              {
-                "bone": "antler_beetle_leg_R_2_tarsus",
-                "minY": 0.05475677222599423,
-                "maxY": 0.23457332506452788,
-                "strideZ": 0.5584181116416602,
-                "contactSamples": 56,
-                "stanceMedianMps": 1.4020262872714657
-              },
-              {
-                "bone": "antler_beetle_leg_R_3_tarsus",
-                "minY": 0.05482056458572704,
-                "maxY": 0.23457334016698872,
-                "strideZ": 0.5016725631661463,
-                "contactSamples": 49,
-                "stanceMedianMps": 1.4025639810857564
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "antler_beetle_root",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          }
-        },
-        "loops": {
-          "Idle": {
-            "seconds": 3.799999952316284,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.000569814913878015,
-            "maxScaleGap": 0
-          },
-          "Walk": {
-            "seconds": 1.2599999904632568,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006023237264682339,
-            "maxScaleGap": 0
-          },
-          "Run": {
-            "seconds": 0.699999988079071,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.000680369613025611,
-            "maxScaleGap": 0
-          }
-        },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
-      },
       "metadata": {
         "is": "beetle",
         "tags": [
@@ -17092,115 +16789,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "ca94af139abe3fb452b18f2ac95261217c05b2286e16eaa48d0538bb6407f5fc",
-        "sourceGitBlob": "a36123f0b7aa35fc6d2281c5e2dd1e827a1f32fb",
-        "donors": [],
-        "changes": [
-          "Removed retired directional hit clips; all impacts use Hit"
-        ],
-        "provenance": {
-          "decision": "Retain existing articulated IK contacts and rigid sculpted segment weights; CPU edge lengths remain constant in every state. Requires devdocs visual verdict."
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "antler_beetle_seam: nearly rigid single-joint skin; inspect articulation in devdocs",
-            "antler_beetle_eye: nearly rigid single-joint skin; inspect articulation in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3.799999952316284,
-              "samples": 69,
-              "maximumVertexMotion": 0.11938388219891904,
-              "maximumSpanRatio": 1.0056635703546224,
-              "minimumSpanRatio": 0.9965763684970828,
-              "loopSeam": 3.4725401880350307e-9,
-              "edgeStretchP99": 1.0000000011963726,
-              "maximumEdgeStretch": 1.0000000012066113,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.2599999904632568,
-              "samples": 99,
-              "maximumVertexMotion": 0.3618430584810664,
-              "maximumSpanRatio": 1.025409831021084,
-              "minimumSpanRatio": 0.9924520599083162,
-              "loopSeam": 3.8846905343886264e-9,
-              "edgeStretchP99": 1.0000000133658165,
-              "maximumEdgeStretch": 1.0000000139695924,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.699999988079071,
-              "samples": 101,
-              "maximumVertexMotion": 0.5612849150585468,
-              "maximumSpanRatio": 1.0355063614396547,
-              "minimumSpanRatio": 0.9903942557079441,
-              "loopSeam": 4.011547383628311e-9,
-              "edgeStretchP99": 1.000000016982777,
-              "maximumEdgeStretch": 1.000000018220081,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.100000023841858,
-              "samples": 101,
-              "maximumVertexMotion": 0.5383100394942927,
-              "maximumSpanRatio": 1.0160666736176818,
-              "minimumSpanRatio": 0.995601871927366,
-              "loopSeam": null,
-              "edgeStretchP99": 1.0000000011963726,
-              "maximumEdgeStretch": 1.0000000012066113,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.550000011920929,
-              "samples": 101,
-              "maximumVertexMotion": 0.3247866630136287,
-              "maximumSpanRatio": 1.0042584290586836,
-              "minimumSpanRatio": 0.9898670224763731,
-              "loopSeam": null,
-              "edgeStretchP99": 1.0000000011963726,
-              "maximumEdgeStretch": 1.0000000012066113,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 101,
-              "maximumVertexMotion": 0.5812635318863191,
-              "maximumSpanRatio": 1.0009274599286346,
-              "minimumSpanRatio": 0.8505393029022137,
-              "loopSeam": null,
-              "edgeStretchP99": 1.0000000274866736,
-              "maximumEdgeStretch": 1.0000000373373028,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
         },
-        "review": {
-          "at": "2026-09-28T19:46:05.041Z",
-          "by": "codex",
-          "sha256": "1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropods-v2/creature_antler_beetle/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/creature/creature_antler_beetle.glb",
+        "sourceSha256": "1e89c5ba3d27f356a68f3b65714b27b07b3cac310bf06a65ce7ba517a6ec3286",
+        "missing": [
+          "Hit"
+        ]
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.413713,
+      "impliedRunMps": 0.652524,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.433
     },
     {
       "id": "creature_reedjaw_crocodile",
@@ -27131,28 +26749,28 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 8444464,
-      "sha256": "453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c",
+      "bytes": 8506004,
+      "sha256": "0d7ca5786879a72560fbb1d70171e8a51ed3f2a7d94186ec85e9e14a1f3e593e",
       "size": {
-        "x": 0.7924805120865729,
-        "y": 0.7676858063273146,
-        "z": 0.9947806416816625
+        "x": 0.79248,
+        "y": 0.860836,
+        "z": 0.991699
       },
       "base": {
-        "x": -0.3962402545061283,
-        "y": 0.0014999936616034149,
-        "z": -0.49576170309471246
+        "x": -0.39624,
+        "y": 0,
+        "z": -0.561768
       },
       "bounds": {
         "min": [
-          -0.3962402545061283,
-          0.0014999936616034149,
-          -0.49576170309471246
+          -0.396240234375,
+          0,
+          -0.561767578125
         ],
         "max": [
-          0.39624025758044457,
-          0.769185799988918,
-          0.49901893858694996
+          0.396240234375,
+          0.8608357906341553,
+          0.4299316704273224
         ]
       },
       "groundY": 0,
@@ -27162,16 +26780,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_webweaver_spider_layered_shell"
       ],
-      "walkClipSeconds": 1.0800000429153442,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
@@ -27277,275 +26890,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.1488970588235294,
-      "impliedRunMps": 1.2241167601276035,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "8d5925214e98e543a9b0dff12df6b96e79d3471389a9517d2e19fd125bb4da9a",
-        "sourceGitBlob": "a16711d7b359b788af04c8e68a9fb58ab7cc15ef",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "webweaver_spider",
-          "rig": "authored non-humanoid arthropod skeleton",
-          "anatomy": "six articulated walking legs",
-          "height": 0.8608357906341553,
-          "presentation": {
-            "suggestedScale": 0.499514546999992,
-            "suggestedHeightMeters": 0.43,
-            "habitat": "low-level woodland bramble"
-          },
-          "source": "Tripo Studio mesh and image-generated material, Corealm-authored rig and motion",
-          "deathRepair": {
-            "sourceTopY": 0.860835775630727,
-            "samples": [
-              {
-                "seconds": 0,
-                "minY": 0.007999999779560162,
-                "maxY": 0.8688357746304867,
-                "height": 0.8608357748509265
-              },
-              {
-                "seconds": 0.28,
-                "minY": 0.01022802070165205,
-                "maxY": 0.8016943110413609,
-                "height": 0.7914662903397088
-              },
-              {
-                "seconds": 0.48,
-                "minY": 0.0068526696806674075,
-                "maxY": 0.7107594759211199,
-                "height": 0.7039068062404524
-              },
-              {
-                "seconds": 0.72,
-                "minY": 0.0076234711710173935,
-                "maxY": 0.6257123908284538,
-                "height": 0.6180889196574364
-              },
-              {
-                "seconds": 1,
-                "minY": 0.007999982524601034,
-                "maxY": 0.6251025427283976,
-                "height": 0.6171025602037966
-              },
-              {
-                "seconds": 1.38,
-                "minY": 0.007999980663808456,
-                "maxY": 0.6237558715265973,
-                "height": 0.6157558908627888
-              },
-              {
-                "seconds": 1.55,
-                "minY": 0.007999998135270388,
-                "maxY": 0.6231504877893141,
-                "height": 0.6151504896540437
-              }
-            ],
-            "maximumFloorLift": 0.10694391358459648,
-            "legChannels": 24
-          },
-          "geometry": {
-            "vertices": 3436,
-            "triangles": 5400
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.1488970588235294,
-            "impliedRunMps": 0.39374999999999993
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death scaled body to [0.88,0.62,0.90] and amplified all limb rotations"
-          ],
-          "solverTargetError": 2.498001805406602e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 3436,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 1.942890293094024e-16,
-              "maxFloorCorrection": 0.0014999991419176871
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.08,
-              "solverTargetError": 2.237726045655905e-16,
-              "maxFloorCorrection": 0.001499999141917662
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 2.498001805406602e-16,
-              "maxFloorCorrection": 1.0270703280912397e-9,
-              "maxSupportSurfaceError": 0.000008061824539662421
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 2.0770370905276122e-16,
-              "maxFloorCorrection": 0.0014999991419176522
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 2.118352371637509e-16,
-              "maxFloorCorrection": 0.0014999991419177216
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 2.1544120232613906e-16,
-              "maxFloorCorrection": 0.3647662335116298
-            }
-          ],
-          "runStance": {
-            "crouch": 0.20249999999999999,
-            "stride": 0.5288184403751247,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 551,
-          "runCadence": {
-            "maxRunCadenceHz": 4.2,
-            "decision": "Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback). Healthy Tripo arachnid rig found: fitted hips agree within 4.9% of size.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7333333492279053,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.08,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.1488970588235294,
-          "impliedRunMps": 1.2241167601276035,
-          "maxRunCadenceHz": 4.2,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 70,
-              "maximumVertexMotion": 0.003279707670888382,
-              "maximumSpanRatio": 0.9690997087162915,
-              "minimumSpanRatio": 0.9680137379859083,
-              "loopSeam": 1.526062462569885e-8,
-              "edgeStretchP99": 1.4433086263032382,
-              "maximumEdgeStretch": 3.7289102772104212,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.0800000429153442,
-              "samples": 104,
-              "maximumVertexMotion": 0.11127150389516932,
-              "maximumSpanRatio": 0.9931036962985395,
-              "minimumSpanRatio": 0.9675281066367806,
-              "loopSeam": 1.1269160624311114e-8,
-              "edgeStretchP99": 1.5448683319106735,
-              "maximumEdgeStretch": 4.367879403422186,
-              "stretchedEdgeFraction": 0.000795725815618961
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 107,
-              "maximumVertexMotion": 0.5379473828224621,
-              "maximumSpanRatio": 0.9627396325688772,
-              "minimumSpanRatio": 0.9416446563546601,
-              "loopSeam": 1.0749365378521312e-8,
-              "edgeStretchP99": 2.229186602268403,
-              "maximumEdgeStretch": 8.94107167216301,
-              "stretchedEdgeFraction": 0.004205979311128794
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 75,
-              "maximumVertexMotion": 0.08267564712129037,
-              "maximumSpanRatio": 0.986115978814291,
-              "minimumSpanRatio": 0.968565715925458,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5695443994906386,
-              "maximumEdgeStretch": 3.6891573760779193,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 73,
-              "maximumVertexMotion": 0.10487823419347216,
-              "maximumSpanRatio": 0.9685657178002782,
-              "minimumSpanRatio": 0.9593758576286474,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5830287022325438,
-              "maximumEdgeStretch": 4.37423242141908,
-              "stretchedEdgeFraction": 0.0005683755825849721
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 76,
-              "maximumVertexMotion": 0.829568259962197,
-              "maximumSpanRatio": 1.0072891058836357,
-              "minimumSpanRatio": 0.9619528094101939,
-              "loopSeam": null,
-              "edgeStretchP99": 1.736615116149114,
-              "maximumEdgeStretch": 4.78522672177064,
-              "stretchedEdgeFraction": 0.0022735023303398884
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json"
-        }
+        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 4.2
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.615396,
+      "impliedRunMps": 0.888897,
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.6
     },
     {
       "id": "creature_marsh_wasp",
@@ -43382,28 +42756,28 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 8565552,
-      "sha256": "2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2",
+      "bytes": 8627028,
+      "sha256": "25fded74c5e79f6ad117ad3ca25adb77f5dc1a809d169bf476e917a26d608c23",
       "size": {
-        "x": 0.4788346107011242,
-        "y": 0.463853089895744,
-        "z": 0.6010689146645123
+        "x": 0.478835,
+        "y": 0.520136,
+        "z": 0.599207
       },
       "base": {
-        "x": -0.23941730442177647,
-        "y": 0.0009063300233300086,
-        "z": -0.29955040973417646
+        "x": -0.239417,
+        "y": 0,
+        "z": -0.339433
       },
       "bounds": {
         "min": [
-          -0.23941730442177647,
-          0.0009063300233300086,
-          -0.29955040973417646
+          -0.23941729962825775,
+          0,
+          -0.3394326865673065
         ],
         "max": [
-          0.2394173062793477,
-          0.464759419919074,
-          0.30151850493033583
+          0.23941729962825775,
+          0.5201364159584045,
+          0.25977441668510437
         ]
       },
       "groundY": 0,
@@ -43413,16 +42787,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_amethyst_spider_layered_shell"
       ],
-      "walkClipSeconds": 1.0800000429153442,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
@@ -43532,277 +42901,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.089966963362398,
-      "impliedRunMps": 0.7396389732601902,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "40b393967230092e9bab43b4e0f19ac687d71adf5ccf374505aa10cb10287d4e",
-        "sourceGitBlob": "a809f854984009de4d68dbc7e77d9e5e1a0efd53",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "amethyst_spider",
-          "rig": "custom six-leg arthropod",
-          "anatomy": "six articulated walking legs",
-          "height": 0.5201364126930991,
-          "presentation": {
-            "sceneScale": 0.6042225687548703,
-            "rawAssetHeightMeters": 0.5201364126930991,
-            "existingSpeciesScale": 0.72,
-            "desiredInGameHeightMeters": 0.3744982171390313,
-            "habitat": "amethyst cavern"
-          },
-          "source": "Tripo Studio mesh and PBR maps; imagegen edited 2K albedo; Corealm rig and motion",
-          "deathRepair": {
-            "sourceTopY": 0.5201364036276891,
-            "samples": [
-              {
-                "seconds": 0,
-                "minY": 0.007999999966600195,
-                "maxY": 0.5281364031714023,
-                "height": 0.5201364032048021
-              },
-              {
-                "seconds": 0.28,
-                "minY": 0.009346220117214669,
-                "maxY": 0.48756801526101917,
-                "height": 0.47822179514380453
-              },
-              {
-                "seconds": 0.48,
-                "minY": 0.007306754864207335,
-                "maxY": 0.432623133545371,
-                "height": 0.4253163786811637
-              },
-              {
-                "seconds": 0.72,
-                "minY": 0.007772494005977924,
-                "maxY": 0.3812357687389151,
-                "height": 0.3734632747329372
-              },
-              {
-                "seconds": 1,
-                "minY": 0.007999989675713753,
-                "maxY": 0.38086728376585716,
-                "height": 0.3728672940901434
-              },
-              {
-                "seconds": 1.38,
-                "minY": 0.007999990148795561,
-                "maxY": 0.38005359623045165,
-                "height": 0.3720536060816561
-              },
-              {
-                "seconds": 1.55,
-                "minY": 0.008000000705447131,
-                "maxY": 0.37968780971362803,
-                "height": 0.3716878090081809
-              }
-            ],
-            "maximumFloorLift": 0.11218406781532256,
-            "legChannels": 24
-          },
-          "geometry": {
-            "vertices": 3436,
-            "triangles": 5400
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.089966963362398,
-            "impliedRunMps": 0.23791263644723026
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death scaled body to [0.88,0.62,0.90] and amplified all limb rotations"
-          ],
-          "solverTargetError": 1.4224732503009818e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 3436,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 1.195827321860277e-16,
-              "maxFloorCorrection": 0.0009063333346595943
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.08,
-              "solverTargetError": 1.1857187100668868e-16,
-              "maxFloorCorrection": 0.0009063333346595789
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 1.4224732503009818e-16,
-              "maxFloorCorrection": 6.205790224148716e-10,
-              "maxSupportSurfaceError": 0.000004871136332344761
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 1.3329179921125024e-16,
-              "maxFloorCorrection": 0.0009063333346596212
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 1.2276156489239667e-16,
-              "maxFloorCorrection": 0.0009063333346595984
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 1.2412670766236366e-16,
-              "maxFloorCorrection": 0.2203999906074358
-            }
-          ],
-          "runStance": {
-            "crouch": 0.12235507017286128,
-            "stride": 0.31952403644840216,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 551,
-          "runCadence": {
-            "maxRunCadenceHz": 4.2,
-            "decision": "Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback). Healthy Tripo arachnid rig found: fitted hips agree within 4.9% of size.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7333333492279053,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.08,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.089966963362398,
-          "impliedRunMps": 0.7396389732601902,
-          "maxRunCadenceHz": 4.2,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 72,
-              "maximumVertexMotion": 0.001981673393669214,
-              "maximumSpanRatio": 0.9690997087162915,
-              "minimumSpanRatio": 0.9680137379859083,
-              "loopSeam": 1.5260624596206516e-8,
-              "edgeStretchP99": 1.4433086263032473,
-              "maximumEdgeStretch": 3.7289102772104306,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.0800000429153442,
-              "samples": 103,
-              "maximumVertexMotion": 0.06723275391275679,
-              "maximumSpanRatio": 0.9931036962985398,
-              "minimumSpanRatio": 0.9675281066367807,
-              "loopSeam": 1.1269160551968317e-8,
-              "edgeStretchP99": 1.5448683319106493,
-              "maximumEdgeStretch": 4.367879403422204,
-              "stretchedEdgeFraction": 0.000795725815618961
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 113,
-              "maximumVertexMotion": 0.3250399495039477,
-              "maximumSpanRatio": 0.9627396325688774,
-              "minimumSpanRatio": 0.9416446563546601,
-              "loopSeam": 1.0749365286162403e-8,
-              "edgeStretchP99": 2.229186602268396,
-              "maximumEdgeStretch": 8.94107167216301,
-              "stretchedEdgeFraction": 0.004205979311128794
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 76,
-              "maximumVertexMotion": 0.04995449187709721,
-              "maximumSpanRatio": 0.9861159788142911,
-              "minimumSpanRatio": 0.9685657159254584,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5695443994906697,
-              "maximumEdgeStretch": 3.6891573760779384,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 77,
-              "maximumVertexMotion": 0.06336979607085466,
-              "maximumSpanRatio": 0.9685657178002781,
-              "minimumSpanRatio": 0.9593758576286475,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5830287022325407,
-              "maximumEdgeStretch": 4.374232421419123,
-              "stretchedEdgeFraction": 0.0005683755825849721
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 79,
-              "maximumVertexMotion": 0.5012438649918667,
-              "maximumSpanRatio": 1.007289105883636,
-              "minimumSpanRatio": 0.9619528094101941,
-              "loopSeam": null,
-              "edgeStretchP99": 1.736615116149154,
-              "maximumEdgeStretch": 4.785226721770717,
-              "stretchedEdgeFraction": 0.0022735023303398884
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_amethyst_spider/evidence.json"
-        }
+        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "2f0fb82827f6e6ba5a61346e46e641912ca901a4a83daca5525e0926f561c6c2",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 4.2
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.371901,
+      "impliedRunMps": 0.535923,
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.6
     },
     {
       "id": "creature_chalk_warden",
@@ -45091,17 +44219,17 @@
         "arthropod",
         "six-legged"
       ],
-      "bytes": 13608340,
-      "sha256": "a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f",
+      "bytes": 13668708,
+      "sha256": "bfda68e19dbdf066976b5069fd40e8cde47d1f1665c901778f0445b76e0a65ba",
       "size": {
-        "x": 0.4607373117240736,
-        "y": 0.47444067809138357,
-        "z": 0.7144811467224123
+        "x": 0.460737,
+        "y": 0.501646,
+        "z": 0.709653
       },
       "base": {
-        "x": -0.23036865845603793,
-        "y": 0.0010649965169010137,
-        "z": -0.35487620737931347
+        "x": -0.230369,
+        "y": 0,
+        "z": -0.402495
       },
       "groundY": 0,
       "triangles": 4178,
@@ -45110,16 +44238,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_fen_crawler_layered_chitin"
       ],
-      "walkClipSeconds": 1.159999966621399,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
@@ -45167,241 +44290,48 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.08465453853955375,
-      "impliedRunMps": 0.4349039657331995,
-      "locomotionPolicy": null,
       "bounds": {
         "min": [
-          -0.23036865845603793,
-          0.0010649965169010137,
-          -0.35487620737931347
+          -0.23036865890026093,
+          0,
+          -0.4024951457977295
         ],
         "max": [
-          0.2303686532680357,
-          0.4755056746082846,
-          0.3596049393430988
+          0.23036865890026093,
+          0.5016455054283142,
+          0.3071581721305847
         ]
       },
-      "measuredGait": null,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "f0c5e98976b059eea3e4c4eb0c966ef17f7c4882633b63cc016cee19a1f2135e",
-        "sourceGitBlob": "62be3e4907decddbbae073187a15f1e2969d211a",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "fen_crawler",
-          "rig": "custom 30-joint six-leg arthropod",
-          "height": 0.5016455078125,
-          "presentation": {
-            "sceneScale": 0.71,
-            "rawAssetHeightMeters": 0.70654296875,
-            "desiredInGameHeightMeters": 0.5016455078125,
-            "levelRange": "5–12"
-          },
-          "source": "Detailed image-generated layered swamp atlas on Tripo Flint Mandible geometry; Corealm six-leg rig and clips",
-          "geometry": {
-            "vertices": 2649,
-            "triangles": 4178
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.08465453853955375,
-            "impliedRunMps": 0.24044675925925924
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death applied one global-axis hip fold to opposite-sided chains"
-          ],
-          "solverTargetError": 1.5515838457795457e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 2649,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 1.1464934308770758e-16,
-              "maxFloorCorrection": 0.001065000441402534
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.16,
-              "solverTargetError": 1.249000902703301e-16,
-              "maxFloorCorrection": 0.00106500044140253
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 1.5371891660295238e-16,
-              "maxFloorCorrection": 1.965226248054619e-8,
-              "maxSupportSurfaceError": 1.996702089757628e-8
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 1.2869730969111293e-16,
-              "maxFloorCorrection": 0.00106500044140255
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 1.4169622320385585e-16,
-              "maxFloorCorrection": 0.0010650004414025627
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 1.5515838457795457e-16,
-              "maxFloorCorrection": 0.21157054121918034
-            }
-          ],
-          "runStance": {
-            "crouch": 0.061829166666666664,
-            "stride": 0.18787851319674218,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 60,
-          "runCadence": {
-            "maxRunCadenceHz": 4.2,
-            "decision": "Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_flint_mandible/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_flint_mandible/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.16,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.08465453853955375,
-          "impliedRunMps": 0.4349039657331995,
-          "maxRunCadenceHz": 4.2,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 71,
-              "maximumVertexMotion": 0.00304506465643662,
-              "maximumSpanRatio": 0.9905012815589487,
-              "minimumSpanRatio": 0.9890520656424076,
-              "loopSeam": 5.205867289354651e-9,
-              "edgeStretchP99": 1.8010829125237706,
-              "maximumEdgeStretch": 3.8192134437080623,
-              "stretchedEdgeFraction": 0.0008835223089383007
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.159999966621399,
-              "samples": 108,
-              "maximumVertexMotion": 0.06974383640892433,
-              "maximumSpanRatio": 0.9968888070473103,
-              "minimumSpanRatio": 0.989861650013399,
-              "loopSeam": 5.207166465051834e-9,
-              "edgeStretchP99": 2.1227938619780753,
-              "maximumEdgeStretch": 4.882732307400385,
-              "stretchedEdgeFraction": 0.0032395817994404358
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 105,
-              "maximumVertexMotion": 0.19667770387231928,
-              "maximumSpanRatio": 0.9852862341829154,
-              "minimumSpanRatio": 0.9671298265886904,
-              "loopSeam": 8.793812396136028e-9,
-              "edgeStretchP99": 2.8700930818358232,
-              "maximumEdgeStretch": 8.626946472965464,
-              "stretchedEdgeFraction": 0.008982476807539391
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 77,
-              "maximumVertexMotion": 0.04635843564970349,
-              "maximumSpanRatio": 0.9897782112606904,
-              "minimumSpanRatio": 0.976732389884206,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7758547494775947,
-              "maximumEdgeStretch": 3.7029083867922292,
-              "stretchedEdgeFraction": 0.0011780297452510676
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 78,
-              "maximumVertexMotion": 0.06439464903823144,
-              "maximumSpanRatio": 0.9897782112606904,
-              "minimumSpanRatio": 0.988135391437096,
-              "loopSeam": null,
-              "edgeStretchP99": 2.109393930843864,
-              "maximumEdgeStretch": 5.33893351177554,
-              "stretchedEdgeFraction": 0.004417611544691504
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 74,
-              "maximumVertexMotion": 0.4944961433943445,
-              "maximumSpanRatio": 1.0299472066003723,
-              "minimumSpanRatio": 0.9897782112606904,
-              "loopSeam": null,
-              "edgeStretchP99": 2.829712130287929,
-              "maximumEdgeStretch": 8.565387642042877,
-              "stretchedEdgeFraction": 0.008687969371226623
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_fen_crawler/evidence.json"
-        }
+        "sourceFile": "game/public/assets/models/creature/creature_fen_crawler.glb",
+        "sourceSha256": "a9a888c19bed062fea716b67203910b10cfd52c5a98c802c542b74c2a856220f",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 4.2
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.060179,
+      "impliedRunMps": 0.217741,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.567
     },
     {
       "id": "creature_reed_strider",
@@ -50531,29 +49461,29 @@
         "cooling-crust",
         "image-generated-texture"
       ],
-      "bytes": 22464720,
-      "sha256": "c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e",
+      "bytes": 22521824,
+      "sha256": "9e70425f704e9388bc49a3b3cb9b16ce0d72a59ffa47a1e44d3ddc51aedd387e",
       "triangles": 5310,
       "size": {
-        "x": 0.8407915151634773,
-        "y": 0.6804791014002597,
-        "z": 1.3147545401494223
+        "x": 0.799643,
+        "y": 0.72,
+        "z": 1.314754
       },
       "base": {
-        "x": -0.4201671557014523,
-        "y": 0.00263080272321647,
-        "z": -0.6573772700747111
+        "x": -0.399822,
+        "y": 0,
+        "z": -0.627832
       },
       "bounds": {
         "min": [
-          -0.4201671557014523,
-          0.00263080272321647,
-          -0.6573772700747111
+          -0.39982154965400696,
+          0,
+          -0.6278321743011475
         ],
         "max": [
-          0.420624359462025,
-          0.6831099041234762,
-          0.6573772700747111
+          0.39982154965400696,
+          0.7200000286102295,
+          0.6869223117828369
         ]
       },
       "groundY": 0,
@@ -50562,15 +49492,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "Slag Crawler layered mineral PBR"
       ],
-      "walkClipSeconds": 1.5199999809265137,
-      "runClipSeconds": 0.8799999952316284,
-      "attackSeconds": 0.7799999713897705,
       "metadata": {
         "id": "slag_crawler",
         "species": "Slag Crawler",
@@ -50651,188 +49577,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "contactNormalized": 0.40625,
-      "impliedWalkMps": 0.10181089967142191,
-      "impliedRunMps": 0.323866642212349,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "0c2f33f44e6792a7e2f03eaeb8883dc25e9444db175672184551c5efcecb7154",
-        "sourceGitBlob": "6958cd40deba336c7a6f8663d4909a098306eb8d",
-        "donors": [],
-        "sourceMetadata": {
-          "id": "slag_crawler",
-          "species": "Slag Crawler",
-          "rig": "Ten-joint anatomical six-leg Strata Delver skin; 2520 of 3238 vertices have multiple influences",
-          "sourceGeometry": "Tripo Strata Delver original 3238-vertex, 5310-triangle body retained",
-          "textureMaps": [
-            "Slag Crawler layered image-generated atlas",
-            "Strata Delver 2K image-derived stone normal",
-            "Strata Delver 2K occlusion-roughness-metallic"
-          ],
-          "motion": "Six authored clips; Death settles into lowered pose with folded legs; gait speed and attack contact uncalibrated",
-          "presentationHeightMeters": 0.72
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced rigid limbs with articulated appendage chains and continuous topology-aware joint collars",
-          "Baked planted foot contacts, attack reach, and held constant-scale shell settlement with folded limbs",
-          "Corrected -Z source facing to production +Z; kept six original disconnected stone limb regions and original independent head/tail weight regions"
-        ],
-        "provenance": {
-          "weights": {
-            "vertices": 3238,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 7
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "solverTargetError": 1.6700261377343067e-16,
-              "maxFloorCorrection": 0.009568671173360731
-            },
-            {
-              "name": "Walk",
-              "solverTargetError": 1.4488835837920476e-16,
-              "maxFloorCorrection": 0.012065621622990335
-            },
-            {
-              "name": "Run",
-              "solverTargetError": 1.7554167342883506e-16,
-              "maxFloorCorrection": 0.013464117221773805
-            },
-            {
-              "name": "Attack",
-              "solverTargetError": 1.5031156196411758e-16,
-              "maxFloorCorrection": 0.013091904739156248
-            },
-            {
-              "name": "Hit",
-              "solverTargetError": 1.459231405488224e-16,
-              "maxFloorCorrection": 0.009148787799291014
-            },
-            {
-              "name": "Death",
-              "solverTargetError": 1.4946834900704541e-16,
-              "maxFloorCorrection": 0.10012279617993859
-            }
-          ],
-          "sourcePitchRadians": 0,
-          "walkingLegs": 6,
-          "originalGeometryAndTexturesPreserved": true,
-          "attackContactNormalized": 0.40625,
-          "hitRecoilRadians": 0.52,
-          "hitReference": "Measured native Basalt Drake Head: 33.9 degrees at Hit phase .18; stone head uses partial original skin weights",
-          "contactBasis": "First maximum forward position of attacking claw endpoints or mineral head carrier, sampled at 65 clip phases",
-          "strideFit": {
-            "walkStride": 0.1052317459003817,
-            "runStride": 0.17100158708812027,
-            "maximumCommonStride": 0.3360390240042392,
-            "method": "Forward extent of each fixed-length support chain at sole height, with a 5 percent reach margin"
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 0 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.52,
-          "runClipSeconds": 0.88,
-          "impliedWalkMps": 0.10181089967142191,
-          "impliedRunMps": 0.323866642212349,
-          "attackSeconds": 0.78,
-          "contactNormalized": 0.40625,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 61,
-              "maximumVertexMotion": 0.00604966734215667,
-              "maximumSpanRatio": 1.0022713795592444,
-              "minimumSpanRatio": 1.001865552324362,
-              "loopSeam": 7.067681780876157e-9,
-              "edgeStretchP99": 1.320412575894078,
-              "maximumEdgeStretch": 2.30877730856556,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.5199999809265137,
-              "samples": 78,
-              "maximumVertexMotion": 0.11021482271010498,
-              "maximumSpanRatio": 1.0061740527535457,
-              "minimumSpanRatio": 1.0015469387019802,
-              "loopSeam": 5.629361377702503e-9,
-              "edgeStretchP99": 1.4143253968451233,
-              "maximumEdgeStretch": 3.016699729330795,
-              "stretchedEdgeFraction": 0.00011745360582569885
-            },
-            {
-              "name": "Run",
-              "seconds": 0.8799999952316284,
-              "samples": 87,
-              "maximumVertexMotion": 0.1781501027991404,
-              "maximumSpanRatio": 1.0080819937029664,
-              "minimumSpanRatio": 1.0001022894811404,
-              "loopSeam": 6.982678907029257e-9,
-              "edgeStretchP99": 1.4825671277548156,
-              "maximumEdgeStretch": 3.4138564305892447,
-              "stretchedEdgeFraction": 0.00011745360582569885
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.7799999713897705,
-              "samples": 66,
-              "maximumVertexMotion": 0.0913113257641623,
-              "maximumSpanRatio": 1.0021030271103508,
-              "minimumSpanRatio": 0.9994543663770551,
-              "loopSeam": null,
-              "edgeStretchP99": 1.3009559207192554,
-              "maximumEdgeStretch": 2.8463452774256965,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 66,
-              "maximumVertexMotion": 0.10525650087069724,
-              "maximumSpanRatio": 1.0028057881805306,
-              "minimumSpanRatio": 1.0011639800958092,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4153080695232565,
-              "maximumEdgeStretch": 2.2537602639141863,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 72,
-              "maximumVertexMotion": 0.24656882930618976,
-              "maximumSpanRatio": 1.0021030257693464,
-              "minimumSpanRatio": 0.932823224085494,
-              "loopSeam": null,
-              "edgeStretchP99": 1.8103538427962806,
-              "maximumEdgeStretch": 6.90457922567462,
-              "stretchedEdgeFraction": 0.0019967112990368803
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:46:08.413Z",
-          "by": "codex",
-          "sha256": "c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json"
-        }
-      }
+        "sourceFile": "game/public/assets/models/creature/creature_slag_crawler.glb",
+        "sourceSha256": "c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e",
+        "missing": [
+          "Hit"
+        ]
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.268865,
+      "impliedRunMps": 0.421931,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.483
     },
     {
       "id": "creature_cinder_penitent",
@@ -52539,17 +51313,17 @@
         "tripo",
         "flint"
       ],
-      "bytes": 15697804,
-      "sha256": "86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b",
+      "bytes": 15758160,
+      "sha256": "66da68574961de4bd53b3b0af1502af3c264bbaed222b1c1663ffd541a2c0228",
       "size": {
-        "x": 1.2589160348516941,
-        "y": 1.2963590359116677,
-        "z": 1.9522442600584227
+        "x": 1.258916,
+        "y": 1.370693,
+        "z": 1.939053
       },
       "base": {
-        "x": -0.6294580245136812,
-        "y": 0.002909990482800118,
-        "z": -0.9696617497406594
+        "x": -0.629458,
+        "y": 0,
+        "z": -1.099775
       },
       "groundY": 0,
       "triangles": 4178,
@@ -52558,16 +51332,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_flint_mandible_layered_chitin"
       ],
-      "walkClipSeconds": 1.159999966621399,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
@@ -52615,242 +51384,48 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.23130958417849898,
-      "impliedRunMps": 1.1883291458062082,
-      "locomotionPolicy": null,
       "bounds": {
         "min": [
-          -0.6294580245136812,
-          0.002909990482800118,
-          -0.9696617497406594
+          -0.6294580101966858,
+          0,
+          -1.0997754335403442
         ],
         "max": [
-          0.6294580103380131,
-          1.2992690263944677,
-          0.9825825103177631
+          0.6294580101966858,
+          1.370693325996399,
+          0.8392772674560547
         ]
       },
-      "measuredGait": null,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "ea7bed07eeb44578a0804af603489601f0659d50d7ee366c8714fe24ce4ebe82",
-        "sourceGitBlob": "478d625defebb19d5bc9e9baafcf898e91326bcd",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "flint_mandible",
-          "rig": "30-joint articulated six-leg beetle",
-          "height": 1.370693359375,
-          "presentation": {
-            "sceneScale": 1.94,
-            "existingSpeciesScale": 0.8,
-            "desiredInGameHeightMeters": 1.0965546875,
-            "habitat": "Karrowmoor",
-            "targetLevelRange": "13–18"
-          },
-          "source": "Tripo beetle mesh and Corealm native six-leg rig, with distinct image-generated layered atlas",
-          "geometry": {
-            "vertices": 2649,
-            "triangles": 4178
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.23130958417849898,
-            "impliedRunMps": 0.6569953703703703
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death applied one global-axis hip fold to opposite-sided chains"
-          ],
-          "solverTargetError": 4.652682298944613e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 2649,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 3.444376352465766e-16,
-              "maxFloorCorrection": 0.0029100012060856266
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.16,
-              "solverTargetError": 4.002966042486721e-16,
-              "maxFloorCorrection": 0.0029100012060857836
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 4.652682298944613e-16,
-              "maxFloorCorrection": 5.369773106028708e-8,
-              "maxSupportSurfaceError": 5.4557775251967006e-8
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 3.387999773988765e-16,
-              "maxFloorCorrection": 0.0029100012060857237
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 3.379462171739212e-16,
-              "maxFloorCorrection": 0.0029100012060856825
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 3.610892649124533e-16,
-              "maxFloorCorrection": 0.5780941548805769
-            }
-          ],
-          "runStance": {
-            "crouch": 0.16894166666666666,
-            "stride": 0.513358190988282,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 60,
-          "runCadence": {
-            "maxRunCadenceHz": 4.2,
-            "decision": "Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_flint_mandible/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_flint_mandible/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.16,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.23130958417849898,
-          "impliedRunMps": 1.1883291458062082,
-          "maxRunCadenceHz": 4.2,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 73,
-              "maximumVertexMotion": 0.008320317511953548,
-              "maximumSpanRatio": 0.9905012815589488,
-              "minimumSpanRatio": 0.9890520656424077,
-              "loopSeam": 5.205867321891457e-9,
-              "edgeStretchP99": 1.8010829125237704,
-              "maximumEdgeStretch": 3.819213443708061,
-              "stretchedEdgeFraction": 0.0008835223089383007
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.159999966621399,
-              "samples": 102,
-              "maximumVertexMotion": 0.1905676656807228,
-              "maximumSpanRatio": 0.996896529009746,
-              "minimumSpanRatio": 0.9898616500133993,
-              "loopSeam": 5.207166403825153e-9,
-              "edgeStretchP99": 2.1227938619780615,
-              "maximumEdgeStretch": 4.882732307400399,
-              "stretchedEdgeFraction": 0.0032395817994404358
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 107,
-              "maximumVertexMotion": 0.5374010500173232,
-              "maximumSpanRatio": 0.9852881522625835,
-              "minimumSpanRatio": 0.9671298265886903,
-              "loopSeam": 8.793812459006723e-9,
-              "edgeStretchP99": 2.8700930818358152,
-              "maximumEdgeStretch": 8.62694647296549,
-              "stretchedEdgeFraction": 0.008982476807539391
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 76,
-              "maximumVertexMotion": 0.12666952839496454,
-              "maximumSpanRatio": 0.9897782112606907,
-              "minimumSpanRatio": 0.9767323898842062,
-              "loopSeam": null,
-              "edgeStretchP99": 1.774924895857996,
-              "maximumEdgeStretch": 3.7029083867922306,
-              "stretchedEdgeFraction": 0.0011780297452510676
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 76,
-              "maximumVertexMotion": 0.17595157624530822,
-              "maximumSpanRatio": 0.9897782112606907,
-              "minimumSpanRatio": 0.9881353914370961,
-              "loopSeam": null,
-              "edgeStretchP99": 2.109393930843859,
-              "maximumEdgeStretch": 5.3389335117755365,
-              "stretchedEdgeFraction": 0.004417611544691504
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 73,
-              "maximumVertexMotion": 1.351158476316941,
-              "maximumSpanRatio": 1.0299472066003725,
-              "minimumSpanRatio": 0.9897782112606907,
-              "loopSeam": null,
-              "edgeStretchP99": 2.829712130287927,
-              "maximumEdgeStretch": 8.565387642042898,
-              "stretchedEdgeFraction": 0.008687969371226623
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_flint_mandible/evidence.json"
-        }
+        "sourceFile": "game/public/assets/models/creature/creature_flint_mandible.glb",
+        "sourceSha256": "86f501730440a553988b88ac496dbec5e425ea0ba7c0dd553f3a0f4e9f8efc1b",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 4.2
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.164971,
+      "impliedRunMps": 0.594938,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.567
     },
     {
       "id": "creature_vault_custodian",
@@ -53232,28 +51807,28 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 7720764,
-      "sha256": "84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72",
+      "bytes": 7782304,
+      "sha256": "a556e01fe4783b4a3c63facfab29fe85a12285aa1d8cc9400d63c27709398dcb",
       "size": {
-        "x": 0.7924805120865729,
-        "y": 0.7676858063273146,
-        "z": 0.9947806416816625
+        "x": 0.79248,
+        "y": 0.860836,
+        "z": 0.991699
       },
       "base": {
-        "x": -0.3962402545061283,
-        "y": 0.0014999936616034149,
-        "z": -0.49576170309471246
+        "x": -0.39624,
+        "y": 0,
+        "z": -0.561768
       },
       "bounds": {
         "min": [
-          -0.3962402545061283,
-          0.0014999936616034149,
-          -0.49576170309471246
+          -0.396240234375,
+          0,
+          -0.561767578125
         ],
         "max": [
-          0.39624025758044457,
-          0.769185799988918,
-          0.49901893858694996
+          0.396240234375,
+          0.8608357906341553,
+          0.4299316704273224
         ]
       },
       "groundY": 0,
@@ -53263,16 +51838,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_blind_cave_weaver_layered_shell"
       ],
-      "walkClipSeconds": 1.0800000429153442,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
@@ -53375,285 +51945,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.1488970588235294,
-      "impliedRunMps": 1.2241167601276035,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "2b77018bf02036560decbf7ac5d5d5dfe81cd4bf0c96b83bb98ccb4ce1512409",
-        "sourceGitBlob": "7add81609ad330dfe0b44a043e7a181cec1165a2",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "blind_cave_weaver",
-          "rig": "authored non-humanoid arthropod skeleton",
-          "anatomy": "six articulated walking legs",
-          "height": 0.8608357906341553,
-          "presentation": {
-            "suggestedScale": 0.8131632160464985,
-            "suggestedHeightMeters": 0.7,
-            "habitat": "ivory stone cavern"
-          },
-          "source": "Tripo Studio mesh and image-generated material, Corealm-authored rig and motion",
-          "deathRepair": {
-            "sourceTopY": 0.860835775630727,
-            "samples": [
-              {
-                "seconds": 0,
-                "minY": 0.007999999779560162,
-                "maxY": 0.8688357746304867,
-                "height": 0.8608357748509265
-              },
-              {
-                "seconds": 0.28,
-                "minY": 0.01022802070165205,
-                "maxY": 0.8016943110413609,
-                "height": 0.7914662903397088
-              },
-              {
-                "seconds": 0.48,
-                "minY": 0.0068526696806674075,
-                "maxY": 0.7107594759211199,
-                "height": 0.7039068062404524
-              },
-              {
-                "seconds": 0.72,
-                "minY": 0.0076234711710173935,
-                "maxY": 0.6257123908284538,
-                "height": 0.6180889196574364
-              },
-              {
-                "seconds": 1,
-                "minY": 0.007999982524601034,
-                "maxY": 0.6251025427283976,
-                "height": 0.6171025602037966
-              },
-              {
-                "seconds": 1.38,
-                "minY": 0.007999980663808456,
-                "maxY": 0.6237558715265973,
-                "height": 0.6157558908627888
-              },
-              {
-                "seconds": 1.55,
-                "minY": 0.007999998135270388,
-                "maxY": 0.6231504877893141,
-                "height": 0.6151504896540437
-              }
-            ],
-            "maximumFloorLift": 0.10694391358459648,
-            "legChannels": 24
-          },
-          "geometry": {
-            "vertices": 3436,
-            "triangles": 5400
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.1488970588235294,
-            "impliedRunMps": 0.39374999999999993
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death scaled body to [0.88,0.62,0.90] and amplified all limb rotations"
-          ],
-          "solverTargetError": 2.498001805406602e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 3436,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 1.942890293094024e-16,
-              "maxFloorCorrection": 0.0014999991419176871
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.08,
-              "solverTargetError": 2.237726045655905e-16,
-              "maxFloorCorrection": 0.001499999141917662
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 2.498001805406602e-16,
-              "maxFloorCorrection": 1.0270703280912397e-9,
-              "maxSupportSurfaceError": 0.000008061824539662421
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 2.0770370905276122e-16,
-              "maxFloorCorrection": 0.0014999991419176522
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 2.118352371637509e-16,
-              "maxFloorCorrection": 0.0014999991419177216
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 2.1544120232613906e-16,
-              "maxFloorCorrection": 0.3647662335116298
-            }
-          ],
-          "runStance": {
-            "crouch": 0.20249999999999999,
-            "stride": 0.5288184403751247,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 551,
-          "runCadence": {
-            "maxRunCadenceHz": 4.2,
-            "decision": "Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback). Healthy Tripo arachnid rig found: fitted hips agree within 4.9% of size.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7333333492279053,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.08,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.1488970588235294,
-          "impliedRunMps": 1.2241167601276035,
-          "maxRunCadenceHz": 4.2,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 70,
-              "maximumVertexMotion": 0.003279707670888382,
-              "maximumSpanRatio": 0.9690997087162915,
-              "minimumSpanRatio": 0.9680137379859083,
-              "loopSeam": 1.526062462569885e-8,
-              "edgeStretchP99": 1.4433086263032382,
-              "maximumEdgeStretch": 3.7289102772104212,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.0800000429153442,
-              "samples": 104,
-              "maximumVertexMotion": 0.11127150389516932,
-              "maximumSpanRatio": 0.9931036962985395,
-              "minimumSpanRatio": 0.9675281066367806,
-              "loopSeam": 1.1269160624311114e-8,
-              "edgeStretchP99": 1.5448683319106735,
-              "maximumEdgeStretch": 4.367879403422186,
-              "stretchedEdgeFraction": 0.000795725815618961
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 107,
-              "maximumVertexMotion": 0.5379473828224621,
-              "maximumSpanRatio": 0.9627396325688772,
-              "minimumSpanRatio": 0.9416446563546601,
-              "loopSeam": 1.0749365378521312e-8,
-              "edgeStretchP99": 2.229186602268403,
-              "maximumEdgeStretch": 8.94107167216301,
-              "stretchedEdgeFraction": 0.004205979311128794
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 75,
-              "maximumVertexMotion": 0.08267564712129037,
-              "maximumSpanRatio": 0.986115978814291,
-              "minimumSpanRatio": 0.968565715925458,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5695443994906386,
-              "maximumEdgeStretch": 3.6891573760779193,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 73,
-              "maximumVertexMotion": 0.10487823419347216,
-              "maximumSpanRatio": 0.9685657178002782,
-              "minimumSpanRatio": 0.9593758576286474,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5830287022325438,
-              "maximumEdgeStretch": 4.37423242141908,
-              "stretchedEdgeFraction": 0.0005683755825849721
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 76,
-              "maximumVertexMotion": 0.829568259962197,
-              "maximumSpanRatio": 1.0072891058836357,
-              "minimumSpanRatio": 0.9619528094101939,
-              "loopSeam": null,
-              "edgeStretchP99": 1.736615116149114,
-              "maximumEdgeStretch": 4.78522672177064,
-              "stretchedEdgeFraction": 0.0022735023303398884
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json",
-          "representative": "creature_webweaver_spider",
-          "representativeSha256": "453dff6ac66649a539315649c3ddc2861314ef08da33d97ec0b126b77ed2a63c",
-          "equivalence": {
-            "geometryExactlyEqual": true,
-            "skinWeightsExactlyEqual": true,
-            "indexedRigExactlyEqual": true,
-            "allSixClipsExactlyEqualAfterZeroCanonicalization": true,
-            "maximumRawMotionDelta": 0,
-            "structuralMotionMismatches": 0
-          }
-        }
+        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "84047ed9ec33836a95de62d1073f5f14bc177c5dc1e28b9925aa0626c2d2fb72",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 4.2
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.615396,
+      "impliedRunMps": 0.888897,
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.6
     },
     {
       "id": "creature_scree_watcher",
@@ -56202,28 +54523,28 @@
         "mineral-shell",
         "six-legged"
       ],
-      "bytes": 14322320,
-      "sha256": "a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf",
+      "bytes": 14382652,
+      "sha256": "1128ad29726af0467a1df7ced7371e709f5ce7137f41431f49743e624e7382d4",
       "size": {
-        "x": 1.2978515823213344,
-        "y": 1.3364526143419253,
-        "z": 2.0126229485138376
+        "x": 1.297852,
+        "y": 1.413086,
+        "z": 1.999023
       },
       "base": {
-        "x": -0.6489257984677126,
-        "y": 0.0029999901884537987,
-        "z": -0.9996512883924324
+        "x": -0.648926,
+        "y": 0,
+        "z": -1.133789
       },
       "bounds": {
         "min": [
-          -0.6489257984677126,
-          0.0029999901884537987,
-          -0.9996512883924324
+          -0.64892578125,
+          0,
+          -1.1337890625
         ],
         "max": [
-          0.6489257838536218,
-          1.3394526045303792,
-          1.0129716601214052
+          0.64892578125,
+          1.4130859375,
+          0.8652343153953552
         ]
       },
       "groundY": 0,
@@ -56233,16 +54554,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_storm_scarab_fangstone"
       ],
-      "walkClipSeconds": 1.159999966621399,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
@@ -56316,227 +54632,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.23846348884381346,
-      "impliedRunMps": 1.2250815936146466,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "6c81ca884b9ce3cffc51c7569f377d070f0a9dda1c39abbc200ceba9e57abb43",
-        "sourceGitBlob": "a516800c14e10b75755fa3841f49b3892a84d70b",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "tempest_roc",
-          "rig": "custom six-leg stone beetle",
-          "anatomy": "six articulated walking legs",
-          "height": 1.4130859375,
-          "presentation": {
-            "sceneScale": 2,
-            "suggestedScale": 1,
-            "suggestedHeightMeters": 1.4130859375
-          },
-          "source": "Tripo Studio mesh and image-generated material, Corealm-authored rig and motion",
-          "geometry": {
-            "vertices": 2649,
-            "triangles": 4178
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.23846348884381346,
-            "impliedRunMps": 0.677314814814815
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death applied one global-axis hip fold to opposite-sided chains"
-          ],
-          "solverTargetError": 4.081579843510303e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 2649,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 3.608224830031759e-16,
-              "maxFloorCorrection": 0.0030000012433873662
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.16,
-              "solverTargetError": 2.7755575615628914e-16,
-              "maxFloorCorrection": 0.003000001243387365
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 4.081579843510303e-16,
-              "maxFloorCorrection": 5.535848592898296e-8,
-              "maxSupportSurfaceError": 5.624512911537108e-8
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 3.1401849173675503e-16,
-              "maxFloorCorrection": 0.0030000012433873623
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 3.387999773988765e-16,
-              "maxFloorCorrection": 0.0030000012433873645
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 3.3537189618722464e-16,
-              "maxFloorCorrection": 0.5959733555469866
-            }
-          ],
-          "runStance": {
-            "crouch": 0.17416666666666672,
-            "stride": 0.5292352484415274,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 60,
-          "runCadence": {
-            "maxRunCadenceHz": 5.6,
-            "decision": "Boss Run ceiling of 5.6 stride cycles per second, the lowest that keeps the shared boss pursuit speed at its 1.6x placement; 5.2 Hz as placed reviewed in devdocs as a planted beetle scuttle (run-strip-5.2hz.png).",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_boss_tempest_roc/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_boss_tempest_roc/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.16,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.23846348884381346,
-          "impliedRunMps": 1.2250815936146466,
-          "maxRunCadenceHz": 5.6,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 71,
-              "maximumVertexMotion": 0.008577646919539997,
-              "maximumSpanRatio": 0.9905012815589487,
-              "minimumSpanRatio": 0.9890520656424074,
-              "loopSeam": 5.20586729946352e-9,
-              "edgeStretchP99": 1.801082912523769,
-              "maximumEdgeStretch": 3.8192134437080485,
-              "stretchedEdgeFraction": 0.0008835223089383007
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.159999966621399,
-              "samples": 99,
-              "maximumVertexMotion": 0.1964615110110544,
-              "maximumSpanRatio": 0.9968965290097458,
-              "minimumSpanRatio": 0.9898260047756982,
-              "loopSeam": 5.207166323307851e-9,
-              "edgeStretchP99": 2.1227938619780664,
-              "maximumEdgeStretch": 4.882732307400372,
-              "stretchedEdgeFraction": 0.0032395817994404358
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 107,
-              "maximumVertexMotion": 0.554021701048787,
-              "maximumSpanRatio": 0.9852881522625836,
-              "minimumSpanRatio": 0.9671298265886904,
-              "loopSeam": 8.793812476778927e-9,
-              "edgeStretchP99": 2.8700930818358144,
-              "maximumEdgeStretch": 8.626946472965441,
-              "stretchedEdgeFraction": 0.008982476807539391
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 78,
-              "maximumVertexMotion": 0.13058714267522123,
-              "maximumSpanRatio": 0.9897782112606903,
-              "minimumSpanRatio": 0.9767323898842059,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7749248958580004,
-              "maximumEdgeStretch": 3.702908386792218,
-              "stretchedEdgeFraction": 0.0011780297452510676
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 76,
-              "maximumVertexMotion": 0.18139337757248278,
-              "maximumSpanRatio": 0.9897782112606903,
-              "minimumSpanRatio": 0.9881353914370958,
-              "loopSeam": null,
-              "edgeStretchP99": 2.1093939308438667,
-              "maximumEdgeStretch": 5.338933511775524,
-              "stretchedEdgeFraction": 0.004417611544691504
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 75,
-              "maximumVertexMotion": 1.3929468828009703,
-              "maximumSpanRatio": 1.029947206600372,
-              "minimumSpanRatio": 0.9897782112606903,
-              "loopSeam": null,
-              "edgeStretchP99": 2.829712130287929,
-              "maximumEdgeStretch": 8.565387642042856,
-              "stretchedEdgeFraction": 0.008687969371226623
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_boss_tempest_roc/evidence.json"
-        }
+        "sourceFile": "game/public/assets/models/creature/creature_boss_tempest_roc.glb",
+        "sourceSha256": "a6f83f93aec54eb940672f7ebb93ce5ee466162a69eec184a42eaf486a9532cf",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 5.6
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.17,
+      "impliedRunMps": 0.613102,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.567
     },
     {
       "id": "creature_boss_galeskin",
@@ -59920,29 +58045,29 @@
         "ember-fissures",
         "image-generated-texture"
       ],
-      "bytes": 22898580,
-      "sha256": "c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12",
+      "bytes": 22955704,
+      "sha256": "2e7d1d227dce11415ed86376231347929cc6bb03acc3834f358969a3c0aed038",
       "triangles": 5310,
       "size": {
-        "x": 1.9852021885804325,
-        "y": 1.6066867671950575,
-        "z": 3.1042815531305807
+        "x": 1.888046,
+        "y": 1.7,
+        "z": 3.104282
       },
       "base": {
-        "x": -0.9920613398506513,
-        "y": 0.006211617540927699,
-        "z": -1.5521407765652904
+        "x": -0.944023,
+        "y": 0,
+        "z": -1.482382
       },
       "bounds": {
         "min": [
-          -0.9920613398506513,
-          0.006211617540927699,
-          -1.5521407765652904
+          -0.944023072719574,
+          0,
+          -1.4823815822601318
         ],
         "max": [
-          0.9931408487297813,
-          1.6128983847359852,
-          1.5521407765652904
+          0.944023072719574,
+          1.7000000476837158,
+          1.6219000816345215
         ]
       },
       "groundY": 0,
@@ -59951,15 +58076,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "Cinderback Crag layered mineral PBR"
       ],
-      "walkClipSeconds": 1.5199999809265137,
-      "runClipSeconds": 0.8799999952316284,
-      "attackSeconds": 0.7799999713897705,
       "metadata": {
         "id": "cinderback_crag",
         "species": "Cinderback Crag",
@@ -60040,198 +58161,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "contactNormalized": 0.40625,
-      "impliedWalkMps": 0.24038684644641287,
-      "impliedRunMps": 0.7646851274458241,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "e73c4934d6c140fbe1b3eb247cfd47853ec0e6da505b5e7a7c67444ef92ee1fb",
-        "sourceGitBlob": "4f19ff4040fd445aa96bcf0e685e123d08eea6ac",
-        "donors": [],
-        "sourceMetadata": {
-          "id": "cinderback_crag",
-          "species": "Cinderback Crag",
-          "rig": "Ten-joint anatomical six-leg Strata Delver skin; 2520 of 3238 vertices have multiple influences",
-          "sourceGeometry": "Tripo Strata Delver original 3238-vertex, 5310-triangle body retained",
-          "textureMaps": [
-            "Cinderback Crag layered image-generated atlas",
-            "Strata Delver 2K image-derived stone normal",
-            "Strata Delver 2K occlusion-roughness-metallic"
-          ],
-          "motion": "Six authored clips; Death settles into lowered pose with folded legs; gait speed and attack contact uncalibrated",
-          "presentationHeightMeters": 1.7
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced rigid limbs with articulated appendage chains and continuous topology-aware joint collars",
-          "Baked planted foot contacts, attack reach, and held constant-scale shell settlement with folded limbs",
-          "Corrected -Z source facing to production +Z; kept six original disconnected stone limb regions and original independent head/tail weight regions"
-        ],
-        "provenance": {
-          "weights": {
-            "vertices": 3238,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 7
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "solverTargetError": 3.516314866869299e-16,
-              "maxFloorCorrection": 0.022592695825990588
-            },
-            {
-              "name": "Walk",
-              "solverTargetError": 3.521787733787174e-16,
-              "maxFloorCorrection": 0.028488273276505105
-            },
-            {
-              "name": "Run",
-              "solverTargetError": 3.775166431889533e-16,
-              "maxFloorCorrection": 0.03179027677363242
-            },
-            {
-              "name": "Attack",
-              "solverTargetError": 3.775166431889533e-16,
-              "maxFloorCorrection": 0.030911441745230184
-            },
-            {
-              "name": "Hit",
-              "solverTargetError": 3.390840864445248e-16,
-              "maxFloorCorrection": 0.021601304526103853
-            },
-            {
-              "name": "Death",
-              "solverTargetError": 4.710277376051325e-16,
-              "maxFloorCorrection": 0.23640104653596627
-            }
-          ],
-          "sourcePitchRadians": 0,
-          "walkingLegs": 6,
-          "originalGeometryAndTexturesPreserved": true,
-          "attackContactNormalized": 0.40625,
-          "hitRecoilRadians": 0.52,
-          "hitReference": "Measured native Basalt Drake Head: 33.9 degrees at Hit phase .18; stone head uses partial original skin weights",
-          "contactBasis": "First maximum forward position of attacking claw endpoints or mineral head carrier, sampled at 65 clip phases",
-          "strideFit": {
-            "walkStride": 0.24846384448701236,
-            "runStride": 0.4037537472913951,
-            "maximumCommonStride": 0.7934254733433426,
-            "method": "Forward extent of each fixed-length support chain at sole height, with a 5 percent reach margin"
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/hexapod): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 0 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.52,
-          "runClipSeconds": 0.88,
-          "impliedWalkMps": 0.24038684644641287,
-          "impliedRunMps": 0.7646851274458241,
-          "attackSeconds": 0.78,
-          "contactNormalized": 0.40625,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 61,
-              "maximumVertexMotion": 0.014283936780092077,
-              "maximumSpanRatio": 1.0022713795592442,
-              "minimumSpanRatio": 1.0018655523243618,
-              "loopSeam": 7.067681684892874e-9,
-              "edgeStretchP99": 1.3204125758940772,
-              "maximumEdgeStretch": 2.3087773085655625,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.5199999809265137,
-              "samples": 78,
-              "maximumVertexMotion": 0.26022944250997004,
-              "maximumSpanRatio": 1.0061740527535454,
-              "minimumSpanRatio": 1.00154693870198,
-              "loopSeam": 5.629361469366594e-9,
-              "edgeStretchP99": 1.4143253968451184,
-              "maximumEdgeStretch": 3.0166997293308015,
-              "stretchedEdgeFraction": 0.00011745360582569885
-            },
-            {
-              "name": "Run",
-              "seconds": 0.8799999952316284,
-              "samples": 87,
-              "maximumVertexMotion": 0.42063218716463713,
-              "maximumSpanRatio": 1.0080819937029664,
-              "minimumSpanRatio": 1.0001022894811404,
-              "loopSeam": 6.982678922926171e-9,
-              "edgeStretchP99": 1.482567127754817,
-              "maximumEdgeStretch": 3.413856430589254,
-              "stretchedEdgeFraction": 0.00011745360582569885
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.7799999713897705,
-              "samples": 66,
-              "maximumVertexMotion": 0.21559618583204976,
-              "maximumSpanRatio": 1.0021030271103508,
-              "minimumSpanRatio": 0.999454366377055,
-              "loopSeam": null,
-              "edgeStretchP99": 1.3009559207192618,
-              "maximumEdgeStretch": 2.8463452774257005,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 66,
-              "maximumVertexMotion": 0.2485222937224795,
-              "maximumSpanRatio": 1.0028057881805303,
-              "minimumSpanRatio": 1.0011639800958094,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4153080695232547,
-              "maximumEdgeStretch": 2.2537602639141916,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 72,
-              "maximumVertexMotion": 0.5821764025285036,
-              "maximumSpanRatio": 1.0021030257693464,
-              "minimumSpanRatio": 0.9328232240854938,
-              "loopSeam": null,
-              "edgeStretchP99": 1.810353842796281,
-              "maximumEdgeStretch": 6.904579225674625,
-              "stretchedEdgeFraction": 0.0019967112990368803
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:46:08.413Z",
-          "by": "codex",
-          "sha256": "c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropods-v5/creature_slag_crawler/evidence.json",
-          "representative": "creature_slag_crawler",
-          "representativeSha256": "c517361d5f93a50778c67369cae4b4c456b24b8feda4804d4018f8817810432e",
-          "equivalence": {
-            "geometryExactlyEqual": true,
-            "skinWeightsExactlyEqual": true,
-            "indexedRigExactlyEqual": true,
-            "allSixClipsExactlyEqualAfterZeroCanonicalization": true,
-            "maximumRawMotionDelta": 0,
-            "structuralMotionMismatches": 0
-          }
-        }
-      }
+        "sourceFile": "game/public/assets/models/creature/creature_cinderback_crag.glb",
+        "sourceSha256": "c309cf12db1de125f6b8a60b514db64341115d5f831027cb7451b2a1c41bfd12",
+        "missing": [
+          "Hit"
+        ]
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.635054,
+      "impliedRunMps": 0.996224,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.483
     },
     {
       "id": "creature_furnace_grazer",
@@ -60859,17 +58818,17 @@
         "arachnid",
         "user-supplied"
       ],
-      "bytes": 5522600,
-      "sha256": "7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13",
+      "bytes": 5574364,
+      "sha256": "99f63165d371113b97ef62e0b3789bd14ca9540a6aa8be8abf12968af678e4b6",
       "size": {
-        "x": 2.316448432989815,
-        "y": 2.1387412608785503,
-        "z": 2.1709957005231284
+        "x": 2.345411,
+        "y": 2.143457,
+        "z": 2.170997
       },
       "base": {
-        "x": -1.1583349125983673,
-        "y": 0.0047160537487433265,
-        "z": -1.0854973976417528
+        "x": -1.175,
+        "y": 0,
+        "z": -1.280567
       },
       "groundY": 0,
       "triangles": 5150,
@@ -60878,16 +58837,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "tripo_mat_0c4f36c6-f3a5-4330-8937-980b84c04bf5"
       ],
-      "walkClipSeconds": 1.0499999523162842,
-      "runClipSeconds": 0.6800000071525574,
-      "attackSeconds": 1.1799999475479126,
-      "contactNormalized": 0.40625,
       "sourceProvenance": {
         "author": "User supplied original; Corealm anatomical skin and animation",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/sources/rift-carapace-original.glb",
@@ -60953,200 +58907,48 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "locomotionPolicy": "speed-matched",
       "bounds": {
         "min": [
-          -1.1583349125983673,
-          0.0047160537487433265,
-          -1.0854973976417528
+          -1.1749999523162842,
+          0,
+          -1.280566692352295
         ],
         "max": [
-          1.1581135203914477,
-          2.1434573146272937,
-          1.0854983028813756
+          1.170410394668579,
+          2.1434574127197266,
+          0.8904299139976501
         ]
       },
       "vertices": 3807,
-      "acceptanceEvidence": {
-        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
-        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/claws): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 2 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,3], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Death": 1.0333333015441895
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_rift_carapace.glb",
+        "sourceSha256": "7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13",
+        "missing": [
+          "Hit"
+        ]
       },
-      "impliedWalkMps": 0.2633053221288516,
-      "impliedRunMps": 0.7487745098039218,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "e97c94df7607834a75e362251c637e86c3244bc7cb76fd0f03b0cfc568e4f674",
-        "sourceGitBlob": "3f8a9c234d78d0b1f526dc2f3fd3ef1db1e15452",
-        "donors": [],
-        "sourceMetadata": {
-          "is": "User-supplied violet crystalline armored crab-arachnid",
-          "walkClipSeconds": 1.05,
-          "runClipSeconds": 0.68,
-          "attackSeconds": 1.18,
-          "contactSeconds": 0.58,
-          "contactNormalized": 0.4915254237288135,
-          "contactBasis": "Paired crushing claws converge at 0.58 seconds.",
-          "renderedIdleHeightMeters": 2.143457294583321,
-          "gaitCalibration": "uncalibrated in-place gait; use creature definition speed"
-        },
-        "changes": [
-          "Replaced rigid limbs with articulated appendage chains and continuous topology-aware joint collars",
-          "Baked planted foot contacts, attack reach, and held constant-scale shell settlement with folded limbs"
-        ],
-        "provenance": {
-          "weights": {
-            "vertices": 3807,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 7
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "solverTargetError": 6.262327721589241e-16,
-              "maxFloorCorrection": 0
-            },
-            {
-              "name": "Walk",
-              "solverTargetError": 5.855456244815921e-16,
-              "maxFloorCorrection": 0.0005406220024517594
-            },
-            {
-              "name": "Run",
-              "solverTargetError": 6.764976740795321e-16,
-              "maxFloorCorrection": 0.0008805058425923012
-            },
-            {
-              "name": "Attack",
-              "solverTargetError": 0.03822082051717665,
-              "maxFloorCorrection": 0.00013973039143581976
-            },
-            {
-              "name": "Hit",
-              "solverTargetError": 5.855456244815921e-16,
-              "maxFloorCorrection": 0.00027304915885957223
-            },
-            {
-              "name": "Death",
-              "solverTargetError": 1.047382306668854e-15,
-              "maxFloorCorrection": 1.0473398780454262
-            }
-          ],
-          "sourcePitchRadians": 0,
-          "walkingLegs": 4,
-          "originalGeometryAndTexturesPreserved": true,
-          "attackContactNormalized": 0.40625,
-          "contactBasis": "First maximum forward position of attacking claw endpoints or mineral head carrier, sampled at 65 clip phases",
-          "strideFit": {
-            "walkStride": 0.18800000000000006,
-            "runStride": 0.3055000000000001,
-            "maximumCommonStride": 0.8924485839004958,
-            "method": "Forward extent of each fixed-length support chain at sole height, with a 5 percent reach margin"
-          }
-        },
-        "motion": {
-          "walkClipSeconds": 1.05,
-          "runClipSeconds": 0.68,
-          "impliedWalkMps": 0.2633053221288516,
-          "impliedRunMps": 0.7487745098039218,
-          "attackSeconds": 1.18,
-          "contactNormalized": 0.40625,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 67,
-              "maximumVertexMotion": 0.016266425975470924,
-              "maximumSpanRatio": 0.9958024172882514,
-              "minimumSpanRatio": 0.9936741703697244,
-              "loopSeam": 2.076852833738041e-9,
-              "edgeStretchP99": 1.0254458270063591,
-              "maximumEdgeStretch": 1.1527295447681238,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.0499999523162842,
-              "samples": 78,
-              "maximumVertexMotion": 0.1892747041763344,
-              "maximumSpanRatio": 0.9950915042698366,
-              "minimumSpanRatio": 0.9944271484188154,
-              "loopSeam": 4.556909202364501e-9,
-              "edgeStretchP99": 1.03343252806753,
-              "maximumEdgeStretch": 1.2860113931248651,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6800000071525574,
-              "samples": 78,
-              "maximumVertexMotion": 0.30756624728853377,
-              "maximumSpanRatio": 0.9951025795687716,
-              "minimumSpanRatio": 0.9943647831384661,
-              "loopSeam": 2.0454882561683363e-9,
-              "edgeStretchP99": 1.0497754807735964,
-              "maximumEdgeStretch": 1.4398966629660754,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.1799999475479126,
-              "samples": 69,
-              "maximumVertexMotion": 0.27581517161790237,
-              "maximumSpanRatio": 0.9992032422524503,
-              "minimumSpanRatio": 0.9947454407627484,
-              "loopSeam": null,
-              "edgeStretchP99": 1.1780623252375926,
-              "maximumEdgeStretch": 1.799236943291598,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 66,
-              "maximumVertexMotion": 0.2298620213748398,
-              "maximumSpanRatio": 0.994745444673248,
-              "minimumSpanRatio": 0.991477227687546,
-              "loopSeam": null,
-              "edgeStretchP99": 1.3860586886916086,
-              "maximumEdgeStretch": 2.2300809939620767,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 91,
-              "maximumVertexMotion": 2.7029767481877536,
-              "maximumSpanRatio": 0.994745444673248,
-              "minimumSpanRatio": 0.8506531355025215,
-              "loopSeam": null,
-              "edgeStretchP99": 2.674946732153623,
-              "maximumEdgeStretch": 5.884455111606,
-              "stretchedEdgeFraction": 0.007801899592944369
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:46:06.738Z",
-          "by": "codex",
-          "sha256": "7b56bab6de1abf6bb9adc079a082386fa8e270373819ca9f3cae31549193fd13",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropods-v4/creature_rift_carapace/evidence.json"
-        }
-      }
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.311792,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.55
     },
     {
       "id": "creature_voidstone_colossus",
@@ -72886,28 +70688,28 @@
         "creature",
         "six-legged"
       ],
-      "bytes": 8438296,
-      "sha256": "d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b",
+      "bytes": 8499744,
+      "sha256": "1f1b2bbef14d269b87f077ba0f356099786ef2811a6fb9fa2c0bf8a9e0bf602a",
       "size": {
-        "x": 0.8600647523924536,
-        "y": 0.8331555071249177,
-        "z": 1.0796174205218558
+        "x": 0.860065,
+        "y": 0.93425,
+        "z": 1.076273
       },
       "base": {
-        "x": -0.43003237452797693,
-        "y": 0.0016279159644701144,
-        "z": -0.5380412009061937
+        "x": -0.430032,
+        "y": 0,
+        "z": -0.609676
       },
       "bounds": {
         "min": [
-          -0.43003237452797693,
-          0.0016279159644701144,
-          -0.5380412009061937
+          -0.430032342672348,
+          0,
+          -0.6096762418746948
         ],
         "max": [
-          0.4300323778644766,
-          0.8347834230893878,
-          0.5415762196156622
+          0.430032342672348,
+          0.9342495203018188,
+          0.4665970802307129
         ]
       },
       "groundY": 0,
@@ -72917,16 +70719,11 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
         "animal_dewglass_weaver_layered_shell"
       ],
-      "walkClipSeconds": 1.0800000429153442,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.9399999976158142,
-      "contactNormalized": 0.296875,
       "sourceProvenance": {
         "tool": "Tripo Studio",
         "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
@@ -73036,277 +70833,36 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.1615952822509706,
-      "impliedRunMps": 1.3285117578810406,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "459d5bcabb2c795eef85bb616e18b0dfedd7e4a699818de5122463a3b09489d0",
-        "sourceGitBlob": "032e33c2dd0a541a76db21a180e69fa980ed87b2",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "dewglass_weaver",
-          "rig": "custom six-leg arthropod",
-          "anatomy": "six articulated walking legs",
-          "height": 0.9342494986696231,
-          "presentation": {
-            "sceneScale": 1.0852818956114567,
-            "rawAssetHeightMeters": 0.9342494986696231,
-            "existingSpeciesScale": 0.7086123195731177,
-            "desiredInGameHeightMeters": 0.662020704312304,
-            "habitat": "Gloamgarden fairy region"
-          },
-          "source": "Tripo Studio mesh and PBR maps; imagegen edited 2K albedo; Corealm rig and motion",
-          "deathRepair": {
-            "sourceTopY": 0.9342494823866742,
-            "samples": [
-              {
-                "seconds": 0,
-                "minY": 0.007999999845451963,
-                "maxY": 0.942249481375418,
-                "height": 0.934249481529966
-              },
-              {
-                "seconds": 0.28,
-                "minY": 0.01041802955511206,
-                "maxY": 0.8693820654234558,
-                "height": 0.8589640358683437
-              },
-              {
-                "seconds": 0.48,
-                "minY": 0.006754816401052633,
-                "maxY": 0.7706921294006109,
-                "height": 0.7639373129995582
-              },
-              {
-                "seconds": 0.72,
-                "minY": 0.0075913606592735786,
-                "maxY": 0.678392075046145,
-                "height": 0.6708007143868714
-              },
-              {
-                "seconds": 1,
-                "minY": 0.007999981614809956,
-                "maxY": 0.6777302179440812,
-                "height": 0.6697302363292712
-              },
-              {
-                "seconds": 1.38,
-                "minY": 0.0079999795953255,
-                "maxY": 0.6762687000694259,
-                "height": 0.6682687204741004
-              },
-              {
-                "seconds": 1.55,
-                "minY": 0.007999998556786722,
-                "maxY": 0.6756116880594548,
-                "height": 0.6676116895026681
-              }
-            ],
-            "maximumFloorLift": 0.10631527030983946,
-            "legChannels": 24
-          },
-          "geometry": {
-            "vertices": 3436,
-            "triangles": 5400
-          },
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.296875,
-            "seconds": 0.27906249929219484
-          },
-          "gaitMeasurement": {
-            "impliedWalkMps": 0.1615952822509706,
-            "impliedRunMps": 0.42732974639701116
-          }
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death"
         },
-        "changes": [
-          "Replaced all six states with a flexed neutral stance, planted alternating-tripod walk/run, supported attacks/hits, and articulated death without body scaling"
-        ],
-        "provenance": {
-          "method": "Planted alternating-tripod contacts, analytic joint rotations at original bind lengths, neutral flexed stance, constant-scale supported death",
-          "reference": "tools/creature-expansion/crawlers.mjs plant/animate; studio animal_scorpion Idle/Walk/Run support sequencing",
-          "oldDefects": [
-            "Five-key sinusoidal leg rotations without foot contacts",
-            "Death scaled body to [0.88,0.62,0.90] and amplified all limb rotations"
-          ],
-          "solverTargetError": 2.7755575615628914e-16,
-          "scaleChannels": 0,
-          "weights": {
-            "vertices": 3436,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "solverTargetError": 2.7230185981536845e-16,
-              "maxFloorCorrection": 0.001627921912155928
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.08,
-              "solverTargetError": 2.7755575615628914e-16,
-              "maxFloorCorrection": 0.001627921912155958
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "solverTargetError": 2.665835984225005e-16,
-              "maxFloorCorrection": 1.1146607593100905e-9,
-              "maxSupportSurfaceError": 0.000008749352218520579
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.94,
-              "solverTargetError": 2.5438405243138006e-16,
-              "maxFloorCorrection": 0.0016279219121559346
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "solverTargetError": 2.7755575615628914e-16,
-              "maxFloorCorrection": 0.0016279219121559901
-            },
-            {
-              "name": "Death",
-              "seconds": 1.55,
-              "solverTargetError": 2.7336071744532853e-16,
-              "maxFloorCorrection": 0.3958741893605529
-            }
-          ],
-          "runStance": {
-            "crouch": 0.21976958386132003,
-            "stride": 0.5739170794046096,
-            "duty": 0.6,
-            "radialReachMargin": 0.05,
-            "contacts": "Actual weighted limb surfaces solved to floor; fore/aft centers aligned with each hip"
-          },
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "attackContactNormalized": 0.296875,
-          "contactBasis": "First maximum forward skinned vertex of the weighted head or mandible surface over 65 phases",
-          "attackingSurfaceVertices": 551,
-          "runCadence": {
-            "maxRunCadenceHz": 4.2,
-            "decision": "Family Run ceiling of 4.2 stride cycles per second for weavers and beetles alike; 6 Hz was rejected in devdocs as racing legs. Placed bodies cycle at 3.95 Hz at the ceiling: 15 display frames per cycle, a six-frame swing.",
-            "strideBasis": "Fixed-length IK sweep divided by the measured 0.60 stance duty and unchanged 0.72-second clip; independently verified against persistent skinned sole velocities. Cadence changes playback limits, never implied native speed.",
-            "evidence": [
-              {
-                "review": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/evidence.json",
-                "frames60fps": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_webweaver_spider/run-strip-travel-60fps.png"
-              }
-            ]
-          }
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh (carapace bone, 3 leg pairs of femur/tibia/tarsus, 2 mandible/pincer chains); bone-heat weights split per limb, carapace rigid; rest == bind. Legs paired with donor legs by side and order (donor pairs [0,1,2], chosen to keep the donor walk's tripod/alternating phase); in-place loops; chain IK plants each tip on the donor's scaled tip path; no scale keys. Pedipalp motion in loop takes is taken relative to the take's first frame. Death: Quaternius spider roll onto the back, hub hop damped to 35%. Hit omitted (runtime fallback). Healthy Tripo arachnid rig found: fitted hips agree within 4.9% of size.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7333333492279053,
+          "Death": 1.0333333015441895
         },
-        "motion": {
-          "walkClipSeconds": 1.08,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.1615952822509706,
-          "impliedRunMps": 1.3285117578810406,
-          "maxRunCadenceHz": 4.2,
-          "attackSeconds": 0.94,
-          "contactNormalized": 0.296875,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 73,
-              "maximumVertexMotion": 0.0035594073581132154,
-              "maximumSpanRatio": 0.9690997087162916,
-              "minimumSpanRatio": 0.9680137379859083,
-              "loopSeam": 1.5260624562369456e-8,
-              "edgeStretchP99": 1.44330862630318,
-              "maximumEdgeStretch": 3.7289102772104337,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.0800000429153442,
-              "samples": 98,
-              "maximumVertexMotion": 0.12076094867488692,
-              "maximumSpanRatio": 0.9931036962985398,
-              "minimumSpanRatio": 0.9675281066367806,
-              "loopSeam": 1.1269160539962534e-8,
-              "edgeStretchP99": 1.5448683319106762,
-              "maximumEdgeStretch": 4.367879403422197,
-              "stretchedEdgeFraction": 0.000795725815618961
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 111,
-              "maximumVertexMotion": 0.5838245553687837,
-              "maximumSpanRatio": 0.9627396325688775,
-              "minimumSpanRatio": 0.9415809371949235,
-              "loopSeam": 1.0749365267464872e-8,
-              "edgeStretchP99": 2.229186602268396,
-              "maximumEdgeStretch": 8.941071672163018,
-              "stretchedEdgeFraction": 0.004205979311128794
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.9399999976158142,
-              "samples": 77,
-              "maximumVertexMotion": 0.0897263830286979,
-              "maximumSpanRatio": 0.9861159788142912,
-              "minimumSpanRatio": 0.9685657159254583,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5695443994906473,
-              "maximumEdgeStretch": 3.6891573760779273,
-              "stretchedEdgeFraction": 0.00022735023303398886
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 77,
-              "maximumVertexMotion": 0.11382244881387384,
-              "maximumSpanRatio": 0.9685657178002781,
-              "minimumSpanRatio": 0.9593758576286473,
-              "loopSeam": null,
-              "edgeStretchP99": 1.583028702232543,
-              "maximumEdgeStretch": 4.3742324214191,
-              "stretchedEdgeFraction": 0.0005683755825849721
-            },
-            {
-              "name": "Death",
-              "seconds": 1.5499999523162842,
-              "samples": 80,
-              "maximumVertexMotion": 0.9003154137108706,
-              "maximumSpanRatio": 1.007289105883636,
-              "minimumSpanRatio": 0.9619528094101941,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7366151161491474,
-              "maximumEdgeStretch": 4.785226721770678,
-              "stretchedEdgeFraction": 0.0022735023303398884
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:59:38.644Z",
-          "by": "codex",
-          "sha256": "d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropod-run-v2/creature_dewglass_weaver/evidence.json"
-        }
+        "sourceFile": "D:\\corealm-wt\\cm-arth\\assets\\art\\tripo\\exports\\0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+        "sourceSha256": "d3068c11c6febc0afeb9f9423bee79b26d816ff1425190bb138f712f89e8350b",
+        "missing": [
+          "Hit"
+        ]
       },
-      "maxRunCadenceHz": 4.2
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.667858,
+      "impliedRunMps": 0.964672,
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.6
     },
     {
       "id": "creature_bloomheart_matriarch",
