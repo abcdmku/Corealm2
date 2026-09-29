@@ -23069,8 +23069,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 9988088,
-      "sha256": "cb86bbbe9720e13efdbb90131e401b147e0d751a0286d4128509f9e62babc197",
+      "bytes": 10111852,
+      "sha256": "6d23e80b927acd70c526cd795a317057be325862d2a44d0589508f5acf3e48c4",
       "size": {
         "x": 1.469849,
         "y": 2.122559,
@@ -23195,22 +23195,22 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.389 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.385 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Run": 1.0980392694473267,
+          "Run": 0.9333333373069763,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_beetle_golem.glb",
-        "sourceSha256": "4365257bbd7aaa811b851f2d7d625383a1f4c2ab51204e840501bba83dd41ea4"
+        "sourceSha256": "cb86bbbe9720e13efdbb90131e401b147e0d751a0286d4128509f9e62babc197"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 1.098039,
-      "impliedWalkMps": 0.776534,
-      "impliedRunMps": 4.391087,
+      "runClipSeconds": 0.933333,
+      "impliedWalkMps": 0.776872,
+      "impliedRunMps": 5.170681,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -23353,8 +23353,8 @@
         "image-generated-texture",
         "polish-candidate"
       ],
-      "bytes": 17355800,
-      "sha256": "4e68c8553e27d4bd7afa3d6b7f26ae47d2a2b9e648beea40274fb4ded9c6989a",
+      "bytes": 17481720,
+      "sha256": "e9481a44ccaadf89bdd036488328fc4209855f1a175a75688aeecc36bd87b50b",
       "size": {
         "x": 1.945122,
         "y": 2.2,
@@ -23829,7 +23829,7 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Sword_Regular_A + Sword_Regular_B + Sword_Regular_B_Rec",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
@@ -23838,20 +23838,20 @@
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Run": 1.0980392694473267,
-          "Attack": 1,
+          "Run": 0.9333333373069763,
+          "Attack": 2,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_lava_golem.glb",
-        "sourceSha256": "ebbcca1ddfd865337c575a6053b85e3003823fb15f6edbbfacbd0cd2a1bef12f"
+        "sourceSha256": "4e68c8553e27d4bd7afa3d6b7f26ae47d2a2b9e648beea40274fb4ded9c6989a"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 1.098039,
+      "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.379455,
-      "impliedRunMps": 5.937841,
-      "attackSeconds": 1,
-      "contactNormalized": 0.283
+      "impliedRunMps": 6.985696,
+      "attackSeconds": 2,
+      "contactNormalized": 0.15
     },
     {
       "id": "creature_shale_elemental",
@@ -27525,8 +27525,8 @@
         "stone",
         "tripo"
       ],
-      "bytes": 16962132,
-      "sha256": "01ca41f67a27c46707ed81fa09a5f019f226da838c0de833a46c7268bc659361",
+      "bytes": 17085856,
+      "sha256": "b1aa8cfccbf19df1f4b324c3aacafedb262bb7d4bf473701d136e5796d203252",
       "triangles": 6778,
       "size": {
         "x": 1.330581,
@@ -27623,18 +27623,18 @@
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Run": 1.0980392694473267,
+          "Run": 0.9333333373069763,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_stone_golem.glb",
-        "sourceSha256": "6aac315fb047bba7b9236c4de97c1c04ed9b3b4afc7209dd89531e75a515a76c"
+        "sourceSha256": "01ca41f67a27c46707ed81fa09a5f019f226da838c0de833a46c7268bc659361"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 1.098039,
+      "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.920299,
-      "impliedRunMps": 4.682067,
+      "impliedRunMps": 5.508315,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -38668,8 +38668,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 7840232,
-      "sha256": "8def94f898088ab60c8bac177d31cea1805754872a6840da960834fc35c36261",
+      "bytes": 7963948,
+      "sha256": "c843c62e83a9d07c2de50b32386b3e2bdd7f354912142222c39b250bb1bd0bd3",
       "size": {
         "x": 2.641131,
         "y": 2.960718,
@@ -38783,22 +38783,22 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.704 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.801 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Run": 1.0980392694473267,
+          "Run": 0.9333333373069763,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_ordrun.glb",
-        "sourceSha256": "6729b8837f1e1337c9114d5e903cac1e3d0ede66b5c348c3e059a6e2b5c5c002"
+        "sourceSha256": "8def94f898088ab60c8bac177d31cea1805754872a6840da960834fc35c36261"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 1.098039,
-      "impliedWalkMps": 1.387753,
-      "impliedRunMps": 7.707814,
+      "runClipSeconds": 0.933333,
+      "impliedWalkMps": 1.394462,
+      "impliedRunMps": 9.283822,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -41350,8 +41350,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17542944,
-      "sha256": "0d834fda392a486e00e6b20230a2d2167565420bfc64e65cb66e7a0b4598968a",
+      "bytes": 17666524,
+      "sha256": "eb7b01659721e1fb23c82874e5e8cc2596555cebed0f190d5b5e62c11a5ac5cb",
       "triangles": 8502,
       "size": {
         "x": 2.289845,
@@ -41504,18 +41504,18 @@
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Run": 1.0980392694473267,
+          "Run": 0.9333333373069763,
           "Attack": 1.7999999523162842,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_voidstone_colossus.glb",
-        "sourceSha256": "040020ad99a01fbf18381788d22f951098734bbc73f4d03d67068f419174d10e"
+        "sourceSha256": "0d834fda392a486e00e6b20230a2d2167565420bfc64e65cb66e7a0b4598968a"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 1.098039,
+      "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.074157,
-      "impliedRunMps": 5.780828,
+      "impliedRunMps": 6.800975,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -42365,8 +42365,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17663900,
-      "sha256": "024e45501e1cc414a74d540b846dd9eb28d195af8915fed95716a96245cd07ce",
+      "bytes": 17782100,
+      "sha256": "19dfba0f3e602a4fbfefa5856d8c8a6d330c7a781c58f65c5634cb1c22bb9594",
       "triangles": 8467,
       "size": {
         "x": 1.641864,
@@ -42510,29 +42510,29 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Shield_Dash",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.674 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.931 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
-          "Run": 1.0980392694473267,
-          "Attack": 1.100000023841858,
+          "Run": 0.9333333373069763,
+          "Attack": 1.3333333730697632,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_ashseal_warden.glb",
-        "sourceSha256": "169a31d48c069cfd8fcbf8aa8abdd9e1ece5e681fd0ad7f42347bd8c767e4820"
+        "sourceSha256": "024e45501e1cc414a74d540b846dd9eb28d195af8915fed95716a96245cd07ce"
       },
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 1.098039,
+      "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.69054,
-      "impliedRunMps": 3.777173,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.15
+      "impliedRunMps": 4.443733,
+      "attackSeconds": 1.333333,
+      "contactNormalized": 0.433
     },
     {
       "id": "creature_furnace_regent",

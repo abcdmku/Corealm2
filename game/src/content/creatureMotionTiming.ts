@@ -105,8 +105,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4
   },
   "creature_ashseal_warden": {
-    "seconds": 1.1,
-    "contactNormalized": 0.15
+    "seconds": 1.333333,
+    "contactNormalized": 0.433
   },
   "creature_baby_black_dragon": {
     "seconds": 1.166667,
@@ -317,8 +317,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.43
   },
   "creature_lava_golem": {
-    "seconds": 1,
-    "contactNormalized": 0.283
+    "seconds": 2,
+    "contactNormalized": 0.15
   },
   "creature_marchfield_turkey": {
     "seconds": 1.166667,
@@ -767,7 +767,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_banshee": 0.2079,
   "creature_basalt_drake": 8.1567,
   "creature_basalt_maw": 10.4841,
-  "creature_beetle_golem": 14.4648,
+  "creature_beetle_golem": 14.4779,
   "creature_black_wilderness_dragon": 7.4661,
   "creature_blackwater_heron": 3.259,
   "creature_blind_cave_weaver": 1.9223,
@@ -775,7 +775,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_boss_cinderwake": 21.9187,
   "creature_boss_galeskin": 8.4368,
   "creature_boss_mossbound": 5.5386,
-  "creature_boss_ordrun": 25.3904,
+  "creature_boss_ordrun": 25.9947,
   "creature_boss_rootheart": 19.157,
   "creature_boss_tempest_roc": 4.9179,
   "creature_boss_tideworn": 14.9749,
@@ -938,7 +938,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_banshee": 0.166339,
   "creature_basalt_drake": 0.790392,
   "creature_basalt_maw": 1.503139,
-  "creature_beetle_golem": 2.484908,
+  "creature_beetle_golem": 2.48599,
   "creature_black_wilderness_dragon": 4.006009,
   "creature_blackwater_heron": 2.607209,
   "creature_blind_cave_weaver": 0.333129,
@@ -946,7 +946,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_boss_cinderwake": 4.046322,
   "creature_boss_galeskin": 1.973307,
   "creature_boss_mossbound": 4.430865,
-  "creature_boss_ordrun": 4.440808,
+  "creature_boss_ordrun": 4.462277,
   "creature_boss_rootheart": 3.718677,
   "creature_boss_tempest_roc": 0.959954,
   "creature_boss_tideworn": 2.729795,
