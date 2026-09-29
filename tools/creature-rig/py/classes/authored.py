@@ -95,13 +95,14 @@ def rotvec_matrix(deg):
 
 # ------------------------------------------------------------------ takes
 class Take:
-    """One authored clip. frames is the cycle length for a loop (a closing frame is added) or the
-    clip length for a one-shot."""
+    """One authored clip over frames 0..frames: the cycle length of a loop (its closing frame
+    repeats frame 0) or the last key of a one-shot."""
 
     def __init__(self, name, frames, loop=False):
         self.name, self.frames, self.loop = name, int(frames), loop
         self.rot = {}
         self.offset = {}
+        self.planted = []
 
     def _curve(self, keys):
         return Curve(keys, self.frames if self.loop else None)
@@ -134,9 +135,18 @@ class Take:
             self.key(b, shifted)
         return self
 
+    def plant(self, *legs):
+        """Keeps these legs' feet where they stand at rest while the body above them moves:
+        each leg is (hip, knee, ankle); the hip and knee are solved as two-bone IK every frame
+        (bending in the plane the leg already bends in) and the foot stays flat."""
+        self.planted.extend(legs)
+        return self
+
     @property
     def length(self):
-        return self.frames + 1 if self.loop else self.frames
+        """Keyed frames 0..frames: a loop's last frame repeats its first; a one-shot ends on its
+        last key."""
+        return self.frames + 1
 
     def pose(self, f):
         return ({b: rotvec_matrix(c(f)) for b, c in self.rot.items()},
@@ -174,6 +184,31 @@ def _make_armature(bones):
     return obj
 
 
+def _plant(take, rots, offsets, order, parent, heads):
+    """Two-bone IK on the take's planted legs (glTF world axes); returns the new rotations."""
+    from crlib.mathx import min_arc
+    from crlib.retarget import two_bone_ik
+
+    I = np.eye(3)
+    D, P = {}, {}
+    for b in order:
+        p = parent[b]
+        D[b] = (D[p] if p else I) @ rots.get(b, I)
+        P[b] = (P[p] + D[p] @ (heads[b] - heads[p]) if p else heads[b].copy()) + offsets.get(b, 0.0)
+    rots = dict(rots)
+    for hip, knee, ankle in take.planted:
+        H, K, A = P[hip], P[knee], P[ankle]
+        new_knee, reach = two_bone_ik(H, K, heads[ankle], np.linalg.norm(K - H), np.linalg.norm(A - K))
+        d1 = min_arc(K - H, new_knee - H)
+        A1 = H + d1 @ (A - H)
+        d2 = min_arc(A1 - new_knee, reach - new_knee)
+        D_hip, D_knee = d1 @ D[hip], d2 @ d1 @ D[knee]
+        rots[hip] = D[parent[hip]].T @ D_hip
+        rots[knee] = D_hip.T @ D_knee
+        rots[ankle] = D_knee.T  # the planted foot keeps its rest orientation
+    return rots
+
+
 def build(spec, cache_dir):
     """Donor pack preset: builds the motion set's .blend and returns its rig + takes spec."""
     import bpy
@@ -202,6 +237,9 @@ def build(spec, cache_dir):
     Robj = orthonormalize(world[:3, :3])
     rest = {b.name: orthonormalize(np.array(b.matrix_local)[:3, :3]) for b in arm.data.bones}
     B, G = BLENDER_FROM_GLTF, GLTF_FROM_BLENDER
+    order = [b.name for b in arm.data.bones]
+    parent = {b.name: b.parent.name if b.parent else None for b in arm.data.bones}
+    heads = {b.name: G @ (world @ np.append(np.array(b.head_local), 1.0))[:3] for b in arm.data.bones}
     if arm.animation_data is None:
         arm.animation_data_create()
     for pb in arm.pose.bones:
@@ -216,6 +254,8 @@ def build(spec, cache_dir):
         arm.animation_data.action = action
         for f in range(take.length):
             rots, offsets = take.pose(f)
+            if take.planted:
+                rots = _plant(take, rots, offsets, order, parent, heads)
             for pb in arm.pose.bones:
                 R = rots.get(pb.name)
                 q = np.array([0.0, 0.0, 0.0, 1.0])

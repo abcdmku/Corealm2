@@ -1,0 +1,26 @@
+{
+  "donors": {
+    "croc": { "ref": "animal_crocodile" },
+    "maw": {
+      "pack": "authored",
+      "name": "maw",
+      "source": "Corealm authored on the animal-pack crocodile rig (tools/creature-rig/py/classes/rooted.py)"
+    }
+  },
+  "primary": "croc",
+  "profiles": {
+    "maw": {
+      "spineHeight": 0.34,
+      "legFollow": 0.0,
+      "hipMotion": 0.5,
+      "clips": {
+        "Idle": { "donor": "maw", "clip": "Idle", "loop": true },
+        "Walk": { "donor": "croc", "clip": "Walk", "loop": true },
+        "Run": { "donor": "croc", "clip": "Run", "loop": true },
+        "Attack": { "donor": "maw", "clip": "Attack" },
+        "Hit": { "donor": "maw", "clip": "Hit" },
+        "Death": { "donor": "maw", "clip": "Death" }
+      }
+    }
+  }
+}

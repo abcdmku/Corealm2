@@ -11,8 +11,9 @@ which puts the hip; knees and ankles sit on that line at the donor's height rati
 toe run from the ankle to the foot's farthest point along the facing. The spine runs between the
 hind and front hips at hip height; the neck runs from the chest to a head point the class gives.
 
-Torso and neck add the donor's motion to their rest (follow 0); legs copy it (follow 1) and are
-IK-solved to the donor's scaled foot paths, so planted feet stay planted.
+Torso and neck add the donor's motion to their rest (follow 0); legs copy it (follow 1, or the
+profile's legFollow for legs shaped unlike the donor's) and are IK-solved to the donor's scaled
+foot paths, so planted feet stay planted.
 """
 import re
 
@@ -80,9 +81,10 @@ def feet(body):
     return out, c
 
 
-def fit_quad(body, donor, profile, head_tip, head_base=None):
-    """Skeleton for a body on four legs. head_tip: the point the neck reaches (the snout, the
-    maw's front); head_base: where the neck leaves the body (default: the chest)."""
+def fit_quad(body, donor, profile, head_tip, head_base=None, head_joint=None):
+    """Skeleton for a body on four legs. head_tip: the point the head reaches (the snout, the
+    maw's front); head_base: where the neck leaves the body (default: the chest); head_joint:
+    where the head turns on the neck (default: three quarters of the way to the tip)."""
     H = body.height
     P = prefix(donor)
     contacts, centre = feet(body)
@@ -101,15 +103,22 @@ def fit_quad(body, donor, profile, head_tip, head_base=None):
         d = np.array([donor.rest_head[n] for n in names])
         hip_y = joins[(side, end)] + profile.get("hipInset", 0.04) * H
         hip = np.array([line[-1][0], hip_y, line[-1][2]])
-        along = np.vstack([line, hip])
-        yfun = lambda y: np.array([np.interp(y, along[:, 1], along[:, 0]), y, np.interp(y, along[:, 1], along[:, 2])])
-        pos = {names[0]: hip}
-        ratio = hip_y / d[0][1]
-        for n, p in zip(names[1:], d[1:]):
-            part = n[len(f"{P}_{side}_{end}Leg_"):-len("SHJnt")]
-            if part in ("Ball", "Toe"):
-                continue
-            pos[n] = yfun(max(p[1] * ratio, 0.03 * H))
+        # Knees and ankle sit on the leg's centre line at the donor's arc-length ratios from the
+        # hip down to the ankle (a sprawled donor's knee can be higher than its hip, so heights
+        # alone would put it above the body). The ankle's height is the donor's share of the
+        # hip height.
+        parts = [n[len(f"{P}_{side}_{end}Leg_"):-len("SHJnt")] for n in names]
+        k_ankle = parts.index("Ankle")
+        seg = np.linalg.norm(np.diff(d[:k_ankle + 1], axis=0), axis=1)
+        frac = np.concatenate([[0], np.cumsum(seg)]) / max(seg.sum(), 1e-9)
+        ankle_y = max(d[k_ankle][1] / d[0][1] * hip_y, 0.03 * H)
+        down = np.vstack([hip, line[::-1]])
+        down = down[down[:, 1] >= ankle_y - 1e-9]
+        down = np.vstack([down, [np.interp(ankle_y, line[:, 1], line[:, 0]), ankle_y, np.interp(ankle_y, line[:, 1], line[:, 2])]])
+        path, _ = resample(down, 100)
+        pos = {}
+        for n, f in zip(names[:k_ankle + 1], frac):
+            pos[n] = path[int(round(f * 100))]
         # Ball and toe: from the ankle forward to the foot's farthest point along the facing.
         pts = contacts[(side, end)]
         tip = pts[np.argmax(pts[:, 2])].copy()
@@ -128,6 +137,10 @@ def fit_quad(body, donor, profile, head_tip, head_base=None):
     lift = profile.get("spineLift", 0.1) * (top - hind[1])
     root = np.array([0.5 * (hind[0] + front[0]), hind[1] + lift, hind[2]])
     chest = np.array([root[0], front[1] + lift, front[2]])
+    if profile.get("spineHeight") is not None:
+        # A body whose hind legs join it high up (vines climbing the back) keeps its spine
+        # level through the body's middle.
+        root[1] = chest[1] = profile["spineHeight"] * H
 
     sk = Skeleton()
     main = np.array([root[0], 0.0, 0.5 * (hind[2] + front[2])])
@@ -144,12 +157,13 @@ def fit_quad(body, donor, profile, head_tip, head_base=None):
         sk.add(n, parent, heads[i], tail, donor=n, follow=0.0)
         parent = n
     neck = [f"{P}_Neck_01SHJnt", f"{P}_Neck_02SHJnt", f"{P}_Neck_TopSHJnt"]
-    npts, _ = resample(np.array([neck_from, head_tip]), 4)
+    joint = neck_from + 0.75 * (head_tip - neck_from) if head_joint is None else np.asarray(head_joint, float)
+    npts, _ = resample(np.array([neck_from, joint]), 3)
     parent = spine[-1]
     for i, n in enumerate(neck):
         sk.add(n, parent, npts[i], npts[i + 1], donor=n, follow=0.0)
         parent = n
-    sk.add(f"{P}_Head_TopSHJnt", neck[-1], npts[3], npts[4], donor=f"{P}_Head_TopSHJnt", follow=0.0)
+    sk.add(f"{P}_Head_TopSHJnt", neck[-1], joint, head_tip, donor=f"{P}_Head_TopSHJnt", follow=0.0)
 
     for (side, end), leg in legs.items():
         names, pos = leg["names"], leg["pos"]
@@ -163,7 +177,8 @@ def fit_quad(body, donor, profile, head_tip, head_base=None):
         for i, n in enumerate(chain):
             tail = pos[chain[i + 1]] if i + 1 < len(chain) else leg["tip"]
             is_foot = n.endswith("_AnkleSHJnt") or n == leg["ball"]
-            sk.add(n, parent, pos[n], tail, donor=n, follow=0.0 if is_foot else 1.0, kind="leg")
+            follow = 0.0 if is_foot else profile.get("legFollow", 1.0)
+            sk.add(n, parent, pos[n], tail, donor=n, follow=follow, kind="leg")
             parent = n
     sk.quad = {"prefix": P, "legs": {f"{s}_{e}": [n for n in leg["names"] if n != leg["toe"]] for (s, e), leg in legs.items()},
                "joinY": float(np.mean(list(joins.values())))}
@@ -205,5 +220,38 @@ def rigid_body_override(body, sk, keep, band=0.06):
         torso /= torso.sum(1, keepdims=True)
         W = (1 - a)[:, None] * W + a[:, None] * torso
         return W, a > 0.999
+
+    return override
+
+
+def feet_override(body, sk, band=0.05):
+    """Weight override for spread feet (claws, root toes): vertices below each ankle take only
+    that leg's ankle and ball weights, blending into the heat weights over a band above the
+    ankle, so a knee bending never drags the toes through the floor."""
+    names = sk.names()
+    V = body.verts
+    legs = []
+    for chain in sk.quad["legs"].values():
+        ankle = next(n for n in chain if n.endswith("_AnkleSHJnt"))
+        ball = next((n for n in chain if n.endswith("_BallSHJnt")), None)
+        legs.append(([names.index(n) for n in (ankle, ball) if n], sk[ankle].head))
+    heads = np.array([a[[0, 2]] for _, a in legs])
+    owner = np.argmin(np.linalg.norm(V[:, None, [0, 2]] - heads[None], axis=2), axis=1)
+
+    def override(W):
+        W = W.copy()
+        locked = np.zeros(len(W), bool)
+        for k, (cols, ankle) in enumerate(legs):
+            rows = np.nonzero(owner == k)[0]
+            a = np.clip((ankle[1] + band * body.height - V[rows, 1]) / (band * body.height), 0, 1)
+            a = a * a * (3 - 2 * a)
+            foot = np.zeros((len(rows), W.shape[1]))
+            foot[:, cols] = W[np.ix_(rows, cols)]
+            empty = foot.sum(1) < 1e-6
+            foot[empty, cols[0]] = 1.0
+            foot /= foot.sum(1, keepdims=True)
+            W[rows] = (1 - a)[:, None] * W[rows] + a[:, None] * foot
+            locked[rows[a > 0.999]] = True
+        return W, locked
 
     return override
