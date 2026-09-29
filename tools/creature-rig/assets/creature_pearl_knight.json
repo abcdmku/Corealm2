@@ -1,1 +1,6 @@
-{ "class": "humanoid", "profile": "guard" }
+{
+  "class": "humanoid",
+  "profile": "guard",
+  "profileOverrides": { "cloth": false },
+  "notes": "The tabard rides the legs: as a spring panel it flicked sideways in the Attack lunge."
+}
