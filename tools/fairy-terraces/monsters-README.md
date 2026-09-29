@@ -1,19 +1,32 @@
-# Fairy and universal miniboss candidates
+# PixeliusVita native motion
 
-These tools stage source assets for root-owned devdocs Art acceptance. They do not edit the public asset manifest or create world spawns.
+`monsters-build.ts` puts the studio's own takes back into every production body built from the PixeliusVita
+packs: `fantasy_monster_01`–`09` (not 03), the retextured `fairy_guardian_02/07/08/09` copies, the Monster04
+creatures `creature_cinder_ravager` and `creature_basalt_maw`, and the Monster09 `creature_gorge_mantis`.
+The miniboss Monster02 bodies come from `tools/build-minibosses.ts` and are not touched here.
 
-1. Run the existing `extract_sources.py` if `.asset-cache/fairy-terraces/unity/sources.json` is absent.
-2. Run `python tools/fairy-terraces/monsters-stage.py` to extract the separate Unity transform animation files from Monster 07, 08 and 09 into each verified package cache directory. The archive hash is checked before extraction; the general extractor intentionally does not copy `.anim` files.
-3. Run `npx tsx tools/fairy-terraces/monsters-build.ts`. An optional `--only=fantasy_monster_01,fairy_monster_11` selects IDs.
-4. Run `npx tsx tools/fairy-terraces/monsters-audit.ts` for skin attributes, sampled deformation, floor clearance and horizontal root travel.
-5. Root loads `test-results/fairy-terraces-assets/monsters/candidates.json` through the existing devdocs candidate preview, then reviews every state, body and variant through production rendering before promotion.
+1. Run `extract_sources.py` if `.asset-cache/fairy-terraces/unity/sources.json` is absent.
+2. Run `python tools/fairy-terraces/monsters-stage.py` to extract the Monster 07–09 Unity `.anim` files.
+3. Run `npx tsx tools/fairy-terraces/monsters-build.ts [--cache=<dir>] [--out=<dir>] [--only=id,id]`.
+   `--cache` defaults to `.asset-cache/fairy-terraces/unity`; output defaults to
+   `test-results/creature-motion/pixelius` (`models/<production path>` plus `catalog.json` for
+   `tools/promote-finish-assets.ts`).
 
-`fantasy_monster_01` through `fantasy_monster_09` use the nine individually supplied PixeliusVita packages. Their six gameplay clips are original source animation, named Idle, Walk, Run, Attack, Hit and Death. Monster 01 through 06 embed takes in the FBX. Monster 07 through 09 use Unity YAML quaternion, position and scale curves; the converter reuses the existing audited Hermite sampler in `tools/creature-expansion/monsters/mantis.mjs`.
+What the build does, per target:
 
-Monster 07 through 09 retain source hovering locomotion. Their moving toes are not planted support contacts, so the converter and catalog omit `impliedWalkMps` and `impliedRunMps` for those three. Source animation and durations remain unchanged. Use `npx tsx tools/fairy-terraces/monsters-build.ts --refresh-metadata` to apply the same policy to staged metadata without opening a browser or rewriting GLBs. This verifies each retained output hash first. The old toe measurements remain in the per-body audit as non-contact diagnostics, not stride calibration. Native hover cadence still requires production browser motion proof.
+- Reads the production GLB (its hash must match the manifest) and keeps its mesh, skin, materials and
+  textures. The skin must equal the source skin (inverse bind matrix per joint name); joints are stored at the
+  source rest pose.
+- Replaces every clip with the native take: Monster01–06 FBX AnimStacks (`_InPlace` preferred), Monster07–09
+  `.anim` curves sampled at 60 Hz by `convertMantisUnityAnimation` (checked against the Monster01 FBX takes,
+  which the studio ships in both forms). Idle, Walk, Run, Attack01 (mantis: Attack02), GetHit and Die become
+  Idle, Walk, Run, Attack, Hit and Death.
+- Removes horizontal `root`/`rootx` travel. Nothing else: no floor sealing, loop-end edits, retiming or IK.
+- Sets `groundY` to the Unity root origin, the source floor. Monsters 07–09 hover above it and land on it
+  when they die.
+- A target may `keep` a production clip when its native take does not work in game; the catalog lists it.
+  `fantasy_monster_07` and its guardian keep their old Death because `Monster07_Die` ends with the legs
+  about 0.7 m below the source floor.
 
-`fairy_monster_11`, `_14`, `_16`, `_21`, `_27` and `_30` use bodies from the supplied FreeTrial 30 Monster Stylized Fantasy Vol 01. That archive contains thirty bodies numbered 07 through 36. It includes only Idle and Walk for each body. The selected ordinary creatures retain those source clips; Run uses Walk. The import must then run `studio-fairy.ts`: crawler combat uses the compatible studio scorpion rig, and bipeds use native Pixelius Monster02 actions with anatomical segment directions. The scorpion recoil is an existing project adaptation. Independent weapon roots follow hands, then release onto the floor during death; secondary tails settle with the body. The catalog retains donor hashes, mappings, measured strike phase and repair provenance.
-
-Source geometry, skin weights, UVs and authored albedo remain intact. Texture dimensions are capped at 1024 and encoded as WebP. The source monster packages have no normal maps, so their legacy material slots must not be mistaken for normal textures. Source units become metres, root X/Z travel is removed because gameplay owns position, and sampled root Y correction keeps animated geometry above the floor. Small ordinary bodies are uniformly sized to approximately 0.95 m, with the stronger 27 and 30 bodies approximately 1.45 m. No mesh decimation or replacement body is used.
-
-The candidate catalog records the local entitled source package, full archive hash, source model and texture paths, output hash, source clip names and every adaptation. Each per-body audit records sampled bounds and floor corrections. Numeric source checks do not replace gameplay, motion or material inspection in devdocs Art.
+The FreeTrial bodies (`fairy_monster_10`–`34`, wardlings, spriggles) ship only Idle and Walk in the source
+pack. Their committed GLBs are the first imports the owner accepted and are not rebuilt by any tool.

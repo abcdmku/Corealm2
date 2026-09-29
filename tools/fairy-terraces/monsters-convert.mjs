@@ -1,106 +1,62 @@
 import * as THREE from 'three';
-import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
-import { loadFbx, texture, cleanClip, closeLoop, groundObject, measureStance } from '../creature-expansion/monsters/common.mjs';
+import { loadFbx } from '../creature-expansion/monsters/common.mjs';
 import { convertMantisUnityAnimation } from '../creature-expansion/monsters/mantis.mjs';
 
-const verbs = [['Idle', 'Idle'], ['Walk', 'Walk'], ['Run', 'Run'], ['Attack', 'Attack01'], ['Hit', 'GetHit'], ['Death', 'Die']];
+const PATHS = { position: 'translation', quaternion: 'rotation', scale: 'scale' };
 
-function rootJoint(root) {
-  return root.getObjectByName('rootx') ?? root.getObjectByName('root') ?? (() => {
-    let found;
-    root.traverse(n => { if (!found && n.isBone && !n.parent?.isBone) found = n; });
-    if (!found) throw new Error('Missing root skeleton joint');
-    return found;
-  })();
-}
-
-function sealFloor(object, clips, pivot) {
-  const saved = [];
-  object.traverse(node => saved.push([node, node.position.clone(), node.quaternion.clone(), node.scale.clone()]));
-  const restore = () => { for (const [n, p, q, s] of saved) { n.position.copy(p); n.quaternion.copy(q); n.scale.copy(s); } object.updateMatrixWorld(true); };
-  const reports = [];
-  for (const clip of clips) {
-    restore();
-    let track = clip.tracks.find(t => t.name === `${pivot.name}.position`);
-    if (!track) { track = new THREE.VectorKeyframeTrack(`${pivot.name}.position`, [0, clip.duration], [...pivot.position.toArray(), ...pivot.position.toArray()]); clip.tracks.push(track); }
-    const interpolate = track.createInterpolant(), times = [], values = [];
-    const mixer = new THREE.AnimationMixer(object), action = mixer.clipAction(clip);
-    action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
-    const frames = Math.ceil(clip.duration * 60); let maxLift = 0;
-    for (let i = 0; i <= frames; i++) {
-      const time = Math.fround(clip.duration * i / frames);
-      restore(); action.reset(); action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
-      mixer.setTime(Math.min(time, clip.duration)); object.updateMatrixWorld(true);
-      const minimum = new THREE.Box3().setFromObject(object, true).min.y;
-      const lift = Math.max(0, .016 - minimum);
-      const local = new THREE.Vector3().fromArray(interpolate.evaluate(time));
-      const world = pivot.parent.localToWorld(local.clone()); world.y += lift; pivot.parent.worldToLocal(world);
-      times.push(time); values.push(...world.toArray()); maxLift = Math.max(maxLift, lift);
-    }
-    mixer.stopAllAction(); mixer.uncacheRoot(object);
-    clip.tracks[clip.tracks.indexOf(track)] = new THREE.VectorKeyframeTrack(track.name, times, values);
-    if (['Idle', 'Walk', 'Run'].includes(clip.name)) closeLoop(clip);
-    reports.push({ name: clip.name, maximumGroundCorrectionM: maxLift });
-  }
-  restore(); return reports;
-}
-
-window.convertFairyMonster = async function(spec) {
+/**
+ * Reads PixeliusVita source takes and returns their keys unchanged apart from removing horizontal
+ * root travel. No floor sealing, no loop-end overwrite, no resampling of FBX takes.
+ * spec: { number, model, animationBase?, takes: [[clipName, takeSuffix]] }
+ */
+window.extractPixeliusTakes = async function(spec) {
   const root = await loadFbx(spec.model);
-  const pivot = rootJoint(root);
-  const atlas = await texture(spec.texture);
-  atlas.name = `${spec.id}_source_albedo`;
-  const material = new THREE.MeshStandardMaterial({name: `animal_${spec.id}_source`, map: atlas, roughness: .78, metalness: 0});
-  root.traverse(n => { if (n.isMesh) { n.material = material; n.frustumCulled = false; if (n.isSkinnedMesh) n.normalizeSkinWeights(); } });
-  const sourceNames = root.animations.map(c => c.name);
-  const chooseTake = suffix => {
-    const exact = root.animations.find(c => c.name === `Monster${spec.number}_${suffix}_InPlace`) ?? root.animations.find(c => c.name === `Monster${spec.number}_${suffix}`);
-    if (!exact) throw new Error(`${spec.id} missing authored ${suffix}; available ${sourceNames.join(', ')}`);
-    return exact;
-  };
-  let clips;
-  if (spec.animationBase) {
-    clips = [];
-    for (const [name, suffix] of verbs) {
-      const response = await fetch(`${spec.animationBase}/Monster${spec.number}_${suffix}.anim`);
-      if (!response.ok) throw new Error(`${spec.id} missing ${suffix} source animation`);
-      const clip = convertMantisUnityAnimation(await response.text(), root, name);
-      if (['Idle', 'Walk', 'Run'].includes(name)) closeLoop(clip);
-      clips.push(clip);
+  const deforming = new Set(), bind = {};
+  root.traverse(node => {
+    if (!node.isSkinnedMesh) return;
+    // Same inverse bind matrix GLTFExporter writes for this joint.
+    node.skeleton.bones.forEach((bone, i) => {
+      deforming.add(bone.name);
+      bind[bone.name] = node.skeleton.boneInverses[i].clone().multiply(node.bindMatrix).toArray();
+    });
+  });
+  const rest = {};
+  root.traverse(node => {
+    if (!node.name) return;
+    if (rest[node.name]) throw new Error(`Duplicate source node name ${node.name}`);
+    rest[node.name] = { translation: node.position.toArray(), rotation: node.quaternion.toArray(), scale: node.scale.toArray() };
+  });
+  const available = root.animations.map(clip => clip.name);
+  const clips = [];
+  for (const [name, suffix] of spec.takes) {
+    let clip, source;
+    if (spec.animationBase) {
+      source = `Monster${spec.number}_${suffix}.anim`;
+      const response = await fetch(`${spec.animationBase}/${source}`);
+      if (!response.ok) throw new Error(`Missing source animation ${source}`);
+      clip = convertMantisUnityAnimation(await response.text(), root, name);
+    } else {
+      const take = root.animations.find(c => c.name === `Monster${spec.number}_${suffix}_InPlace`)
+        ?? root.animations.find(c => c.name === `Monster${spec.number}_${suffix}`);
+      if (!take) throw new Error(`Monster${spec.number} has no ${suffix} take; available ${available.join(', ')}`);
+      source = take.name;
+      clip = take.clone();
+      // FBX takes carry curves for helper nodes too; only skeleton joints deform the mesh.
+      clip.tracks = clip.tracks.filter(track => deforming.has(track.name.split('.')[0]));
     }
-  } else if (spec.trial) {
-    clips = ['Idle', 'Walk'].map(name => cleanClip(chooseTake(name), name, root, pivot));
-    const run = clips[1].clone(); run.name = 'Run'; clips.push(run);
-    // The trial archive has no combat. The Node importer requires the studio repair
-    // profile after export; never synthesize rotations on unrelated local axes here.
-  } else clips = verbs.map(([name, suffix]) => cleanClip(chooseTake(suffix), name, root, pivot));
-  // FBX stores displacement on the wrapper root as well as the pelvis on some bodies.
-  // Simulation owns travel, so neither horizontal channel may move the drawn root away.
-  for (const clip of clips) for (const name of ['root', pivot.name]) {
-    const node = root.getObjectByName(name), track = clip.tracks.find(t => t.name === `${name}.position`);
-    if (!node || !track) continue;
-    for(let i=0;i<track.values.length;i+=3) {track.values[i]=node.position.x;track.values[i+2]=node.position.z;}
+    // Simulation owns travel: horizontal root translation stays at rest, vertical motion is kept.
+    for (const track of clip.tracks) {
+      const [node, property] = track.name.split('.');
+      if (property !== 'position' || !['root', 'rootx'].includes(node)) continue;
+      const restPosition = rest[node].translation;
+      for (let i = 0; i < track.values.length; i += 3) { track.values[i] = restPosition[0]; track.values[i + 2] = restPosition[2]; }
+    }
+    clips.push({ name, source, duration: clip.duration, tracks: clip.tracks.map(track => {
+      const [node, property] = track.name.split('.');
+      if (!PATHS[property]) throw new Error(`Unsupported track ${track.name}`);
+      if (track.getInterpolation() !== THREE.InterpolateLinear) throw new Error(`Non-linear track ${track.name}`);
+      return { node, path: PATHS[property], times: Array.from(track.times), values: Array.from(track.values) };
+    }) });
   }
-  const object = groundObject(root, clips, .01, pivot.name); object.name = spec.id;
-  if (spec.trial) {
-    object.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(object, true), height = box.max.y - box.min.y;
-    const desired = spec.number === '27' || spec.number === '30' ? 1.45 : .95;
-    const factor = desired / height;
-    object.scale.multiplyScalar(factor); object.position.multiplyScalar(factor);
-  }
-  const groundCorrections = sealFloor(object, clips, pivot);
-  const mixer = new THREE.AnimationMixer(object); mixer.clipAction(clips[0]).play(); mixer.setTime(0); object.updateMatrixWorld(true);
-  const box = new THREE.Box3().setFromObject(object, true); mixer.stopAllAction(); mixer.uncacheRoot(object);
-  const feet = [];
-  root.traverse(n => { if (n.isBone && /(?:foot[lrx]*|toes_01[lr]|ankle[lrx]*)$/i.test(n.name)) feet.push(n.name); });
-  // These three source rigs hover. Their moving toes never define a planted ground stride.
-  const hovering = !spec.trial && ['07','08','09'].includes(spec.number);
-  const walk = !hovering && feet.length ? measureStance(object, clips.find(c => c.name === 'Walk'), feet) : null;
-  const run = !hovering && feet.length ? measureStance(object, clips.find(c => c.name === 'Run'), feet) : null;
-  const bytes = await new GLTFExporter().parseAsync(object, {binary:true, animations:clips, onlyVisible:true, maxTextureSize:1024});
-  const array = new Uint8Array(bytes); let raw = ''; for(let i=0;i<array.length;i+=32768)raw+=String.fromCharCode(...array.subarray(i,i+32768));
-  return { base64: btoa(raw), sourceNames, requiredMotionRepair: spec.trial ? 'studio-fairy' : null, bounds: {min:box.min.toArray(),max:box.max.toArray()}, rootJoint:pivot.name, groundCorrections,
-    walk:walk?.mps ?? null, run:run?.mps ?? null, gaitFootBones:hovering ? [] : feet, clips:clips.map(c=>({name:c.name,seconds:c.duration,tracks:c.tracks.length})),
-    modifications:spec.trial ? 'Original body, atlas, Idle and Walk. Run reuses the source Walk. Combat requires the anatomy-specific studio repair after native export because this free-trial package has no combat clips. Uniform body size and in-place root travel. Source materials use albedo with scalar roughness; the source packages contain no normal maps.' : 'Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps.' };
+  return { rest, bind, available, clips };
 };
