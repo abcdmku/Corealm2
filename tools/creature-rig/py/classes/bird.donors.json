@@ -34,18 +34,20 @@
           "donor": "chicken_reach",
           "clip": ["PeckDown", "PeckUp"]
         },
-        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical" }
+        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical",
+                   "chains": { "wing_": { "stiffness": 4000.0, "damping": 120.0 } } }
       }
     },
     "wader": {
       "strideScale": 0.5,
       "wings": false,
       "rigidPieces": false,
+      "distanceWeights": true,
       "hipMotion": 0.6,
       "clips": {
         "Idle": { "donor": "chicken", "clip": "Idle", "loop": true },
         "Walk": { "donor": "chicken", "clip": "Walk", "loop": true },
-        "Run": { "donor": "chicken", "clip": "Run", "loop": true },
+        "Run": { "donor": "chicken", "clip": "Walk", "loop": true, "speed": 1.6 },
         "Attack": {
           "donor": "chicken_reach",
           "clip": ["PeckDown", "PeckUp"]
