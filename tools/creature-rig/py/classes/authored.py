@@ -6,7 +6,8 @@ loader reads like any studio file, so authored takes go through the same rest-re
 validation and review as donor takes.
 
 A class registers a motion set with @motion("name") and names it in its donors.json as
-{"pack": "authored", "name": "name", ...}. The set returns a rig and its takes:
+{"pack": "authored", "name": "name", ...}. The set is called with that spec (plus "_cache", the
+donor cache directory) and returns a rig and its takes:
 
   rig    Rig.bones([(name, parent, head, tail), ...]) builds a fresh armature (glTF metres), or
          Rig.donor({"ref": "animal_snail"}) extends a studio rig with new takes.
@@ -139,7 +140,14 @@ class Take:
         """Keeps these legs' feet where they stand at rest while the body above them moves:
         each leg is (hip, knee, ankle); the hip and knee are solved as two-bone IK every frame
         (bending in the plane the leg already bends in) and the foot stays flat."""
-        self.planted.extend(legs)
+        self.planted.extend((tuple(leg), None) for leg in legs)
+        return self
+
+    def step(self, leg, keys):
+        """Like plant(), but the foot follows keyed offsets (frame, (x, y, z) metres) from its
+        rest mark: a stance that slides back at constant speed ("linear" keys) and a lifted
+        swing forward."""
+        self.planted.append((tuple(leg), self._curve(keys)))
         return self
 
     @property
@@ -184,7 +192,7 @@ def _make_armature(bones):
     return obj
 
 
-def _plant(take, rots, offsets, order, parent, heads):
+def _plant(take, frame, rots, offsets, order, parent, heads):
     """Two-bone IK on the take's planted legs (glTF world axes); returns the new rotations."""
     from crlib.mathx import min_arc
     from crlib.retarget import two_bone_ik
@@ -196,9 +204,10 @@ def _plant(take, rots, offsets, order, parent, heads):
         D[b] = (D[p] if p else I) @ rots.get(b, I)
         P[b] = (P[p] + D[p] @ (heads[b] - heads[p]) if p else heads[b].copy()) + offsets.get(b, 0.0)
     rots = dict(rots)
-    for hip, knee, ankle in take.planted:
+    for (hip, knee, ankle), path in take.planted:
         H, K, A = P[hip], P[knee], P[ankle]
-        new_knee, reach = two_bone_ik(H, K, heads[ankle], np.linalg.norm(K - H), np.linalg.norm(A - K))
+        goal = heads[ankle] + (path(frame) if path is not None else 0.0)
+        new_knee, reach = two_bone_ik(H, K, goal, np.linalg.norm(K - H), np.linalg.norm(A - K))
         d1 = min_arc(K - H, new_knee - H)
         A1 = H + d1 @ (A - H)
         d2 = min_arc(A1 - new_knee, reach - new_knee)
@@ -216,7 +225,7 @@ def build(spec, cache_dir):
     name = spec["name"]
     if name not in MOTIONS:
         raise KeyError(f"no authored motion set {name}; the class module registers it on import")
-    rig, takes = MOTIONS[name](spec)
+    rig, takes = MOTIONS[name]({**spec, "_cache": cache_dir})
     out_dir = os.path.join(cache_dir, "authored")
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, f"{name}.blend")
@@ -255,7 +264,7 @@ def build(spec, cache_dir):
         for f in range(take.length):
             rots, offsets = take.pose(f)
             if take.planted:
-                rots = _plant(take, rots, offsets, order, parent, heads)
+                rots = _plant(take, f, rots, offsets, order, parent, heads)
             for pb in arm.pose.bones:
                 R = rots.get(pb.name)
                 q = np.array([0.0, 0.0, 0.0, 1.0])
