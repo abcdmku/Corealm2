@@ -37,6 +37,12 @@ export async function assembleStudio(assetId, work = paths.work(assetId)) {
     a.dispose();
   }
   const byName = new Map(root.listNodes().map((n) => [n.getName(), n]));
+  // The runtime hit overlay (creatureHitOverlay.ts) turns only bones marked hitRecoil.
+  for (const name of data.recoil ?? []) {
+    const node = byName.get(name);
+    if (!node) throw new Error(`${assetId}: no recoil node ${name}`);
+    node.setExtras({ ...node.getExtras(), hitRecoil: true });
+  }
   // Props under joints (a bow string, a nocked arrow, a staff focus) keep the pose a native clip
   // keys for them (studio.propPoseClip); unkeyed they would fall back to a bind pose the studio
   // never shows.
@@ -114,11 +120,14 @@ export function stageStudio(assetId, work = paths.work(assetId)) {
     native.push(a.name);
   }
   const donorMap = JSON.parse(readFileSync(path.join(paths.tool, "py/classes", `${config.class}.donors.json`), "utf8"));
+  const donorCatalog = JSON.parse(readFileSync(path.join(paths.tool, "py/donors.json"), "utf8"));
   const bytes = readFileSync(file);
   const m = measure(file);
   const donor = Object.fromEntries(data.clips.map((c) => {
     const [key, clip] = c.donor.split(":");
-    return [c.name, `${donorMap.donors[key]?.source ?? key}: ${clip.replaceAll("+", " + ")}`];
+    const spec = donorMap.donors[key] ?? {};
+    const source = spec.source ?? (spec.ref ? donorCatalog.donors[spec.ref]?.source : undefined) ?? key;
+    return [c.name, `${source}: ${clip.replaceAll("+", " + ")}`];
   }));
   const candidateFile = path.relative(paths.rigRoot, file).replaceAll("\\", "/");
   const record = {
@@ -132,6 +141,8 @@ export function stageStudio(assetId, work = paths.work(assetId)) {
       notes: [
         `Studio rig, skin, mesh and native clips (${native.join(", ") || "none"}) kept byte-identical from production (per-clip hashes checked); ${added.join(", ")} added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length ${data.legScale.toFixed(3)}, foot IK, no scale keys).`,
         config.studio.grip ? `Weapon hands keep their native grip (${Object.keys(config.studio.grip).join(", ")}).` : null,
+        Object.keys(data.props ?? {}).length ? `Props on their own bones ride their hands at the reference offset (${Object.entries(data.props).map(([p, h]) => `${p} on ${h}`).join(", ")}).` : null,
+        data.recoil?.length ? `hitRecoil marks ${data.recoil.length} joints under ${(config.studio.recoil ?? []).join(", ")}.` : null,
         Object.values(config.studio.clips ?? {}).some((c) => c.lift) ? "Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration." : null,
       ].filter(Boolean).join(" "),
       clipSeconds: m.clipSeconds,

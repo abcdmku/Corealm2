@@ -246,11 +246,22 @@ An asset config with a `studio` block keeps the production file's own rig, skin 
 
 | Key | Meaning |
 |---|---|
-| `map` | `{studio node name: {bone, donor?, follow?, kind?, parent?, tail?, noTail?, noKey?, translate?}}`. `bone` is the class's bone name (UE names for humanoids). `parent` names a logical parent when the node's own parent is not on the limb (IK-baked feet); such nodes also get translation keys. |
+| `map` | `{studio node name: {bone, donor?, follow?, kind?, parent?, tail?, noTail?, noKey?, translate?}}`. `bone` is the class's bone name (UE names for humanoids). `parent` names a logical parent when the node's own parent is not on the limb (IK-baked feet); such nodes also get translation keys. `donor` may be `{donor key: bone or null}` when donors of different rigs drive one skeleton (a scorpion's legs from the Animal pack Scorpion, its claws from a PixeliusVita Hit). `"arp"` maps an Auto-Rig Pro skeleton onto Auto-Rig Pro donors by name (glTF drops the dots: `thigh_stretch.l` is `thigh_stretchl`), only where the donor bone hangs from the same parent; hips, spine and limbs get the canonical names the leg IK needs |
+| `mapOverrides` | `{node: spec or null}` merged into the map (null removes a node) |
+| `primary` | The donor whose rest frames name the bones, instead of the class's |
+| `legs` | Explicit IK legs in node names (`{chain, foot?, toe?, pivot?}`), e.g. a crawler walking on arm chains; default: `thigh_`/`calf_`/`foot_`/`ball_` |
+| `donorRest` | `{donor key: take}`: the take's first frame is that donor's rest (a clip's own `rest` overrides it). With `referenceClip: "Idle"` a clip transfers as motion away from the donor's Idle onto the body's Idle. The rest moves over the clip's first hub position, so takes of one pack that start at different ground positions carry only their own travel |
+| `chains` | `[{from, donor, in?}]`: a target chain (a tail) driven by a donor chain of another length, spread by index; each chain follows its first joint child |
+| `springs` | `[{from, stiffness?, damping?, gravity?, clearance?, hang?}]`: a chain with no donor twin (a tail dragging on the floor) follows its parent and is driven by crlib's spring chain with the floor as a plane; a clip's `springs: {from: {...}}` retunes it (`ease` makes it go limp in Death) |
+| `holdUnmapped` | Every unmapped joint is keyed at its `referenceClip` pose, so it rides its parent as in the native Idle instead of snapping to bind |
+| `props` | `{prop node: hand node}`: a prop skinned to its own bone (a sword on a `root_dupli` bone that the native takes pose with a baked child-of) rides the hand at the reference offset. `flatProp` (one or a list) also takes these nodes |
+| `recoil` | Nodes whose joint subtrees get `hitRecoil: true` for the runtime hit overlay. Never a walking limb, nor an arm that carries a `props` bone (the overlay would leave the prop behind) |
+| `floor` | `"reference"`: the floor is the skinned minimum of the reference pose instead of bind |
+| `hipMode`, `scale` | Plan overrides for the hips mode and the size ratio |
 | `rootNode` | The studio node under which the root sits on the floor |
 | `referenceClip` | Optional native clip whose first frame is the rest the donor is matched to |
 | `replace` | Native clips dropped before the new ones are added |
-| `clips` | Clip specs as in a profile, plus `layer` (`{clip, bones, donor?, rate?, hold?, release?}`: an arm pose held from another take), `flatProp` (`{hand, node, from, to?}`: a long prop turned level, or upright with `to: "up"`), `gripRelease` (`[start, end]` fractions over which the grip lets go) and `lift` (lift the hips out of the floor while lying). Without `clips`, the class profile's clips are used. |
+| `clips` | Clip specs as in a profile, plus `still` (nodes whose mapped subtrees keep their reference pose on their parent in this clip: a shield arm holding its guard), `land` (a Death whose final pose floats or sinks moves its hips by the floor gap, eased in with the fall), `scale` (for a clip whose donor drives neither hips nor legs), `layer` (`{clip, bones, donor?, rate?, hold?, release?}`: an arm pose held from another take), `flatProp` (`{hand, node, from, to?}`: a long prop turned level, or upright with `to: "up"`), `gripRelease` (`[start, end]` fractions over which the grip lets go) and `lift` (lift the hips out of the floor while lying). Without `clips`, the class profile's clips are used. |
 | `grip` | `{hand node: native clip}`: the hand keeps its local rotation from that clip's first frame |
 | `hipMotion` | The body's hip motion; a clip's `hipMotion` replaces it |
 | `propPoseClip` | A native clip whose keys pose props under joints (a bow string) in the new clips |
