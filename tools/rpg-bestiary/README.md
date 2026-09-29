@@ -4,7 +4,17 @@
 
 The user's rejection of animal-head humanoids and horned/demonic designs overrides historical source7 reviews. Those assets are withdrawn. Current work adapts complete freely licensed or entitled source bodies and rigs. The exact spider and repaired fantasy bee passed production lifecycle checks and were promoted by root; retained15 still require current gallery and family lifecycle acceptance. `STATUS.md` records the current evidence. `export-expansion.mjs` stages source candidates without changing active content or the public manifest.
 
-The retained gavlig studio golem uses expansion selector `kiln_marrow`: `node tools/rpg-bestiary/export-expansion.mjs kiln_marrow --out test-results/creature-audit/studio-animals/source-integration`. Its native source takes pass through the required studio motion repair before export. The old `lava_golem` selector is rejected; the active asset with that name is a separate Tripo creature.
+## Native motion export
+
+Production studio bodies (Dungeon Skeletons, Danimal roach and mocap goblin, gavlig lava golems, Earth Elemental, Beetle Golem, Universal Base Characters and the Quaternius bandits) take their motion from `native-export.ts`. It keeps the current production body (mesh, skin, textures, props, elite variants) and replaces its clips with the studio's own takes, renamed to runtime states. The only other changes are one uniform scale on translation deltas (UBC hip height over the UAL mannequin), deltas applied from the body's bind pose where binds were reshaped, and holding horizontal root drift in locomotion loops. There are no floor-lift tracks, retimes, sine overlays or synthesized states. Missing Run and Hit are omitted for the runtime fallbacks; a missing native Death keeps the current production Death, reported as "needs death".
+
+```powershell
+npx tsx tools/rpg-bestiary/native-export.ts [ids...] [--out test-results/creature-motion/rpg]
+```
+
+Sources are the git-ignored `*-source/derived/` records and the skeleton FBX extraction; set `COREALM_MAIN` when they live in another checkout. The script writes `models/<production path>.glb` and a `catalog.json` for `tools/promote-finish-assets.ts`.
+
+The gavlig studio golem's expansion selector is `kiln_marrow`. The old `lava_golem` selector is rejected; the active asset with that name is a separate Tripo creature.
 
 Raw Earth and Beetle archives use donor-only selectors `earth_elemental_source` and `beetle_golem_source`, producing distinct inactive candidate IDs. Their retained active descendants have authored designs and must not be replaced by raw archive exports. The colliding `shale_elemental` and `beetle_golem` selectors are retired. The original Forest Monster has no retained active body, so `mossback_sentinel` is retired from this exporter; its source module remains available for explicit donor study.
 
