@@ -11,7 +11,10 @@ export const HEALTH_GATES = {
   maxBindError: 1e-3,
   maxRigidVertexShare: 0.6,
   maxRootWeightShare: 0.2,
-  maxNeutralWeightShare: 0.01,
+  // Healthy generic ("Other") rigs park unrigged parts on neutral_bone (the red dragon d20f1d55: 30%,
+  // its skull and tail tip). The pipeline re-skins with bone heat and py/crlib/labels.py reports
+  // where that mesh sits, so it only fails a rig that is mostly unrigged.
+  maxNeutralWeightShare: 0.35,
   minWeightedJoints: 12,
 };
 
@@ -68,7 +71,7 @@ export function inspectRig(file) {
   }
   const shareOf = (k) => (vertices ? share[k] / vertices : 0);
   const weightedJoints = joints.filter((_, k) => shareOf(k) > 1e-4).length;
-  const rootShare = joints.reduce((best, joint, k) => (joint.parent === null ? Math.max(best, shareOf(k)) : best), 0);
+  const rootShare = joints.reduce((best, joint, k) => (joint.parent === null && !/neutral/i.test(joint.name) ? Math.max(best, shareOf(k)) : best), 0);
   const neutralShare = joints.reduce((sum, joint, k) => (/neutral/i.test(joint.name) ? sum + shareOf(k) : sum), 0);
   const rigidShare = vertices ? rigid / vertices : 1;
 

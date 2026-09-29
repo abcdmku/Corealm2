@@ -4,7 +4,9 @@
 2. Vertices heat could not reach take their mesh neighbours' weights; loose pieces heat skipped
    entirely take the weights of the nearest weighted surface.
 3. Loose pieces that heat already binds mostly to one bone (a helmet, a gauntlet, a pauldron, a
-   horn) are bound rigidly to that bone on purpose, so plates do not bend like skin.
+   horn) are bound rigidly to that bone on purpose, so plates do not bend like skin. A piece heat
+   gives to a bone far from it (a thigh plate to the hand hanging beside it) goes to its nearest
+   bone instead.
 4. One or two Laplacian passes over the rest, then at most four influences, normalised.
 """
 import numpy as np
@@ -62,12 +64,27 @@ def fill_unweighted(W, verts, faces, adj):
     return W
 
 
-def rigid_islands(W, faces, n, dominance=0.7, max_share=0.08):
-    """Loose pieces (up to max_share of the mesh) whose heat weight is mostly one bone."""
+def segment_distance(points, heads, tails):
+    """Distance from each point to each bone segment (points x bones)."""
+    ab = tails - heads
+    rel = points[:, None, :] - heads[None, :, :]
+    t = np.clip(np.einsum("pbk,bk->pb", rel, ab) / np.maximum(np.einsum("bk,bk->b", ab, ab), 1e-12), 0, 1)
+    return np.linalg.norm(rel - t[..., None] * ab[None], axis=2)
+
+
+def rigid_islands(W, faces, n, verts=None, skeleton=None, dominance=0.7, max_share=0.08, reach=2.0):
+    """Loose pieces (up to max_share of the mesh) whose heat weight is mostly one bone. Heat can
+    hand a piece to a bone it is far from (a thigh plate to the hand hanging next to it); when the
+    heat bone is more than reach times as far from the piece as the nearest bone, the piece goes
+    to the nearest bone instead. Returns (labels, {piece: bone}, {piece: (heat bone, nearest)})."""
     adj = adjacency(n, faces)
     count, label = connected_components(adj, directed=False)
     sizes = np.bincount(label, minlength=count)
-    rigid = {}
+    rigid, moved = {}, {}
+    if skeleton is not None:
+        usable = np.array([b.deform and b.heat and b.kind != "cloth" for b in skeleton.bones])
+        heads = np.array([b.head for b in skeleton.bones])
+        tails = np.array([b.tail for b in skeleton.bones])
     for c in range(count):
         if sizes[c] > max_share * n:
             continue
@@ -75,9 +92,17 @@ def rigid_islands(W, faces, n, dominance=0.7, max_share=0.08):
         if mass.sum() <= 0:
             continue
         bone = int(np.argmax(mass))
-        if mass[bone] / mass.sum() >= dominance:
-            rigid[c] = bone
-    return label, rigid
+        if mass[bone] / mass.sum() < dominance:
+            continue
+        if skeleton is not None:
+            dist = segment_distance(verts[label == c], heads, tails).mean(0)
+            dist[~usable] = np.inf
+            nearest = int(np.argmin(dist))
+            if dist[bone] > reach * max(dist[nearest], 1e-9):
+                moved[c] = (bone, nearest)
+                bone = nearest
+        rigid[c] = bone
+    return label, rigid, moved
 
 
 def smooth(W, adj, passes, locked):
@@ -112,7 +137,8 @@ def skin(mesh_obj, verts, faces, skeleton, heat=None, passes=2, rigid=True, over
     locked = np.zeros(len(verts), bool)
     report = {"heatMissingShare": heat_missing, "rigidPieces": {}}
     if rigid:
-        label, pieces = rigid_islands(W, faces, len(verts))
+        label, pieces, moved = rigid_islands(W, faces, len(verts), verts, skeleton)
+        report["rigidMoved"] = [{"vertices": int((label == c).sum()), "heat": names[a], "nearest": names[b]} for c, (a, b) in moved.items()]
         for c, bone in pieces.items():
             rows = label == c
             W[rows] = 0.0

@@ -20,6 +20,7 @@ import bpy  # noqa: E402
 import numpy as np  # noqa: E402
 
 from crlib import donor as donors_mod  # noqa: E402
+from crlib import labels as labels_mod  # noqa: E402
 from crlib import rebind  # noqa: E402
 from crlib.body import Body, load_blender_mesh  # noqa: E402
 from crlib.debug import fit_sheet  # noqa: E402
@@ -45,23 +46,22 @@ def main(work):
     needed.setdefault(primary_key, set())
     donors = {}
     for key, names in needed.items():
-        spec = donor_map["donors"][key]
-        donors[key] = donors_mod.load(key, donors_mod.resolve(spec, cache), sorted(names))
+        donors[key] = donors_mod.load(key, donor_map["donors"][key], cache, sorted(names))
     for spec in clips.values():
         if isinstance(spec["clip"], list):
             # A take authored to chain into the next (a strike and its recovery) plays as one clip.
             spec["clip"] = donors[spec["donor"]].chain(spec["clip"])
     primary = donors[primary_key]
-    for key, d in donors.items():
-        shared = [b for b in d.bones if b in primary.rest_frame]
-        err = max(np.abs(d.rest_frame[b] - primary.rest_frame[b]).max() for b in shared)
-        if err > 1e-3:
-            raise RuntimeError(f"donor {key} rest differs from {primary_key} ({err:.4f}); give it its own frames")
 
     bpy.ops.wm.read_factory_settings(use_empty=True)
     obj, V, F = load_blender_mesh(os.path.join(work, "mesh.glb"))
     body = Body(V, F)
-    sk, notes = cls.fit(body, primary, profile, source=intake.get("source"))
+    source = intake.get("source")
+    if source and source.get("kind") == "tripo-rig" and labels_mod.is_generic(source["joints"]):
+        # bone_0 ... bone_N rigs carry no names: label the tree (legs by side and order, spine,
+        # neck, head, jaw, tail, wings) for the class's fit().
+        source["labels"] = labels_mod.label(source["joints"], height=body.height)
+    sk, notes = cls.fit(body, primary, profile, source=source)
     heat = bone_heat(obj, sk)
     extra = cls.cloth(body, sk, profile, heat) if hasattr(cls, "cloth") else None
     W, skin_report = skin(obj, V, F, sk, heat=heat, passes=profile.get("smoothPasses", 2),
@@ -75,9 +75,19 @@ def main(work):
     sk.solve_frames(primary)
     plan = cls.plan(sk, body, profile)
 
+    plan.setdefault("hip_mode", profile.get("hipMode", "legs"))
+    # Each donor drives the skeleton through its own rest frames (Skeleton.frame is the primary's);
+    # a class maps a secondary donor's bone names with donor_map() or the donor spec's "map".
+    bindings = {}
+    for key, d in donors.items():
+        bone_map = cls.donor_map(sk, d, profile) if hasattr(cls, "donor_map") else None
+        bindings[key] = {"map": bone_map if bone_map is not None else getattr(d, "map", None), "primary": key == primary_key}
+
     out_clips = []
     for state, spec in clips.items():
-        r = Retargeter(sk, donors[spec["donor"]], plan)
+        r = Retargeter(sk, donors[spec["donor"]], plan, bindings[spec["donor"]]["map"], primary=bindings[spec["donor"]]["primary"])
+        if r.bind.unmapped or r.skipped_legs:
+            notes.setdefault("donorGaps", {})[spec["donor"]] = {"unmapped": r.bind.unmapped, "legsWithoutIk": r.skipped_legs}
         result = r.sample(state, spec)
         if plan["chains"]:
             result = r.secondary(result, plan["chains"], plan["colliders"])
@@ -87,6 +97,7 @@ def main(work):
         out_clips.append({
             "name": state, "fps": result["fps"], "loop": result["loop"], "frames": result["n"],
             "donor": f"{spec['donor']}:{spec['clip']}", "legScale": r.scale, "lyingLift": lift,
+            "hipMode": result["hipMode"], "hipSource": result["hipSource"], "ikMiss": round(result["ikMiss"], 4),
             "tracks": clip_tracks(sk, result), "hipsTranslation": pelvis_local,
         })
 
@@ -104,7 +115,7 @@ def main(work):
         "joints": order.tolist(), "weights": np.round(weights, 5).tolist(),
         "clips": out_clips,
         "fit": notes, "skin": skin_report,
-        "donors": {k: donor_map["donors"][k].get("source", k) for k in donors},
+        "donors": {k: d.source or k for k, d in donors.items()},
         "seconds": round(time.time() - t0, 1),
     }
     json.dump(rig, open(os.path.join(work, "rig.json"), "w"), default=float)

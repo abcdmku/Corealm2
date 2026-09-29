@@ -7,8 +7,11 @@ Per bone and frame, in world space:
     motion, i.e. the rest poses are matched before transfer and bone roll carries over.
   follow = 0 (torso, head, clavicles): the donor's rotation away from its rest is applied on top
     of the target's own rest, so a hunched back stays hunched.
-Only the hips translate, by the donor's hip offset scaled by the leg-length ratio. Ground gaits
-get two-bone foot IK towards the donor's scaled ankle path, which keeps planted feet planted.
+Only the hips translate: by the donor's hip offset scaled by the leg-length ratio ("legs"), by its
+vertical part only ("vertical": serpents, hovering bodies that must not sway), or by the offset of
+the donor's moving root ("root": flyers whose donor bobs the root). Ground gaits get N-segment
+leg IK towards the donor's scaled effector path, which keeps planted feet planted while every
+joint but the pivot keeps its donor angle.
 Bones with no donor twin (tails, capes, loincloth panels) follow their parent and are then driven
 by a damped spring chain (follow-through), with the legs as colliders and the floor as a plane.
 """
@@ -55,6 +58,32 @@ def two_bone_ik(hip, knee_fk, goal, l1, l2):
     return hip + u * a + pole * h, goal
 
 
+def chain_ik(joints, goal, pivots):
+    """N-segment leg IK that keeps the FK (donor) pose as its prior.
+
+    joints are the FK positions [hip, knee..., effector]. For each pivot joint k in turn, the part
+    of the chain above k and the part below k act as two rigid bones and are solved as two-bone IK
+    in the plane the chain already bends in; every other joint keeps its donor angle. The first
+    pivot usually reaches the goal. When it cannot (the leg would have to straighten or fold past
+    its reach), the next pivot takes the rest. Returns the swings [(k, upper, lower, reached)] to
+    apply to the bones above and below each pivot, and the solved joints."""
+    J = [np.asarray(j, float) for j in joints]
+    n = len(J) - 1
+    swings = []
+    for k in pivots:
+        l1 = np.linalg.norm(J[k] - J[0])
+        l2 = np.linalg.norm(J[n] - J[k])
+        knee, reach = two_bone_ik(J[0], J[k], goal, l1, l2)
+        upper = min_arc(J[k] - J[0], knee - J[0])
+        J = [J[0] + upper @ (j - J[0]) for j in J]
+        lower = min_arc(J[n] - J[k], reach - J[k])
+        J = J[:k + 1] + [J[k] + lower @ (j - J[k]) for j in J[k + 1:]]
+        swings.append((k, upper, lower, reach))
+        if np.linalg.norm(reach - goal) < 1e-6:
+            break
+    return swings, J
+
+
 def _pitch_to(offset, axis, target_dy, exact):
     """Rotation about axis (the bone's lateral axis) that brings the offset's height to
     target_dy: exactly when the donor foot is in contact, otherwise only up to it (no sinking)."""
@@ -72,47 +101,132 @@ def _pitch_to(offset, axis, target_dy, exact):
     return axis_angle(axis, angles[int(np.argmin(cost))])
 
 
+HIP_MODES = ("legs", "vertical", "root")
+
+
+def normalize_leg(leg):
+    """A plan leg: {"chain": [bone, ...], "foot": bone|None, "toe": bone|None, "pivot": k|None}.
+    The chain bones are the segments the IK bends (hip to ankle); the effector is the foot's head,
+    or the last chain bone's tail when there is no foot (a spider's leg tip). The tuple form
+    (upper, lower, foot[, toe]) is a two-bone chain."""
+    if isinstance(leg, dict):
+        return {"chain": list(leg["chain"]), "foot": leg.get("foot"), "toe": leg.get("toe"), "pivot": leg.get("pivot")}
+    return {"chain": list(leg[:2]), "foot": leg[2], "toe": leg[3] if len(leg) > 3 else None, "pivot": None}
+
+
 class Retargeter:
-    def __init__(self, skeleton, donor, plan):
+    def __init__(self, skeleton, donor, plan, bone_map=None, primary=True):
+        from .skeleton import Binding
+
         self.sk = skeleton
         self.donor = donor
         self.plan = plan
         self.hips = plan["hips"]
-        self.legs = plan.get("legs", [])
-        sk = skeleton
-        d = donor
-        # Leg-length ratio: target hip-to-ankle over donor hip-to-ankle (rest), for hips and feet.
-        if self.legs:
-            t_len = np.mean([np.linalg.norm(sk[c].head - sk[t].head) + np.linalg.norm(sk[f].head - sk[c].head) for t, c, f, *_ in self.legs])
-            d_len = np.mean([np.linalg.norm(d.rest_head[sk[c].donor] - d.rest_head[sk[t].donor]) + np.linalg.norm(d.rest_head[sk[f].donor] - d.rest_head[sk[c].donor]) for t, c, f, *_ in self.legs])
+        self.bind = Binding(skeleton, donor, bone_map, primary=primary)
+        sk, d, bind = skeleton, donor, self.bind
+        self.legs = []
+        self.skipped_legs = []
+        for leg in map(normalize_leg, plan.get("legs", [])):
+            bones = leg["chain"] + [b for b in (leg["foot"], leg["toe"]) if b]
+            if any(bind.bone[b] is None for b in bones):
+                self.skipped_legs.append(leg["chain"][0])
+                continue
+            leg["target_rest"] = self._joints_rest(leg)
+            leg["donor_rest"] = self._donor_joints(leg, None)
+            if leg["pivot"] is not None:
+                leg["pivots"] = [leg["pivot"]]
+            else:
+                # The donor's most bent joint is the knee that absorbs the proportion difference;
+                # the others follow in order of bend when it alone cannot reach.
+                Jd = leg["donor_rest"]
+                bend = [np.arccos(np.clip(np.dot(normalize(Jd[i] - Jd[i - 1]), normalize(Jd[i + 1] - Jd[i])), -1, 1))
+                        for i in range(1, len(Jd) - 1)]
+                leg["pivots"] = [int(i) + 1 for i in np.argsort(bend, kind="stable")[::-1]]
+            self.legs.append(leg)
+        # Size ratio for the hips and the leg effectors: target hip-to-effector length over the
+        # donor's (rest), or the hips height when no leg is driven; a plan may fix it.
+        if plan.get("scale") is not None:
+            self.scale = float(plan["scale"])
+        elif self.legs:
+            t_len = np.mean([sum(np.linalg.norm(J[i + 1] - J[i]) for i in range(len(J) - 1)) for J in (leg["target_rest"] for leg in self.legs)])
+            d_len = np.mean([sum(np.linalg.norm(J[i + 1] - J[i]) for i in range(len(J) - 1)) for J in (leg["donor_rest"] for leg in self.legs)])
+            self.scale = t_len / d_len
         else:
             t_len = sk[self.hips].head[1]
-            d_len = d.rest_head[sk[self.hips].donor][1]
-        self.scale = t_len / d_len
+            d_len = d.rest_head[bind.bone[self.hips]][1]
+            self.scale = t_len / d_len
+
+    # ------------------------------------------------------------------ legs
+    def _joints_rest(self, leg):
+        sk = self.sk
+        J = [sk[b].head for b in leg["chain"]]
+        J.append(sk[leg["foot"]].head if leg["foot"] else sk[leg["chain"][-1]].tail)
+        return J
+
+    def _donor_joints(self, leg, f, clip=None):
+        """Donor joint positions of a leg at clip frame f (rest when f is None)."""
+        d, bind = self.donor, self.bind
+        names = [bind.bone[b] for b in leg["chain"]]
+        if f is None:
+            J = [d.rest_head[n] for n in names]
+            J.append(d.rest_head[bind.bone[leg["foot"]]] if leg["foot"] else d.rest_tail[names[-1]])
+            return J
+        heads = clip["heads"][f]
+        J = [heads[d.index(n)] for n in names]
+        if leg["foot"]:
+            J.append(heads[d.index(bind.bone[leg["foot"]])])
+        else:
+            last = names[-1]
+            W = clip["frames"][f][d.index(last)]
+            J.append(J[-1] + W @ d.rest_frame[last].T @ (d.rest_tail[last] - d.rest_head[last]))
+        return J
+
+    def _hip_source(self, clip):
+        """The donor bone whose translation drives the hips in "root" mode: the plan's hip_source,
+        else the highest bone in the hierarchy that moves in this clip."""
+        d = self.donor
+        if self.plan.get("hip_source"):
+            return self.plan["hip_source"]
+        heads = clip["heads"]
+        span = max(np.ptp(np.array(list(d.rest_head.values()))[:, 1]), 1e-9)
+        for i, b in enumerate(d.bones):
+            if np.ptp(heads[:, i], axis=0).max() > 1e-5 * span:
+                return b
+        return self.bind.bone[self.hips]
 
     # ------------------------------------------------------------------ core
     def _world_targets(self, clip, f):
-        sk, d = self.sk, self.donor
+        sk, d, bind = self.sk, self.donor, self.bind
         frames = d.clips[clip]["frames"][f]
         T = {}
         for b in sk.bones:
-            if b.donor:
-                W = frames[d.index(b.donor)]
-                D = d.rest_frame[b.donor]
+            name = bind.bone[b.name]
+            if name:
+                W = frames[d.index(name)]
+                D = d.rest_frame[name]
                 delta = W @ D.T @ b.frame
+                if b.follow > 0 and bind.fix[b.name] is not None:
+                    W = W @ bind.fix[b.name]
                 T[b.name] = delta if b.follow <= 0 else (W if b.follow >= 1 else slerp_matrix(delta, W, b.follow))
+            elif b.parent is None:
+                T[b.name] = b.frame
             else:
                 parent = sk[b.parent]
                 T[b.name] = T[b.parent] @ parent.frame.T @ b.frame
         return T
 
     def sample(self, name, spec):
-        sk, d = self.sk, self.donor
+        sk, d, bind = self.sk, self.donor, self.bind
         clip = d.clips[spec["clip"]]
         n = len(clip["frames"])
-        hips_d = d.index(sk[self.hips].donor)
-        rest_hips_d = d.rest_head[sk[self.hips].donor]
-        hips_path = clip["heads"][:, hips_d] - rest_hips_d
+        mode = spec.get("hipMode", self.plan.get("hip_mode", "legs"))
+        if mode not in HIP_MODES:
+            raise ValueError(f"hip mode {mode} is not one of {HIP_MODES}")
+        source = self._hip_source(clip) if mode == "root" else bind.bone[self.hips]
+        if source is None:
+            hips_path = np.zeros((n, 3))
+        else:
+            hips_path = clip["heads"][:, d.index(source)] - d.rest_head[source]
         drift = np.zeros((n, 3))
         if spec.get("loop") or spec.get("in_place", True):
             # In place: remove the net horizontal travel (keep sway and bob).
@@ -121,51 +235,70 @@ class Retargeter:
             if not spec.get("loop"):
                 drift[:, [0, 2]] = 0.0
         hip_motion = self.plan.get("hip_motion", 1.0)
+        self.ik_miss = 0.0
         out_R, out_T = [], []
         for f in range(n):
             T = self._world_targets(spec["clip"], f)
             L = to_local(sk, T)
-            pelvis = sk[self.hips].head + self.scale * hip_motion * (hips_path[f] - drift[f])
+            offset = self.scale * hip_motion * (hips_path[f] - drift[f])
+            if mode == "vertical":
+                offset = np.array([0.0, offset[1], 0.0])
+            pelvis = sk[self.hips].head + offset
             R, P = forward(sk, L, self.hips, pelvis)
             if spec.get("ik", True):
-                for thigh, calf, foot, *_ in self.legs:
-                    donor_ankle = clip["heads"][f, d.index(sk[foot].donor)]
-                    goal = sk[foot].head + self.scale * (donor_ankle - d.rest_head[sk[foot].donor] - drift[f])
-                    l1 = np.linalg.norm(sk[calf].head - sk[thigh].head)
-                    l2 = np.linalg.norm(sk[foot].head - sk[calf].head)
-                    knee, goal = two_bone_ik(P[thigh], P[calf], goal, l1, l2)
-                    swing = min_arc(P[calf] - P[thigh], knee - P[thigh])
-                    R[thigh] = swing @ R[thigh]
-                    R[calf] = swing @ R[calf]
-                    calf_dir = R[calf] @ (sk[calf].frame.T @ (sk[foot].head - sk[calf].head))
-                    # The calf keeps its FK twist; it swings onto the solved knee-to-ankle line.
-                    # The foot keeps its donor world orientation (the ankle absorbs the change).
-                    R[calf] = min_arc(calf_dir, goal - knee) @ R[calf]
-                    P[calf], P[foot] = knee, goal
-                    # Foot and toes pitch so the ball and the toe tip follow the donor's scaled
-                    # heights: a heel-off rolls over the ball instead of pushing it into the floor.
-                    toe = rest[3] if len(rest := (thigh, calf, foot, *_)) > 3 else None
-                    if toe:
-                        heads = clip["heads"][f]
-                        ball_d = heads[d.index(sk[toe].donor)]
-                        lift = ball_d[1] - d.rest_head[sk[toe].donor][1]
-                        contact = lift < 0.01
-                        lateral = R[foot] @ (sk[foot].frame.T @ np.array([1.0, 0.0, 0.0]))
-                        offset = R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
-                        swing = _pitch_to(offset, lateral, sk[toe].head[1] + self.scale * max(lift, 0.0) - goal[1], contact)
-                        R[foot] = swing @ R[foot]
-                        R[toe] = swing @ R[toe]
-                        ball = goal + R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
-                        W_toe = clip["frames"][f][d.index(sk[toe].donor)]
-                        tip_d = ball_d + W_toe @ d.rest_frame[sk[toe].donor].T @ (d.rest_tail[sk[toe].donor] - d.rest_head[sk[toe].donor])
-                        tip_lift = tip_d[1] - d.rest_tail[sk[toe].donor][1]
-                        lateral = R[toe] @ (sk[toe].frame.T @ np.array([1.0, 0.0, 0.0]))
-                        offset = R[toe] @ (sk[toe].frame.T @ (sk[toe].tail - sk[toe].head))
-                        R[toe] = _pitch_to(offset, lateral, sk[toe].tail[1] + self.scale * max(tip_lift, 0.0) - ball[1], tip_lift < 0.01) @ R[toe]
+                for leg in self.legs:
+                    self._solve_leg(leg, clip, f, R, P, drift[f])
                 L = to_local(sk, R)
             out_R.append(L)
             out_T.append(pelvis)
-        return {"n": n, "fps": clip["fps"], "L": out_R, "pelvis": out_T, "loop": bool(spec.get("loop"))}
+        return {"n": n, "fps": clip["fps"], "L": out_R, "pelvis": out_T, "loop": bool(spec.get("loop")),
+                "hipMode": mode, "hipSource": source, "ikMiss": self.ik_miss}
+
+    def _solve_leg(self, leg, clip, f, R, P, drift):
+        """Chain IK towards the donor's scaled effector path, then foot and toe pitch for contact."""
+        sk, d, bind = self.sk, self.donor, self.bind
+        chain, foot, toe = leg["chain"], leg["foot"], leg["toe"]
+        donor_now = self._donor_joints(leg, f, clip)[-1]
+        goal = leg["target_rest"][-1] + self.scale * (donor_now - leg["donor_rest"][-1] - drift)
+        J = [P[b] for b in chain]
+        last = sk[chain[-1]]
+        J.append(P[foot] if foot else P[chain[-1]] + R[chain[-1]] @ (last.frame.T @ (last.tail - last.head)))
+        swings, _ = chain_ik(J, goal, leg["pivots"])
+        if swings:
+            # How far the effector stays from the donor's path, as a share of the leg's length: a
+            # donor that translates its hip joints (a stretching run) can ask for more reach than
+            # rigid bones have.
+            length = sum(np.linalg.norm(leg["target_rest"][i + 1] - leg["target_rest"][i]) for i in range(len(chain)))
+            self.ik_miss = max(self.ik_miss, float(np.linalg.norm(swings[-1][3] - goal) / length))
+        for k, upper, lower, _ in swings:
+            for b in chain:
+                R[b] = upper @ R[b]
+            for b in chain[k:]:
+                R[b] = lower @ R[b]
+        if not (foot and toe and swings):
+            return
+        # The foot keeps its donor world orientation (the ankle absorbs the change). It and the
+        # toes pitch so the ball and the toe tip follow the donor's scaled heights: a heel-off
+        # rolls over the ball instead of pushing it into the floor. This is exact while the donor
+        # foot is in contact and otherwise only stops the foot sinking.
+        goal = swings[-1][3]
+        heads = clip["heads"][f]
+        toe_d = bind.bone[toe]
+        ball_d = heads[d.index(toe_d)]
+        lift = ball_d[1] - d.rest_head[toe_d][1]
+        contact = lift < 0.01
+        lateral = R[foot] @ (sk[foot].frame.T @ np.array([1.0, 0.0, 0.0]))
+        offset = R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
+        swing = _pitch_to(offset, lateral, sk[toe].head[1] + self.scale * max(lift, 0.0) - goal[1], contact)
+        R[foot] = swing @ R[foot]
+        R[toe] = swing @ R[toe]
+        ball = goal + R[foot] @ (sk[foot].frame.T @ (sk[toe].head - sk[foot].head))
+        W_toe = clip["frames"][f][d.index(toe_d)]
+        tip_d = ball_d + W_toe @ d.rest_frame[toe_d].T @ (d.rest_tail[toe_d] - d.rest_head[toe_d])
+        tip_lift = tip_d[1] - d.rest_tail[toe_d][1]
+        lateral = R[toe] @ (sk[toe].frame.T @ np.array([1.0, 0.0, 0.0]))
+        offset = R[toe] @ (sk[toe].frame.T @ (sk[toe].tail - sk[toe].head))
+        R[toe] = _pitch_to(offset, lateral, sk[toe].tail[1] + self.scale * max(tip_lift, 0.0) - ball[1], tip_lift < 0.01) @ R[toe]
 
     # ------------------------------------------------------------- secondary
     def secondary(self, result, chains, colliders, floor=0.0, cycles=3):
