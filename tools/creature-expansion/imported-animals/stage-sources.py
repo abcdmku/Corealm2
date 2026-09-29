@@ -20,7 +20,7 @@ SOURCES = {
     },
     "reedbank_goose": {
         "rig": "swan_goose_rig_exp.FBX",
-        "animations": [f"swan_goose_{clip}_anim.FBX" for clip in ("idle", "walk", "run", "die")],
+        "animations": [f"swan_goose_{clip}_anim.FBX" for clip in ("idle", "walk", "run", "die", "eat")],
         "textures": ["swan_goose_col_unity.tga", "swan_goose_nrml13.tga"],
     },
     "quarry_snail": {
@@ -71,7 +71,7 @@ def main():
         "schemaVersion": 1, "sourcePack": "Animal pack deluxe", "author": "janpec",
         "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
         "sourceRoot": str(args.source), "stagedRoot": str(args.output), "animals": animals,
-        "notes": ["FBXs retain source names and bytes.", "PNG textures retain source dimensions, pixel data, and orientation.", "Snail has no source Run. Its faster crawl and missing combat clips are authored by motions.mjs."],
+        "notes": ["FBXs retain source names and bytes.", "PNG textures retain source dimensions, pixel data, and orientation.", "Snail has no source Run or Attack; neither ships."],
     }
     (args.output / "source-provenance.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Staged {sum(len(animal['files']) for animal in animals)} files for {len(animals)} species.")
