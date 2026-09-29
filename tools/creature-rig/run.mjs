@@ -80,13 +80,12 @@ async function runAsset(id) {
     const report = validate(model);
     writeFileSync(path.join(work, "validation.json"), JSON.stringify({ candidate: report, production: validate(production) }, null, 1));
     console.log(summarise(report));
-    for (const view of ["side", "front", "three-quarter"])
-      run(process.execPath, [path.join(repo, "tools/creature-motion/contact-sheet.mjs"), model, production, "--out", path.join(paths.sheets, view), "--phases", "8", "--size", "200", "--view", view], "contact-sheet");
+    run(process.execPath, [path.join(repo, "tools/creature-motion/contact-sheet.mjs"), model, production, "--out", path.join(paths.sheets, "audit"), "--phases", "8", "--size", "200", "--views", "audit"], "contact-sheet");
     mkdirSync(path.join(paths.sheets, "closeup"), { recursive: true });
     // The class picks the joints its close-ups frame (rig.json "closeup").
     const joints = studio ? "" : JSON.parse(readFileSync(path.join(work, "rig.json"), "utf8")).closeup.join(",");
     if (!studio) run(python[0], [...python.slice(1), path.join(paths.tool, "py/closeup.py"), "--", model, path.join(paths.sheets, "closeup", `${id}.png`), "--clips", "Idle,Walk,Run,Attack", "--phases", "2", "--joints", joints], "closeup.py");
-    console.log(`${id}: sheets in ${path.relative(repo, paths.sheets)}/{side,front,three-quarter,closeup}; catalog entry staged`);
+    console.log(`${id}: sheets in ${path.relative(repo, paths.sheets)}/{audit,closeup}; catalog entry staged`);
   }
   console.log(`${id}: done in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
 }

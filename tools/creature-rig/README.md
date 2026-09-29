@@ -39,7 +39,7 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
 | `work/<id>/` | `mesh.glb` (bind-pose production mesh), `intake.json`, `rig.json`, `fit.png` (skeleton and dominant-bone weights), `validation.json` |
 | `donors/` | Donor files extracted from zips and Unity packages |
 | `models/<production path>` | The candidate GLB |
-| `sheets/{side,front,three-quarter}/` | Contact sheets that compare the candidate (`[0]`) with production (`[1]`) |
+| `sheets/audit/` | Contact sheets that compare the candidate (`[0]`) with production (`[1]`) from the five audit angles: `<file>-vs1-{front,side,back,rear-three-quarter,top}.png` |
 | `sheets/closeup/<id>.png` | Joint close-ups: rows are the bind pose, then Idle, Walk, Run and Attack at 2 phases each; columns are front and side views of the class's close-up joints (`closeup_joints()`, else `upperarm_l`, `lowerarm_l`, `thigh_l`, `calf_l` and `spine_02` where they exist, else the first joints of each limb kind) |
 | `catalog.json` | Entries that `tools/promote-finish-assets.ts` can read, with `motionProvenance` and clip seconds |
 

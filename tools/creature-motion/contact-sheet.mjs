@@ -3,7 +3,12 @@
  * from the side with the floor line drawn. Motion is judged by looking at it, not by key counts.
  *
  *   node tools/creature-motion/contact-sheet.mjs <glb> [<glb> ...] [--out dir] [--clips Idle,Walk]
- *        [--phases 8] [--view side|front|three-quarter] [--size 220]
+ *        [--phases 8] [--view side|front|three-quarter|...] [--views audit|a,b] [--size 220]
+ *
+ * One camera never shows every fault: an arm through the chest hides from the side, a knee bending
+ * backwards hides from the front. `--views audit` renders the five audit angles (front, side, back,
+ * rear-three-quarter from the other flank, top) in one browser session, one PNG per view. The
+ * creature faces +Z, so `side` looks at its left flank and `right` at its right.
  *
  * Several GLBs render as stacked blocks with the same framing, so a candidate can be compared
  * against the file it replaces. Paths may be anywhere on disk. Writes <out>/<name>.png
@@ -30,7 +35,19 @@ if (!files.length) {
 const out = path.resolve(option("out", path.join(repo, "test-results/contact-sheets")));
 const phases = Number(option("phases", "8"));
 const cell = Number(option("size", "220"));
-const view = option("view", "side");
+const VIEWS = {
+  front: [0, 0.12, 1],
+  back: [0, 0.12, -1],
+  side: [1, 0.12, 0],
+  right: [-1, 0.12, 0],
+  "three-quarter": [0.8, 0.35, 0.8],
+  "rear-three-quarter": [-0.8, 0.45, -0.8],
+  top: [0.2, 1, 0.35],
+};
+const AUDIT_VIEWS = ["front", "side", "back", "rear-three-quarter", "top"];
+const viewsOption = option("views", "");
+const views = viewsOption === "audit" ? AUDIT_VIEWS : viewsOption ? viewsOption.split(",") : [option("view", "side")];
+for (const view of views) if (!VIEWS[view]) { console.error(`unknown view ${view}; one of ${Object.keys(VIEWS).join(", ")}`); process.exit(2); }
 const clipFilter = option("clips", "");
 
 const types = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/javascript", ".wasm": "application/wasm" };
@@ -66,7 +83,7 @@ window.sheet = async (urls, opts) => {
   renderer.clear();
   const size3 = rest.getSize(new THREE.Vector3()), centre = rest.getCenter(new THREE.Vector3());
   const radius = Math.max(size3.x, size3.y, size3.z) * 0.62;
-  const dir = opts.view === "front" ? new THREE.Vector3(0, 0.12, 1) : opts.view === "three-quarter" ? new THREE.Vector3(0.8, 0.35, 0.8) : new THREE.Vector3(1, 0.12, 0);
+  const dir = new THREE.Vector3(...opts.dir);
   const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 1000);
   camera.position.copy(centre).addScaledVector(dir.normalize(), radius / Math.tan(THREE.MathUtils.degToRad(15)) * 1.05);
   camera.lookAt(centre);
@@ -121,26 +138,29 @@ page.on("pageerror", (error) => console.error(error.message));
 await page.goto(`${base}/sheet.html`);
 await page.waitForFunction(() => window.ready === true);
 const urls = files.map((file) => `${base}/file?path=${encodeURIComponent(path.resolve(file))}`);
-const result = await page.evaluate(([u, o]) => window.sheet(u, o), [urls, { phases, cell, view, clips: clipFilter ? clipFilter.split(",") : [] }]);
-await page.setViewportSize({ width: result.width, height: result.height });
-const name = path.basename(files[0], ".glb") + (files.length > 1 ? `-vs${files.length - 1}` : "") + `-${view}.png`;
-const canvas = page.locator("canvas");
-await canvas.screenshot({ path: path.join(out, name) });
-// Label each row after the fact: the WebGL canvas has no text, so write an overlay and reshoot.
-await page.evaluate(({ info, label, cell }) => {
-  const layer = document.createElement("div");
-  layer.style.cssText = "position:absolute;left:0;top:0;font:12px monospace;color:#e5e7eb";
-  info.forEach((row, index) => {
-    const tag = document.createElement("div");
-    tag.textContent = `[${row.block}] ${row.clip} ${row.duration}s  minY ${row.minY}`;
-    tag.style.cssText = `position:absolute;left:4px;top:${index * (cell + label) + 1}px;white-space:nowrap`;
-    layer.appendChild(tag);
-  });
-  document.body.style.position = "relative";
-  document.body.appendChild(layer);
-}, { info: result.info, label: result.label, cell });
-await page.screenshot({ path: path.join(out, name), clip: { x: 0, y: 0, width: result.width, height: result.height } });
-for (const row of result.info) console.log(`[${row.block}] ${row.clip.padEnd(18)} ${String(row.duration).padStart(7)}s ${String(row.tracks).padStart(4)} tracks  minY ${row.minY}`);
-console.log(path.join(out, name));
+for (const view of views) {
+  await page.setViewportSize({ width: 1600, height: 1000 });
+  const result = await page.evaluate(([u, o]) => window.sheet(u, o), [urls, { phases, cell, dir: VIEWS[view], clips: clipFilter ? clipFilter.split(",") : [] }]);
+  await page.setViewportSize({ width: result.width, height: result.height });
+  const name = path.basename(files[0], ".glb") + (files.length > 1 ? `-vs${files.length - 1}` : "") + `-${view}.png`;
+  // Label each row after the fact: the WebGL canvas has no text, so write an overlay and shoot.
+  await page.evaluate(({ info, label, cell, view }) => {
+    document.getElementById("labels")?.remove();
+    const layer = document.createElement("div");
+    layer.id = "labels";
+    layer.style.cssText = "position:absolute;left:0;top:0;font:12px monospace;color:#e5e7eb";
+    info.forEach((row, index) => {
+      const tag = document.createElement("div");
+      tag.textContent = `[${row.block}] ${row.clip} ${row.duration}s  minY ${row.minY}  (${view})`;
+      tag.style.cssText = `position:absolute;left:4px;top:${index * (cell + label) + 1}px;white-space:nowrap`;
+      layer.appendChild(tag);
+    });
+    document.body.style.position = "relative";
+    document.body.appendChild(layer);
+  }, { info: result.info, label: result.label, cell, view });
+  await page.screenshot({ path: path.join(out, name), clip: { x: 0, y: 0, width: result.width, height: result.height } });
+  if (view === views[0]) for (const row of result.info) console.log(`[${row.block}] ${row.clip.padEnd(18)} ${String(row.duration).padStart(7)}s ${String(row.tracks).padStart(4)} tracks  minY ${row.minY}`);
+  console.log(path.join(out, name));
+}
 await browser.close();
 server.close();
