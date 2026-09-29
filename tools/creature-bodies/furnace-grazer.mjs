@@ -13,7 +13,7 @@
 import * as THREE from 'three';
 import {GLTFExporter} from 'three/addons/exporters/GLTFExporter.js';
 import {prune, weld} from '@gltf-transform/functions';
-import {sourceLoader, readFbx, identities, nameRig, importClip} from '../wilderness-dragons/source.mjs';
+import {sourceLoader, readFbx, identities, importClip} from '../wilderness-dragons/source.mjs';
 import {io, option, measure, stageCandidate, manifestEntry} from '../wilderness-dragons/stage.mjs';
 import {studioMaterial} from './studio-material.mjs';
 
@@ -31,7 +31,10 @@ globalThis.FileReader = class {
 
 const loader = await sourceLoader();
 const rig = await readFbx(loader, `${SOURCE}/Mesh/Rino_mesh.FBX`), ids = identities(rig);
-nameRig(rig, ids); rig.name = `${ID}_native`;
+// The CAT rig repeats Spine1/Spine2 under each hub. Number the repeats instead of spelling out their
+// ancestry, so every joint keeps the studio's own name the runtime's hit mask and gait readers match.
+{ const seen = new Map(); rig.traverse(n => { const k = (seen.get(n.name) ?? 0) + 1; seen.set(n.name, k); if (k > 1) n.name = `${n.name}_${k}`; }); }
+rig.name = `${ID}_native`;
 const clips = [];
 for (const [name, take] of Object.entries(TAKES)) clips.push(importClip(await readFbx(loader, `${SOURCE}/animation/Rhino@${take}.FBX`), ids, name));
 rig.getObjectByName('Character001')?.removeFromParent();
