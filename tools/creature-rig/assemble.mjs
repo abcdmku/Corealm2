@@ -51,7 +51,9 @@ function vertexMatcher(vertices) {
     grid.get(k).push(i);
   });
   let worst = 0;
-  const match = (x, y, z) => {
+  // unused: a vertex no primitive references (Blender drops it on import); it is matched to its
+  // nearest merged vertex but does not count towards the match error.
+  const match = (x, y, z, unused = false) => {
     let best = -1;
     let bestD = Infinity;
     const [cx, cy, cz] = [x, y, z].map((v) => Math.round(v / cell));
@@ -68,7 +70,7 @@ function vertexMatcher(vertices) {
         if (d < bestD) { bestD = d; best = i; }
       });
     }
-    worst = Math.max(worst, Math.sqrt(bestD));
+    if (!unused) worst = Math.max(worst, Math.sqrt(bestD));
     return best;
   };
   return { match, worst: () => worst };
@@ -126,8 +128,11 @@ export async function assemble(assetId, work = paths.work(assetId)) {
       const rebound = rig.bindVertices ? { position: floatArray(positionAccessor), normal: normalAccessor ? floatArray(normalAccessor) : null } : null;
       const J = new Uint16Array(count * 4);
       const W = new Float32Array(count * 4);
+      const used = new Uint8Array(count);
+      if (primitive.getIndices()) for (const i of primitive.getIndices().getArray()) used[i] = 1;
+      else used.fill(1);
       for (let v = 0; v < count; v += 1) {
-        const m = matcher.match(position[v * 3], position[v * 3 + 1], position[v * 3 + 2]);
+        const m = matcher.match(position[v * 3], position[v * 3 + 1], position[v * 3 + 2], !used[v]);
         if (rebound) {
           // The class re-posed the bind (arms lowered): take the re-posed position and turn the
           // normal by the same blended rotation.

@@ -73,34 +73,65 @@ function skinBindMatrix(skin) {
   return o;
 }
 
+/** Per-vertex skinning matrices (column-major) of a skinned primitive at the joints' current
+ * (rest) pose: the weighted sum of joint world x inverse bind. */
+function restSkinning(skin, primitive, count) {
+  const joints = skin.listJoints();
+  const ibm = skin.getInverseBindMatrices().getArray();
+  const mats = joints.map((joint, j) => {
+    const J = joint.getWorldMatrix();
+    const o = new Array(16).fill(0);
+    for (let r = 0; r < 4; r += 1) for (let c = 0; c < 4; c += 1) for (let k = 0; k < 4; k += 1) o[c * 4 + r] += J[k * 4 + r] * ibm[j * 16 + c * 4 + k];
+    return o;
+  });
+  const J = primitive.getAttribute("JOINTS_0");
+  const W = primitive.getAttribute("WEIGHTS_0");
+  const j4 = [0, 0, 0, 0];
+  const w4 = [0, 0, 0, 0];
+  return Array.from({ length: count }, (_, v) => {
+    J.getElement(v, j4);
+    W.getElement(v, w4);
+    const m = new Array(16).fill(0);
+    for (let c = 0; c < 4; c += 1) if (w4[c]) for (let e = 0; e < 16; e += 1) m[e] += w4[c] * mats[j4[c]][e];
+    return m;
+  });
+}
+
 /** Bakes every mesh node's rest world transform into its vertices and strips skin and clips.
- * Positions and normals come out as float accessors. */
-export function bakeBindMesh(doc) {
+ * Positions and normals come out as float accessors. A skinned mesh is placed by its skin bind
+ * (joint world x inverse bind); with pose "rest" it is skinned into the joints' rest pose instead,
+ * for a source whose bind is contorted but whose rest stands well (config "bind": "rest"). */
+export function bakeBindMesh(doc, { pose = "bind" } = {}) {
   const root = doc.getRoot();
   const scene = root.getDefaultScene() ?? root.listScenes()[0];
   const meshNodes = root.listNodes().filter((node) => node.getMesh());
   const baked = [];
   const seen = new Set(); // primitives of one mesh can share an accessor: transform it once
   for (const node of meshNodes) {
-    const m = node.getSkin() ? skinBindMatrix(node.getSkin()) : node.getWorldMatrix();
-    const n = mat3Normal(m);
+    const skin = node.getSkin();
+    const m0 = skin ? skinBindMatrix(skin) : node.getWorldMatrix();
+    const n0 = mat3Normal(m0);
     for (const primitive of node.getMesh().listPrimitives()) {
       const position = primitive.getAttribute("POSITION");
       const normal = primitive.getAttribute("NORMAL");
-      if (seen.has(position)) continue;
+      const shared = seen.has(position);
       seen.add(position);
-      const p = floatArray(position);
-      for (let i = 0; i < p.length; i += 3) {
+      const p = shared ? null : floatArray(position);
+      const perVertex = !shared && skin && pose === "rest" ? restSkinning(skin, primitive, p.length / 3) : null;
+      const at = (i) => (perVertex ? perVertex[i / 3] : m0);
+      for (let i = 0; p && i < p.length; i += 3) {
+        const m = at(i);
         const [x, y, z] = [p[i], p[i + 1], p[i + 2]];
         p[i] = m[0] * x + m[4] * y + m[8] * z + m[12];
         p[i + 1] = m[1] * x + m[5] * y + m[9] * z + m[13];
         p[i + 2] = m[2] * x + m[6] * y + m[10] * z + m[14];
       }
-      setFloat(position, p);
-      if (normal && !seen.has(normal)) {
+      if (p) setFloat(position, p);
+      if (!shared && normal && !seen.has(normal)) {
         seen.add(normal);
         const q = floatArray(normal);
         for (let i = 0; i < q.length; i += 3) {
+          const n = perVertex ? mat3Normal(at(i)) : n0;
           const [x, y, z] = [q[i], q[i + 1], q[i + 2]];
           const v = [n[0] * x + n[3] * y + n[6] * z, n[1] * x + n[4] * y + n[7] * z, n[2] * x + n[5] * y + n[8] * z];
           const l = Math.hypot(...v) || 1;
@@ -210,7 +241,7 @@ function matchingSources(production) {
 
 /** What an intake depends on: the forced source and the production file. */
 export function intakeKey(config, productionBytes) {
-  return createHash("sha256").update(JSON.stringify({ source: config.source ?? null, tool: 2 })).update(productionBytes).digest("hex").slice(0, 16);
+  return createHash("sha256").update(JSON.stringify({ source: config.source ?? null, bind: config.bind ?? null, tool: 2 })).update(productionBytes).digest("hex").slice(0, 16);
 }
 
 /** True when <work>/intake.json is missing or was made from another source or production file. */
@@ -233,7 +264,7 @@ export async function intake(assetId, work = paths.work(assetId)) {
   const productionBytes = readFileSync(productionFile);
 
   const { io, doc } = await openDocument(productionFile);
-  const meshNodes = bakeBindMesh(doc);
+  const meshNodes = bakeBindMesh(doc, { pose: config.bind === "rest" ? "rest" : "bind" });
   const grounded = groundAndCentre(meshNodes);
   const vertexCount = meshNodes.reduce((n, node) => n + node.getMesh().listPrimitives().reduce((m, p) => m + p.getAttribute("POSITION").getCount(), 0), 0);
   mkdirSync(work, { recursive: true });
