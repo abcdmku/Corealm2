@@ -2,13 +2,29 @@
 
 This pipeline re-rigs and re-animates Tripo-generated production creatures in headless Blender (the `bpy` module). It keeps the production mesh, UVs, materials and textures. It replaces the skeleton, the skin weights and the clips.
 
+Studio bodies (a studio rig with good native takes) use [studio mode](#studio-mode) instead: it keeps the rig, the skin and every native clip byte-identical and only adds retargeted clips.
+
 ## Run
 
 ```sh
-node tools/creature-rig/run.mjs <assetId> [<assetId> ...] [--from intake|rig|assemble|review]
+node tools/creature-rig/run.mjs <assetId> [<assetId> ...] [--from intake|rig|assemble|review] [--out <dir>]
 ```
 
-Every asset needs `tools/creature-rig/assets/<assetId>.json` with `{ "class": "humanoid", "profile": "brute" }`. The file can also set `source` (a forced source GLB) and `profileOverrides`.
+- One asset's failure does not stop the batch. The failures are listed at the end and the exit code is 1.
+- `--out <dir>` stages the work files, candidates, sheets and `catalog.json` under `<dir>`, so each worker can use its own folder. Donor extractions and the source-rig index stay shared in `test-results/creature-motion/rig/`.
+- `--from rig` (or later) repeats the intake first when `intake.json` is missing or was made from another forced `source` or another production file.
+
+Every asset needs `tools/creature-rig/assets/<assetId>.json`:
+
+| Key | Meaning |
+|---|---|
+| `class`, `profile` | The class module and its profile, for example `{ "class": "humanoid", "profile": "brute" }` |
+| `source` | Optional forced source GLB for the intake |
+| `profileOverrides` | Optional changes to the profile. Objects merge key by key, so `{ "clips": { "Walk": { "speed": 0.8 } } }` changes one field of one clip; anything else replaces. |
+| `studio` | Runs [studio mode](#studio-mode) |
+| `notes` | Free text |
+
+`rig.py` reads `class`, `profile` and `profileOverrides` from this file on every run, so a config edit needs no new intake.
 
 Blender runs as `py -3.13` with `PYTHONPATH=D:/CorealmAgentCache/bpy-5.2`. To use a different interpreter or bpy location, set `CREATURE_RIG_PYTHON` and `CREATURE_RIG_BPY`.
 
@@ -20,17 +36,21 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
 | `donors/` | Donor files extracted from zips and Unity packages |
 | `models/<production path>` | The candidate GLB |
 | `sheets/{side,front,three-quarter}/` | Contact sheets that compare the candidate (`[0]`) with production (`[1]`) |
-| `sheets/closeup/<id>.png` | Joint close-ups: rows are the bind pose, then Idle, Walk, Run and Attack at 2 phases each; columns are front and side views of `upperarm_l`, `lowerarm_l`, `thigh_l`, `calf_l` and `spine_02` |
+| `sheets/closeup/<id>.png` | Joint close-ups: rows are the bind pose, then Idle, Walk, Run and Attack at 2 phases each; columns are front and side views of the class's close-up joints (`closeup_joints()`, else `upperarm_l`, `lowerarm_l`, `thigh_l`, `calf_l` and `spine_02` where they exist, else the first joints of each limb kind) |
 | `catalog.json` | Entries that `tools/promote-finish-assets.ts` can read, with `motionProvenance` and clip seconds |
 
 ## Steps
 
-1. **`intake.mjs`** bakes every production mesh node to its bind pose in world space. It grounds the lowest vertex at y=0 and centres the feet over the origin. It then searches Tripo's own exports (`assets/art/tripo/exports` and `~/Downloads`) for a source with the same geometry. `assets/art/tripo/imports/creatures` is not searched: it holds the retired repo rigs, which pass the gates but have hand-typed joints. A source rig is used only if it passes `rig-health.mjs`: bind-consistent, at most 60% rigid vertices, no root-dominated weight, at most 35% on `neutral_bone`, and at least 12 weighted joints. Rig-page 8k exports always fail these gates.
+1. **`intake.mjs`** bakes every production mesh node to its bind pose in world space (a skinned node by joint world times inverse bind). Positions and normals are written as float, also when production stores them quantized (`KHR_mesh_quantization`). It grounds the lowest vertex at y=0 and centres the feet over the origin. It then searches Tripo's own exports (`assets/art/tripo/exports` and `~/Downloads`) for a source with the same geometry. `assets/art/tripo/imports/creatures` is not searched: it holds the retired repo rigs, which pass the gates but have hand-typed joints. A source rig is used only if it passes `rig-health.mjs`: bind-consistent, at most 60% rigid vertices, no root-dominated weight, at most 35% on `neutral_bone`, and at least 12 weighted joints. Rig-page 8k exports always fail these gates.
 2. **`py/rig.py`** runs in Blender:
-   - `crlib/body.py` voxelises the mesh. It seals holes with the smallest closing that stops the solid from growing, and removes thin sheets. It finds extremities and limb paths as medial geodesics, and cuts contacts between parts that only touch.
+   - `crlib/body.py` voxelises the mesh. It seals holes with the smallest closing that stops the solid from growing, and removes thin sheets. It finds extremities and limb paths as medial geodesics, and cuts contacts between parts that only touch. A separate mesh piece that the cuts would leave unreachable (a forearm modelled as its own island) is joined again through its largest contact, if it is at least 1% of the core.
+   - Upright classes pick the head, feet and hands with `crlib/landmarks.biped_tips()`:
+     - The head is the highest midline tip, unless it rises more than 8% of the height above the top of the spine's column (an antenna, a branch or a horn). Then the column top is the head. The column is tracked slab by slab up from the torso and ends where it thins to a stalk.
+     - The feet are the low tips whose medial paths from the head part lowest (at the crotch). Knuckles of arms that reach the floor part from the legs at the chest, so they are not feet.
+     - The hands are the lateral tips farthest from the head along the body. Knuckles near the floor that are not on a leg count.
    - A generic source rig (`bone_0 … bone_N`) is labelled by `crlib/labels.py` (see below) and handed to the class as `source["labels"]`.
    - The class module fits the skeleton. It then adds cloth or tail chains.
-   - Blender computes bone-heat weights. These are filled, made rigid only for loose pieces that are mostly bound to one bone (and near it), smoothed in 2 passes, limited to 4 influences and normalised.
+   - Blender computes bone-heat weights (`crlib/skin.robust_heat`). When vertices come back unweighted, it retries on a welded copy (near-duplicate vertices make the solve singular), then on each loose piece (up to 150 pieces), then on the outer surface of the filled voxel solid, whose weights go to the render mesh by the nearest proxy points. The voxel proxy handles double-walled and non-manifold shells. `rig.json` records `skin.heatSource`. The weights are then filled, made rigid only for loose pieces that are mostly bound to one bone (and near it, and not a bone in `rigidExclude`), smoothed in 2 passes, limited to 4 influences and normalised.
    - A T-posed body is re-bound with its arms at 50° using dual-quaternion skinning (`crlib/rebind.py`).
    - Donor clips are sampled at 30 fps and retargeted (`crlib/retarget.py`).
 3. **`assemble.mjs`** writes the GLB:
@@ -61,11 +81,18 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
   - `root`: the offset of the donor's highest moving bone, or of the plan's `hip_source`, for flyers whose donor bobs the root.
 
   Loop clips have their net horizontal travel removed.
-- Leg IK works on chains of any length. For each leg, the part of the chain above the pivot joint and the part below it act as two rigid bones and are solved as two-bone IK towards the donor's scaled effector path. The solve stays in the plane the chain already bends in. Every other joint keeps its donor angle. The pivot is the donor's most bent joint. When that pivot alone cannot reach, the next most bent joint takes the rest. After the IK, the foot and toes pitch so the ball and the toe tip follow the donor's scaled heights. This is exact while the donor foot is in contact and otherwise only stops the foot sinking.
+- Leg IK works on chains of any length. For each leg, the part of the chain above the pivot joint and the part below it act as two rigid bones and are solved as two-bone IK towards the donor's scaled effector path. The solve stays in the plane the chain already bends in. Every other joint keeps its donor angle. The pivot is the donor's most bent joint. When that pivot alone cannot reach, the next most bent joint takes the rest.
+- After the IK, the foot and toes pitch so the ball and the toe tip follow the donor's scaled heights. This is exact while the donor foot is in contact and otherwise only stops the foot sinking. Each pitch remembers the previous frame's angle (loops are warmed with one silent pass), so a hanging foot does not flip between two solutions, and a released contact eases back to the donor's angle. When the class records `sk.heels` (`{foot bone: heel point}`), a heel far behind the ankle is clamped at its bind height at heel strike.
+- Sole contact: the lowest skinned points of each foot (vertices skinned at least 30% to the foot and toe, in the bottom band) stay on or above the floor. A foot that dips (a heel at heel strike, a toe at toe-off) rises rigidly: its IK goal is lifted by a bracketed search until the lowest sole point is on the floor, with the foot's orientation kept. `rig.json` records the largest lift per clip as `soleLift`.
 - Some donors translate their hip joints, for example the animal-pack Wolf Run moves its hind hips by 35% of a bone length. These can ask for more reach than rigid bones have. `rig.json` records the worst miss per clip as `ikMiss`, a share of the leg length.
 - Chains with no donor twin are driven by a damped Verlet spring chain. These are capes (back sheets, plus their part above the hips that stands off the body), front flaps between the legs, and tails. The leg and torso capsules and the floor are colliders. The columns of one sheet are linked so the sheet cannot tear. Loops run for 3 cycles, and the leftover difference is spread over the cycle.
 - Lying clips (the hips drop below half their height) lift the hips by a smooth envelope of the floor penetration. No clip snaps to the floor per frame.
-- Takes that are authored to chain play as one clip, for example `["Melee_Hook", "Melee_Hook_Rec"]`.
+- Takes that are authored to chain play as one clip, for example `["Melee_Hook", "Melee_Hook_Rec"]`. A take named `<take>@mirror` is the take mirrored left to right.
+- A clip spec can also set:
+  - `speed`: a time-scale on the baked clip (0.8 plays the same frames over 1.25 times the duration). Heavy bodies use it for a slower Walk and Run.
+  - `hipMotion`: a scale on this clip's hip translation, on top of the profile's `hipMotion`.
+  - `hover`: `true` adds the donor's rest clearance above its ground (its lowest joint at rest) times the size ratio to the hips height; a number adds that many metres. The profile can set it for every clip. The clearance fades with the donor's hips height over its rest height, so a Death whose donor falls lands on the floor.
+  - `layers`: `[{"donor", "clip", "bones": [...], "kinds": [...]}]`. The listed bones, or the bones of the listed kinds, take their rotations from another donor's take in the same clip (wings from a flyer on a body from a walker). A loop repeats the layer a whole number of times so its seam closes; a one-shot plays it in real time.
 
 ## Writing a class
 
@@ -76,10 +103,13 @@ A class is two files: `py/classes/<class>.py` and `py/classes/<class>.donors.jso
 | Function | Required | Contract |
 |---|---|---|
 | `fit(body, donor, profile, source=None)` | yes | Returns `(Skeleton, notes)`. `donor` is the primary donor. Add bones with `sk.add(name, parent, head, tail, donor=, follow=, kind=)` in parent-first order. The first bone is the root. `kind` is one of `root`, `body`, `leg`, `arm`, `tail`, `cloth` or `wing`. `donor` names the primary donor's bone; `None` means the bone follows its parent (and a spring chain if `plan` lists it). `notes` is any JSON and ends up in `rig.json` as `fit`. |
-| `plan(sk, body, profile)` | yes | Returns `{"hips": <bone>, "legs": [...], "chains": [...], "colliders": [...], "hip_motion": <float>}`. It can also set `hip_mode` (`legs`, `vertical` or `root`), `hip_source` (a donor bone for `root` mode) and `scale` (a fixed size ratio instead of the leg-length one). |
+| `plan(sk, body, profile)` | yes | Returns `{"hips": <bone>, "legs": [...], "chains": [...], "colliders": [...], "hip_motion": <float>}`. It can also set `hip_mode` (`legs`, `vertical` or `root`), `hip_source` (a donor bone for `root` mode), `scale` (a fixed size ratio instead of the leg-length one) and `hover`. |
 | `cloth(body, sk, profile, heat)` | no | Adds sheet chains (`heat=False` bones) and returns `override(W) -> (W, locked)` for the skin step. |
 | `bind_turns(sk, profile)` | no | Returns `{bone: rotation}`. It re-poses a bind that sits far from the donor's working range, for example spread wings or T-pose arms. |
 | `donor_map(sk, donor, profile)` | no | Returns `{primary donor bone or target bone: this donor's bone or None}` for a secondary donor. It is called once per donor; return `None` to use the donor spec's `map`. |
+| `closeup_joints(sk, profile)` | no | Returns the joints the review close-ups frame. |
+
+`fit()` can also leave these on the skeleton: `sk.heels` (`{foot bone: heel point}`, for the heel clamp) and `sk.rigid_exclude` (bones the loose-piece rule never binds a piece to; the profile's `rigidExclude` adds more). Upright classes should take their head, foot and hand tips from `crlib.landmarks.biped_tips(body, legs)`; `humanoid.py` and, through it, `golem.py` do.
 
 A leg in `plan()["legs"]` is `{"chain": [bone, ...], "foot": bone or None, "toe": bone or None, "pivot": index or None}`:
 
@@ -87,6 +117,7 @@ A leg in `plan()["legs"]` is `{"chain": [bone, ...], "foot": bone or None, "toe"
 - The effector is the head of `foot`. With no foot it is the tail of the last chain bone, for example a spider's leg tip.
 - `toe` enables ball and toe contact. It needs a `foot`.
 - `pivot` forces the pivot joint: an index into the chain's joints, where 1 is the first knee.
+- `scale` multiplies the size ratio for this chain's effector path, for example a neck solved like a leg that must not bury the beak.
 - The tuple `(upper, lower, foot[, toe])` is still accepted and means a two-bone chain. `humanoid.py` uses it.
 
 A spring chain in `chains` is `{"bones": [...], "stiffness", "damping", "gravity", "hang", "clearance", "group"}`, with the colliders `CapsuleCollider(sk, bone, radius)` from `crlib.retarget`. Legs whose bones have no twin in a clip's donor lose IK for that clip; `rig.json` lists them under `fit.donorGaps`.
@@ -133,9 +164,9 @@ Verified results:
 - `primary`: the donor that names the bones and sets the bind frames.
 - `profiles`: `{name: {clips: {State: {donor, clip, loop?, ik?, in_place?, hipMode?}}, hipMode?, hipMotion?, legs?, ...}}`.
 
-`clip` is a take name or a list of takes that chain.
+`clip` is a take name or a list of takes that chain. A clip spec's other keys are in [Retarget rules](#retarget-rules): `loop`, `ik`, `in_place`, `hipMode`, `speed`, `hipMotion`, `hover` and `layers`.
 
-A donor spec is one of the following. Common options are `yaw` (degrees about +Y, so the donor faces +Z), `armature`, `map` and `source` (credit text).
+A donor spec is one of the following. Common options are `yaw` (degrees about +Y, so the donor faces +Z), `armature`, `map`, `source` (credit text) and `subTakes`. `subTakes` (`{"PeckDown": {"take": "Eat", "range": [1, 20]}}`) adds named slices of another take's file, in that file's own frames, so a `ref` to a catalog entry can cut a take without naming file paths.
 
 | Spec | Meaning |
 |---|---|
@@ -191,12 +222,36 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | humanoid | knight | UAL1 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | Sword_Attack | Hit_Chest | Death01 |
 | humanoid | brute | UAL1 + UAL2 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
 | humanoid | spirit (`legs: false`) | UAL1 | Idle_Loop | Walk_Loop | (none; falls back to Walk) | Spell_Simple_Enter + Shoot + Exit | Hit_Chest | Death01 |
+| humanoid | guard, bandit, undead, ogre, caster, beast, fae | UAL1 + UAL2 | see `humanoid.donors.json` | | | | | |
+| golem | golem | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Zombie_Scratch | Hit_Chest | Death01 |
+| golem | golemPunch | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Punch_Cross | Hit_Chest | Death01 |
+| golem | treant | UAL1 + UAL2 | Idle_Loop | Walk_Loop | (none) | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
+| bird | fowl, wader | Animal pack Chicken | Idle | Walk | Run | Eat 1–20 + 214–230 (peck) | (none; runtime fallback) | Die |
+| winged | wasp, fae | Quaternius wasp | Wasp_Flying | Wasp_Flying | Wasp_Flying | Wasp_Attack | (none; runtime fallback) | Wasp_Death |
 
-The spirit profile has no leg bones. A 3-bone tail chain runs from the waist to the lowest tip.
+The spirit profile has no leg bones. A 3-bone tail chain runs from the waist to the lowest tip. The golem class reuses the humanoid fit and adds quiet torso bones, sole joints, a heel pivot, foot blocks and rigid plates. The bird class solves the neck like a leg towards the chicken's head path. The winged class (on its own branch until merged) fits span chains for the wings.
+
+## Studio mode
+
+An asset config with a `studio` block keeps the production file's own rig, skin and native clips and only adds retargeted clips. `run.mjs` then skips the intake, runs `py/studio.py` for the rig step, and `studio.mjs` for assemble and review. The review stage hashes every kept clip (sampler bytes, targets and interpolation) against production and fails if a native clip changed.
+
+| Key | Meaning |
+|---|---|
+| `map` | `{studio node name: {bone, donor?, follow?, kind?, parent?, tail?, noTail?, noKey?, translate?}}`. `bone` is the class's bone name (UE names for humanoids). `parent` names a logical parent when the node's own parent is not on the limb (IK-baked feet); such nodes also get translation keys. |
+| `rootNode` | The studio node under which the root sits on the floor |
+| `referenceClip` | Optional native clip whose first frame is the rest the donor is matched to |
+| `replace` | Native clips dropped before the new ones are added |
+| `clips` | Clip specs as in a profile, plus `layer` (`{clip, bones, donor?, rate?, hold?, release?}`: an arm pose held from another take), `flatProp` (`{hand, node, from, to?}`: a long prop turned level, or upright with `to: "up"`), `gripRelease` (`[start, end]` fractions over which the grip lets go) and `lift` (lift the hips out of the floor while lying). Without `clips`, the class profile's clips are used. |
+| `grip` | `{hand node: native clip}`: the hand keeps its local rotation from that clip's first frame |
+| `hipMotion` | The body's hip motion; a clip's `hipMotion` replaces it |
+| `propPoseClip` | A native clip whose keys pose props under joints (a bow string) in the new clips |
 
 The Quaternius Universal Animation Library (CC0) is extracted from `C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache` into the work area. Donor files are never copied into the repo.
 
 ## Known limits
+
+- A robe or petal skirt over the legs (the gloamgarden sporekin) is still read by the humanoid cape finder as panels; the legs are fitted and drive the walk, but the class's cloth step decides panels.
+- Knuckles of floor-length arms are fitted as hands, but a standing donor's arms then push them through the floor (the starroot guardian). Such bodies need a knuckle-walking donor or arm IK.
 
 - Joint placement uses measured features. Unusual anatomy can still misplace a joint, so check `fit.png` for every new asset. A floating body's waist uses the biped ratio between the shoulders and the hand tips.
 - The shoulders and armpits of a T-posed body are re-bound to 50° with dual quaternions. Extreme overhead poses still pinch.
