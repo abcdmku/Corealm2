@@ -30,8 +30,12 @@ LEG_ORDER = ("Hip", "Knee", "Knee1", "Knee2", "Ankle", "Ball", "Toe")
 
 
 # ------------------------------------------------------------------ donor roles
-def roles(donor):
-    """{role: donor bone} for an Animal pack deluxe rig."""
+def roles(donor, profile=None):
+    """{role: donor bone} for an Animal pack deluxe rig, or the profile's "roles" map for this donor
+    key (another studio's quadruped, e.g. a Dungeon Mason dragon; null means no such bone)."""
+    mapped = ((profile or {}).get("roles") or {}).get(getattr(donor, "key", None))
+    if mapped is not None:
+        return dict(mapped)
     out = {}
     for b in donor.bones:
         m = ROLE.match(b)
@@ -136,7 +140,7 @@ def fit(body, donor, profile, source=None):
     V = body.verts
     H = body.height
     S = float(np.ptp(V, axis=0).max())
-    r = roles(donor)
+    r = roles(donor, profile)
     seed = body.to_world(np.unravel_index(np.argmax(body.dt), body.dt.shape))
     ext, dist, pred = body.extremities(seed, profile.get("tipSeparation", 0.04) * S, 0.08 * S)
     world = body.to_world(body.nodes)
@@ -342,7 +346,7 @@ def fit(body, donor, profile, source=None):
     sk = Skeleton()
     pelvis = spine_heads[0]
     root_head = np.array([pelvis[0], 0.0, pelvis[2]])
-    sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor=r["MAIN"], follow=0.0, kind="root")
+    sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor=r.get("MAIN"), follow=0.0, kind="root")
     chain = ["pelvis"] + [f"spine_{i + 1:02d}" for i in range(len(sp_names))]
     donors_sp = ["ROOT"] + sp_names
     for i, name in enumerate(chain):
@@ -376,7 +380,7 @@ def fit(body, donor, profile, source=None):
                 hip = J[0]
                 clav = spine_heads[-1] + np.array([0.6 * (hip[0] - spine_heads[-1][0]), 0.0, 0.0])
                 clav[2] = hip[2] - 0.15 * np.linalg.norm(hip - spine_heads[-1])
-                sk.add(f"frontleg_scapula_{side}", chest, clav, hip, donor=r[f"{side}_Clavicle_01_01"], follow=0.0, kind="leg")
+                sk.add(f"frontleg_scapula_{side}", chest, clav, hip, donor=r.get(f"{side}_Clavicle_01_01"), follow=0.0, kind="leg")
                 parent = f"frontleg_scapula_{side}"
             for j in range(len(names) - 1):
                 role = names[j].split("_")[-1].lower()
@@ -386,9 +390,50 @@ def fit(body, donor, profile, source=None):
                 follow = profile.get("legFollow", 1.0) if j < len(names) - 3 else profile.get("footFollow", 0.0)
                 sk.add(name, parent, J[j], J[j + 1], donor=r[names[j]], follow=follow, kind="leg")
                 parent = name
+    if profile.get("wings"):
+        notes["wings"] = _fit_wings(sk, body, profile, r, chest, mid_x, spine_heads[-1])
     notes.update({"pelvisS": float(s_pelvis), "chestS": float(s_chest), "skullS": float(s_skull), "tailBaseS": float(s_tail0),
                   "spineLength": float(s_end), "tailBones": len(tail)})
     return sk, notes
+
+
+def _fit_wings(sk, body, profile, r, chest, mid_x, chest_head):
+    """Wing arms on a winged quadruped (a Tripo dragon): the wing is the mesh lateral of the body
+    above the elbows. Its leading edge is the highest wing point per lateral band; the chain runs
+    from the shoulder root on the back to the peak (the wrist of a raised wing) and on to the
+    outermost tip, split at the profile's share. Wing bones copy the donor's wing direction
+    (follow 1), so a donor that folds its wings on the ground folds these too."""
+    V = body.verts
+    H = body.height
+    out = {}
+    names = profile["wings"]  # [donor role of arm 1, 2, 3]
+    for side, sign in (("l", 1), ("r", -1)):
+        lat = sign * (V[:, 0] - mid_x)
+        span = lat.max()
+        wing = V[(lat > profile.get("wingInner", 0.3) * span) & (V[:, 1] > profile.get("wingLow", 0.3) * H)]
+        tip = wing[int(np.argmax(sign * (wing[:, 0] - mid_x)))]
+        peak = wing[int(np.argmax(wing[:, 1]))]
+        # Leading edge between peak and tip: the highest point per lateral band.
+        bands = np.linspace(sign * (peak[0] - mid_x), sign * (tip[0] - mid_x), 12)
+        edge = [peak]
+        for a, b in zip(bands[:-1], bands[1:]):
+            sel = wing[(sign * (wing[:, 0] - mid_x) >= a) & (sign * (wing[:, 0] - mid_x) < b)]
+            if len(sel):
+                edge.append(sel[int(np.argmax(sel[:, 1]))])
+        edge.append(tip)
+        edge, _ = resample(np.array(edge), 40)
+        root = chest_head + np.array([sign * profile.get("wingRootOffset", 0.35) * abs(peak[0] - mid_x), 0.0, 0.0])
+        root[1] = max(root[1], peak[1] - 0.5 * (peak[1] - chest_head[1]))
+        mid = edge[int(round(profile.get("wingSplit", 0.35) * 40))]
+        pts = [root, peak, mid, tip]
+        parent = chest
+        for i in range(3):
+            name = f"wing_{i + 1:02d}_{side}"
+            donor = None if profile.get("wingSpring") else r.get(names[i].replace("{S}", side))
+            sk.add(name, parent, pts[i], pts[i + 1], donor=donor, follow=profile.get("wingFollow", 1.0), kind="wing")
+            parent = name
+        out[side] = [np.round(p, 3).tolist() for p in pts]
+    return out
 
 
 def bone_name(kind, role, side):
@@ -426,6 +471,12 @@ def plan(sk, body, profile):
     tail = [b.name for b in sk.bones if b.kind == "tail" and b.donor is None]
     if tail:
         chains.append({"bones": tail, "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.2, "clearance": 0.0})
+    for side in ("l", "r"):
+        # Wings held in their bind shape on the chest, with spring follow-through (a Tripo dragon's
+        # raised wing crumples when made to copy a studio dragon's folded wing).
+        wing = [b.name for b in sk.bones if b.kind == "wing" and b.donor is None and b.name.endswith(f"_{side}")]
+        if wing:
+            chains.append({"bones": wing, "stiffness": profile.get("wingStiffness", 90.0), "damping": 9.0, "gravity": 0.0, "hang": 0.0, "clearance": 0.02})
     out = {"hips": "pelvis", "legs": legs, "chains": chains, "colliders": colliders,
            "hip_motion": profile.get("hipMotion", 1.0)}
     if profile.get("hipMode"):
@@ -720,8 +771,11 @@ def closeup_joints(sk, profile):
 
 def donor_map(sk, donor, profile):
     """A secondary Animal pack donor maps by role: the primary's bone for each target bone is
-    replaced by the bone with the same role in this donor (Knee and Knee1 are one role)."""
-    r = roles(donor)
+    replaced by the bone with the same role in this donor (Knee and Knee1 are one role). A donor
+    that already has every bone the skeleton names (the primary) needs no map."""
+    if all(b.donor is None or b.donor in donor.rest_frame for b in sk.bones):
+        return None
+    r = roles(donor, profile)
     if not r:
         return None
     out = {}
