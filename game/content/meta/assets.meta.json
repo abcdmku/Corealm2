@@ -5949,41 +5949,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T12:45:24.543Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d. Evidence: test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json.",
-      "at": "2026-09-28T19:46:08.413Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_reedbank_goose": {
     "status": "draft",
@@ -7309,41 +7283,15 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-29T12:45:24.543Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2. Evidence: test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_starroot_guardian/evidence.json.",
-      "at": "2026-09-28T19:32:52.364Z",
-      "by": "codex",
-      "checks": {
-        "state:idle": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2."
-        },
-        "state:walk": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2."
-        },
-        "state:run": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2."
-        },
-        "state:attack": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2."
-        },
-        "state:hit": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2."
-        },
-        "state:death": {
-          "verdict": "approved",
-          "note": "Reviewed candidate 11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2."
-        }
-      }
-    }
+    "sourceRefs": []
   },
   "creature_stone_golem": {
     "status": "draft",
@@ -9089,15 +9037,15 @@
         "by": "owner",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T12:45:32.447Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 2dcb7aec7bdefb55c9bc71dc77a0e8075bed9f1eea3493c910d35c5c9b4d6d7d.",
-      "at": "2026-09-28T21:35:39.247Z",
-      "by": "owner"
-    }
+    "sourceRefs": []
   },
   "fairy_garden_wardling_gloamgarden": {
     "status": "draft",
@@ -9109,15 +9057,15 @@
         "by": "owner",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T12:45:32.447Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 1bc3b5c1f324a13863cb4388e68cd92718f0b1944acf4fddaf63da3bdaf0e66c.",
-      "at": "2026-09-28T21:35:39.247Z",
-      "by": "owner"
-    }
+    "sourceRefs": []
   },
   "fairy_guardian_02_gloamgarden": {
     "status": "draft",
@@ -9549,15 +9497,15 @@
         "by": "owner",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T12:45:32.447Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 c0494400fe1577cf8be644850e6c9250b9d4f88264f3f60936fb8cdd1ae79c27.",
-      "at": "2026-09-28T21:35:39.247Z",
-      "by": "owner"
-    }
+    "sourceRefs": []
   },
   "fairy_monster_14": {
     "status": "draft",
@@ -9569,15 +9517,15 @@
         "by": "owner",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T12:45:32.447Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 cfdf19cdf4ea9bb7d8d3dc149ba6484d8df085f080cceaca63af4a93d46ad6ed.",
-      "at": "2026-09-28T21:35:39.247Z",
-      "by": "owner"
-    }
+    "sourceRefs": []
   },
   "fairy_monster_16": {
     "status": "draft",
@@ -9727,15 +9675,15 @@
         "by": "owner",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T12:45:32.447Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 26cfaa6e91519d940edd550d2d757302b0848a19ac06c4d27d8a157776250941.",
-      "at": "2026-09-28T21:35:39.247Z",
-      "by": "owner"
-    }
+    "sourceRefs": []
   },
   "fairy_monster_30": {
     "status": "draft",
@@ -9747,15 +9695,15 @@
         "by": "owner",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-29T12:45:32.447Z",
+        "by": "claude",
+        "action": "art.review",
+        "detail": "verdicts cleared: motion rebuilt, awaiting owner review"
       }
     ],
-    "sourceRefs": [],
-    "art": {
-      "verdict": "approved",
-      "note": "Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 b3a6ce2687a6a69ec8b9402b13414e57b47d9b291e17b1a7ddbcc53cd4d1e82c.",
-      "at": "2026-09-28T21:35:39.247Z",
-      "by": "owner"
-    }
+    "sourceRefs": []
   },
   "fantasy_monster_01": {
     "status": "draft",

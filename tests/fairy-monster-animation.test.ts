@@ -23,7 +23,8 @@ describe('fairy crawler support during recoil',()=>{
     const idle=gltf.animations.find(c=>c.name==='Idle')!,hit=gltf.animations.find(c=>c.name==='Hit')!;
     const overlay=createMaskedHitOverlay(root,hit,idle);
     expect(overlay.status).toBe('native-masked');
-    expect(overlay.boneNames).toEqual(expect.arrayContaining(['headx','neckx']));
+    // The retargeted GetHit turns the head; the neck rides the spine.
+    expect(overlay.boneNames).toEqual(expect.arrayContaining(['headx']));
     const supports=['rootx','shoulderl','arm_stretchl','forearm_stretchl','handl',
       'shoulderr','arm_stretchr','forearm_stretchr','handr',
       'shoulder_dupli_002l','hand_dupli_002l','shoulder_dupli_002r','hand_dupli_002r','c_tail_00x'];

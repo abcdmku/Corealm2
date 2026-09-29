@@ -31958,17 +31958,17 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 5246856,
-      "sha256": "5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d",
+      "bytes": 5322740,
+      "sha256": "851d73825f582234925fef2b7023775f0d234957bd6a01e55566bd09bdd40918",
       "size": {
-        "x": 0.5336658304028823,
-        "y": 0.8282676234677625,
-        "z": 0.6052618024071624
+        "x": 1.026023,
+        "y": 0.549339,
+        "z": 0.851871
       },
       "base": {
-        "x": -0.265829219711249,
-        "y": 0.0019999834342799665,
-        "z": -0.2724608138501045
+        "x": -0.512367,
+        "y": -0.004417,
+        "z": -0.451172
       },
       "groundY": 0,
       "triangles": 4874,
@@ -31977,16 +31977,12 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
-        "Death"
+        "Death",
+        "Hit"
       ],
       "materials": [
         "tripo_mat_347c31d7-f1eb-41b1-ad74-0d237e1434c0"
       ],
-      "walkClipSeconds": 1.1200000047683716,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.949999988079071,
-      "contactNormalized": 0.3125,
       "sourceProvenance": {
         "author": "User-supplied Tripo model; Corealm candidate rig",
         "source": "stylized+spider+3d+model.glb",
@@ -32339,515 +32335,43 @@
       },
       "bounds": {
         "min": [
-          -0.265829219711249,
-          0.0019999834342799665,
-          -0.2724608138501045
+          -0.5123670101165771,
+          -0.004416999872773886,
+          -0.45117199420928955
         ],
         "max": [
-          0.2678366106916332,
-          0.8302676069020425,
-          0.3328009885570579
+          0.5136560201644897,
+          0.5449219942092896,
+          0.4006989896297455
         ]
       },
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Attack",
+          "Death": "Quaternius Easy Animated Enemy Pack (Spider), CC0: HumanArmature|HumanArmature|Spider_Death",
+          "Hit": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die beat 0-8 recovered"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (arthropod/spider): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.277 m).",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 0.9666666388511658,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7333333492279053,
+          "Death": 1.0333333015441895,
+          "Hit": 0.5666666626930237
+        },
+        "sourceFile": "game/public/assets/models/creature/creature_reed_strider.glb",
+        "sourceSha256": "5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d"
       },
-      "impliedWalkMps": 0.08410973084886128,
-      "impliedRunMps": 0.2314814814814815,
-      "motionRepair": {
-        "family": "arthropods",
-        "sourceSha256": "eb532eae9f6a04f8a549c3048021ad08d2cb65f2199d2751ef6daf3d15eaca26",
-        "sourceGitBlob": "49eac33b450331c94d9debab91b2ebc05a5c0bac",
-        "donors": [],
-        "sourceMetadata": {
-          "family": "reed_strider",
-          "height": 1.017408738811307,
-          "dimensions": [
-            1.7707039003321388,
-            1.017408738811307,
-            1.5373334444813456
-          ],
-          "rig": "whole-source-59-joint",
-          "attackContact": 0.5555555555555556,
-          "attackContactSource": "Measured maximum forward world-z of original Head_end bone over 181 original Attack samples",
-          "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
-          "license": "CC0-1.0",
-          "provenance": {
-            "author": "Quaternius",
-            "license": "CC0-1.0",
-            "source": "https://quaternius.itch.io/animated-easy-enemies",
-            "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
-            "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
-            "sourceSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
-            "modifications": "Six-legged reed mimic with a raised narrow thorax, tapered segmented abdomen, long folded limbs and a vertically split feeding mask. Entire visible mesh rebuilt on the native arthropod rig. Coordinated nonlinear skin and bind-joint refit; revised articulated body motion; source action contacts retained; whole weighted surface ground correction. New Corealm wood/chitin materials generated with builtin imagegen and JPEG-encoded at quality 90 for runtime; source PNGs and prompts retained in art/biome-creatures/forest.",
-            "materialTranslation": {
-              "from": "MeshPhongMaterial",
-              "to": "MeshStandardMaterial",
-              "preserved": [
-                "color",
-                "opacity",
-                "transparent",
-                "side",
-                "alphaTest",
-                "depthWrite",
-                "vertexColors",
-                "map"
-              ],
-              "roughness": 0.85,
-              "metalness": 0,
-              "transmission": false
-            },
-            "floorLift": {
-              "track": "insect_floor.position",
-              "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
-              "clearanceMeters": 0.003,
-              "changesSourceGeometry": false
-            },
-            "sourceModifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting."
-          },
-          "floorCorrection": {
-            "Idle": {
-              "samples": 334,
-              "maximumLift": 0.0033412944061593608
-            },
-            "Walk": {
-              "samples": 67,
-              "maximumLift": 0.013305300413305084
-            },
-            "Run": {
-              "samples": 52,
-              "maximumLift": 0.013305300413305084
-            },
-            "Attack": {
-              "samples": 61,
-              "maximumLift": 0.005547775832663601
-            },
-            "Hit": {
-              "samples": 130,
-              "maximumLift": 0.06983342903180083
-            },
-            "HitLeft": {
-              "samples": 130,
-              "maximumLift": 0.15439570282454376
-            },
-            "HitRight": {
-              "samples": 130,
-              "maximumLift": 0.15370656574307037
-            },
-            "Death": {
-              "samples": 81,
-              "maximumLift": 0.013195637573786438
-            }
-          },
-          "nativeMotion": {
-            "sourceClips": [
-              {
-                "name": "HumanArmature|Spider_Walk",
-                "duration": 0.8333333134651184
-              },
-              {
-                "name": "HumanArmature|Spider_Idle",
-                "duration": 4.166666507720947
-              },
-              {
-                "name": "HumanArmature|Spider_Attack",
-                "duration": 0.75
-              },
-              {
-                "name": "HumanArmature|Spider_Death",
-                "duration": 1.0416666269302368
-              },
-              {
-                "name": "HumanArmature|Spider_Jump",
-                "duration": 0.7083333134651184
-              }
-            ],
-            "locomotion": "HumanArmature|Spider_Walk",
-            "runTimeScale": 1.65,
-            "mode": "ground",
-            "uniformSourceScale": 0.002695061092636911,
-            "vertexCount": 8136
-          },
-          "animationAcceptance": "CPU candidate; production visual and contact review required",
-          "runtimeTexturePolicy": {
-            "maxDimension": 2048,
-            "sharedByEncodedSha256": true,
-            "originalsPreserved": true
-          },
-          "gaitMeasurementSource": "tools/rpg-bestiary/replacement-inventory/spider-gait.json",
-          "redesign": {
-            "sourceAssetId": "creature_webweaver_spider",
-            "sourceSha256": "8e26f4d37d09f683514b1e6fb9c7f3a1043d31bc69a108c809daa407b3da605f",
-            "generator": "tools/biome-creatures/forest/build.mjs",
-            "design": "Six-legged reed mimic with a raised narrow thorax, tapered segmented abdomen, long folded limbs and a vertically split feeding mask. Entire visible mesh rebuilt on the native arthropod rig.",
-            "changedVertices": 8136,
-            "removedTriangles": 2712,
-            "newTriangles": 12368,
-            "createdParts": [
-              "reed_thorax",
-              "tapered_abdomen_0",
-              "tapered_abdomen_1",
-              "tapered_abdomen_2",
-              "split_feeding_mask",
-              "feeding_fold",
-              "FrontLeg_L_0",
-              "FrontLeg_L_1",
-              "FrontLeg_L_2",
-              "MidFrontLeg_L_0",
-              "MidFrontLeg_L_1",
-              "MidFrontLeg_L_2",
-              "BackLeg_L_0",
-              "BackLeg_L_1",
-              "BackLeg_L_2",
-              "FrontLeg_R_0",
-              "FrontLeg_R_1",
-              "FrontLeg_R_2",
-              "MidFrontLeg_R_0",
-              "MidFrontLeg_R_1",
-              "MidFrontLeg_R_2",
-              "BackLeg_R_0",
-              "BackLeg_R_1",
-              "BackLeg_R_2"
-            ],
-            "clipTimeMultiplier": 0.88,
-            "motionChanges": [
-              {
-                "clip": "Idle",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "Walk",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "Run",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "Attack",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "Hit",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "HitLeft",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "HitRight",
-                "joint": "Head",
-                "amplitude": 0.04
-              },
-              {
-                "clip": "Death",
-                "joint": "Head",
-                "amplitude": 0.04
-              }
-            ],
-            "textures": [
-              "art/biome-creatures/forest/heartwood-albedo.png",
-              "art/biome-creatures/forest/chitin-albedo.png"
-            ],
-            "sampledBounds": {
-              "idleBounds": {
-                "min": [
-                  -0.8636432120049617,
-                  0.003000000644293177,
-                  -0.858195240498917
-                ],
-                "max": [
-                  0.907060688327177,
-                  1.0204087394556,
-                  0.6791382039824285
-                ]
-              },
-              "clips": [
-                {
-                  "name": "Idle",
-                  "duration": 3.6666665077209473,
-                  "minY": 0.0029999934053299426,
-                  "maxY": 0.0030000036431624133,
-                  "rawMin": -0.04399875209053761,
-                  "samples": 49
-                },
-                {
-                  "name": "Walk",
-                  "duration": 0.7333332896232605,
-                  "minY": 0.002999960022565862,
-                  "maxY": 0.0030000304012660073,
-                  "rawMin": -0.06602239577684066,
-                  "samples": 49
-                },
-                {
-                  "name": "Run",
-                  "duration": 0.4444444179534912,
-                  "minY": 0.0029999830342072042,
-                  "maxY": 0.003000015904140067,
-                  "rawMin": -0.06602239580999869,
-                  "samples": 49
-                },
-                {
-                  "name": "Attack",
-                  "duration": 0.6600000262260437,
-                  "minY": 0.0029999916728680395,
-                  "maxY": 0.003000019968348717,
-                  "rawMin": -0.16108288368290108,
-                  "samples": 49
-                },
-                {
-                  "name": "Hit",
-                  "duration": 0.36959999799728394,
-                  "minY": 0.0029999942707919502,
-                  "maxY": 0.003000009735092485,
-                  "rawMin": -0.04151640122596667,
-                  "samples": 49
-                },
-                {
-                  "name": "HitLeft",
-                  "duration": 0.36959999799728394,
-                  "minY": 0.0029999832940070803,
-                  "maxY": 0.003000013762212733,
-                  "rawMin": -0.040893694233331335,
-                  "samples": 49
-                },
-                {
-                  "name": "HitRight",
-                  "duration": 0.36959999799728394,
-                  "minY": 0.002999995056914312,
-                  "maxY": 0.0030000087975587675,
-                  "rawMin": -0.04302078331247575,
-                  "samples": 49
-                },
-                {
-                  "name": "Death",
-                  "duration": 0.9166666269302368,
-                  "minY": 0.0029999489629868314,
-                  "maxY": 0.0030001515316767646,
-                  "rawMin": -0.16432029383247626,
-                  "samples": 49
-                }
-              ]
-            }
-          },
-          "sourceProvenance": {
-            "author": "Quaternius",
-            "license": "CC0-1.0",
-            "source": "https://quaternius.itch.io/animated-easy-enemies",
-            "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
-            "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
-            "sourceSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
-            "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
-            "materialTranslation": {
-              "from": "MeshPhongMaterial",
-              "to": "MeshStandardMaterial",
-              "preserved": [
-                "color",
-                "opacity",
-                "transparent",
-                "side",
-                "alphaTest",
-                "depthWrite",
-                "vertexColors",
-                "map"
-              ],
-              "roughness": 0.85,
-              "metalness": 0,
-              "transmission": false
-            },
-            "floorLift": {
-              "track": "insect_floor.position",
-              "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
-              "clearanceMeters": 0.003,
-              "changesSourceGeometry": false
-            }
-          },
-          "id": "reed_strider",
-          "textureBindings": [
-            {
-              "materialName": "animal_rpg_reed_strider_heartwood",
-              "textureName": "reed_strider_heartwood_albedo",
-              "mimeType": "image/jpeg",
-              "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-              "sourcePath": "art/biome-creatures/forest/heartwood-albedo.png"
-            },
-            {
-              "materialName": "animal_rpg_reed_strider_chitin",
-              "textureName": "reed_strider_chitin_albedo",
-              "mimeType": "image/jpeg",
-              "sha256": "f15d9ece0f9360c5efafe64af6333d79d36858f9c1718ff4d13d0a67ef94391b",
-              "sourcePath": "art/biome-creatures/forest/chitin-albedo.png"
-            }
-          ]
-        },
-        "changes": [
-          "Corrected +X source facing to production +Z",
-          "Reweighted limb shafts to their parent joint and smoothed connected mesh collars",
-          "Replaced airborne middle-leg bind stance with planted four-foot support and folded forelimb guard in all six states"
-        ],
-        "provenance": {
-          "weights": {
-            "vertices": 3316,
-            "method": "Anatomical segments with smooth joint collars; UV-seam-welded topology diffusion, never nearest neighbours across separate limbs",
-            "passes": 4
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "solverTargetError": 2.4835037038225095e-16,
-              "maxFloorCorrection": 0.00040646403930129946,
-              "supportSurfaceError": 0.0004169694714847897
-            },
-            {
-              "name": "Walk",
-              "solverTargetError": 2.4552312978479334e-16,
-              "maxFloorCorrection": 0.00004964081660176634,
-              "supportSurfaceError": 0.00007038302190675444
-            },
-            {
-              "name": "Run",
-              "solverTargetError": 3.1031676915590914e-16,
-              "maxFloorCorrection": 0.000045414800486651054,
-              "supportSurfaceError": 0.00005568866435604145
-            },
-            {
-              "name": "Attack",
-              "solverTargetError": 2.3724523730670963e-16,
-              "maxFloorCorrection": 0.000004481931582026987,
-              "supportSurfaceError": 0.00005141198012218991
-            },
-            {
-              "name": "Hit",
-              "solverTargetError": 1.8619006149354548e-16,
-              "maxFloorCorrection": 0.000002381528913839026,
-              "supportSurfaceError": 0.000007216964052161878
-            },
-            {
-              "name": "Death",
-              "solverTargetError": 3.236828524569469e-16,
-              "maxFloorCorrection": 0.16787530423346514,
-              "supportSurfaceError": null
-            }
-          ],
-          "attackContactNormalized": 0.3125,
-          "hitRecoilRadians": 0.36,
-          "hitReference": "Measured native Black Wilderness Dragon Head: 20.5 degrees at Hit phase .23; preserve all support branches",
-          "contactBasis": "First maximum forward forelimb endpoint over 65 phases",
-          "supportContacts": "Iterative fixed-length solve against actual skinned limb surfaces at each pose; terminal bone heights alone do not represent mixed-weight toe contact",
-          "sourceAnatomy": "User-confirmed upright six-limb Reed Strider, four walking limbs and two grasping forelimbs; positions, triangles, UVs and generated maps unchanged"
-        },
-        "motion": {
-          "walkClipSeconds": 1.12,
-          "runClipSeconds": 0.72,
-          "impliedWalkMps": 0.08410973084886128,
-          "impliedRunMps": 0.2314814814814815,
-          "attackSeconds": 0.95,
-          "contactNormalized": 0.3125,
-          "groundY": 0
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 3,
-              "samples": 61,
-              "maximumVertexMotion": 0.006314609621918796,
-              "maximumSpanRatio": 0.8039976941722825,
-              "minimumSpanRatio": 0.8013943862773201,
-              "loopSeam": 1.66701766129272e-8,
-              "edgeStretchP99": 2.200566798464707,
-              "maximumEdgeStretch": 5.0285249947161175,
-              "stretchedEdgeFraction": 0.00243215565796211
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.1200000047683716,
-              "samples": 84,
-              "maximumVertexMotion": 0.07580841923202947,
-              "maximumSpanRatio": 0.8026165681507262,
-              "minimumSpanRatio": 0.8025927665354868,
-              "loopSeam": 1.0117211979282716e-8,
-              "edgeStretchP99": 2.2005444239589713,
-              "maximumEdgeStretch": 5.009406038982086,
-              "stretchedEdgeFraction": 0.002560163850486431
-            },
-            {
-              "name": "Run",
-              "seconds": 0.7200000286102295,
-              "samples": 90,
-              "maximumVertexMotion": 0.1167914768006261,
-              "maximumSpanRatio": 0.8026144665489134,
-              "minimumSpanRatio": 0.8025923023843989,
-              "loopSeam": 1.2418184400265227e-8,
-              "edgeStretchP99": 2.219033854068063,
-              "maximumEdgeStretch": 5.009406038977028,
-              "stretchedEdgeFraction": 0.002688172043010753
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.949999988079071,
-              "samples": 65,
-              "maximumVertexMotion": 0.18024100141290297,
-              "maximumSpanRatio": 0.8405224447968445,
-              "minimumSpanRatio": 0.8025930782895844,
-              "loopSeam": null,
-              "edgeStretchP99": 2.1846160988195416,
-              "maximumEdgeStretch": 5.0094060389853245,
-              "stretchedEdgeFraction": 0.002304147465437788
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.550000011920929,
-              "samples": 62,
-              "maximumVertexMotion": 0.04211416690712872,
-              "maximumSpanRatio": 0.8025930784844555,
-              "minimumSpanRatio": 0.8025930782895844,
-              "loopSeam": null,
-              "edgeStretchP99": 2.1843866529578237,
-              "maximumEdgeStretch": 5.0094060389853245,
-              "stretchedEdgeFraction": 0.002304147465437788
-            },
-            {
-              "name": "Death",
-              "seconds": 1.4500000476837158,
-              "samples": 75,
-              "maximumVertexMotion": 0.8991288231205254,
-              "maximumSpanRatio": 0.8310291256976511,
-              "minimumSpanRatio": 0.7573059724851477,
-              "loopSeam": null,
-              "edgeStretchP99": 2.5486601816854924,
-              "maximumEdgeStretch": 5.121129523773299,
-              "stretchedEdgeFraction": 0.004480286738351254
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:46:08.413Z",
-          "by": "codex",
-          "sha256": "5de6f78f7ff87b1818220c9551e69bc3a1045c2f57948dfc6308d70828dedb2d",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/arthropods-v5/creature_reed_strider/evidence.json"
-        }
-      }
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.6,
+      "attackSeconds": 0.733333,
+      "contactNormalized": 0.6
     },
     {
       "id": "creature_thorn_maw",
@@ -54393,17 +53917,17 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6825320,
-      "sha256": "11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2",
+      "bytes": 6931136,
+      "sha256": "8ea2441a5e04e449449c6965c9f4eadd63ae731957a4fa995232fbc77c01dd43",
       "size": {
-        "x": 2.122833234272905,
-        "y": 2.869264873021553,
-        "z": 1.6015700712243652
+        "x": 2.188152,
+        "y": 2.119126,
+        "z": 1.946674
       },
       "base": {
-        "x": -0.905778843771113,
-        "y": 4.0549192286895575e-8,
-        "z": -0.8500051577959432
+        "x": -1.094076,
+        "y": -0.038816,
+        "z": -0.697472
       },
       "groundY": 0,
       "triangles": 3411,
@@ -54418,9 +53942,6 @@
       "materials": [
         "Material_tripo_starroot_guardian_layered_rootwood"
       ],
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.9333333373069763,
-      "attackSeconds": 0.8666666746139526,
       "sourceProvenance": {
         "generator": "Tripo Studio",
         "license": "LicenseRef-Corealm-Original",
@@ -54478,409 +53999,45 @@
       },
       "bounds": {
         "min": [
-          -0.905778843771113,
-          4.0549192286895575e-8,
-          -0.8500051577959432
+          -1.0940760374069214,
+          -0.038816001266241074,
+          -0.6974719762802124
         ],
         "max": [
-          1.217054390501792,
-          2.8692649135707455,
-          0.7515649134284221
+          1.0940760374069214,
+          2.080310106277466,
+          1.249202013015747
         ]
       },
-      "contactNormalized": 0.2604166666666667,
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      "motionProvenance": {
+        "native": [],
+        "donor": {
+          "Idle": "janpec Animal pack deluxe (Bear), Unity Asset Store licence: Idle",
+          "Walk": "janpec Animal pack deluxe (Bear), Unity Asset Store licence: Walk",
+          "Run": "janpec Animal pack deluxe (Bear), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Bear), Unity Asset Store licence: Attack",
+          "Hit": "Flinch baked from animal_bear Die (first beat) eased back to Idle frame 0: Hit",
+          "Death": "janpec Animal pack deluxe (Cattle), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Rebuilt by tools/creature-rig (knuckle/knuckle): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys.",
+        "clipSeconds": {
+          "Idle": 5.9666666984558105,
+          "Walk": 1.0666667222976685,
+          "Run": 0.5333333611488342,
+          "Attack": 2.433333396911621,
+          "Hit": 0.6666666865348816,
+          "Death": 1.4666666984558105
+        },
+        "sourceFile": "game/public/assets/models/fairy-crown/creature_starroot_guardian.glb",
+        "sourceSha256": "11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2"
       },
-      "impliedWalkMps": 0.8479380792044112,
-      "impliedRunMps": 0.982656177515744,
-      "motionRepair": {
-        "family": "humanoids-plain",
-        "sourceSha256": "0c4d472b1a207ad56f96209adf1279c18bfd93a8f8eb1b63638d1169998e4048",
-        "sourceGitBlob": "7957843b22f55e17fa988bf129e7885b8b6f0c52",
-        "donors": [
-          {
-            "id": "animation_library_1",
-            "sourceGitBlob": "3877615fd24a4b365c46a4e47966ebfdc417958c",
-            "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "sourceMetadata": {
-          "role": "High-contrast guardian bark, deep purple-blue fissures, jade moss, amber flowers and turquoise sap over the accepted branch-antler source; height lifted for level 106.",
-          "uniformScaleMultiplier": 1.28,
-          "headScaleMultiplier": 1,
-          "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review",
-          "animationAcceptance": "devdocs-approved",
-          "attackContact": {
-            "normalized": 0.2604166666666667,
-            "seconds": 0.22569444651405018
-          }
-        },
-        "changes": [
-          "Refitted source anatomy and corrected distal-joint skin ownership.",
-          "Replaced every action with animation_library_1 studio sequences, using world-space rest alignment and in-place locomotion."
-        ],
-        "warnings": [
-          "Candidate requires devdocs review of every motion state."
-        ],
-        "provenance": {
-          "donor": "animation_library_1",
-          "nativeSkinPreserved": false,
-          "landmarks": {
-            "hips": [
-              0,
-              0.13423828125,
-              -0.029296881519258022
-            ],
-            "spine": [
-              0,
-              0.15892578125,
-              -0.020507819019258022
-            ],
-            "chest": [
-              0,
-              0.18978515625,
-              0.041992184706032276
-            ],
-            "upper": [
-              0,
-              0.216015625,
-              0.009765621274709702
-            ],
-            "neck": [
-              0,
-              0.23298828125,
-              0.027343747206032276
-            ],
-            "head": [
-              0,
-              0.24378906250000001,
-              0.030273430980741978
-            ],
-            "Leftshoulder": [
-              -0.030859375,
-              0.216015625,
-              0.015624997206032276
-            ],
-            "Leftarm": [
-              -0.0586328125,
-              0.20521484375000001,
-              -0.014648443087935448
-            ],
-            "Leftelbow": [
-              -0.08486328125,
-              0.1512109375,
-              -0.024414039216935635
-            ],
-            "Lefthand": [
-              -0.1080078125,
-              0.08486328125,
-              -0.016601539216935635
-            ],
-            "Lefthip": [
-              -0.0401171875,
-              0.1141796875,
-              -0.005859380587935448
-            ],
-            "Leftknee": [
-              -0.0462890625,
-              0.06171875,
-              0.004882806912064552
-            ],
-            "Leftfoot": [
-              -0.0401171875,
-              0.0216015625,
-              -0.023437505587935448
-            ],
-            "Lefttoe": [
-              -0.0401171875,
-              0.01080078125,
-              -0.028320318087935448
-            ],
-            "Rightshoulder": [
-              0.030859375,
-              0.216015625,
-              0.009765622206032276
-            ],
-            "Rightarm": [
-              0.0586328125,
-              0.20521484375000001,
-              -0.0419921949505806
-            ],
-            "Rightelbow": [
-              0.08486328125,
-              0.1512109375,
-              -0.024414069019258022
-            ],
-            "Righthand": [
-              0.1080078125,
-              0.08486328125,
-              -0.014648444019258022
-            ],
-            "Righthip": [
-              0.0401171875,
-              0.1141796875,
-              0
-            ],
-            "Rightknee": [
-              0.0462890625,
-              0.06171875,
-              0.012695306912064552
-            ],
-            "Rightfoot": [
-              0.0401171875,
-              0.0216015625,
-              -0.009765630587935448
-            ],
-            "Righttoe": [
-              0.0401171875,
-              0.01080078125,
-              -0.017578130587935448
-            ]
-          },
-          "weights": {
-            "vertices": 6285,
-            "dominantJointVertices": {
-              "mixamorigLeftHand": 331,
-              "mixamorigLeftForeArm": 564,
-              "mixamorigLeftFoot": 6,
-              "mixamorigLeftArm": 468,
-              "mixamorigLeftUpLeg": 54,
-              "mixamorigSpine": 345,
-              "mixamorigLeftShoulder": 462,
-              "mixamorigHips": 299,
-              "mixamorigSpine1": 434,
-              "mixamorigSpine2": 26,
-              "mixamorigHead": 1343,
-              "mixamorigRightShoulder": 592,
-              "mixamorigNeck": 37,
-              "mixamorigRightArm": 409,
-              "mixamorigRightForeArm": 414,
-              "mixamorigRightHand": 351,
-              "mixamorigLeftToeBase": 6,
-              "mixamorigLeftLeg": 39,
-              "mixamorigRightUpLeg": 48,
-              "mixamorigRightLeg": 47,
-              "mixamorigRightToeBase": 5,
-              "mixamorigRightFoot": 5
-            },
-            "method": "Source-fitted outgoing anatomical segments, adjacent-bone initialization, UV-seam welding and connected-surface weight relaxation; four normalized influences"
-          },
-          "retarget": {
-            "mappedJoints": 22,
-            "poseNodes": 27,
-            "sourceToTargetRotation": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "translationScale": 0.9561649204646937,
-            "clips": [
-              {
-                "name": "Idle",
-                "sourceTake": "Idle_Loop",
-                "sourceSeconds": 2.5,
-                "seconds": 2.5,
-                "samples": 76,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.02942725026628938,
-                "removedHorizontalTravel": [
-                  0.000023066569058966787,
-                  0,
-                  -0.00009737468995989382
-                ]
-              },
-              {
-                "name": "Walk",
-                "sourceTake": "Walk_Loop",
-                "sourceSeconds": 1.3333333730697632,
-                "seconds": 1.3333333730697632,
-                "samples": 42,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.07932208285350817,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  3.0124363802613645e-8
-                ]
-              },
-              {
-                "name": "Run",
-                "sourceTake": "Jog_Fwd_Loop",
-                "sourceSeconds": 0.9333333373069763,
-                "seconds": 0.9333333373069763,
-                "samples": 30,
-                "loop": true,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.3165784800510038,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  2.89714182027298e-8
-                ]
-              },
-              {
-                "name": "Attack",
-                "sourceTake": "Punch_Jab",
-                "sourceSeconds": 0.8666666746139526,
-                "seconds": 0.8666666746139526,
-                "samples": 28,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.07893383123354847,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Hit",
-                "sourceTake": "Hit_Chest",
-                "sourceSeconds": 0.3333333432674408,
-                "seconds": 0.3333333432674408,
-                "samples": 12,
-                "loop": false,
-                "heldSeconds": 0,
-                "maximumGroundCorrection": 0.04572673605449844,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "name": "Death",
-                "sourceTake": "Death01",
-                "sourceSeconds": 2.4000000953674316,
-                "seconds": 3.100000095367432,
-                "samples": 75,
-                "loop": false,
-                "heldSeconds": 0.7,
-                "maximumGroundCorrection": 0.6612519950900838,
-                "removedHorizontalTravel": [
-                  0,
-                  0,
-                  0
-                ]
-              }
-            ],
-            "requiresVisualReview": true,
-            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
-          },
-          "spectralUpperBodyOnly": false
-        },
-        "motion": {
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.9333333373069763,
-          "attackSeconds": 0.8666666746139526,
-          "contactNormalized": 0.2604166666666667,
-          "impliedWalkMps": 0.8479380792044112,
-          "impliedRunMps": 0.982656177515744
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "Run: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Attack: isolated connected edges stretch over 8x; inspect skin weights in devdocs",
-            "Death: isolated connected edges stretch over 8x; inspect skin weights in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.5,
-              "samples": 99,
-              "maximumVertexMotion": 0.11600628074462471,
-              "maximumSpanRatio": 1.1025759737822605,
-              "minimumSpanRatio": 1.087069951210016,
-              "loopSeam": 2.447994548471665e-8,
-              "edgeStretchP99": 1.9959175868905101,
-              "maximumEdgeStretch": 5.794123651092857,
-              "stretchedEdgeFraction": 0.0024307243558580457
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 89,
-              "maximumVertexMotion": 1.1980883791124484,
-              "maximumSpanRatio": 1.1081057055757837,
-              "minimumSpanRatio": 1.0608156794134656,
-              "loopSeam": 2.7132604336525758e-8,
-              "edgeStretchP99": 2.0837094209303157,
-              "maximumEdgeStretch": 4.863915289912371,
-              "stretchedEdgeFraction": 0.0021876519202722413
-            },
-            {
-              "name": "Run",
-              "seconds": 0.9333333373069763,
-              "samples": 65,
-              "maximumVertexMotion": 2.270615326935013,
-              "maximumSpanRatio": 1.1767185197645211,
-              "minimumSpanRatio": 1.0639964190272004,
-              "loopSeam": 2.5964513668578598e-8,
-              "edgeStretchP99": 2.599836659241737,
-              "maximumEdgeStretch": 8.12124188339359,
-              "stretchedEdgeFraction": 0.006441419543023821
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.8666666746139526,
-              "samples": 61,
-              "maximumVertexMotion": 1.941195360314661,
-              "maximumSpanRatio": 1.2926128572842759,
-              "minimumSpanRatio": 1.0661039602757167,
-              "loopSeam": null,
-              "edgeStretchP99": 2.733787815518481,
-              "maximumEdgeStretch": 9.014217071954615,
-              "stretchedEdgeFraction": 0.006806028196402528
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.3333333432674408,
-              "samples": 29,
-              "maximumVertexMotion": 0.9431743142313985,
-              "maximumSpanRatio": 1.147531008588217,
-              "minimumSpanRatio": 1.0937630063679602,
-              "loopSeam": null,
-              "edgeStretchP99": 1.997251554959653,
-              "maximumEdgeStretch": 5.79852412049793,
-              "stretchedEdgeFraction": 0.0024307243558580457
-            },
-            {
-              "name": "Death",
-              "seconds": 3.1000001430511475,
-              "samples": 114,
-              "maximumVertexMotion": 3.4033099870477255,
-              "maximumSpanRatio": 1.39090502707668,
-              "minimumSpanRatio": 1.0471599364863897,
-              "loopSeam": null,
-              "edgeStretchP99": 2.4708176269327993,
-              "maximumEdgeStretch": 10.284384220355212,
-              "stretchedEdgeFraction": 0.006198347107438017
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:32:52.364Z",
-          "by": "codex",
-          "sha256": "11c6589320e130e5a80e6350123d4ff743e52b532827931e64c1200f3bf9b7a2",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-temporal-v1/creature_starroot_guardian/evidence.json"
-        }
-      }
+      "walkClipSeconds": 1.066667,
+      "runClipSeconds": 0.533333,
+      "impliedWalkMps": 1.718619,
+      "impliedRunMps": 5.255091,
+      "attackSeconds": 2.433333,
+      "contactNormalized": 0.15
     },
     {
       "id": "creature_amethyst_sovereign",
@@ -56787,8 +55944,8 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2747776,
-      "sha256": "24c7e32b00470001ecead979dba0fed80263f0fce85cf2eb5e59a9e7e7f41c47",
+      "bytes": 2653928,
+      "sha256": "d3df25a50b1c63f2061d76716369aba84a03cb920229c17275a8b839f50f848b",
       "size": {
         "x": 0.940144,
         "y": 2.00009,
@@ -56854,19 +56011,40 @@
           "Attack",
           "Hit"
         ],
-        "donor": {},
+        "donor": {
+          "Death": "PixeliusVita Fantasy Monster 09 native takes, from the production GLB (tools/fairy-terraces/monsters-build.ts): Death"
+        },
         "authored": [],
-        "kept": [
-          "Death"
-        ],
-        "notes": "Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster07_Idle.anim, Walk=Monster07_Walk.anim, Run=Monster07_Run.anim, Attack=Monster07_Attack01.anim, Hit=Monster07_GetHit.anim, Death=Monster07_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.173, Walk -0.038, Run 0.228, Attack 0.167, Hit 0.099, Death 0.194. Death kept from the current file: native Monster07_Die ends with the legs about 0.7 m below the source floor. Needs death."
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk, Run, Attack, Hit) kept byte-identical from production (per-clip hashes checked); Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.949, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666669368743896,
+          "Walk": 1,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fantasy_monster_07.glb",
+        "sourceSha256": "24c7e32b00470001ecead979dba0fed80263f0fce85cf2eb5e59a9e7e7f41c47"
       },
       "groundY": -0.17932452832964366,
+      "bounds": {
+        "min": [
+          -47.007198333740234,
+          0.5841357111930847,
+          -77.76869201660156
+        ],
+        "max": [
+          47.007198333740234,
+          200.58412170410156,
+          45.347713470458984
+        ]
+      },
       "walkClipSeconds": 1,
       "runClipSeconds": 0.666667,
       "impliedWalkMps": 0.506152,
       "attackSeconds": 2,
-      "contactNormalized": 0.4
+      "contactNormalized": 0.317
     },
     {
       "id": "fantasy_monster_08",
@@ -57060,17 +56238,17 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1080960,
-      "sha256": "c0494400fe1577cf8be644850e6c9250b9d4f88264f3f60936fb8cdd1ae79c27",
+      "bytes": 1105440,
+      "sha256": "5813caf10256ba16564f19eee0ab7c698b3ce359dd1537b15105a487d7ffad96",
       "size": {
-        "x": 1.0063125875131447,
-        "y": 1.0339842695995118,
-        "z": 1.365505196391244
+        "x": 1.003713,
+        "y": 0.950001,
+        "z": 1.405132
       },
       "base": {
-        "x": -0.5031563019756952,
-        "y": 0.01600000842651549,
-        "z": -0.335001970803228
+        "x": -0.495988,
+        "y": -0.05609,
+        "z": -0.371719
       },
       "triangles": 3216,
       "animations": [
@@ -57084,10 +56262,6 @@
       "materials": [
         "animal_fairy_monster_11_source"
       ],
-      "walkClipSeconds": 0.6333333253860474,
-      "runClipSeconds": 0.6333333253860474,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -57100,7 +56274,50 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
-      }
+      },
+      "bounds": {
+        "min": [
+          -44.76581573486328,
+          -0.12358780950307846,
+          -62.128822326660156
+        ],
+        "max": [
+          44.76581573486328,
+          94.1812973022461,
+          60.50551986694336
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 2.580, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 1.5,
+          "Walk": 0.6333333253860474,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Hit": 0.6666666865348816,
+          "Death": 0.7666666507720947
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_11.glb",
+        "sourceSha256": "c0494400fe1577cf8be644850e6c9250b9d4f88264f3f60936fb8cdd1ae79c27"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 0.633333,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.079576,
+      "impliedRunMps": 0.281513,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.533
     },
     {
       "id": "fairy_monster_14",
@@ -57113,17 +56330,17 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1936904,
-      "sha256": "cfdf19cdf4ea9bb7d8d3dc149ba6484d8df085f080cceaca63af4a93d46ad6ed",
+      "bytes": 1967036,
+      "sha256": "3ee6fd0bdacf0d44f27c91a5bbeabd126c6cca2f61c156549febe1cf3648821f",
       "size": {
-        "x": 0.8106766654333256,
-        "y": 1.0092110024688479,
-        "z": 1.0134009403715525
+        "x": 0.813583,
+        "y": 0.950001,
+        "z": 1.045855
       },
       "base": {
-        "x": -0.405340713211644,
-        "y": 0.01600000162767974,
-        "z": -0.17595143150761558
+        "x": -0.420479,
+        "y": -0.01518,
+        "z": -0.199558
       },
       "triangles": 7628,
       "animations": [
@@ -57137,10 +56354,6 @@
       "materials": [
         "animal_fairy_monster_14_source"
       ],
-      "walkClipSeconds": 0.6333333253860474,
-      "runClipSeconds": 0.6333333253860474,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -57153,7 +56366,50 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
-      }
+      },
+      "bounds": {
+        "min": [
+          -80.8099365234375,
+          0.9060608148574829,
+          -75.46343231201172
+        ],
+        "max": [
+          80.8099365234375,
+          198.35263061523438,
+          117.51140594482422
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Run",
+          "Attack": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Attack",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "janpec Animal pack deluxe (Scorpion), Unity Asset Store licence: Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 2.894, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 1.5,
+          "Walk": 0.6333333253860474,
+          "Run": 0.6000000238418579,
+          "Attack": 0.7666666507720947,
+          "Hit": 0.6666666865348816,
+          "Death": 0.7666666507720947
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_14.glb",
+        "sourceSha256": "cfdf19cdf4ea9bb7d8d3dc149ba6484d8df085f080cceaca63af4a93d46ad6ed"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 0.633333,
+      "runClipSeconds": 0.6,
+      "impliedWalkMps": 0.35904,
+      "impliedRunMps": 0.31036,
+      "attackSeconds": 0.766667,
+      "contactNormalized": 0.4
     },
     {
       "id": "fairy_monster_16",
@@ -57166,8 +56422,8 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1552912,
-      "sha256": "f95343176e83bfa0a2f662f87850706c1a6ff1124bf37a49def245b0089ea963",
+      "bytes": 1596376,
+      "sha256": "c2f944ee3d488244b328d2380029fdc0d5c9e76d8a93335161f04925be9f7a4f",
       "size": {
         "x": 0.743349,
         "y": 0.95,
@@ -57182,7 +56438,6 @@
       "animations": [
         "Idle",
         "Walk",
-        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -57225,21 +56480,39 @@
           "Idle",
           "Walk"
         ],
-        "donor": {},
-        "authored": [
-          "Run",
-          "Attack",
-          "Hit",
-          "Death"
+        "donor": {
+          "Attack": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.173, foot IK, no scale keys). hitRecoil marks 23 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 8.866666793823242,
+          "Walk": 2.6666667461395264,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_16.glb",
+        "sourceSha256": "f95343176e83bfa0a2f662f87850706c1a6ff1124bf37a49def245b0089ea963"
+      },
+      "bounds": {
+        "min": [
+          -93.1594009399414,
+          -0.12090183049440384,
+          -107.39641571044922
         ],
-        "notes": "First import (git blob ccd0dc3a, cc5e6fc), the version the owner accepted with the other trial bodies. Idle/Walk are the native FreeTrial takes; Run is a Walk copy; Attack/Hit/Death are the original trialCombat clips. Replaces the 82527f4 Monster02 retarget. The manifest motionRepair and groundY 0.016 belong to the retired studio-fairy repair and should be dropped."
+        "max": [
+          92.61599731445312,
+          209.9984130859375,
+          83.24654388427734
+        ]
       },
       "walkClipSeconds": 2.666667,
-      "runClipSeconds": 2.666667,
       "impliedWalkMps": 0.736051,
-      "impliedRunMps": 0.736051,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5833333333333334
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_monster_21",
@@ -57519,17 +56792,17 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 2619496,
-      "sha256": "26cfaa6e91519d940edd550d2d757302b0848a19ac06c4d27d8a157776250941",
+      "bytes": 2742052,
+      "sha256": "e8b4a82e0182a8f1ddf19d157941243b2e123776b928bba286bb47ff2561bf6c",
       "size": {
-        "x": 0.961457811587699,
-        "y": 1.4499760616543116,
-        "z": 1.4981962408580405
+        "x": 0.962977,
+        "y": 1.45,
+        "z": 1.557819
       },
       "base": {
-        "x": -0.48341340449623277,
-        "y": 0.01600002360926588,
-        "z": -1.004630551233421
+        "x": -0.485039,
+        "y": -0.000024,
+        "z": -1.061249
       },
       "triangles": 10586,
       "animations": [
@@ -57543,12 +56816,6 @@
       "materials": [
         "animal_fairy_monster_27_source"
       ],
-      "impliedWalkMps": 1.264115091190774,
-      "impliedRunMps": 1.264115091190774,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 1.3333333730697632,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -57561,7 +56828,50 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
-      }
+      },
+      "bounds": {
+        "min": [
+          -73.5571060180664,
+          -0.03504982963204384,
+          -108.4552993774414
+        ],
+        "max": [
+          73.5571060180664,
+          189.33995056152344,
+          39.75518035888672
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Run",
+          "Attack": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 03, Unity Asset Store licence: Monster03_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.954, foot IK, no scale keys). hitRecoil marks 63 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 1.3333333730697632,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_27.glb",
+        "sourceSha256": "26cfaa6e91519d940edd550d2d757302b0848a19ac06c4d27d8a157776250941"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.09695,
+      "impliedRunMps": 6.53629,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_monster_30",
@@ -57574,23 +56884,22 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 2274864,
-      "sha256": "b3a6ce2687a6a69ec8b9402b13414e57b47d9b291e17b1a7ddbcc53cd4d1e82c",
+      "bytes": 2318052,
+      "sha256": "d262577c254454a18227dd42ca4a0b39a6df55be35b2d1dd459ebb6f2c01b878",
       "size": {
-        "x": 1.5790495816997212,
-        "y": 1.5249996321360622,
-        "z": 1.916590354707306
+        "x": 1.599348,
+        "y": 1.450001,
+        "z": 2.248459
       },
       "base": {
-        "x": -0.7895631806227759,
-        "y": 0.01599999417270582,
-        "z": -0.6228333618231126
+        "x": -0.779798,
+        "y": -0.03517,
+        "z": -0.721772
       },
       "triangles": 8114,
       "animations": [
         "Idle",
         "Walk",
-        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -57598,12 +56907,6 @@
       "materials": [
         "animal_fairy_monster_30_source"
       ],
-      "impliedWalkMps": 0.8498010405603379,
-      "impliedRunMps": 0.8498010405603379,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -57616,7 +56919,46 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
-      }
+      },
+      "bounds": {
+        "min": [
+          -95.7489013671875,
+          0.34842607378959656,
+          -74.6520767211914
+        ],
+        "max": [
+          95.7489013671875,
+          185.28292846679688,
+          157.78053283691406
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.712, foot IK, no scale keys). Props on their own bones ride their hands at the reference offset (root_dupli_002x on handl, root_dupli_001x on handr). hitRecoil marks 2 joints under neckx. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 2,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_30.glb",
+        "sourceSha256": "b3a6ce2687a6a69ec8b9402b13414e57b47d9b291e17b1a7ddbcc53cd4d1e82c"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 2,
+      "impliedWalkMps": 0.947551,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "npc_fey_opaline",
@@ -61246,17 +60588,17 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1658056,
-      "sha256": "831eb0dbb30e7132390846d65701579adf7f0bfb9e808e37135006ae23231629",
+      "bytes": 1791668,
+      "sha256": "876c585fc7b991f4197156cc27c0628e66a7f41fddfaab7e05b64c626d87cc22",
       "size": {
-        "x": 0.976063464762225,
-        "y": 0.9750815740625864,
-        "z": 0.7538298625537949
+        "x": 0.920922,
+        "y": 0.95,
+        "z": 1.180936
       },
       "base": {
-        "x": -0.48601440387487466,
-        "y": 0.015999981816633146,
-        "z": -0.5190762499767253
+        "x": -0.444258,
+        "y": -0.092824,
+        "z": -0.960005
       },
       "triangles": 6578,
       "animations": [
@@ -61270,10 +60612,6 @@
       "materials": [
         "animal_fairy_monster_19_source"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 1,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -61288,7 +60626,50 @@
         "assetAudit": true,
         "labAccepted": false,
         "worldIntegrated": false
-      }
+      },
+      "bounds": {
+        "min": [
+          -95.21739959716797,
+          -93.30490112304688,
+          -198.02456665039062
+        ],
+        "max": [
+          95.28779602050781,
+          94.11289978027344,
+          37.05189895629883
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_Run",
+          "Attack": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 06, Unity Asset Store licence: Monster06_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.217, foot IK, no scale keys). hitRecoil marks 35 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 3,
+          "Walk": 1,
+          "Run": 0.6666666865348816,
+          "Attack": 2.3333332538604736,
+          "Hit": 0.6666666865348816,
+          "Death": 1.1666666269302368
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_19.glb",
+        "sourceSha256": "831eb0dbb30e7132390846d65701579adf7f0bfb9e808e37135006ae23231629"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.196012,
+      "impliedRunMps": 1.62379,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.567
     },
     {
       "id": "fairy_monster_34",
@@ -61301,17 +60682,17 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 2131404,
-      "sha256": "f6138f10f744da4717892ded2f6a1c35f866beb53353cdc86f87ec30c574f18a",
+      "bytes": 2230336,
+      "sha256": "b2632e3642d497277d2da64efb8ea79d55e0d28d6876fa2331772ffa03b621d5",
       "size": {
-        "x": 1.145755662857779,
-        "y": 0.9799636601793691,
-        "z": 0.46662668518681094
+        "x": 1.068608,
+        "y": 0.95,
+        "z": 0.509028
       },
       "base": {
-        "x": -0.5728429852744652,
-        "y": 0.015999999153431987,
-        "z": -0.28152388500285264
+        "x": -0.521581,
+        "y": -0.000695,
+        "z": -0.323652
       },
       "triangles": 8658,
       "animations": [
@@ -61325,12 +60706,6 @@
       "materials": [
         "animal_fairy_monster_34_source"
       ],
-      "impliedWalkMps": 0.5312404920607205,
-      "impliedRunMps": 0.5312404920607205,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -61343,7 +60718,50 @@
         "assetAudit": true,
         "labAccepted": false,
         "worldIntegrated": false
-      }
+      },
+      "bounds": {
+        "min": [
+          -91.36209869384766,
+          0.10797107964754105,
+          -37.30289840698242
+        ],
+        "max": [
+          91.36209869384766,
+          153.21888732910156,
+          37.299400329589844
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Run",
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.462, foot IK, no scale keys). hitRecoil marks 43 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 2,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_34.glb",
+        "sourceSha256": "f6138f10f744da4717892ded2f6a1c35f866beb53353cdc86f87ec30c574f18a"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 2,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.539057,
+      "impliedRunMps": 3.930999,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_garden_frog_gloamgarden",
@@ -62201,17 +61619,17 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 2770476,
-      "sha256": "1bc3b5c1f324a13863cb4388e68cd92718f0b1944acf4fddaf63da3bdaf0e66c",
+      "bytes": 2869408,
+      "sha256": "4dd7fceade36b2b9bbadc4a996e13478dae2ef24db53aa5b9d5e7e3baf62dcb7",
       "size": {
-        "x": 1.145755662857779,
-        "y": 0.9799636601793691,
-        "z": 0.46662668518681094
+        "x": 1.068608,
+        "y": 0.95,
+        "z": 0.509028
       },
       "base": {
-        "x": -0.5728429852744652,
-        "y": 0.015999999153431987,
-        "z": -0.28152388500285264
+        "x": -0.521581,
+        "y": -0.000695,
+        "z": -0.323652
       },
       "triangles": 8658,
       "animations": [
@@ -62225,12 +61643,6 @@
       "materials": [
         "animal_fairy_monster_34_source_fairy_garden_wardling_gloamgarden"
       ],
-      "impliedWalkMps": 0.5312404920607205,
-      "impliedRunMps": 0.5312404920607205,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -62239,7 +61651,7 @@
         "texture": "Assets/Stylized3DMonster/Monster34_FreeTrial/ShaderTexture/Texture/Monster34_Color02.png",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "sourceAssetId": "fairy_monster_34",
-        "sourceSha256": "f6138f10f744da4717892ded2f6a1c35f866beb53353cdc86f87ec30c574f18a",
+        "sourceSha256": "b2632e3642d497277d2da64efb8ea79d55e0d28d6876fa2331772ffa03b621d5",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_garden_wardling_gloamgarden.png",
@@ -62265,7 +61677,50 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
-      }
+      },
+      "bounds": {
+        "min": [
+          -91.36209869384766,
+          0.10797107964754105,
+          -37.30289840698242
+        ],
+        "max": [
+          91.36209869384766,
+          153.21888732910156,
+          37.299400329589844
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Run",
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.462, foot IK, no scale keys). hitRecoil marks 43 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 2,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_wardling_gloamgarden.glb",
+        "sourceSha256": "1bc3b5c1f324a13863cb4388e68cd92718f0b1944acf4fddaf63da3bdaf0e66c"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 2,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.539057,
+      "impliedRunMps": 3.930999,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_garden_frog_faeholme",
@@ -63076,17 +62531,17 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 2720744,
-      "sha256": "2dcb7aec7bdefb55c9bc71dc77a0e8075bed9f1eea3493c910d35c5c9b4d6d7d",
+      "bytes": 2819676,
+      "sha256": "0fb7ce95c59499904ffb0bb4ebafd5dab88bff768a23c1ffea4402f30eb87859",
       "size": {
-        "x": 1.145755662857779,
-        "y": 0.9799636601793691,
-        "z": 0.46662668518681094
+        "x": 1.068608,
+        "y": 0.95,
+        "z": 0.509028
       },
       "base": {
-        "x": -0.5728429852744652,
-        "y": 0.015999999153431987,
-        "z": -0.28152388500285264
+        "x": -0.521581,
+        "y": -0.000695,
+        "z": -0.323652
       },
       "triangles": 8658,
       "animations": [
@@ -63100,12 +62555,6 @@
       "materials": [
         "animal_fairy_monster_34_source_fairy_garden_wardling_faeholme"
       ],
-      "impliedWalkMps": 0.5312404920607205,
-      "impliedRunMps": 0.5312404920607205,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -63114,7 +62563,7 @@
         "texture": "Assets/Stylized3DMonster/Monster34_FreeTrial/ShaderTexture/Texture/Monster34_Color02.png",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "sourceAssetId": "fairy_monster_34",
-        "sourceSha256": "f6138f10f744da4717892ded2f6a1c35f866beb53353cdc86f87ec30c574f18a",
+        "sourceSha256": "b2632e3642d497277d2da64efb8ea79d55e0d28d6876fa2331772ffa03b621d5",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_garden_wardling_faeholme.png",
@@ -63140,7 +62589,50 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
-      }
+      },
+      "bounds": {
+        "min": [
+          -91.36209869384766,
+          0.10797107964754105,
+          -37.30289840698242
+        ],
+        "max": [
+          91.36209869384766,
+          153.21888732910156,
+          37.299400329589844
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Run",
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.462, foot IK, no scale keys). hitRecoil marks 43 joints under spine_01x. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 2,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_wardling_faeholme.glb",
+        "sourceSha256": "2dcb7aec7bdefb55c9bc71dc77a0e8075bed9f1eea3493c910d35c5c9b4d6d7d"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 2,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.539057,
+      "impliedRunMps": 3.930999,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_guardian_02_gloamgarden",
@@ -63419,8 +62911,8 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 3246056,
-      "sha256": "560e3f524859d615154bb89d753a76bd7cf5c4a1757713b38376cb9bd2531a13",
+      "bytes": 3152200,
+      "sha256": "72ff8ba12a92c5fea2a441e3f49ac383430fed43f7da8c8083c6f905f9010e39",
       "size": {
         "x": 0.940144,
         "y": 2.00009,
@@ -63451,7 +62943,7 @@
         "texture": "Assets/Stylized3DMonster/Monster07/Shader_Texture/Texture/Monster07_02.png",
         "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_07",
-        "sourceSha256": "24c7e32b00470001ecead979dba0fed80263f0fce85cf2eb5e59a9e7e7f41c47",
+        "sourceSha256": "d3df25a50b1c63f2061d76716369aba84a03cb920229c17275a8b839f50f848b",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_07_gloamgarden.png",
@@ -63508,19 +63000,40 @@
           "Attack",
           "Hit"
         ],
-        "donor": {},
+        "donor": {
+          "Death": "PixeliusVita Fantasy Monster 09 native takes, from the production GLB (tools/fairy-terraces/monsters-build.ts): Death"
+        },
         "authored": [],
-        "kept": [
-          "Death"
-        ],
-        "notes": "Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster07_Idle.anim, Walk=Monster07_Walk.anim, Run=Monster07_Run.anim, Attack=Monster07_Attack01.anim, Hit=Monster07_GetHit.anim, Death=Monster07_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.173, Walk -0.038, Run 0.228, Attack 0.167, Hit 0.099, Death 0.194. Death kept from the current file: native Monster07_Die ends with the legs about 0.7 m below the source floor. Needs death."
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk, Run, Attack, Hit) kept byte-identical from production (per-clip hashes checked); Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.949, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666669368743896,
+          "Walk": 1,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_guardian_07_gloamgarden.glb",
+        "sourceSha256": "560e3f524859d615154bb89d753a76bd7cf5c4a1757713b38376cb9bd2531a13"
       },
       "groundY": -0.17932452832964366,
+      "bounds": {
+        "min": [
+          -47.007198333740234,
+          0.5841357111930847,
+          -77.76869201660156
+        ],
+        "max": [
+          47.007198333740234,
+          200.58412170410156,
+          45.347713470458984
+        ]
+      },
       "walkClipSeconds": 1,
       "runClipSeconds": 0.666667,
       "impliedWalkMps": 0.506152,
       "attackSeconds": 2,
-      "contactNormalized": 0.4
+      "contactNormalized": 0.317
     },
     {
       "id": "fairy_guardian_06_faeholme",
@@ -63929,23 +63442,22 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1763520,
-      "sha256": "6bc66757ced4134e7f16100fdc079e1c2f51ba27deca4e96f9143fa9f03348fc",
+      "bytes": 1797684,
+      "sha256": "da24e4ef07f31ce19cf9b56a9f437ed848c12525d6b8e86a3abf04ff2e0005df",
       "size": {
-        "x": 0.6883241095913518,
-        "y": 0.9799479206373253,
-        "z": 1.081958577557687
+        "x": 0.754114,
+        "y": 0.95,
+        "z": 1.239519
       },
       "base": {
-        "x": -0.3467619339696719,
-        "y": 0.01600001010121639,
-        "z": -0.24528280788974907
+        "x": -0.375271,
+        "y": 0.006819,
+        "z": -0.199156
       },
       "triangles": 7042,
       "animations": [
         "Idle",
         "Walk",
-        "Run",
         "Attack",
         "Hit",
         "Death"
@@ -63953,12 +63465,6 @@
       "materials": [
         "animal_fairy_monster_28_source"
       ],
-      "impliedWalkMps": 0.3792905683452913,
-      "impliedRunMps": 0.3792905683452913,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -63971,7 +63477,46 @@
         "assetAudit": true,
         "labAccepted": false,
         "worldIntegrated": false
-      }
+      },
+      "bounds": {
+        "min": [
+          -70.27497100830078,
+          -28.42477798461914,
+          -56.5412483215332
+        ],
+        "max": [
+          70.27497100830078,
+          190.98504638671875,
+          149.6723175048828
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.201, foot IK, no scale keys). Props on their own bones ride their hands at the reference offset (root_dupli_002x on handl, root_dupli_001x on handr). hitRecoil marks 2 joints under neckx. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 2,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_28.glb",
+        "sourceSha256": "6bc66757ced4134e7f16100fdc079e1c2f51ba27deca4e96f9143fa9f03348fc"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 2,
+      "impliedWalkMps": 0.496143,
+      "attackSeconds": 2,
+      "contactNormalized": 0.583
     },
     {
       "id": "fairy_monster_31",
@@ -63984,17 +63529,17 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 1991760,
-      "sha256": "26627646221bf893f2d8749bd1215bda4646223a82a6643531cb3c4bf231875a",
+      "bytes": 2142112,
+      "sha256": "e913c01e86a459f0d2cc1bd7169c49c9eb07d83b92271531c0b11410323d02bd",
       "size": {
-        "x": 0.4925143887078124,
-        "y": 0.8563958573538533,
-        "z": 0.5302432737401923
+        "x": 0.468122,
+        "y": 0.95,
+        "z": 0.452847
       },
       "base": {
-        "x": -0.18202668941523417,
-        "y": 0.01599998988772607,
-        "z": -0.2781331609138694
+        "x": -0.253039,
+        "y": 0.006815,
+        "z": -0.264537
       },
       "triangles": 7195,
       "animations": [
@@ -64008,12 +63553,6 @@
       "materials": [
         "animal_fairy_monster_31_source"
       ],
-      "impliedWalkMps": 0.33834153580813847,
-      "impliedRunMps": 0.33834153580813847,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
-      "contactNormalized": 0.5,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -64026,7 +63565,50 @@
         "assetAudit": true,
         "labAccepted": false,
         "worldIntegrated": false
-      }
+      },
+      "bounds": {
+        "min": [
+          -59.18186950683594,
+          -0.03126898407936096,
+          -75.26915740966797
+        ],
+        "max": [
+          94.37947082519531,
+          190.79391479492188,
+          147.83042907714844
+        ]
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {
+          "Run": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Run",
+          "Attack": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Attack01",
+          "Hit": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_GetHit",
+          "Death": "PixeliusVita Fantasy Monster 02, Unity Asset Store licence: Monster02_Die"
+        },
+        "authored": [],
+        "notes": "Studio rig, skin, mesh and native clips (Idle, Walk) kept byte-identical from production (per-clip hashes checked); Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 0.227, foot IK, no scale keys). Props on their own bones ride their hands at the reference offset (root_dupli_002x on handl, root_dupli_001x on handr). hitRecoil marks 7 joints under neckx. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
+        "clipSeconds": {
+          "Idle": 2.9666666984558105,
+          "Walk": 2,
+          "Run": 0.6666666865348816,
+          "Attack": 2,
+          "Hit": 0.6666666865348816,
+          "Death": 1
+        },
+        "sourceFile": "game/public/assets/models/fairy/fairy_monster_31.glb",
+        "sourceSha256": "26627646221bf893f2d8749bd1215bda4646223a82a6643531cb3c4bf231875a"
+      },
+      "groundY": 0,
+      "walkClipSeconds": 2,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.348755,
+      "impliedRunMps": 1.653654,
+      "attackSeconds": 2,
+      "contactNormalized": 0.667
     },
     {
       "id": "creature_red_worm",
@@ -71344,7 +70926,7 @@
         "animal_rpg_troll_mauler_med"
       ],
       "bytes": 16768284,
-      "sha256": "7da7f4ce6ed6903a21db867a1b6a0f7e147a1fc8d399a8e65aa5e5b7c5e325a3",
+      "sha256": "80af783fa372e6263411c2d3870ff9d89a4d22bafe22e6c85955efb12ba2775f",
       "sourceProvenance": {
         "upstream": {
           "sourceUrl": "https://opengameart.org/content/troll-mauler",
@@ -71800,14 +71382,14 @@
           "Idle"
         ],
         "donor": {
-          "Walk": "Quaternius Universal Animation Library (UAL1, CC0): Walk_Loop",
-          "Run": "Quaternius Universal Animation Library (UAL1, CC0): Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library (UAL1, CC0): Punch_Cross",
-          "Hit": "Quaternius Universal Animation Library (UAL1, CC0): Hit_Chest",
-          "Death": "Quaternius Universal Animation Library (UAL1, CC0): Death01"
+          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Punch_Cross",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and native clips (Idle) kept byte-identical from production; Walk, Run, Attack, Hit, Death added by a rest-relative UAL retarget onto the existing skeleton (scratch studio_rig.py over crlib.retarget: hips scaled by leg length 1.265, foot IK, no scale keys). Death lifts the hips by a smooth envelope of the skinned mesh's floor penetration (no per-frame snap). Wrapper nodes are not keyed by the added clips; existing wrapper tracks in native clips are untouched.",
+        "notes": "Studio rig, skin, mesh and native clips (Idle) kept byte-identical from production (per-clip hashes checked); Walk, Run, Attack, Hit, Death added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.265, foot IK, no scale keys). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration.",
         "clipSeconds": {
           "Idle": 1.6666666269302368,
           "Walk": 1.3333333730697632,
@@ -71817,12 +71399,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_troll_mauler.glb",
-        "sourceSha256": "34e8343703095980f036c8432df2d6a889c6ff89c204636ea33d8739b80361fb"
+        "sourceSha256": "7da7f4ce6ed6903a21db867a1b6a0f7e147a1fc8d399a8e65aa5e5b7c5e325a3"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.1677,
-      "impliedRunMps": 7.257293,
+      "impliedWalkMps": 1.193709,
+      "impliedRunMps": 7.185991,
       "attackSeconds": 1,
       "contactNormalized": 0.25
     },
