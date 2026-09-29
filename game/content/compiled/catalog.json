@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "5acd0a81bdec23efb1d95abda7b72315b7ea143f2e2e892fc5157950bdaa23ae",
-  "formulaRevision": "47e82d3bb5bfe372c21e8a67c37b88afaf9e077751c7ab578ca1f6ee1cdce6ec",
+  "revision": "ac638b5ec7dfc1360644ea68af26047e6cc63383f39a99b8db0c77c9995f8170",
+  "formulaRevision": "af31ef92ede2010d1cd7fd3335b8873eb694a88d0fe15adbfc51127b6c7f9bb9",
   "tables": {
     "items": [
       {
@@ -28043,7 +28043,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
+          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28205,7 +28205,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
+          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
           "kind": "basic"
         },
         "adjustments": {
@@ -100047,7 +100047,7 @@
             "scale": 0.754334697009733,
             "regionId": "wilderness",
             "activity": "prowl",
-            "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
+            "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
             "kind": "basic"
           },
           "adjustments": {
@@ -100168,7 +100168,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
+          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
           "stats": {
             "id": "baby_lava_dragon_t50",
             "name": "Cinder Dreadwing",
@@ -100713,7 +100713,7 @@
             "scale": 0.7340616505132458,
             "regionId": "wilderness",
             "activity": "prowl",
-            "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
+            "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
             "kind": "basic"
           },
           "adjustments": {
@@ -100834,7 +100834,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
+          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
           "stats": {
             "id": "purple_wilderness_dragon_t70",
             "name": "Violet Dreadwing",
@@ -143178,7 +143178,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
+          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
           "stats": {
             "id": "baby_lava_dragon_t70",
             "name": "Cinder Dreadwing",
@@ -149492,7 +149492,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
+          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
           "stats": {
             "id": "purple_wilderness_dragon_t50",
             "name": "Violet Dreadwing",
@@ -179862,7 +179862,7 @@
           "scale": 0.754334697009733,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
+          "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
           "stats": {
             "id": "wilderness_lava_hatchling_nest",
             "name": "Cinder Dreadwing",
@@ -182213,7 +182213,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "prowl",
-          "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
+          "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
           "stats": {
             "id": "wilderness_central_purple_dragons",
             "name": "Violet Dreadwing",
@@ -231175,7 +231175,7 @@
         "scale": 0.754334697009733,
         "regionId": "wilderness",
         "activity": "prowl",
-        "description": "A squat volcanic dreadwing with folded wings, a ridge of bone spikes and dark red hide above an ember-orange belly.",
+        "description": "A lean volcanic dreadwing with a tucked throat, long tail and copper-red hide above an ochre underside.",
         "stats": {
           "id": "baby_lava_dragon_t50",
           "name": "Cinder Dreadwing",
@@ -231412,7 +231412,7 @@
         "scale": 0.7340616505132458,
         "regionId": "wilderness",
         "activity": "prowl",
-        "description": "A heavy dreadwing with folded wings, a ridge of pale bone spikes and black-violet hide over a bright violet belly.",
+        "description": "A narrow-bodied dreadwing with a raised throat, long legs and a swept tail. Pale horns break up its plum hide and violet wing membranes.",
         "stats": {
           "id": "purple_wilderness_dragon_t70",
           "name": "Violet Dreadwing",
@@ -299942,7 +299942,7 @@
               }
             ]
           },
-          "bodyRadius": 2.39245
+          "bodyRadius": 1.1519199999999998
         },
         "wilderness_cinderback_scree": {
           "id": "wilderness_cinderback_scree",
@@ -300931,7 +300931,7 @@
               }
             ]
           },
-          "bodyRadius": 3.54082
+          "bodyRadius": 3.706532458492966
         },
         "wilderness_eastern_red_dragons": {
           "id": "wilderness_eastern_red_dragons",

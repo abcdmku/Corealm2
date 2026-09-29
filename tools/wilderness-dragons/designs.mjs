@@ -15,12 +15,8 @@ export const DRAGON_BODIES = [
   {id: 'creature_baby_black_dragon', lineage: 'DragonUsurper', scale: 0.189},
   {id: 'creature_black_wilderness_dragon', lineage: 'DragonUsurper', scale: 0.463},
   {id: 'creature_amethyst_dragon', lineage: 'DragonUsurper', scale: 0.463},
-  // Cinder Dreadwing (L50-70): the copper-red SoulEater, a little under the L70 adults.
-  {id: 'creature_baby_lava_dragon', lineage: 'DragonSoulEater', scale: 0.5, skin: {set: 'DragonSoulEater/Red', name: 'cinder_dreadwing_soul_eater_red'},
-    is: 'Cinder Dreadwing: a squat four-legged dragon with folded back wings, bone spikes, dark red hide and an ember-orange belly.'},
-  // Violet Dreadwing (L70): the purple SoulEater, the size of the other L70 wilderness adults.
-  {id: 'creature_purple_wilderness_dragon', lineage: 'DragonSoulEater', scale: 0.74, skin: {set: 'DragonSoulEater/purple', name: 'violet_dreadwing_soul_eater_purple'},
-    is: 'Violet Dreadwing: a heavy four-legged dragon with folded back wings, bone spikes, black-violet hide and a bright violet belly.'},
+  {id: 'creature_baby_lava_dragon', lineage: 'DragonTerrorBringer', scale: 0.233},
+  {id: 'creature_purple_wilderness_dragon', lineage: 'DragonTerrorBringer', scale: 0.664},
   // Basalt Maw (L58-78): the wingless horned Nightmare in its ochre "Albino" set.
   {id: 'creature_basalt_maw', lineage: 'DragonNightmare', scale: 0.48, skin: {set: 'DragonNightmare/Albino', name: 'basalt_maw_nightmare_albino'},
     is: 'Basalt Maw: a wingless horned four-legged dragon with ochre plates, hooked claws and heavy hind legs.'},
@@ -36,9 +32,6 @@ export const LINEAGES = {
     clips: {Idle: 'idle01', Walk: 'walk', Run: 'Run', Attack: 'Basic Attack', Hit: 'GetHit', Death: 'die', Breath: 'Flame Attack'}},
   DragonUsurper: {mesh: 'DragonUsurperMesh', animations: 'DragonUsurper',
     clips: {Idle: 'idle01', Walk: 'Walk', Run: 'Run', Attack: 'attackMouth', Hit: 'getHit', Death: 'Die', Breath: 'attackFlame'}},
-  DragonSoulEater: {mesh: 'DragonSoulEaterMesh', animations: 'DragonSoulEater',
-    clips: {Idle: 'Idle', Walk: 'Walk', Run: 'Run', Attack: 'Basic Attack', Hit: 'Get Hit', Death: 'Die', Breath: 'Fireball Shoot'},
-    material: {workflow: 'specular', normalScale: 1.4, emission: 0.7}},
   DragonNightmare: {mesh: 'DragonTheNightmareMesh', animations: 'DragonNightMare',
     clips: {Idle: 'idle01', Walk: 'walk', Run: 'run', Attack: 'Basic Attack', Hit: 'getHit', Death: 'die'},
     material: {workflow: 'metallic', normalScale: 1, emission: 0}},
