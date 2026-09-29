@@ -1,0 +1,17 @@
+{
+  "donors": {
+    "boar": { "ref": "animal_wildboar" }
+  },
+  "primary": "boar",
+  "profiles": {
+    "reliquary": {
+      "clips": {
+        "Idle": { "donor": "boar", "clip": "Idle", "loop": true },
+        "Walk": { "donor": "boar", "clip": "Walk", "loop": true },
+        "Run": { "donor": "boar", "clip": "Run", "loop": true },
+        "Attack": { "donor": "boar", "clip": "Attack" },
+        "Death": { "donor": "boar", "clip": "Die" }
+      }
+    }
+  }
+}
