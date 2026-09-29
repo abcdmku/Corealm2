@@ -61,8 +61,11 @@ function isNamedUprightBiped(bones:THREE.Bone[]):boolean {
 function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   // A rig built by tools/creature-rig marks the bones that may take a recoil in its node extras
   // (`hitRecoil: true`, which GLTFLoader copies to userData); the builder knows which chains are planted.
-  const marked=bones.filter(bone=>bone.userData?.hitRecoil===true);
-  if(marked.length)return new Set(marked);
+  // A marked bone that carries a leg (a quadruped's front legs hang from its spine) stays protected
+  // anyway: its recoil would slide a planted foot.
+  const carriesSupport=(bone:THREE.Bone)=>{let found=false;bone.traverse(node=>{if(node!==bone && supportName.test(node.name))found=true;});return found;};
+  const marked=bones.filter(bone=>bone.userData?.hitRecoil===true && !carriesSupport(bone));
+  if(bones.some(bone=>bone.userData?.hitRecoil===true))return new Set(marked);
   const named=(name:string)=>bones.find(b=>b.name===name);
   const edge=(child:string,parent:string)=>named(child)?.parent===named(parent) && !!named(parent);
   let roots:THREE.Bone[]=[];

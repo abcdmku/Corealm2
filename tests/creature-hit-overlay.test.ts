@@ -191,6 +191,11 @@ describe('support-safe additive creature recoil',()=>{
     expect(result.status).toBe('native-masked');
     expect(result.boneNames).toEqual(['spine_00_a']);
     expect(result.protectedBoneNames).toEqual(expect.arrayContaining(['core','crawl_01']));
+    // A marked spine that carries front legs stays protected; the head beyond it still recoils.
+    const quad=new THREE.Group(),spine=bone('spine_02',quad),head=bone('head',spine);bone('frontleg_hip_l',spine);
+    spine.userData.hitRecoil=true;head.userData.hitRecoil=true;
+    const quadHit=new THREE.AnimationClip('Hit',1,[rotation('spine_02',[0,.5,0]),rotation('head',[0,.5,0])]);
+    expect(createMaskedHitOverlay(quad,quadHit,new THREE.AnimationClip('Idle',1,[])).boneNames).toEqual(['head']);
   });
   it('keeps the worm rear anchored while its front belly recoils without losing floor contact',async()=>{
     const {root,hit,idle,walk}=await actualPublicRig('creature_red_worm');
