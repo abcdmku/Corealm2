@@ -8,7 +8,8 @@ read from the production GLB, at the first frame of studio.referenceClip when on
 joints (studio.map: node name -> {bone, donor?, follow?, kind?, parent?, tail?, noTail?, noKey?,
 translate?}, or "arp" for an Auto-Rig Pro skeleton driven by Auto-Rig Pro donors) form a crlib
 Skeleton with the class's donor bone names; the crlib Retargeter samples each donor clip
-(rest-relative, hips scaled by leg length, foot IK). Each mapped node's new world rotation is its
+(rest-relative, hips scaled by leg length, leg IK with ball and toe contact on every leg: studio.legs,
+else humanoid thigh/calf/foot chains, else the chains of the bones mapped as kind "leg"). Each mapped node's new world rotation is its
 retargeted frame rotation carried onto the node's own reference rotation; locals are taken against
 the node's real parent. Joints whose logical parent is not their node parent (IK-baked feet) also
 get translation keys so they stay on the limb. Writes <work>/studio.json for studio.mjs.
@@ -96,6 +97,29 @@ def rested(d, take, clip=None, hub=None):
     return r
 
 
+def leg_chains(sk, leg_bones):
+    """Plan legs from the bones mapped as legs: each chain of them that hangs from a non-leg bone,
+    followed down while it has one leg child. Four or more bones end in a foot and a toe (ball
+    contact), three in a foot, and two drive the tail of the last bone (a leg tip)."""
+    legs = []
+    for b in sk.bones:
+        if b.name not in leg_bones or b.parent in leg_bones:
+            continue
+        chain = [b.name]
+        while True:
+            kids = [c.name for c in sk.children(chain[-1]) if c.name in leg_bones]
+            if len(kids) != 1:
+                break
+            chain.append(kids[0])
+        if len(chain) >= 4:
+            legs.append({"chain": chain[:-2], "foot": chain[-2], "toe": chain[-1]})
+        elif len(chain) == 3:
+            legs.append({"chain": chain[:-1], "foot": chain[-1], "toe": None})
+        elif len(chain) == 2:
+            legs.append({"chain": chain, "foot": None, "toe": None})
+    return legs
+
+
 def main(work, cache):
     asset_id = os.path.basename(os.path.normpath(work))
     config = json.load(open(os.path.join(HERE, "..", "assets", f"{asset_id}.json"), encoding="utf-8"))
@@ -178,7 +202,8 @@ def main(work, cache):
             for k in donors:
                 bone_maps[k][v["bone"]] = per.get(k)
             v["donor"] = per.get(primary_key) or next((x for x in per.values() if x), None)
-    pos =lambda n: world[by_name[n]][:3, 3]
+    hips = cfg.get("hips", "pelvis")  # the class bone that carries the hips translation
+    pos = lambda n: world[by_name[n]][:3, 3]
     bone_node = {v["bone"]: n for n, v in mp.items()}
     node_bone = {n: v["bone"] for n, v in mp.items()}
 
@@ -220,7 +245,7 @@ def main(work, cache):
         kids = [c for c in children.get(v["bone"], []) if not mp[c].get("noTail")]
         if v.get("tail"):
             tail = pos(v["tail"]) if isinstance(v["tail"], str) else head + np.array(v["tail"])
-        elif kids and v["bone"] not in ("pelvis",):
+        elif kids and v["bone"] != hips:
             pick = kids[0] if len(kids) == 1 else next((k for k in kids if mp[k]["bone"].startswith(("spine", "neck", "Head", "lowerarm", "hand", "calf", "foot", "ball"))), kids[0])
             tail = pos(pick)
         else:
@@ -234,8 +259,8 @@ def main(work, cache):
                 tail = head + normalize(d) * 0.5 * np.linalg.norm(head - par.head)
             else:
                 tail = head + 0.5 * d
-        if v["bone"] == "pelvis":
-            spine = next((c for c in children.get("pelvis", []) if mp[c]["bone"].startswith("spine")), None)
+        if v["bone"] == hips:
+            spine = next((c for c in children.get(hips, []) if mp[c]["bone"].startswith("spine")), None)
             tail = pos(spine) if spine else head + [0, 0.1, 0]
             if np.linalg.norm(tail - head) < 1e-4:
                 tail = head + [0, 0.1, 0]
@@ -247,7 +272,10 @@ def main(work, cache):
     else:
         legs = [(f"thigh_{s}", f"calf_{s}", f"foot_{s}", f"ball_{s}") for s in ("l", "r") if f"thigh_{s}" in sk and f"ball_{s}" in sk]
         legs += [(f"thigh_{s}", f"calf_{s}", f"foot_{s}") for s in ("l", "r") if f"thigh_{s}" in sk and f"ball_{s}" not in sk]
-    plan = {"hips": "pelvis", "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
+        if not legs:
+            # Any other skeleton: the chains of the bones mapped as kind "leg".
+            legs = leg_chains(sk, {v["bone"] for v in mp.values() if v.get("kind") == "leg"})
+    plan = {"hips": hips, "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
     for key in ("hipMode", "scale"):
         if key in cfg:
             plan[{"hipMode": "hip_mode"}.get(key, key)] = cfg[key]
@@ -378,9 +406,9 @@ def main(work, cache):
             res = r.secondary(res, chains, [], floor=floor_y)
         tracks = {n: {"rotation": [], "translation": []} for n in keyed}
         pys = [p[1] for p in res["pelvis"]]
-        print(f"{state}: pelvis y rest {sk['pelvis'].head[1]:.3f} range {min(pys):.3f}..{max(pys):.3f} scale {r.scale:.3f}", file=sys.stderr)
+        print(f"{state}: hips y rest {sk[hips].head[1]:.3f} range {min(pys):.3f}..{max(pys):.3f} scale {r.scale:.3f} ikMiss {res['ikMiss']:.4f}", file=sys.stderr)
         def frame_world(f, pelvis_pos):
-            R, P = forward(sk, res["L"][f], "pelvis", pelvis_pos)
+            R, P = forward(sk, res["L"][f], hips, pelvis_pos)
             new_world = {}
             for n in keyed:
                 b = node_bone[n]
@@ -491,8 +519,8 @@ def main(work, cache):
             t = np.array(tracks[n]["translation"])
             rest_t = np.array(g.nodes[i].get("translation", [0, 0, 0]))
             spec_n = mp.get(n, {"translate": True})
-            if node_bone.get(n) == "pelvis" or spec_n.get("translate") or np.abs(t - rest_t).max() > 1e-4 * max(1.0, np.abs(rest_t).max()):
-                if node_bone.get(n) != "pelvis" and not spec_n.get("translate") and not spec_n.get("parent"):
+            if node_bone.get(n) == hips or spec_n.get("translate") or np.abs(t - rest_t).max() > 1e-4 * max(1.0, np.abs(rest_t).max()):
+                if node_bone.get(n) != hips and not spec_n.get("translate") and not spec_n.get("parent"):
                     print(f"warn: {state} {n} drifts {np.abs(t - rest_t).max():.2e} from rest translation", file=sys.stderr)
                 # Keyed wherever it differs from the node rest (a reference clip's own joint
                 # offsets, an IK-parented foot), so unkeyed rest never pulls a joint off its limb.
