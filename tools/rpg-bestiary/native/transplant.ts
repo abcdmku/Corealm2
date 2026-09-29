@@ -11,6 +11,8 @@ import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { dedup, prune } from '@gltf-transform/functions';
 import * as THREE from 'three';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { applyClip, restorePose, sample, storedPose } from '../../creature-motion/pose.js';
+import { deformedBounds } from '../../creature-motion/validate-deformation.js';
 
 export type ChannelPath = 'translation' | 'rotation' | 'scale';
 export interface Track { node: string; path: ChannelPath; times: Float32Array; values: Float32Array; interpolation: 'LINEAR' | 'STEP' | 'CUBICSPLINE' }
@@ -97,7 +99,48 @@ export function fbxSource(model: string, takes: Record<string, string>): NativeS
   return { file: `${model} + ${Object.values(takes).join(', ')}`, sha256: sha256(model), rest, clips };
 }
 
-export interface NativeState { as: string; source: NativeSource; clip: string }
+/** One studio take, optionally trimmed to [from, to] seconds (endpoints interpolated). */
+export type TakePart = readonly [take: string, range?: readonly [from: number, to: number]];
+/** `range` trims the take and restarts it at 0; `then` chains further trimmed takes after it (a
+ * loop rotation or an enter/shoot/exit chain). Chained parts must meet at matching poses. */
+export interface NativeState { as: string; source: NativeSource; clip: string; range?: readonly [from: number, to: number]; then?: TakePart[] }
+
+/** The tracks of `parts` played back to back; each later part drops its first key (the seam). */
+export function chainTracks(source: NativeSource, parts: TakePart[]): Track[] {
+  const byKey = new Map<string, Track>();
+  let offset = 0;
+  for (const [index, [take, range]] of parts.entries()) {
+    const native = source.clips.get(take);
+    if (!native) throw new Error(`${source.file}: no take ${take}`);
+    const [from, to] = range ?? [0, Math.max(...native.map(track => track.times[track.times.length - 1]!))];
+    const tracks = native.map(track => trimTrack(track, from, to)), seconds = to - from;
+    for (const track of tracks) {
+      const key = `${track.node}/${track.path}`, width = track.path === 'rotation' ? 4 : 3, skip = index > 0 ? 1 : 0;
+      const times = Array.from(track.times.slice(skip), time => time + offset), values = Array.from(track.values.slice(skip * width));
+      const previous = byKey.get(key);
+      if (!previous && index > 0) throw new Error(`${take}: ${key} is not in the first chained take`);
+      byKey.set(key, previous ? { ...previous, times: new Float32Array([...previous.times, ...times]), values: new Float32Array([...previous.values, ...values]) }
+        : { ...track, times: new Float32Array(times), values: new Float32Array(values) });
+    }
+    offset += seconds;
+  }
+  return [...byKey.values()];
+}
+
+/** Keys of one track inside [from, to], endpoints interpolated, times shifted to start at 0. */
+export function trimTrack(track: Track, from: number, to: number): Track {
+  const width = track.path === 'rotation' ? 4 : 3, t = track.times, v = track.values;
+  const at = (time: number) => {
+    let i = 0; while (i < t.length - 1 && t[i + 1]! <= time) i++;
+    const j = Math.min(i + 1, t.length - 1), a = v.slice(i * width, (i + 1) * width), b = v.slice(j * width, (j + 1) * width);
+    const alpha = j === i || time <= t[i]! ? 0 : Math.min(1, (time - t[i]!) / (t[j]! - t[i]!));
+    if (track.interpolation === 'STEP' || alpha === 0) return Array.from(a);
+    if (width === 4) return new THREE.Quaternion().fromArray(Array.from(a)).slerp(new THREE.Quaternion().fromArray(Array.from(b)), alpha).toArray();
+    return Array.from(a, (x, k) => x + (b[k]! - x) * alpha);
+  };
+  const times = [from, ...Array.from(t).filter(time => time > from + 1e-6 && time < to - 1e-6), to];
+  return { ...track, times: new Float32Array(times.map(time => time - from)), values: new Float32Array(times.flatMap(at)) };
+}
 export interface TransplantOptions {
   /** Production clips kept byte-for-byte (e.g. a Death with no native replacement). */
   keep: string[];
@@ -148,8 +191,10 @@ export function transplant(doc: Document, options: TransplantOptions): Transplan
   };
   for (const state of options.states) {
     const translationScale = scaleFor(state.source);
-    const tracks = state.source.clips.get(state.clip);
-    if (!tracks) throw new Error(`${state.source.file}: no take ${state.clip}`);
+    const native = state.source.clips.get(state.clip);
+    if (!native) throw new Error(`${state.source.file}: no take ${state.clip}`);
+    const tracks = state.then ? chainTracks(state.source, [[state.clip, state.range], ...state.then])
+      : state.range ? native.map(track => trimTrack(track, state.range![0], state.range![1])) : native;
     const clip = doc.createAnimation(state.as);
     let seconds = 0, channels = 0;
     for (const track of tracks) {
@@ -195,7 +240,7 @@ export function transplant(doc: Document, options: TransplantOptions): Transplan
       seconds = Math.max(seconds, track.times[track.times.length - 1]!); channels++;
     }
     if (!channels) throw new Error(`${state.as}: no channel reached the production rig`);
-    report.push({ name: state.as, source: `${state.clip} @ ${state.source.file}`, seconds, channels, translationScale });
+    report.push({ name: state.as, source: `${[[state.clip, state.range] as TakePart, ...(state.then ?? [])].map(([take, range]) => `${take}${range ? ` [${range[0]}-${range[1]} s]` : ''}`).join(' + ')} @ ${state.source.file}`, seconds, channels, translationScale });
   }
   return { clips: report, skipped: [...skipped], maxRestDelta };
 }
@@ -209,3 +254,48 @@ export async function compact(doc: Document) {
 }
 
 export const clipSeconds = (clip: Animation) => Math.max(...clip.listSamplers().map(sampler => { const t = sampler.getInput()!.getArray()!; return t[t.length - 1]!; }));
+
+/**
+ * A body thicker or longer-waisted than the studio mannequin goes through the floor when a take
+ * lays it down. The same rule as the creature-rig retarget (crlib `lying_lift`): only for a clip whose
+ * hips drop below half their rest height, lift the hips by a smooth envelope of the skinned mesh's
+ * floor penetration (sliding max, then a sliding mean of the same span, never below the need).
+ * Standing clips are never touched. Returns the lift at the last key (0 when nothing was needed).
+ */
+export function lyingLift(doc: Document, clipName: string, rootNames: string[]): number {
+  // rootNames: the hips first, then any other top joints that do not hang from it (IK leg roots).
+  const root = doc.getRoot(), clip = root.listAnimations().find(c => c.getName() === clipName);
+  const roots = rootNames.map(name => root.listNodes().find(n => n.getName() === name));
+  const channels = roots.map(node => clip?.listChannels().find(c => c.getTargetNode() === node && c.getTargetPath() === 'translation'));
+  const hips = roots[0];
+  if (!clip || !hips || channels.some(c => !c)) return 0;
+  // Every key time in the clip (a sparse hips track would otherwise miss a limb's dip between its keys).
+  const times = [...new Set(clip.listSamplers().flatMap(s => Array.from(s.getInput()!.getArray()!)))].sort((a, b) => a - b);
+  const stored = storedPose(doc), restY = new THREE.Matrix4().fromArray(hips.getWorldMatrix()).elements[13]!;
+  const height = deformedBounds(doc).max[1]!;
+  const need: number[] = [], hipsY: number[] = [];
+  for (let i = 0; i < times.length; i++) {
+    restorePose(stored); applyClip(clip, times[i]!);
+    hipsY.push(hips.getWorldMatrix()[13]!);
+    need.push(Math.max(-deformedBounds(doc).min[1]!, 0));
+  }
+  restorePose(stored);
+  if (Math.max(...hipsY.map(y => restY - y)) < 0.5 * restY) return 0;
+  const floor = need.map(n => (n < 0.003 * height ? 0 : n));
+  if (!floor.some(Boolean)) return 0;
+  const span = 9, at = (a: number[], i: number) => a[Math.min(a.length - 1, Math.max(0, i))]!;
+  const envelope = floor.map((_, i) => Math.max(...Array.from({ length: 2 * span + 1 }, (_, k) => at(floor, i - span + k))));
+  const lift = envelope.map((_, i) => Math.max(floor[i]!, Array.from({ length: span }, (_, k) => at(envelope, i - (span >> 1) + k)).reduce((a, b) => a + b) / span));
+  roots.forEach((node, index) => {
+    const sampler = channels[index]!.getSampler()!, output = sampler.getOutput()!;
+    const values = times.flatMap(time => sample(sampler, time));
+    // World up in this joint's parent frame (direction only).
+    const parent = node!.getParentNode(), inverse = new THREE.Matrix4().fromArray(parent ? parent.getWorldMatrix() : new THREE.Matrix4().toArray()).invert();
+    const local = new THREE.Vector3(0, 1, 0).applyMatrix4(inverse.setPosition(0, 0, 0));
+    const lifted = new Float32Array(values);
+    for (let i = 0; i < times.length; i++) for (let a = 0; a < 3; a++) lifted[i * 3 + a] = values[i * 3 + a]! + local.getComponent(a) * lift[i]!;
+    sampler.setInput(doc.createAccessor().setType('SCALAR').setArray(new Float32Array(times)).setBuffer(output.getBuffer()))
+      .setOutput(doc.createAccessor().setType('VEC3').setArray(lifted).setBuffer(output.getBuffer())).setInterpolation('LINEAR');
+  });
+  return lift[lift.length - 1]!;
+}
