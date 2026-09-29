@@ -34,7 +34,8 @@
           "donor": "chicken_reach",
           "clip": ["PeckDown", "PeckUp"]
         },
-        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical" }
+        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical",
+                   "chains": { "wing_": { "stiffness": 4000.0, "damping": 120.0 } } }
       }
     },
     "wader": {
