@@ -73,10 +73,7 @@
         },
         "Attack": {
           "donor": "ual2",
-          "clip": [
-            "Melee_Hook",
-            "Melee_Hook_Rec"
-          ]
+          "clip": "OverhandThrow"
         },
         "Hit": {
           "donor": "ual1",
@@ -177,7 +174,7 @@
         },
         "Attack": {
           "donor": "ual1",
-          "clip": "Punch_Cross"
+          "clip": "Sword_Attack"
         },
         "Hit": {
           "donor": "ual1",
@@ -240,10 +237,7 @@
         },
         "Attack": {
           "donor": "ual2",
-          "clip": [
-            "Melee_Hook",
-            "Melee_Hook_Rec"
-          ]
+          "clip": "OverhandThrow"
         },
         "Hit": {
           "donor": "ual1",
@@ -313,10 +307,7 @@
         },
         "Attack": {
           "donor": "ual2",
-          "clip": [
-            "Melee_Hook",
-            "Melee_Hook_Rec"
-          ]
+          "clip": "Zombie_Scratch"
         },
         "Hit": {
           "donor": "ual1",
