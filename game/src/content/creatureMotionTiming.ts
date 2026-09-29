@@ -241,8 +241,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.567
   },
   "creature_field_wasp": {
-    "seconds": 1.125,
-    "contactNormalized": 0.26666666666666666
+    "seconds": 0.733333,
+    "contactNormalized": 0.233
   },
   "creature_flint_mandible": {
     "seconds": 0.766667,
@@ -333,8 +333,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.383
   },
   "creature_marsh_wasp": {
-    "seconds": 1.125,
-    "contactNormalized": 0.26666666666666666
+    "seconds": 0.733333,
+    "contactNormalized": 0.233
   },
   "creature_moonpetal_stalker": {
     "seconds": 1.533333,
@@ -365,8 +365,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.34
   },
   "creature_prismatic_sprite": {
-    "seconds": 1,
-    "contactNormalized": 0.6083333333333333
+    "seconds": 1.466667,
+    "contactNormalized": 0.25
   },
   "creature_purple_wilderness_dragon": {
     "seconds": 1,
@@ -534,11 +534,11 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "fairy_garden_imp_faeholme": {
     "seconds": 1,
-    "contactNormalized": 0.6016666666666667
+    "contactNormalized": 0.65
   },
   "fairy_garden_imp_gloamgarden": {
     "seconds": 1,
-    "contactNormalized": 0.6016666666666667
+    "contactNormalized": 0.65
   },
   "fairy_garden_petalguard_faeholme": {
     "seconds": 1.4,
@@ -803,6 +803,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_orchid_reaper": 18.6737,
   "creature_pearl_knight": 50.6473,
   "creature_plague_zombie": 3.9846,
+  "creature_prismatic_sprite": 0.1475,
   "creature_purple_wilderness_dragon": 11.2483,
   "creature_quarry_nightmare": 3.6853,
   "creature_quarry_snail": 0.0727,
@@ -968,6 +969,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_orchid_reaper": 3.529273,
   "creature_pearl_knight": 9.245678,
   "creature_plague_zombie": 3.187702,
+  "creature_prismatic_sprite": 0.118033,
   "creature_purple_wilderness_dragon": 2.910722,
   "creature_quarry_nightmare": 1.401027,
   "creature_quarry_snail": 0.058185,
