@@ -40,8 +40,8 @@
     "spirit": {
       "legs": false,
       "clips": {
-        "Idle": { "donor": "ual2", "clip": "Zombie_Idle_Loop", "loop": true },
-        "Walk": { "donor": "ual2", "clip": "Zombie_Walk_Fwd_Loop", "loop": true },
+        "Idle": { "donor": "ual1", "clip": "Idle_Loop", "loop": true },
+        "Walk": { "donor": "ual1", "clip": "Walk_Loop", "loop": true },
         "Attack": { "donor": "ual1", "clip": ["Spell_Simple_Enter", "Spell_Simple_Shoot", "Spell_Simple_Exit"] },
         "Hit": { "donor": "ual1", "clip": "Hit_Chest" },
         "Death": { "donor": "ual1", "clip": "Death01" }

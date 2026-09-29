@@ -20,6 +20,7 @@ import bpy  # noqa: E402
 import numpy as np  # noqa: E402
 
 from crlib import donor as donors_mod  # noqa: E402
+from crlib import rebind  # noqa: E402
 from crlib.body import Body, load_blender_mesh  # noqa: E402
 from crlib.debug import fit_sheet  # noqa: E402
 from crlib.retarget import Retargeter, clip_tracks, lying_lift  # noqa: E402
@@ -60,15 +61,19 @@ def main(work):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     obj, V, F = load_blender_mesh(os.path.join(work, "mesh.glb"))
     body = Body(V, F)
-    sk, notes = cls.fit(body, primary, profile)
+    sk, notes = cls.fit(body, primary, profile, source=intake.get("source"))
     heat = bone_heat(obj, sk)
     extra = cls.cloth(body, sk, profile, heat) if hasattr(cls, "cloth") else None
-    sk.solve_frames(primary)
     W, skin_report = skin(obj, V, F, sk, heat=heat, passes=profile.get("smoothPasses", 2),
                           rigid=profile.get("rigidPieces", True), overrides=extra)
-    plan = cls.plan(sk, body, profile)
     order = np.argsort(-W, axis=1)[:, :4]
     weights = np.take_along_axis(W, order, axis=1)
+    turns = cls.bind_turns(sk, profile) if hasattr(cls, "bind_turns") else {}
+    bind_V, bind_rot = V, None
+    if turns:
+        bind_V, bind_rot = rebind.apply(sk, V, order, weights, rebind.repose(sk, turns))
+    sk.solve_frames(primary)
+    plan = cls.plan(sk, body, profile)
 
     out_clips = []
     for state, spec in clips.items():
@@ -76,7 +81,7 @@ def main(work):
         result = r.sample(state, spec)
         if plan["chains"]:
             result = r.secondary(result, plan["chains"], plan["colliders"])
-        lift = lying_lift(sk, V, order, weights, result, plan["hips"], body.height)
+        lift = lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height)
         root = sk.bones[0]
         pelvis_local = [(root.frame.T @ (p - root.head)).tolist() for p in result["pelvis"]]
         out_clips.append({
@@ -87,12 +92,15 @@ def main(work):
 
     names = sk.names()
     thin, _ = body.thin_vertices()
-    fit_sheet(os.path.join(work, "fit.png"), V, sk, intake["assetId"], thin=thin, weights=(names, W))
+    fit_sheet(os.path.join(work, "fit.png"), bind_V, sk, intake["assetId"], thin=thin, weights=(names, W))
     rig = {
         "assetId": intake["assetId"], "class": intake["class"], "profile": intake["profile"],
         "hips": plan["hips"],
         "skeleton": sk.to_json(),
         "vertices": np.round(V, 6).tolist(),
+        "bindVertices": None if bind_rot is None else np.round(bind_V, 6).tolist(),
+        "bindRotations": None if bind_rot is None else np.round(bind_rot, 6).tolist(),
+        "rebound": sorted(turns),
         "joints": order.tolist(), "weights": np.round(weights, 5).tolist(),
         "clips": out_clips,
         "fit": notes, "skin": skin_report,

@@ -62,7 +62,36 @@ def _symmetrise(pair, mid_x, tolerance):
     return True
 
 
-def fit(body, donor, profile):
+# Healthy Tripo rigs come in three humanoid namings. A joint found here replaces the fitted one.
+SOURCE_NAMES = {
+    "pelvis": ["mixamorig:Hips", "mixamorigHips", "Hips", "Pelvis"],
+    "spine_01": ["mixamorig:Spine", "mixamorigSpine", "Spine", "Waist"],
+    "spine_02": ["mixamorig:Spine1", "mixamorigSpine1", "Chest", "Spine01"],
+    "spine_03": ["mixamorig:Spine2", "mixamorigSpine2", "UpperChest", "Spine02"],
+    "neck_01": ["mixamorig:Neck", "mixamorigNeck", "Neck", "NeckTwist01"],
+    "Head": ["mixamorig:Head", "mixamorigHead", "Head"],
+    **{f"{ours}_{s}": [f"mixamorig:{side}{mx}", f"mixamorig{side}{mx}", f"{side}_{tb}", f"{s.upper()}_{old}"]
+       for s, side in (("l", "Left"), ("r", "Right"))
+       for ours, mx, tb, old in (("clavicle", "Shoulder", "Shoulder", "Clavicle"), ("upperarm", "Arm", "UpperArm", "UpperArm"),
+                                 ("lowerarm", "ForeArm", "LowerArm", "Forearm"), ("hand", "Hand", "Hand", "Hand"),
+                                 ("thigh", "UpLeg", "UpperLeg", "Thigh"), ("calf", "Leg", "LowerLeg", "Calf"),
+                                 ("foot", "Foot", "Foot", "Foot"), ("ball", "ToeBase", "Toes", "Toe0"))},
+}
+
+
+def _source_joints(source):
+    """Joint heads from a healthy source rig, by our bone name, if its sides agree with ours."""
+    if not source or source.get("kind") != "tripo-rig":
+        return {}
+    by_name = {j["name"]: np.array(j["position"]) for j in source["joints"]}
+    found = {ours: next((by_name[n] for n in names if n in by_name), None) for ours, names in SOURCE_NAMES.items()}
+    found = {k: v for k, v in found.items() if v is not None}
+    if "upperarm_l" in found and "upperarm_r" in found and found["upperarm_l"][0] <= found["upperarm_r"][0]:
+        return {}  # mirrored or turned relative to the production mesh: do not trust it
+    return found
+
+
+def fit(body, donor, profile, source=None):
     H = body.height
     legs = profile.get("legs", True)
     seed = body.to_world(np.unravel_index(np.argmax(body.dt), body.dt.shape))
@@ -254,6 +283,21 @@ def fit(body, donor, profile):
         spine_heads.append(at(pelvis[1] + f * (neck_base[1] - pelvis[1])))
     notes.update({"shoulder_y": float(shoulder_y), "neck_y": float(neck_y), "hand_tip_y": float(hand_tip_y)})
 
+    # A healthy source skeleton overrides the fitted joints it has; tips stay measured.
+    src = _source_joints(source)
+    if src:
+        notes["sourceJoints"] = sorted(src)
+        pelvis = src.get("pelvis", pelvis)
+        spine_heads = [src.get(n, p) for n, p in zip(("spine_01", "spine_02", "spine_03"), spine_heads)]
+        neck_base = src.get("neck_01", neck_base)
+        head_joint = src.get("Head", head_joint)
+        for side in ("l", "r"):
+            for key, bone in (("shoulder", "upperarm"), ("elbow", "lowerarm"), ("wrist", "hand")):
+                arm[side][key] = src.get(f"{bone}_{side}", arm[side][key])
+            if legs:
+                for key, bone in (("hip", "thigh"), ("knee", "calf"), ("ankle", "foot"), ("ball", "ball")):
+                    leg[side][key] = src.get(f"{bone}_{side}", leg[side][key])
+
     # ---------------------------------------------------------- assemble
     root_head = np.array([pelvis[0], 0.0, pelvis[2]])
     sk.add("root", None, root_head, root_head + [0, 0.1 * H, 0], donor="root", follow=0.0, kind="root")
@@ -310,7 +354,7 @@ def plan(sk, body, profile):
         chains.append({"bones": tail, "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.3, "clearance": 0.0})
     for group in sorted({b.name.rsplit("_", 1)[0] for b in sk.bones if b.kind == "cloth"}):
         bones = [b.name for b in sk.bones if b.kind == "cloth" and b.name.rsplit("_", 1)[0] == group]
-        chains.append({"bones": bones, "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.6, "clearance": 0.01})
+        chains.append({"bones": bones, "group": group.split("_")[0], "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.6, "clearance": 0.01})
     return {"hips": "pelvis", "legs": legs, "chains": chains, "colliders": colliders,
             "hip_motion": profile.get("hipMotion", 1.0)}
 
@@ -355,8 +399,15 @@ def cloth(body, sk, profile, heat):
     spine_z = np.interp(V[:, 1], [b.head[1] for b in spine], [b.head[2] for b in spine])
     # A sheet that hangs below the hips carries its part above the hips with it (a cape from the
     # shoulders); one that stops above the hips rides the spine.
-    below = {"back": thin & (V[:, 2] < spine_z), "front": thin & (V[:, 2] >= spine_z)}
-    above = {"back": torso_sheet & (V[:, 2] < spine_z), "front": torso_sheet & (V[:, 2] >= spine_z)}
+    # In front only a flap between the legs is its own panel (a tabard, a loincloth); a sheet at
+    # the sides is the cape wrapping round and belongs to the back panel.
+    between = np.abs(V[:, 0] - sk["pelvis"].head[0]) < 0.5 * abs(sk["thigh_l"].head[0] - sk["thigh_r"].head[0])
+    front = thin & (V[:, 2] >= spine_z) & between
+    below = {"back": thin & ~front, "front": front}
+    # Above the hips only the part that stands off the back is cape; a thin plate lying on the
+    # back is armour and rides the spine.
+    off_body, _ = body.thin_vertices()
+    above = {"back": torso_sheet & off_body & (V[:, 2] < spine_z), "front": np.zeros(len(V), bool)}
     groups = {k: [np.nonzero(below[k] | (above[k] if below[k].sum() >= 0.01 * len(V) else False))[0]] for k in below}
     torso_sheet = torso_sheet & ~np.isin(np.arange(len(V)), np.concatenate([g[0] for g in groups.values()]))
     groups = {k: [i for i in v if len(i) >= 0.01 * len(V) and np.ptp(V[i, 1]) > 0.1 * H] for k, v in groups.items()}
@@ -393,7 +444,7 @@ def cloth(body, sk, profile, heat):
                 bones.append(bname)
                 prev = bname
             chains.append({"bones": bones, "x": float(np.mean(Q[:, 0]))})
-        panels.append({"idx": idx, "top": top, "bottom": bottom, "chains": chains})
+        panels.append({"side": side, "idx": idx, "top": top, "bottom": bottom, "chains": chains})
 
     names = sk.names()
     spine_cols = [names.index(n) for n in ("pelvis", "spine_01", "spine_02", "spine_03", "neck_01")]
@@ -413,14 +464,17 @@ def cloth(body, sk, profile, heat):
                 nearest = np.argmin(np.abs(V[rows[empty], 1][:, None] - heights[None, :]), axis=1)
                 keep[np.nonzero(empty)[0], np.array(spine_cols)[nearest]] = 1.0
             W[rows] = keep / keep.sum(1, keepdims=True)
+        if not panels:
+            return W, fixed
+        idx = np.unique(np.concatenate([p["idx"] for p in panels]))
+        P = V[idx]
+        blended = []
         for panel in panels:
-            idx = panel["idx"]
-            P = V[idx]
             span = max(panel["top"] - panel["bottom"], 1e-6)
             t = np.clip((panel["top"] - P[:, 1]) / span, 0, 1)
             chain_w = np.zeros((len(idx), len(names)))
             xs = [c["x"] for c in panel["chains"]]
-            for ci, chain in enumerate(panel["chains"]):
+            for chain in panel["chains"]:
                 # Blend across columns by x, and along the chain by height (hat functions on bone
                 # midpoints), so the sheet bends smoothly.
                 if len(xs) == 2:
@@ -440,10 +494,39 @@ def cloth(body, sk, profile, heat):
                     chain_w[:, names.index(bname)] += col_w * hat
             chain_w /= np.maximum(chain_w.sum(1, keepdims=True), 1e-9)
             a = np.clip(t / 0.12, 0, 1)
-            a = a * a * (3 - 2 * a)
-            heat = W[idx] / np.maximum(W[idx].sum(1, keepdims=True), 1e-9)
-            W[idx] = (1 - a)[:, None] * heat + a[:, None] * chain_w
-            fixed[idx] = a > 0.5
+            blended.append((panel["side"], chain_w, a * a * (3 - 2 * a)))
+        if len(blended) == 2:
+            # Where a cape wraps round to meet a tabard the sheet is continuous: blend the two
+            # sides over a band around the spine's plane instead of cutting it.
+            band = 0.06 * H
+            back = np.clip((spine_z[idx] + band - P[:, 2]) / (2 * band), 0, 1)
+            back = back * back * (3 - 2 * back)
+            (sa, wa, aa), (sb, wb, ab) = blended
+            fa = back if sa == "back" else 1 - back
+            chain_w = fa[:, None] * wa + (1 - fa)[:, None] * wb
+            a = fa * aa + (1 - fa) * ab
+        else:
+            _, chain_w, a = blended[0]
+        heat = W[idx] / np.maximum(W[idx].sum(1, keepdims=True), 1e-9)
+        W[idx] = (1 - a)[:, None] * heat + a[:, None] * chain_w
+        fixed[idx] = a > 0.5
         return W, fixed
 
     return override
+
+
+def bind_turns(sk, profile):
+    """A T-posed body is re-bound with its arms lowered to bindArmAngle below horizontal (default
+    50 degrees, the middle of the donors' working range), so the shoulders bend half as far."""
+    from crlib.mathx import min_arc
+
+    target = np.radians(profile.get("bindArmAngle", 50.0))
+    turns = {}
+    for side in ("l", "r"):
+        b = sk[f"upperarm_{side}"]
+        d = normalize(b.tail - b.head)
+        if np.degrees(np.arcsin(np.clip(-d[1], -1, 1))) >= 35.0:
+            continue
+        flat = normalize(np.array([d[0], 0.0, d[2]]))
+        turns[b.name] = min_arc(d, flat * np.cos(target) + np.array([0.0, -np.sin(target), 0.0]))
+    return turns

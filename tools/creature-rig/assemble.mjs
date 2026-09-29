@@ -110,12 +110,26 @@ export async function assemble(assetId, work = paths.work(assetId)) {
     node.setSkin(skin);
     container.addChild(node);
     for (const primitive of node.getMesh().listPrimitives()) {
-      const position = primitive.getAttribute("POSITION").getArray();
+      const positionAccessor = primitive.getAttribute("POSITION");
+      const position = positionAccessor.getArray();
       const count = position.length / 3;
+      const normalAccessor = primitive.getAttribute("NORMAL");
+      const rebound = rig.bindVertices ? { position: position.slice(), normal: normalAccessor?.getArray().slice() } : null;
       const J = new Uint16Array(count * 4);
       const W = new Float32Array(count * 4);
       for (let v = 0; v < count; v += 1) {
         const m = matcher.match(position[v * 3], position[v * 3 + 1], position[v * 3 + 2]);
+        if (rebound) {
+          // The class re-posed the bind (arms lowered): take the re-posed position and turn the
+          // normal by the same blended rotation.
+          rebound.position.set(rig.bindVertices[m], v * 3);
+          if (rebound.normal) {
+            const [qx, qy, qz, qw] = rig.bindRotations[m];
+            const [x, y, z] = [rebound.normal[v * 3], rebound.normal[v * 3 + 1], rebound.normal[v * 3 + 2]];
+            const tx = 2 * (qy * z - qz * y), ty = 2 * (qz * x - qx * z), tz = 2 * (qx * y - qy * x);
+            rebound.normal.set([x + qw * tx + (qy * tz - qz * ty), y + qw * ty + (qz * tx - qx * tz), z + qw * tz + (qx * ty - qy * tx)], v * 3);
+          }
+        }
         let sum = 0;
         for (let c = 0; c < 4; c += 1) sum += rig.weights[m][c];
         for (let c = 0; c < 4; c += 1) {
@@ -123,6 +137,10 @@ export async function assemble(assetId, work = paths.work(assetId)) {
           J[v * 4 + c] = w > 0 ? rig.joints[m][c] : 0;
           W[v * 4 + c] = w;
         }
+      }
+      if (rebound) {
+        positionAccessor.setArray(rebound.position);
+        if (rebound.normal) normalAccessor.setArray(rebound.normal);
       }
       primitive.setAttribute("JOINTS_0", doc.createAccessor().setType("VEC4").setArray(J).setBuffer(buffer));
       primitive.setAttribute("WEIGHTS_0", doc.createAccessor().setType("VEC4").setArray(W).setBuffer(buffer));

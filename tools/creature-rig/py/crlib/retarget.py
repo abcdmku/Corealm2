@@ -169,65 +169,80 @@ class Retargeter:
 
     # ------------------------------------------------------------- secondary
     def secondary(self, result, chains, colliders, floor=0.0, cycles=3):
-        """Damped spring chains for bones with no donor. Loops run several cycles and keep the
+        """Damped spring chains (Verlet with length constraints) for bones with no donor. Chains of
+        one sheet (a cape's left and right columns) are simulated together and kept at their rest
+        spacing, so the sheet cannot tear down the middle. Loops run several cycles and keep the
         last one, so the motion is periodic; one-shots settle on their first frame first."""
         sk = self.sk
         n = result["n"]
         dt = 1.0 / result["fps"]
         sub = 4
         h = dt / sub
-        poses = []
-        for f in range(n):
-            R, P = forward(sk, {k: v for k, v in result["L"][f].items()}, self.hips, result["pelvis"][f])
-            poses.append((R, P))
-        for chain in chains:
+        poses = [forward(sk, dict(result["L"][f]), self.hips, result["pelvis"][f]) for f in range(n)]
+
+        def targets(chain, f):
+            # Where each joint would be if the chain kept its rest shape relative to its attachment
+            # bone, turned only part of the way with it ("hang" keeps the rest of the way in world
+            # space, as a sheet hanging under its own weight does).
+            R, P = poses[f]
             bones = chain["bones"]
-            stiff, damp, grav = chain.get("stiffness", 60.0), chain.get("damping", 6.0), chain.get("gravity", 2.0)
-            rest_len = [np.linalg.norm(sk[b].tail - sk[b].head) for b in bones]
-
-            hang = chain.get("hang", 0.0)
+            parent = sk[bones[0]].parent
+            base = sk[parent]
             root_rest = sk[bones[0]].head
+            root = P[parent] + R[parent] @ (base.frame.T @ (root_rest - base.head))
+            turn = R[parent] @ base.frame.T
+            if chain.get("hang", 0.0) > 0:
+                turn = slerp_matrix(turn, np.eye(3), chain["hang"])
+            return [root + turn @ (sk[b].tail - root_rest) for b in bones], root
 
-            def targets(f):
-                R, P = poses[f]
-                # Where each joint would be if the chain kept its rest shape relative to its
-                # attachment bone, turned only part of the way with it ("hang" keeps the rest of
-                # the way in world space, as a sheet hanging under its own weight does).
-                parent = sk[bones[0]].parent
-                Rp, Pp = R[parent], P[parent]
-                base = sk[parent]
-                root = Pp + Rp @ (base.frame.T @ (root_rest - base.head))
-                turn = Rp @ base.frame.T
-                if hang > 0:
-                    turn = slerp_matrix(turn, np.eye(3), hang)
-                return [root + turn @ (sk[b].tail - root_rest) for b in bones], root
-
-            tgt0, _ = targets(0)
-            x = [t.copy() for t in tgt0]
-            v = [np.zeros(3) for _ in bones]
-            frames = list(range(n)) * (cycles if result["loop"] else 1)
-            if not result["loop"]:
-                frames = [0] * 30 + frames
-            history = []
-            for step, f in enumerate(frames):
-                tgt, root = targets(f)
-                for _ in range(sub):
-                    for i in range(len(bones)):
-                        acc = stiff * (tgt[i] - x[i]) - damp * v[i] + np.array([0.0, -grav, 0.0])
-                        v[i] = v[i] + acc * h
-                        x[i] = x[i] + v[i] * h
-                    # Length constraints from the attachment down, then colliders and the floor.
-                    prev = root
-                    for i in range(len(bones)):
-                        for c in colliders:
-                            x[i] = c.push(x[i], poses[f])
-                        x[i][1] = max(x[i][1], floor + chain.get("clearance", 0.0))
-                        x[i] = prev + normalize(x[i] - prev) * rest_len[i]
-                        prev = x[i]
-                history.append((f, [p.copy() for p in x]))
-            keep = history[-n:]
-            for f, pts in keep:
-                R, P = poses[f]
+        state = []
+        for chain in chains:
+            tgt, _ = targets(chain, 0)
+            state.append({"x": [t.copy() for t in tgt], "prev": [t.copy() for t in tgt],
+                          "len": [np.linalg.norm(sk[b].tail - sk[b].head) for b in chain["bones"]]})
+        links = []
+        for a in range(len(chains)):
+            for b in range(a + 1, len(chains)):
+                if chains[a].get("group") and chains[a].get("group") == chains[b].get("group"):
+                    rest = [np.linalg.norm(sk[p].tail - sk[q].tail) for p, q in zip(chains[a]["bones"], chains[b]["bones"])]
+                    links.append((a, b, rest))
+        frames = list(range(n)) * (cycles if result["loop"] else 1)
+        if not result["loop"]:
+            frames = [0] * 30 + frames
+        history = []
+        for f in frames:
+            tg = [targets(c, f) for c in chains]
+            for _ in range(sub):
+                for c, st, (tgt, _) in zip(chains, state, tg):
+                    keep = np.exp(-c.get("damping", 6.0) * h)
+                    for i in range(len(st["x"])):
+                        acc = c.get("stiffness", 40.0) * (tgt[i] - st["x"][i]) + np.array([0.0, -c.get("gravity", 0.0), 0.0])
+                        nxt = st["x"][i] + (st["x"][i] - st["prev"][i]) * keep + acc * h * h
+                        st["prev"][i], st["x"][i] = st["x"][i], nxt
+                for _ in range(2):
+                    for a, b, rest in links:
+                        for i, r in enumerate(rest):
+                            pa, pb = state[a]["x"][i], state[b]["x"][i]
+                            d = np.linalg.norm(pb - pa)
+                            want = np.clip(d, 0.85 * r, 1.15 * r)
+                            if d > 1e-9 and want != d:
+                                corr = (pb - pa) * (1 - want / d) * 0.5
+                                state[a]["x"][i] = pa + corr
+                                state[b]["x"][i] = pb - corr
+                    for c, st, (_, root) in zip(chains, state, tg):
+                        prev = root
+                        for i in range(len(st["x"])):
+                            p = st["x"][i]
+                            for col in colliders:
+                                p = col.push(p, poses[f])
+                            p[1] = max(p[1], floor + c.get("clearance", 0.0))
+                            st["x"][i] = prev + normalize(p - prev) * st["len"][i]
+                            prev = st["x"][i]
+            history.append((f, [[p.copy() for p in st["x"]] for st in state]))
+        for f, all_pts in history[-n:]:
+            R, P = poses[f]
+            for chain, pts in zip(chains, all_pts):
+                bones = chain["bones"]
                 for i, b in enumerate(bones):
                     bone = sk[b]
                     parent = sk[bone.parent]
@@ -237,7 +252,15 @@ class Retargeter:
                     R[b] = min_arc(rest_dir, pts[i] - head) @ follow
                     if i + 1 < len(bones):
                         P[bones[i + 1]] = pts[i]
-                result["L"][f] = to_local(sk, R)
+            result["L"][f] = to_local(sk, R)
+        if result["loop"] and n > 2:
+            # Close the loop exactly: spread what is left of the cycle-to-cycle difference over
+            # the cycle instead of leaving a pop at the seam.
+            for chain in chains:
+                for b in chain["bones"]:
+                    fix = result["L"][n - 1][b].T @ result["L"][0][b]
+                    for f in range(n):
+                        result["L"][f][b] = result["L"][f][b] @ slerp_matrix(np.eye(3), fix, f / (n - 1))
         return result
 
 
