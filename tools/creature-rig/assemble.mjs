@@ -10,7 +10,7 @@
  */
 import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { openDocument } from "./intake.mjs";
+import { floatArray, openDocument, setFloat } from "./intake.mjs";
 import { isMain, paths } from "./paths.mjs";
 
 const quatToMat = ([x, y, z, w]) => [
@@ -106,15 +106,22 @@ export async function assemble(assetId, work = paths.work(assetId)) {
   // Weights: production vertices take the weights of the merged vertex at their position, so
   // vertices split along UV seams share weights and never crack apart.
   const matcher = vertexMatcher(rig.vertices);
+  const done = new Map(); // primitives sharing a POSITION accessor share its skin attributes
   for (const node of root.listNodes().filter((n) => n.getMesh())) {
     node.setSkin(skin);
     container.addChild(node);
     for (const primitive of node.getMesh().listPrimitives()) {
       const positionAccessor = primitive.getAttribute("POSITION");
+      if (done.has(positionAccessor)) {
+        const [J, W] = done.get(positionAccessor);
+        primitive.setAttribute("JOINTS_0", J).setAttribute("WEIGHTS_0", W);
+        continue;
+      }
       const position = positionAccessor.getArray();
       const count = position.length / 3;
       const normalAccessor = primitive.getAttribute("NORMAL");
-      const rebound = rig.bindVertices ? { position: position.slice(), normal: normalAccessor?.getArray().slice() } : null;
+      // Float copies: a quantized normal array cannot hold the turned normals.
+      const rebound = rig.bindVertices ? { position: floatArray(positionAccessor), normal: normalAccessor ? floatArray(normalAccessor) : null } : null;
       const J = new Uint16Array(count * 4);
       const W = new Float32Array(count * 4);
       for (let v = 0; v < count; v += 1) {
@@ -139,11 +146,12 @@ export async function assemble(assetId, work = paths.work(assetId)) {
         }
       }
       if (rebound) {
-        positionAccessor.setArray(rebound.position);
-        if (rebound.normal) normalAccessor.setArray(rebound.normal);
+        setFloat(positionAccessor, rebound.position);
+        if (rebound.normal) setFloat(normalAccessor, rebound.normal);
       }
-      primitive.setAttribute("JOINTS_0", doc.createAccessor().setType("VEC4").setArray(J).setBuffer(buffer));
-      primitive.setAttribute("WEIGHTS_0", doc.createAccessor().setType("VEC4").setArray(W).setBuffer(buffer));
+      const skinAttributes = [doc.createAccessor().setType("VEC4").setArray(J).setBuffer(buffer), doc.createAccessor().setType("VEC4").setArray(W).setBuffer(buffer)];
+      done.set(positionAccessor, skinAttributes);
+      primitive.setAttribute("JOINTS_0", skinAttributes[0]).setAttribute("WEIGHTS_0", skinAttributes[1]);
     }
   }
   if (matcher.worst() > 1e-4) throw new Error(`vertex match off by ${matcher.worst()} m; mesh.glb and rig.json disagree`);
