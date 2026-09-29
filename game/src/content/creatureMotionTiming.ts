@@ -33,8 +33,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.40625
   },
   "animal_deer": {
-    "seconds": 1.08,
-    "contactNormalized": 0.43
+    "seconds": 1.466667,
+    "contactNormalized": 0.367
   },
   "animal_goat": {
     "seconds": 1.466667,
@@ -225,8 +225,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5416666666666666
   },
   "creature_crown_hart": {
-    "seconds": 1.08,
-    "contactNormalized": 0.43
+    "seconds": 1.466667,
+    "contactNormalized": 0.367
   },
   "creature_dewglass_weaver": {
     "seconds": 0.9399999976158142,
@@ -545,12 +545,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "fairy_garden_hart_faeholme": {
-    "seconds": 1.08,
-    "contactNormalized": 0.43
+    "seconds": 1.466667,
+    "contactNormalized": 0.367
   },
   "fairy_garden_hart_gloamgarden": {
-    "seconds": 1.08,
-    "contactNormalized": 0.43
+    "seconds": 1.466667,
+    "contactNormalized": 0.367
   },
   "fairy_garden_imp_faeholme": {
     "seconds": 1,
@@ -741,7 +741,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "animal_chicken_speckled": 1.5379,
   "animal_coyote": 12.7317,
   "animal_crab": 0.1656,
-  "animal_deer": 6.5502,
+  "animal_deer": 5.2915,
   "animal_goat": 3.8562,
   "animal_hog": 1.8725,
   "animal_ibex": 4.0242,
@@ -786,7 +786,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_cinder_ravager": 20.2245,
   "creature_cinderback_crag": 2.0188,
   "creature_cindercrest_salamander": 0.5968,
-  "creature_crown_hart": 6.5502,
+  "creature_crown_hart": 5.2436,
   "creature_dewglass_weaver": 4.0174,
   "creature_duskoak_lynx": 5.0455,
   "creature_fen_crawler": 1.3151,
@@ -851,8 +851,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_zombie": 4.0125,
   "fairy_garden_drake_faeholme": 3.9471,
   "fairy_garden_drake_gloamgarden": 3.9471,
-  "fairy_garden_hart_faeholme": 6.5502,
-  "fairy_garden_hart_gloamgarden": 6.5502,
+  "fairy_garden_hart_faeholme": 6.0733,
+  "fairy_garden_hart_gloamgarden": 5.2915,
   "fairy_garden_petalguard_faeholme": 7.5143,
   "fairy_garden_petalguard_gloamgarden": 4.8306,
   "fairy_garden_sapling_faeholme": 39.4999,
@@ -897,7 +897,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "animal_chicken_speckled": 1.115608,
   "animal_coyote": 2.217039,
   "animal_crab": 0.088941,
-  "animal_deer": 2.602279,
+  "animal_deer": 2.63976,
   "animal_goat": 2.105153,
   "animal_hog": 1.497964,
   "animal_ibex": 2.17491,
@@ -942,7 +942,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_cinder_ravager": 6.295176,
   "creature_cinderback_crag": 0.876931,
   "creature_cindercrest_salamander": 0.461289,
-  "creature_crown_hart": 2.602279,
+  "creature_crown_hart": 2.597886,
   "creature_dewglass_weaver": 0.418855,
   "creature_duskoak_lynx": 1.563636,
   "creature_fen_crawler": 0.235678,
@@ -1009,8 +1009,8 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "fairy_garden_drake_faeholme": 1.021382,
   "fairy_garden_drake_gloamgarden": 1.021382,
   "fairy_garden_frog_faeholme": 0.650854,
-  "fairy_garden_hart_faeholme": 2.602279,
-  "fairy_garden_hart_gloamgarden": 2.602279,
+  "fairy_garden_hart_faeholme": 3.003118,
+  "fairy_garden_hart_gloamgarden": 2.63976,
   "fairy_garden_petalguard_faeholme": 1.953366,
   "fairy_garden_petalguard_gloamgarden": 1.255735,
   "fairy_garden_sapling_faeholme": 8.036188,

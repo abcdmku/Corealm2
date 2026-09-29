@@ -9332,154 +9332,30 @@
         "animal",
         "territorial"
       ],
-      "bytes": 2112228,
+      "bytes": 2392024,
       "size": {
-        "x": 0.4380818809805801,
-        "y": 1.8743780930872604,
-        "z": 1.7093251502555757
+        "x": 0.438082,
+        "y": 1.874378,
+        "z": 1.709325
       },
       "base": {
-        "x": -0.21904230743279698,
-        "y": -0.00702947718736768,
-        "z": -0.6427481819332871
+        "x": -0.219042,
+        "y": -0.007029,
+        "z": -0.642748
       },
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Death",
-        "Attack",
-        "Hit"
+        "Attack"
       ],
-      "walkClipSeconds": 0.9666666388511658,
       "materials": [
         "animal_deer_mat"
       ],
-      "impliedWalkMps": 1.1216721226201816,
-      "impliedRunMps": 3.4474474408533786,
-      "runClipSeconds": 0.6333333253860474,
-      "sha256": "c99605e02c08caa1b670ea6daeebdfd801b651bf87596f75691ed2570d63bdd7",
+      "sha256": "4ce2fc7243ffa790ac2bc09b5d1c42875b5d5f88db56e283cd0dbde57be0e1e7",
       "groundY": -0.007,
       "triangles": 3728,
-      "attackSeconds": 1.0800000429153442,
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
-        "sourceGitBlob": "2bd3097872dbe768cf3a676e57ba34cfa0f427a5",
-        "donors": [],
-        "changes": [
-          "Removed retired directional hit clips; retained the original Hit and all other native curves."
-        ],
-        "provenance": {
-          "preservedNativeClips": [
-            "Idle",
-            "Walk",
-            "Run",
-            "Death",
-            "Attack",
-            "Hit"
-          ],
-          "geometryAndSkinWeightsUnchanged": true,
-          "normalizationOnly": true,
-          "requiresDevdocsReview": true
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 5.333333492279053,
-              "samples": 119,
-              "maximumVertexMotion": 0.4447030190909395,
-              "maximumSpanRatio": 1.0094793527087724,
-              "minimumSpanRatio": 0.9759766690600683,
-              "loopSeam": 0.000014603002978830995,
-              "edgeStretchP99": 1.140122971739891,
-              "maximumEdgeStretch": 1.6673559035704775,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 0.9666666388511658,
-              "samples": 121,
-              "maximumVertexMotion": 0.6731872480232519,
-              "maximumSpanRatio": 0.9958347013779947,
-              "minimumSpanRatio": 0.9649777619024501,
-              "loopSeam": 1.9554828489037457e-8,
-              "edgeStretchP99": 1.3182871686456874,
-              "maximumEdgeStretch": 2.954361725806114,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6333333253860474,
-              "samples": 121,
-              "maximumVertexMotion": 0.7470830169015011,
-              "maximumSpanRatio": 0.9899501686968802,
-              "minimumSpanRatio": 0.9381353269908098,
-              "loopSeam": 2.2930593567113484e-8,
-              "edgeStretchP99": 1.4097812897845432,
-              "maximumEdgeStretch": 2.4918485893112536,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 0.8333333134651184,
-              "samples": 58,
-              "maximumVertexMotion": 2.151489286925588,
-              "maximumSpanRatio": 1.0291890486589934,
-              "minimumSpanRatio": 0.8404060188490947,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4969694179610777,
-              "maximumEdgeStretch": 3.096338834398725,
-              "stretchedEdgeFraction": 0.00016869095816464237
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.0800000429153442,
-              "samples": 74,
-              "maximumVertexMotion": 0.3605890507752249,
-              "maximumSpanRatio": 1.0115803612351653,
-              "minimumSpanRatio": 0.9785751515169925,
-              "loopSeam": null,
-              "edgeStretchP99": 1.113234576553664,
-              "maximumEdgeStretch": 1.4079685564048476,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 38,
-              "maximumVertexMotion": 0.21161836100577752,
-              "maximumSpanRatio": 1.0040497690653791,
-              "minimumSpanRatio": 0.9762428978799664,
-              "loopSeam": null,
-              "edgeStretchP99": 1.055245724067262,
-              "maximumEdgeStretch": 1.3147225857271607,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:52:35.869Z",
-          "by": "codex",
-          "sha256": "c99605e02c08caa1b670ea6daeebdfd801b651bf87596f75691ed2570d63bdd7",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v1/animal_deer/evidence.json"
-        }
-      },
       "metadata": {
         "geometry": {
           "vertices": 2277,
@@ -9496,7 +9372,26 @@
         "devdocsAccepted": true,
         "rigAccepted": true,
         "motionAccepted": true
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death"
+        ],
+        "donor": {
+          "Attack": "Goat_Attack.fbx retargeted start-relative (head/neck full, shoulders 0.3, legs hold own Idle stance) from the animal_goat rig"
+        },
+        "authored": [],
+        "notes": "Native Animal pack deluxe takes spliced by node identity into the current production file (mesh, skin, textures unchanged). Idle 5.333s 144ch seam 1.00x Walk 0.967s 144ch seam 1.00x Run 0.667s 144ch +1 closing key seam 1.19x Death 0.833s 144ch seam 0.00x Attack 1.467s 96ch seam 0.00x"
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.137827,
+      "impliedRunMps": 2.645771,
+      "attackSeconds": 1.466667,
+      "contactNormalized": 0.367
     },
     {
       "id": "animal_coyote",
@@ -81489,33 +81384,28 @@
         "regional_variant",
         "crown_hart"
       ],
-      "bytes": 2924168,
+      "bytes": 3203960,
       "size": {
-        "x": 0.5018596148574699,
-        "y": 1.9262599592201493,
-        "z": 1.7093251502555757
+        "x": 0.50186,
+        "y": 1.92626,
+        "z": 1.709325
       },
       "base": {
-        "x": -0.2509295535359695,
-        "y": -0.00702947718736768,
-        "z": -0.6427481819332871
+        "x": -0.25093,
+        "y": -0.007029,
+        "z": -0.642748
       },
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Death",
-        "Attack",
-        "Hit"
+        "Attack"
       ],
-      "walkClipSeconds": 0.9666666388511658,
       "materials": [
         "animal_crown_hart_regal_coat_and_ivory_antlers"
       ],
-      "impliedWalkMps": 1.1216721226201816,
-      "impliedRunMps": 3.4474474408533786,
-      "runClipSeconds": 0.6333333253860474,
-      "sha256": "7aaf456792cdbe5bf25d3b7fcdfc6aeb00fc0eb9262a8557bac1dfc59435ff9b",
+      "sha256": "1475abe225d1dcd22a089143d19517c1c5e9647f3c2bb060cbebbf5c4a20a7e7",
       "groundY": -0.007029476345942853,
       "metadata": {
         "fairyCrownVariant": {
@@ -81560,8 +81450,6 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "attackSeconds": 1.0800000429153442,
-      "attackContactNormalized": 0.43,
       "sourceProvenance": {
         "productionFile": "game/public/assets/models/fairy-crown/creature_crown_hart.glb",
         "productionSha256": "0e91fc3cfb1e3e860fca38e896d6dda5473ad03c8e439cac2b925cf3ffa39abd",
@@ -81580,157 +81468,26 @@
         "builderSha256": "6140981a7ffa79c8416022a906bd2fbbe5ef9d1dd8fcbee02a50b32ecca7a6a3",
         "change": "Native skinned antlers widened progressively up to 52% at upper tines and raised 12% above local Y 143.5; base below Y 143.5, deer body, skin weights and eight clips retained exactly. Existing detailed coat/antler map contributes restrained warm textured fill under dim lab lighting."
       },
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
-      },
       "triangles": 3728,
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "31d27c44633634d91e369588c64ad4badad8e670e1f629e3fb9ec2c194afc89b",
-        "sourceGitBlob": "5cbf334c86564b2d8be17b940457979a7acc4406",
-        "donors": [],
-        "sourceMetadata": {
-          "fairyCrownVariant": {
-            "sourceAssetId": "animal_deer",
-            "sourceSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
-            "generator": "tools/fairy-crown-creatures/build.mjs",
-            "geometrySkinMotionUnchanged": true,
-            "regionId": "crownward",
-            "materialRecipe": {
-              "look": "hart",
-              "body": [
-                0.9,
-                1,
-                0.83
-              ],
-              "accent": [
-                0.78,
-                0.9,
-                1
-              ],
-              "glow": [
-                0.006,
-                0.014,
-                0.012
-              ]
-            },
-            "scope": "Existing source geometry, normals, UVs, skin, skeleton, animation and texture pixels preserved. Material factors only; scale belongs to species data."
-          }
-        },
-        "changes": [
-          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death"
         ],
-        "provenance": {
-          "preservedNativeClips": [
-            "Idle",
-            "Walk",
-            "Run",
-            "Death",
-            "Attack",
-            "Hit"
-          ],
-          "geometryAndSkinWeightsUnchanged": true,
-          "normalizationOnly": true,
-          "requiresDevdocsReview": true
+        "donor": {
+          "Attack": "Goat_Attack.fbx retargeted start-relative (head/neck full, shoulders 0.3, legs hold own Idle stance) from the animal_goat rig"
         },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 5.333333492279053,
-              "samples": 119,
-              "maximumVertexMotion": 0.4447030190909395,
-              "maximumSpanRatio": 1.015870632446806,
-              "minimumSpanRatio": 0.974029149376597,
-              "loopSeam": 0.000014327686832965605,
-              "edgeStretchP99": 1.140122971739891,
-              "maximumEdgeStretch": 1.6673559035704775,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 0.9666666388511658,
-              "samples": 121,
-              "maximumVertexMotion": 0.6731872480232519,
-              "maximumSpanRatio": 0.9950844893416709,
-              "minimumSpanRatio": 0.9653264263949003,
-              "loopSeam": 1.9186153633566632e-8,
-              "edgeStretchP99": 1.3182871686456874,
-              "maximumEdgeStretch": 2.954361725806114,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6333333253860474,
-              "samples": 121,
-              "maximumVertexMotion": 0.7470830169015011,
-              "maximumSpanRatio": 0.9889906864479525,
-              "minimumSpanRatio": 0.9387102939550331,
-              "loopSeam": 2.249827408786287e-8,
-              "edgeStretchP99": 1.4097812897845432,
-              "maximumEdgeStretch": 2.4918485893112536,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 0.8333333134651184,
-              "samples": 58,
-              "maximumVertexMotion": 2.2388104840147283,
-              "maximumSpanRatio": 1.0354760013030417,
-              "minimumSpanRatio": 0.8418742394809293,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4969694179610777,
-              "maximumEdgeStretch": 3.096338834398725,
-              "stretchedEdgeFraction": 0.00016795431642593214
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.0800000429153442,
-              "samples": 74,
-              "maximumVertexMotion": 0.37037837049986316,
-              "maximumSpanRatio": 1.0109087191627075,
-              "minimumSpanRatio": 0.9776830953594636,
-              "loopSeam": null,
-              "edgeStretchP99": 1.113234576553664,
-              "maximumEdgeStretch": 1.4079685564048476,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 38,
-              "maximumVertexMotion": 0.2291183955380527,
-              "maximumSpanRatio": 1.0040025476550796,
-              "minimumSpanRatio": 0.9765966992430102,
-              "loopSeam": null,
-              "edgeStretchP99": 1.055245724067262,
-              "maximumEdgeStretch": 1.3147225857271607,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:52:35.869Z",
-          "by": "codex",
-          "sha256": "7aaf456792cdbe5bf25d3b7fcdfc6aeb00fc0eb9262a8557bac1dfc59435ff9b",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_crown_hart/evidence.json"
-        }
-      }
+        "authored": [],
+        "notes": "Native Animal pack deluxe takes spliced by node identity into the current production file (mesh, skin, textures unchanged). Idle 5.333s 144ch seam 1.00x Walk 0.967s 144ch seam 1.00x Run 0.667s 144ch +1 closing key seam 1.19x Death 0.833s 144ch seam 0.00x Attack 1.467s 96ch seam 0.00x"
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.119778,
+      "impliedRunMps": 2.621795,
+      "attackSeconds": 1.466667,
+      "contactNormalized": 0.367
     },
     {
       "id": "creature_silverthorn_harrow",
@@ -93953,37 +93710,32 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 2625744,
+      "bytes": 2905536,
       "size": {
-        "x": 0.4380818809805801,
-        "y": 1.8743780930872604,
-        "z": 1.7093251502555757
+        "x": 0.438082,
+        "y": 1.874378,
+        "z": 1.709325
       },
       "base": {
-        "x": -0.21904230743279698,
-        "y": -0.00702947718736768,
-        "z": -0.6427481819332871
+        "x": -0.219042,
+        "y": -0.007029,
+        "z": -0.642748
       },
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Death",
-        "Attack",
-        "Hit"
+        "Attack"
       ],
-      "walkClipSeconds": 0.9666666388511658,
       "materials": [
         "animal_deer_mat_fairy_garden_hart_gloamgarden"
       ],
-      "impliedWalkMps": 1.1216721226201816,
-      "impliedRunMps": 3.4474474408533786,
-      "runClipSeconds": 0.6333333253860474,
-      "sha256": "de4e88cfbc728e28cf8a821d4c1e6bd5cfcdaead81e96f8e67e01456ea093fc0",
+      "sha256": "918986474c200c43b7e7f7fd87842df9278e0053c967e000a97ad59203185154",
       "groundY": -0.007,
       "sourceProvenance": {
         "sourceAssetId": "animal_deer",
-        "sourceSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+        "sourceSha256": "4ce2fc7243ffa790ac2bc09b5d1c42875b5d5f88db56e283cd0dbde57be0e1e7",
         "generator": "tools/fairy-population-assets.ts",
         "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
         "generatedTexture": {
@@ -94013,125 +93765,6 @@
         "motionAccepted": true
       },
       "triangles": 3728,
-      "attackSeconds": 1.0800000429153442,
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "5efb7a9503ab2f56fb05a119fb9f10c6ed05d39d877d6c00c8683c6e89c3676a",
-        "sourceGitBlob": "8344c33b0502b53147a72b04d0ad9ac854dac363",
-        "donors": [],
-        "changes": [
-          "Removed retired directional hit clips; retained the original Hit and all other native curves."
-        ],
-        "provenance": {
-          "preservedNativeClips": [
-            "Idle",
-            "Walk",
-            "Run",
-            "Death",
-            "Attack",
-            "Hit"
-          ],
-          "geometryAndSkinWeightsUnchanged": true,
-          "normalizationOnly": true,
-          "requiresDevdocsReview": true
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 5.333333492279053,
-              "samples": 119,
-              "maximumVertexMotion": 0.4447030190909395,
-              "maximumSpanRatio": 1.0094793527087724,
-              "minimumSpanRatio": 0.9759766690600683,
-              "loopSeam": 0.000014603002978830995,
-              "edgeStretchP99": 1.140122971739891,
-              "maximumEdgeStretch": 1.6673559035704775,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 0.9666666388511658,
-              "samples": 121,
-              "maximumVertexMotion": 0.6731872480232519,
-              "maximumSpanRatio": 0.9958347013779947,
-              "minimumSpanRatio": 0.9649777619024501,
-              "loopSeam": 1.9554828489037457e-8,
-              "edgeStretchP99": 1.3182871686456874,
-              "maximumEdgeStretch": 2.954361725806114,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6333333253860474,
-              "samples": 121,
-              "maximumVertexMotion": 0.7470830169015011,
-              "maximumSpanRatio": 0.9899501686968802,
-              "minimumSpanRatio": 0.9381353269908098,
-              "loopSeam": 2.2930593567113484e-8,
-              "edgeStretchP99": 1.4097812897845432,
-              "maximumEdgeStretch": 2.4918485893112536,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 0.8333333134651184,
-              "samples": 58,
-              "maximumVertexMotion": 2.151489286925588,
-              "maximumSpanRatio": 1.0291890486589934,
-              "minimumSpanRatio": 0.8404060188490947,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4969694179610777,
-              "maximumEdgeStretch": 3.096338834398725,
-              "stretchedEdgeFraction": 0.00016869095816464237
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.0800000429153442,
-              "samples": 74,
-              "maximumVertexMotion": 0.3605890507752249,
-              "maximumSpanRatio": 1.0115803612351653,
-              "minimumSpanRatio": 0.9785751515169925,
-              "loopSeam": null,
-              "edgeStretchP99": 1.113234576553664,
-              "maximumEdgeStretch": 1.4079685564048476,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 38,
-              "maximumVertexMotion": 0.21161836100577752,
-              "maximumSpanRatio": 1.0040497690653791,
-              "minimumSpanRatio": 0.9762428978799664,
-              "loopSeam": null,
-              "edgeStretchP99": 1.055245724067262,
-              "maximumEdgeStretch": 1.3147225857271607,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:52:35.869Z",
-          "by": "codex",
-          "sha256": "de4e88cfbc728e28cf8a821d4c1e6bd5cfcdaead81e96f8e67e01456ea093fc0",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v1/fairy_garden_hart_gloamgarden/evidence.json"
-        }
-      },
       "metadata": {
         "geometry": {
           "vertices": 2277,
@@ -94142,7 +93775,26 @@
           "impliedWalkMps": 1.1216721226201816,
           "impliedRunMps": 3.4474474408533786
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death"
+        ],
+        "donor": {
+          "Attack": "Goat_Attack.fbx retargeted start-relative (head/neck full, shoulders 0.3, legs hold own Idle stance) from the animal_goat rig"
+        },
+        "authored": [],
+        "notes": "Native Animal pack deluxe takes spliced by node identity into the current production file (mesh, skin, textures unchanged). Idle 5.333s 144ch seam 1.00x Walk 0.967s 144ch seam 1.00x Run 0.667s 144ch +1 closing key seam 1.19x Death 0.833s 144ch seam 0.00x Attack 1.467s 96ch seam 0.00x"
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.137827,
+      "impliedRunMps": 2.645771,
+      "attackSeconds": 1.466667,
+      "contactNormalized": 0.367
     },
     {
       "id": "fairy_garden_sapling_gloamgarden",
@@ -95535,33 +95187,28 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 2810828,
+      "bytes": 3090624,
       "size": {
-        "x": 0.5505114406194562,
-        "y": 2.246455380979637,
-        "z": 1.9828171742964682
+        "x": 0.550511,
+        "y": 2.246455,
+        "z": 1.982817
       },
       "base": {
-        "x": -0.2752554371647791,
-        "y": -0.008154193537346612,
-        "z": -0.7455878910426132
+        "x": -0.275255,
+        "y": -0.008154,
+        "z": -0.745588
       },
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Death",
-        "Attack",
-        "Hit"
+        "Attack"
       ],
-      "walkClipSeconds": 0.9666666388511658,
       "materials": [
         "Starhorn fur and native moon-ivory antlers"
       ],
-      "impliedWalkMps": 1.1216721226201816,
-      "impliedRunMps": 3.4474474408533786,
-      "runClipSeconds": 0.6333333253860474,
-      "sha256": "9fda762c68db1e5222a56cd75c44d442c4398fd52d6ff44229337b8bad8b6fde",
+      "sha256": "96eb4eae0a5738355a291e025e65f4f15534a373dc55e6625487f638265f5d33",
       "groundY": -0.008154192561293802,
       "sourceProvenance": {
         "productionFile": "game/public/assets/models/fairy-garden/fairy_garden_hart_faeholme.glb",
@@ -95587,131 +95234,7 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "attackSeconds": 1.0800000429153442,
-      "attackContactNormalized": 0.43,
-      "acceptanceEvidence": {
-        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
-      },
       "triangles": 3728,
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "d2a5b7c57ec92138881d873ddc624d8765ef375c32c90752e19cc4a9a12d28b4",
-        "sourceGitBlob": "68b3d1f659f6a9d0d13e6a7900c4840fed844462",
-        "donors": [],
-        "changes": [
-          "Removed retired directional hit clips; retained the original Hit and all other native curves."
-        ],
-        "provenance": {
-          "preservedNativeClips": [
-            "Idle",
-            "Walk",
-            "Run",
-            "Death",
-            "Attack",
-            "Hit"
-          ],
-          "geometryAndSkinWeightsUnchanged": true,
-          "normalizationOnly": true,
-          "requiresDevdocsReview": true
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [
-            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
-          ],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 5.333333492279053,
-              "samples": 119,
-              "maximumVertexMotion": 0.5158555021454898,
-              "maximumSpanRatio": 1.0157485790129137,
-              "minimumSpanRatio": 0.9757619236828771,
-              "loopSeam": 0.000014313864328796872,
-              "edgeStretchP99": 1.140122971739874,
-              "maximumEdgeStretch": 1.6673559035704837,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 0.9666666388511658,
-              "samples": 121,
-              "maximumVertexMotion": 0.7808972077069719,
-              "maximumSpanRatio": 0.9949136670106291,
-              "minimumSpanRatio": 0.9651990081573432,
-              "loopSeam": 1.9167643913357277e-8,
-              "edgeStretchP99": 1.3182871686456878,
-              "maximumEdgeStretch": 2.9543617258061166,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6333333253860474,
-              "samples": 121,
-              "maximumVertexMotion": 0.866616299605741,
-              "maximumSpanRatio": 0.9887459521603189,
-              "minimumSpanRatio": 0.9384721723248776,
-              "loopSeam": 2.2476569096215308e-8,
-              "edgeStretchP99": 1.4097812897845443,
-              "maximumEdgeStretch": 2.4918485893112567,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 0.8333333134651184,
-              "samples": 58,
-              "maximumVertexMotion": 2.6085074201190266,
-              "maximumSpanRatio": 1.035223217048756,
-              "minimumSpanRatio": 0.8404607363513814,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4969694179610704,
-              "maximumEdgeStretch": 3.096338834398734,
-              "stretchedEdgeFraction": 0.0001680672268907563
-            },
-            {
-              "name": "Attack",
-              "seconds": 1.0800000429153442,
-              "samples": 74,
-              "maximumVertexMotion": 0.43191029680511633,
-              "maximumSpanRatio": 1.0108377597089095,
-              "minimumSpanRatio": 0.9773859310378981,
-              "loopSeam": null,
-              "edgeStretchP99": 1.1132345765536753,
-              "maximumEdgeStretch": 1.4079685564048494,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.5,
-              "samples": 38,
-              "maximumVertexMotion": 0.2676130043710118,
-              "maximumSpanRatio": 1.0039270071259954,
-              "minimumSpanRatio": 0.976407107952351,
-              "loopSeam": null,
-              "edgeStretchP99": 1.055245724067261,
-              "maximumEdgeStretch": 1.31472258572718,
-              "stretchedEdgeFraction": 0
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T19:52:35.869Z",
-          "by": "codex",
-          "sha256": "9fda762c68db1e5222a56cd75c44d442c4398fd52d6ff44229337b8bad8b6fde",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v1/fairy_garden_hart_faeholme/evidence.json"
-        }
-      },
       "metadata": {
         "geometry": {
           "vertices": 2277,
@@ -95722,7 +95245,26 @@
           "impliedWalkMps": 1.1216721226201816,
           "impliedRunMps": 3.4474474408533786
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death"
+        ],
+        "donor": {
+          "Attack": "Goat_Attack.fbx retargeted start-relative (head/neck full, shoulders 0.3, legs hold own Idle stance) from the animal_goat rig"
+        },
+        "authored": [],
+        "notes": "Native Animal pack deluxe takes spliced by node identity into the current production file (mesh, skin, textures unchanged). Idle 5.333s 144ch seam 1.00x Walk 0.967s 144ch seam 1.00x Run 0.667s 144ch +1 closing key seam 1.19x Death 0.833s 144ch seam 0.00x Attack 1.467s 96ch seam 0.00x"
+      },
+      "walkClipSeconds": 0.966667,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.294447,
+      "impliedRunMps": 3.036637,
+      "attackSeconds": 1.466667,
+      "contactNormalized": 0.367
     },
     {
       "id": "fairy_garden_sapling_faeholme",
