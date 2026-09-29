@@ -46,7 +46,7 @@
       "clips": {
         "Idle": { "donor": "chicken", "clip": "Idle", "loop": true },
         "Walk": { "donor": "chicken", "clip": "Walk", "loop": true },
-        "Run": { "donor": "chicken", "clip": "Run", "loop": true },
+        "Run": { "donor": "chicken", "clip": "Walk", "loop": true, "speed": 1.6 },
         "Attack": {
           "donor": "chicken_reach",
           "clip": ["PeckDown", "PeckUp"]
