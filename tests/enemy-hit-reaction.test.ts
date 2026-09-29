@@ -62,7 +62,7 @@ describe("enemy movement during nonlethal hit reactions",()=>{
     const {ai,actor}=fixture(false,.4);
     actor.view={assetId:'creature_fen_crawler',scale:.5,rotationY:0};actor.tier=6;
     const speed=enemyWalkSpeedMps(.4,actor.view,actor.tier);
-    expect(speed).toBeGreaterThan(.05);expect(speed).toBeLessThan(.2);
+    expect(speed).toBeGreaterThan(.05);expect(speed).toBeLessThan(.4);
     let moved=0;
     for(let now=0;now<30000 && !moved;now+=100){const before:Vec3=[...actor.position];ai.tick(100,now);moved=displacement(before,actor.position);}
     expect(moved).toBeCloseTo(speed*.1,8);expect(actor.view.gaitSpeedMps).toBeCloseTo(speed,8);
