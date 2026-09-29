@@ -85,7 +85,7 @@ for (const id of ids) {
   if (!destinationRelative?.startsWith("models/") || !destinationRelative.endsWith(".glb")) throw new Error(`${id}: bad destination ${destinationRelative}`);
   const source = path.resolve(path.dirname(catalogFile), candidate.candidateFile ?? candidate.file!);
   const m: MotionMeasurement = await measureCreatureGlb(source);
-  const { candidateFile: _c, contactNormalized: authoredContact, groundY: authoredGround, maxRunCadenceHz: cadence, ...fields } = candidate;
+  const { candidateFile: _c, contactNormalized: authoredContact, groundY: authoredGround, maxRunCadenceHz: cadence, hover, ...fields } = candidate;
   const contact = typeof authoredContact === "number" ? authoredContact : m.contactNormalized;
   const bytes = withAttackContact(await readFile(source), contact);
   const entry: Entry = { ...(existing ?? {}), ...fields, id, file: destinationRelative } as Entry;
@@ -96,6 +96,9 @@ for (const id of ids) {
     // A hovering or wading body stands on its authored origin, not on its lowest idle point.
     groundY: typeof authoredGround === "number" ? authoredGround : m.groundY,
   });
+  // A hovering body has no planted stride: whatever grazes the floor is not a sole, so it keeps the
+  // shared speeds and plays its cycles at their own tempo.
+  if (hover === true) { m.impliedWalkMps = undefined; m.impliedRunMps = undefined; }
   if (m.walkClipSeconds) entry.walkClipSeconds = m.walkClipSeconds;
   if (m.runClipSeconds) entry.runClipSeconds = m.runClipSeconds;
   if (m.impliedWalkMps) entry.impliedWalkMps = m.impliedWalkMps;
