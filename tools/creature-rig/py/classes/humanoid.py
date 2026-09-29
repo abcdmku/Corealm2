@@ -11,6 +11,7 @@ prior where the mesh has no feature.
 import numpy as np
 
 from crlib.body import corner, resample
+from crlib.landmarks import biped_tips
 from crlib.mathx import normalize
 from crlib.skeleton import Skeleton
 
@@ -98,53 +99,20 @@ def _source_joints(source):
 def fit(body, donor, profile, source=None):
     H = body.height
     legs = profile.get("legs", True)
-    # The torso is the thickest part on the midline (the intake centres the feet on x=0). A big
-    # sleeve, a held censer or a shield can be thicker, so the search stays near the midline.
-    x = body.origin[0] + (np.arange(body.dt.shape[0]) + 0.5) * body.h
-    y = body.origin[1] + (np.arange(body.dt.shape[1]) + 0.5) * body.h - body.min[1]
-    torso = (np.abs(x) < 0.1 * H)[:, None, None] & ((y > 0.45 * H) & (y < 0.85 * H))[None, :, None]
-    seed = body.to_world(np.unravel_index(np.argmax(np.where(torso, body.dt, -1)), body.dt.shape))
-    ext, dist, pred = body.extremities(seed, 0.07 * H, 0.12 * H)
+    # Seed, head, feet and hands come from the shared biped landmarks (crlib/landmarks.py): the
+    # head on the spine's column (not an antenna or branch tip), feet told from floor-length
+    # knuckles by where their paths part, hands on paths that run down the spine.
+    tips = biped_tips(body, legs=legs)
+    seed, ext, pred = tips["seed"], tips["ext"], tips["pred"]
+    head_tip, feet, hands = tips["head"], tips["feet"], tips["hands"]
+    head_dist, head_pred = tips["head_dist"], tips["head_pred"]
+    others = [e for e in ext if e is not head_tip]
     nodes = {id(e): _path_nodes(pred, e["node"]) for e in ext}
     world = body.to_world(body.nodes)
     pos = lambda e: e["position"]
 
-    # Head top: the highest tip near the body's midline.
-    central = [e for e in ext if abs(pos(e)[0] - seed[0]) < 0.15 * H and pos(e)[1] > seed[1]]
-    if not central:
-        # Antlers, horns or a crest split the crown into side tips: the head top is then the
-        # highest core point on the midline above the torso.
-        world_nodes = body.to_world(body.nodes)
-        mid = np.nonzero(np.abs(world_nodes[:, 0] - seed[0]) < 0.08 * H)[0]
-        top = int(mid[np.argmax(world_nodes[mid, 1])])
-        central = [{"node": top, "position": world_nodes[top], "distance": 0.0}]
-        ext = ext + central
-    head_tip = max(central, key=lambda e: pos(e)[1])
-    others = [e for e in ext if e is not head_tip]
-
-    feet = {}
-    if legs:
-        low = [e for e in others if pos(e)[1] < 0.15 * H]
-        for side, sign in (("l", 1), ("r", -1)):
-            cands = [e for e in low if sign * (pos(e)[0] - seed[0]) > 0.02 * H]
-            if not cands:
-                raise RuntimeError(f"no {side} foot tip found; set legs:false for a floating body")
-            feet[side] = max(cands, key=lambda e: pos(e)[2] - pos(e)[1])
-    # Hand tips (sides measured from the midline x=0, where the intake centres the feet; the
-    # thickest point can sit off-centre beside a held censer): the lateral tips farthest from the head along the body (a knuckle or a thumb is
-    # a tip too, but nearer).
-    head_dist, head_pred = body.geodesic(pos(head_tip))
-    hands = {}
-    for side, sign in (("l", 1), ("r", -1)):
-        cands = [e for e in others if e not in feet.values() and pos(e)[1] > 0.2 * H and sign * pos(e)[0] > 0.1 * H]
-        if not cands:
-            raise RuntimeError(f"no {side} hand tip found")
-        reach = max(sign * pos(e)[0] for e in cands)
-        cands = [e for e in cands if sign * pos(e)[0] >= 0.6 * reach]
-        hands[side] = max(cands, key=lambda e: head_dist[e["node"]])
-
     sk = Skeleton()
-    notes = {"seed": seed.tolist(), "tips": {k: pos(v).tolist() for k, v in {**{"head": head_tip}, **{f"hand_{s}": e for s, e in hands.items()}, **{f"toe_{s}": e for s, e in feet.items()}}.items()}}
+    notes = {"landmarks": tips["notes"], "seed": seed.tolist(), "tips": {k: pos(v).tolist() for k, v in {**{"head": head_tip}, **{f"hand_{s}": e for s, e in hands.items()}, **{f"toe_{s}": e for s, e in feet.items()}}.items()}}
 
     # ---------------------------------------------------------------- arms
     # Walking in along the medial path from the hand tip towards the head, a probe from the arm
