@@ -1,0 +1,30 @@
+{
+  "donors": {
+    "wasp": { "ref": "quat_enemy_wasp" }
+  },
+  "primary": "wasp",
+  "profiles": {
+    "wasp": {
+      "body": "insect",
+      "hipMode": "vertical",
+      "clips": {
+        "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
+        "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
+        "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
+        "Attack": { "donor": "wasp", "clip": "Wasp_Attack" },
+        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
+      }
+    },
+    "fae": {
+      "body": "fae",
+      "hipMode": "vertical",
+      "clips": {
+        "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
+        "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
+        "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
+        "Attack": { "donor": "wasp", "clip": "Wasp_Attack" },
+        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
+      }
+    }
+  }
+}
