@@ -51,12 +51,12 @@ interface Spec { options: () => Promise<TransplantOptions>; provenance: Provenan
 const state = async (as: string, source: Promise<NativeSource>, clip: string): Promise<NativeState> => ({ as, source: await source, clip });
 
 // ---- Dungeon Skeletons Demo: the demo ships only the onehand Idle/Walk/Attack takes.
-const skeleton = (): Spec => ({
+const skeleton = (prop?: string): Spec => ({
   options: async () => ({ keep: ['Death'], rotation: 'raw', translation: 'raw',
     states: await Promise.all([state('Idle', skeletonSource(), 'idle_A'), state('Walk', skeletonSource(), 'walk'), state('Attack', skeletonSource(), 'attack_A')]) }),
   provenance: { native: ['Idle', 'Walk', 'Attack'], donor: {}, authored: [], retained: { Death: 'Current production Death kept unchanged (UAL Death01 retarget): needs death' },
     notes: 'DS_onehand_idle_A / DS_onehand_walk / DS_onehand_attack_A, FBX takes copied onto the production Bip001 rig unchanged. No SkeletonGround lift, no Run (runtime Walk fallback), no Hit (runtime overlay). Role-arm overrides and authored bow/staff attacks removed.' },
-  flags: ['needs death'],
+  flags: ['needs death', ...(prop ? [prop] : [])],
 });
 
 // ---- Danimal roach: every state native, run = native Flee strip.
@@ -126,7 +126,11 @@ const noRetime = 'No root pinning beyond the UAL root, no retime, no IK, no floo
 const goblinArcherAttack = (process.env.ARCHER_ATTACK ?? 'Spell_Simple_Shoot') as string;
 
 export const SPECS: Record<string, Spec> = {
-  ...Object.fromEntries(['soldier', 'archer', 'mage'].flatMap(role => [`creature_skeleton_${role}`, `creature_skeleton_${role}_elite`]).map(id => [id, skeleton()])),
+  ...Object.fromEntries(Object.entries({
+    soldier: undefined,
+    archer: 'prop review: the bow is swung like the demo sword; in Walk its lower limb crosses the legs',
+    mage: 'prop review: the staff is swung like the demo sword; its foot dips ~5 cm below the floor in Walk and sweeps into it in Attack',
+  }).flatMap(([role, prop]) => [`creature_skeleton_${role}`, `creature_skeleton_${role}_elite`].map(id => [id, skeleton(prop)]))),
   creature_cave_roach: roach(),
   creature_wild_goblin: goblin(),
   creature_chalk_warden: earth(),
