@@ -17387,8 +17387,8 @@
         "articulated",
         "modeled-feathers"
       ],
-      "bytes": 2908376,
-      "sha256": "5532c9506946cbfa722671b066550fd89aae75f4d086ae9f9b0b438300ef3f2c",
+      "bytes": 3003172,
+      "sha256": "c73304d6ba0b5dca5f496f1dcc01b3acd15f8cd76be8b6f8ed6bd7dedb873d56",
       "size": {
         "x": 0.468289,
         "y": 1.625855,
@@ -17416,7 +17416,6 @@
       "animations": [
         "Idle",
         "Walk",
-        "Run",
         "Attack",
         "Death"
       ],
@@ -17497,25 +17496,22 @@
         "donor": {
           "Idle": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Idle",
           "Walk": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Walk",
-          "Run": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Run",
           "Attack": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: PeckDown + PeckUp",
           "Death": "janpec Animal pack deluxe (Chicken), Unity Asset Store licence: Die"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (bird/wader): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Bird class, wader profile (strideScale 0.5, hipMotion 0.6, no wing bones). Blender bone heat finds no solution on this many-piece sculpt; weights are distance weights with legs kept off the belly, whole toes to their own foot, and loose feathers/scales/claws bound whole to one bone. Attack is the chicken Eat peck (frames 1-20 spliced to 214-230). The neck is IK-solved to the chicken head path in Idle/Walk/Run (head-bob); Attack and Death use the chicken neck angles. Hit omitted (runtime fallback).",
+        "notes": "Rebuilt by tools/creature-rig (bird/wader): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand.",
         "clipSeconds": {
           "Idle": 5.9666666984558105,
           "Walk": 1,
-          "Run": 0.5333333611488342,
           "Attack": 1.1666666269302368,
           "Death": 1.4666666984558105
         },
         "sourceFile": "game/public/assets/models/creature/creature_blackwater_heron.glb",
-        "sourceSha256": "8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae"
+        "sourceSha256": "5532c9506946cbfa722671b066550fd89aae75f4d086ae9f9b0b438300ef3f2c"
       },
       "walkClipSeconds": 1,
-      "runClipSeconds": 0.533333,
-      "impliedRunMps": 2.396737,
+      "impliedWalkMps": 1.086337,
       "attackSeconds": 1.166667,
       "contactNormalized": 0.35
     },
