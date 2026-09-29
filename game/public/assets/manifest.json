@@ -65195,8 +65195,8 @@
         "ground",
         "horn"
       ],
-      "bytes": 4816936,
-      "sha256": "ff77e8e203c960a74fda2ed382c3a289506914f23bd3465554ee903beb627a7c",
+      "bytes": 4815648,
+      "sha256": "7cfbe835c31ff303847895927b0989b48d2c24a6577c569109da2236ac284bdd",
       "size": {
         "x": 1.256562,
         "y": 2.048423,
@@ -65238,7 +65238,7 @@
         "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
         "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
         "change": "Image-generated UV-aligned heated plate albedo and derived crack emission. Original geometry, rig, clips, normal map and ORM retained.",
-        "sourceSha256": "ff77e8e203c960a74fda2ed382c3a289506914f23bd3465554ee903beb627a7c"
+        "sourceSha256": "7cfbe835c31ff303847895927b0989b48d2c24a6577c569109da2236ac284bdd"
       },
       "metadata": {
         "id": "furnace_grazer",
