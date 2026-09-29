@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "f633a6b5becef31cbadcdaa5cca8ac7629c2ad82973bd578cdadab5722e86947",
-  "formulaRevision": "d608bb32acb0da11ca8a91a70d50cd58231f8e1dbf7e1469fc4a57caa76ac4ec",
+  "revision": "87d65d8f63b9da6461ea1743fd84e3689ae4ecbe92619640369a203f530d1ed1",
+  "formulaRevision": "49069571ecea93ff48856abf883b30d3e56f01ce9f867e20709fcdb129cf091f",
   "tables": {
     "items": [
       {
@@ -27110,7 +27110,7 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35223,7 +35223,7 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35321,7 +35321,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35404,7 +35404,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35474,7 +35474,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35544,7 +35544,7 @@
           "source": {
             "author": "Quaternius; Blink staff",
             "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35626,7 +35626,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35696,7 +35696,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35766,7 +35766,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35836,7 +35836,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35906,7 +35906,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -35976,7 +35976,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36046,7 +36046,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36128,7 +36128,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36198,7 +36198,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36338,7 +36338,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36408,7 +36408,7 @@
           "source": {
             "author": "gavlig; replacement rock maps by Corealm",
             "license": "CC0-1.0 source; original project replacement maps",
-            "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36495,7 +36495,7 @@
           "source": {
             "author": "piacenti",
             "license": "CC-BY-3.0",
-            "generator": "tools/rpg-bestiary/earth-elemental-source/earth.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36565,7 +36565,7 @@
           "source": {
             "author": "gavlig; replacement rock maps by Corealm",
             "license": "CC0-1.0 source; original project replacement maps",
-            "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -36705,7 +36705,7 @@
           "source": {
             "author": "User / Corealm",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -38234,7 +38234,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -38317,7 +38317,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -38400,7 +38400,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -38483,7 +38483,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -38566,7 +38566,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -38649,7 +38649,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -39056,7 +39056,7 @@
           "source": {
             "author": "Danimal; body xGhostx7; knife Wind astella",
             "license": "CC-BY-3.0",
-            "generator": "tools/rpg-bestiary/mocap-goblin-source/goblin.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -39126,7 +39126,7 @@
           "source": {
             "author": "piacenti",
             "license": "CC-BY-3.0",
-            "generator": "tools/rpg-bestiary/troll-mauler-source/index.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -39196,7 +39196,7 @@
           "source": {
             "author": "Atmostatic; animation and textures by Danimal",
             "license": "CC-BY-SA-3.0",
-            "generator": "tools/rpg-bestiary/roach-source/roach.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -40997,7 +40997,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -41303,7 +41303,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -41394,7 +41394,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -41538,7 +41538,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -41737,7 +41737,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -41882,7 +41882,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -42027,7 +42027,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -42172,7 +42172,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -42317,7 +42317,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "kind": "rpg"
@@ -96080,7 +96080,7 @@
             "source": {
               "author": "Corealm / Tripo Studio",
               "license": "LicenseRef-Corealm-Original",
-              "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -96210,7 +96210,7 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -135154,7 +135154,7 @@
             "source": {
               "author": "Corealm / Tripo Studio",
               "license": "LicenseRef-Corealm-Original",
-              "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -135312,7 +135312,7 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -135438,7 +135438,7 @@
             "source": {
               "author": "Corealm / Tripo",
               "license": "LicenseRef-Corealm-Original",
-              "generator": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/build-candidate.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -135566,7 +135566,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -135677,7 +135677,7 @@
             "source": {
               "author": "Quaternius",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -135799,7 +135799,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -135913,7 +135913,7 @@
             "source": {
               "author": "Quaternius",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -136035,7 +136035,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -136149,7 +136149,7 @@
             "source": {
               "author": "Quaternius; Blink staff",
               "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -136291,7 +136291,7 @@
           "source": {
             "author": "Quaternius; Blink staff",
             "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -136413,7 +136413,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -136535,7 +136535,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -136649,7 +136649,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -136771,7 +136771,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -136885,7 +136885,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -137007,7 +137007,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -137121,7 +137121,7 @@
             "source": {
               "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -137243,7 +137243,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -137357,7 +137357,7 @@
             "source": {
               "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -137479,7 +137479,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -137593,7 +137593,7 @@
             "source": {
               "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -137715,7 +137715,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -137829,7 +137829,7 @@
             "source": {
               "author": "Quaternius",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -137971,7 +137971,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -138093,7 +138093,7 @@
             "source": {
               "author": "Corealm / Tripo",
               "license": "LicenseRef-Tripo-Generated",
-              "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -138215,7 +138215,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -138329,7 +138329,7 @@
             "source": {
               "author": "Corealm / Tripo",
               "license": "LicenseRef-Tripo-Generated",
-              "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -138451,7 +138451,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -138801,7 +138801,7 @@
             "source": {
               "author": "Quaternius",
               "license": "CC0-1.0",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -138923,7 +138923,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -139037,7 +139037,7 @@
             "source": {
               "author": "gavlig; replacement rock maps by Corealm",
               "license": "CC0-1.0 source; original project replacement maps",
-              "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -139192,7 +139192,7 @@
           "source": {
             "author": "gavlig; replacement rock maps by Corealm",
             "license": "CC0-1.0 source; original project replacement maps",
-            "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -139322,7 +139322,7 @@
             "source": {
               "author": "piacenti",
               "license": "CC-BY-3.0",
-              "generator": "tools/rpg-bestiary/earth-elemental-source/earth.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -139444,7 +139444,7 @@
           "source": {
             "author": "piacenti",
             "license": "CC-BY-3.0",
-            "generator": "tools/rpg-bestiary/earth-elemental-source/earth.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -139558,7 +139558,7 @@
             "source": {
               "author": "gavlig; replacement rock maps by Corealm",
               "license": "CC0-1.0 source; original project replacement maps",
-              "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -139680,7 +139680,7 @@
           "source": {
             "author": "gavlig; replacement rock maps by Corealm",
             "license": "CC0-1.0 source; original project replacement maps",
-            "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -140030,7 +140030,7 @@
             "source": {
               "author": "User / Corealm",
               "license": "LicenseRef-Corealm-Original",
-              "generator": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -140152,7 +140152,7 @@
           "source": {
             "author": "User / Corealm",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -143792,7 +143792,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -144110,7 +144110,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -146530,7 +146530,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -146848,7 +146848,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -150082,7 +150082,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -150400,7 +150400,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -150870,7 +150870,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -151053,7 +151053,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -151216,7 +151216,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -151407,7 +151407,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -151578,7 +151578,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -151761,7 +151761,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -151924,7 +151924,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -152115,7 +152115,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -152286,7 +152286,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -152469,7 +152469,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -152632,7 +152632,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -152823,7 +152823,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -154034,7 +154034,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -154352,7 +154352,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -154740,7 +154740,7 @@
             "source": {
               "author": "Danimal; body xGhostx7; knife Wind astella",
               "license": "CC-BY-3.0",
-              "generator": "tools/rpg-bestiary/mocap-goblin-source/goblin.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -154862,7 +154862,7 @@
           "source": {
             "author": "Danimal; body xGhostx7; knife Wind astella",
             "license": "CC-BY-3.0",
-            "generator": "tools/rpg-bestiary/mocap-goblin-source/goblin.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -154976,7 +154976,7 @@
             "source": {
               "author": "piacenti",
               "license": "CC-BY-3.0",
-              "generator": "tools/rpg-bestiary/troll-mauler-source/index.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -155098,7 +155098,7 @@
           "source": {
             "author": "piacenti",
             "license": "CC-BY-3.0",
-            "generator": "tools/rpg-bestiary/troll-mauler-source/index.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -155212,7 +155212,7 @@
             "source": {
               "author": "Atmostatic; animation and textures by Danimal",
               "license": "CC-BY-SA-3.0",
-              "generator": "tools/rpg-bestiary/roach-source/roach.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -155323,7 +155323,7 @@
           "source": {
             "author": "Atmostatic; animation and textures by Danimal",
             "license": "CC-BY-SA-3.0",
-            "generator": "tools/rpg-bestiary/roach-source/roach.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -163587,7 +163587,7 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -164934,7 +164934,7 @@
           "source": {
             "author": "Corealm / Tripo Studio",
             "license": "LicenseRef-Corealm-Original",
-            "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -170033,7 +170033,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -170221,7 +170221,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -171120,7 +171120,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -171439,7 +171439,7 @@
           "source": {
             "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -171606,7 +171606,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -171795,7 +171795,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -171961,7 +171961,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -172150,7 +172150,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -172467,7 +172467,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -172633,7 +172633,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -172822,7 +172822,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -173570,7 +173570,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -173759,7 +173759,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -174077,7 +174077,7 @@
           "source": {
             "author": "Corealm / Tripo",
             "license": "LicenseRef-Tripo-Generated",
-            "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -174244,7 +174244,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -174433,7 +174433,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -174751,7 +174751,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -174918,7 +174918,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -175107,7 +175107,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -175425,7 +175425,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -175592,7 +175592,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -175781,7 +175781,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -176099,7 +176099,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -176266,7 +176266,7 @@
             "source": {
               "author": "Polygon Blacksmith",
               "license": "Standard Unity Asset Store EULA; local entitlement cache",
-              "generator": "tools/rpg-bestiary/build.mjs"
+              "generator": "tools/creature-rig/run.mjs"
             },
             "acceptance": "candidate",
             "kind": "rpg"
@@ -176455,7 +176455,7 @@
           "source": {
             "author": "Polygon Blacksmith",
             "license": "Standard Unity Asset Store EULA; local entitlement cache",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -176773,7 +176773,7 @@
           "source": {
             "author": "Quaternius",
             "license": "CC0-1.0",
-            "generator": "tools/rpg-bestiary/build.mjs"
+            "generator": "tools/creature-rig/run.mjs"
           },
           "acceptance": "candidate",
           "stats": {
@@ -229775,7 +229775,7 @@
         "source": {
           "author": "Corealm / Tripo Studio",
           "license": "LicenseRef-Corealm-Original",
-          "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244224,7 +244224,7 @@
         "source": {
           "author": "Corealm / Tripo Studio",
           "license": "LicenseRef-Corealm-Original",
-          "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244324,7 +244324,7 @@
         "source": {
           "author": "Corealm / Tripo",
           "license": "LicenseRef-Corealm-Original",
-          "generator": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/build-candidate.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244409,7 +244409,7 @@
         "source": {
           "author": "Quaternius",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244501,7 +244501,7 @@
         "source": {
           "author": "Quaternius",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244593,7 +244593,7 @@
         "source": {
           "author": "Quaternius; Blink staff",
           "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244693,7 +244693,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244785,7 +244785,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244877,7 +244877,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -244969,7 +244969,7 @@
         "source": {
           "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245061,7 +245061,7 @@
         "source": {
           "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245153,7 +245153,7 @@
         "source": {
           "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245245,7 +245245,7 @@
         "source": {
           "author": "Quaternius",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245345,7 +245345,7 @@
         "source": {
           "author": "Corealm / Tripo",
           "license": "LicenseRef-Tripo-Generated",
-          "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245437,7 +245437,7 @@
         "source": {
           "author": "Corealm / Tripo",
           "license": "LicenseRef-Tripo-Generated",
-          "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245621,7 +245621,7 @@
         "source": {
           "author": "Quaternius",
           "license": "CC0-1.0",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245713,7 +245713,7 @@
         "source": {
           "author": "gavlig; replacement rock maps by Corealm",
           "license": "CC0-1.0 source; original project replacement maps",
-          "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245821,7 +245821,7 @@
         "source": {
           "author": "piacenti",
           "license": "CC-BY-3.0",
-          "generator": "tools/rpg-bestiary/earth-elemental-source/earth.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -245913,7 +245913,7 @@
         "source": {
           "author": "gavlig; replacement rock maps by Corealm",
           "license": "CC0-1.0 source; original project replacement maps",
-          "generator": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -246097,7 +246097,7 @@
         "source": {
           "author": "User / Corealm",
           "license": "LicenseRef-Corealm-Original",
-          "generator": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -246609,7 +246609,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -246747,7 +246747,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -246893,7 +246893,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -247031,7 +247031,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -247177,7 +247177,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -247315,7 +247315,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -247766,7 +247766,7 @@
         "source": {
           "author": "Danimal; body xGhostx7; knife Wind astella",
           "license": "CC-BY-3.0",
-          "generator": "tools/rpg-bestiary/mocap-goblin-source/goblin.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -247858,7 +247858,7 @@
         "source": {
           "author": "piacenti",
           "license": "CC-BY-3.0",
-          "generator": "tools/rpg-bestiary/troll-mauler-source/index.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -247950,7 +247950,7 @@
         "source": {
           "author": "Atmostatic; animation and textures by Danimal",
           "license": "CC-BY-SA-3.0",
-          "generator": "tools/rpg-bestiary/roach-source/roach.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -250518,7 +250518,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -250656,7 +250656,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -250794,7 +250794,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -250932,7 +250932,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -251070,7 +251070,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -251208,7 +251208,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -251346,7 +251346,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -251484,7 +251484,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {
@@ -251622,7 +251622,7 @@
         "source": {
           "author": "Polygon Blacksmith",
           "license": "Standard Unity Asset Store EULA; local entitlement cache",
-          "generator": "tools/rpg-bestiary/build.mjs"
+          "generator": "tools/creature-rig/run.mjs"
         },
         "acceptance": "candidate",
         "stats": {

@@ -170,9 +170,9 @@
       "id": "corealm-creature-expansion",
       "name": "Corealm original creature expansion",
       "author": "Corealm",
-      "source": "tools/build-creature-expansion.ts",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "pixeliusvita-monster04",
@@ -387,9 +387,9 @@
       "id": "corealm-original-wilderness-keepers",
       "name": "Corealm original Wilderness keeper anatomy",
       "author": "Corealm project",
-      "source": "tools/wilderness-creatures/keepers/hollow-star.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "cdb74a7e5abe9a3b4f229d6722335d4188f06a9da4a6ea3d06d521bc1f4e73b4"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-icon-item-models",
@@ -673,17 +673,17 @@
       "id": "corealm-tripo-audit-corrected",
       "name": "Corealm corrected Tripo creature imports",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-corrected-sporekin/build-candidate.ts",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "b5e3c2f7a1d04b252ee429f9e0b58649abbe1b601ccbba62e79ea0d010769a1c"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-fantasy-briar-wasp-p1",
       "name": "Corealm fantasy briar wasps",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "6526fe5a3968ee2f70c1b74bd561dce6965fa85ad71beccaf43d68b079e1b4c5"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "lyndon-realtime-ranchers-cc0",
@@ -697,25 +697,25 @@
       "id": "corealm-tripo-audit-storm-scarab",
       "name": "Corealm Tripo Storm Scarab",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-storm-scarab/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "7f3a1d3fe85527a60262e5305f9490aef4230210b9d6655a53b14cf5aba275f6"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-sixleg-weavers",
       "name": "Corealm Tripo six-leg weavers",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "46af60540686a1695dcbc53301c754c3a2c33fff0a63cb7c88486624da2bb3c0"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-thorn-maw",
       "name": "Corealm Thorn Maw Tripo creature",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-thorn-maw/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "f0889642e0d89fefc94f63127775f5fc39981aeee7bc127872b6b81effc2a52e"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-stone",
@@ -737,209 +737,209 @@
       "id": "corealm-tripo-audit-gloam-jackal",
       "name": "Corealm Tripo Gloam Jackal",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-gloam-fox/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "f39534d1e6db7b100819936cd5767f3e6c3a93673a914bc8fe03f0a01ad7233f"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-pearl-knight",
       "name": "Corealm Tripo Pearl Knight",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-knights/correct-death-floor.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "a44e5d8262dead05043eeda1a56e339ce548d85ece2672897e9437c11ddde2ce"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-waygrave-revenant",
       "name": "Corealm Tripo Waygrave Revenant",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-knights/correct-death-floor.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "a44e5d8262dead05043eeda1a56e339ce548d85ece2672897e9437c11ddde2ce"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-tree-guardians",
       "name": "Corealm Tripo audited tree guardians",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-tree-guardians/build-candidate.mjs",
-      "generatorSha256": "e9c690a94eb44933b216d092fe0bbc799f6e7299c574a612934ebf0a9578b37a",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-mineral-crawlers",
       "name": "Corealm Tripo mineral crawlers",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-delver-family/build-variants.mjs",
-      "generatorSha256": "b8e8d35e25034b53c385739ef929f533c383b0a0dd39ba046d52d7a77b48d786",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-audit-banshee-death",
       "name": "Corealm Tripo Banshee Death",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "82081fadce65efc44707e6455e840016508f790c1eb3e647c4be35851e711384"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-weaver-variants",
       "name": "Corealm Tripo weaver variants",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "9080182ec6574040fd37d1e4e5c992559a69cfd330acec610c79561c2e094303"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-fae-insects",
       "name": "Corealm Tripo fairy insect corrections",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-fae-insects/audit-motion.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "4fbc3b846401b650eee0e8d6551d0c6b200ee77240055b9508e19c80fbb45dbe"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-leafwing-imp-candidates",
       "name": "Leafwing imp candidates",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-leafwing-variants/build-candidate.mjs",
-      "generatorSha256": "85666690601157b74781a7f50e822dc66010c4f8d54a468aad6a1b41f2208d9b",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-undercrag-ogre",
       "name": "Corealm Tripo Cave Ogre",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-ogre-family/build-ogres.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "e53ae55fd2a15904e562f4c8b26c0cb5ff73b4925d11fbdaf54dbec8ef92f32a"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-emberbank-ogre",
       "name": "Corealm Tripo Fire Ogre",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-ogre-family/build-ogres.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "e53ae55fd2a15904e562f4c8b26c0cb5ff73b4925d11fbdaf54dbec8ef92f32a"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-tripo-rock-golem-quarry-warden",
       "name": "Corealm User Rock Golem Quarry Warden",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-rock-golem/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "dff4b920d289032c9d8736e0945fb9765abff0be8a1e1c004281c48c820ac76c"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-pale-dragon",
       "name": "Corealm Tripo Pale Dragon",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-pale-dragon/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "661ae1d908618d4003cf66a59d2f06349530beb3a92a21d59788f09fcce344aa"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-volcanic-golems",
       "name": "Corealm Tripo audited volcanic golems",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-volcanic-golems/build-variants.mjs",
-      "generatorSha256": "74caade2d146771b1a8251a51c23287e3d714604494beed6739c1341c14d08f7",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-audit-nightforge-marshal",
       "name": "Corealm Tripo Nightforge Marshal",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-nightforge-marshal/build-marshal.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "4c7e3523d9ac5b5f8c687d0a8e586d0b73aa055614a3193774c7d38a3cc63240"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-petalguards",
       "name": "Corealm Orchid Petalguards",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-petalguards/build-candidate.mjs",
-      "generatorSha256": "b80a0260992e6d4d29ef6c3c7968a504a19a240e5a99db6ab2ff777b2d4b671a",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-fairy-reliquaries",
       "name": "Corealm Tripo audited fairy reliquaries",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
-      "generatorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-audit-veil-reaper",
       "name": "Corealm Tripo Veil Reaper",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-veil-reaper/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "eda4a79ee5059ee7131bee7d5705c15acba019a1f9502e91992449323eddfb11"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-fen-crawler",
       "name": "Corealm Tripo Fen Crawler candidate",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-fen-crawler/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "0a116ef792c6e82aba19a7ed17eb395607443cb31f4d94f93319aeea72dc86d7"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-rootwood-family",
       "name": "Corealm Rootwood family candidates",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-rootwood-family/build-candidates.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "dbae629b94ae9a65008862156652d3bfc8744726ef6b9f14357adc1be27be70a"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-mooncap-sporekin",
       "name": "Corealm Tripo Mooncap Sporekin",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-mooncap-sporekin/build-mooncap.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "a8234f129188c8ff48861d9bb305e1a8d44ea149794c4757560f9581e8bcfe06"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-thicket-spirit",
       "name": "Corealm Thicket Spirit",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-thicket-spirit/build-candidate.mjs",
-      "generatorSha256": "4da0d6228303701d211eb3e1722353de9962246d223472b3a070449db11a3cf7",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-tripo-audit-vault-custodian",
       "name": "Corealm Tripo audited Vault Custodian",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-vault-custodian/build-candidate.mjs",
-      "generatorSha256": "d58ca809020165b8ae61be6b08de4b88e0fe3bcd3f7c703e7f2e5c3ba8019c11",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-owned-tripo-nightbloom",
       "name": "Corealm Tripo Nightbloom guardian",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-nightbloom/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "fff820313c99defd9b515c2fd29d5ecc4f307be0ca9d365f9a5cc4f9e25a9499"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-tripo-audit-mandible-family",
       "name": "Corealm Tripo mandible beetle family",
       "author": "Corealm / Tripo Studio",
-      "source": "assets/art/tripo/imports/creatures/audit-mandible-family/build-family.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "5e2c6c6241aef77911541eaf9d39fcd0332345c9ca58a2200fe4d1f4d8f5025b"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-beetle-golem",
       "name": "Corealm User Beetle Golem",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "9635abd9b026b15145d80252e65f79583b73485959375f70fa3ca3ae44d1fbf4"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-polish-animal-chicken",
@@ -1041,33 +1041,33 @@
       "id": "corealm-polish-fairy-snails",
       "name": "Corealm Gloamgarden Snail Art",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
-      "generatorSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
+      "source": "tools/creature-rig/run.mjs",
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d",
       "license": "LicenseRef-Corealm-Original"
     },
     {
       "id": "corealm-user-creek-crab",
       "name": "Corealm User Creek Crab",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-crab/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "550ab59f7853894e782c1361b6842a67dfebeaa63a859f37c0c820c8b37f82ad"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-cindercrest-candidate",
       "name": "User Cindercrest Salamander candidate",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-cindercrest/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-user-rimeback",
       "name": "Rimeback tortoise replacement",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-rimeback/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "f084298695f3ee296cf9621faffe24e7d4c7984d9f08a54e3230e2694c2d6c93"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-polish-cairn-bighorn",
@@ -1089,75 +1089,75 @@
       "id": "corealm-audit-polish-reaver",
       "name": "Corealm Gloamfang Reaver adaptation",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-polish-reaver/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "2d73db9c14af7563cce7e9fd1046a3f534c9ca9824abd1a15bbd59b758cf156f"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-road-bandit",
       "name": "User supplied Road Bandit",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-road-bandit/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "f94f3f344cb4ff1aa572aef3332e01e4cf3c6e95c2ad9651bfa03c6ed0b00edf"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-bloomheart",
       "name": "Corealm User Bloomheart",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-bloomheart/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "d98df45cc590232322cf5c2c39b8981f874db4a580aeebef610e42729f219790"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-hollow-bough",
       "name": "Corealm User Hollow Bough",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "109993e585d80426e367203948f20b557ce6fb4028eb07336cb436bfa56ad8ab"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-user-rift-carapace",
       "name": "User Rift Carapace candidate",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "bc08007bfdd90ec186b25d846b3891a1c586e4cafef6e797623bc89ba8d8980d"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-hollow-star",
       "name": "Corealm User Hollow Star",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-hollow-star/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "d9fa3699d7e51db5f0803360429e605bab28bfe53b95d197490103e5c53a6ec1"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-prismatic",
       "name": "User Prismatic Sprite",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-prismatic/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "4946bc8417777a7e8a8da222cbeb9a6ea5f69acc8d619deb2c6dc82074a6a73e"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-audit-user-galeskin",
       "name": "User supplied Galeskin candidate",
       "author": "User / Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-galeskin/build-candidate.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
       "archiveSha256": "0574a1e4d13b784d945b9b9fb9bf4f3549a193572e4cde74aa2a1cd612fdf10d",
       "derivation": "Corealm rig and anatomy edits; sourceProvenance on asset retains the exact original file pin.",
-      "generatorSha256": "46049122a1e9f3332d5376ba8f8fba6928367f6716863071680cc29c3ec51d4a"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-user-veilspirits-candidate",
       "name": "User botanical veilspirit variants",
       "author": "Corealm",
-      "source": "assets/art/tripo/imports/creatures/audit-user-veilspirits/build-candidates.mjs",
+      "source": "tools/creature-rig/run.mjs",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "e3b0eddf06838e18e91087833f25034c8b232fe6703942431e07e70877a1916e"
+      "generatorSha256": "b6e13e6c09a34d4e0f1c5eac55e207f21f93a7f16e2a70b4ed87d23434d2526d"
     },
     {
       "id": "corealm-rpg-mocap-goblin",
@@ -8787,10 +8787,6 @@
         "attackContact": {
           "normalized": 0.43,
           "seconds": 0.30099999487400053
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.48204361375890803,
-          "impliedRunMps": 1.0368160285737749
         }
       },
       "acceptance": {
@@ -8864,11 +8860,7 @@
           "vertices": 1292,
           "triangles": 1840
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.48204361375890803,
-          "impliedRunMps": 1.0368160285737749
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -8940,11 +8932,7 @@
           "vertices": 2333,
           "triangles": 3900
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9039947403423454,
-          "impliedRunMps": 3.11442052609775
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -9073,11 +9061,7 @@
           "vertices": 2228,
           "triangles": 3712
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9910944906604278,
-          "impliedRunMps": 3.204238655155496
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -9148,11 +9132,7 @@
           "vertices": 1557,
           "triangles": 2446
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.7355347668682819,
-          "impliedRunMps": 1.3119361133444458
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -9381,11 +9361,7 @@
           "vertices": 2277,
           "triangles": 3728
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.1216721226201816,
-          "impliedRunMps": 3.4474474408533786
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -9457,11 +9433,7 @@
           "vertices": 3523,
           "triangles": 5612
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.0792709897552932,
-          "impliedRunMps": 4.307269259126366
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -9613,10 +9585,6 @@
         "attackContact": {
           "normalized": 0.525,
           "seconds": 0.8749999791383744
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -10035,10 +10003,6 @@
         "attackContact": {
           "normalized": 0.40625,
           "seconds": 0.3859374951571226
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.03368983957219251,
-          "impliedRunMps": 0.08119190482587596
         }
       },
       "sourceProvenance": {
@@ -16627,10 +16591,6 @@
         "attackContact": {
           "normalized": 0.46,
           "seconds": 0.3771999967098236
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -16772,7 +16732,6 @@
           "antler_beetle_leg_R_3_tibia",
           "antler_beetle_leg_R_3_tarsus"
         ],
-        "authoringModule": "tools/creature-expansion/crawlers.mjs",
         "sourceGlbSha256": "20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779",
         "sourceBinSha256": "16535f2c67af66627071e7c78270ffd26b5705427e0c7f48c0a339a01f8ae71b",
         "sourceAtlasSha256": "cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154",
@@ -17044,7 +17003,6 @@
           "Crocodile_Tail_01_07SHJnt",
           "Crocodile_Tail_01_08SHJnt"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
         "sourceGlbSha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
         "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
         "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
@@ -17064,10 +17022,6 @@
         "attackContact": {
           "normalized": 0.4583333333333333,
           "seconds": 0.38194443533817923
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.4189075287257235,
-          "impliedRunMps": 1.7549038545716868
         }
       },
       "acceptance": {
@@ -17380,7 +17334,6 @@
           "c_bot_bendl",
           "c_bot_bendr"
         ],
-        "authoringModule": "tools/creature-expansion/monsters.mjs",
         "geometry": {
           "vertices": 18282,
           "triangles": 6094
@@ -17389,10 +17342,6 @@
         "attackContact": {
           "normalized": 0.235,
           "seconds": 0.5483333146572112
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8999961735371228,
-          "impliedRunMps": 3.000004795975098
         }
       },
       "acceptance": {
@@ -17531,7 +17480,6 @@
           "Tail",
           "TailTip"
         ],
-        "authoringModule": "tools/creature-expansion/birds.mjs",
         "animationAcceptance": "devdocs-approved",
         "attackContact": {
           "normalized": 0.455,
@@ -17685,10 +17633,6 @@
         "attackContact": {
           "normalized": 0.46,
           "seconds": 0.3771999967098236
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -17881,7 +17825,6 @@
           "slag_centipede_tail_cercus_-1",
           "slag_centipede_tail_cercus_1"
         ],
-        "authoringModule": "tools/creature-expansion/crawlers.mjs",
         "sourceGlbSha256": "1648c881291809bdd18529b9374ed2626643f203b93cf471131880a6be728ddf",
         "sourceBinSha256": "3339466a17853aa2cd2d7518fec1f17ae5c4269eca6023619417701444c281c6",
         "sourceAtlasSha256": "b23fc2910bb02bf2de6242bcd300ebe57f977067d5d9daa2e4ae6495b0caaff7",
@@ -18239,10 +18182,6 @@
         "attackContact": {
           "normalized": 0.46,
           "seconds": 0.44466665387153625
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "sourceProvenance": {
@@ -18430,7 +18369,6 @@
           "HindHock_R",
           "HindPaw_R"
         ],
-        "authoringModule": "assets/art/tripo/imports/creatures/vetchrunner-native-rig/build-candidate.mjs",
         "animationAcceptance": "devdocs-approved",
         "attackContact": {
           "normalized": 0.675,
@@ -18656,10 +18594,6 @@
         "attackContact": {
           "normalized": 0.5020833333333333,
           "seconds": 0.903749976058801
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.346060625912062,
-          "impliedRunMps": 5.978232439635965
         }
       },
       "sourceProvenance": {
@@ -18671,7 +18605,6 @@
         "sourceSha256": "c69d605643fc9041fc02611e08c8d30a78c111e2bde20868e8e2366587e26b7c",
         "nativePreviewFile": "assets/art/tripo/imports/creatures/new-star-minotaur/redmane-native-preview.glb",
         "nativePreviewSha256": "e4a1d2445c91cf326f252e4d281c6d30d6c3aec8bdeee58d4684618f26d9db7d",
-        "rigRebuildSource": "assets/art/tripo/imports/creatures/new-star-minotaur/build-candidate.mjs",
         "rigRebuildSourceSha256": "8161c49824d21036365514ca54274540cd8e27ea58ca59aad23a3ea28c0e8b7d",
         "rigMethod": "Four-leg bull skeleton with anatomically partitioned front and hind hoof weights; source had 100% bone_0 weighting, so JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt.",
         "runtimeTextures": [
@@ -18918,7 +18851,6 @@
         "stagedSha256": "2fd328bea978d29e724bdb9eca68a8f96712def3efd212c7b46edfb3c9c88620",
         "upstreamPack": "corealm-creature-expansion",
         "upstreamAuthor": "Corealm",
-        "upstreamSource": "tools/build-creature-expansion.ts",
         "upstreamLicense": "LicenseRef-Corealm-Original",
         "generatedMap": "textures/creature_cairn_bighorn-imagegen-fine.png",
         "generatedMapSha256": "65c92aa5d10fdc9814f2003db04c0f339ca336e0e4a925111cc47a3b97c7ab0b",
@@ -18979,7 +18911,6 @@
           "cairn_bighorn_HindRAnkle",
           "cairn_bighorn_HindRFoot"
         ],
-        "authoringModule": "tools/creature-expansion/hoofed.mjs",
         "animationAcceptance": "devdocs-approved",
         "attackContact": {
           "normalized": 0.46,
@@ -19132,7 +19063,6 @@
           "marsh_moose_HindRAnkle",
           "marsh_moose_HindRFoot"
         ],
-        "authoringModule": "tools/creature-expansion/hoofed.mjs",
         "animationAcceptance": "devdocs-approved",
         "attackContact": {
           "normalized": 0.47,
@@ -19514,7 +19444,6 @@
           "FireSalamander_Tail_01_07SHJnt",
           "FireSalamander_Tail_01_08SHJnt"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
         "sourceGlbSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
         "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
         "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
@@ -19534,10 +19463,6 @@
         "attackContact": {
           "normalized": 0.43,
           "seconds": 0.464400018453598
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.23556248109866293,
-          "impliedRunMps": 0.37263130259072363
         }
       },
       "acceptance": {
@@ -19626,7 +19551,6 @@
           "id": "corealm-creature-expansion",
           "name": "Corealm original creature expansion",
           "author": "Corealm",
-          "source": "tools/build-creature-expansion.ts",
           "license": "LicenseRef-Corealm-Original",
           "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
         },
@@ -19692,7 +19616,6 @@
           "tortoise_rear_right_lower",
           "tortoise_rear_right_foot"
         ],
-        "authoringModule": "tools/creature-expansion/reptiles.mjs",
         "sourceGlbSha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
         "sourceBuilderSha256": "f5d588e94c026f318019bcc15c72b00efdd618d7a62821f67cde9c0e4f23cb38",
         "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
@@ -19810,7 +19733,6 @@
           "id": "corealm-creature-expansion",
           "name": "Corealm original creature expansion",
           "author": "Corealm",
-          "source": "tools/build-creature-expansion.ts",
           "license": "LicenseRef-Corealm-Original",
           "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
         },
@@ -19899,7 +19821,6 @@
           "monitor_hind_right_toe_4",
           "monitor_hind_right_toe_5"
         ],
-        "authoringModule": "tools/creature-expansion/reptiles.mjs",
         "sourceGlbSha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
         "sourceBuilderSha256": "f5d588e94c026f318019bcc15c72b00efdd618d7a62821f67cde9c0e4f23cb38",
         "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
@@ -20161,7 +20082,6 @@
           "Bone019(mirrored)",
           "Bone020(mirrored)"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
         "geometry": {
           "vertices": 9290,
           "triangles": 12762
@@ -20170,10 +20090,6 @@
         "attackContact": {
           "normalized": 0.46,
           "seconds": 0.5243999934196473
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.22709537060230645,
-          "impliedRunMps": 0.4332962182896537
         }
       },
       "acceptance": {
@@ -20376,7 +20292,6 @@
           "Snail_EyeRight",
           "Snail_RigidShell"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
         "geometry": {
           "vertices": 53664,
           "triangles": 17888
@@ -20385,10 +20300,6 @@
         "attackContact": {
           "normalized": 0.48,
           "seconds": 0.72
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.013362252642835044,
-          "impliedRunMps": 0.05367366587848634
         }
       },
       "acceptance": {
@@ -20652,7 +20563,6 @@
           "R_Feet",
           "R_Toes"
         ],
-        "authoringModule": "tools/creature-expansion/monsters.mjs",
         "geometry": {
           "vertices": 9690,
           "triangles": 3230
@@ -20661,10 +20571,6 @@
         "attackContact": {
           "normalized": 0.65,
           "seconds": 1.0400000154972078
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.0281658174696817,
-          "impliedRunMps": 3.674626094038439
         }
       },
       "acceptance": {
@@ -20903,7 +20809,6 @@
           "forearm_twistl",
           "arm_twistl"
         ],
-        "authoringModule": "tools/creature-expansion/monsters.mjs",
         "geometry": {
           "vertices": 22200,
           "triangles": 7400
@@ -20912,10 +20817,6 @@
         "attackContact": {
           "normalized": 0.316667,
           "seconds": 0.316667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.1475409836065573,
-          "impliedRunMps": 2.833333191666674
         }
       },
       "acceptance": {
@@ -21007,7 +20908,6 @@
         "imagegenSha256": "daa75776faf4efaceaf446a20d42da04752a8619eff9212bd13ca6df9c933276",
         "runtimeTextureFile": "assets/art/tripo/imports/creatures/audit-pale-dragon/pale-quarry-scales-runtime.jpg",
         "runtimeTextureSha256": "1454f20f2a994977dee7d3b63a2b8ca5f1bfd531068e78b778175431e605c9b6",
-        "builderFile": "assets/art/tripo/imports/creatures/audit-pale-dragon/build-candidate.mjs",
         "builderSha256": "661ae1d908618d4003cf66a59d2f06349530beb3a92a21d59788f09fcce344aa",
         "changes": "Approved six-limb dragon geometry and 41-joint skin retained; parent scale 2.5, layered image-generated quarry albedo, Death falls and curls. Other five clips and normal/metallic-roughness maps retained.",
         "productionBeforeSha256": "6f91b9e2870d6342fb4e116dc42a2f350599792ce5cb8cbcb1f91a19d4ce4c14"
@@ -21242,7 +21142,6 @@
           "R_Toe_Index01",
           "R_Toe_Index02"
         ],
-        "authoringModule": "tools/creature-expansion/monsters.mjs",
         "geometry": {
           "vertices": 6649,
           "triangles": 9327
@@ -21251,10 +21150,6 @@
         "attackContact": {
           "normalized": 0.4336734873237641,
           "seconds": 0.5666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.3909115906044083,
-          "impliedRunMps": 1.645228893551663
         }
       },
       "acceptance": {
@@ -23013,10 +22908,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.1488970588235294,
-          "impliedRunMps": 1.2241167601276035
         }
       },
       "acceptance": {
@@ -23131,10 +23022,6 @@
         "attackContact": {
           "normalized": 0.26666666666666666,
           "seconds": 0.3
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0,
-          "impliedRunMps": 0
         }
       },
       "acceptance": {
@@ -23280,10 +23167,6 @@
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.1330812925100333,
-          "impliedRunMps": 5.721102954395689
         }
       },
       "acceptance": {
@@ -23421,10 +23304,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.7853547382341641,
-          "impliedRunMps": 4.411681018303939
         }
       },
       "bounds": {
@@ -23928,10 +23807,6 @@
         "attackContact": {
           "normalized": 0.2604166666666667,
           "seconds": 0.22569444651405018
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8475609269481588,
-          "impliedRunMps": 1.468867720576837
         }
       },
       "acceptance": {
@@ -24445,7 +24320,6 @@
           },
           "gaitMeasurement": {
             "status": "credible-geometry-estimate",
-            "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
             "visualContactAccepted": false,
             "contactReview": "Moderate stride estimate. Left/right stance medians differ 18.37%; pooled median favors the longer right stance. Whole model rises to 40.93 mm above y=0 during gait. Speed matching cannot remove this vertical separation or every local slip."
           }
@@ -25792,11 +25666,6 @@
           "maxDimension": 2048,
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
-        },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
         }
       },
       "acceptance": {
@@ -26069,10 +25938,6 @@
         "attackContact": {
           "normalized": 0.48,
           "seconds": 0.6960000228881835
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.6659,
-          "impliedRunMps": 4.02732
         }
       },
       "acceptance": {
@@ -26326,11 +26191,6 @@
           "maxDimension": 2048,
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
-        },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
         }
       },
       "acceptance": {
@@ -26610,11 +26470,6 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-geometry-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
-        },
         "animationAcceptance": "devdocs-approved",
         "attackContact": {
           "normalized": 0.34,
@@ -26847,10 +26702,6 @@
         "attackContact": {
           "normalized": 0.4,
           "seconds": 0.6000000000000001
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.48327,
-          "impliedRunMps": 2.18128
         }
       },
       "acceptance": {
@@ -27065,10 +26916,6 @@
         "attackContact": {
           "normalized": 0.5,
           "seconds": 0.7749999761581421
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.48327,
-          "impliedRunMps": 2.18128
         }
       },
       "acceptance": {
@@ -27270,11 +27117,6 @@
           "maxDimension": 2048,
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
-        },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
         },
         "materialRefinement": {
           "generator": "tools/wilderness-creatures/families/undead.mjs",
@@ -27597,7 +27439,6 @@
         "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
         "familyRefinement": {
           "family": "wraiths",
-          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
           "sourceAssetSha256": "8946fc54ab4191ba99389be482e4271ec511ec34a70d4dfbf8da810469dca5fe",
           "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
           "atlasSha256": "ead666917e6e711cf8d2e289c8317ac585433dfd4014b926769d6f62657dd6ac",
@@ -27757,10 +27598,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.155751801135588,
-          "impliedRunMps": 6.429059726357972
         }
       },
       "bounds": {
@@ -28160,11 +27997,6 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
-        },
         "materialRevision": {
           "kind": "material-only",
           "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
@@ -28428,10 +28260,6 @@
         "attackContact": {
           "normalized": 0.56,
           "seconds": 0.8679999732971192
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.48327,
-          "impliedRunMps": 2.18128
         }
       },
       "acceptance": {
@@ -28591,9 +28419,7 @@
           "finalHeightRatio": 0.5075453723979467
         },
         "productionBeforeSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
-        "rigGeneratorFile": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs",
         "rigGeneratorSha256": "ae28c71a46ad50ea92fc80488d3ce2117dfeb97f1e112b8027d2db079efcb795",
-        "deathPoseFile": "assets/art/tripo/imports/creatures/audit-knights/revenant/pose-death.mjs",
         "deathPoseSha256": "e403f2009fad8589c49aad8a93476d7c1e2b9a54748934efa6d54ee9f1177462",
         "eliteVariant": "Pending: level-81 Revenant needs a stronger distinct undead visual variant."
       },
@@ -28850,11 +28676,6 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-geometry-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
-        },
         "animationAcceptance": "devdocs-approved",
         "attackContact": {
           "normalized": 0.34,
@@ -28982,7 +28803,6 @@
         "sourceSha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32",
         "tripoSourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
         "tripoSourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
-        "builderFile": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs",
         "builderSha256": "82081fadce65efc44707e6455e840016508f790c1eb3e647c4be35851e711384",
         "changes": "Only Death animation accessors changed: sideways core collapse, lowering, inward shroud fold, and trailing mist ribbons. Other clips, rig, geometry, materials, and textures retained.",
         "productionBeforeSha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e"
@@ -29510,10 +29330,6 @@
         "attackContact": {
           "normalized": 0.96875,
           "seconds": 0.484375
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -30073,10 +29889,6 @@
         "attackContact": {
           "normalized": 0.26666666666666666,
           "seconds": 0.3
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0,
-          "impliedRunMps": 0
         }
       },
       "acceptance": {
@@ -30401,7 +30213,6 @@
           "tortoise_rear_right_lower",
           "tortoise_rear_right_foot"
         ],
-        "authoringModule": "tools/creature-expansion/reptiles.mjs",
         "regionalVariant": {
           "sourceAssetId": "creature_slateback_tortoise",
           "sourceSha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
@@ -30421,10 +30232,6 @@
         "attackContact": {
           "normalized": 0.5,
           "seconds": 0.7250000238418579
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.0433438660846647,
-          "impliedRunMps": 0.11254625822528044
         }
       },
       "acceptance": {
@@ -30536,7 +30343,6 @@
             "sha256": "db9bfdc9dbff2c84ebd05a290ea1dfd228e9a4b6bc7e2e447a3e72f14fe19029"
           }
         ],
-        "builderFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/build-candidate.mjs",
         "builderSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f",
         "sourceTopologyPreserved": true,
         "sourcePbrImagesPreservedByteForByte": true,
@@ -30578,7 +30384,6 @@
               "sha256": "db9bfdc9dbff2c84ebd05a290ea1dfd228e9a4b6bc7e2e447a3e72f14fe19029"
             }
           ],
-          "builderFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/build-candidate.mjs",
           "builderSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f",
           "sourceTopologyPreserved": true,
           "sourcePbrImagesPreservedByteForByte": true,
@@ -30639,10 +30444,6 @@
         "attackContact": {
           "normalized": 0.5416666666666666,
           "seconds": 0.5850000232458115
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.1478491270508122,
-          "impliedRunMps": 0.23871516899155365
         }
       },
       "acceptance": {
@@ -30825,10 +30626,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.089966963362398,
-          "impliedRunMps": 0.7396389732601902
         }
       },
       "acceptance": {
@@ -31121,9 +30918,7 @@
           ],
           "clipTimeMultiplier": 1.16,
           "removedLeafCanopy": false,
-          "albedo": "art\\creature-redesign\\chalk-warden-albedo.png",
-          "generator": "tools/build-creature-redesign.mjs",
-          "labEvidence": "tools/creature-redesign-lab-test.ts"
+          "albedo": "art\\creature-redesign\\chalk-warden-albedo.png"
         },
         "geometry": {
           "vertices": 11676,
@@ -31132,10 +30927,6 @@
         "attackContact": {
           "normalized": 0.45,
           "seconds": 0.3262500107288361
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -31308,10 +31099,6 @@
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.0602499628989004,
-          "impliedRunMps": 6.059795906292209
         }
       },
       "acceptance": {
@@ -31467,10 +31254,6 @@
         "attackContact": {
           "normalized": 0.96875,
           "seconds": 0.484375
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -31750,10 +31533,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.0381593843839791,
-          "impliedRunMps": 5.978404679715487
         }
       },
       "acceptance": {
@@ -31873,10 +31652,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.08465453853955375,
-          "impliedRunMps": 0.4349039657331995
         }
       },
       "acceptance": {
@@ -32086,11 +31861,9 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurementSource": "tools/rpg-bestiary/replacement-inventory/spider-gait.json",
         "redesign": {
           "sourceAssetId": "creature_webweaver_spider",
           "sourceSha256": "8e26f4d37d09f683514b1e6fb9c7f3a1043d31bc69a108c809daa407b3da605f",
-          "generator": "tools/biome-creatures/forest/build.mjs",
           "design": "Six-legged reed mimic with a raised narrow thorax, tapered segmented abdomen, long folded limbs and a vertically split feeding mask. Entire visible mesh rebuilt on the native arthropod rig.",
           "changedVertices": 8136,
           "removedTriangles": 2712,
@@ -32305,10 +32078,6 @@
         "attackContact": {
           "normalized": 0.3125,
           "seconds": 0.2968749962747097
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.08410973084886128,
-          "impliedRunMps": 0.2314814814814815
         }
       },
       "acceptance": {
@@ -32432,10 +32201,6 @@
         "attackContact": {
           "normalized": 0.43312101910828027,
           "seconds": 0.5659447748949573
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.19965360926494924,
-          "impliedRunMps": 0.3360398998657014
         }
       },
       "acceptance": {
@@ -32544,11 +32309,7 @@
           "vertices": 1557,
           "triangles": 2446
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.2537524435254805,
-          "impliedRunMps": 2.2362547386553056
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "sourceProvenance": {
         "sourceAssetId": "animal_rabbit",
@@ -32705,7 +32466,6 @@
           },
           "replacementRock": {
             "author": "Corealm project original procedural implementation",
-            "script": "tools/rpg-bestiary/lava-golem-source/bake-rock.mjs",
             "inputs": "geometry positions/UVs and deterministic 3D noise only; no third-party texture images"
           },
           "specular": "Removed source photography not used or reinterpreted as roughness",
@@ -33143,10 +32903,6 @@
         "attackContact": {
           "normalized": 0.52,
           "seconds": 1.04
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.343756144120921,
-          "impliedRunMps": 4.6400006888744825
         }
       },
       "acceptance": {
@@ -33265,10 +33021,6 @@
         "attackContact": {
           "normalized": 0.40625,
           "seconds": 0.31687498837709427
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.10181089967142191,
-          "impliedRunMps": 0.323866642212349
         }
       },
       "sourceProvenance": {
@@ -33280,7 +33032,6 @@
         "originalSourceSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-delver-family/slag-crawler-candidate.glb",
         "candidateSha256": "0c2f33f44e6792a7e2f03eaeb8883dc25e9444db175672184551c5efcecb7154",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-delver-family/build-variants.mjs",
         "materialGeneratorSha256": "b8e8d35e25034b53c385739ef929f533c383b0a0dd39ba046d52d7a77b48d786",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-delver-family/textures/slag-basecolor.png",
         "generatedBaseColorSha256": "8bdac782c8efd4792c4e730a865dbf96de89df371e576da3151a5518078f81f8",
@@ -33594,10 +33345,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9081012658712565,
-          "impliedRunMps": 4.8874946483641235
         }
       },
       "acceptance": {
@@ -33817,10 +33564,6 @@
         "attackContact": {
           "normalized": 0.5897435897435898,
           "seconds": 0.45999998312730056
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "sourceProvenance": {
@@ -34160,16 +33903,10 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "source": "art/biome-creatures/stone/gait-calibration.json",
-          "status": "measured-weighted-sole",
-          "visualContactAccepted": false
-        },
         "redesign": {
           "sourceAssetId": "creature_shale_elemental",
           "sourceSha256": "9cb99043a70d4fcad789a865b94c3be69673904c190aa96ed8dca8585ab2aa09",
           "design": "Compressed lower body, head recessed into a widened shoulder shelf, enlarged shovel-like stone hands; weighted torso sway and delayed punch recovery.",
-          "generator": "tools/biome-creatures/stone/build.mjs",
           "albedo": "art/biome-creatures/stone/ancient-limestone-albedo.png",
           "deformedVertices": 11676,
           "removedTriangles": 0,
@@ -34491,10 +34228,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.23130958417849898,
-          "impliedRunMps": 1.1883291458062082
         }
       },
       "acceptance": {
@@ -34749,7 +34482,6 @@
         "riggedSourceSha256": "162122fbd8b14a4538c9cda32c62b06735cc98802ee92bd64dc784064335a2d5",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-vault-custodian/vault-custodian-candidate.glb",
         "candidateSha256": "7fd6db127e826c93f4c54f3322f0da0798bdb627d937fa5be2c07457035f9d67",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-vault-custodian/build-candidate.mjs",
         "materialGeneratorSha256": "d58ca809020165b8ae61be6b08de4b88e0fe3bcd3f7c703e7f2e5c3ba8019c11",
         "rig": {
           "joints": 54,
@@ -34862,10 +34594,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9749323903902906,
-          "impliedRunMps": 5.173004506251378
         }
       },
       "acceptance": {
@@ -35053,10 +34781,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.1488970588235294,
-          "impliedRunMps": 1.2241167601276035
         }
       },
       "acceptance": {
@@ -35343,16 +35067,10 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "source": "art/biome-creatures/stone/gait-calibration.json",
-          "status": "measured-weighted-sole",
-          "visualContactAccepted": false
-        },
         "redesign": {
           "sourceAssetId": "creature_stone_golem",
           "sourceSha256": "987f4f59e973922652a47aedc24849aa6646bab28b566e3285dd10b51f911e5e",
           "design": "Every source knight mesh replaced by an integrated eroded stone effigy: tapered stilt legs, fused trunk, enclosed split hood and flat forearms. Native rig retained with slow head scan and asymmetric torso counter-turn.",
-          "generator": "tools/biome-creatures/stone/build.mjs",
           "albedo": "art/biome-creatures/stone/ancient-limestone-albedo.png",
           "deformedVertices": 0,
           "removedTriangles": 27786,
@@ -37741,10 +37459,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.23846348884381346,
-          "impliedRunMps": 1.2250815936146466
         }
       },
       "acceptance": {
@@ -37872,10 +37586,6 @@
         "attackContact": {
           "normalized": 0.65,
           "seconds": 1.0400000154972078
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8455878781968096,
-          "impliedRunMps": 2.5658075348505607
         }
       },
       "acceptance": {
@@ -37992,10 +37702,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.161099311482074,
-          "impliedRunMps": 6.6863736549449415
         }
       },
       "acceptance": {
@@ -38359,15 +38065,9 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "source": "assets/art/regional-bosses/gait-calibration.json",
-          "status": "measured-weighted-sole",
-          "visualContactAccepted": false
-        },
         "redesign": {
           "sourceAssetId": "creature_thorn_maw",
           "sourceSha256": "3560bff9d6f83dc8f9fdd3f83cdb07c64ebf3b2002dfa3bcf56791d806a9604a",
-          "generator": "tools/regional-bosses/build.mjs",
           "design": "A broad-bodied mature seed predator. Four interlocking woody pod valves surround a dark feeding chamber; curled root mandibles and an articulated jaw throat open into its attack. Thick shoulder pods carry its extra weight.",
           "deformedVertices": 5880,
           "removedTriangles": 1027,
@@ -38918,10 +38618,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.291771177610246,
-          "impliedRunMps": 7.236198861645302
         }
       },
       "acceptance": {
@@ -39032,10 +38728,6 @@
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.9381534704819237,
-          "impliedRunMps": 10.381630839167855
         }
       },
       "sourceProvenance": {
@@ -39072,7 +38764,6 @@
           }
         ],
         "nativeScale": 4.12,
-        "floorCorrectionGenerator": "assets/art/tripo/imports/creatures/audit-user-rock-golem/audit-motion.mjs",
         "floorCorrectionSha256": "9512709901f4b7b01c59dd59de6ecab242082e5d0c72be0a0776aaafddd13a39",
         "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-rock-golem/motion-audit.json",
         "cpuMotionSamplesPerClip": 193,
@@ -39226,10 +38917,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.6704352302500078,
-          "impliedRunMps": 9.142273571677633
         }
       },
       "acceptance": {
@@ -40813,10 +40500,6 @@
         "attackContact": {
           "normalized": 0.40625,
           "seconds": 0.31687498837709427
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.24038684644641287,
-          "impliedRunMps": 0.7646851274458241
         }
       },
       "sourceProvenance": {
@@ -40828,7 +40511,6 @@
         "originalSourceSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-delver-family/cinderback-crag-candidate.glb",
         "candidateSha256": "e73c4934d6c140fbe1b3eb247cfd47853ec0e6da505b5e7a7c67444ef92ee1fb",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-delver-family/build-variants.mjs",
         "materialGeneratorSha256": "b8e8d35e25034b53c385739ef929f533c383b0a0dd39ba046d52d7a77b48d786",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-delver-family/textures/crag-basecolor.png",
         "generatedBaseColorSha256": "ac86829568bd072e5b6ef3e4aa41638d254e652e19d4f7f74dae6b0d21c438ff",
@@ -41087,7 +40769,6 @@
           "R_Feet",
           "R_Toes"
         ],
-        "authoringModule": "tools/creature-expansion/monsters.mjs",
         "height": 1.5260918876231107,
         "dimensions": [
           1.2565100332681465,
@@ -41317,10 +40998,6 @@
         "attackContact": {
           "normalized": 0.65,
           "seconds": 1.0400000154972078
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.7402793885781708,
-          "impliedRunMps": 2.6457307877076763
         }
       },
       "acceptance": {
@@ -41610,10 +41287,6 @@
         "attackContact": {
           "normalized": 0.40625,
           "seconds": 0.4793749786913395
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.2633053221288516,
-          "impliedRunMps": 0.7487745098039218
         }
       },
       "acceptance": {
@@ -41738,10 +41411,6 @@
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8544226442299945,
-          "impliedRunMps": 6.844879189360805
         }
       },
       "sourceProvenance": {
@@ -41754,7 +41423,6 @@
         "riggedSourceSha256": "bb1ed4a448d1e30257e43e3ba2e640712a7cc8d9f99b23827f77f6d576b8dfa5",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/voidstone-colossus-candidate.glb",
         "candidateSha256": "bf7b02c8559030dad7c7743e1f82cfba328d4a9120856e3e0efb4731665f036f",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-volcanic-golems/build-variants.mjs",
         "materialGeneratorSha256": "74caade2d146771b1a8251a51c23287e3d714604494beed6739c1341c14d08f7",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/textures/voidstone-basecolor.png",
         "generatedBaseColorSha256": "f01bf98227cf1e22c4ed1fb8da7ccd23a8f6ab8dd3f1a153e98f97f0408728fc",
@@ -42094,7 +41762,6 @@
         "redesign": {
           "sourceAssetId": "creature_banshee",
           "sourceSha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
-          "generator": "tools/biome-creatures/ash/build.mjs",
           "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
           "artDirection": "A tall, hollow veiled predator with a swept-back cowl, a long trailing split shroud and continuous torn membranes beneath both arms. Its hands end in long curved talons.",
           "anatomyAtlas": {
@@ -42342,7 +42009,6 @@
         },
         "familyRefinement": {
           "family": "wraiths",
-          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
           "sourceAssetId": "creature_veil_reaper",
           "sourceAssetSha256": "fceba1a6a2eb2c32c83b692daf454c449e06794415f32fe3a39c093f14e239ad",
           "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
@@ -42486,7 +42152,6 @@
         "originalProjectId": "57fc524c-107c-4711-ad29-7219e29eed9f",
         "originalCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
         "license": "License not recorded in the source ledger; user-owned Tripo export",
-        "builder": "assets/art/tripo/imports/creatures/audit-polish-reaver/build-candidate.mjs",
         "builderSha256": "704b788af012dc3ed3c141e59c9be3e094e0ec356966d277121c00b24430ab35",
         "change": "Local 0.0645 m maximum source-space sculpt shapes a raised back ridge, fuller forward chest, tapered waist, longer hand claws and deeper toe claws; original topology, UVs, skin weights and 2K PBR maps retained. Prowling biped pose pitches spine and chest, counter-rotates head, flexes knees and lowers hips in Idle, Walk, Run, Attack and Hit. Shoulder and clavicle transforms, bind matrices and limb lengths unchanged. Death retained."
       },
@@ -42761,10 +42426,6 @@
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.39203910476753273,
-          "impliedRunMps": 4.4549093347834985
         }
       },
       "sourceProvenance": {
@@ -42777,7 +42438,6 @@
         "riggedSourceSha256": "6f7c57b19a7cedaf5b4c17a02a6211a3215a8c034a967468dfd6813f3d29f067",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/ashseal-warden-candidate.glb",
         "candidateSha256": "410735d0deb4efe5d2214f8b79cf54beb85f50bc3d2cb1b1262e2223b9fa2025",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-volcanic-golems/build-variants.mjs",
         "materialGeneratorSha256": "74caade2d146771b1a8251a51c23287e3d714604494beed6739c1341c14d08f7",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/textures/ashseal-basecolor.png",
         "generatedBaseColorSha256": "cdb79c9a1314bcda7c5139d09609016a705cd3fe4f330fe056d2c0de55995bb7",
@@ -42997,7 +42657,6 @@
           },
           "replacementRock": {
             "author": "Corealm project original procedural implementation",
-            "script": "tools/rpg-bestiary/lava-golem-source/bake-rock.mjs",
             "inputs": "geometry positions/UVs and deterministic 3D noise only; no third-party texture images"
           },
           "specular": "Removed source photography not used or reinterpreted as roughness",
@@ -43170,7 +42829,6 @@
           "originalsPreserved": true
         },
         "nativeKeeperReplacement": {
-          "generator": "tools/wilderness-creatures/families/keepers.mjs",
           "sourceId": "creature_lava_golem",
           "sourcePath": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_lava_golem.glb",
           "sourceSha256": "0a54a15bacdc355293120e788000a237e74bcc430038aa465a8fb27359a22837",
@@ -43370,10 +43028,6 @@
         "attackContact": {
           "normalized": 0.52,
           "seconds": 1.04
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 2.0849609557084485,
-          "impliedRunMps": 7.145009497804578
         }
       },
       "acceptance": {
@@ -43655,7 +43309,6 @@
         },
         "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
         "nativeKeeperReplacement": {
-          "generator": "tools/wilderness-creatures/families/keepers.mjs",
           "sourceId": "creature_banshee",
           "sourcePath": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_banshee.glb",
           "sourceSha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
@@ -44234,10 +43887,6 @@
         "attackContact": {
           "normalized": 0.4296875,
           "seconds": 0.549999987706542
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -51711,7 +51360,6 @@
           "finalHeightRatio": 0.5024995883830883
         },
         "productionBeforeSha256": "710803cf7333cff199899631d5ff765e46096bf02db96646fe793beb20e32ac1",
-        "rigGeneratorFile": "assets/art/tripo/imports/creatures/audit-knights/pearl/build-candidate.mjs",
         "rigGeneratorSha256": "4160756d0bfcc4d1b0a932fdb377294cd9d990e45c1db548aed52ba3dc412fc6"
       },
       "acceptance": {
@@ -52113,11 +51761,6 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
-        },
         "materialRevision": {
           "kind": "material-only",
           "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
@@ -52177,7 +51820,6 @@
           }
         },
         "nativeKeeperReplacement": {
-          "generator": "tools/wilderness-creatures/families/keepers.mjs",
           "sourceId": "creature_iron_golem",
           "sourcePath": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_iron_golem.glb",
           "sourceSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
@@ -52627,11 +52269,7 @@
           "vertices": 2277,
           "triangles": 3728
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.1216721226201816,
-          "impliedRunMps": 3.4474474408533786
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "acceptance": {
         "exported": true,
@@ -52747,10 +52385,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9374041903089169,
-          "impliedRunMps": 5.2658092853212795
         }
       },
       "acceptance": {
@@ -52985,15 +52619,9 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
-        },
         "redesign": {
           "sourceAssetId": "creature_goblin_scout",
           "sourceSha256": "c6dd78d3518658a3347b592f69570c3df479cb0756ca506208c7a50bc39dbfa6",
-          "generator": "tools/biome-creatures/forest/build.mjs",
           "design": "Hunched heath scavenger with lengthened forearms and fingers, narrow torso, and a fully replaced hollow carved face with real open eye slots. Retains worn cloth and functional knife.",
           "changedVertices": 13683,
           "removedTriangles": 2600,
@@ -53402,10 +53030,6 @@
         "attackContact": {
           "normalized": 0.296875,
           "seconds": 0.27906249929219484
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.1615952822509706,
-          "impliedRunMps": 1.3285117578810406
         }
       },
       "acceptance": {
@@ -53558,10 +53182,6 @@
         "attackContact": {
           "normalized": 0.5153846153846154,
           "seconds": 0.6699999754245466
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -53688,10 +53308,6 @@
         "attackContact": {
           "normalized": 0.6083333333333333,
           "seconds": 0.6083333333333333
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0,
-          "impliedRunMps": 0
         }
       },
       "acceptance": {
@@ -53812,7 +53428,6 @@
         "originalCandidateFile": "assets/art/tripo/imports/creatures/starred-orchid-reaper/orchid-reaper-native-rig-candidate.glb",
         "originalCandidateSha256": "87606581c03b2e83b478e1c702411a26e4e98762b28493d1573219a14b60c4bf",
         "correction": "Per-clip root translation sampled at 65 points to keep weighted geometry at least 6 mm above ground. Death adds a forward collapse; the small leafwing crumples as its wings fold. Original mesh, skin weights, UVs and 2K layered PBR maps unchanged.",
-        "correctionGenerator": "assets/art/tripo/imports/creatures/audit-fae-insects/audit-motion.mjs",
         "correctionGeneratorSha256": "4fbc3b846401b650eee0e8d6551d0c6b200ee77240055b9508e19c80fbb45dbe"
       },
       "acceptance": {
@@ -53835,10 +53450,6 @@
         "attackContact": {
           "normalized": 0.275,
           "seconds": 0.42166665792465213
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8720381930102594,
-          "impliedRunMps": 3.833836223388862
         }
       },
       "motionProvenance": {
@@ -53951,10 +53562,6 @@
         "attackContact": {
           "normalized": 0.2604166666666667,
           "seconds": 0.22569444651405018
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8479380792044112,
-          "impliedRunMps": 0.982656177515744
         }
       },
       "acceptance": {
@@ -54130,10 +53737,6 @@
         "attackContact": {
           "normalized": 0.5153846153846154,
           "seconds": 0.6699999754245466
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -55521,7 +55124,6 @@
         "bindRecoveredSourceSha256": "24b3e107e25905b77b08de3349b18d19ea0bb95674362bd89826a01de13e5906",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-tree-guardians/thorn-sovereign-candidate.glb",
         "candidateSha256": "2b7c8ed10b15d1fda4922288ccbd8ac652adb6fafa74befbbf15df6f47980271",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-tree-guardians/build-candidate.mjs",
         "materialGeneratorSha256": "e9c690a94eb44933b216d092fe0bbc799f6e7299c574a612934ebf0a9578b37a",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-tree-guardians/textures/thorn-sovereign-basecolor-2k.jpg",
         "generatedBaseColorSha256": "d9d4d302909ba14a6593113bec6669ea0ff923db261f6eeba38b24648a08c4cb",
@@ -55582,10 +55184,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.8036187836859091,
-          "impliedRunMps": 4.514278148892487
         }
       },
       "bounds": {
@@ -56435,10 +56033,6 @@
         "attackContact": {
           "normalized": 0.5833333333333334,
           "seconds": 1.1666666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.33308660515812083,
-          "impliedRunMps": 1.47646687864767
         }
       },
       "motionProvenance": {
@@ -60912,10 +60506,6 @@
         "attackContact": {
           "normalized": 0.6016666666666667,
           "seconds": 0.6016666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0,
-          "impliedRunMps": 0
         }
       },
       "motionProvenance": {
@@ -61012,7 +60602,6 @@
         "motion": "Original anatomical clips, retimed Death; Gloam articulated arcs strengthened; CPU weighted floor correction",
         "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/glimmercap-snail-gloamgarden.glb",
         "polishSourceSha256": "2efd631a52011eee93982694f9eeb029c9effa8a495566567b0d1b426cf8b2d1",
-        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
         "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
         "modifications": "Silver crescent fungal caps and spore trails on a teal-lilac shell; native geometry, UV, skin and clips preserved; presentation scale is 0.56 of the staged candidate."
       },
@@ -61031,10 +60620,6 @@
         "attackContact": {
           "normalized": 0.52,
           "seconds": 0.4055999851226807
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -61141,11 +60726,7 @@
           "vertices": 2277,
           "triangles": 3728
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.1216721226201816,
-          "impliedRunMps": 3.4474474408533786
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "motionProvenance": {
         "native": [
@@ -61340,10 +60921,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.017150796834463,
-          "impliedRunMps": 5.666192883069495
         }
       },
       "acceptance": {
@@ -61770,7 +61347,6 @@
         },
         "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/fairy_garden_frog_faeholme.glb",
         "polishSourceSha256": "b6c0684d636eb16a0547cc142b4d7c0de54cbea65459c85f67208d06642442b6",
-        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
         "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461"
       },
       "acceptance": {
@@ -61891,10 +61467,6 @@
         "attackContact": {
           "normalized": 0.6016666666666667,
           "seconds": 0.6016666666666667
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0,
-          "impliedRunMps": 0
         }
       },
       "motionProvenance": {
@@ -62013,11 +61585,9 @@
         "motion": "Original anatomical clips, retimed Death; Gloam articulated arcs strengthened; CPU weighted floor correction",
         "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/starwhorl-snail-faeholme.glb",
         "polishSourceSha256": "4175ccd50cb3030b7519066eb33cd544c0a953f84abdd745497cc30c386bcba4",
-        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
         "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
         "optimizationSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/starcap-snail-faeholme.glb",
         "optimizationSourceSha256": "9555ad94d41ad368b94d46c6c0c960fdf29b5396e2ecdb56f638ed78f414713f",
-        "optimizationBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/optimize-starcap.mjs",
         "optimizationBuilderSha256": "e0e68ca9db2c000fdf40b3ad0f577bc090776ffdfb83968150354ec1f04fed10",
         "optimization": "Bitwise-exact indexed weld from 53664 to 9321 vertices; removed 8 constant Bone001 scale tracks, including 7 inherited malformed tracks. Removed inherited Death presentation scale that doubled the corpse; native skeletal Death plays at 2.25 rest scale. Retuned Death floor translation by up to 0.04 m for the full-size pose. Triangle corners, native skin, textures and other clips preserved."
       },
@@ -62036,10 +61606,6 @@
         "attackContact": {
           "normalized": 0.48,
           "seconds": 0.72
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.030065068446378847,
-          "impliedRunMps": 0.12076574822659426
         }
       },
       "acceptance": {
@@ -62133,11 +61699,7 @@
           "vertices": 2277,
           "triangles": 3728
         },
-        "animationAcceptance": "devdocs-approved",
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.1216721226201816,
-          "impliedRunMps": 3.4474474408533786
-        }
+        "animationAcceptance": "devdocs-approved"
       },
       "motionProvenance": {
         "native": [
@@ -62246,10 +61808,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 2.5113086445873183,
-          "impliedRunMps": 14.107118909525544
         }
       },
       "bounds": {
@@ -62777,7 +62335,6 @@
         "bindRecoveredSourceSha256": "24b3e107e25905b77b08de3349b18d19ea0bb95674362bd89826a01de13e5906",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-tree-guardians/gloam-sovereign-candidate.glb",
         "candidateSha256": "4ea94483c9e3e6f1d02365030003318d343f18ccfd5cc87a443ee68aeb213fde",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-tree-guardians/build-candidate.mjs",
         "materialGeneratorSha256": "e9c690a94eb44933b216d092fe0bbc799f6e7299c574a612934ebf0a9578b37a",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-tree-guardians/textures/gloam-sovereign-basecolor-2k.jpg",
         "generatedBaseColorSha256": "df11b0587b6ea89ef8b74b6579ec18f74bdc33caadde5b6c1d2ab89e0eb6236a",
@@ -62833,10 +62390,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.2054281319839786,
-          "impliedRunMps": 6.771416978727928
         }
       },
       "bounds": {
@@ -63144,10 +62697,6 @@
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9760865486767641,
-          "impliedRunMps": 5.66089207606857
         }
       },
       "motionProvenance": {
@@ -64013,10 +63562,6 @@
         "attackContact": {
           "normalized": 0.26666666666666666,
           "seconds": 0.23111111323038735
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.5535216182299598,
-          "impliedRunMps": 2.725442917319112
         }
       },
       "acceptance": {
@@ -64136,10 +63681,6 @@
         "attackContact": {
           "normalized": 0.5,
           "seconds": 0.4300000071525574
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "sourceProvenance": {
@@ -64151,7 +63692,6 @@
         "riggedSourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/dewglass-reliquary-candidate.glb",
         "candidateSha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
         "materialGeneratorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/dewglass-basecolor.png",
         "generatedBaseColorSha256": "587a81ad572b2d5d8e73d9472655fcd52076fdce79740bcbb5425f7b60f2183e",
@@ -64297,7 +63837,6 @@
           "NORMAL": "0e655a52b5fca9ba5a632db176ed47b999dd6c5c085c9e40ba1ef05324d5a6c9",
           "TEXCOORD_0": "91d3c763ec928be6d462fd57c42dfb46550320a01fdf00cd51804a46dc998a50"
         },
-        "builderFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/build-candidates.mjs",
         "builderSha256": "e3b0eddf06838e18e91087833f25034c8b232fe6703942431e07e70877a1916e",
         "rigMethod": "23-joint region and segment weighted native mesh rig"
       },
@@ -64345,10 +63884,6 @@
         "attackContact": {
           "normalized": 0.26666666666666666,
           "seconds": 0.23111111323038735
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.44270999544551387,
-          "impliedRunMps": 2.42794962216861
         }
       },
       "acceptance": {
@@ -64467,10 +64002,6 @@
         "attackContact": {
           "normalized": 0.275,
           "seconds": 0.42166665792465213
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.3924172214893828,
-          "impliedRunMps": 1.725226452793565
         }
       },
       "acceptance": {
@@ -64797,10 +64328,6 @@
         "attackContact": {
           "normalized": 0.26666666666666666,
           "seconds": 0.23111111323038735
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 1.0883813554512627,
-          "impliedRunMps": 6.082393385919466
         }
       },
       "acceptance": {
@@ -64904,10 +64431,6 @@
         "attackContact": {
           "normalized": 0.5,
           "seconds": 0.4300000071525574
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "sourceProvenance": {
@@ -64919,7 +64442,6 @@
         "riggedSourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
         "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/starporcelain-reliquary-candidate.glb",
         "candidateSha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
-        "materialGenerator": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
         "materialGeneratorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
         "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/starporcelain-basecolor.png",
         "generatedBaseColorSha256": "35f11eea9c6a6583709204299fc425b9d518fe028bcc3f474e90b1c385cb02c0",
@@ -65065,7 +64587,6 @@
           "NORMAL": "0e655a52b5fca9ba5a632db176ed47b999dd6c5c085c9e40ba1ef05324d5a6c9",
           "TEXCOORD_0": "91d3c763ec928be6d462fd57c42dfb46550320a01fdf00cd51804a46dc998a50"
         },
-        "builderFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/build-candidates.mjs",
         "builderSha256": "e3b0eddf06838e18e91087833f25034c8b232fe6703942431e07e70877a1916e",
         "rigMethod": "23-joint region and segment weighted native mesh rig"
       },
@@ -65113,10 +64634,6 @@
         "attackContact": {
           "normalized": 0.26666666666666666,
           "seconds": 0.23111111323038735
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.5293271626478837,
-          "impliedRunMps": 2.902983211981066
         }
       },
       "acceptance": {
@@ -65235,10 +64752,6 @@
         "attackContact": {
           "normalized": 0.275,
           "seconds": 0.42166665792465213
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.6104267697419427,
-          "impliedRunMps": 2.6836855086407874
         }
       },
       "acceptance": {
@@ -65497,7 +65010,6 @@
       "provenance": {
         "source": "Tripo GLB export",
         "candidateCommit": "4ce09e0",
-        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_hood.glb",
         "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
         "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
@@ -65536,7 +65048,6 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": false,
-        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "evidenceScreenshots": [
           "test-results/armor-production-verify/marchhide-closer-front-try.png",
           "test-results/armor-production-verify/marchhide-closer-rear.png",
@@ -65593,7 +65104,6 @@
       "provenance": {
         "source": "Tripo GLB export",
         "candidateCommit": "4ce09e0",
-        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_robe.glb",
         "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
         "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
@@ -65632,7 +65142,6 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": false,
-        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "evidenceScreenshots": [
           "test-results/armor-production-verify/marchhide-closer-front-try.png",
           "test-results/armor-production-verify/marchhide-closer-rear.png",
@@ -65682,7 +65191,6 @@
       "provenance": {
         "source": "Tripo GLB export",
         "candidateCommit": "4ce09e0",
-        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_wraps.glb",
         "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
         "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
@@ -65721,7 +65229,6 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": false,
-        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "evidenceScreenshots": [
           "test-results/armor-production-verify/marchhide-closer-front-try.png",
           "test-results/armor-production-verify/marchhide-closer-rear.png",
@@ -65778,7 +65285,6 @@
       "provenance": {
         "source": "Tripo GLB export",
         "candidateCommit": "4ce09e0",
-        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_leggings.glb",
         "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
         "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
@@ -65817,7 +65323,6 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": false,
-        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "evidenceScreenshots": [
           "test-results/armor-production-verify/marchhide-closer-front-try.png",
           "test-results/armor-production-verify/marchhide-closer-rear.png",
@@ -65867,7 +65372,6 @@
       "provenance": {
         "source": "Tripo GLB export",
         "candidateCommit": "4ce09e0",
-        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_boots.glb",
         "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
         "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
@@ -65906,7 +65410,6 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": false,
-        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
         "evidenceScreenshots": [
           "test-results/armor-production-verify/marchhide-closer-front-try.png",
           "test-results/armor-production-verify/marchhide-closer-rear.png",
@@ -69277,7 +68780,6 @@
         "stagedSha256": "7e15be48aa0c124adbe3be6295e01bda1327659f7652db4841410ff8056b1152",
         "originalSourceAssetId": "creature_revenant",
         "originalSourceSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
-        "originalBuilder": "tools/biome-creatures/ash/build.mjs",
         "originalBuilderSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
         "author": "Quaternius",
         "license": "CC0-1.0",
@@ -69669,10 +69171,6 @@
         "attackContact": {
           "normalized": 0.5,
           "seconds": 0.7749999761581421
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -69841,10 +69339,6 @@
         "attackContact": {
           "normalized": 0.56,
           "seconds": 0.8679999732971192
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -70001,10 +69495,6 @@
         "attackContact": {
           "normalized": 0.4,
           "seconds": 0.6000000000000001
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -70745,7 +70235,6 @@
         },
         "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/wild-goblin-round1/models/creature/creature_wild_goblin.glb",
         "sourceCandidateSha256": "c29d05dcded96e1d028bacc0045454d2cd1107d07a285797b97cc851252bf9d2",
-        "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
         "rebuildSha256": "65ac11c8e6ebbeb2faa7b9c6b05cf5de2beeadfe579c10b5ef212b0b1e34087f",
         "motionRepair": {
           "duration": 1.5,
@@ -70869,10 +70358,6 @@
         "attackContact": {
           "normalized": 0.5,
           "seconds": 0.6875
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": null,
-          "impliedRunMps": null
         }
       },
       "acceptance": {
@@ -71283,7 +70768,6 @@
         },
         "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/troll-mauler-round2/models/creature/creature_troll_mauler.glb",
         "sourceCandidateSha256": "ecb54b9ad184664b3748d48fbf57d10e3f8766b8b2094f8ad104fa242bfc9294",
-        "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
         "rebuildSha256": "65ac11c8e6ebbeb2faa7b9c6b05cf5de2beeadfe579c10b5ef212b0b1e34087f",
         "motionRepair": {
           "duration": 1.5,
@@ -71410,10 +70894,6 @@
         "attackContact": {
           "normalized": 0.21238938053097345,
           "seconds": 0.2654867256637168
-        },
-        "gaitMeasurement": {
-          "impliedWalkMps": 0.9085656674309028,
-          "impliedRunMps": 4.955116371022481
         }
       },
       "acceptance": {
@@ -71563,7 +71043,6 @@
         },
         "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/cave-roach-round1/models/creature/creature_cave_roach.glb",
         "sourceCandidateSha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
-        "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
         "rebuildSha256": "65ac11c8e6ebbeb2faa7b9c6b05cf5de2beeadfe579c10b5ef212b0b1e34087f",
         "motionRepair": {
           "duration": 1.5,
