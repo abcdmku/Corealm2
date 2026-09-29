@@ -1,1 +1,1 @@
-{ "class": "winged", "profile": "wasp" }
+{ "class": "winged", "profile": "wasp", "profileOverrides": { "hover": 0.036 } }

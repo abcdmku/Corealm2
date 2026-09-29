@@ -34,8 +34,10 @@ from scipy import ndimage
 from scipy.sparse.csgraph import connected_components
 from scipy.spatial import cKDTree
 
+from classes import authored
+from crlib import donor as donors_mod
 from crlib.body import resample
-from crlib.mathx import normalize
+from crlib.mathx import normalize, quat_from_matrix, slerp_matrix
 from crlib.skeleton import Skeleton
 from crlib.skin import adjacency
 
@@ -346,11 +348,15 @@ def _fit_insect(body, donor, profile):
 
 # ------------------------------------------------------------------ fae
 # A winged fae is a small humanoid: torso and head on a medial line, arms and legs as appendages.
-# The wasp drives it: the pelvis carries the thorax's bob and pitch, the head the wasp's head, the
-# arms the wasp's front legs. The legs dangle: they have no donor twin and hang as damped spring
-# chains from the pelvis (the wasp's own legs barely move in flight), so they swing behind the
-# body's bob and its strike and never pass through the floor.
+# Its flight (Idle, Walk, Run) is the wasp's: the pelvis carries the thorax's bob and pitch, the
+# wings the wasp's beat, with the arms layered from a humanoid treading the air (UAL
+# Swim_Idle_Loop). Its strike, hit and death are humanoid (UAL) takes with the wasp's wings layered
+# on. Arms copy their donor's orientation (follow 1), as a humanoid's do, so a humanoid take poses
+# them whatever the bind. The legs dangle: they have no donor twin in either and hang as damped
+# spring chains from the pelvis, so they swing behind the body and never pass through the floor.
 ARM_DONOR = ("TopLeg1", "TopLeg2", "TopLeg3")
+UAL_MAP = {"root": "root", "pelvis": "pelvis", "spine": "spine_03", "Head": "Head",
+           **{f"{b}_{s}": f"{b}_{s}" for b in ("upperarm", "lowerarm", "hand") for s in ("l", "r")}}
 
 
 class _Proportions:
@@ -470,7 +476,7 @@ def _fit_fae(body, donor, profile):
     # The pelvis turns about the middle of the lower torso, where the wasp's thorax turns, so a
     # pitch swings the body about its mass instead of about the hips.
     sk.add("pelvis", "root", path[chest_i // 2], path[chest_i], donor="Thorax", follow=0.0)
-    sk.add("spine", "pelvis", path[chest_i], path[neck_i], donor=None, follow=0.0)
+    sk.add("spine", "pelvis", path[chest_i], path[neck_i], donor="Neck", follow=0.0)
     sk.add("Head", "spine", path[neck_i], path[-1], donor="Head", follow=0.0)
 
     prior = _humanoid_fractions()
@@ -478,7 +484,7 @@ def _fit_fae(body, donor, profile):
         joints = _split(_centre_line(body, part), prior["arm"])
         parent = "spine"
         for i, name in enumerate(("upperarm", "lowerarm", "hand")):
-            sk.add(f"{name}_{side}", parent, joints[i], joints[i + 1], donor=f"{ARM_DONOR[i]}.{side.upper()}", follow=0.0, kind="arm")
+            sk.add(f"{name}_{side}", parent, joints[i], joints[i + 1], donor=f"{ARM_DONOR[i]}.{side.upper()}", follow=1.0, kind="arm")
             parent = f"{name}_{side}"
     for side, part in legs.items():
         joints = _split(_centre_line(body, part), prior["leg"])
@@ -510,39 +516,7 @@ def fit(body, donor, profile, source=None):
     raise ValueError(f"winged: unknown body {kind}")
 
 
-def _heal_heat(sk, heat):
-    """Blender's bone heat fails for the whole mesh when near-duplicate vertices make its system
-    singular (the prismatic sprite): every row comes back empty. Solve again on a welded copy
-    and give each vertex the weights of the nearest welded vertex. Fills heat in place, because
-    the skin step reads that array; the proper home of this is crlib/skin.bone_heat."""
-    if (heat.sum(1) < 1e-6).mean() < 0.5:
-        return False
-    import bmesh
-    import bpy
-
-    from crlib.mathx import GLTF_FROM_BLENDER
-    from crlib.skin import bone_heat
-
-    obj = next(o for o in bpy.data.objects if o.type == "MESH")
-    bm = bmesh.new()
-    bm.from_mesh(obj.data)
-    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5)
-    bmesh.ops.dissolve_degenerate(bm, edges=bm.edges, dist=1e-5)
-    mesh = bpy.data.meshes.new("welded")
-    bm.to_mesh(mesh)
-    welded = bpy.data.objects.new("welded", mesh)
-    bpy.context.scene.collection.objects.link(welded)
-    W = bone_heat(welded, sk)
-    points = np.array([v.co[:] for v in mesh.vertices]) @ GLTF_FROM_BLENDER.T
-    _, k = cKDTree(points).query(np.array([v.co[:] for v in obj.data.vertices]) @ GLTF_FROM_BLENDER.T)
-    heat[:] = W[k]
-    bpy.data.objects.remove(welded)
-    obj.select_set(True)
-    return True
-
-
 def cloth(body, sk, profile, heat):
-    sk.winged["healedHeat"] = _heal_heat(sk, heat)
     wings = getattr(sk, "winged", {}).get("wings")
     return _wing_override(body, sk, wings) if wings else None
 
@@ -581,3 +555,69 @@ def plan(sk, body, profile):
             colliders.append(CapsuleCollider(sk, bone, 0.9 * body.radius_at(0.5 * (b.head + b.tail))))
     return {"hips": hips, "legs": [], "chains": chains, "colliders": colliders,
             "hip_motion": profile.get("hipMotion", 1.0), "hip_mode": profile.get("hipMode", "vertical")}
+
+
+def donor_map(sk, donor, profile):
+    """A humanoid (UAL) donor drives the fae's torso, head and arms by their humanoid names."""
+    if donor.key.startswith("ual"):
+        return {name: UAL_MAP.get(name) for name in sk.names()}
+    return None
+
+
+def recoil_bones(sk, plan, profile):
+    """A flier has nothing planted: every bone past the root and the hips may take the hit."""
+    return [b.name for b in sk.bones if b.parent is not None and b.name != plan["hips"] and b.deform]
+
+
+def closeup_joints(sk, profile):
+    names = ["wing_fore_l_01", "wing_hind_l_01", "abdomen_02", "sting", "leg_top_l_02", "upperarm_l", "thigh_l", "head", "Head"]
+    return [n for n in names if n in sk][:5]
+
+
+# ------------------------------------------------------------------ derived hit
+HIT_RECOIL, HIT_RETURN = 6, 10  # frames at 30 fps
+
+
+def _rotvec_deg(R):
+    q = quat_from_matrix(R)
+    if q[3] < 0:
+        q = -q
+    angle = 2.0 * np.arccos(np.clip(q[3], -1.0, 1.0))
+    s = np.sin(angle / 2.0)
+    return np.zeros(3) if s < 1e-9 else np.degrees(angle) * q[:3] / s
+
+
+@authored.motion("wasp_hit")
+def _wasp_hit(spec):
+    """The wasp has no hit take. Its Death opens with a recoil (the body jerks up and back while
+    the wings keep beating); Wasp_Hit is that first beat, blended back into Wasp_Flying at the
+    same wing phase (the two takes beat identically over these frames), so the wasp flinches and
+    flies on. Every value comes from the donor's sampled takes; nothing is keyed by hand."""
+    d = donors_mod.load("wasp_src", {"ref": "quat_enemy_wasp"}, spec["_cache"], ["Wasp_Death", "Wasp_Flying"])
+    death, fly = d.clips["Wasp_Death"], d.clips["Wasp_Flying"]
+    # The loader turned the donor to face +Z; authored keys are in the raw file's axes.
+    from crlib.mathx import axis_angle
+
+    Ry = axis_angle([0.0, 1.0, 0.0], np.radians(d.report.get("yaw", 0)))
+    frames = HIT_RECOIL + HIT_RETURN
+    t = np.clip((np.arange(frames + 1) - HIT_RECOIL) / HIT_RETURN, 0.0, 1.0)
+    w = t * t * (3 - 2 * t)
+
+    def delta(clip, f, b):
+        # The bone's rotation relative to its parent, away from rest, in armature axes.
+        i, p = d.index(b), d.parent[b]
+        W = clip["frames"][f][i]
+        if p is None:
+            return W @ d.rest_frame[b].T
+        Wp = clip["frames"][f][d.index(p)]
+        return d.rest_frame[p] @ Wp.T @ W @ d.rest_frame[b].T
+
+    take = authored.Take("Wasp_Hit", frames)
+    for b in d.bones:
+        keys = [(f, _rotvec_deg(Ry.T @ slerp_matrix(delta(death, f, b), delta(fly, f, b), w[f]) @ Ry)) for f in range(frames + 1)]
+        take.key(b, keys)
+    # Only Body (a child of the static root) is translated in these frames' hover and recoil.
+    i = d.index("Body")
+    rest = d.rest_head["Body"]
+    take.move("Body", [(f, Ry.T @ ((1 - w[f]) * death["heads"][f][i] + w[f] * fly["heads"][f][i] - rest)) for f in range(frames + 1)])
+    return authored.Rig.donor({"ref": "quat_enemy_wasp"}), [take]

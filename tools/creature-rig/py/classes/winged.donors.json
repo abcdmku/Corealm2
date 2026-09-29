@@ -1,28 +1,73 @@
 {
   "donors": {
-    "wasp": { "ref": "quat_enemy_wasp" }
+    "wasp": { "ref": "quat_enemy_wasp" },
+    "wasp_hit": {
+      "pack": "authored",
+      "name": "wasp_hit",
+      "yaw": -90,
+      "source": "Quaternius Easy Animated Enemy Pack (Wasp), CC0: Wasp_Death's first beat blended back into Wasp_Flying (tools/creature-rig/py/classes/winged.py)"
+    },
+    "ual1": {
+      "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library[Standard].zip",
+      "member": "Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb",
+      "files": ["D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"],
+      "source": "Quaternius Universal Animation Library (Standard), CC0"
+    },
+    "ual2": {
+      "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library_2[Standard].zip",
+      "member": "Universal Animation Library 2[Standard]/Unreal-Godot/UAL2_Standard.glb",
+      "files": ["D:/corealm-scratch/anim-audit/refs/ual/UAL2_Standard.glb"],
+      "source": "Quaternius Universal Animation Library 2 (Standard), CC0"
+    }
   },
   "primary": "wasp",
   "profiles": {
     "wasp": {
       "body": "insect",
       "hipMode": "vertical",
+      "hover": 0.045,
       "clips": {
         "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Attack": { "donor": "wasp", "clip": "Wasp_Attack" },
+        "Hit": { "donor": "wasp_hit", "clip": "Wasp_Hit" },
         "Death": { "donor": "wasp", "clip": "Wasp_Death" }
       }
     },
     "fae": {
       "body": "fae",
       "hipMode": "vertical",
+      "hover": 0.2,
       "clips": {
-        "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
-        "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
-        "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
-        "Attack": { "donor": "wasp", "clip": "Wasp_Attack" },
+        "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
+                  "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
+        "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
+                  "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
+        "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
+                 "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
+        "Attack": { "donor": "ual1", "clip": ["Spell_Simple_Enter", "Spell_Simple_Shoot", "Spell_Simple_Exit"],
+                    "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
+        "Hit": { "donor": "ual1", "clip": "Hit_Chest",
+                 "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
+        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
+      }
+    },
+    "imp": {
+      "body": "fae",
+      "hipMode": "vertical",
+      "hover": 0.18,
+      "clips": {
+        "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
+                  "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
+        "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
+                  "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
+        "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
+                 "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
+        "Attack": { "donor": "ual1", "clip": "Punch_Cross",
+                    "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
+        "Hit": { "donor": "ual1", "clip": "Hit_Chest",
+                 "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
         "Death": { "donor": "wasp", "clip": "Wasp_Death" }
       }
     }
