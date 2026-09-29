@@ -1,1 +1,5 @@
-{ "class": "golem", "profile": "golemPunch", "notes": "The long arms hang with the claws at knee height; the zombie scratch lunge drags them through the floor, so the attack is the cross punch." }
+{
+  "class": "golem",
+  "profile": "golemPunch",
+  "notes": "The long arms hang with the claws at knee height, so a lunging zombie scratch or an overhand smash drives the claws through the floor. The attack is the profile default: a backhand then a forehand claw sweep (UAL2 Sword_Regular_A + B + B_Rec), which keeps the claws above the floor."
+}

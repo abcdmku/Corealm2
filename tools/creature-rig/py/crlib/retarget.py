@@ -315,6 +315,10 @@ class Retargeter:
             if mode == "vertical":
                 offset = np.array([0.0, offset[1], 0.0])
             offset[1] += clearance * landing[f]
+            if spec.get("pelvisLift") is not None:
+                # A lying clip re-solved with its penetration lift (rig.py, profile lyingLegIk): the
+                # legs reach from the lifted hips towards the floor instead of floating with them.
+                offset[1] += spec["pelvisLift"][f]
             pelvis = sk[self.hips].head + offset
             R, P = forward(sk, L, self.hips, pelvis)
             if use_ik:
@@ -651,7 +655,7 @@ def deform(skeleton, verts, joints, weights, local_R, hips, hips_pos):
     return out
 
 
-def lying_lift(skeleton, verts, joints, weights, result, hips, height):
+def lying_lift(skeleton, verts, joints, weights, result, hips, height, lead=None):
     """A body thicker or longer-waisted than the donor's goes through the floor when it falls and
     lies down. Only for clips whose hips drop to the floor (deaths, knock-downs): lift the hips by a
     smooth envelope of the penetration (a sliding max, then a sliding mean of the same span, so it
@@ -673,10 +677,20 @@ def lying_lift(skeleton, verts, joints, weights, result, hips, height):
     if not need.any():
         return 0.0
     span = 9
-    padded = np.pad(need, span, mode="edge")
-    envelope = np.array([padded[i:i + 2 * span + 1].max() for i in range(len(need))])
-    padded = np.pad(envelope, span // 2, mode="edge")
-    lift = np.array([padded[i:i + span].mean() for i in range(len(need))])
+    if lead is None:
+        padded = np.pad(need, span, mode="edge")
+        envelope = np.array([padded[i:i + 2 * span + 1].max() for i in range(len(need))])
+        padded = np.pad(envelope, span // 2, mode="edge")
+        lift = np.array([padded[i:i + span].mean() for i in range(len(need))])
+    else:
+        # lead frames of look-ahead only: the centred window starts lifting a falling body
+        # up to 0.45 s before it touches the floor, so a thick body floats mid-fall. The
+        # envelope looks lead frames ahead and span behind, and the smoothing only looks back.
+        padded = np.pad(need, (span, lead), mode="edge")
+        envelope = np.array([padded[i:i + span + lead + 1].max() for i in range(len(need))])
+        padded = np.pad(envelope, (span // 2, 0), mode="edge")
+        lift = np.array([padded[i:i + span // 2 + 1].mean() for i in range(len(need))])
     lift = np.maximum(lift, need)
     result["pelvis"] = [p + np.array([0.0, l, 0.0]) for p, l in zip(result["pelvis"], lift)]
+    result["liftCurve"] = lift
     return float(lift[-1])
