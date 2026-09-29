@@ -1,1 +1,5 @@
-{ "class": "golem", "profile": "golem", "source": "C:/Users/Borg/Downloads/beetle+golem.glb" }
+{
+  "class": "golem",
+  "profile": "golem",
+  "notes": "No source rig: the Downloads beetle+golem.glb joints are misplaced for this mesh (the fit from them put the hips and legs off the body), so the skeleton is fitted."
+}

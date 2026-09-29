@@ -1,1 +1,11 @@
-{ "class": "golem", "profile": "treant", "notes": "Blocked: bone heat returns no weights (same double-wall failure as hollow bough; the voxel-solid proxy works). The fit also puts the head on an antenna tip." }
+{
+  "class": "golem",
+  "profile": "treant",
+  "profileOverrides": {
+    "landmarks": {
+      "tips": { "head": [0.0, 2.42, 0.0] },
+      "joints": { "neck_01": [0.0, 1.98, 0.0], "Head": [0.0, 2.15, 0.0] }
+    }
+  },
+  "notes": "Nightbloom. The antennae rise off the head's column and the narrowest slab above the shoulders is an antenna stalk, so the head tip, neck and head joints are given here."
+}

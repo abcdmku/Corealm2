@@ -1,1 +1,90 @@
-{ "class": "golem", "profile": "golemPunch" }
+{
+  "class": "golem",
+  "profile": "golemPunch",
+  "profileOverrides": {
+    "landmarks": {
+      "tips": {
+        "hand_l": [
+          0.58,
+          0.37,
+          0.15
+        ],
+        "hand_r": [
+          -0.58,
+          0.37,
+          0.15
+        ]
+      },
+      "joints": {
+        "upperarm_l": [
+          0.55,
+          1.35,
+          0
+        ],
+        "lowerarm_l": [
+          0.66,
+          0.86,
+          -0.02
+        ],
+        "hand_l": [
+          0.61,
+          0.52,
+          0.08
+        ],
+        "upperarm_r": [
+          -0.55,
+          1.35,
+          0
+        ],
+        "lowerarm_r": [
+          -0.66,
+          0.86,
+          -0.02
+        ],
+        "hand_r": [
+          -0.61,
+          0.52,
+          0.08
+        ]
+      }
+    },
+    "clips": {
+      "Walk": {
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      },
+      "Run": {
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      },
+      "Attack": {
+        "donor": "ual2",
+        "clip": "Shield_Dash",
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "notes": "The hanging arms are fused to the thighs, so the landmarks read the shoulder boulders as hands; the arm tips and joints are given here. The fists are joined to the knees in the mesh, so Walk and Run hold the arms in the idle carry (a donor arm swing tears the knee surface)."
+}
