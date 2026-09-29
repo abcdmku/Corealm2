@@ -70,8 +70,9 @@ export const BODIES: Record<string, Body> = {
     Idle: take("Bear_Idle.fbx"), Walk: take("Bear_Walk.fbx"), Run: take("Bear_Run.fbx"), Attack: take("Bear_Attack.fbx"), Death: take("Bear_Die.fbx") } },
   wolf: { rig: "Wolf_Rig.fbx", states: {
     Idle: take("Wolf_IdleA.fbx"), Walk: take("Wolf_Walk.fbx"), Run: take("Wolf_Run.fbx"), Attack: take("Wolf_Attack.fbx"),
-    // Wolf_Die walks for two seconds before it rears and drops; the hind toes stop at frame 56.
-    Death: take("Wolf_Die.fbx", [56, 125], "from the rear-up; the take's walk-in is cut") } },
+    // Wolf_Die walks for two seconds, shuffles as it rears (57-68) and drops from frame 69; the
+    // Death starts at the top of the rear so no stride is left in it.
+    Death: take("Wolf_Die.fbx", [66, 125], "from the top of the rear-up; the take's walk-in is cut") } },
   cattle: { rig: "Cattle_Rig.fbx", states: {
     Idle: take("Cattle_Idle.fbx"), Walk: take("Cattle_Walk.fbx"), Run: take("Cattle_Run.fbx"), Attack: take("Cattle_Attack.fbx"), Death: take("Cattle_Die.fbx") } },
   goat: { rig: "Goat_Rig.fbx", states: {
