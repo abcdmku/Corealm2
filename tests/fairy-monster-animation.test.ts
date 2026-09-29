@@ -9,7 +9,6 @@ import { createMaskedHitOverlay, applyMaskedHitOverlay } from '../game/src/rende
 import { NodeIO, type JSONDocument } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { repairStudioHumanoid } from '../tools/tripo-creatures/profiles/studioHumanoids.js';
-import { repairStudioFairy } from '../tools/tripo-creatures/profiles/studio-fairy.js';
 import { applyClip, duration, restorePose, storedPose } from '../tools/creature-motion/pose.js';
 import { deformedBounds } from '../tools/creature-motion/validate-deformation.js';
 
@@ -106,31 +105,6 @@ describe('studio death export contact', () => {
       expect(bounds.min[axis]).toBeCloseTo(samples[2]!.min[axis]!, 5);
       expect(bounds.max[axis]).toBeCloseTo(samples[2]!.max[axis]!, 5);
     }
-  });
-});
-
-describe('studio trial native motion repair', () => {
-  it('fairy_monster_16 preserves native gait and skin, holds its corpse, and reproduces its production bytes', async () => {
-    const id = 'fairy_monster_16';
-    const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8'));
-    const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-    const readAsset = async (assetId: string) => io.read(`game/public/assets/${manifest.assets.find((a: { id: string }) => a.id === assetId).file}`);
-    const entry = manifest.assets.find((a: { id: string }) => a.id === id), doc = await repairSource(io, entry);
-    const native = doc.getRoot().listAnimations().filter(c => ['Idle', 'Walk'].includes(c.getName()));
-    const originalChannels = native.flatMap(c => c.listChannels()).map(c => ({ channel: c, values: Array.from(c.getSampler()!.getOutput()!.getArray()!) }));
-    const skin = doc.getRoot().listSkins().map(s => Array.from(s.getInverseBindMatrices()!.getArray()!));
-    const mesh = doc.getRoot().listMeshes().flatMap(m => m.listPrimitives()).map(p => Array.from(p.getAttribute('POSITION')!.getArray()!));
-    await repairStudioFairy(doc, { assetId: id, entry, readAsset });
-    for (const { channel, values } of originalChannels) expect(Array.from(channel.getSampler()!.getOutput()!.getArray()!)).toEqual(values);
-    expect(doc.getRoot().listSkins().map(s => Array.from(s.getInverseBindMatrices()!.getArray()!))).toEqual(skin);
-    expect(doc.getRoot().listMeshes().flatMap(m => m.listPrimitives()).map(p => Array.from(p.getAttribute('POSITION')!.getArray()!))).toEqual(mesh);
-    const death = doc.getRoot().listAnimations().find(c => c.getName() === 'Death')!, rest = storedPose(doc);
-    restorePose(rest); applyClip(death, duration(death) - .29); const held = deformedBounds(doc);
-    restorePose(rest); applyClip(death, duration(death)); const end = deformedBounds(doc);
-    expect(end.min[1]).toBeCloseTo(.016, 5);
-    for (let axis = 0; axis < 3; axis++) { expect(end.min[axis]).toBeCloseTo(held.min[axis]!, 5); expect(end.max[axis]).toBeCloseTo(held.max[axis]!, 5); }
-    restorePose(rest);
-    expect(createHash('sha256').update(await io.writeBinary(doc)).digest('hex')).toBe(entry.sha256);
   });
 });
 

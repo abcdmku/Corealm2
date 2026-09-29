@@ -18875,17 +18875,17 @@
         "ground",
         "claw"
       ],
-      "bytes": 3457316,
-      "sha256": "69ba318a5d0cd15722781c08651dc48bc546a6bda20cee6c4c70e5e00f6b6077",
+      "bytes": 3325748,
+      "sha256": "e26749aa3758fcc64c7028dd78ebf45aec160c45df30afc5e0e3f50643844acc",
       "size": {
-        "x": 1.5857555951424267,
-        "y": 2.3291911772874805,
-        "z": 0.6658300874484943
+        "x": 1.243023,
+        "y": 2.23361,
+        "z": 1.64953
       },
       "base": {
-        "x": -0.7813700524958602,
-        "y": 0.0010001508344827446,
-        "z": -0.33487868595363013
+        "x": -0.54783,
+        "y": -0.009806,
+        "z": -0.843994
       },
       "bounds": {
         "min": [
@@ -18899,7 +18899,7 @@
           0.33095140149486413
         ]
       },
-      "groundY": -0.009806219077073897,
+      "groundY": 0.003389768114998548,
       "triangles": 6094,
       "animations": [
         "Idle",
@@ -18918,100 +18918,7 @@
         "license": "Standard Unity Asset Store EULA",
         "source": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
         "texture": "Monster04_Color03.png",
-        "modifications": "Metre conversion; in-place root channels; exact loop endpoint; directional torso/head recoil overlays over the authored GetHit take; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and six non-gait clips are preserved."
-      },
-      "impliedWalkMps": 0.8999961735371228,
-      "impliedRunMps": 3.000004795975098,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2.3333332538604736,
-      "contactNormalized": 0.235,
-      "measuredGait": {
-        "gait": {
-          "walk": {
-            "seconds": 1.3333333730697632,
-            "sampledFootBones": 2,
-            "stanceSamples": 97,
-            "measuredStanceMps": 0.8999986777241138,
-            "feet": [
-              {
-                "bone": "toes_01l",
-                "minY": 0.032057807347474626,
-                "maxY": 0.20006697112104918,
-                "strideZ": 0.7527823993478291,
-                "contactSamples": 46,
-                "stanceMedianMps": 0.9000000403614281
-              },
-              {
-                "bone": "toes_01r",
-                "minY": 0.03210310493027818,
-                "maxY": 0.2693259542799057,
-                "strideZ": 0.7527760866304551,
-                "contactSamples": 51,
-                "stanceMedianMps": 0.8999952442628909
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "rootx",
-                "x": 0,
-                "z": 6.993303713898058e-10
-              }
-            ]
-          },
-          "run": {
-            "seconds": 0.6666666865348816,
-            "sampledFootBones": 2,
-            "stanceSamples": 69,
-            "measuredStanceMps": 2.99999813201114,
-            "feet": [
-              {
-                "bone": "toes_01l",
-                "minY": 0.028143452725658685,
-                "maxY": 0.42617310043625856,
-                "strideZ": 0.8380031551795977,
-                "contactSamples": 33,
-                "stanceMedianMps": 3.000002494853729
-              },
-              {
-                "bone": "toes_01r",
-                "minY": 0.02689266941346241,
-                "maxY": 0.4261732981930131,
-                "strideZ": 0.8380098860212772,
-                "contactSamples": 36,
-                "stanceMedianMps": 2.999997885686507
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "rootx",
-                "x": 0,
-                "z": 1.3983418867269393e-9
-              }
-            ]
-          }
-        },
-        "loops": {
-          "Idle": {
-            "seconds": 2.9666666984558105,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.000761458371479833,
-            "maxScaleGap": 0
-          },
-          "Walk": {
-            "seconds": 1.3333333730697632,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006707884106089423,
-            "maxScaleGap": 0
-          },
-          "Run": {
-            "seconds": 0.6666666865348816,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.000641806343591427,
-            "maxScaleGap": 0
-          }
-        },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "metadata": {
         "id": "cinder_ravager",
@@ -19261,352 +19168,25 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "d807c7d8851bad9bd9d3e13e4169d30f37ff5ab105b6779125f40b27d414cefc",
-        "sourceGitBlob": "64e3bce76aa31243424032d88519004c0c56dc36",
-        "donors": [],
-        "sourceMetadata": {
-          "id": "cinder_ravager",
-          "is": "A tall plated ravager with a forked head crest, broad clawed arms and digitigrade feet.",
-          "tags": [
-            "creature",
-            "monster",
-            "biped",
-            "ground",
-            "claw"
-          ],
-          "provenance": {
-            "author": "PixeliusVita",
-            "pack": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita",
-            "license": "Standard Unity Asset Store EULA",
-            "source": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
-            "texture": "Monster04_Color03.png",
-            "modifications": "Metre conversion; in-place root channels; exact loop endpoint; directional torso/head recoil overlays over the authored GetHit take; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and six non-gait clips are preserved."
-          },
-          "attackSeconds": 2.3333332538604736,
-          "contactNormalized": 0.235,
-          "impliedWalkMps": 0.8999961735371228,
-          "impliedRunMps": 3.000004795975098,
-          "gaitFootBones": [
-            "toes_01l",
-            "toes_01r"
-          ],
-          "gaitStanceAudit": {
-            "walk": {
-              "mps": 0.8999961735371228,
-              "contacts": [
-                {
-                  "bone": "toes_01l",
-                  "samples": 120,
-                  "stanceMps": 0.9000039880411635,
-                  "heightWindowM": 0.020133818415268474
-                },
-                {
-                  "bone": "toes_01r",
-                  "samples": 132,
-                  "stanceMps": 0.8999822188528809,
-                  "heightWindowM": 0.028487247587989498
-                }
-              ],
-              "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
-            },
-            "run": {
-              "mps": 3.000004795975098,
-              "contacts": [
-                {
-                  "bone": "toes_01l",
-                  "samples": 79,
-                  "stanceMps": 2.999990855745508,
-                  "heightWindowM": 0.04
-                },
-                {
-                  "bone": "toes_01r",
-                  "samples": 88,
-                  "stanceMps": 3.0000053387593795,
-                  "heightWindowM": 0.04
-                }
-              ],
-              "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
-            }
-          },
-          "groundCorrections": [
-            {
-              "name": "Idle",
-              "maxLiftM": 0.0010153535911738756
-            },
-            {
-              "name": "Walk",
-              "maxLiftM": 0.04676179588103981
-            },
-            {
-              "name": "Run",
-              "maxLiftM": 0.059252446691748985
-            },
-            {
-              "name": "Attack",
-              "maxLiftM": 0.04036067686018777
-            },
-            {
-              "name": "Hit",
-              "maxLiftM": 0.007387100491124016
-            },
-            {
-              "name": "Death",
-              "maxLiftM": 0.0988392413319924
-            },
-            {
-              "name": "HitLeft",
-              "maxLiftM": 0.007387100491124016
-            },
-            {
-              "name": "HitRight",
-              "maxLiftM": 0.007387100491124016
-            }
-          ],
-          "gaitGroundCorrections": [
-            {
-              "name": "Walk",
-              "maxLiftM": 0
-            },
-            {
-              "name": "Run",
-              "maxLiftM": 0
-            }
-          ],
-          "gaitFloorSeal": [
-            {
-              "name": "Walk",
-              "minimumBeforeM": 0.0019777836008402286,
-              "maxAdditionalLiftM": 0,
-              "sampleHz": 480
-            },
-            {
-              "name": "Run",
-              "minimumBeforeM": 0.0019877774246581455,
-              "maxAdditionalLiftM": 0,
-              "sampleHz": 480
-            }
-          ],
-          "gaitAdaptation": [
-            {
-              "name": "Walk",
-              "nativeDuration": 1.3333333730697632,
-              "targetStanceMps": 0.9,
-              "supportFraction": 0.6,
-              "toeStanceSweepM": 0.7200000214576722,
-              "liftM": 0.12,
-              "bakeHz": 240,
-              "maxIkResidualM": 5.968813179414793e-8,
-              "kneeInteriorDegrees": [
-                79.18067069950074,
-                138.84394874265627
-              ],
-              "method": "Toe target moves backward at constant world metres per second while planted. Source foot roll and projected source knee bend plane are retained, with Run roll at 40% and knee-plane variation at 50% around the source planted pose. Two-bone IK changes only lower-body gait channels; source upper-body channels are copied."
-            },
-            {
-              "name": "Run",
-              "nativeDuration": 0.6666666865348816,
-              "targetStanceMps": 3,
-              "supportFraction": 0.34,
-              "toeStanceSweepM": 0.6800000202655793,
-              "liftM": 0.24,
-              "bakeHz": 960,
-              "maxIkResidualM": 4.2331587410460006e-8,
-              "kneeInteriorDegrees": [
-                59.08778358356357,
-                120.6666644989449
-              ],
-              "method": "Toe target moves backward at constant world metres per second while planted. Source foot roll and projected source knee bend plane are retained, with Run roll at 40% and knee-plane variation at 50% around the source planted pose. Two-bone IK changes only lower-body gait channels; source upper-body channels are copied."
-            }
-          ],
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.6666666865348816,
-          "animationResampleTolerance": 0.000001,
-          "notes": [
-            "Six named embedded FBX takes retained without broad-take substitutions. Walk and Run retain source upper-body channels and cadence, with shorter planted toe paths solved through the original leg chain.",
-            "Native atlas and vertex normals retained. The source package has no true tangent normal or roughness texture.",
-            "Walk retains source ankle roll and knee bend direction. Run reduces ankle roll to 40% and knee-plane variation to 50% around the source planted pose. Toe contacts move backward at .9 m/s Walk and 3 m/s Run. Actual weighted sole vertices control leg contact height; metadata measures the final clips after floor correction.",
-            "Attack01 is the authored ground claw combination. Contact at 0.548s marks the first descending claw sweep; the later spin is recovery motion for the one-hit runtime attack."
-          ],
-          "boneNames": [
-            "rootx",
-            "thigh_stretchl",
-            "leg_stretchl",
-            "leg_twistl",
-            "footl",
-            "toes_01l",
-            "thigh_twistl",
-            "thigh_stretchr",
-            "thigh_twistr",
-            "leg_stretchr",
-            "leg_twistr",
-            "footr",
-            "toes_01r",
-            "spine_01x",
-            "spine_02x",
-            "spine_03x",
-            "shoulderr",
-            "arm_stretchr",
-            "forearm_stretchr",
-            "handr",
-            "thumb1r",
-            "thumb2r",
-            "thumb3r",
-            "index1_baser",
-            "index1r",
-            "index2r",
-            "index3r",
-            "middle1_baser",
-            "middle1r",
-            "middle2r",
-            "middle3r",
-            "forearm_twistr",
-            "arm_twistr",
-            "shoulderl",
-            "arm_stretchl",
-            "forearm_stretchl",
-            "forearm_twistl",
-            "handl",
-            "index1_basel",
-            "index1l",
-            "index2l",
-            "index3l",
-            "middle1_basel",
-            "middle1l",
-            "middle2l",
-            "middle3l",
-            "thumb1l",
-            "thumb2l",
-            "thumb3l",
-            "arm_twistl",
-            "neckx",
-            "headx",
-            "c_ear_01l",
-            "c_ear_02l",
-            "c_ear_03l",
-            "c_ear_04l",
-            "c_ear_01r",
-            "c_ear_02r",
-            "c_ear_03r",
-            "c_ear_04r",
-            "c_bot_bendl",
-            "c_bot_bendr"
-          ],
-          "authoringModule": "tools/creature-expansion/monsters.mjs"
-        },
-        "changes": [
-          "Removed retired directional hit clips; all impacts use Hit"
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
         ],
-        "warnings": [
-          "Requires devdocs review of each affected state."
-        ],
-        "provenance": {
-          "timelineRepairs": [],
-          "groundRepairs": [],
-          "preserved": [
-            "geometry",
-            "skin weights",
-            "inverse binds",
-            "materials",
-            "joint animation curves"
-          ]
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.9666666984558105,
-              "samples": 121,
-              "maximumVertexMotion": 0.2569607730624979,
-              "maximumSpanRatio": 0.9603603661509466,
-              "minimumSpanRatio": 0.9429552881604718,
-              "loopSeam": 5.112001608542502e-8,
-              "edgeStretchP99": 1.4138128903055591,
-              "maximumEdgeStretch": 3.035842513726778,
-              "stretchedEdgeFraction": 0.0001121830827911151
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 121,
-              "maximumVertexMotion": 0.7200267965153128,
-              "maximumSpanRatio": 0.9461458388952,
-              "minimumSpanRatio": 0.882836868915454,
-              "loopSeam": 3.424337529081279e-8,
-              "edgeStretchP99": 1.4205229147474285,
-              "maximumEdgeStretch": 3.669349889021851,
-              "stretchedEdgeFraction": 0.0002243661655822302
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6666666865348816,
-              "samples": 121,
-              "maximumVertexMotion": 2.0195230962005555,
-              "maximumSpanRatio": 0.9636675488886965,
-              "minimumSpanRatio": 0.8563479140603575,
-              "loopSeam": 4.0664078961736254e-8,
-              "edgeStretchP99": 1.6457391933905572,
-              "maximumEdgeStretch": 5.078495415183735,
-              "stretchedEdgeFraction": 0.001009647745120036
-            },
-            {
-              "name": "Attack",
-              "seconds": 2.3333332538604736,
-              "samples": 121,
-              "maximumVertexMotion": 2.7900371302055325,
-              "maximumSpanRatio": 1.1629219611097013,
-              "minimumSpanRatio": 0.9380715866742408,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7108585970458017,
-              "maximumEdgeStretch": 4.19607067707688,
-              "stretchedEdgeFraction": 0.001009647745120036
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.6666666865348816,
-              "samples": 80,
-              "maximumVertexMotion": 0.43621497175254514,
-              "maximumSpanRatio": 0.9755566144222438,
-              "minimumSpanRatio": 0.9387971407006123,
-              "loopSeam": null,
-              "edgeStretchP99": 1.4344302808775624,
-              "maximumEdgeStretch": 3.792308285432328,
-              "stretchedEdgeFraction": 0.0002243661655822302
-            },
-            {
-              "name": "Death",
-              "seconds": 1.100000023841858,
-              "samples": 93,
-              "maximumVertexMotion": 3.3437171946392135,
-              "maximumSpanRatio": 1.476497426229875,
-              "minimumSpanRatio": 0.8591345409042244,
-              "loopSeam": null,
-              "edgeStretchP99": 1.832139677545201,
-              "maximumEdgeStretch": 5.529271024016877,
-              "stretchedEdgeFraction": 0.0016827462418667265
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:21:14.982Z",
-          "by": "codex",
-          "sha256": "69ba318a5d0cd15722781c08651dc48bc546a6bda20cee6c4c70e5e00f6b6077",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_cinder_ravager/evidence.json"
-        }
-      }
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita.unitypackage: Idle=Monster04_Idle, Walk=Monster04_Walk, Run=Monster04_Run, Attack=Monster04_Attack01, Hit=Monster04_GetHit, Death=Monster04_Die. Skin equals the source skin (inverse bind residual 4.8e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle -0.003, Walk -0.049, Run -0.062, Attack -0.030, Hit -0.009, Death -0.101. Monster04 body at its own scale; replaces the IK-compressed gaits and 240 Hz floor lift."
+      },
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 2.340705,
+      "impliedRunMps": 11.099015,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.235
     },
     {
       "id": "creature_blackwater_heron",
@@ -28149,17 +27729,17 @@
         "chitin",
         "claws"
       ],
-      "bytes": 4993972,
-      "sha256": "b158132a34d9fbad63a4ee540ffcb11b0dd0e7cfce643943720034f97db6cf08",
+      "bytes": 4056548,
+      "sha256": "9ae7a61f9cfddda096e239246defb68f67dd73d6aa42792223e7ca519eac39b4",
       "size": {
-        "x": 0.8298124898168743,
-        "y": 1.774984178633602,
-        "z": 0.8670040804736727
+        "x": 1.398977,
+        "y": 2.000028,
+        "z": 1.244712
       },
       "base": {
-        "x": -0.45799341820833506,
-        "y": 3.088427709754815e-8,
-        "z": -0.41435764460060565
+        "x": -0.699495,
+        "y": -0.009363,
+        "z": -0.892909
       },
       "bounds": {
         "min": [
@@ -28173,7 +27753,7 @@
           0.45264643587306713
         ]
       },
-      "groundY": -0.009363583384709592,
+      "groundY": 0,
       "triangles": 7400,
       "animations": [
         "Idle",
@@ -28199,100 +27779,8 @@
           "Monster09_GetHit.anim",
           "Monster09_Die.anim"
         ],
-        "license": "Standard Unity Asset Store EULA"
-      },
-      "impliedWalkMps": 1.1475409836065573,
-      "impliedRunMps": 2.833333191666674,
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 1,
-      "contactNormalized": 0.316667,
-      "measuredGait": {
-        "gait": {
-          "walk": {
-            "seconds": 1,
-            "sampledFootBones": 2,
-            "stanceSamples": 118,
-            "measuredStanceMps": 1.1475155979755707,
-            "feet": [
-              {
-                "bone": "footl",
-                "minY": 0.11678820883349927,
-                "maxY": 0.2166729359035427,
-                "strideZ": 0.6981704649047844,
-                "contactSamples": 59,
-                "stanceMedianMps": 1.147513560865863
-              },
-              {
-                "bone": "footr",
-                "minY": 0.11685088427944623,
-                "maxY": 0.21662697039434653,
-                "strideZ": 0.698170484619861,
-                "contactSamples": 59,
-                "stanceMedianMps": 1.1475155979755707
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "rootx",
-                "x": 0,
-                "z": 1.3113416498511388e-9
-              }
-            ]
-          },
-          "run": {
-            "seconds": 0.6666666865348816,
-            "sampledFootBones": 2,
-            "stanceSamples": 107,
-            "measuredStanceMps": 2.833504596571902,
-            "feet": [
-              {
-                "bone": "footl",
-                "minY": 0.1159814596593848,
-                "maxY": 0.27624038972082177,
-                "strideZ": 1.0147373771227608,
-                "contactSamples": 53,
-                "stanceMedianMps": 2.834830603253873
-              },
-              {
-                "bone": "footr",
-                "minY": 0.11608058403030744,
-                "maxY": 0.276092621228317,
-                "strideZ": 1.0144729029054442,
-                "contactSamples": 54,
-                "stanceMedianMps": 2.832358587813393
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "rootx",
-                "x": 0,
-                "z": 1.3055864341027235e-9
-              }
-            ]
-          }
-        },
-        "loops": {
-          "Idle": {
-            "seconds": 2.9666669368743896,
-            "maxTranslationGap": 0.0000395046302262347,
-            "maxRotationGapRadians": 0.0221039404120411,
-            "maxScaleGap": 0
-          },
-          "Walk": {
-            "seconds": 1,
-            "maxTranslationGap": 0.006955881012767716,
-            "maxRotationGapRadians": 0.014264101236315566,
-            "maxScaleGap": 0
-          },
-          "Run": {
-            "seconds": 0.6666666865348816,
-            "maxTranslationGap": 0.025278694743686943,
-            "maxRotationGapRadians": 0.031074620501883504,
-            "maxScaleGap": 0
-          }
-        },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+        "license": "Standard Unity Asset Store EULA",
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "metadata": {
         "id": "gorge_mantis",
@@ -28457,1459 +27945,25 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "ee27bda91c10c4f362fe911682314b2be968e599032c67dbf9791293bcd6a9e1",
-        "sourceGitBlob": "064e5305c2ffb2ed3ff22006c6cc0cf719fb77e2",
-        "donors": [],
-        "sourceMetadata": {
-          "id": "gorge_mantis",
-          "is": "A tall insectoid with jointed claws, a blue-grey shell, and folded reddish wings.",
-          "tags": [
-            "creature",
-            "monster",
-            "mantis",
-            "insectoid",
-            "ground",
-            "chitin",
-            "claws"
-          ],
-          "provenance": {
-            "author": "PixeliusVita",
-            "package": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita",
-            "sourceRig": "Assets/Stylized3DMonster/Monster09/Monster09.fbx",
-            "sourceTexture": "Assets/Stylized3DMonster/Monster09/Shader_Texture/Texture/Monster09_01.png",
-            "sourceAnimations": [
-              "Monster09_Idle.anim",
-              "Monster09_Walk.anim",
-              "Monster09_Run.anim",
-              "Monster09_Attack02.anim",
-              "Monster09_GetHit.anim",
-              "Monster09_Die.anim"
-            ],
-            "license": "Standard Unity Asset Store EULA"
-          },
-          "attackSeconds": 1,
-          "contactNormalized": 0.316667,
-          "impliedWalkMps": 1.1475409836065573,
-          "impliedRunMps": 2.833333191666674,
-          "gaitFootBones": [
-            "footl",
-            "footr"
-          ],
-          "walkClipSeconds": 1,
-          "runClipSeconds": 0.6666667,
-          "notes": [
-            "Original FBX geometry, UVs, vertex normals, inverse binds, and native 2048px texture preserved.",
-            "Source package has no normal texture. The actual _BumpMap is empty; its legacy _NORMAL_MAP refers to an albedo texture and is not imported as a normal map.",
-            "Original Unity quaternion, position, and scale curves resampled with cubic Hermite tangents at 60 Hz, with X handedness and metre-to-centimetre conversion.",
-            "Source locomotion is a hovering animation. This ground adaptation replaces pelvis and leg poses with two-bone IK and alternating planted contacts. Foot sweeps are 0.70 m over 61% of Walk and 1.02 m over 54% of Run; implied speeds match those stance velocities.",
-            "Both source wing pairs are folded down the back in every clip. Each baked frame corrects root Y against the actual skinned minimum. Source upper-body animation is retained.",
-            "Root X/Z is fixed across all clips, including the source Die clip, whose original backward travel is removed for an in-place collapse.",
-            "HitLeft and HitRight retain source GetHit recoil, adding a small directional torso bend. No flight clips are used.",
-            "Attack contact at normalized 0.316667 is the sampled peak forward reach of the right middle claw, 1.061 m from origin. Production feature-lab acceptance remains required."
-          ],
-          "boneNames": [
-            "rootx",
-            "thigh_stretchr",
-            "thigh_twistr",
-            "leg_stretchr",
-            "leg_twistr",
-            "footr",
-            "toes_01r",
-            "thigh_stretchl",
-            "leg_stretchl",
-            "footl",
-            "toes_01l",
-            "leg_twistl",
-            "thigh_twistl",
-            "spine_01x",
-            "spine_02x",
-            "spine_03x",
-            "shoulder_dupli_001r",
-            "arm_stretch_dupli_001r",
-            "arm_twist_dupli_001r",
-            "forearm_stretch_dupli_001r",
-            "hand_dupli_001r",
-            "forearm_twist_dupli_001r",
-            "shoulder_dupli_001l",
-            "arm_stretch_dupli_001l",
-            "arm_twist_dupli_001l",
-            "forearm_stretch_dupli_001l",
-            "hand_dupli_001l",
-            "forearm_twist_dupli_001l",
-            "shoulder_dupli_002r",
-            "arm_stretch_dupli_002r",
-            "forearm_stretch_dupli_002r",
-            "hand_dupli_002r",
-            "forearm_twist_dupli_002r",
-            "arm_twist_dupli_002r",
-            "c_subneck_1x",
-            "neckx",
-            "headx",
-            "c_ear_01l",
-            "c_ear_02l",
-            "c_ear_03l",
-            "c_ear_04l",
-            "c_ear_01r",
-            "c_ear_02r",
-            "c_ear_03r",
-            "c_ear_04r",
-            "shoulderr",
-            "arm_stretchr",
-            "forearm_stretchr",
-            "handr",
-            "middle1_baser",
-            "middle1r",
-            "middle2r",
-            "middle3r",
-            "index1_baser",
-            "index1r",
-            "index2r",
-            "index3r",
-            "thumb1r",
-            "thumb2r",
-            "thumb3r",
-            "ring1_baser",
-            "ring1r",
-            "ring2r",
-            "ring3r",
-            "forearm_twistr",
-            "arm_twistr",
-            "shoulder_dupli_002l",
-            "arm_stretch_dupli_002l",
-            "arm_twist_dupli_002l",
-            "forearm_stretch_dupli_002l",
-            "forearm_twist_dupli_002l",
-            "hand_dupli_002l",
-            "shoulderl",
-            "arm_stretchl",
-            "forearm_stretchl",
-            "handl",
-            "thumb1l",
-            "thumb2l",
-            "thumb3l",
-            "index1_basel",
-            "index1l",
-            "index2l",
-            "index3l",
-            "ring1_basel",
-            "ring1l",
-            "ring2l",
-            "ring3l",
-            "middle1_basel",
-            "middle1l",
-            "middle2l",
-            "middle3l",
-            "forearm_twistl",
-            "arm_twistl"
-          ],
-          "authoringModule": "tools/creature-expansion/monsters.mjs"
-        },
-        "changes": [
-          "Replaced Gorge Mantis Death ground impulses with bounded contact settling and a held corpse; native body poses and other states remain intact.",
-          "Removed retired directional hit clips; all impacts use Hit"
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
         ],
-        "warnings": [
-          "Requires devdocs playback of the complete retimed fall."
-        ],
-        "provenance": {
-          "source": "Existing PixeliusVita Monster09 Death body curves",
-          "floor": 0.003,
-          "bodyHeight": 1.774984178633602,
-          "maximumSupportSpeedMps": 2.662476267950403,
-          "originalSeconds": 1,
-          "settledSeconds": 1.7364671230316162,
-          "holdSeconds": 0.25,
-          "timeScale": 1.7364671230316162,
-          "supportSamples": 295,
-          "maximumAddedSupport": 0,
-          "phaseMap": [
-            [
-              0,
-              0
-            ],
-            [
-              0.004166666883975267,
-              0.004166666883975267
-            ],
-            [
-              0.008333333767950535,
-              0.008333333767950535
-            ],
-            [
-              0.01250000111758709,
-              0.01250000111758709
-            ],
-            [
-              0.01666666753590107,
-              0.016700023785233498
-            ],
-            [
-              0.02083333395421505,
-              0.021158799529075623
-            ],
-            [
-              0.02500000223517418,
-              0.02576559968292713
-            ],
-            [
-              0.02916666865348816,
-              0.030520539730787277
-            ],
-            [
-              0.03333333507180214,
-              0.03542366996407509
-            ],
-            [
-              0.03750000149011612,
-              0.03959033638238907
-            ],
-            [
-              0.0416666679084301,
-              0.04375700280070305
-            ],
-            [
-              0.04583333432674408,
-              0.04792366921901703
-            ],
-            [
-              0.05000000074505806,
-              0.05209033563733101
-            ],
-            [
-              0.05416666716337204,
-              0.05625700205564499
-            ],
-            [
-              0.05833333730697632,
-              0.06042367219924927
-            ],
-            [
-              0.0625,
-              0.06459033489227295
-            ],
-            [
-              0.06666667014360428,
-              0.06875700503587723
-            ],
-            [
-              0.07083334028720856,
-              0.0729236751794815
-            ],
-            [
-              0.07500000298023224,
-              0.07709033787250519
-            ],
-            [
-              0.07916666567325592,
-              0.08125700056552887
-            ],
-            [
-              0.0833333358168602,
-              0.08542367070913315
-            ],
-            [
-              0.08750000596046448,
-              0.08959034085273743
-            ],
-            [
-              0.09166666865348816,
-              0.09381982684135437
-            ],
-            [
-              0.09583333134651184,
-              0.09824872761964798
-            ],
-            [
-              0.10000000149011612,
-              0.10287652909755707
-            ],
-            [
-              0.1041666716337204,
-              0.10704319924116135
-            ],
-            [
-              0.10833333432674408,
-              0.11143005639314651
-            ],
-            [
-              0.11249999701976776,
-              0.11604918539524078
-            ],
-            [
-              0.11666666716337204,
-              0.12089936435222626
-            ],
-            [
-              0.12083333730697632,
-              0.12679672241210938
-            ],
-            [
-              0.125,
-              0.13302168250083923
-            ],
-            [
-              0.12916667759418488,
-              0.13957099616527557
-            ],
-            [
-              0.13333334028720856,
-              0.1464410424232483
-            ],
-            [
-              0.13750000298023224,
-              0.1548732966184616
-            ],
-            [
-              0.14166668057441711,
-              0.1638234257698059
-            ],
-            [
-              0.1458333432674408,
-              0.17328041791915894
-            ],
-            [
-              0.15000000596046448,
-              0.18323247134685516
-            ],
-            [
-              0.15416666865348816,
-              0.1953771859407425
-            ],
-            [
-              0.15833333134651184,
-              0.2081225961446762
-            ],
-            [
-              0.16250000894069672,
-              0.22142519056797028
-            ],
-            [
-              0.1666666716337204,
-              0.23530879616737366
-            ],
-            [
-              0.17083333432674408,
-              0.2504769265651703
-            ],
-            [
-              0.17500001192092896,
-              0.2662543058395386
-            ],
-            [
-              0.17916667461395264,
-              0.28260472416877747
-            ],
-            [
-              0.18333333730697632,
-              0.2994906008243561
-            ],
-            [
-              0.18541666865348816,
-              0.3080527186393738
-            ],
-            [
-              0.1875,
-              0.31183210015296936
-            ],
-            [
-              0.19166666269302368,
-              0.3193679749965668
-            ],
-            [
-              0.19583334028720856,
-              0.3269999325275421
-            ],
-            [
-              0.20000000298023224,
-              0.33409082889556885
-            ],
-            [
-              0.20416666567325592,
-              0.3405147194862366
-            ],
-            [
-              0.2083333432674408,
-              0.3469899296760559
-            ],
-            [
-              0.21250000596046448,
-              0.35281163454055786
-            ],
-            [
-              0.21666666865348816,
-              0.35839352011680603
-            ],
-            [
-              0.22083333134651184,
-              0.3625601828098297
-            ],
-            [
-              0.22499999403953552,
-              0.3667268455028534
-            ],
-            [
-              0.2291666716337204,
-              0.37089353799819946
-            ],
-            [
-              0.23333333432674408,
-              0.37506020069122314
-            ],
-            [
-              0.23749999701976776,
-              0.3792268633842468
-            ],
-            [
-              0.24166667461395264,
-              0.38472065329551697
-            ],
-            [
-              0.24583333730697632,
-              0.3900865316390991
-            ],
-            [
-              0.25,
-              0.39537298679351807
-            ],
-            [
-              0.2541666626930237,
-              0.40077197551727295
-            ],
-            [
-              0.25833332538604736,
-              0.40577298402786255
-            ],
-            [
-              0.26250001788139343,
-              0.41036462783813477
-            ],
-            [
-              0.2666666805744171,
-              0.41453441977500916
-            ],
-            [
-              0.2708333432674408,
-              0.41870108246803284
-            ],
-            [
-              0.2750000059604645,
-              0.4228677451610565
-            ],
-            [
-              0.27916666865348816,
-              0.4270344078540802
-            ],
-            [
-              0.28333333134651184,
-              0.43264028429985046
-            ],
-            [
-              0.2874999940395355,
-              0.43680694699287415
-            ],
-            [
-              0.2916666865348816,
-              0.4409736394882202
-            ],
-            [
-              0.2958333492279053,
-              0.4451403021812439
-            ],
-            [
-              0.30000001192092896,
-              0.44943907856941223
-            ],
-            [
-              0.3020833432674408,
-              0.46469220519065857
-            ],
-            [
-              0.30416667461395264,
-              0.48145076632499695
-            ],
-            [
-              0.3046875,
-              0.4898803234100342
-            ],
-            [
-              0.30520832538604736,
-              0.4980645179748535
-            ],
-            [
-              0.3057291805744171,
-              0.5059881806373596
-            ],
-            [
-              0.3062500059604645,
-              0.5136353969573975
-            ],
-            [
-              0.3072916865348816,
-              0.5282889008522034
-            ],
-            [
-              0.30781251192092896,
-              0.5358954668045044
-            ],
-            [
-              0.3083333373069763,
-              0.5431788563728333
-            ],
-            [
-              0.3088541626930237,
-              0.5501194596290588
-            ],
-            [
-              0.30937498807907104,
-              0.5567046999931335
-            ],
-            [
-              0.3098958432674408,
-              0.5629231929779053
-            ],
-            [
-              0.31041666865348816,
-              0.5687631964683533
-            ],
-            [
-              0.3114583492279053,
-              0.5807170271873474
-            ],
-            [
-              0.31197917461395264,
-              0.5866092443466187
-            ],
-            [
-              0.3125,
-              0.5920610427856445
-            ],
-            [
-              0.31302082538604736,
-              0.5970632433891296
-            ],
-            [
-              0.3135416507720947,
-              0.6016075015068054
-            ],
-            [
-              0.3140625059604645,
-              0.6056868433952332
-            ],
-            [
-              0.31458333134651184,
-              0.6093586683273315
-            ],
-            [
-              0.3151041567325592,
-              0.6126264929771423
-            ],
-            [
-              0.31562501192092896,
-              0.6154161095619202
-            ],
-            [
-              0.3161458373069763,
-              0.6177235841751099
-            ],
-            [
-              0.3166666626930237,
-              0.6195465326309204
-            ],
-            [
-              0.31718748807907104,
-              0.6211984157562256
-            ],
-            [
-              0.3177083432674408,
-              0.6223595142364502
-            ],
-            [
-              0.31822916865348816,
-              0.6230290532112122
-            ],
-            [
-              0.3187499940395355,
-              0.6235498785972595
-            ],
-            [
-              0.3192708194255829,
-              0.6240707039833069
-            ],
-            [
-              0.31979167461395264,
-              0.6248692870140076
-            ],
-            [
-              0.3203125,
-              0.6261519193649292
-            ],
-            [
-              0.32083332538604736,
-              0.6279144287109375
-            ],
-            [
-              0.3218750059604645,
-              0.6320861577987671
-            ],
-            [
-              0.32239583134651184,
-              0.6345817446708679
-            ],
-            [
-              0.3229166567325592,
-              0.6375351548194885
-            ],
-            [
-              0.32343751192092896,
-              0.6409391164779663
-            ],
-            [
-              0.3239583373069763,
-              0.6447848677635193
-            ],
-            [
-              0.3244791626930237,
-              0.6490634083747864
-            ],
-            [
-              0.32499998807907104,
-              0.6537647247314453
-            ],
-            [
-              0.3255208432674408,
-              0.6588783860206604
-            ],
-            [
-              0.32604166865348816,
-              0.6643921732902527
-            ],
-            [
-              0.3265624940395355,
-              0.6702940464019775
-            ],
-            [
-              0.3270833492279053,
-              0.6765713691711426
-            ],
-            [
-              0.32760417461395264,
-              0.6832097172737122
-            ],
-            [
-              0.328125,
-              0.6901950836181641
-            ],
-            [
-              0.32864582538604736,
-              0.6975124478340149
-            ],
-            [
-              0.3291666805744171,
-              0.7051466703414917
-            ],
-            [
-              0.33125001192092896,
-              0.7385159134864807
-            ],
-            [
-              0.3317708373069763,
-              0.7474797368049622
-            ],
-            [
-              0.33203125,
-              0.7511764764785767
-            ],
-            [
-              0.3322916626930237,
-              0.7516616582870483
-            ],
-            [
-              0.3333333432674408,
-              0.7535523176193237
-            ],
-            [
-              0.3375000059604645,
-              0.7633333802223206
-            ],
-            [
-              0.34166666865348816,
-              0.7723783254623413
-            ],
-            [
-              0.34375,
-              0.7766175866127014
-            ],
-            [
-              0.34583333134651184,
-              0.780666708946228
-            ],
-            [
-              0.3499999940395355,
-              0.7892422676086426
-            ],
-            [
-              0.3541666567325592,
-              0.7977675199508667
-            ],
-            [
-              0.3583333492279053,
-              0.8060628771781921
-            ],
-            [
-              0.36250001192092896,
-              0.8141395449638367
-            ],
-            [
-              0.36666667461395264,
-              0.8220095634460449
-            ],
-            [
-              0.3708333373069763,
-              0.8334117531776428
-            ],
-            [
-              0.375,
-              0.8449020981788635
-            ],
-            [
-              0.3791666626930237,
-              0.8559533953666687
-            ],
-            [
-              0.38333332538604736,
-              0.8681463599205017
-            ],
-            [
-              0.38749998807907104,
-              0.8808569312095642
-            ],
-            [
-              0.3916666507720947,
-              0.893073558807373
-            ],
-            [
-              0.3958333432674408,
-              0.9048063158988953
-            ],
-            [
-              0.4000000059604645,
-              0.916348397731781
-            ],
-            [
-              0.40416666865348816,
-              0.941718578338623
-            ],
-            [
-              0.40625,
-              0.9541425704956055
-            ],
-            [
-              0.40833333134651184,
-              0.966372013092041
-            ],
-            [
-              0.4104166626930237,
-              0.9783918857574463
-            ],
-            [
-              0.4124999940395355,
-              0.9901874661445618
-            ],
-            [
-              0.41458332538604736,
-              1.0017445087432861
-            ],
-            [
-              0.4166666567325592,
-              1.0130490064620972
-            ],
-            [
-              0.4208333194255829,
-              1.030824065208435
-            ],
-            [
-              0.42500001192092896,
-              1.0480517148971558
-            ],
-            [
-              0.42916667461395264,
-              1.064666986465454
-            ],
-            [
-              0.4333333373069763,
-              1.0806094408035278
-            ],
-            [
-              0.43541666865348816,
-              1.0826927423477173
-            ],
-            [
-              0.4375,
-              1.0847760438919067
-            ],
-            [
-              0.43958333134651184,
-              1.0868593454360962
-            ],
-            [
-              0.4416666626930237,
-              1.0889426469802856
-            ],
-            [
-              0.4437499940395355,
-              1.091025948524475
-            ],
-            [
-              0.44583332538604736,
-              1.0931092500686646
-            ],
-            [
-              0.44999998807907104,
-              1.0991355180740356
-            ],
-            [
-              0.4541666507720947,
-              1.103302240371704
-            ],
-            [
-              0.4583333134651184,
-              1.111317753791809
-            ],
-            [
-              0.4625000059604645,
-              1.1198911666870117
-            ],
-            [
-              0.46666666865348816,
-              1.1286158561706543
-            ],
-            [
-              0.47083333134651184,
-              1.1327824592590332
-            ],
-            [
-              0.4749999940395355,
-              1.136949062347412
-            ],
-            [
-              0.4791666567325592,
-              1.141115665435791
-            ],
-            [
-              0.4833333194255829,
-              1.14528226852417
-            ],
-            [
-              0.48749998211860657,
-              1.1494488716125488
-            ],
-            [
-              0.49166667461395264,
-              1.1536155939102173
-            ],
-            [
-              0.4958333373069763,
-              1.1577823162078857
-            ],
-            [
-              0.5,
-              1.1619489192962646
-            ],
-            [
-              0.5041666626930237,
-              1.1662193536758423
-            ],
-            [
-              0.5083333253860474,
-              1.1705892086029053
-            ],
-            [
-              0.512499988079071,
-              1.1750507354736328
-            ],
-            [
-              0.5145833492279053,
-              1.1773134469985962
-            ],
-            [
-              0.5166666507720947,
-              1.1793967485427856
-            ],
-            [
-              0.5208333134651184,
-              1.183563470840454
-            ],
-            [
-              0.5249999761581421,
-              1.187730073928833
-            ],
-            [
-              0.5291666984558105,
-              1.1918967962265015
-            ],
-            [
-              0.5333333611488342,
-              1.19606351852417
-            ],
-            [
-              0.5375000238418579,
-              1.2051790952682495
-            ],
-            [
-              0.5416666865348816,
-              1.2143213748931885
-            ],
-            [
-              0.5458333492279053,
-              1.2234903573989868
-            ],
-            [
-              0.550000011920929,
-              1.232686161994934
-            ],
-            [
-              0.5541666746139526,
-              1.2427462339401245
-            ],
-            [
-              0.5583333373069763,
-              1.2528493404388428
-            ],
-            [
-              0.5625,
-              1.2629954814910889
-            ],
-            [
-              0.5666666626930237,
-              1.2731846570968628
-            ],
-            [
-              0.5708333253860474,
-              1.2773513793945312
-            ],
-            [
-              0.574999988079071,
-              1.2815179824829102
-            ],
-            [
-              0.5791666507720947,
-              1.285684585571289
-            ],
-            [
-              0.5833333134651184,
-              1.289851188659668
-            ],
-            [
-              0.5874999761581421,
-              1.2940177917480469
-            ],
-            [
-              0.5916666984558105,
-              1.2981845140457153
-            ],
-            [
-              0.5958333611488342,
-              1.3023512363433838
-            ],
-            [
-              0.6000000238418579,
-              1.3065178394317627
-            ],
-            [
-              0.6041666865348816,
-              1.3106844425201416
-            ],
-            [
-              0.6083333492279053,
-              1.3148510456085205
-            ],
-            [
-              0.612500011920929,
-              1.3190176486968994
-            ],
-            [
-              0.6166666746139526,
-              1.3232085704803467
-            ],
-            [
-              0.6208333373069763,
-              1.3273751735687256
-            ],
-            [
-              0.625,
-              1.3315417766571045
-            ],
-            [
-              0.6291666626930237,
-              1.3357083797454834
-            ],
-            [
-              0.6333333253860474,
-              1.3398749828338623
-            ],
-            [
-              0.637499988079071,
-              1.3458073139190674
-            ],
-            [
-              0.6416666507720947,
-              1.351719617843628
-            ],
-            [
-              0.6458333134651184,
-              1.3576120138168335
-            ],
-            [
-              0.6499999761581421,
-              1.3634846210479736
-            ],
-            [
-              0.6541666388511658,
-              1.3693560361862183
-            ],
-            [
-              0.6583333015441895,
-              1.3752100467681885
-            ],
-            [
-              0.6625000238418579,
-              1.3810468912124634
-            ],
-            [
-              0.6666666865348816,
-              1.3868666887283325
-            ],
-            [
-              0.6708333492279053,
-              1.391033411026001
-            ],
-            [
-              0.675000011920929,
-              1.3952000141143799
-            ],
-            [
-              0.6791666746139526,
-              1.3993666172027588
-            ],
-            [
-              0.6833333373069763,
-              1.4035332202911377
-            ],
-            [
-              0.6875,
-              1.4076998233795166
-            ],
-            [
-              0.6916666626930237,
-              1.4118664264678955
-            ],
-            [
-              0.6958333253860474,
-              1.4160330295562744
-            ],
-            [
-              0.699999988079071,
-              1.4201996326446533
-            ],
-            [
-              0.7041666507720947,
-              1.4243662357330322
-            ],
-            [
-              0.7083333134651184,
-              1.4285328388214111
-            ],
-            [
-              0.7124999761581421,
-              1.43269944190979
-            ],
-            [
-              0.7166666388511658,
-              1.436866044998169
-            ],
-            [
-              0.7208333015441895,
-              1.4410326480865479
-            ],
-            [
-              0.7250000238418579,
-              1.4451993703842163
-            ],
-            [
-              0.7291666865348816,
-              1.4493660926818848
-            ],
-            [
-              0.7333333492279053,
-              1.4535326957702637
-            ],
-            [
-              0.737500011920929,
-              1.4576992988586426
-            ],
-            [
-              0.7416666746139526,
-              1.4618659019470215
-            ],
-            [
-              0.7458333373069763,
-              1.4660325050354004
-            ],
-            [
-              0.75,
-              1.4701991081237793
-            ],
-            [
-              0.7541666626930237,
-              1.4743657112121582
-            ],
-            [
-              0.7583333253860474,
-              1.478532314300537
-            ],
-            [
-              0.762499988079071,
-              1.482698917388916
-            ],
-            [
-              0.7666666507720947,
-              1.486865520477295
-            ],
-            [
-              0.7708333134651184,
-              1.4910321235656738
-            ],
-            [
-              0.7749999761581421,
-              1.4951987266540527
-            ],
-            [
-              0.7791666984558105,
-              1.4993654489517212
-            ],
-            [
-              0.7833333611488342,
-              1.5035321712493896
-            ],
-            [
-              0.7875000238418579,
-              1.5076987743377686
-            ],
-            [
-              0.7916666865348816,
-              1.5118653774261475
-            ],
-            [
-              0.7958333492279053,
-              1.5160319805145264
-            ],
-            [
-              0.800000011920929,
-              1.5201985836029053
-            ],
-            [
-              0.8041666746139526,
-              1.5243651866912842
-            ],
-            [
-              0.8083333373069763,
-              1.528531789779663
-            ],
-            [
-              0.8125,
-              1.532698392868042
-            ],
-            [
-              0.8166666626930237,
-              1.536864995956421
-            ],
-            [
-              0.8208333253860474,
-              1.5410315990447998
-            ],
-            [
-              0.824999988079071,
-              1.5451982021331787
-            ],
-            [
-              0.8291666507720947,
-              1.5493648052215576
-            ],
-            [
-              0.8333333134651184,
-              1.5535314083099365
-            ],
-            [
-              0.8354166746139526,
-              1.556675910949707
-            ],
-            [
-              0.8374999761581421,
-              1.5610119104385376
-            ],
-            [
-              0.8416666984558105,
-              1.5696065425872803
-            ],
-            [
-              0.8458333611488342,
-              1.5780936479568481
-            ],
-            [
-              0.8500000238418579,
-              1.5864689350128174
-            ],
-            [
-              0.8541666865348816,
-              1.5906355381011963
-            ],
-            [
-              0.8583333492279053,
-              1.5948021411895752
-            ],
-            [
-              0.862500011920929,
-              1.598968744277954
-            ],
-            [
-              0.8666666746139526,
-              1.603135347366333
-            ],
-            [
-              0.8708333373069763,
-              1.607301950454712
-            ],
-            [
-              0.875,
-              1.6114685535430908
-            ],
-            [
-              0.8791666626930237,
-              1.6156351566314697
-            ],
-            [
-              0.8833333253860474,
-              1.6198017597198486
-            ],
-            [
-              0.887499988079071,
-              1.6239683628082275
-            ],
-            [
-              0.8916666507720947,
-              1.6281349658966064
-            ],
-            [
-              0.8958333134651184,
-              1.6323015689849854
-            ],
-            [
-              0.8999999761581421,
-              1.6364681720733643
-            ],
-            [
-              0.9041666388511658,
-              1.6406347751617432
-            ],
-            [
-              0.9083333015441895,
-              1.644801378250122
-            ],
-            [
-              0.9125000238418579,
-              1.6489681005477905
-            ],
-            [
-              0.9166666865348816,
-              1.653134822845459
-            ],
-            [
-              0.9208333492279053,
-              1.657301425933838
-            ],
-            [
-              0.925000011920929,
-              1.6614680290222168
-            ],
-            [
-              0.9291666746139526,
-              1.6656346321105957
-            ],
-            [
-              0.9333333373069763,
-              1.6698012351989746
-            ],
-            [
-              0.9375,
-              1.6739678382873535
-            ],
-            [
-              0.9416666626930237,
-              1.6781344413757324
-            ],
-            [
-              0.9458333253860474,
-              1.6823010444641113
-            ],
-            [
-              0.949999988079071,
-              1.6864676475524902
-            ],
-            [
-              0.9541666507720947,
-              1.6906342506408691
-            ],
-            [
-              0.9583333134651184,
-              1.694800853729248
-            ],
-            [
-              0.9624999761581421,
-              1.698967456817627
-            ],
-            [
-              0.9666666388511658,
-              1.7031340599060059
-            ],
-            [
-              0.9708333015441895,
-              1.7073006629943848
-            ],
-            [
-              0.9750000238418579,
-              1.7114673852920532
-            ],
-            [
-              0.9791666865348816,
-              1.7156341075897217
-            ],
-            [
-              0.9833333492279053,
-              1.7198007106781006
-            ],
-            [
-              0.987500011920929,
-              1.7239673137664795
-            ],
-            [
-              0.9916666746139526,
-              1.7281339168548584
-            ],
-            [
-              0.9958333373069763,
-              1.7323005199432373
-            ],
-            [
-              1,
-              1.7364671230316162
-            ]
-          ],
-          "preserved": [
-            "Other animation samplers",
-            "Geometry",
-            "Skin weights",
-            "Inverse binds",
-            "Materials",
-            "Native articulated Death pose sequence"
-          ]
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.9666669368743896,
-              "samples": 121,
-              "maximumVertexMotion": 0.4612200642954069,
-              "maximumSpanRatio": 0.8363889834456333,
-              "minimumSpanRatio": 0.7820353054799785,
-              "loopSeam": 0.0011781255830485137,
-              "edgeStretchP99": 1.2492359214278304,
-              "maximumEdgeStretch": 2.1932399499568005,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1,
-              "samples": 116,
-              "maximumVertexMotion": 0.7017754841891934,
-              "maximumSpanRatio": 0.8517473675334531,
-              "minimumSpanRatio": 0.7852414993642894,
-              "loopSeam": 0.003045076661768115,
-              "edgeStretchP99": 1.2816268145632754,
-              "maximumEdgeStretch": 2.241255650638275,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6666666865348816,
-              "samples": 89,
-              "maximumVertexMotion": 1.018263809706006,
-              "maximumSpanRatio": 0.9038409214293732,
-              "minimumSpanRatio": 0.7296687338678997,
-              "loopSeam": 0.003660898300088866,
-              "edgeStretchP99": 1.3771307007604634,
-              "maximumEdgeStretch": 2.1998251950451677,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Attack",
-              "seconds": 1,
-              "samples": 110,
-              "maximumVertexMotion": 1.8318887666316201,
-              "maximumSpanRatio": 1.0582980385542486,
-              "minimumSpanRatio": 0.7817975582763341,
-              "loopSeam": null,
-              "edgeStretchP99": 1.5694720982627326,
-              "maximumEdgeStretch": 3.169886494963693,
-              "stretchedEdgeFraction": 0.00009160864785635764
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.6666666865348816,
-              "samples": 89,
-              "maximumVertexMotion": 0.5847709824992781,
-              "maximumSpanRatio": 0.8832578117860957,
-              "minimumSpanRatio": 0.783971855139113,
-              "loopSeam": null,
-              "edgeStretchP99": 1.2854070622424714,
-              "maximumEdgeStretch": 2.1123407387651727,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.9864671230316162,
-              "samples": 121,
-              "maximumVertexMotion": 2.3510491893469303,
-              "maximumSpanRatio": 1.1780575572774827,
-              "minimumSpanRatio": 0.8179731418717017,
-              "loopSeam": null,
-              "edgeStretchP99": 1.6295572725121217,
-              "maximumEdgeStretch": 3.069447353399342,
-              "stretchedEdgeFraction": 0.00009160864785635764
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T21:33:44.257Z",
-          "by": "codex",
-          "sha256": "b158132a34d9fbad63a4ee540ffcb11b0dd0e7cfce643943720034f97db6cf08",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-final/creature_gorge_mantis/evidence.json"
-        }
-      }
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster09_Idle.anim, Walk=Monster09_Walk.anim, Run=Monster09_Run.anim, Attack=Monster09_Attack02.anim, Hit=Monster09_GetHit.anim, Death=Monster09_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.154, Walk -0.057, Run 0.219, Attack 0.148, Hit 0.077, Death -0.310. Monster09 hover legs and open wings; Attack is the Attack02 claw strike."
+      },
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.620967,
+      "impliedRunMps": 1.011672,
+      "attackSeconds": 1,
+      "contactNormalized": 0.316667
     },
     {
       "id": "creature_quarry_nightmare",
@@ -74747,19 +72801,19 @@
         "ground",
         "claw"
       ],
-      "bytes": 3478060,
-      "sha256": "c079dbf3a390b8d514e1768c429bb5f660178527044dc11e03bf5287ca711a9e",
+      "bytes": 3325912,
+      "sha256": "f4bce73f1e5eb2aa2733f94f264204a1284ea6708bd8486c65568153f5cfa393",
       "size": {
-        "x": 1.5857555951424267,
-        "y": 2.329191177290274,
-        "z": 0.6658300874484943
+        "x": 1.243023,
+        "y": 2.23361,
+        "z": 1.64953
       },
       "base": {
-        "x": -0.7813700524958602,
-        "y": 0.0030000000254204835,
-        "z": -0.33487868595363013
+        "x": -0.54783,
+        "y": -0.007806,
+        "z": -0.843994
       },
-      "groundY": 0.003,
+      "groundY": 0.0053896172805158035,
       "triangles": 6094,
       "animations": [
         "Idle",
@@ -74772,17 +72826,13 @@
       "materials": [
         "animal_cinder_ravager_hide"
       ],
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2.3333332538604736,
-      "contactNormalized": 0.235,
       "sourceProvenance": {
         "author": "PixeliusVita",
         "pack": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita",
         "license": "Standard Unity Asset Store EULA",
         "source": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
         "texture": "Monster04_Color03.png",
-        "modifications": "Metre conversion; in-place root channels; exact loop endpoint; directional torso/head recoil overlays over the authored GetHit take; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and six non-gait clips are preserved."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "metadata": {
         "id": "basalt_maw",
@@ -75208,9 +73258,6 @@
         "rigAccepted": true,
         "motionAccepted": true
       },
-      "impliedWalkMps": 0.8999961735371228,
-      "impliedRunMps": 3.000004795975098,
-      "locomotionPolicy": "speed-matched",
       "bounds": {
         "min": [
           -0.7813700524958602,
@@ -75223,528 +73270,25 @@
           0.33095140149486413
         ]
       },
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "1f1bb02ffb73e42664021cf549316be52eb46be19dc22cf6e1750d671d5d94cb",
-        "sourceGitBlob": "2bedfb6240bb730142ea6880627e226882ea46ba",
-        "donors": [],
-        "sourceMetadata": {
-          "id": "basalt_maw",
-          "is": "A tall plated ravager with a forked head crest, broad clawed arms and digitigrade feet.",
-          "tags": [
-            "creature",
-            "monster",
-            "biped",
-            "ground",
-            "claw"
-          ],
-          "provenance": {
-            "author": "PixeliusVita",
-            "pack": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita",
-            "license": "Standard Unity Asset Store EULA",
-            "source": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
-            "texture": "Monster04_Color03.png",
-            "modifications": "Metre conversion; in-place root channels; exact loop endpoint; directional torso/head recoil overlays over the authored GetHit take; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and six non-gait clips are preserved."
-          },
-          "attackSeconds": 2.3333332538604736,
-          "contactNormalized": 0.235,
-          "impliedWalkMps": 0.8999961735371228,
-          "impliedRunMps": 3.000004795975098,
-          "gaitFootBones": [
-            "toes_01l",
-            "toes_01r"
-          ],
-          "groundCorrections": [
-            {
-              "name": "Idle",
-              "maxCorrectionM": 0.002999790310291618
-            },
-            {
-              "name": "Walk",
-              "maxCorrectionM": 0.001027105923707296
-            },
-            {
-              "name": "Run",
-              "maxCorrectionM": 0.03206313187372968
-            },
-            {
-              "name": "Attack",
-              "maxCorrectionM": 0.0029762832552184862
-            },
-            {
-              "name": "Hit",
-              "maxCorrectionM": 0.0031389813172591347
-            },
-            {
-              "name": "Death",
-              "maxCorrectionM": 1.3468595801908987
-            },
-            {
-              "name": "HitLeft",
-              "maxCorrectionM": 0.0031389813172591347
-            },
-            {
-              "name": "HitRight",
-              "maxCorrectionM": 0.0031389813172591347
-            }
-          ],
-          "gaitGroundCorrections": [
-            {
-              "name": "Walk",
-              "maxLiftM": 0
-            },
-            {
-              "name": "Run",
-              "maxLiftM": 0
-            }
-          ],
-          "gaitFloorSeal": [
-            {
-              "name": "Walk",
-              "minimumBeforeM": 0.0019777836008402286,
-              "maxAdditionalLiftM": 0,
-              "sampleHz": 480
-            },
-            {
-              "name": "Run",
-              "minimumBeforeM": 0.0019877774246581455,
-              "maxAdditionalLiftM": 0,
-              "sampleHz": 480
-            }
-          ],
-          "gaitAdaptation": [
-            {
-              "name": "Walk",
-              "nativeDuration": 1.3333333730697632,
-              "targetStanceMps": 0.9,
-              "supportFraction": 0.6,
-              "toeStanceSweepM": 0.7200000214576722,
-              "liftM": 0.12,
-              "bakeHz": 240,
-              "maxIkResidualM": 5.968813179414793e-8,
-              "kneeInteriorDegrees": [
-                79.18067069950074,
-                138.84394874265627
-              ],
-              "method": "Toe target moves backward at constant world metres per second while planted. Source foot roll and projected source knee bend plane are retained, with Run roll at 40% and knee-plane variation at 50% around the source planted pose. Two-bone IK changes only lower-body gait channels; source upper-body channels are copied."
-            },
-            {
-              "name": "Run",
-              "nativeDuration": 0.6666666865348816,
-              "targetStanceMps": 3,
-              "supportFraction": 0.34,
-              "toeStanceSweepM": 0.6800000202655793,
-              "liftM": 0.24,
-              "bakeHz": 960,
-              "maxIkResidualM": 4.2331587410460006e-8,
-              "kneeInteriorDegrees": [
-                59.08778358356357,
-                120.6666644989449
-              ],
-              "method": "Toe target moves backward at constant world metres per second while planted. Source foot roll and projected source knee bend plane are retained, with Run roll at 40% and knee-plane variation at 50% around the source planted pose. Two-bone IK changes only lower-body gait channels; source upper-body channels are copied."
-            }
-          ],
-          "walkClipSeconds": 1.3333333730697632,
-          "runClipSeconds": 0.6666666865348816,
-          "animationResampleTolerance": 0.000001,
-          "notes": [
-            "Six named embedded FBX takes retained without broad-take substitutions. Walk and Run retain source upper-body channels and cadence, with shorter planted toe paths solved through the original leg chain.",
-            "Native atlas and vertex normals retained. The source package has no true tangent normal or roughness texture.",
-            "Walk retains source ankle roll and knee bend direction. Run reduces ankle roll to 40% and knee-plane variation to 50% around the source planted pose. Toe contacts move backward at .9 m/s Walk and 3 m/s Run. Actual weighted sole vertices control leg contact height; metadata measures the final clips after floor correction.",
-            "Attack01 is the authored ground claw combination. Contact at 0.548s marks the first descending claw sweep; the later spin is recovery motion for the one-hit runtime attack."
-          ],
-          "boneNames": [
-            "rootx",
-            "thigh_stretchl",
-            "leg_stretchl",
-            "leg_twistl",
-            "footl",
-            "toes_01l",
-            "thigh_twistl",
-            "thigh_stretchr",
-            "thigh_twistr",
-            "leg_stretchr",
-            "leg_twistr",
-            "footr",
-            "toes_01r",
-            "spine_01x",
-            "spine_02x",
-            "spine_03x",
-            "shoulderr",
-            "arm_stretchr",
-            "forearm_stretchr",
-            "handr",
-            "thumb1r",
-            "thumb2r",
-            "thumb3r",
-            "index1_baser",
-            "index1r",
-            "index2r",
-            "index3r",
-            "middle1_baser",
-            "middle1r",
-            "middle2r",
-            "middle3r",
-            "forearm_twistr",
-            "arm_twistr",
-            "shoulderl",
-            "arm_stretchl",
-            "forearm_stretchl",
-            "forearm_twistl",
-            "handl",
-            "index1_basel",
-            "index1l",
-            "index2l",
-            "index3l",
-            "middle1_basel",
-            "middle1l",
-            "middle2l",
-            "middle3l",
-            "thumb1l",
-            "thumb2l",
-            "thumb3l",
-            "arm_twistl",
-            "neckx",
-            "headx",
-            "c_ear_01l",
-            "c_ear_02l",
-            "c_ear_03l",
-            "c_ear_04l",
-            "c_ear_01r",
-            "c_ear_02r",
-            "c_ear_03r",
-            "c_ear_04r",
-            "c_bot_bendl",
-            "c_bot_bendr"
-          ],
-          "authoringModule": "tools/creature-expansion/monsters.mjs",
-          "height": 2.32919117728748,
-          "dimensions": [
-            1.5857555951424267,
-            2.32919117728748,
-            0.6658300874484943
-          ],
-          "familyRefinement": {
-            "family": "stone",
-            "replacement": "Native Monster04 anatomical clawed predator replaces rejected rock-jaw graft body",
-            "generator": "tools/wilderness-creatures/families/stone.mjs --native-maw",
-            "sourceAssetId": "creature_cinder_ravager",
-            "sourceAssetSha256": "d807c7d8851bad9bd9d3e13e4169d30f37ff5ab105b6779125f40b27d414cefc",
-            "uniformScale": 1,
-            "shapeSha256": "cc3caa1a6f9dda933acecef00f08c7c2ab5f5f59dacd2301648fc4dd6a16006a",
-            "nativeTextureSha256": [
-              "e7d506e36ebecd58172f988ef5d2a82c0370e714fd4e49089a6419a0773316a1"
-            ],
-            "measurements": {
-              "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=120Hz. Ground correction is an authored root channel.",
-              "idleBounds": {
-                "min": [
-                  -0.7813700524958602,
-                  0.003,
-                  -0.33487868595363013
-                ],
-                "max": [
-                  0.8043855426465666,
-                  2.33219117728748,
-                  0.33095140149486413
-                ]
-              },
-              "minFloor": 0.0029999999999998916,
-              "clips": [
-                {
-                  "clip": "Idle",
-                  "samples": 358,
-                  "duration": 2.9666666984558105,
-                  "rawFloor": [
-                    2.096897083822213e-7,
-                    0.0010003633919232662
-                  ],
-                  "maxCorrection": 0.002999790310291618,
-                  "bounds": {
-                    "min": [
-                      -0.8046329631883238,
-                      0.003,
-                      -0.3352500844835572
-                    ],
-                    "max": [
-                      0.8043855426465666,
-                      2.361923361793069,
-                      0.43270398660606196
-                    ]
-                  }
-                },
-                {
-                  "clip": "Walk",
-                  "samples": 162,
-                  "duration": 1.3333333730697632,
-                  "rawFloor": [
-                    0.001972894076292704,
-                    0.0019999304916820193
-                  ],
-                  "maxCorrection": 0.001027105923707296,
-                  "bounds": {
-                    "min": [
-                      -0.7127133675169298,
-                      0.003,
-                      -0.6052736801348806
-                    ],
-                    "max": [
-                      0.749653820193179,
-                      2.2621554724934,
-                      0.8230030934831299
-                    ]
-                  }
-                },
-                {
-                  "clip": "Run",
-                  "samples": 121,
-                  "duration": 0.6666666865348816,
-                  "rawFloor": [
-                    0.0018906246475957349,
-                    0.03506313187372968
-                  ],
-                  "maxCorrection": 0.03206313187372968,
-                  "bounds": {
-                    "min": [
-                      -0.6709122419027175,
-                      0.002999999999999999,
-                      -0.874178570334118
-                    ],
-                    "max": [
-                      0.6589601477610649,
-                      2.0548384001082347,
-                      1.1736404435078767
-                    ]
-                  }
-                },
-                {
-                  "clip": "Attack",
-                  "samples": 281,
-                  "duration": 2.3333332538604736,
-                  "rawFloor": [
-                    0.00002371674478151399,
-                    0.003804051649796845
-                  ],
-                  "maxCorrection": 0.0029762832552184862,
-                  "bounds": {
-                    "min": [
-                      -1.3808574386724557,
-                      0.003,
-                      -1.2034869504540677
-                    ],
-                    "max": [
-                      1.5985092558449208,
-                      2.518741045490501,
-                      1.5558996728577732
-                    ]
-                  }
-                },
-                {
-                  "clip": "Hit",
-                  "samples": 121,
-                  "duration": 0.6666666865348816,
-                  "rawFloor": [
-                    -0.00013898131725913464,
-                    0.005201340453944237
-                  ],
-                  "maxCorrection": 0.0031389813172591347,
-                  "bounds": {
-                    "min": [
-                      -0.8993963219440533,
-                      0.003,
-                      -0.5128220718518903
-                    ],
-                    "max": [
-                      0.8473973824519596,
-                      2.3636481046471665,
-                      0.466780237290656
-                    ]
-                  }
-                },
-                {
-                  "clip": "Death",
-                  "samples": 134,
-                  "duration": 1.100000023841858,
-                  "rawFloor": [
-                    4.2338715594179405e-7,
-                    1.3498595801908986
-                  ],
-                  "maxCorrection": 1.3468595801908987,
-                  "bounds": {
-                    "min": [
-                      -1.4349765613077365,
-                      0.0029999999999998916,
-                      -1.7914547506487632
-                    ],
-                    "max": [
-                      1.2752572857038296,
-                      2.8623431105593626,
-                      1.3694813329064601
-                    ]
-                  }
-                },
-                {
-                  "clip": "HitLeft",
-                  "samples": 121,
-                  "duration": 0.6666666865348816,
-                  "rawFloor": [
-                    -0.00013898131725913464,
-                    0.005201340453944237
-                  ],
-                  "maxCorrection": 0.0031389813172591347,
-                  "bounds": {
-                    "min": [
-                      -0.8179584960091074,
-                      0.003,
-                      -0.5160643575909656
-                    ],
-                    "max": [
-                      1.013556160403005,
-                      2.3861555600939135,
-                      0.5524583106176412
-                    ]
-                  }
-                },
-                {
-                  "clip": "HitRight",
-                  "samples": 121,
-                  "duration": 0.6666666865348816,
-                  "rawFloor": [
-                    -0.00013898131725913464,
-                    0.005201340453944237
-                  ],
-                  "maxCorrection": 0.0031389813172591347,
-                  "bounds": {
-                    "min": [
-                      -1.0481426801230573,
-                      0.003,
-                      -0.49020620559920725
-                    ],
-                    "max": [
-                      0.8473973824519596,
-                      2.403572943557907,
-                      0.384117841188425
-                    ]
-                  }
-                }
-              ],
-              "policy": "Upward-only new wrapper correction. Source airborne phases retained; sampled bounds below describe the grounded envelope, not aerial height."
-            },
-            "scope": "Full native body, UVs, topology, joint weights, maps and skeletal animation retained. Uniform root scale and sampled ground channel only. Attack timing and measured contact retained from source asset."
-          }
-        },
-        "changes": [
-          "Removed retired directional hit clips; all impacts use Hit"
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
         ],
-        "warnings": [
-          "Requires devdocs review of each affected state."
-        ],
-        "provenance": {
-          "timelineRepairs": [],
-          "groundRepairs": [],
-          "preserved": [
-            "geometry",
-            "skin weights",
-            "inverse binds",
-            "materials",
-            "joint animation curves"
-          ]
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 2.9666666984558105,
-              "samples": 121,
-              "maximumVertexMotion": 0.25696076602286844,
-              "maximumSpanRatio": 1.0090717456913927,
-              "minimumSpanRatio": 0.9907838476785596,
-              "loopSeam": 5.3712924532080714e-8,
-              "edgeStretchP99": 1.1977822194652157,
-              "maximumEdgeStretch": 1.7854984610026519,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Walk",
-              "seconds": 1.3333333730697632,
-              "samples": 121,
-              "maximumVertexMotion": 0.7200264170213936,
-              "maximumSpanRatio": 0.9941362294524898,
-              "minimumSpanRatio": 0.927616103155537,
-              "loopSeam": 3.598026709626871e-8,
-              "edgeStretchP99": 1.3653433626262699,
-              "maximumEdgeStretch": 2.302865947490339,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6666666865348816,
-              "samples": 121,
-              "maximumVertexMotion": 2.019523045398778,
-              "maximumSpanRatio": 1.0125466752817316,
-              "minimumSpanRatio": 0.8997835760589707,
-              "loopSeam": 4.272664157202897e-8,
-              "edgeStretchP99": 1.6117919856395793,
-              "maximumEdgeStretch": 3.4964408762187404,
-              "stretchedEdgeFraction": 0.00044787817713581906
-            },
-            {
-              "name": "Attack",
-              "seconds": 2.3333332538604736,
-              "samples": 121,
-              "maximumVertexMotion": 2.7900370142369413,
-              "maximumSpanRatio": 1.2219076658688164,
-              "minimumSpanRatio": 0.9856524351805936,
-              "loopSeam": null,
-              "edgeStretchP99": 1.639613066283026,
-              "maximumEdgeStretch": 3.760133589011728,
-              "stretchedEdgeFraction": 0.00022393908856790953
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.6666666865348816,
-              "samples": 81,
-              "maximumVertexMotion": 0.4370217241338109,
-              "maximumSpanRatio": 1.0250387777796988,
-              "minimumSpanRatio": 0.986414790745706,
-              "loopSeam": null,
-              "edgeStretchP99": 1.2847493794433358,
-              "maximumEdgeStretch": 2.084820336819718,
-              "stretchedEdgeFraction": 0
-            },
-            {
-              "name": "Death",
-              "seconds": 1.100000023841858,
-              "samples": 94,
-              "maximumVertexMotion": 3.3408249309467464,
-              "maximumSpanRatio": 1.5513882995335782,
-              "minimumSpanRatio": 0.9027115461266338,
-              "loopSeam": null,
-              "edgeStretchP99": 1.7098099243497547,
-              "maximumEdgeStretch": 3.8682932003940116,
-              "stretchedEdgeFraction": 0.0006718172657037286
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:21:14.982Z",
-          "by": "codex",
-          "sha256": "c079dbf3a390b8d514e1768c429bb5f660178527044dc11e03bf5287ca711a9e",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_basalt_maw/evidence.json"
-        }
-      }
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita.unitypackage: Idle=Monster04_Idle, Walk=Monster04_Walk, Run=Monster04_Run, Attack=Monster04_Attack01, Hit=Monster04_GetHit, Death=Monster04_Die. Skin equals the source skin (inverse bind residual 4.8e-8); 55 joints had a posed stored transform and were reset to rest. groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle -0.003, Walk -0.049, Run -0.062, Attack -0.030, Hit -0.009, Death -0.101. Monster04 body at its own scale; the animated grounding wrapper channel is dropped."
+      },
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 2.340705,
+      "impliedRunMps": 11.099015,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.235
     },
     {
       "id": "creature_rift_carapace",
@@ -95639,17 +93183,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1791856,
-      "sha256": "894e9aea3fb6b26e3ced8ebe21ad614d82e287fe70e56c87ce5d5c5333104132",
+      "bytes": 1791832,
+      "sha256": "a4e0d2b4bd940762108084af73259557fa43a95d89f75dfcff7c0b853ce43e5f",
       "size": {
-        "x": 1.3532160587548945,
-        "y": 1.7147644077126392,
-        "z": 1.0753174064151942
+        "x": 1.422582,
+        "y": 2.053594,
+        "z": 1.272827
       },
       "base": {
-        "x": -0.7732720804422293,
-        "y": 0.01599998474121091,
-        "z": -0.19447383566803603
+        "x": -0.671807,
+        "y": -0.023833,
+        "z": -0.359863
       },
       "triangles": 4344,
       "animations": [
@@ -95663,19 +93207,13 @@
       "materials": [
         "animal_fantasy_monster_01_source"
       ],
-      "impliedWalkMps": 1.563483595606273,
-      "impliedRunMps": 3.8858915673138776,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "FREE Fantasy Monster 01 Rework Game Ready Rig Animation PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FREE Fantasy Monster 01 Rework Game Ready Rig Animation PixeliusVita.unitypackage",
         "archiveSha256": "7e0faa188ed5583b5ceafa9f7e8a2cca60566ebff24a10bfeb7001e2ff49250d",
         "model": "Assets/Stylized3DMonster/Monster01/Monster01_AllAnim.fbx",
         "texture": "Assets/Stylized3DMonster/Monster01/Shader_Texture/Texture/Monster01_Color02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -95703,7 +93241,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_01/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "FREE Fantasy Monster 01 Rework Game Ready Rig Animation PixeliusVita.unitypackage: Idle=Monster01_Idle, Walk=Monster01_Walk_InPlace, Run=Monster01_Run_InPlace, Attack=Monster01_Attack01_InPlace, Hit=Monster01_GetHit, Death=Monster01_Die_InPlace. Skin equals the source skin (inverse bind residual 5.8e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.002, Walk -0.041, Run -0.027, Attack -0.028, Hit 0.001, Death -0.275."
+      },
+      "groundY": -0.0017699299384362963,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.765508,
+      "impliedRunMps": 2.830498,
+      "attackSeconds": 2,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_02",
@@ -95716,17 +93274,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1690340,
-      "sha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca",
+      "bytes": 1686624,
+      "sha256": "a64473819768735afa742e96dd4308b7a29e9d85e1cef62d25e42b2ca8438f4a",
       "size": {
-        "x": 1.3424494842463877,
-        "y": 1.9722542714144033,
-        "z": 0.6459080145532957
+        "x": 0.990339,
+        "y": 1.925055,
+        "z": 1.446568
       },
       "base": {
-        "x": -0.6524242210291553,
-        "y": 0.015999984741210987,
-        "z": -0.30367810811094587
+        "x": -0.470835,
+        "y": -0.047757,
+        "z": -0.683693
       },
       "triangles": 5768,
       "animations": [
@@ -95740,19 +93298,13 @@
       "materials": [
         "animal_fantasy_monster_02_source"
       ],
-      "impliedWalkMps": 1.8728889193396174,
-      "impliedRunMps": 8.578779765838078,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage",
         "archiveSha256": "6f94f3d37fc05aab31df03bc8bdb9f89ec138974b99146fd42ac5cc09e1c9d95",
         "model": "Assets/Stylized3DMonster/Monster02/Monster02_AllAnim.fbx",
         "texture": "Assets/Stylized3DMonster/Monster02/Shader_Texture/Texture/Monster02_Color02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -95780,7 +93332,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_02/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage: Idle=Monster02_Idle, Walk=Monster02_Walk, Run=Monster02_Run, Attack=Monster02_Attack01, Hit=Monster02_GetHit, Death=Monster02_Die. Skin equals the source skin (inverse bind residual 5.8e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.001, Walk -0.095, Run -0.053, Attack -0.062, Hit -0.001, Death -0.131."
+      },
+      "groundY": -0.0007040717509755149,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.273565,
+      "impliedRunMps": 9.11532,
+      "attackSeconds": 2,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_03",
@@ -96587,17 +94159,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1874320,
-      "sha256": "f8f186854707042e64c873b09424ae1e161945a03bad28d0f7f83d1041031a4b",
+      "bytes": 1872332,
+      "sha256": "e06cf421badde13bdeb0a9f79c5034545f3a2d55e35881f4dc3112ce75dc6b05",
       "size": {
-        "x": 1.3214630038747295,
-        "y": 1.9409925775678702,
-        "z": 0.5548584475871705
+        "x": 1.035853,
+        "y": 1.861342,
+        "z": 1.374609
       },
       "base": {
-        "x": -0.6511417073290562,
-        "y": 0.015999984460699723,
-        "z": -0.27906557483657557
+        "x": -0.456525,
+        "y": -0.008172,
+        "z": -0.703329
       },
       "triangles": 6094,
       "animations": [
@@ -96611,19 +94183,13 @@
       "materials": [
         "animal_fantasy_monster_04_source"
       ],
-      "impliedWalkMps": 1.6210653658629726,
-      "impliedRunMps": 8.276939005244529,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2.3333332538604736,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita.unitypackage",
         "archiveSha256": "44a2fb67db7914106a9db86ec3d57303a524d3437b0f8cd82ed762fc971eed36",
         "model": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
         "texture": "Assets/Stylized3DMonster/Monster04/Shader_Texture/Texture/Monster04_Color02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -96651,7 +94217,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_04/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita.unitypackage: Idle=Monster04_Idle, Walk=Monster04_Walk, Run=Monster04_Run, Attack=Monster04_Attack01, Hit=Monster04_GetHit, Death=Monster04_Die. Skin equals the source skin (inverse bind residual 4.8e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle -0.003, Walk -0.040, Run -0.051, Attack -0.025, Hit -0.008, Death -0.084."
+      },
+      "groundY": 0.0028248067624986567,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.950587,
+      "impliedRunMps": 9.249179,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_05",
@@ -96664,17 +94250,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 1564140,
-      "sha256": "3ab5f3f1fc40d72d179b5ccf79f6b3255c744e96f3672c22e33cb51a7876be82",
+      "bytes": 1559876,
+      "sha256": "3e39623fe7a3685df4d17f8ce398af3413415ef27a1c5af5d25f0ad8b5e4ab7f",
       "size": {
-        "x": 1.1258625525177464,
-        "y": 1.9425017071866648,
-        "z": 0.6336744101052626
+        "x": 0.897001,
+        "y": 1.928961,
+        "z": 1.214171
       },
       "base": {
-        "x": -0.5482246869190543,
-        "y": 0.015999984741210813,
-        "z": -0.31442393682592285
+        "x": -0.47,
+        "y": -0.045045,
+        "z": -0.552141
       },
       "triangles": 5146,
       "animations": [
@@ -96688,19 +94274,13 @@
       "materials": [
         "animal_fantasy_monster_05_source"
       ],
-      "impliedWalkMps": 1.7816452605385058,
-      "impliedRunMps": 8.355031199545294,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2.3333332538604736,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 3D Model 05 - Game Ready - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 3D Model 05 - Game Ready - PixeliusVita.unitypackage",
         "archiveSha256": "6fd82cf7ed4de02fb5b880624646eb79f5b9ab5cce1195b1af3b50bcdc7dcdf5",
         "model": "Assets/Stylized3DMonster/Monster05/Monster05_AllAnim.fbx",
         "texture": "Assets/Stylized3DMonster/Monster05/Shader_Texture/Texture/Monster05_Color02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -96728,7 +94308,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_05/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 05 - Game Ready - PixeliusVita.unitypackage: Idle=Monster05_Idle, Walk=Monster05_Walk, Run=Monster05_Run, Attack=Monster05_Attack01, Hit=Monster05_GetHit, Death=Monster05_Die. Skin equals the source skin (inverse bind residual 5.3e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.005, Walk -0.065, Run -0.049, Attack -0.028, Hit 0.003, Death -0.362."
+      },
+      "groundY": -0.005433874946597116,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.391562,
+      "impliedRunMps": 9.252844,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_06",
@@ -96741,17 +94341,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2292444,
-      "sha256": "8494231d1ec3d8ff54fc3268985464a604e425900d8e423e2f98f5d87c1f32cf",
+      "bytes": 2287384,
+      "sha256": "9c74aa0c1ce9fca9f2322aaea0309bfd0d7d8dd29eaa8edfa21d8290ba80a42c",
       "size": {
-        "x": 1.1797968517460746,
-        "y": 1.924163552219513,
-        "z": 1.099958875086675
+        "x": 0.840759,
+        "y": 1.840436,
+        "z": 1.846708
       },
       "base": {
-        "x": -0.5502362145643763,
-        "y": 0.015999984741210845,
-        "z": -0.7984701206709778
+        "x": -0.396501,
+        "y": -0.014999,
+        "z": -1.153908
       },
       "triangles": 7380,
       "animations": [
@@ -96765,19 +94365,13 @@
       "materials": [
         "animal_fantasy_monster_06_source"
       ],
-      "impliedWalkMps": 1.5298578152359772,
-      "impliedRunMps": 8.062896933197843,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2.3333332538604736,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 3D Model 06 - Game Ready - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 3D Model 06 - Game Ready - PixeliusVita.unitypackage",
         "archiveSha256": "dd3a18f5e8282c1e73f83208af0a6cb285ad8b54a7c46d0e3f81555e5d684bf1",
         "model": "Assets/Stylized3DMonster/Monster06/Monster06_AllAnim.fbx",
         "texture": "Assets/Stylized3DMonster/Monster06/Shader_Texture/Texture/Monster06_Color02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -96805,7 +94399,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_06/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 06 - Game Ready - PixeliusVita.unitypackage: Idle=Monster06_Idle, Walk=Monster06_Walk, Run=Monster06_Run, Attack=Monster06_Attack01, Hit=Monster06_GetHit, Death=Monster06_Die. Skin equals the source skin (inverse bind residual 5.3e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle -0.003, Walk -0.036, Run -0.051, Attack -0.029, Hit -0.153, Death -0.095."
+      },
+      "groundY": 0.0027416949254655443,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.631652,
+      "impliedRunMps": 8.987685,
+      "attackSeconds": 2.333333,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_07",
@@ -96818,17 +94432,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2751704,
-      "sha256": "5acc58bbdc2d15f01ddfb4fe7ba736e86529aecf4ae0b5744a38ad5bdf7caac4",
+      "bytes": 2747740,
+      "sha256": "a9161d0f912841242da82764568a484530ae23371d751c50cbc34fec0a0ecd29",
       "size": {
-        "x": 0.9401698716733404,
-        "y": 2.1619915751223937,
-        "z": 1.0420722411870955
+        "x": 0.940144,
+        "y": 2.00009,
+        "z": 1.231166
       },
       "base": {
-        "x": -0.4671169268246544,
-        "y": 0.01599998474121092,
-        "z": -0.5472409714878004
+        "x": -0.470076,
+        "y": -0.173573,
+        "z": -0.77565
       },
       "triangles": 7838,
       "animations": [
@@ -96842,17 +94456,13 @@
       "materials": [
         "animal_fantasy_monster_07_source"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666667,
-      "attackSeconds": 2,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archiveSha256": "04a00d7c883e81b45035e74ab3646cd6596d467e46d4566df8f4f258a20d3281",
         "model": "Assets/Stylized3DMonster/Monster07/Monster07.fbx",
         "texture": "Assets/Stylized3DMonster/Monster07/Shader_Texture/Texture/Monster07_02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -96880,7 +94490,29 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_07/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit"
+        ],
+        "donor": {},
+        "authored": [],
+        "kept": [
+          "Death"
+        ],
+        "notes": "Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster07_Idle.anim, Walk=Monster07_Walk.anim, Run=Monster07_Run.anim, Attack=Monster07_Attack01.anim, Hit=Monster07_GetHit.anim, Death=Monster07_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.173, Walk -0.038, Run 0.228, Attack 0.167, Hit 0.099, Death 0.194. Death kept from the current file: native Monster07_Die ends with the legs about 0.7 m below the source floor. Needs death."
+      },
+      "groundY": -0.17932452832964366,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.549561,
+      "impliedRunMps": 1.295289,
+      "attackSeconds": 2,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_08",
@@ -96893,17 +94525,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2365972,
-      "sha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa",
+      "bytes": 2360868,
+      "sha256": "d027c116e8819ae2e3c4f9d498c298eae404536d7b6962c06b3873f2adc3bda6",
       "size": {
-        "x": 0.9284641254338459,
-        "y": 2.147067301234304,
-        "z": 1.1010816532195258
+        "x": 1.726111,
+        "y": 1.98664,
+        "z": 0.694762
       },
       "base": {
-        "x": -0.43882816952519776,
-        "y": 0.015999984741211087,
-        "z": -0.6908898496679758
+        "x": -0.866588,
+        "y": -0.158751,
+        "z": -0.341544
       },
       "triangles": 6817,
       "animations": [
@@ -96917,17 +94549,13 @@
       "materials": [
         "animal_fantasy_monster_08_source"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666667,
-      "attackSeconds": 1,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 08 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 08 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archiveSha256": "87add94cc063468e1d98cf2a79775275e67d1c8b31a50c1000db3b7d2bc22b29",
         "model": "Assets/Stylized3DMonster/Monster08/Monster08.fbx",
         "texture": "Assets/Stylized3DMonster/Monster08/Shader_Texture/Texture/Monster08_02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -96955,7 +94583,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_08/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 08 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster08_Idle.anim, Walk=Monster08_Walk.anim, Run=Monster08_Run.anim, Attack=Monster08_Attack01.anim, Hit=Monster08_GetHit.anim, Death=Monster08_Die.anim. Skin equals the source skin (inverse bind residual 5.6e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.148, Walk -0.044, Run 0.066, Attack 0.142, Hit 0.094, Death -0.333."
+      },
+      "groundY": -0.1604869934021999,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.578804,
+      "impliedRunMps": 2.149512,
+      "attackSeconds": 1,
+      "contactNormalized": 0.4
     },
     {
       "id": "fantasy_monster_09",
@@ -96968,17 +94616,17 @@
         "miniboss",
         "source-rig"
       ],
-      "bytes": 2596020,
-      "sha256": "3f4ac6d5a56b1d434d59bb802804d925166dab750ba5013d8893a85e59a3d228",
+      "bytes": 2590728,
+      "sha256": "7e83d6b46e5c2b46350307d78961d589a4abbbe92eb41088e36c1127f086e13c",
       "size": {
-        "x": 1.9200196546487,
-        "y": 1.9919889342538095,
-        "z": 1.2499730326315064
+        "x": 1.398977,
+        "y": 2.000028,
+        "z": 1.244712
       },
       "base": {
-        "x": -0.9570332682894478,
-        "y": 0.015999989061972114,
-        "z": -0.8169958620923541
+        "x": -0.699495,
+        "y": -0.170344,
+        "z": -0.866663
       },
       "triangles": 7400,
       "animations": [
@@ -96992,17 +94640,13 @@
       "materials": [
         "animal_fantasy_monster_09_source"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666667,
-      "attackSeconds": 1,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archiveSha256": "30fc10d0c2e6c7a03e3aaaccf39c03ebf98f078ea16e184b0fffd79ae21c3466",
         "model": "Assets/Stylized3DMonster/Monster09/Monster09.fbx",
         "texture": "Assets/Stylized3DMonster/Monster09/Shader_Texture/Texture/Monster09_02.png",
-        "modifications": "Original body, atlas and six source gameplay clips; source units converted to metres, horizontal root travel removed, exact loop endpoints and sampled floor correction. Source material uses albedo with scalar roughness; the source packages contain no normal maps."
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming."
       },
       "acceptance": {
         "exported": true,
@@ -97030,7 +94674,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fantasy_monster_09/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster09_Idle.anim, Walk=Monster09_Walk.anim, Run=Monster09_Run.anim, Attack=Monster09_Attack01.anim, Hit=Monster09_GetHit.anim, Death=Monster09_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.154, Walk -0.057, Run 0.219, Attack 0.115, Hit 0.077, Death -0.310."
+      },
+      "groundY": -0.16098067350776368,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.620967,
+      "impliedRunMps": 1.011672,
+      "attackSeconds": 1,
+      "contactNormalized": 0.4
     },
     {
       "id": "fairy_monster_11",
@@ -97149,36 +94813,30 @@
         "fairy",
         "source-rig"
       ],
-      "bytes": 2415396,
-      "sha256": "803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88",
+      "bytes": 1552860,
+      "sha256": "7fb3851b4c7bb3ade30920a4c813d72f7875cbe346d2ed58392d77dbc975440e",
       "size": {
-        "x": 0.7920472131844719,
-        "y": 0.9497722215299258,
-        "z": 0.879432308225023
+        "x": 0.743349,
+        "y": 0.95,
+        "z": 0.798167
       },
       "base": {
-        "x": -0.4340789370460616,
-        "y": 0.015999987918415833,
-        "z": -0.5013947862674933
+        "x": -0.356153,
+        "y": -0.011399,
+        "z": -0.341594
       },
       "triangles": 5924,
       "animations": [
         "Idle",
         "Walk",
+        "Run",
         "Attack",
         "Hit",
-        "Death",
-        "Run"
+        "Death"
       ],
       "materials": [
         "animal_fairy_monster_16_source"
       ],
-      "impliedWalkMps": 0.33308660515812083,
-      "impliedRunMps": 1.47646687864767,
-      "walkClipSeconds": 2.6666667461395264,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2,
-      "contactNormalized": 0.5833333333333334,
       "sourceProvenance": {
         "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
@@ -97194,260 +94852,6 @@
         "motionAccepted": true
       },
       "groundY": 0.016,
-      "motionRepair": {
-        "family": "studio",
-        "sourceSha256": "7fb3851b4c7bb3ade30920a4c813d72f7875cbe346d2ed58392d77dbc975440e",
-        "sourceGitBlob": "ccd0dc3ad1b1d48d71197d30e899188970f2f345",
-        "donors": [
-          {
-            "id": "fantasy_monster_02",
-            "sourceGitBlob": "597bfaae08cc82b9bbd3e3a02d2b354685ac39f0",
-            "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca"
-          }
-        ],
-        "changes": [
-          "Replaced malformed trial combat and duplicated Walk-as-Run with anatomically mapped native studio actions; preserved original Idle and Walk tracks."
-        ],
-        "warnings": [
-          "Requires every-state devdocs review."
-        ],
-        "provenance": {
-          "donor": "fantasy_monster_02",
-          "mapping": {
-            "rootx": "rootx",
-            "spine_01x": "spine_01x",
-            "spine_02x": "spine_02x",
-            "spine_03x": "spine_03x",
-            "neckx": "neckx",
-            "headx": "headx",
-            "shoulderr": "shoulderr",
-            "arm_stretchr": "arm_stretchr",
-            "forearm_stretchr": "forearm_stretchr",
-            "handr": "handr",
-            "shoulderl": "shoulderl",
-            "arm_stretchl": "arm_stretchl",
-            "forearm_stretchl": "forearm_stretchl",
-            "handl": "handl",
-            "thigh_stretchl": "thigh_stretchl",
-            "leg_stretchl": "leg_stretchl",
-            "footl": "footl",
-            "toes_01l": "toes_01l",
-            "thigh_stretchr": "thigh_stretchr",
-            "leg_stretchr": "leg_stretchr",
-            "footr": "footr",
-            "toes_01r": "toes_01r"
-          },
-          "clips": [
-            {
-              "name": "Attack",
-              "source": "fantasy_monster_02",
-              "sourceTake": "Attack",
-              "sourceKind": "Native studio action",
-              "seconds": 2,
-              "maximumGroundCorrection": 0.1566035513884323,
-              "deathTimeScale": 1
-            },
-            {
-              "name": "Hit",
-              "source": "fantasy_monster_02",
-              "sourceTake": "Hit",
-              "sourceKind": "Native studio action",
-              "seconds": 0.6666666865348816,
-              "maximumGroundCorrection": 0.07727647180411068,
-              "deathTimeScale": 1
-            },
-            {
-              "name": "Death",
-              "source": "fantasy_monster_02",
-              "sourceTake": "Death",
-              "sourceKind": "Native studio action",
-              "seconds": 1.7365830657611872,
-              "maximumGroundCorrection": 0.8963942430691965,
-              "deathTimeScale": 1.2492026658792932
-            },
-            {
-              "name": "Run",
-              "source": "fantasy_monster_02",
-              "sourceTake": "Run",
-              "sourceKind": "Native studio action",
-              "seconds": 0.6666666865348816,
-              "maximumGroundCorrection": 0.05824744481288327,
-              "deathTimeScale": 1
-            }
-          ],
-          "attackContact": {
-            "method": "Maximum forward world reach of native strike hand or pincer after target retargeting",
-            "nodes": [
-              "handr"
-            ],
-            "normalized": 0.5833333333333334
-          },
-          "reference": "Motion relative to native Idle, without changing geometry, skin weights, inverse binds, segment lengths, materials, native Idle or native Walk.",
-          "contacts": [
-            {
-              "name": "Walk",
-              "speedMps": 0.33308660515812083,
-              "method": "bone-proxy-backward-contact-velocity",
-              "feet": [
-                {
-                  "bones": [
-                    "footl",
-                    "toes_01l"
-                  ],
-                  "samples": 571,
-                  "medianMps": 0.3896528900102457,
-                  "p10Mps": 0.09407662360788534,
-                  "p90Mps": 0.5019700908567906
-                },
-                {
-                  "bones": [
-                    "footr",
-                    "toes_01r"
-                  ],
-                  "samples": 685,
-                  "medianMps": 0.27652032030599594,
-                  "p10Mps": 0.021513019350752654,
-                  "p90Mps": 0.6704851478816799
-                }
-              ]
-            },
-            {
-              "name": "Run",
-              "speedMps": 1.47646687864767,
-              "method": "bone-proxy-backward-contact-velocity",
-              "feet": [
-                {
-                  "bones": [
-                    "footl",
-                    "toes_01l"
-                  ],
-                  "samples": 269,
-                  "medianMps": 1.620301206041884,
-                  "p10Mps": 0.8966334423514725,
-                  "p90Mps": 1.7592664512180465
-                },
-                {
-                  "bones": [
-                    "footr",
-                    "toes_01r"
-                  ],
-                  "samples": 387,
-                  "medianMps": 1.3326325512534558,
-                  "p10Mps": 0.6500248139825652,
-                  "p90Mps": 1.7335328395404017
-                }
-              ]
-            }
-          ],
-          "deathGrounding": {
-            "maxSpeedMps": 1.1872152769124074,
-            "unchangedEndpoints": true,
-            "crawlerSideSettleRadians": 0
-          }
-        },
-        "motion": {
-          "attackSeconds": 2,
-          "contactNormalized": 0.5833333333333334,
-          "groundY": 0.016,
-          "runClipSeconds": 0.6666666865348816,
-          "impliedWalkMps": 0.33308660515812083,
-          "impliedRunMps": 1.47646687864767
-        },
-        "validation": {
-          "passed": true,
-          "problems": [],
-          "warnings": [],
-          "states": [
-            {
-              "name": "Idle",
-              "seconds": 8.866666793823242,
-              "samples": 121,
-              "maximumVertexMotion": 0.14956367119431724,
-              "maximumSpanRatio": 1.0895684664362049,
-              "minimumSpanRatio": 1.046331985282644,
-              "loopSeam": 2.2795927906034563e-8,
-              "edgeStretchP99": 1.7057770699159303,
-              "maximumEdgeStretch": 3.992304817903346,
-              "stretchedEdgeFraction": 0.0007888212756366914
-            },
-            {
-              "name": "Walk",
-              "seconds": 2.6666667461395264,
-              "samples": 121,
-              "maximumVertexMotion": 0.6349205979352508,
-              "maximumSpanRatio": 1.0432409153589624,
-              "minimumSpanRatio": 0.9345305583777407,
-              "loopSeam": 1.3334970708472423e-8,
-              "edgeStretchP99": 1.9187196719132997,
-              "maximumEdgeStretch": 6.214169171441198,
-              "stretchedEdgeFraction": 0.0015776425512733828
-            },
-            {
-              "name": "Attack",
-              "seconds": 2,
-              "samples": 106,
-              "maximumVertexMotion": 0.9679022478835124,
-              "maximumSpanRatio": 1.182324062428242,
-              "minimumSpanRatio": 0.9930168022044662,
-              "loopSeam": null,
-              "edgeStretchP99": 2.1102469979603766,
-              "maximumEdgeStretch": 7.261271494834837,
-              "stretchedEdgeFraction": 0.004394861392832995
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.6666666865348816,
-              "samples": 89,
-              "maximumVertexMotion": 0.3432901720829791,
-              "maximumSpanRatio": 1.0704561996342756,
-              "minimumSpanRatio": 1.0179911743512222,
-              "loopSeam": null,
-              "edgeStretchP99": 1.9685100688206714,
-              "maximumEdgeStretch": 5.898547347661062,
-              "stretchedEdgeFraction": 0.0014649537976109985
-            },
-            {
-              "name": "Death",
-              "seconds": 1.7365831136703491,
-              "samples": 116,
-              "maximumVertexMotion": 1.4938947261852995,
-              "maximumSpanRatio": 1.3175948771801023,
-              "minimumSpanRatio": 0.9263761320979091,
-              "loopSeam": null,
-              "edgeStretchP99": 2.1839792555248905,
-              "maximumEdgeStretch": 5.789051151585663,
-              "stretchedEdgeFraction": 0.002704530087897228
-            },
-            {
-              "name": "Run",
-              "seconds": 0.6666666865348816,
-              "samples": 89,
-              "maximumVertexMotion": 0.8456595056505832,
-              "maximumSpanRatio": 1.013918682051178,
-              "minimumSpanRatio": 0.90242401734054,
-              "loopSeam": 4.2820111400941796e-8,
-              "edgeStretchP99": 2.2695248337596796,
-              "maximumEdgeStretch": 6.673738477554389,
-              "stretchedEdgeFraction": 0.003606040117196304
-            }
-          ],
-          "requiresVisualReview": true
-        },
-        "review": {
-          "at": "2026-09-28T20:03:45.394Z",
-          "by": "codex",
-          "sha256": "803cdbebb61946d7143c4a12fcdf52c92fd4c56e5843f9b51e92597e002d4a88",
-          "states": [
-            "idle",
-            "walk",
-            "run",
-            "attack",
-            "hit",
-            "death"
-          ],
-          "evidence": "test-results/creature-audit/candidate-review/studio-v3/fairy_monster_16/evidence.json"
-        }
-      },
       "metadata": {
         "geometry": {
           "vertices": 17772,
@@ -97462,7 +94866,27 @@
           "impliedWalkMps": 0.33308660515812083,
           "impliedRunMps": 1.47646687864767
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk"
+        ],
+        "donor": {},
+        "authored": [
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "notes": "First import (git blob ccd0dc3a, cc5e6fc), the version the owner accepted with the other trial bodies. Idle/Walk are the native FreeTrial takes; Run is a Walk copy; Attack/Hit/Death are the original trialCombat clips. Replaces the 82527f4 Monster02 retarget. The manifest motionRepair and groundY 0.016 belong to the retired studio-fairy repair and should be dropped."
+      },
+      "walkClipSeconds": 2.666667,
+      "runClipSeconds": 2.666667,
+      "impliedWalkMps": 0.767522,
+      "impliedRunMps": 0.767522,
+      "attackSeconds": 1.1,
+      "contactNormalized": 0.5833333333333334
     },
     {
       "id": "fairy_monster_21",
@@ -105373,17 +102797,17 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 2232132,
-      "sha256": "bc44619445b6a1a616208e3840daaad478eb3ae4f781cc215893a50bfd9aead2",
+      "bytes": 2228408,
+      "sha256": "7d4371adc14b53cf4bd56b7c89ecea0eaf2a3c1239f0ee67b4811e498ae60a15",
       "size": {
-        "x": 1.3424494842463877,
-        "y": 1.9722542714144033,
-        "z": 0.6459080145532957
+        "x": 0.990339,
+        "y": 1.925055,
+        "z": 1.446568
       },
       "base": {
-        "x": -0.6524242210291553,
-        "y": 0.015999984741210987,
-        "z": -0.30367810811094587
+        "x": -0.470835,
+        "y": -0.047757,
+        "z": -0.683693
       },
       "triangles": 5768,
       "animations": [
@@ -105397,21 +102821,15 @@
       "materials": [
         "animal_fantasy_monster_02_source_fairy_guardian_02_gloamgarden"
       ],
-      "impliedWalkMps": 1.8728889193396174,
-      "impliedRunMps": 8.578779765838078,
-      "walkClipSeconds": 1.3333333730697632,
-      "runClipSeconds": 0.6666666865348816,
-      "attackSeconds": 2,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage",
         "archiveSha256": "6f94f3d37fc05aab31df03bc8bdb9f89ec138974b99146fd42ac5cc09e1c9d95",
         "model": "Assets/Stylized3DMonster/Monster02/Monster02_AllAnim.fbx",
         "texture": "Assets/Stylized3DMonster/Monster02/Shader_Texture/Texture/Monster02_Color02.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_02",
-        "sourceSha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca",
+        "sourceSha256": "a64473819768735afa742e96dd4308b7a29e9d85e1cef62d25e42b2ca8438f4a",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_02_gloamgarden.png",
@@ -105459,7 +102877,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fairy_guardian_02_gloamgarden/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 3D Model 02 - Game Ready - PixeliusVita.unitypackage: Idle=Monster02_Idle, Walk=Monster02_Walk, Run=Monster02_Run, Attack=Monster02_Attack01, Hit=Monster02_GetHit, Death=Monster02_Die. Skin equals the source skin (inverse bind residual 5.8e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.001, Walk -0.095, Run -0.053, Attack -0.062, Hit -0.001, Death -0.131."
+      },
+      "groundY": -0.0007040717509755149,
+      "walkClipSeconds": 1.333333,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 1.273565,
+      "impliedRunMps": 9.11532,
+      "attackSeconds": 2,
+      "contactNormalized": 0.4
     },
     {
       "id": "fairy_guardian_03_gloamgarden",
@@ -106264,17 +103702,17 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 3249984,
-      "sha256": "dbf6947cfb76915253b2d7f2c8ed1642ca746e5c4d14b6c8c7d6c7c1b935ea0b",
+      "bytes": 3246020,
+      "sha256": "5d9018a9ff0b614d5020436209787f5a691bc1b5c2994a08705a6d4ba2a886c9",
       "size": {
-        "x": 0.9401698716733404,
-        "y": 2.1619915751223937,
-        "z": 1.0420722411870955
+        "x": 0.940144,
+        "y": 2.00009,
+        "z": 1.231166
       },
       "base": {
-        "x": -0.4671169268246544,
-        "y": 0.01599998474121092,
-        "z": -0.5472409714878004
+        "x": -0.470076,
+        "y": -0.173573,
+        "z": -0.77565
       },
       "triangles": 7838,
       "animations": [
@@ -106288,19 +103726,15 @@
       "materials": [
         "animal_fantasy_monster_07_source_fairy_guardian_07_gloamgarden"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666667,
-      "attackSeconds": 2,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archiveSha256": "04a00d7c883e81b45035e74ab3646cd6596d467e46d4566df8f4f258a20d3281",
         "model": "Assets/Stylized3DMonster/Monster07/Monster07.fbx",
         "texture": "Assets/Stylized3DMonster/Monster07/Shader_Texture/Texture/Monster07_02.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_07",
-        "sourceSha256": "5acc58bbdc2d15f01ddfb4fe7ba736e86529aecf4ae0b5744a38ad5bdf7caac4",
+        "sourceSha256": "a9161d0f912841242da82764568a484530ae23371d751c50cbc34fec0a0ecd29",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_07_gloamgarden.png",
@@ -106348,7 +103782,29 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fairy_guardian_07_gloamgarden/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit"
+        ],
+        "donor": {},
+        "authored": [],
+        "kept": [
+          "Death"
+        ],
+        "notes": "Fantasy Monster 07 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster07_Idle.anim, Walk=Monster07_Walk.anim, Run=Monster07_Run.anim, Attack=Monster07_Attack01.anim, Hit=Monster07_GetHit.anim, Death=Monster07_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.173, Walk -0.038, Run 0.228, Attack 0.167, Hit 0.099, Death 0.194. Death kept from the current file: native Monster07_Die ends with the legs about 0.7 m below the source floor. Needs death."
+      },
+      "groundY": -0.17932452832964366,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.549561,
+      "impliedRunMps": 1.295289,
+      "attackSeconds": 2,
+      "contactNormalized": 0.4
     },
     {
       "id": "fairy_guardian_06_faeholme",
@@ -106827,17 +104283,17 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 2884576,
-      "sha256": "a0b8b114ff7738614dc0e57e013115f32c84bfa68156ed606b1e44632e8a2d5e",
+      "bytes": 2879472,
+      "sha256": "a23f2f6a9066a7b0016f3eafdbb71530a789825d36e505d3fe6e1488283219a4",
       "size": {
-        "x": 0.9284641254338459,
-        "y": 2.147067301234304,
-        "z": 1.1010816532195258
+        "x": 1.726111,
+        "y": 1.98664,
+        "z": 0.694762
       },
       "base": {
-        "x": -0.43882816952519776,
-        "y": 0.015999984741211087,
-        "z": -0.6908898496679758
+        "x": -0.866588,
+        "y": -0.158751,
+        "z": -0.341544
       },
       "triangles": 6817,
       "animations": [
@@ -106851,19 +104307,15 @@
       "materials": [
         "animal_fantasy_monster_08_source_fairy_guardian_08_faeholme"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666667,
-      "attackSeconds": 1,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 08 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 08 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archiveSha256": "87add94cc063468e1d98cf2a79775275e67d1c8b31a50c1000db3b7d2bc22b29",
         "model": "Assets/Stylized3DMonster/Monster08/Monster08.fbx",
         "texture": "Assets/Stylized3DMonster/Monster08/Shader_Texture/Texture/Monster08_02.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_08",
-        "sourceSha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa",
+        "sourceSha256": "d027c116e8819ae2e3c4f9d498c298eae404536d7b6962c06b3873f2adc3bda6",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_08_faeholme.png",
@@ -106911,7 +104363,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fairy_guardian_08_faeholme/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 08 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster08_Idle.anim, Walk=Monster08_Walk.anim, Run=Monster08_Run.anim, Attack=Monster08_Attack01.anim, Hit=Monster08_GetHit.anim, Death=Monster08_Die.anim. Skin equals the source skin (inverse bind residual 5.6e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.148, Walk -0.044, Run 0.066, Attack 0.142, Hit 0.094, Death -0.333."
+      },
+      "groundY": -0.1604869934021999,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.578804,
+      "impliedRunMps": 2.149512,
+      "attackSeconds": 1,
+      "contactNormalized": 0.4
     },
     {
       "id": "fairy_guardian_09_faeholme",
@@ -106927,17 +104399,17 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 3177040,
-      "sha256": "481df69a1c456e7f4c5cd07ddf9933f043817a57e0a817ae5b81a92dcfb53e33",
+      "bytes": 3171748,
+      "sha256": "f93836b69dbb4a4964d42b856315202e51faa566b67685b7a10e48199183d943",
       "size": {
-        "x": 1.9200196546487,
-        "y": 1.9919889342538095,
-        "z": 1.2499730326315064
+        "x": 1.398977,
+        "y": 2.000028,
+        "z": 1.244712
       },
       "base": {
-        "x": -0.9570332682894478,
-        "y": 0.015999989061972114,
-        "z": -0.8169958620923541
+        "x": -0.699495,
+        "y": -0.170344,
+        "z": -0.866663
       },
       "triangles": 7400,
       "animations": [
@@ -106951,19 +104423,15 @@
       "materials": [
         "animal_fantasy_monster_09_source_fairy_guardian_09_faeholme"
       ],
-      "walkClipSeconds": 1,
-      "runClipSeconds": 0.6666667,
-      "attackSeconds": 1,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
         "package": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage",
         "archiveSha256": "30fc10d0c2e6c7a03e3aaaccf39c03ebf98f078ea16e184b0fffd79ae21c3466",
         "model": "Assets/Stylized3DMonster/Monster09/Monster09.fbx",
         "texture": "Assets/Stylized3DMonster/Monster09/Shader_Texture/Texture/Monster09_02.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
+        "modifications": "Original body and atlas (retextures kept). Six native source takes; source units converted to metres and horizontal root travel removed. No floor correction, loop-end edits or retiming.",
         "sourceAssetId": "fantasy_monster_09",
-        "sourceSha256": "3f4ac6d5a56b1d434d59bb802804d925166dab750ba5013d8893a85e59a3d228",
+        "sourceSha256": "7e83d6b46e5c2b46350307d78961d589a4abbbe92eb41088e36c1127f086e13c",
         "generator": "tools/fairy-population-assets.ts",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_guardian_09_faeholme.png",
@@ -107011,7 +104479,27 @@
           ],
           "evidence": "test-results/creature-audit/baseline/fairy_guardian_09_faeholme/evidence.json"
         }
-      }
+      },
+      "motionProvenance": {
+        "native": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "donor": {},
+        "authored": [],
+        "notes": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita.unitypackage: Idle=Monster09_Idle.anim, Walk=Monster09_Walk.anim, Run=Monster09_Run.anim, Attack=Monster09_Attack01.anim, Hit=Monster09_GetHit.anim, Death=Monster09_Die.anim. Skin equals the source skin (inverse bind residual 5.5e-8). groundY is the source floor (Unity root origin). Lowest skinned point per clip relative to it (m): Idle 0.154, Walk -0.057, Run 0.219, Attack 0.115, Hit 0.077, Death -0.310."
+      },
+      "groundY": -0.16098067350776368,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.666667,
+      "impliedWalkMps": 0.620967,
+      "impliedRunMps": 1.011672,
+      "attackSeconds": 1,
+      "contactNormalized": 0.4
     },
     {
       "id": "fairy_monster_28",

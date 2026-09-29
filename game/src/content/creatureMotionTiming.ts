@@ -149,7 +149,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.65
   },
   "creature_basalt_maw": {
-    "seconds": 2.3333332538604736,
+    "seconds": 2.333333,
     "contactNormalized": 0.235
   },
   "creature_beetle_golem": {
@@ -233,7 +233,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "creature_cinder_ravager": {
-    "seconds": 2.3333332538604736,
+    "seconds": 2.333333,
     "contactNormalized": 0.235
   },
   "creature_cinderback_crag": {
@@ -717,7 +717,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "fairy_monster_16": {
-    "seconds": 2,
+    "seconds": 1.1,
     "contactNormalized": 0.5833333333333334
   },
   "fairy_monster_21": {
@@ -745,15 +745,15 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "fantasy_monster_04": {
-    "seconds": 2.3333332538604736,
+    "seconds": 2.333333,
     "contactNormalized": 0.4
   },
   "fantasy_monster_05": {
-    "seconds": 2.3333332538604736,
+    "seconds": 2.333333,
     "contactNormalized": 0.4
   },
   "fantasy_monster_06": {
-    "seconds": 2.3333332538604736,
+    "seconds": 2.333333,
     "contactNormalized": 0.4
   },
   "fantasy_monster_07": {
@@ -802,7 +802,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_baby_lava_dragon": 12.1521,
   "creature_baby_red_dragon": 12.1521,
   "creature_basalt_drake": 11.4409,
-  "creature_basalt_maw": 6,
+  "creature_basalt_maw": 22.198,
   "creature_beetle_golem": 11.4422,
   "creature_black_wilderness_dragon": 7.7638,
   "creature_blackwater_heron": 2.262,
@@ -819,7 +819,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_cairn_bighorn": 4.4681,
   "creature_cave_roach": 4.5942,
   "creature_cinder_penitent": 13.685,
-  "creature_cinder_ravager": 6,
+  "creature_cinder_ravager": 22.198,
   "creature_cinderback_crag": 2.0188,
   "creature_cindercrest_salamander": 0.5968,
   "creature_crown_hart": 6.5502,
@@ -833,7 +833,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_gloamfang_reaver": 8.472,
   "creature_goblin_archer": 11.2765,
   "creature_goblin_scout": 11.2787,
-  "creature_gorge_mantis": 5.6667,
+  "creature_gorge_mantis": 2.0233,
   "creature_grave_ghoul": 14.1415,
   "creature_grave_lantern": 14.1415,
   "creature_heath_jack": 2.9071,
@@ -899,15 +899,27 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_garden_veilspirit_gloamgarden": 6.7983,
   "fairy_garden_wardling_faeholme": 3.1874,
   "fairy_garden_wardling_gloamgarden": 3.1874,
+  "fairy_guardian_02_gloamgarden": 18.2306,
   "fairy_guardian_03_gloamgarden": 18.96,
   "fairy_guardian_06_faeholme": 15.8505,
-  "fairy_monster_16": 2.9529,
+  "fairy_guardian_07_gloamgarden": 2.5906,
+  "fairy_guardian_08_faeholme": 4.299,
+  "fairy_guardian_09_faeholme": 2.0233,
+  "fairy_monster_16": 6.1402,
   "fairy_monster_27": 5.0565,
   "fairy_monster_28": 2.2757,
   "fairy_monster_30": 5.0988,
   "fairy_monster_31": 2.03,
   "fairy_monster_34": 3.1874,
+  "fantasy_monster_01": 5.661,
+  "fantasy_monster_02": 18.2306,
   "fantasy_monster_03": 12.64,
+  "fantasy_monster_04": 18.4984,
+  "fantasy_monster_05": 18.5057,
+  "fantasy_monster_06": 17.9754,
+  "fantasy_monster_07": 2.5906,
+  "fantasy_monster_08": 4.299,
+  "fantasy_monster_09": 2.0233,
   "miniboss_cinderwake": 19.0918,
   "miniboss_galeskin": 19.0918,
   "miniboss_mossbound": 19.0918,
@@ -946,7 +958,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_baby_lava_dragon": 1.1372,
   "creature_baby_red_dragon": 1.1372,
   "creature_basalt_drake": 2.081765,
-  "creature_basalt_maw": 2.879988,
+  "creature_basalt_maw": 7.490254,
   "creature_beetle_golem": 3.62586,
   "creature_black_wilderness_dragon": 2.323791,
   "creature_blackwater_heron": 1.47456,
@@ -963,7 +975,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_cairn_bighorn": 1.8,
   "creature_cave_roach": 3.555369,
   "creature_cinder_penitent": 2.905924,
-  "creature_cinder_ravager": 2.879988,
+  "creature_cinder_ravager": 7.490254,
   "creature_cinderback_crag": 0.876931,
   "creature_cindercrest_salamander": 0.461289,
   "creature_crown_hart": 2.602279,
@@ -977,7 +989,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_gloamfang_reaver": 1.661541,
   "creature_goblin_archer": 2.13088,
   "creature_goblin_scout": 2.13088,
-  "creature_gorge_mantis": 2.754098,
+  "creature_gorge_mantis": 1.490321,
   "creature_grave_ghoul": 2.683488,
   "creature_grave_lantern": 2.683488,
   "creature_heath_jack": 1.905704,
@@ -1043,21 +1055,27 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "fairy_garden_veilspirit_gloamgarden": 1.416672,
   "fairy_garden_wardling_faeholme": 2.549954,
   "fairy_garden_wardling_gloamgarden": 2.549954,
-  "fairy_guardian_02_gloamgarden": 5.993245,
+  "fairy_guardian_02_gloamgarden": 4.075407,
   "fairy_guardian_03_gloamgarden": 3.85737,
   "fairy_guardian_06_faeholme": 3.123477,
-  "fairy_monster_16": 2.131754,
+  "fairy_guardian_07_gloamgarden": 1.318946,
+  "fairy_guardian_08_faeholme": 1.38913,
+  "fairy_guardian_09_faeholme": 1.490321,
+  "fairy_monster_16": 4.912141,
   "fairy_monster_27": 4.045168,
   "fairy_monster_28": 1.820595,
   "fairy_monster_30": 4.079045,
   "fairy_monster_31": 1.624039,
   "fairy_monster_34": 2.549954,
-  "fantasy_monster_01": 5.003148,
-  "fantasy_monster_02": 5.993245,
+  "fantasy_monster_01": 5.649624,
+  "fantasy_monster_02": 4.075407,
   "fantasy_monster_03": 2.57158,
-  "fantasy_monster_04": 5.187409,
-  "fantasy_monster_05": 5.701265,
-  "fantasy_monster_06": 4.895545,
+  "fantasy_monster_04": 6.241877,
+  "fantasy_monster_05": 4.452997,
+  "fantasy_monster_06": 5.221285,
+  "fantasy_monster_07": 1.318946,
+  "fantasy_monster_08": 1.38913,
+  "fantasy_monster_09": 1.490321,
   "miniboss_cinderwake": 6.464556,
   "miniboss_galeskin": 6.464556,
   "miniboss_mossbound": 6.464556,
