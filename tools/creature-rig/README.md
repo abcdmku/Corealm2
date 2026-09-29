@@ -12,7 +12,8 @@ node tools/creature-rig/run.mjs <assetId> [<assetId> ...] [--from intake|rig|ass
 
 - One asset's failure does not stop the batch. The failures are listed at the end and the exit code is 1.
 - `--out <dir>` stages the work files, candidates, sheets and `catalog.json` under `<dir>`, so each worker can use its own folder. Donor extractions and the source-rig index stay shared in `test-results/creature-motion/rig/`.
-- `--from rig` (or later) repeats the intake first when `intake.json` is missing or was made from another forced `source` or another production file.
+- `--from rig` (or later) repeats the intake first when `intake.json` is missing or was made from another forced `source`, `bind` or production file.
+- Re-rigging a body whose production file is already a promoted candidate starts from that candidate's mesh, including a re-bound (lowered-arm) bind. To reproduce a promoted candidate, run from the production file it was built from.
 
 Every asset needs `tools/creature-rig/assets/<assetId>.json`:
 
@@ -20,6 +21,7 @@ Every asset needs `tools/creature-rig/assets/<assetId>.json`:
 |---|---|
 | `class`, `profile` | The class module and its profile, for example `{ "class": "humanoid", "profile": "brute" }` |
 | `source` | Optional forced source GLB for the intake |
+| `bind` | `"rest"` bakes a skinned production mesh in its joints' rest pose instead of its skin bind, for a file whose bind is contorted but whose rest stands well |
 | `profileOverrides` | Optional changes to the profile. Objects merge key by key, so `{ "clips": { "Walk": { "speed": 0.8 } } }` changes one field of one clip; anything else replaces. |
 | `studio` | Runs [studio mode](#studio-mode) |
 | `notes` | Free text |
@@ -55,6 +57,7 @@ Output goes to `test-results/creature-motion/rig/`, which git ignores:
    - Donor clips are sampled at 30 fps and retargeted (`crlib/retarget.py`).
 3. **`assemble.mjs`** writes the GLB:
    - Joint rest equals the bind pose, and the inverse bind matrices are exact.
+   - The bones listed in `rig.json` `recoil` get `hitRecoil: true` in their node extras. The runtime's hit overlay (`creatureHitOverlay.ts`) moves only those bones.
    - Production vertices take the weights of the merged vertex at their position, so UV seams never crack.
    - All clips use LINEAR rotation keys.
    - Only the hips have translation keys.
@@ -108,6 +111,9 @@ A class is two files: `py/classes/<class>.py` and `py/classes/<class>.donors.jso
 | `bind_turns(sk, profile)` | no | Returns `{bone: rotation}`. It re-poses a bind that sits far from the donor's working range, for example spread wings or T-pose arms. |
 | `donor_map(sk, donor, profile)` | no | Returns `{primary donor bone or target bone: this donor's bone or None}` for a secondary donor. It is called once per donor; return `None` to use the donor spec's `map`. |
 | `closeup_joints(sk, profile)` | no | Returns the joints the review close-ups frame. |
+| `recoil_bones(sk, plan, profile)` | no | Returns the bones the runtime's Hit recoil may move. Without it, the profile's `recoilBones`, else every deforming bone except the root, the hips, legs, cloth springs and chains lying on the floor (a crawler's planted body). |
+
+Every donor spec a class loads gets `_work` (the asset's work folder), so a generated donor such as an authored pack finds the mesh under any `--out` folder; use it rather than deriving the folder from the donor cache.
 
 `fit()` can also leave these on the skeleton: `sk.heels` (`{foot bone: heel point}`, for the heel clamp) and `sk.rigid_exclude` (bones the loose-piece rule never binds a piece to; the profile's `rigidExclude` adds more). Upright classes should take their head, foot and hand tips from `crlib.landmarks.biped_tips(body, legs)`; `humanoid.py` and, through it, `golem.py` do.
 
@@ -228,6 +234,8 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | golem | treant | UAL1 + UAL2 | Idle_Loop | Walk_Loop | (none) | Melee_Hook + Melee_Hook_Rec | Hit_Chest | Death01 |
 | bird | fowl, wader | Animal pack Chicken | Idle | Walk | Run | Eat 1–20 + 214–230 (peck) | (none; runtime fallback) | Die |
 | winged | wasp, fae | Quaternius wasp | Wasp_Flying | Wasp_Flying | Wasp_Flying | Wasp_Attack | (none; runtime fallback) | Wasp_Death |
+
+The quadruped, arthropod, serpent, rooted and special_* classes (snail, star, reliquary, treant, quad, with authored takes in `authored.py`) list their profiles in their own `.donors.json` files.
 
 The spirit profile has no leg bones. A 3-bone tail chain runs from the waist to the lowest tip. The golem class reuses the humanoid fit and adds quiet torso bones, sole joints, a heel pivot, foot blocks and rigid plates. The bird class solves the neck like a leg towards the chicken's head path. The winged class (on its own branch until merged) fits span chains for the wings.
 
