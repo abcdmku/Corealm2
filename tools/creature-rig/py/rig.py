@@ -57,6 +57,24 @@ def closeup_joints(cls, sk, profile):
     return joints[:5]
 
 
+def recoil_bones(cls, sk, plan, profile, body):
+    """Bones the runtime's additive Hit recoil may move (written as node extras hitRecoil: true).
+    The class's recoil_bones(sk, plan, profile), else the profile's recoilBones, else every
+    deforming bone except the root, the hips, legs (kind leg or in the plan's leg chains), cloth
+    springs and chains lying on the floor (a crawler's planted body)."""
+    if hasattr(cls, "recoil_bones"):
+        return [b for b in cls.recoil_bones(sk, plan, profile) if b in sk]
+    if profile.get("recoilBones"):
+        return [b for b in profile["recoilBones"] if b in sk]
+    from crlib.retarget import normalize_leg
+
+    legs = {b for leg in map(normalize_leg, plan.get("legs", [])) for b in leg["chain"] + [leg["foot"], leg["toe"]] if b}
+    floor = 0.1 * body.height
+    return [b.name for b in sk.bones
+            if b.deform and b.kind not in ("root", "leg", "cloth") and b.name != plan["hips"] and b.name not in legs
+            and not (b.head[1] < floor and b.tail[1] < floor)]
+
+
 def main(work, cache=None):
     t0 = time.time()
     intake = json.load(open(os.path.join(work, "intake.json")))
@@ -78,7 +96,8 @@ def main(work, cache=None):
     needed.setdefault(primary_key, set())
     donors = {}
     for key, names in needed.items():
-        donors[key] = donors_mod.load(key, donor_map["donors"][key], cache, sorted(names))
+        # "_work" tells a generated donor (an authored pack) where this asset's work files are.
+        donors[key] = donors_mod.load(key, {**donor_map["donors"][key], "_work": work}, cache, sorted(names))
     for spec in specs:
         if isinstance(spec["clip"], list):
             # A take authored to chain into the next (a strike and its recovery) plays as one clip.
@@ -163,6 +182,7 @@ def main(work, cache=None):
         "clips": out_clips,
         "fit": notes, "skin": skin_report,
         "closeup": closeup_joints(cls, sk, profile),
+        "recoil": recoil_bones(cls, sk, plan, profile, body),
         "donors": {k: d.source or k for k, d in donors.items()},
         "seconds": round(time.time() - t0, 1),
     }

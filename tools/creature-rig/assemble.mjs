@@ -96,6 +96,8 @@ export async function assemble(assetId, work = paths.work(assetId)) {
     else container.addChild(node);
   }
   const names = rig.skeleton.map((bone) => bone.name);
+  // The runtime's hit overlay moves only bones marked hitRecoil (node extras, userData in three).
+  for (const name of rig.recoil ?? []) joints.get(name).setExtras({ ...joints.get(name).getExtras(), hitRecoil: true });
   const ibm = new Float32Array(names.length * 16);
   names.forEach((name, i) => ibm.set(invertRigid(world.get(name)), i * 16));
   const skin = doc.createSkin(`${assetId}_skin`)
