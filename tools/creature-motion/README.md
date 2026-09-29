@@ -29,7 +29,9 @@ Root tools in this folder:
 - `promote.ts --catalog <json> --ids a,b [--apply]` is root-only. It copies reviewed candidates into
   `game/public/assets`, rewrites their manifest motion fields and the runtime tables in
   `game/src/content/creatureMotionTiming.ts` from `measure.ts`, and clears art verdicts recorded
-  against the replaced bytes so the owner reviews the new motion in devdocs.
+  against the replaced bytes so the owner reviews the new motion in devdocs. A promoted model has a
+  new hash, so its shipped thumbnails are stale: rerun `npx tsx tools/bake-art-thumbnails.ts` against
+  the running devdocs, or every Art page renders those creatures in the author's browser.
 
 `pose.ts` (sample and pose a glTF clip, copy tracks), `source-clips.ts` (read FBX takes) and
 `validate-deformation.ts` (skinned bounds) are shared helpers for the importers.
