@@ -239,6 +239,17 @@ def fit(body, donor, profile, source=None):
             joints_i[-1] = i
             t = normalize(lower[min(i + 3, 200)] - lower[max(i - 3, 0)])
             joints.append(lower[i].copy() if notes.get("groundFeet") else _section(body, lower[i], t, 0.1 * S))
+        if profile.get("hoofAnkle") and len(joints) >= 3:
+            # A big hoof or paw belongs to the foot bone whole: the ankle goes up to the pastern,
+            # the narrowest leg section above the hoof, and the knee above keeps clear of it.
+            lo, hi = lower[-1][1] + 0.03 * H, profile.get("hoofTop", 0.3) * hip[1]
+            cand = [i for i in range(joints_i[-2] + 3, 198) if lo <= lower[i][1] <= hi]
+            if cand:
+                area = {i: body.section_centroid(lower[i], normalize(lower[min(i + 3, 200)] - lower[max(i - 3, 0)]), 0.1 * S)[1] for i in cand}
+                i = min(cand, key=lambda i: (area[i], -lower[i][1]))
+                joints[-1] = _section(body, lower[i], normalize(lower[min(i + 3, 200)] - lower[max(i - 3, 0)]), 0.1 * S)
+                if joints[-2][1] < joints[-1][1] + 0.04 * H:
+                    joints[-2] = 0.5 * (joints[-3] + joints[-1])
         ankle = joints[-1]
         # Sole: mesh vertices under the ankle near the foot tip. The toe tip is the sole's most
         # forward point (a reptile's toes splay outward, so "forward" is along the path's end).
@@ -428,11 +439,11 @@ def cloth(body, sk, profile, heat):
     the heat Laplacian singular and every weight comes back zero. The heat is then solved on a
     copy with the duplicates merged and degenerate faces dissolved, and copied back to every
     original vertex from its nearest merged vertex."""
-    _repair_heat(body, sk, profile, heat)
     shell = _shell_override(body, sk, profile)
     head = _head_override(body, sk, profile)
     plate = _ground_plate_override(body, sk)
-    parts = [o for o in (head, shell, plate) if o]  # later parts win where two claim a vertex
+    paws = _paw_override(body, sk, profile)
+    parts = [o for o in (head, shell, plate, paws) if o]  # later parts win where two claim a vertex
     if not parts:
         return None
 
@@ -441,6 +452,42 @@ def cloth(body, sk, profile, heat):
         for o in parts:
             W, f = o(W)
             fixed |= f
+        return W, fixed
+
+    return override
+
+
+def _paw_override(body, sk, profile):
+    """profile "rigidPaw": a big hoof or paw (heel far behind the ankle) goes to its foot bone:
+    every vertex of the leg below the ankle joint, nearest this foot, eases onto the foot and toe
+    bones over a short band, so the heel cannot hang off the pastern and dip through the floor."""
+    if not profile.get("rigidPaw"):
+        return None
+    V = body.verts
+    names = sk.names()
+    feet = []
+    for side in ("l", "r"):
+        for kind in ("Front", "Hind"):
+            bones = leg_bones(sk, side, kind)
+            feet.append((names.index(bones[-2]), names.index(bones[-1]), sk[bones[-2]].head))
+    tips = np.array([f[2] for f in feet])
+    own = np.argmin(np.linalg.norm(V[:, None, [0, 2]] - tips[None, :, [0, 2]], axis=2), axis=1)
+    band = profile.get("pawBand", 0.04) * body.height
+
+    def override(W):
+        W = W.copy()
+        fixed = np.zeros(len(V), bool)
+        for k, (foot, toe, ankle) in enumerate(feet):
+            rows = np.nonzero((own == k) & (V[:, 1] < ankle[1] + band))[0]
+            t = np.clip((ankle[1] + band - V[rows, 1]) / (2 * band), 0, 1)
+            a = t * t * (3 - 2 * t)
+            norm = W[rows] / np.maximum(W[rows].sum(1, keepdims=True), 1e-9)
+            keep = norm[:, [foot, toe]].sum(1, keepdims=True)
+            target = np.zeros_like(norm)
+            target[:, foot] = np.where(keep[:, 0] > 1e-6, norm[:, foot] / np.maximum(keep[:, 0], 1e-9), 1.0)
+            target[:, toe] = np.where(keep[:, 0] > 1e-6, norm[:, toe] / np.maximum(keep[:, 0], 1e-9), 0.0)
+            W[rows] = (1 - a[:, None]) * norm + a[:, None] * target
+            fixed[rows[a > 0.5]] = True
         return W, fixed
 
     return override
@@ -604,7 +651,14 @@ def _shell_override(body, sk, profile):
             W = np.hstack([W, np.zeros((len(W), len(names) - W.shape[1]))])
         head_share = W[:, names.index("head")] / np.maximum(W.sum(1), 1e-9)
         ahead = V[:, 2] > flank_front  # only where a head can be
-        rows = np.nonzero((shell | (below & not_leg(W))) & ~(ahead & (head_share >= 0.5)))[0]
+        mask = (shell | (below & not_leg(W))) & ~(ahead & (head_share >= 0.5))
+        # A loose piece mostly in the shell (a seam strip or scute at the neck opening) is shell
+        # whole, so no part of it follows the neck.
+        for c in np.unique(label):
+            idx = label == c
+            if c != main and mask[idx].mean() > 0.3:
+                mask |= idx
+        rows = np.nonzero(mask)[0]
         keep = np.zeros((len(rows), W.shape[1]))
         keep[:, torso] = W[rows][:, torso]
         empty = keep.sum(1) < 1e-6
@@ -617,62 +671,6 @@ def _shell_override(body, sk, profile):
         return W, fixed
 
     return override
-
-
-def _repair_heat(body, sk, profile, heat):
-    missing = float((heat.sum(1) < 1e-6).mean())
-    if missing <= profile.get("heatRepairAbove", 0.02):
-        return None
-    import bmesh
-    import bpy
-    from scipy.spatial import cKDTree
-
-    from crlib.mathx import BLENDER_FROM_GLTF, GLTF_FROM_BLENDER
-    from crlib.skin import bone_heat
-
-    me = bpy.data.meshes.new("heat_clean")
-    me.from_pydata((body.verts @ BLENDER_FROM_GLTF.T).tolist(), [], body.faces.tolist())
-    bm = bmesh.new()
-    bm.from_mesh(me)
-    tol = profile.get("heatMerge", 4e-4) * body.height
-    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=tol)
-    bmesh.ops.dissolve_degenerate(bm, edges=bm.edges, dist=tol)
-    bm.to_mesh(me)
-    bm.free()
-    obj = bpy.data.objects.new("heat_clean", me)
-    bpy.context.scene.collection.objects.link(obj)
-    W = bone_heat(obj, sk)
-    clean = np.array([v.co[:] for v in me.vertices]) @ GLTF_FROM_BLENDER.T
-    if (W.sum(1) < 1e-6).mean() > 0.5:
-        # Still singular (many overlapping shell plates): solve each large mesh island on its
-        # own; small islands stay empty and take their nearest weighted neighbour in skin().
-        from scipy.sparse import csr_matrix
-        from scipy.sparse.csgraph import connected_components
-
-        F = np.array([p.vertices[:] for p in me.polygons if len(p.vertices) == 3] +
-                     [t for p in me.polygons if len(p.vertices) > 3 for t in
-                      [(p.vertices[0], p.vertices[i], p.vertices[i + 1]) for i in range(1, len(p.vertices) - 1)]])
-        n = len(clean)
-        e = np.vstack([F[:, [0, 1]], F[:, [1, 2]]])
-        _, comp = connected_components(csr_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)), directed=False)
-        W = np.zeros((n, W.shape[1]))
-        for c in np.unique(comp):
-            idx = np.nonzero(comp == c)[0]
-            if len(idx) < profile.get("islandMin", 0.01) * n:
-                continue
-            faces = F[np.all(comp[F] == c, axis=1)]
-            remap = -np.ones(n, int)
-            remap[idx] = np.arange(len(idx))
-            part = bpy.data.meshes.new("heat_island")
-            part.from_pydata((clean[idx] @ BLENDER_FROM_GLTF.T).tolist(), [], remap[faces].tolist())
-            o = bpy.data.objects.new("heat_island", part)
-            bpy.context.scene.collection.objects.link(o)
-            W[idx] = bone_heat(o, sk)
-            bpy.data.objects.remove(o)
-    _, k = cKDTree(clean).query(body.verts)
-    heat[:] = W[k][:, :heat.shape[1]]
-    print(f"quadruped: bone heat repaired on a merged copy ({missing:.0%} missing -> {float((heat.sum(1) < 1e-6).mean()):.1%})")
-    bpy.data.objects.remove(obj)
 
 
 def bind_turns(sk, profile):
@@ -711,6 +709,15 @@ def bind_turns(sk, profile):
     return turns
 
 
+def recoil_bones(sk, plan, profile):
+    """The runtime hit recoil moves the head, neck, spine and tail, never the legs."""
+    return [b.name for b in sk.bones if b.kind in ("body", "tail") and b.name not in ("root", "pelvis")]
+
+
+def closeup_joints(sk, profile):
+    return ["calf_l", "frontleg_knee_l", "frontleg_hip_l", "neck_01", "spine_03"]
+
+
 def donor_map(sk, donor, profile):
     """A secondary Animal pack donor maps by role: the primary's bone for each target bone is
     replaced by the bone with the same role in this donor (Knee and Knee1 are one role)."""
@@ -736,3 +743,98 @@ def donor_map(sk, donor, profile):
         else:
             out[b.name] = None
     return out
+
+
+# ------------------------------------------------------------------ Hit (flinch)
+# The Animal pack ships no Hit. A flinch is the donor's own Die up to its first beat (the recoil
+# before the collapse), eased back to the Idle's first frame. It is baked as an authored take on a
+# copy of the donor's rest skeleton, so it goes through the same retarget as every other clip.
+from classes import authored  # noqa: E402  (registers the "authored" donor pack)
+from crlib import donor as donors_mod  # noqa: E402
+from crlib.mathx import quat_from_matrix, slerp_matrix  # noqa: E402
+
+
+def _rotvec_deg(R):
+    x, y, z, w = quat_from_matrix(R)
+    if w < 0:
+        x, y, z, w = -x, -y, -z, -w
+    s = np.sqrt(max(1.0 - w * w, 0.0))
+    angle = 2.0 * np.arctan2(s, w)
+    axis = np.array([x, y, z]) / s if s > 1e-9 else np.zeros(3)
+    return np.degrees(axis * angle)
+
+
+def flinch(spec):
+    base = dict(spec["base"])
+    die, idle = spec.get("die", "Die"), spec.get("idle", "Idle")
+    d = donors_mod.load("flinch_base", base, spec["_cache"], [die, idle])
+    order = d.bones
+    bones = []
+    for b in order:
+        head, tail = d.rest_head[b], d.rest_tail[b]
+        if np.linalg.norm(tail - head) < 1e-5:
+            tail = head + d.rest_frame[b][:, 1] * 1e-3
+        bones.append((b, d.parent[b], head, tail))
+    D = d.rest_frame
+    hub = next(b for b in order if b.endswith("_ROOTSHJnt"))
+    k_hub = d.index(hub)
+    Dc, Ic = d.clips[die], d.clips[idle]
+    n = len(Dc["frames"])
+    hip_h = d.rest_head[hub][1]
+    # The beat: the recoil before the collapse, up to where the hips have dropped 7% of their
+    # height or the head has moved 30% of it (at most 10 donor frames). A fast Die (the boar
+    # drops in 3 frames) is slowed to at least 5 frames so the flinch still reads.
+    head_b = next((b for b in order if b.endswith("_Neck_TopSHJnt")), order[-1])
+    k_head = d.index(head_b)
+    moved = np.linalg.norm(Dc["heads"][:, k_head] - Dc["heads"][0, k_head], axis=1) / hip_h
+    drop = (Dc["heads"][0, k_hub, 1] - Dc["heads"][:, k_hub, 1]) / hip_h
+    t_beat = float(min(10, n - 1))
+    for f in range(1, min(n, 11)):
+        over = max(drop[f] / spec.get("maxDrop", 0.07), moved[f] / spec.get("maxMove", 0.3))
+        if over >= 1.0:
+            prev = max(drop[f - 1] / spec.get("maxDrop", 0.07), moved[f - 1] / spec.get("maxMove", 0.3))
+            t_beat = f - 1 + (1.0 - prev) / max(over - prev, 1e-6)
+            break
+    beat = max(int(round(t_beat)), spec.get("minBeat", 5))
+    back = spec.get("back", max(10, 20 - beat))
+
+    def local(frames, f):
+        delta = {b: frames[f][d.index(b)] @ D[b].T for b in order}
+        return {b: (delta[d.parent[b]].T @ delta[b] if d.parent[b] else delta[b]) for b in order}
+
+    def at(t):
+        """Die pose and hips offset at fractional donor frame t."""
+        f0 = int(np.floor(t))
+        f1 = min(f0 + 1, n - 1)
+        w = t - f0
+        A, B = local(Dc["frames"], f0), local(Dc["frames"], f1)
+        off = (1 - w) * Dc["heads"][f0, k_hub] + w * Dc["heads"][f1, k_hub] - d.rest_head[hub]
+        return {b: slerp_matrix(A[b], B[b], w) for b in order}, off
+
+    start, off_start = at(t_beat)
+    end = local(Ic["frames"], 0)
+    off_end = Ic["heads"][0, k_hub] - d.rest_head[hub]
+    total = beat + back
+    take = authored.Take("Hit", total)
+    keys = {b: [] for b in order}
+    hub_keys = []
+    for f in range(total + 1):
+        if f <= beat:
+            u = f / beat
+            L, off = at(t_beat * (1 - (1 - u) ** 2))  # sharp onset, easing into the beat
+        else:
+            t = (f - beat) / back
+            t = t * t * (3 - 2 * t)
+            L = {b: slerp_matrix(start[b], end[b], t) for b in order}
+            off = (1 - t) * off_start + t * off_end
+        for b in order:
+            keys[b].append((f, _rotvec_deg(L[b]), "linear"))
+        hub_keys.append((f, off, "linear"))
+    for b in order:
+        take.key(b, keys[b])
+    take.move(hub, hub_keys)
+    return authored.Rig.bones(bones), [take]
+
+
+for _name in ("wolf", "deer", "ibex", "boar", "croc", "cattle"):
+    authored.MOTIONS[f"flinch_{_name}"] = flinch

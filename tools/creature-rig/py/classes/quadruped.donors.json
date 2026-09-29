@@ -23,6 +23,60 @@
     },
     "salamander": {
       "ref": "animal_firesalamander"
+    },
+    "wolf_flinch": {
+      "pack": "authored",
+      "name": "flinch_wolf",
+      "base": {
+        "ref": "animal_wolf"
+      },
+      "idle": "IdleA",
+      "source": "Flinch baked from animal_wolf Die (first beat) eased back to IdleA frame 0"
+    },
+    "deer_flinch": {
+      "pack": "authored",
+      "name": "flinch_deer",
+      "base": {
+        "ref": "animal_deer"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_deer Die (first beat) eased back to Idle frame 0"
+    },
+    "ibex_flinch": {
+      "pack": "authored",
+      "name": "flinch_ibex",
+      "base": {
+        "ref": "animal_ibex"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_ibex Die (first beat) eased back to Idle frame 0"
+    },
+    "boar_flinch": {
+      "pack": "authored",
+      "name": "flinch_boar",
+      "base": {
+        "ref": "animal_wildboar"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_wildboar Die (first beat) eased back to Idle frame 0"
+    },
+    "croc_flinch": {
+      "pack": "authored",
+      "name": "flinch_croc",
+      "base": {
+        "ref": "animal_crocodile"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_crocodile Die (first beat) eased back to Idle frame 0"
+    },
+    "cattle_flinch": {
+      "pack": "authored",
+      "name": "flinch_cattle",
+      "base": {
+        "ref": "animal_cattle"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_cattle Die (first beat) eased back to Idle frame 0"
     }
   },
   "profiles": {
@@ -47,6 +101,10 @@
         "Attack": {
           "donor": "wolf",
           "clip": "Attack"
+        },
+        "Hit": {
+          "donor": "wolf_flinch",
+          "clip": "Hit"
         },
         "Death": {
           "donor": "wolf",
@@ -75,6 +133,10 @@
           "donor": "ibex",
           "clip": "Attack"
         },
+        "Hit": {
+          "donor": "ibex_flinch",
+          "clip": "Hit"
+        },
         "Death": {
           "donor": "ibex",
           "clip": "Die"
@@ -101,6 +163,10 @@
         "Attack": {
           "donor": "ibex",
           "clip": "Attack"
+        },
+        "Hit": {
+          "donor": "deer_flinch",
+          "clip": "Hit"
         },
         "Death": {
           "donor": "deer",
@@ -129,6 +195,10 @@
           "donor": "boar",
           "clip": "Attack"
         },
+        "Hit": {
+          "donor": "boar_flinch",
+          "clip": "Hit"
+        },
         "Death": {
           "donor": "boar",
           "clip": "Die"
@@ -137,6 +207,7 @@
     },
     "bull": {
       "legFollow": 0.0,
+      "rigidPaw": true,
       "clips": {
         "Idle": {
           "donor": "cattle",
@@ -156,6 +227,10 @@
         "Attack": {
           "donor": "cattle",
           "clip": "Attack"
+        },
+        "Hit": {
+          "donor": "cattle_flinch",
+          "clip": "Hit"
         },
         "Death": {
           "donor": "cattle",
@@ -185,6 +260,10 @@
           "donor": "boar",
           "clip": "Attack"
         },
+        "Hit": {
+          "donor": "boar_flinch",
+          "clip": "Hit"
+        },
         "Death": {
           "donor": "boar",
           "clip": "Die"
@@ -209,6 +288,10 @@
         "Attack": {
           "donor": "croc",
           "clip": "Bite"
+        },
+        "Hit": {
+          "donor": "croc_flinch",
+          "clip": "Hit"
         },
         "Death": {
           "donor": "croc",
@@ -239,6 +322,10 @@
           "donor": "croc",
           "clip": "Bite"
         },
+        "Hit": {
+          "donor": "croc_flinch",
+          "clip": "Hit"
+        },
         "Death": {
           "donor": "croc",
           "clip": "Die"
@@ -248,8 +335,6 @@
     "salamander": {
       "tailMode": "donor",
       "tailFollow": 1.0,
-      "footHeight": 0.3,
-      "bindTailStraight": true,
       "clips": {
         "Idle": {
           "donor": "salamander",
@@ -269,6 +354,10 @@
         "Attack": {
           "donor": "croc",
           "clip": "Bite"
+        },
+        "Hit": {
+          "donor": "croc_flinch",
+          "clip": "Hit"
         },
         "Death": {
           "donor": "salamander",
@@ -296,6 +385,10 @@
         "Attack": {
           "donor": "ibex",
           "clip": "Attack"
+        },
+        "Hit": {
+          "donor": "deer_flinch",
+          "clip": "Hit"
         },
         "Death": {
           "donor": "deer",
