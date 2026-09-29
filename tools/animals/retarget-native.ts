@@ -15,7 +15,16 @@ import { Quaternion, Vector3 } from "three";
 import type { ExtractedSourceClip, SourceTrack } from "../creature-motion/source-clips.js";
 
 /** Donor joints map to target joints by swapping the rig prefix, plus explicit extra pairs. */
-export interface RetargetMap { from: string; to: string; extra?: Record<string, string>; skip?: RegExp }
+export interface RetargetMap {
+  from: string; to: string; extra?: Record<string, string>; skip?: RegExp;
+  /**
+   * Start-relative mode for bodies whose proportions differ (a deer neck is far longer than a
+   * goat's). Motion is the donor's world rotation away from its own first frame, scaled per target
+   * joint by the first matching weight (0 holds the joint), applied on top of the target's own first
+   * frame of `base` (its Idle). Unmatched joints hold that stance, and the root does not translate.
+   */
+  startRelative?: { weights: [RegExp, number][] };
+}
 
 const SAMPLE_FPS = 30;
 
@@ -73,7 +82,11 @@ export function readDonor(file: string): Promise<Document> {
   return doc;
 }
 
-export function retargetClip(clip: ExtractedSourceClip, map: RetargetMap, donorDoc: Document, targetDoc: Document): ExtractedSourceClip {
+export function retargetClip(clip: ExtractedSourceClip, map: RetargetMap, donorDoc: Document, targetDoc: Document, base?: ExtractedSourceClip): ExtractedSourceClip {
+  if (map.startRelative) {
+    if (!base) throw new Error("Start-relative retarget needs the target's own Idle as its base");
+    return retargetFromStart(clip, map, donorDoc, targetDoc, base);
+  }
   const donor = restOf(donorDoc), target = restOf(targetDoc);
   const rotation = new Map<string, (time: number) => number[]>();
   const translation = new Map<string, (time: number) => number[]>();
@@ -158,6 +171,91 @@ export function retargetClip(clip: ExtractedSourceClip, map: RetargetMap, donorD
     targets.push({ name, type: "Bone", fbxId, parentChain: chain, translation: entry.t.toArray(), rotation: entry.q.toArray() as number[], scale: [1, 1, 1] });
     tracks.push({ name: `${name}.quaternion`, sourceNodeId: fbxId, type: "quaternion", interpolation: 2301, times, values: outRotation.get(name)! });
     if (outTranslation.has(name)) tracks.push({ name: `${name}.position`, sourceNodeId: fbxId, type: "vector", interpolation: 2301, times, values: outTranslation.get(name)! });
+  }
+  return { ...clip, tracks, targets };
+}
+
+function trackSamplers(clip: ExtractedSourceClip) {
+  const rotation = new Map<string, (time: number) => number[]>(), translation = new Map<string, (time: number) => number[]>();
+  for (const track of clip.tracks) {
+    const name = track.name.slice(0, track.name.lastIndexOf(".")), property = track.name.slice(track.name.lastIndexOf(".") + 1);
+    if (property === "quaternion") rotation.set(name, sampler(track));
+    if (property === "position") translation.set(name, sampler(track));
+  }
+  return { rotation, translation };
+}
+
+function retargetFromStart(clip: ExtractedSourceClip, map: RetargetMap, donorDoc: Document, targetDoc: Document, base: ExtractedSourceClip): ExtractedSourceClip {
+  const donor = restOf(donorDoc), target = restOf(targetDoc);
+  const motion = trackSamplers(clip), stance = trackSamplers(base);
+  const inverse = new Map<string, string>();
+  for (const name of donor.order) {
+    if (map.skip?.test(name) || !name.startsWith(map.from)) continue;
+    const to = map.to + name.slice(map.from.length);
+    if (target.byName.has(to)) inverse.set(to, name);
+  }
+  for (const [from, to] of Object.entries(map.extra ?? {})) inverse.set(to, from);
+  const weight = (name: string) => map.startRelative!.weights.find(([pattern]) => pattern.test(name))?.[1] ?? 0;
+  const quat = (values: number[]) => new Quaternion(...(values as [number, number, number, number]));
+  const donorWorldAt = (time: number) => {
+    const world = new Map<string, Quaternion>();
+    for (const name of donor.order) {
+      const entry = donor.byName.get(name)!;
+      const local = motion.rotation.has(name) ? quat(motion.rotation.get(name)!(time)) : entry.q.clone();
+      world.set(name, entry.parent ? world.get(entry.parent)!.clone().multiply(local) : local);
+    }
+    return world;
+  };
+  const donorStart = donorWorldAt(0);
+  const baseLocal = new Map(target.order.map((name) => [name,
+    stance.rotation.has(name) ? quat(stance.rotation.get(name)!(0)) : target.byName.get(name)!.q.clone()]));
+  const baseWorld = new Map<string, Quaternion>();
+  for (const name of target.order) {
+    const entry = target.byName.get(name)!;
+    baseWorld.set(name, entry.parent ? baseWorld.get(entry.parent)!.clone().multiply(baseLocal.get(name)!) : baseLocal.get(name)!.clone());
+  }
+
+  const frames = Math.round(clip.duration * SAMPLE_FPS);
+  const times = Array.from({ length: frames + 1 }, (_, i) => Math.min(clip.duration, i / SAMPLE_FPS));
+  const outRotation = new Map<string, number[]>();
+  for (const time of times) {
+    const donorWorld = donorWorldAt(time);
+    const targetWorld = new Map<string, Quaternion>();
+    for (const name of target.order) {
+      const entry = target.byName.get(name)!;
+      const source = inverse.get(name), k = source && donorWorld.has(source) ? weight(name) : 0;
+      let world: Quaternion;
+      if (k > 0) {
+        const delta = donorWorld.get(source!)!.clone().multiply(donorStart.get(source!)!.clone().invert());
+        world = new Quaternion().slerp(delta, k).multiply(baseWorld.get(name)!);
+      } else {
+        world = entry.parent ? targetWorld.get(entry.parent)!.clone().multiply(baseLocal.get(name)!) : baseLocal.get(name)!.clone();
+      }
+      targetWorld.set(name, world);
+      const local = entry.parent ? targetWorld.get(entry.parent)!.clone().invert().multiply(world) : world.clone();
+      const list = outRotation.get(name) ?? [];
+      const previous = list.length ? quat(list.slice(-4)) : null;
+      if (previous && previous.dot(local) < 0) local.set(-local.x, -local.y, -local.z, -local.w);
+      list.push(local.x, local.y, local.z, local.w);
+      outRotation.set(name, list);
+    }
+  }
+
+  const tracks: SourceTrack[] = [];
+  const targets: ExtractedSourceClip["targets"] = [];
+  let id = 1;
+  for (const name of target.order) {
+    const fbxId = id++;
+    const entry = target.byName.get(name)!;
+    const chain: string[] = [];
+    for (let at = entry.parent; at; at = target.byName.get(at)!.parent) chain.unshift(at);
+    targets.push({ name, type: "Bone", fbxId, parentChain: chain, translation: entry.t.toArray(), rotation: entry.q.toArray() as number[], scale: [1, 1, 1] });
+    tracks.push({ name: `${name}.quaternion`, sourceNodeId: fbxId, type: "quaternion", interpolation: 2301, times, values: outRotation.get(name)! });
+    // The stance's own translation (pelvis height) is held; only rotations carry the strike.
+    if (stance.translation.has(name)) {
+      const held = stance.translation.get(name)!(0);
+      tracks.push({ name: `${name}.position`, sourceNodeId: fbxId, type: "vector", interpolation: 2301, times, values: times.flatMap(() => held) });
+    }
   }
   return { ...clip, tracks, targets };
 }
