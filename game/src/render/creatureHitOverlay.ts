@@ -59,6 +59,10 @@ function isNamedUprightBiped(bones:THREE.Bone[]):boolean {
 
 /** Numbered imported rigs are recognized by their branch topology, never Bone### alone. */
 function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
+  // A rig built by tools/creature-rig marks the bones that may take a recoil in its node extras
+  // (`hitRecoil: true`, which GLTFLoader copies to userData); the builder knows which chains are planted.
+  const marked=bones.filter(bone=>bone.userData?.hitRecoil===true);
+  if(marked.length)return new Set(marked);
   const named=(name:string)=>bones.find(b=>b.name===name);
   const edge=(child:string,parent:string)=>named(child)?.parent===named(parent) && !!named(parent);
   let roots:THREE.Bone[]=[];

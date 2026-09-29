@@ -183,6 +183,15 @@ describe('support-safe additive creature recoil',()=>{
     const unknown=new THREE.Group();bone('Head',unknown);
     expect(createMaskedHitOverlay(unknown,new THREE.AnimationClip('Hit',1,[]),new THREE.AnimationClip('Idle',1,[])).clip).toBeNull();
   });
+  it('recoils exactly the bones a rig builder marks, on any skeleton',()=>{
+    const root=new THREE.Group(),core=bone('core',root),ring=bone('spine_00_a',core);bone('crawl_01',core);
+    ring.userData.hitRecoil=true;
+    const hit=new THREE.AnimationClip('Hit',1,[rotation('spine_00_a',[0,.5,0]),rotation('crawl_01',[0,.5,0]),rotation('core',[0,.5,0])]);
+    const result=createMaskedHitOverlay(root,hit,new THREE.AnimationClip('Idle',1,[]));
+    expect(result.status).toBe('native-masked');
+    expect(result.boneNames).toEqual(['spine_00_a']);
+    expect(result.protectedBoneNames).toEqual(expect.arrayContaining(['core','crawl_01']));
+  });
   it('keeps the worm rear anchored while its front belly recoils without losing floor contact',async()=>{
     const {root,hit,idle,walk}=await actualPublicRig('creature_red_worm');
     const names=['Worm_Rig_Main',...Array.from({length:5},(_,i)=>`Worm_Rig${i+1}`)];
