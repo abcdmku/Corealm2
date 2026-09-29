@@ -23,7 +23,13 @@ import {convertMantisUnityAnimation} from '../creature-expansion/monsters/mantis
 const SOURCE = 'test-results/creature-bodies/source/monster10/Assets/Stylized3DMonster/Monster10';
 const OUT = option('out', 'test-results/creature-motion/bodies');
 const IDS = ['fairy_monster_10', 'fairy_garden_spriggle_gloamgarden', 'fairy_garden_spriggle_faeholme'];
-const TAKES = {Idle: 'Monster10_Idle', Walk: 'Monster10_Walk_InPlace', Run: 'Monster10_Run_InPlace', Attack: 'Monster10_Attack01_InPlace', Hit: 'Monster10_GetHit', Death: 'Monster10_Die'};
+const TAKES = {Idle: 'Monster10_Idle', Walk: 'Monster10_Walk_InPlace', Run: 'Monster10_Run_InPlace', Attack: 'Monster10_Attack01_InPlace', Hit: 'Monster10_GetHit'};
+/**
+ * Monster10_Die is not shipped: it squash-stretches the head (17.5 cm bone translation at 14%) and
+ * tail into a twisted column and sinks the body 0.37 m. The rig matches (inverse binds equal the
+ * production file's), so the take itself does not suit this body; Death stays the production clip.
+ */
+const KEPT = 'Death';
 
 globalThis.FileReader = class {
   readAsArrayBuffer(blob) { blob.arrayBuffer().then(value => { this.result = value; this.onloadend?.(); }); }
@@ -62,6 +68,17 @@ for (const id of IDS) {
   const skinMaterial = production.getRoot().listMeshes()[0].listPrimitives()[0].getMaterial();
   const material = copyToDocument(doc, production, [skinMaterial], p => p.propertyType === 'Buffer' ? buffer : fallback(p)).get(skinMaterial);
   for (const mesh of doc.getRoot().listMeshes()) for (const primitive of mesh.listPrimitives()) primitive.setMaterial(material);
+  // Keep the production Death: every channel re-targeted by joint name (same rig, same binds).
+  const nodes = new Map(doc.getRoot().listNodes().map(n => [n.getName(), n]));
+  const kept = production.getRoot().listAnimations().find(a => a.getName() === KEPT);
+  const death = doc.createAnimation(KEPT);
+  for (const channel of kept.listChannels()) {
+    const target = nodes.get(channel.getTargetNode().getName());
+    if (!target) throw new Error(`${id}: ${KEPT} targets missing joint ${channel.getTargetNode().getName()}`);
+    const from = channel.getSampler(), accessor = a => doc.createAccessor().setType(a.getType()).setArray(a.getArray().slice()).setBuffer(buffer);
+    const sampler = doc.createAnimationSampler().setInterpolation(from.getInterpolation()).setInput(accessor(from.getInput())).setOutput(accessor(from.getOutput()));
+    death.addSampler(sampler).addChannel(doc.createAnimationChannel().setTargetNode(target).setTargetPath(channel.getTargetPath()).setSampler(sampler));
+  }
   await doc.transform(prune({keepLeaves: true}));
 
   const m = await measure(doc, {feet: /^foot/i, head: 'headx'});
@@ -70,8 +87,8 @@ for (const id of IDS) {
       pack: 'pixeliusvita-monster10',
       walkClipSeconds: m.clips.Walk.seconds, runClipSeconds: m.clips.Run.seconds, attackSeconds: m.clips.Attack.seconds,
     },
-    motionProvenance: {native: Object.keys(TAKES), donor: {}, authored: [],
-      notes: `Free Fantasy Monster 10 (PixeliusVita) takes ${Object.entries(TAKES).map(([k, v]) => `${k}=InPlace_Anim/${v}.anim`).join(', ')}: Unity Hermite curves sampled at 60 Hz with their tangents, keys optimised losslessly, Unity root XZ removed, on the pack's Monster10.fbx mesh and rig (same mesh as the trial body 10). Uniform scale ${placement.getScale()[0]}, XZ centring kept from the previous file. Material and texture from the previous production file.`}});
+    motionProvenance: {native: Object.keys(TAKES), donor: {}, authored: [KEPT],
+      notes: `Free Fantasy Monster 10 (PixeliusVita) takes ${Object.entries(TAKES).map(([k, v]) => `${k}=InPlace_Anim/${v}.anim`).join(', ')}: Unity Hermite curves sampled at 60 Hz with their tangents, keys optimised losslessly, Unity root XZ removed, on the pack's Monster10.fbx mesh and rig (same mesh as the trial body 10). Uniform scale ${placement.getScale()[0]}, XZ centring kept from the previous file. Material and texture from the previous production file. Death is the previous production clip (repo-authored), kept because the native Monster10_Die stretches the head and tail on this body.`}});
   const f = s => `${s.x.toFixed(2)} x ${s.y.toFixed(2)} x ${s.z.toFixed(2)}`;
   console.log(`${id}: ${f(entry.size)} m -> ${f(m.size)} m; ${Object.entries(m.clips).map(([k, c]) => `${k} ${c.seconds.toFixed(2)}s minY ${c.minY.toFixed(3)}`).join(', ')} -> ${file}`);
 }
