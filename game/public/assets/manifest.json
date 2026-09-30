@@ -27864,8 +27864,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 10348932,
-      "sha256": "4999b68027efa0a4b1f2fcaae927ef4e34ae4863164de450a3b0b97c8f176e48",
+      "bytes": 10490188,
+      "sha256": "bcbbb98c32e7225ea9904eee0840a52c48d7762cfef76a4ec0a2488c96a396d8",
       "size": {
         "x": 0.89519,
         "y": 1.849097,
@@ -27894,7 +27894,6 @@
         "Idle",
         "Walk",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -27989,23 +27988,21 @@
           "Idle": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/undead): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.355 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/undead): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_l_01, tabard_l_02, tabard_l_03, tabard_r_01, tabard_r_02, tabard_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.355 m).",
         "clipSeconds": {
           "Idle": 1.3333333730697632,
           "Walk": 1.3333333730697632,
           "Attack": 1.7999999523162842,
-          "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_revenant.glb",
-        "sourceSha256": "f277bc271132666843cd4a0f2113e863ebec4849b396f9ce9a293701c252de9e"
+        "sourceSha256": "4999b68027efa0a4b1f2fcaae927ef4e34ae4863164de450a3b0b97c8f176e48"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.827455,
+      "impliedWalkMps": 0.827335,
       "attackSeconds": 1.8,
       "contactNormalized": 0.683
     },
@@ -28303,8 +28300,8 @@
         "tripo",
         "death-collapse"
       ],
-      "bytes": 8335496,
-      "sha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32",
+      "bytes": 8404036,
+      "sha256": "f9808791d0584fea9e131e1eef2a96ed7195cdad6d5e0d137a82f28b1530ed37",
       "size": {
         "x": 1.184326,
         "y": 1.499266,
@@ -28319,7 +28316,6 @@
       "triangles": 4474,
       "animations": [
         "Idle",
-        "Walk",
         "Attack",
         "Hit",
         "Death"
@@ -28330,7 +28326,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_banshee",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-undead-family/banshee-motion-polish.glb",
-        "sourceSha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32",
+        "sourceSha256": "f9808791d0584fea9e131e1eef2a96ed7195cdad6d5e0d137a82f28b1530ed37",
         "tripoSourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
         "tripoSourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
         "builderSha256": "82081fadce65efc44707e6455e840016508f790c1eb3e647c4be35851e711384",
@@ -28884,25 +28880,21 @@
         "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.549 m). Profile humanoid/spirit. Built with two scratch prototypes of core fixes applied (D:/corealm-scratch/rig-human/corepatch.py): per-island bone heat when the joined mesh fails, and foot/toe pitch continuity with heel clearance.",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.546 m).",
         "clipSeconds": {
           "Idle": 2.5,
-          "Walk": 1.3333333730697632,
           "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_banshee.glb",
-        "sourceSha256": "97d3de81eab33263669a261320f9489ad44a32966468f56b35d080ade559748f"
+        "sourceSha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32"
       },
-      "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.051981,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.8
     },
@@ -30696,8 +30688,8 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 5814568,
-      "sha256": "28ba5877c66601fa5450596797455dfb2a29677e554626488e019170f15f1db7",
+      "bytes": 5882744,
+      "sha256": "1f5c0190da19ef46ce1e38aac6250b69626e0b8d04949c7a207c366f1c93adbd",
       "triangles": 5258,
       "size": {
         "x": 1.017993,
@@ -30724,7 +30716,6 @@
       "groundY": 0,
       "animations": [
         "Idle",
-        "Walk",
         "Attack",
         "Hit",
         "Death"
@@ -30796,24 +30787,21 @@
         "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.312 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.309 m).",
         "clipSeconds": {
           "Idle": 2.5,
-          "Walk": 1.3333333730697632,
           "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_pallid_shade.glb",
-        "sourceSha256": "68df9f3af7126a913ccf844a38a1e93b260ccd5926286bf236a8727095572616"
+        "sourceSha256": "28ba5877c66601fa5450596797455dfb2a29677e554626488e019170f15f1db7"
       },
-      "walkClipSeconds": 1.333333,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.267
     },
@@ -32660,8 +32648,8 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 9285840,
-      "sha256": "9ec54d0e6131167925b593c851e9e69f2b81609a48df6000501478f09e8967b9",
+      "bytes": 9499192,
+      "sha256": "551f4d157b116041a4661323fbfe24d342548d3416bb17beb54628d455f8e6ea",
       "triangles": 4612,
       "size": {
         "x": 0.972154,
@@ -32899,7 +32887,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/caster): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.141 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/caster): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_l_01, tabard_l_02, tabard_l_03, tabard_l_04, tabard_r_01, tabard_r_02, tabard_r_03, tabard_r_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.260 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -32909,12 +32897,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_cinder_penitent.glb",
-        "sourceSha256": "54546d99bee29e71d273fde5a6f5214113941373c99cfb8c3baa3f97803fe8d2"
+        "sourceSha256": "9ec54d0e6131167925b593c851e9e69f2b81609a48df6000501478f09e8967b9"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.958193,
-      "impliedRunMps": 6.097016,
+      "impliedWalkMps": 0.958186,
+      "impliedRunMps": 6.10252,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -33054,8 +33042,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 5103656,
-      "sha256": "8f23296ddaea7c2b5918d544e96619f02f30e2419a8ef16324cc892acacc481a",
+      "bytes": 5171868,
+      "sha256": "0d5da697c7d6fdc05c71df12c396d5c7c6f09339dd170b4663cdc5a503486de4",
       "size": {
         "x": 1.411987,
         "y": 2.14895,
@@ -33083,7 +33071,6 @@
       "vertices": 3470,
       "animations": [
         "Idle",
-        "Walk",
         "Attack",
         "Hit",
         "Death"
@@ -33170,7 +33157,6 @@
         "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
@@ -33179,15 +33165,13 @@
         "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.409 m).",
         "clipSeconds": {
           "Idle": 2.5,
-          "Walk": 1.3333333730697632,
           "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_veil_reaper.glb",
-        "sourceSha256": "f5f831ed5b41fb2cbb50b0b7218e200af299973e55db2e8a72af6c09af692967"
+        "sourceSha256": "8f23296ddaea7c2b5918d544e96619f02f30e2419a8ef16324cc892acacc481a"
       },
-      "walkClipSeconds": 1.333333,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -33830,8 +33814,8 @@
         "articulated",
         "tripo"
       ],
-      "bytes": 7156960,
-      "sha256": "9e3321ffe325e3f519bf3bde4c9264dbee8c8df47c41693ba6b08bcfc3d33129",
+      "bytes": 7290024,
+      "sha256": "b1667227b6156cce76949458224b9dcd708ce4c44c0ce2285e2885d55633489d",
       "size": {
         "x": 1.150098,
         "y": 2.15,
@@ -34170,12 +34154,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_vault_custodian.glb",
-        "sourceSha256": "7f456710c6a4647c24f2f776b351c1a6927605635795bee1fe0c0a3541b83035"
+        "sourceSha256": "9e3321ffe325e3f519bf3bde4c9264dbee8c8df47c41693ba6b08bcfc3d33129"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.837347,
-      "impliedRunMps": 5.619024,
+      "impliedWalkMps": 0.837348,
+      "impliedRunMps": 5.594246,
       "attackSeconds": 1.333333,
       "contactNormalized": 0.283
     },
@@ -38053,8 +38037,8 @@
         "ogre",
         "tripo"
       ],
-      "bytes": 12145120,
-      "sha256": "e00fe2f314322c11d2003c55c734cdcd9043d4cf11cd18ddff52c6343c8e8920",
+      "bytes": 12299408,
+      "sha256": "4183bf9ac0abb347c3639895ff8ad8a73ee2a7394bceecc2850b48bb467fd365",
       "size": {
         "x": 1.372936,
         "y": 2.4,
@@ -38084,7 +38068,6 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -38164,32 +38147,30 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Idle": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/brute): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.237 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/brute): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03, tabard_l_01, tabard_l_02, tabard_l_03, tabard_r_01, tabard_r_02, tabard_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.237 m).",
         "clipSeconds": {
-          "Idle": 2.5,
+          "Idle": 1.3333333730697632,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.3333333730697632,
-          "Hit": 0.3333333432674408,
+          "Attack": 1.7999999523162842,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_tideworn.glb",
-        "sourceSha256": "fa9626e919a26e2f962b3c3777cb9b44089f092630e530cd588e265cebec4748"
+        "sourceSha256": "e00fe2f314322c11d2003c55c734cdcd9043d4cf11cd18ddff52c6343c8e8920"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.853061,
-      "impliedRunMps": 5.348194,
-      "attackSeconds": 1.333333,
-      "contactNormalized": 0.283
+      "impliedWalkMps": 0.852777,
+      "impliedRunMps": 5.321758,
+      "attackSeconds": 1.8,
+      "contactNormalized": 0.333
     },
     {
       "id": "creature_boss_ordrun",
@@ -38352,8 +38333,8 @@
         "ogre",
         "tripo"
       ],
-      "bytes": 3744552,
-      "sha256": "c0b14d80dbdc0a22c29d54c5c998166c12bb45ac277f2a6569e9c53c6bc79f04",
+      "bytes": 3910204,
+      "sha256": "6a30bb73a68389524926c579764d6d9424b4b769edf42f52c06a38b3f2e96825",
       "size": {
         "x": 1.653809,
         "y": 2.998535,
@@ -38466,7 +38447,7 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Sword_Attack",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
@@ -38476,19 +38457,19 @@
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.3333333730697632,
+          "Attack": 1.5333333015441895,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_cinderwake.glb",
-        "sourceSha256": "42b3739e9d66d6707ab5e195744b146ee43058be529f03602ff3078a699ffdc2"
+        "sourceSha256": "c0b14d80dbdc0a22c29d54c5c998166c12bb45ac277f2a6569e9c53c6bc79f04"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.264476,
-      "impliedRunMps": 7.828096,
-      "attackSeconds": 1.333333,
-      "contactNormalized": 0.283
+      "impliedWalkMps": 1.262289,
+      "impliedRunMps": 7.819842,
+      "attackSeconds": 1.533333,
+      "contactNormalized": 0.567
     },
     {
       "id": "creature_baby_red_dragon",
@@ -41640,8 +41621,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 8183836,
-      "sha256": "eea52f3e07c95bcafb421b32cc50e3de2f208eacf3c327667a164d0b77b5a131",
+      "bytes": 8307536,
+      "sha256": "f08c2dc54fc406a643e36bda865a2e21ea0ce4c8b1a2e9f3d646ddbf806aac12",
       "size": {
         "x": 1.408744,
         "y": 1.801694,
@@ -41869,7 +41850,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/beast): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.404 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/beast): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.170 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -41879,12 +41860,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
-        "sourceSha256": "0a223d75c2a8e7f88644a7eebfc9dfdf28e107552a9af78cba589c6ecdcc44db"
+        "sourceSha256": "eea52f3e07c95bcafb421b32cc50e3de2f208eacf3c327667a164d0b77b5a131"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.01059,
-      "impliedRunMps": 5.637844,
+      "impliedWalkMps": 0.72323,
+      "impliedRunMps": 4.625996,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -43139,8 +43120,8 @@
         "marshal",
         "tripo"
       ],
-      "bytes": 10084100,
-      "sha256": "3cf113c3d466533005961956467a5a4c0a25df33498e3d75035039a0dc5de69d",
+      "bytes": 10257476,
+      "sha256": "0901763d2cd3b8a2a3a3bc95c56dcf84e8d9cc1a44b7fe9b87eb4be0aef854e7",
       "size": {
         "x": 2.292695,
         "y": 3.192871,
@@ -43284,7 +43265,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.641 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.591 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -43294,12 +43275,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_nightforge_marshal.glb",
-        "sourceSha256": "efec600dc0ba1a387f75049a56c0b8f9776913063d542507eb8f50c42ce08747"
+        "sourceSha256": "3cf113c3d466533005961956467a5a4c0a25df33498e3d75035039a0dc5de69d"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.642288,
-      "impliedRunMps": 9.23362,
+      "impliedWalkMps": 1.619975,
+      "impliedRunMps": 9.276363,
       "attackSeconds": 1.4,
       "contactNormalized": 0.167
     },
@@ -50618,8 +50599,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 12015960,
-      "sha256": "10244bd527d5aca2784f9d2d746900db980dab1a8f1d3100d9caa55bb7290c39",
+      "bytes": 12175496,
+      "sha256": "303ee5cf0fd99c3a19c0ff1b32b0e66f8f6b9589081b3681953b58a525d62bc3",
       "size": {
         "x": 3.411484,
         "y": 4.535151,
@@ -50914,7 +50895,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.516 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_01, cape_02, cape_03, tabard_01, tabard_02, tabard_03, tabard_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.516 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -50924,7 +50905,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-crown/creature_pearl_knight.glb",
-        "sourceSha256": "137ea3648ce83447c6a42c0962f0e72862e82cc42ed19d5e4175c45d546c42d0"
+        "sourceSha256": "10244bd527d5aca2784f9d2d746900db980dab1a8f1d3100d9caa55bb7290c39"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -63216,8 +63197,8 @@
         "veilspirit",
         "image-generated-texture"
       ],
-      "bytes": 6197296,
-      "sha256": "fbcc663ce371339a3f9edf413aa56c142ccf963ec825e42f0b9f2c9ff407145a",
+      "bytes": 6339228,
+      "sha256": "29ef474304a0f75da9e2ef4949cf3cdb4f07f3eaadb2a79605d51c07951ab406",
       "size": {
         "x": 0.983859,
         "y": 1.377305,
@@ -63341,10 +63322,10 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_veilspirit_gloamgarden.glb",
-        "sourceSha256": "8fd05dc0cfc7409af7f6de22b34693e5b10458c1144aff6b3ff9a93358bbdd02"
+        "sourceSha256": "fbcc663ce371339a3f9edf413aa56c142ccf963ec825e42f0b9f2c9ff407145a"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.549458,
+      "impliedWalkMps": 0.544504,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -63971,8 +63952,8 @@
         "veilspirit",
         "image-generated-texture"
       ],
-      "bytes": 6459724,
-      "sha256": "acc0b971b67ed15f3bae2763f73bc1c33baa852f12912735d1fa0059196a043f",
+      "bytes": 6601740,
+      "sha256": "88bb7a8ad8023fdc5507b058702e16b0235b2c40136fca3e20b63e467a733fa3",
       "size": {
         "x": 1.176353,
         "y": 1.646777,
@@ -64096,10 +64077,10 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_veilspirit_faeholme.glb",
-        "sourceSha256": "9b704e4a7c4ee08c6a75a3410c30ebaa61ae62433b75489600441304fad6c8d4"
+        "sourceSha256": "acc0b971b67ed15f3bae2763f73bc1c33baa852f12912735d1fa0059196a043f"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.657074,
+      "impliedWalkMps": 0.65473,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -69441,8 +69422,8 @@
         "starter",
         "user-supplied"
       ],
-      "bytes": 6262888,
-      "sha256": "0847cdc59d052399cf350ad07c8efa94cf940542e00cf96d2a5ab37c1242fe4d",
+      "bytes": 6418656,
+      "sha256": "4bbc91f160a39670915a3fe9f99342d94a161d6d2d6e64a03c9a8598ba139d47",
       "size": {
         "x": 1.151165,
         "y": 1.756563,
@@ -69550,7 +69531,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/bandit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.144 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/bandit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.133 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -69560,12 +69541,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_road_bandit.glb",
-        "sourceSha256": "101352e3f596b543e3c6e8a915e3c65570ec75a70740b4a9d3fb1d6dbb597019"
+        "sourceSha256": "0847cdc59d052399cf350ad07c8efa94cf940542e00cf96d2a5ab37c1242fe4d"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.751224,
-      "impliedRunMps": 4.700015,
+      "impliedWalkMps": 0.750928,
+      "impliedRunMps": 4.67918,
       "attackSeconds": 1.533333,
       "contactNormalized": 0.567
     },

@@ -229,8 +229,8 @@ The Dungeon Mason files are in centimetres. The ratios are scale-free, so only t
 | Class | Profile | Donor | Idle | Walk | Run | Attack | Hit | Death |
 |---|---|---|---|---|---|---|---|---|
 | humanoid | knight | UAL1 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | Sword_Attack | Hit_Chest | Death01 |
-| humanoid | brute | UAL1 + UAL2 | Idle_Loop | Walk_Loop | Jog_Fwd_Loop | OverhandThrow | Hit_Chest | Death01 |
-| humanoid | spirit (`legs: false`) | UAL1 | Idle_Loop | Walk_Loop | (none; falls back to Walk) | Spell_Simple_Enter + Shoot + Exit | Hit_Chest | Death01 |
+| humanoid | brute | UAL1 + UAL2 | Zombie_Idle_Loop | Zombie_Walk_Fwd_Loop | Jog_Fwd_Loop | Zombie_Scratch | (none; runtime flinch keeps the hunch) | Death01 |
+| humanoid | spirit (`legs: false`) | UAL1 | Idle_Loop | (none: a hovering body keeps its Idle while it glides) | (none) | Spell_Simple_Enter + Shoot + Exit | Hit_Chest | Death01 |
 | humanoid | guard, bandit, undead, ogre, caster, beast, fae | UAL1 + UAL2 | see `humanoid.donors.json` | | | | | |
 | golem | golem | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Zombie_Scratch | Hit_Chest | Death01 |
 | golem | golemPunch | UAL1 + UAL2 | Idle_Loop | Zombie_Walk_Fwd_Loop | (none) | Sword_Regular_A + B + B_Rec (claw sweeps) | Hit_Chest | Death01 |
