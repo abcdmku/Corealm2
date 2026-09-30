@@ -1,1 +1,5 @@
-{ "class": "humanoid", "profile": "spirit" }
+{
+  "class": "humanoid",
+  "profile": "spirit",
+  "notes": "A floating body: no Walk or Run clip, so the runtime keeps the Idle hover playing while it glides instead of stepping and swinging its arms."
+}

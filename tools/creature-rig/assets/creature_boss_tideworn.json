@@ -1,1 +1,5 @@
-{ "class": "humanoid", "profile": "brute" }
+{
+  "class": "humanoid",
+  "profile": "brute",
+  "notes": "A hunched troll: Zombie_Idle_Loop, Zombie_Walk_Fwd_Loop and the Zombie_Scratch two-arm raking claws, which suit its long arms and no longer share the OverhandThrow hurl with the cinderwake and the ordrun. No Hit clip: the runtime's additive flinch keeps the hunch, where Hit_Chest stood it upright."
+}

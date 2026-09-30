@@ -1,6 +1,8 @@
 {
   "class": "humanoid",
   "profile": "bandit",
-  "profileOverrides": { "cloth": false },
-  "notes": "The short coat and hood ride the body: as spring panels the coat tails stretched between the thighs."
+  "profileOverrides": {
+    "colliderFit": "surface"
+  },
+  "notes": "The short coat's tails are spring panels (organic cloth) with colliders fitted to the legs' surface, so they swing clear of the thighs instead of riding them."
 }
