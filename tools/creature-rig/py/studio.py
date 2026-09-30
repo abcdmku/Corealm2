@@ -271,6 +271,7 @@ def main(work, cache):
     # instead of riding the torso like armour. [{node, stiffness?, damping?, gravity?, clearance?,
     # hang?, group?}]; hinges of one group are linked so a split panel keeps its spacing.
     hinge_rel, hinge_pivot = {}, []
+    spring_chains_cloth, cloth_joints, cloth_weights, cloth_meshes = [], [], {}, set()
     for hc in cfg.get("hinges", []):
         n = hc["node"]
         i = by_name[n]
@@ -306,6 +307,99 @@ def main(work, cache):
         # The pivot rides its parent rigidly, so the floor lift keeps it (less the piece's own
         # clearance, its half thickness) on the floor: a body lying on its quiver rests on it.
         hinge_pivot.append((parent_node, np.linalg.inv(world[parent_node]) @ np.append(head, 1.0), hc.get("pivotClearance", hc.get("clearance", 0.0))))
+    # "cloth": a skinned hanging sheet the studio bound to the torso only (a loincloth, a skirt):
+    # [{mesh, parent, columns?, links?, seam?, stiffness?, damping?, gravity?, clearance?, hang?}].
+    # New joints hang from the parent joint in columns round the sheet (links bones each, from the
+    # waist to the hem); the sheet's weights blend from the studio's own at the waist to the
+    # columns below it (seam: the share of the sheet's height the blend takes), and the columns
+    # are spring chains of one linked sheet. Kept clips never key the new joints, so there the
+    # sheet rides its parent as before; added clips swing it.
+    skin0 = g.json["skins"][0]
+    ibm0 = g.accessor(skin0["inverseBindMatrices"]).reshape(-1, 4, 4).transpose(0, 2, 1)
+    bind_of = {j: np.linalg.inv(ibm0[k]) for k, j in enumerate(skin0["joints"])}
+    for cc in cfg.get("cloth", []):
+        mi = by_name[cc["mesh"]]
+        cloth_meshes.add(mi)
+        per = []
+        for prim in g.json["meshes"][g.nodes[mi]["mesh"]]["primitives"]:
+            P = g.accessor(prim["attributes"]["POSITION"])
+            Jp = g.accessor(prim["attributes"]["JOINTS_0"]).astype(int)
+            Wp = g.accessor(prim["attributes"]["WEIGHTS_0"])
+            Ph = np.hstack([P, np.ones((len(P), 1))])
+            X = np.zeros((len(P), 3))
+            skin_m = np.array([bind_of[j] @ ibm0[k] for k, j in enumerate(skin0["joints"])])
+            for c in range(4):
+                X += Wp[:, c:c + 1] * np.einsum("nij,nj->ni", skin_m[Jp[:, c]], Ph)[:, :3]
+            per.append((X, Jp, Wp))
+        X = np.vstack([x for x, _, _ in per])
+        top, bottom = X[:, 1].max(), X[:, 1].min()
+        centre = X.mean(0)
+        K, links = cc.get("columns", 6), cc.get("links", 2)
+        ang = np.arctan2(X[:, 0] - centre[0], X[:, 2] - centre[2])
+        pn = by_name[cc["parent"]]
+        levels = np.linspace(top, bottom, links + 1)
+        sigma = 0.5 * (top - bottom) / links
+        columns = []
+        first = len(cloth_joints)
+        for k in range(K):
+            th = -np.pi + (k + 0.5) * 2 * np.pi / K
+            d = np.abs((ang - th + np.pi) % (2 * np.pi) - np.pi)
+            sector = d < 1.2 * np.pi / K
+            if sector.sum() < 2:
+                continue
+            Q = X[sector]
+            pts = []
+            for h in levels:
+                w = np.exp(-0.5 * ((Q[:, 1] - h) / sigma) ** 2) + 1e-9
+                q = (Q * w[:, None]).sum(0) / w.sum()
+                q[1] = h
+                pts.append(q)
+            parent_bind, parent_name, parent_ref, parent_bone = bind_of[pn], cc["parent"], world[pn], mp[cc["parent"]]["bone"]
+            names = []
+            for j in range(links):
+                jn = f"{cc['mesh']}_c{k}_{j + 1}"
+                Jb = np.eye(4)
+                Jb[:3, 3] = pts[j]
+                local = np.linalg.inv(parent_bind) @ Jb
+                Mref = parent_ref @ local
+                tail_ref = Mref[:3, :3] @ (pts[j + 1] - pts[j]) + Mref[:3, 3]
+                sk.add(jn, parent_bone, Mref[:3, 3].copy(), tail_ref, donor=None, follow=0.0, kind="cloth")
+                cloth_joints.append({"name": jn, "parent": parent_name, "local": local, "bind": Jb, "ref": Mref})
+                names.append(jn)
+                parent_bind, parent_name, parent_ref, parent_bone = Jb, jn, Mref, jn
+            columns.append({"th": th, "bones": names})
+            spring_chains_cloth.append(dict({k2: v for k2, v in cc.items() if k2 not in ("mesh", "parent", "columns", "links", "seam")}, bones=names, group=cc["mesh"]))
+        base = len(skin0["joints"])
+        index = {c["name"]: base + i for i, c in enumerate(cloth_joints) if i >= first}
+        centres = (np.arange(links) + 0.5) / links
+        out_prims = []
+        for X1, Jp, Wp in per:
+            t = np.clip((top - X1[:, 1]) / max(top - bottom, 1e-9), 0, 1)
+            a = np.clip(t / cc.get("seam", 0.35), 0, 1)
+            a = a * a * (3 - 2 * a)
+            ang1 = np.arctan2(X1[:, 0] - centre[0], X1[:, 2] - centre[2])
+            rows_j, rows_w = [], []
+            for v in range(len(X1)):
+                w = {}
+                for c in range(4):
+                    if Wp[v, c] > 0:
+                        w[int(Jp[v, c])] = w.get(int(Jp[v, c]), 0.0) + (1 - a[v]) * Wp[v, c]
+                cw = np.array([max(0.0, 1 - abs((ang1[v] - col["th"] + np.pi) % (2 * np.pi) - np.pi) / (2 * np.pi / len(columns))) for col in columns])
+                cw /= max(cw.sum(), 1e-9)
+                for col, wc in zip(columns, cw):
+                    for bi, bname in enumerate(col["bones"]):
+                        hat = max(0.0, 1 - abs(t[v] - centres[bi]) * links)
+                        if (bi == 0 and t[v] < centres[0]) or (bi == links - 1 and t[v] > centres[-1]):
+                            hat = 1.0
+                        if hat * wc > 0:
+                            w[index[bname]] = w.get(index[bname], 0.0) + a[v] * wc * hat
+                top4 = sorted(w.items(), key=lambda kv: -kv[1])[:4]
+                total = sum(x for _, x in top4)
+                top4 += [(0, 0.0)] * (4 - len(top4))
+                rows_j.append([j for j, _ in top4])
+                rows_w.append([x / total for _, x in top4])
+            out_prims.append({"joints": rows_j, "weights": rows_w})
+        cloth_weights[cc["mesh"]] = out_prims
     sk.solve_frames(primary)
     if "legs" in cfg:
         # Explicit legs in node names ({chain: [...], foot?, toe?, pivot?}), e.g. a crawler's arm chains.
@@ -318,7 +412,8 @@ def main(work, cache):
             legs = leg_chains(sk, {v["bone"] for v in mp.values() if v.get("kind") == "leg"})
     plan = {"hips": hips, "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
     for hc in cfg.get("hinges", []):
-        spring_chains.append(dict({k: v for k, v in hc.items() if k != "node"}, bones=[hc["node"]]))
+        spring_chains.append(dict({k: v for k, v in hc.items() if k not in ("node", "pivotNode", "pivotClearance")}, bones=[hc["node"]]))
+    spring_chains += spring_chains_cloth
     # "colliders": [{node, radius}] capsules along mapped joints that spring chains and hinges
     # cannot pass through (the torso a mantle hangs against, the legs a loincloth swings between).
     colliders = [CapsuleCollider(sk, mp[c["node"]]["bone"], c["radius"]) for c in cfg.get("colliders", [])]
@@ -365,12 +460,17 @@ def main(work, cache):
         Lp = g.local(pi)
         Rp = Lp[:3, :3] / np.linalg.norm(Lp[:3, :3], axis=0)[None, :]
         prop_axis[fp["node"]] = normalize(Rp @ axis)
+        # The long end: the axis turned to point from the hand along the prop's bulk.
+        centre = Lp[:3, :3] @ pts.mean(0) + Lp[:3, 3]
+        if np.dot(centre, prop_axis[fp["node"]]) < 0:
+            prop_axis[fp["node"]] = -prop_axis[fp["node"]]
 
     skin = g.json["skins"][0]
     ibm = g.accessor(skin["inverseBindMatrices"]).reshape(-1, 4, 4).transpose(0, 2, 1)
     skinned = []
     for ni, node in enumerate(g.nodes):
-        if "mesh" in node and "skin" in node:
+        # A cloth sheet settles on the floor by its own springs; the lift ignores it.
+        if "mesh" in node and "skin" in node and ni not in cloth_meshes:
             for prim in g.json["meshes"][node["mesh"]]["primitives"]:
                 Pp = g.accessor(prim["attributes"]["POSITION"])[::3]
                 Jp = g.accessor(prim["attributes"]["JOINTS_0"])[::3].astype(int)
@@ -505,6 +605,15 @@ def main(work, cache):
                     flat = axis_w.copy(); flat[1] = 0.0
                     if fp.get("to") == "up":
                         flat = np.array([0.0, np.sign(axis_w[1]) or 1.0, 0.0])
+                    elif fp.get("to") == "side":
+                        # Laid out beside the body: the long end points away from the hips along
+                        # the body's lateral axis, on the hand's side, so a staff held over the
+                        # chest does not lie across the ribcage and head.
+                        R0, P0 = R, P
+                        lateral = (R0[hips] @ sk[hips].frame.T)[:, 0].copy()
+                        lateral[1] = 0.0
+                        side = np.sign(np.dot(Mh[:3, 3] - P0[hips], lateral)) or 1.0
+                        flat = side * lateral
                     if np.linalg.norm(flat) > 1e-6:
                         turn = slerp_matrix(np.eye(3), min_arc(axis_w, flat), w)
                         Mh[:3, :3] = (turn @ Rh) * sh[None, :]
@@ -589,6 +698,22 @@ def main(work, cache):
                 L = g.local(by_name[n], ref)
                 tracks[n]["rotation"].append(quat_from_matrix(orthonormalize(L[:3, :3] / np.linalg.norm(L[:3, :3], axis=0)[None, :])))
                 tracks[n]["translation"].append(L[:3, 3].copy())
+        # Cloth joints (new nodes): locals against their parent's new world, in chain order.
+        cloth_tracks = {c["name"]: {"rotation": [], "translation": []} for c in cloth_joints}
+        for f in range(res["n"]) if cloth_joints else []:
+            new_world, wmat = frame_world(f, res["pelvis"][f])
+            R, P = forward(sk, res["L"][f], hips, res["pelvis"][f])
+            cw = {}
+            for c in cloth_joints:
+                n = c["name"]
+                Mw = c["ref"].copy()
+                Mw[:3, :3] = R[n] @ sk[n].frame.T @ Mw[:3, :3]
+                Mw[:3, 3] = P[n]
+                cw[n] = Mw
+                parent_w = cw[c["parent"]] if c["parent"] in cw else wmat(by_name[c["parent"]])
+                L = np.linalg.inv(parent_w) @ Mw
+                cloth_tracks[n]["rotation"].append(quat_from_matrix(orthonormalize(L[:3, :3] / np.linalg.norm(L[:3, :3], axis=0)[None, :])))
+                cloth_tracks[n]["translation"].append(L[:3, 3].copy())
         for n, clip_name in cfg.get("grip", {}).items():
             # A weapon hand keeps the native grip: its local rotation from the native clip's first
             # frame, so a sword, bow or staff points where the studio authored it.
@@ -617,6 +742,8 @@ def main(work, cache):
                 # offsets, an IK-parented foot), so unkeyed rest never pulls a joint off its limb.
                 entry["translation"] = t.tolist()
             clip_out["tracks"][n] = entry
+        for n, tr in cloth_tracks.items():
+            clip_out["tracks"][n] = {"rotation": [x.tolist() for x in continuous_quats(tr["rotation"])], "translation": np.array(tr["translation"]).tolist()}
         out["clips"].append(clip_out)
     # Bones the runtime hit overlay may turn (node extras hitRecoil): the joints under each listed
     # root. Never a walking limb, nor an arm that carries a prop on its own bone (the prop would stay
@@ -631,6 +758,14 @@ def main(work, cache):
             stack += g.nodes[i].get("children", [])
     out["recoil"] = sorted(recoil)
     out["props"] = props
+
+    def trs(M):
+        s3 = np.linalg.norm(M[:3, :3], axis=0)
+        return {"translation": M[:3, 3].tolist(), "rotation": quat_from_matrix(orthonormalize(M[:3, :3] / s3[None, :])).tolist(), "scale": s3.tolist()}
+    # New cloth joints (node TRS under their parent, inverse bind column-major) and the cloth
+    # meshes' new JOINTS_0 / WEIGHTS_0 per primitive, for studio.mjs.
+    out["cloth"] = {"joints": [dict(trs(c["local"]), name=c["name"], parent=c["parent"], ibm=np.linalg.inv(c["bind"]).T.flatten().tolist()) for c in cloth_joints],
+                    "weights": cloth_weights}
     out["legScale"] = out["scale"]
     out["skeleton"] = {b.name: {"head": b.head.tolist(), "tail": b.tail.tolist(), "parent": b.parent} for b in sk.bones}
     json.dump(out, open(os.path.join(work, "studio.json"), "w"))
