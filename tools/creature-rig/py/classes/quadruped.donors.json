@@ -328,14 +328,13 @@
         "Death": {
           "donor": "nightmare",
           "clip": "die",
-          "lift": true,
-          "hipMode": "root"
+          "lift": true
         }
       },
       "roles": {
         "nightmare": {
           "MAIN": null,
-          "ROOT": null,
+          "ROOT": "Root",
           "Spine_01": "Spine01",
           "Spine_02": "Spine02",
           "Spine_Top": "Chest",
