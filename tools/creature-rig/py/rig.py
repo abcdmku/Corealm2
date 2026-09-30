@@ -163,13 +163,13 @@ def main(work, cache=None):
             return result
 
         result = build(spec)
-        lift = lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height, lead=profile.get("liftLead"))
+        lift = lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height, lead=profile.get("liftLead"), force=spec.get("lift", False))
         if lift > 0 and profile.get("lyingLegIk") and spec.get("ik", True) and plan.get("legs"):
             # The lift clears a thick torso, but the legs rose with it and float. Solve the leg IK
             # again from the lifted hips, so the feet reach for the floor, then clear what is left.
             curve = result["liftCurve"]
             result = build({**spec, "pelvisLift": curve})
-            lift += lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height, lead=profile.get("liftLead"))
+            lift += lying_lift(sk, bind_V, order, weights, result, plan["hips"], body.height, lead=profile.get("liftLead"), force=spec.get("lift", False))
         root = sk.bones[0]
         pelvis_local = [(root.frame.T @ (p - root.head)).tolist() for p in result["pelvis"]]
         out_clips.append({
