@@ -26,6 +26,8 @@
   "profiles": {
     "fowl": {
       "strideScale": 0.7,
+      "liftLead": 0,
+      "legRebase": ["Death"],
       "clips": {
         "Idle": { "donor": "chicken", "clip": "Idle", "loop": true },
         "Walk": { "donor": "chicken", "clip": "Walk", "loop": true },
@@ -34,7 +36,7 @@
           "donor": "chicken_reach",
           "clip": ["PeckDown", "PeckUp"]
         },
-        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical",
+        "Death": { "donor": "chicken_reach", "clip": "Die", "hipMode": "vertical", "ik": false, "hipMotion": 1.43,
                    "chains": { "wing_": { "stiffness": 4000.0, "damping": 120.0 } } }
       }
     },

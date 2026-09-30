@@ -22,7 +22,8 @@ the neck narrows behind the skull, the neck base is where the path leaves the bo
 
 Profile keys (bird.donors.json): strideScale (times the leg-length ratio: the size ratio for hips
 and foot and head paths), hipMotion, neckIk (default true), wings (default true), rigidPieces,
-distanceWeights (a many-piece sculpt weighted by distance with whole loose pieces; see cloth()).
+distanceWeights (a many-piece sculpt weighted by distance with whole loose pieces; see cloth()),
+legRebase (see donor_map()).
 The donor "chicken_reach"
 is the same rig with the neck base unmapped: that drops the neck IK for the peck (Eat frames 1-20
 spliced to 214-230, a 4 degree seam) and the fall, whose scaled head paths would bury the beak.
@@ -338,6 +339,29 @@ def fit(body, donor, profile, source=None):
     sk.stride_scale = float(profile.get("strideScale", 1.0) * target_leg / donor_leg)
     notes["legRatio"] = float(target_leg / donor_leg)
     return sk, notes
+
+
+def donor_map(sk, donor, profile):
+    """No remapping (the donor spec's map stands). Side effect: profile "legRebase": [State, ...]
+    takes the legs' motion in those states' takes relative to the take's first frame instead of the
+    rig's rest. The fowl Death plays without leg IK, so the legs stay out of the fallen body (IK
+    towards the chicken's scaled foot path folds them inside it); the chicken's Die starts with its
+    legs straighter than its bind, and rest-relative that would pop the standing bird taller."""
+    done = getattr(donor, "_legs_rebased", set())
+    for state in profile.get("legRebase") or []:
+        spec = profile["clips"].get(state)
+        if not spec or spec["donor"] != donor.key or spec["clip"] not in donor.clips or spec["clip"] in done:
+            continue
+        frames = donor.clips[spec["clip"]]["frames"]
+        for side in ("l", "r"):
+            for ours in ("thigh", "tarsus", "foot", "toe"):
+                b = _d(f"{ours}_{side}")
+                if b in donor.bones:
+                    i = donor.index(b)
+                    frames[:, i] = frames[:, i] @ (frames[0, i].T @ donor.rest_frame[b])
+        done.add(spec["clip"])
+    donor._legs_rebased = done
+    return None
 
 
 def plan(sk, body, profile):
