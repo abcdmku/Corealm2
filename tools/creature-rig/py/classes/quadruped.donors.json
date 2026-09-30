@@ -6,7 +6,7 @@
         "DieFall": {
           "take": "Die",
           "range": [
-            59,
+            66,
             125
           ]
         }
@@ -95,6 +95,9 @@
     },
     "horse": {
       "ref": "quat_farm_horse"
+    },
+    "nightmare": {
+      "ref": "dm_nightmare"
     }
   },
   "profiles": {
@@ -113,8 +116,7 @@
         "Run": {
           "donor": "wolf",
           "clip": "Run",
-          "loop": true,
-          "ik": false
+          "loop": true
         },
         "Attack": {
           "donor": "wolf",
@@ -126,7 +128,18 @@
         },
         "Death": {
           "donor": "wolf",
-          "clip": "DieFall"
+          "clip": "DieFall",
+          "chains": {
+            "tail_": {
+              "gravity": 60.0,
+              "stiffness": 4.0,
+              "damping": 6.0,
+              "ease": [
+                0.2,
+                0.45
+              ]
+            }
+          }
         }
       }
     },
@@ -313,10 +326,46 @@
           "clip": "Hit"
         },
         "Death": {
-          "donor": "cattle",
-          "clip": "Die"
+          "donor": "nightmare",
+          "clip": "die",
+          "lift": true
         }
-      }
+      },
+      "roles": {
+        "nightmare": {
+          "MAIN": null,
+          "ROOT": "Root",
+          "Spine_01": "Spine01",
+          "Spine_02": "Spine02",
+          "Spine_Top": "Chest",
+          "Neck_01": "Neck01",
+          "Neck_02": "Neck02",
+          "Neck_Top": "Head",
+          "l_Clavicle_01_01": null,
+          "r_Clavicle_01_01": null,
+          "l_FrontLeg_Hip": "R_UpperArm1",
+          "l_FrontLeg_Knee": "R_RowerArm.001",
+          "l_FrontLeg_Ankle": "R_Wrist.001",
+          "l_FrontLeg_Ball": "R_Hand.001",
+          "r_FrontLeg_Hip": "R_UpperArm",
+          "r_FrontLeg_Knee": "R_RowerArm",
+          "r_FrontLeg_Ankle": "R_Wrist",
+          "r_FrontLeg_Ball": "R_Hand",
+          "l_HindLeg_Hip": "L_UpperLeg",
+          "l_HindLeg_Knee": "L_Lowerleg01",
+          "l_HindLeg_Ankle": "L_feet",
+          "l_HindLeg_Ball": "L_Toe_Middle01",
+          "r_HindLeg_Hip": "R_UpperReg",
+          "r_HindLeg_Knee": "R_Rowerleg01",
+          "r_HindLeg_Ankle": "R_feet",
+          "r_HindLeg_Ball": "R_Toe_Middle01",
+          "Tail_01_01": "Tail01",
+          "Tail_01_02": "Tail02",
+          "Tail_01_03": "Tail03",
+          "Tail_01_04": "Tail04"
+        }
+      },
+      "lyingLegIk": true
     },
     "reptile": {
       "tailMode": "donor",

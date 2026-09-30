@@ -8,6 +8,7 @@ wild boar: a barrel body on short legs.
 """
 import numpy as np
 
+from classes import quadruped  # noqa: F401  (registers the authored flinch_<animal> Hit takes)
 from classes.special_quad import fit_quad, quad_legs, rigid_body_override, touchdown_turns
 from crlib.body import Body
 from crlib.mathx import axis_angle

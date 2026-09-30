@@ -774,12 +774,13 @@ def deform(skeleton, verts, joints, weights, local_R, hips, hips_pos):
     return out
 
 
-def lying_lift(skeleton, verts, joints, weights, result, hips, height, lead=None):
+def lying_lift(skeleton, verts, joints, weights, result, hips, height, lead=None, force=False):
     """A body thicker or longer-waisted than the donor's goes through the floor when it falls and
     lies down. Only for clips whose hips drop to the floor (deaths, knock-downs): lift the hips by a
     smooth envelope of the penetration (a sliding max, then a sliding mean of the same span, so it
     never undercuts and never steps). Standing clips are never touched; their feet are solved by
-    the leg IK instead."""
+    the leg IK instead. force (a clip's "lift") treats the clip as lying whatever its hips do: a
+    shell that settles low and tips its rim into the floor."""
     rest_y = skeleton[hips].head[1]
     hips_y = np.array([p[1] for p in result["pelvis"]])
     # A low-slung body rolled onto its back (a crawler's death) keeps its hips high, yet lies:
@@ -788,7 +789,7 @@ def lying_lift(skeleton, verts, joints, weights, result, hips, height, lead=None
         R, _ = forward(skeleton, result["L"][f], hips, result["pelvis"][f])
         D = R[hips] @ skeleton[hips].frame.T
         return np.trace(D) < 0.0
-    if (rest_y - hips_y).max() < 0.5 * rest_y and not any(turned(f) for f in range(result["n"])):
+    if not force and (rest_y - hips_y).max() < 0.5 * rest_y and not any(turned(f) for f in range(result["n"])):
         return 0.0
     min_y = np.array([deform(skeleton, verts, joints, weights, result["L"][f], hips, result["pelvis"][f])[:, 1].min() for f in range(result["n"])])
     need = np.maximum(-min_y, 0.0)

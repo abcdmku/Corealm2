@@ -1,1 +1,1 @@
-{ "class": "special_reliquary", "profile": "reliquary", "profileOverrides": { "faceYaw": 0, "touchDown": true } }
+{ "class": "special_reliquary", "profile": "thicket", "centre": "bounds", "profileOverrides": { "faceYaw": 0, "touchDown": true } }

@@ -1,16 +1,111 @@
 {
   "donors": {
-    "boar": { "ref": "animal_wildboar" }
+    "boar": {
+      "ref": "animal_wildboar"
+    },
+    "boar_flinch": {
+      "pack": "authored",
+      "name": "flinch_boar",
+      "base": {
+        "ref": "animal_wildboar"
+      },
+      "idle": "Idle",
+      "source": "Flinch baked from animal_wildboar Die (first beat) eased back to Idle frame 0"
+    },
+    "nightmare": {
+      "ref": "dm_nightmare",
+      "map": {
+        "WildBoar_MAINSHJnt": null,
+        "WildBoar_ROOTSHJnt": "Root",
+        "WildBoar_Spine_01SHJnt": "Spine01",
+        "WildBoar_Spine_02SHJnt": "Spine02",
+        "WildBoar_Spine_03SHJnt": null,
+        "WildBoar_Spine_04SHJnt": null,
+        "WildBoar_Spine_TopSHJnt": "Chest",
+        "WildBoar_Neck_01SHJnt": "Neck01",
+        "WildBoar_Neck_02SHJnt": "Neck02",
+        "WildBoar_Neck_TopSHJnt": "Head",
+        "WildBoar_Head_TopSHJnt": null,
+        "WildBoar_l_Clavicle_01_01SHJnt": null,
+        "WildBoar_r_Clavicle_01_01SHJnt": null,
+        "WildBoar_l_FrontLeg_HipSHJnt": "R_UpperArm1",
+        "WildBoar_l_FrontLeg_Knee1SHJnt": "R_RowerArm.001",
+        "WildBoar_l_FrontLeg_Knee2SHJnt": "R_Wrist.001",
+        "WildBoar_l_FrontLeg_AnkleSHJnt": "R_Hand.001",
+        "WildBoar_l_FrontLeg_BallSHJnt": "R_Index01.001",
+        "WildBoar_r_FrontLeg_HipSHJnt": "R_UpperArm",
+        "WildBoar_r_FrontLeg_Knee1SHJnt": "R_RowerArm",
+        "WildBoar_r_FrontLeg_Knee2SHJnt": "R_Wrist",
+        "WildBoar_r_FrontLeg_AnkleSHJnt": "R_Hand",
+        "WildBoar_r_FrontLeg_BallSHJnt": "R_Index01",
+        "WildBoar_l_HindLeg_HipSHJnt": "L_UpperLeg",
+        "WildBoar_l_HindLeg_Knee1SHJnt": "L_Lowerleg01",
+        "WildBoar_l_HindLeg_Knee2SHJnt": "L_LowerLeg02",
+        "WildBoar_l_HindLeg_AnkleSHJnt": "L_feet",
+        "WildBoar_l_HindLeg_BallSHJnt": "L_Toe_Middle01",
+        "WildBoar_r_HindLeg_HipSHJnt": "R_UpperReg",
+        "WildBoar_r_HindLeg_Knee1SHJnt": "R_Rowerleg01",
+        "WildBoar_r_HindLeg_Knee2SHJnt": "R_RowerReg02",
+        "WildBoar_r_HindLeg_AnkleSHJnt": "R_feet",
+        "WildBoar_r_HindLeg_BallSHJnt": "R_Toe_Middle01"
+      }
+    }
   },
   "primary": "boar",
   "profiles": {
     "reliquary": {
       "clips": {
-        "Idle": { "donor": "boar", "clip": "Idle", "loop": true },
-        "Walk": { "donor": "boar", "clip": "Walk", "loop": true },
-        "Run": { "donor": "boar", "clip": "Run", "loop": true },
-        "Attack": { "donor": "boar", "clip": "Attack" },
-        "Death": { "donor": "boar", "clip": "Die" }
+        "Idle": {
+          "donor": "boar",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "boar",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Run": {
+          "donor": "boar",
+          "clip": "Run",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "boar",
+          "clip": "Attack"
+        },
+        "Death": {
+          "donor": "boar",
+          "clip": "Die"
+        }
+      }
+    },
+    "thicket": {
+      "liftLead": 3,
+      "clips": {
+        "Idle": {
+          "donor": "boar",
+          "clip": "Idle",
+          "loop": true
+        },
+        "Walk": {
+          "donor": "boar",
+          "clip": "Walk",
+          "loop": true
+        },
+        "Attack": {
+          "donor": "boar",
+          "clip": "Attack"
+        },
+        "Hit": {
+          "donor": "boar_flinch",
+          "clip": "Hit"
+        },
+        "Death": {
+          "donor": "nightmare",
+          "clip": "die",
+          "lift": true
+        }
       }
     }
   }
