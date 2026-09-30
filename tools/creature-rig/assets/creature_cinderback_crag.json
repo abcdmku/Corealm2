@@ -2,7 +2,7 @@
   "class": "arthropod",
   "profile": "hexapod",
   "profileOverrides": {
-    "strideScale": 1.7,
+    "strideScale": 1.4,
     "legRebase": [
       "Death"
     ],
@@ -14,5 +14,5 @@
     }
   },
   "maxRunCadenceHz": 5,
-  "notes": "Stumpy legs on a long shell: strideScale 1.7 so the scorpion's short steps read. Death is the spider's roll onto its back without leg IK, legs rebased on the take's first frame (legRebase), so they curl up in the upturned shell's frame instead of reaching for world tip paths scaled from a flat spider (which buried them in the belly); liftLead 0 keeps the start on the floor."
+  "notes": "Stumpy legs on a long shell: strideScale 1.4 so the scorpion's short steps read. Death is the spider's roll onto its back without leg IK, legs rebased on the take's first frame (legRebase), so they curl up in the upturned shell's frame instead of reaching for world tip paths scaled from a flat spider (which buried them in the belly); liftLead 0 keeps the start on the floor."
 }
