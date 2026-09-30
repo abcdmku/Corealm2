@@ -52,19 +52,6 @@
           0.18
         ]
       }
-    },
-    "fronds": {
-      "minShare": 0.02,
-      "maxShare": 0.12,
-      "maxThickness": 0.01,
-      "minLength": 0.08,
-      "links": 3,
-      "stiffness": 60.0,
-      "damping": 6.0,
-      "gravity": 0.0,
-      "hang": 0.0,
-      "clearance": 0.01,
-      "parent": "spine_03"
     }
   },
   "notes": "Nightbloom. The antennae rise off the head's column and the narrowest slab above the shoulders is an antenna stalk, so the head tip, neck and head joints are given here. The hands rest against the hips, so the armpit probe stops at the hand and the arm joints are given too."

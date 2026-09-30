@@ -352,6 +352,8 @@ def plan(sk, body, profile):
     """The golem plan. The skirt's columns are one linked sheet; each frond swings on its own.
     Profile "skirt" and "fronds" set their springs ("stiffness", "damping", "gravity", "hang",
     and "clearance" above the floor as a share of the height)."""
+    from crlib.retarget import CapsuleCollider
+
     out = golem.plan(sk, body, profile)
     # "colliderPad" widens the leg and torso capsules, so a sheet hanging close to the legs keeps
     # its whole surface, not only its joints, clear of them.
@@ -361,12 +363,15 @@ def plan(sk, body, profile):
         col.radius *= pad
     if spec.get("armColliders"):
         # Arms that hang beside a skirt brush it aside instead of sinking through it.
-        from crlib.retarget import CapsuleCollider
-
         for bone in [f"{b}_{s}" for s in ("l", "r") for b in ("lowerarm", "hand")]:
             if bone in sk:
                 b = sk[bone]
                 out["colliders"].append(CapsuleCollider(sk, bone, pad * (0.95 * body.radius_at(0.5 * (b.head + b.tail)) + body.h)))
+    # Fronds on the back or shoulder also clear the bones they lean against (profile fronds
+    # "colliders": bone names), so a lagging leaf tip does not sink into the shoulder.
+    for bone in (profile.get("fronds") or {}).get("colliders", []):
+        b = sk[bone]
+        out["colliders"].append(CapsuleCollider(sk, bone, 0.95 * body.radius_at(0.5 * (b.head + b.tail)) + body.h))
     for chain in out["chains"]:
         key = {"skirt": "skirt", "frond": "fronds"}.get(chain["bones"][0].split("_")[0])
         if not key or not profile.get(key):
