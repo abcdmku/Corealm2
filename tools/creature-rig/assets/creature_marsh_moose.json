@@ -1,1 +1,1 @@
-{ "class": "quadruped", "profile": "cervid" }
+{ "class": "quadruped", "profile": "cervid", "profileOverrides": { "clips": { "Death": { "donor": "deer", "clip": "Die" } } } }
