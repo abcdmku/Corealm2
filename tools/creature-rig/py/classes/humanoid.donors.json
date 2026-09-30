@@ -58,13 +58,13 @@
       "clothSeam": 0.1,
       "clips": {
         "Idle": {
-          "donor": "ual1",
-          "clip": "Idle_Loop",
+          "donor": "ual2",
+          "clip": "Zombie_Idle_Loop",
           "loop": true
         },
         "Walk": {
-          "donor": "ual1",
-          "clip": "Walk_Loop",
+          "donor": "ual2",
+          "clip": "Zombie_Walk_Fwd_Loop",
           "loop": true
         },
         "Run": {
@@ -74,18 +74,48 @@
         },
         "Attack": {
           "donor": "ual2",
-          "clip": "OverhandThrow"
-        },
-        "Hit": {
-          "donor": "ual1",
-          "clip": "Hit_Chest"
+          "clip": "Zombie_Scratch"
         },
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
-      }
+      },
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 2.0,
+        "hang": 0.5,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.03
+      },
+      "kneeForward": true
     },
     "spirit": {
       "legs": false,
@@ -93,11 +123,6 @@
         "Idle": {
           "donor": "ual1",
           "clip": "Idle_Loop",
-          "loop": true
-        },
-        "Walk": {
-          "donor": "ual1",
-          "clip": "Walk_Loop",
           "loop": true
         },
         "Attack": {
@@ -114,9 +139,18 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "chains": {
+            "tail": {
+              "clearance": 0.0
+            }
+          }
         }
-      }
+      },
+      "tailSpring": {
+        "clearance": 0.03
+      },
+      "hover": 0.06
     },
     "guard": {
       "legs": true,
@@ -151,10 +185,43 @@
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
       },
-      "shinGuard": true
+      "shinGuard": true,
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 2.0,
+        "hang": 0.5,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.03
+      }
     },
     "bandit": {
       "legs": true,
@@ -186,9 +253,43 @@
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
-      }
+      },
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 2.0,
+        "hang": 0.5,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.03
+      },
+      "kneeForward": true
     },
     "undead": {
       "legs": true,
@@ -208,17 +309,47 @@
           "donor": "ual2",
           "clip": "Zombie_Scratch"
         },
-        "Hit": {
-          "donor": "ual1",
-          "clip": "Hit_Chest"
-        },
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
       },
-      "shinGuard": true
+      "shinGuard": true,
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 2.0,
+        "hang": 0.5,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.03
+      },
+      "kneeForward": true
     },
     "ogre": {
       "legs": true,
@@ -251,9 +382,43 @@
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
-      }
+      },
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 2.0,
+        "hang": 0.5,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.03
+      },
+      "kneeForward": true
     },
     "caster": {
       "legs": true,
@@ -289,9 +454,43 @@
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 150.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
-      }
+      },
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 2.0,
+        "hang": 0.5,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.03
+      },
+      "kneeForward": true
     },
     "beast": {
       "legs": true,
@@ -326,7 +525,8 @@
           "ik": false
         }
       },
-      "cloth": false
+      "cloth": false,
+      "kneeForward": true
     },
     "fae": {
       "legs": true,
@@ -357,9 +557,45 @@
         "Death": {
           "donor": "ual1",
           "clip": "Death01",
-          "ik": false
+          "ik": false,
+          "chains": {
+            "cape": {
+              "hang": 0.0,
+              "stiffness": 12.0,
+              "gravity": 12.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            },
+            "tabard": {
+              "hang": 0.0,
+              "stiffness": 12.0,
+              "gravity": 12.0,
+              "ease": [
+                0.25,
+                0.5
+              ]
+            }
+          }
         }
-      }
+      },
+      "clothSpring": {
+        "stiffness": 45.0,
+        "falloff": 0.3,
+        "damping": 6.0,
+        "gravity": 0.0,
+        "hang": 0.6,
+        "drag": 0.3,
+        "interpolate": true,
+        "iterations": 4,
+        "cycles": 4,
+        "substeps": 6,
+        "sided": true,
+        "widthScale": 0.7,
+        "clearance": 0.06
+      },
+      "kneeForward": true
     }
   }
 }

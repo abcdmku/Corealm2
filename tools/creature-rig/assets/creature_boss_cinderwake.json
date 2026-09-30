@@ -1,1 +1,8 @@
-{ "class": "humanoid", "profile": "ogre" }
+{
+  "class": "humanoid",
+  "profile": "ogre",
+  "profileOverrides": {
+    "clips": { "Attack": { "donor": "ual1", "clip": "Sword_Attack" } }
+  },
+  "notes": "Attack is the UAL1 Sword_Attack, read as a one-arm overhead hammer blow chopping down across the body, so it no longer shares the OverhandThrow hurl with the tideworn and the ordrun. Sword_Regular_A drove the left hand into the ogre's belly and Sword_Regular_B dragged a hand through the floor."
+}
