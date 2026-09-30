@@ -400,6 +400,7 @@ def donor_map(sk, donor, profile):
     lay = _layout(donor)
     _damp_rise(donor, lay, profile)
     _rebase_palps(donor, lay, profile)
+    _rebase_legs(sk, donor, lay, profile)
     _crouch(sk, donor, lay, profile)
     _hit_beat(sk, donor, lay, profile)
     out = {}
@@ -549,6 +550,28 @@ def _rebase_palps(donor, lay, profile):
     donor._rebased = done
 
 
+def _rebase_legs(sk, donor, lay, profile):
+    """profile "legRebase": [State, ...]: in these states' takes the legs' motion is taken relative
+    to the take's first frame instead of the rig's rest (as studio mode's donorRest does), for a
+    clip played without leg IK. The spider's Death starts from its standing pose, not its bind, and
+    rest-relative that bends a stumpy leg off the floor before the fall. Without IK the legs roll
+    over with the shell and curl in its frame, instead of reaching for world-space tip paths
+    scaled from a flat spider, which bury a thick shell's legs in its upturned belly."""
+    done = getattr(donor, "_legs_rebased", set())
+    for state in profile.get("legRebase") or []:
+        spec = profile["clips"].get(state)
+        if not spec or spec["donor"] != donor.key or spec["clip"] not in donor.clips or spec["clip"] in done:
+            continue
+        frames = donor.clips[spec["clip"]]["frames"]
+        for side in ("l", "r"):
+            for o in range(len(sk.arth["legs"][side])):
+                for b in lay["legs"][side][sk.arth["subset"][o]]:
+                    i = donor.index(b)
+                    frames[:, i] = frames[:, i] @ (frames[0, i].T @ donor.rest_frame[b])
+        done.add(spec["clip"])
+    donor._legs_rebased = done
+
+
 def _leg_scale(sk, donor, lay):
     """The core's size ratio (target leg length over donor leg length, the pairs in use), and the
     target's mean leg length."""
@@ -683,10 +706,14 @@ def _descends(donor, bone, ancestor):
 
 
 def plan(sk, body, profile):
+    # profile "strideScale" multiplies the size ratio of every tip path (the bird class's
+    # strideScale): the scorpion's steps are short for its legs, and on a long shell with stumpy
+    # legs (the cinderback crag, the slag crawler) its walk barely lifts a foot while the body moves.
+    stride = float(profile.get("strideScale", 1.0))
     legs = []
     for side in ("l", "r"):
         for bones in sk.arth["legs"][side]:
-            legs.append({"chain": bones, "foot": None, "toe": None, "pivot": None})
+            legs.append({"chain": bones, "foot": None, "toe": None, "pivot": None, "scale": stride})
     return {"hips": "body", "legs": legs, "chains": [], "colliders": [], "hip_motion": profile.get("hipMotion", 1.0)}
 
 
