@@ -110,10 +110,25 @@ def plan(sk, body, profile):
     chains = []
     for c in sk.chains:
         if c["kind"] == "leaf":
-            chains.append({"bones": c["bones"], "stiffness": 30.0, "damping": 5.0, "gravity": 0.0, "hang": 0.5, "clearance": 0.02 * body.height})
+            chains.append({"bones": c["bones"], "stiffness": 30.0, "damping": 5.0, "gravity": 0.0, "hang": 0.5, "clearance": 0.05 * body.height})
         else:
             chains.append({"bones": c["bones"], "stiffness": 45.0, "damping": 6.0, "gravity": 0.0, "hang": 0.0, "clearance": 0.0})
-    return {"hips": f"{P}_ROOTSHJnt", "legs": quad_legs(sk), "chains": chains, "colliders": [],
+    # profile "strideScale" scales every foot path past the leg ratio: the crocodile's sprawled
+    # hind legs reach far behind the hip at push-off, and the maw's upright roots cannot, so the
+    # IK straightens the hind root and kicks it out behind the bulb.
+    # The hind roots climb the back to a hip high on the bulb, so the crocodile's ankle ratio puts
+    # their "ankle" a third of the way up the root and the long lower root becomes the foot: the
+    # crocodile's push-off foot roll then kicks it out long and straight behind the bulb. The hind
+    # IK chain runs down to the ball instead (the lower root bends with the leg), with the short
+    # ball-to-toe hook as the foot.
+    legs = []
+    for leg in quad_legs(sk):
+        if "_HindLeg_" in leg["chain"][0] and leg["toe"]:
+            leg = {"chain": [*leg["chain"], leg["foot"]], "foot": leg["toe"], "toe": None}
+        elif "_FrontLeg_" in leg["chain"][0]:
+            leg = {**leg, "bend": [0.0, 1.0, 0.0]}
+        legs.append({**leg, "scale": float(profile.get("strideScale", 1.0))})
+    return {"hips": f"{P}_ROOTSHJnt", "legs": legs, "chains": chains, "colliders": [],
             "hip_motion": profile.get("hipMotion", 1.0)}
 
 
@@ -175,8 +190,8 @@ def maw_motion(spec):
                             (46, (2, 0, 9)), (56, (3, 0, 10)), (72, (3, 0, 10))], delay=2, gain=[0.8, 1.0])
     # The neck lags the trunk on the way down, whips nose-down and sideways as the maw hits the
     # floor, rebounds and flops back.
-    death.chain(NECK, [(0, 0), (5, (-12, 3, 0)), (16, (-8, 2, 4)), (26, (2, 0, 10)), (34, (10, -3, 16)),
-                       (38, (13, -4, 19)), (44, (6, -3, 13)), (50, (11, -4, 17)), (58, (10, -4, 16)), (72, (10, -4, 16))],
+    death.chain(NECK, [(0, 0), (5, (-12, 3, 0)), (16, (-8, 2, 4)), (26, (2, 0, 10)), (34, (7, -3, 16)),
+                       (38, (7, -4, 19)), (44, (2, -3, 13)), (50, (5, -4, 17)), (58, (5, -4, 16)), (72, (5, -4, 16))],
                 delay=2, gain=[0.4, 0.55, 0.7])
     death.key(TOP, [(0, 0), (5, (-16, 0, 0)), (14, (-24, 0, 0)), (30, (-10, 0, 0)), (37, (4, 0, 0)),
                     (43, (-14, 0, 0)), (50, (-4, 0, 0)), (58, (-8, 0, 0)), (72, (-8, 0, 0))])

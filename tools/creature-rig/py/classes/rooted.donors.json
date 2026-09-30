@@ -13,9 +13,10 @@
       "spineHeight": 0.34,
       "legFollow": 0.0,
       "hipMotion": 0.5,
+      "strideScale": 0.5,
       "clips": {
         "Idle": { "donor": "maw", "clip": "Idle", "loop": true },
-        "Walk": { "donor": "croc", "clip": "Walk", "loop": true },
+        "Walk": { "donor": "croc", "clip": "Walk", "loop": true, "hipMotion": 0.2 },
         "Attack": { "donor": "maw", "clip": "Attack" },
         "Hit": { "donor": "maw", "clip": "Hit" },
         "Death": { "donor": "maw", "clip": "Death" }
