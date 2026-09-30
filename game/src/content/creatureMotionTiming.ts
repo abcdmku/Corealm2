@@ -57,15 +57,15 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.525
   },
   "bandit_forest_ranger": {
-    "seconds": 1.333333,
+    "seconds": 1.4,
     "contactNormalized": 0.233
   },
   "bandit_highland_ranger": {
-    "seconds": 1.333333,
+    "seconds": 1.4,
     "contactNormalized": 0.233
   },
   "bandit_quarry_ranger": {
-    "seconds": 1.333333,
+    "seconds": 1.4,
     "contactNormalized": 0.233
   },
   "boss_rhino_air": {
@@ -269,7 +269,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.333
   },
   "creature_goblin_archer": {
-    "seconds": 0.5,
+    "seconds": 0.966667,
     "contactNormalized": 0.48
   },
   "creature_goblin_scout": {
@@ -800,13 +800,13 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_gloamfang_reaver": 15.786,
   "creature_goblin_archer": 10.9405,
   "creature_goblin_scout": 11.1899,
-  "creature_goblin_shaman": 11.1899,
+  "creature_goblin_shaman": 2.6065,
   "creature_grave_ghoul": 14.1908,
   "creature_grave_lantern": 32.2116,
   "creature_heath_jack": 4.3563,
   "creature_hollow_bough": 21.94,
-  "creature_iron_golem": 22.3957,
-  "creature_ivory_castellan": 31.565,
+  "creature_iron_golem": 22.3416,
+  "creature_ivory_castellan": 31.4887,
   "creature_kiln_marrow": 6.0086,
   "creature_kiln_salamander": 1.646,
   "creature_lava_golem": 19.5599,
@@ -978,8 +978,8 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_grave_lantern": 8.639664,
   "creature_heath_jack": 1.296444,
   "creature_hollow_bough": 4.293122,
-  "creature_iron_golem": 4.304943,
-  "creature_ivory_castellan": 6.06747,
+  "creature_iron_golem": 4.198853,
+  "creature_ivory_castellan": 5.917947,
   "creature_kiln_marrow": 4.806841,
   "creature_kiln_salamander": 1.341488,
   "creature_lava_golem": 4.414255,
