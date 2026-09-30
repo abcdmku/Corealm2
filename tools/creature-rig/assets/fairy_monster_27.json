@@ -1,7 +1,7 @@
 {
  "class": "pixelius",
  "profile": "studio",
- "notes": "PixeliusVita FreeTrial Monster27 (armoured tailed brute). Native Idle and Walk kept; Hit and Death retargeted from the Monster03 full pack (a heavy biped with ears), rest-relative to each body's own Idle. The spline_def tail is a floor-aware spring chain (it drags on the floor, so any rigid hold buries it) that goes limp in Death. Run is the Monster01 Run (in place, upright like the native Walk) and Attack the Monster01 Attack03 (both claws spread, then a two-arm slam): the Monster03 Run laid the hunched body flat and airborne, and its Attack01 buried the body 0.09 m in the floor and turned it over.",
+ "notes": "PixeliusVita FreeTrial Monster27 (armoured tailed brute). Native Idle and Walk kept; Hit and Death retargeted from the Monster03 full pack (a heavy biped with ears), rest-relative to each body's own Idle. The spline_def tail is a floor-aware spring chain (it drags on the floor, so any rigid hold buries it) that goes limp in Death. Run is the Monster01 Run (in place, upright like the native Walk) and Attack the Monster01 Attack03 (both claws spread, then a two-arm slam): the Monster03 Run laid the hunched body flat and airborne, and its Attack01 buried the body 0.09 m in the floor and turned it over. Death is the UAL1 Death01 (a stagger and a fall onto the back, from the UAL Idle_Loop stance): every PixeliusVita Die take is a backward leap and flip (the hips rise about half their height and the feet go overhead), which on this body leapt 0.57 m and flipped before landing. The tail goes limp on the floor with 0.13 m clearance in Death.",
  "studio": {
   "rootNode": "root",
   "referenceClip": "Idle",
@@ -34,8 +34,9 @@
     "clip": "Monster03_GetHit"
    },
    "Death": {
-    "donor": "pixelius_03",
-    "clip": "Monster03_Die",
+    "donor": "ual1",
+    "clip": "Death01",
+    "rest": "Idle_Loop",
     "land": true,
     "lift": true,
     "springs": {
@@ -45,7 +46,8 @@
       "ease": [
        0.25,
        0.7
-      ]
+      ],
+      "clearance": 0.13
      }
     }
    }
