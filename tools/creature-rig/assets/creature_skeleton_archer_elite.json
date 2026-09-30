@@ -1,7 +1,7 @@
 {
  "class": "humanoid",
  "profile": "knight",
- "notes": "Attack is the UAL1 Pistol_Shoot (after a short Pistol_Aim_Neutral hold): the two-handed aim and recoil held on the bow reads as a loosed shot; the bow stays in the left hand, turned upright. No UAL take draws a bow string. Idle, Walk, Run, Hit and Death are the earlier promoted UAL retargets (Idle_Loop, Walk_Loop, Jog_Fwd_Loop, Hit_Chest, Death01), kept byte-identical.",
+ "notes": "Attack is the UAL1 Pistol_Shoot (after a short Pistol_Aim_Neutral hold): the two-handed aim and recoil held on the bow reads as a loosed shot; the bow stays in the left hand, turned upright. No UAL take draws a bow string. Idle, Walk, Run and Hit are the earlier promoted UAL retargets (Idle_Loop, Walk_Loop, Jog_Fwd_Loop, Hit_Chest), kept byte-identical. Death is UAL1 Death01 again, re-made so the floor lift counts the quiver and bow: the quiver hangs from its strap on a spring hinge (studio hinges) and settles beside the body instead of burying itself, and the bow is laid flat as the body goes down.",
  "studio": {
   "rootNode": "Bip001",
   "map": {
@@ -96,7 +96,8 @@
    }
   },
   "replace": [
-   "Attack"
+   "Attack",
+   "Death"
   ],
   "clips": {
    "Attack": {
@@ -111,7 +112,39 @@
      "from": 0,
      "to": "up"
     }
+   },
+   "Death": {
+    "donor": "ual1",
+    "clip": "Death01",
+    "lift": true,
+    "flatProp": {
+     "hand": "Bip001_L_Hand",
+     "node": "ArcherBow",
+     "from": 0.25
+    }
    }
-  }
+  },
+  "hinges": [
+   {
+    "node": "ArcherQuiver",
+    "stiffness": 60,
+    "damping": 8,
+    "gravity": 6,
+    "hang": 0.2,
+    "clearance": 0.05,
+    "pivotNode": "QuiverRim0.16",
+    "pivotClearance": 0.0
+   }
+  ],
+  "colliders": [
+   {
+    "node": "Bip001_Spine1",
+    "radius": 0.12
+   },
+   {
+    "node": "Bip001_Spine",
+    "radius": 0.11
+   }
+  ]
  }
 }
