@@ -14,7 +14,17 @@
       },
       "Hit": {
         "donor": "ual1",
-        "clip": "Hit_Head"
+        "clip": "Hit_Head",
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "bones": [
+              "neck_01",
+              "Head"
+            ]
+          }
+        ]
       }
     },
     "landmarks": {
