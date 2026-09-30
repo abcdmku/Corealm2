@@ -142,8 +142,11 @@ def _donor_fractions(donor, chain, end=None):
 
 
 # ------------------------------------------------------------------ wings
-def _add_wings(sk, body, parts, parent_of, mid_x, attached, off, gap):
+def _add_wings(sk, body, parts, parent_of, mid_x, attached, off, gap, split=None):
     """Wing chains (3 bones root to tip) for the wing parts; fore = the one with the higher tip.
+    split (the profile's wingSplit, [root end, middle end] as span fractions) places the two inner
+    joints; default thirds. A short root leaves the wing to the spring chain that lets it go limp
+    in Death, and a long middle bone keeps a stiff membrane in one plate that only bends at its tip.
 
     A wing vertex far off the wing's plane (a stray fan of membrane reaching back to the body's
     midline) or lying on the body away from the hinge stays with the body; carried by the wing it
@@ -172,7 +175,10 @@ def _add_wings(sk, body, parts, parent_of, mid_x, attached, off, gap):
             w["name"] = ("wing" if len(mine) == 1 else f"wing_{('fore', 'hind', 'third')[min(i, 2)]}") + f"_{side}"
             specs.append(w)
     for w in specs:
-        pts, _ = resample(w["line"], 3)
+        if split is None:
+            pts, _ = resample(w["line"], 3)
+        else:
+            pts = _split(w["line"], [0.0, split[0], split[1], 1.0])
         parent = parent_of(pts[0])
         bones = []
         for i in range(3):
@@ -349,7 +355,7 @@ def _fit_insect(body, donor, profile):
                 sk.add(name, parent, joints[i], joints[i + 1], donor=dchain[i], follow=0.0, kind="leg")
                 parent = name
 
-    wing_specs = _add_wings(sk, body, wings, lambda p: "thorax", mid_x, attached=True, off=off, gap=gap)
+    wing_specs = _add_wings(sk, body, wings, lambda p: "thorax", mid_x, attached=True, off=off, gap=gap, split=profile.get("wingSplit"))
     sk.winged = {"wings": wing_specs}
     notes["wings"] = [{"name": w["name"], "root": w["line"][0].tolist(), "tip": w["line"][-1].tolist(), "leftToBody": w["part"]["resting"]} for w in wing_specs]
     return sk, notes
@@ -518,7 +524,7 @@ def _fit_fae(body, donor, profile):
         keep = part["idx"][~np.isin(label[part["idx"]], list(owner))]
         part["idx"] = np.unique(np.concatenate([keep, np.nonzero(np.isin(label, small))[0]]))
         part["whole"] = bool(len(small)) and bool(np.isin(label[part["idx"]], small).all())
-    wing_specs = _add_wings(sk, body, wings, lambda p: "spine", mid_x, attached=False, off=off, gap=gap)
+    wing_specs = _add_wings(sk, body, wings, lambda p: "spine", mid_x, attached=False, off=off, gap=gap, split=profile.get("wingSplit"))
     # A loose piece on the midline below the chest (a tail spike hanging between the legs) rides
     # the pelvis: bone heat hands it to one thigh, whose dangling spring then tears it off the body.
     in_wing = np.zeros(len(V), bool)
@@ -532,8 +538,28 @@ def _fit_fae(body, donor, profile):
             continue
         if abs(P[:, 0].mean() - mid_x) < 0.05 * H and P[:, 1].mean() < path[chest_i][1]:
             ride.append(("pelvis", idx))
-    sk.winged = {"wings": wing_specs, "ride": ride}
+    # A long one (a dragonfly abdomen trailing behind the legs) is a tail instead: carried rigidly
+    # it stabs the floor and props the body up when the fae dies on its back. It gets a spring
+    # chain stiff enough to ride the pelvis in flight that the floor bends in Death.
+    tails = []
+    if ride:
+        idx = np.concatenate([i for _, i in ride])
+        anchor = sk["pelvis"].head
+        near = int(idx[np.argmin(np.linalg.norm(V[idx] - anchor, axis=1))])
+        part = {"idx": idx, "near": near, "hinge": V[near]}
+        line = _centre_line(body, part)
+        if np.linalg.norm(line[-1] - line[0]) > profile.get("tailSpan", 0.12) * H:
+            pts, _ = resample(line, 3)
+            parent, bones = "pelvis", []
+            for i in range(3):
+                sk.add(f"tail_{i + 1:02d}", parent, pts[i], pts[i + 1], donor=None, follow=0.0, kind="tail", heat=False)
+                bones.append(f"tail_{i + 1:02d}")
+                parent = bones[-1]
+            tails.append({"part": part, "bones": bones, "attached": False})
+            ride = []
+    sk.winged = {"wings": wing_specs, "ride": ride, "tails": tails}
     notes["ridesPelvis"] = int(sum(len(i) for _, i in ride))
+    notes["tail"] = int(sum(len(t["part"]["idx"]) for t in tails))
     notes["wings"] = [{"name": w["name"], "root": w["line"][0].tolist(), "tip": w["line"][-1].tolist(), "leftToBody": w["part"]["resting"]} for w in wing_specs]
     return sk, notes
 
@@ -549,8 +575,9 @@ def fit(body, donor, profile, source=None):
 
 
 def cloth(body, sk, profile, heat):
-    wings = getattr(sk, "winged", {}).get("wings")
-    return _wing_override(body, sk, wings) if wings else None
+    winged = getattr(sk, "winged", {})
+    sheets = winged.get("wings", []) + winged.get("tails", [])
+    return _wing_override(body, sk, sheets) if sheets else None
 
 
 def bind_turns(sk, profile):
@@ -581,6 +608,19 @@ def plan(sk, body, profile):
     for bones in legs:
         chains.append({"bones": bones, "stiffness": profile.get("legStiffness", 30.0), "damping": 6.0,
                        "gravity": 0.0, "hang": profile.get("legHang", 0.2), "clearance": 0.0})
+    # Wings: the outer two bones of each wing are a spring chain on the donor-driven root. Stiff
+    # enough to ride its beat (far above the wasp's wing rate), so they hold their shape in flight;
+    # a clip's "chains" retune ({"wing_": {stiffness, gravity, ease}}) lets them go limp and lie
+    # on the floor in Death instead of standing fanned and rigid on a dead body.
+    if profile.get("wingSpring") is not None:
+        spring = profile["wingSpring"]
+        for w in getattr(sk, "winged", {}).get("wings", []):
+            chains.append({"bones": w["bones"][1:], "stiffness": spring.get("stiffness", 12000.0),
+                           "damping": spring.get("damping", 150.0), "gravity": 0.0, "hang": 0.0,
+                           "clearance": spring.get("clearance", 0.01)})
+    for t in getattr(sk, "winged", {}).get("tails", []):
+        chains.append({"bones": t["bones"], "stiffness": profile.get("tailStiffness", 4000.0), "damping": 120.0,
+                       "gravity": 0.0, "hang": 0.0, "clearance": 0.01})
     if legs:
         for bone in ("pelvis", "spine"):
             b = sk[bone]

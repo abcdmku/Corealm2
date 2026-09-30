@@ -37,6 +37,9 @@
     },
     "fae": {
       "body": "fae",
+      "wingSplit": [0.1, 0.85],
+      "wingSpring": {},
+      "liftLead": 3,
       "hipMode": "vertical",
       "hover": 0.2,
       "clips": {
@@ -47,14 +50,21 @@
         "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true,
                  "layers": [{ "donor": "ual1", "clip": "Swim_Idle_Loop", "loop": true, "kinds": ["arm"] }] },
         "Attack": { "donor": "ual1", "clip": ["Spell_Simple_Enter", "Spell_Simple_Shoot", "Spell_Simple_Exit"],
-                    "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
+                    "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] },
+                               { "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "bones": ["pelvis", "spine", "Head"] }] },
         "Hit": { "donor": "ual1", "clip": "Hit_Chest",
                  "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
-        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
+        "Death": { "donor": "ual1", "clip": "Death01",
+                   "layers": [{ "donor": "ual1", "clip": "Idle_Loop", "bones": ["Head"] }],
+                   "chains": { "wing_": { "stiffness": 25.0, "gravity": 30.0, "damping": 8.0, "ease": [0.25, 0.5] },
+                               "tail_": { "stiffness": 60.0, "gravity": 10.0, "damping": 8.0, "ease": [0.25, 0.5] } } }
       }
     },
     "imp": {
       "body": "fae",
+      "wingSplit": [0.1, 0.85],
+      "wingSpring": {},
+      "liftLead": 3,
       "hipMode": "vertical",
       "hover": 0.18,
       "clips": {
@@ -68,7 +78,10 @@
                     "layers": [{ "donor": "ual2", "clip": "Zombie_Scratch", "kinds": ["arm"] }] },
         "Hit": { "donor": "ual1", "clip": "Hit_Chest",
                  "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
-        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
+        "Death": { "donor": "ual1", "clip": "Death01",
+                   "layers": [{ "donor": "ual1", "clip": "Idle_Loop", "bones": ["Head"] }],
+                   "chains": { "wing_": { "stiffness": 25.0, "gravity": 30.0, "damping": 8.0, "ease": [0.25, 0.5] },
+                               "tail_": { "stiffness": 60.0, "gravity": 10.0, "damping": 8.0, "ease": [0.25, 0.5] } } }
       }
     }
   }
