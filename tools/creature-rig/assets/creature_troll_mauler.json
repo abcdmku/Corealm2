@@ -157,7 +157,15 @@
     "damping": 5,
     "gravity": 6,
     "hang": 0.3,
-    "clearance": 0.1
+    "clearance": 0.1,
+    "falloff": 0.3,
+    "drag": 0.3,
+    "interpolate": true,
+    "iterations": 4,
+    "cycles": 4,
+    "substeps": 6,
+    "sided": true,
+    "ring": true
    }
   ],
   "colliders": [

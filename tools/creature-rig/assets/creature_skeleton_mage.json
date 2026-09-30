@@ -212,7 +212,12 @@
     "gravity": 6,
     "hang": 0.3,
     "clearance": 0.01,
-    "group": "mantle"
+    "group": "mantle",
+    "drag": 0.3,
+    "interpolate": true,
+    "iterations": 4,
+    "substeps": 6,
+    "sided": true
    },
    {
     "node": "MantlePanel1",
@@ -221,7 +226,12 @@
     "gravity": 6,
     "hang": 0.3,
     "clearance": 0.01,
-    "group": "mantle"
+    "group": "mantle",
+    "drag": 0.3,
+    "interpolate": true,
+    "iterations": 4,
+    "substeps": 6,
+    "sided": true
    }
   ],
   "colliders": [

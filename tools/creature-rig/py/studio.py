@@ -387,7 +387,10 @@ def main(work, cache):
                 names.append(jn)
                 parent_bind, parent_name, parent_ref, parent_bone = Jb, jn, Mref, jn
             columns.append({"th": th, "bones": names})
-            spring_chains_cloth.append(dict({k2: v for k2, v in cc.items() if k2 not in ("mesh", "parent", "columns", "links", "seam")}, bones=names, group=cc["mesh"]))
+            # "ring": the columns link to their neighbours round the sheet (a skirt round the
+            # legs); other keys (falloff, drag, sided, substeps, ...) go to crlib's spring chain.
+            spring_chains_cloth.append(dict({k2: v for k2, v in cc.items() if k2 not in ("mesh", "parent", "columns", "links", "seam", "ring")},
+                                            bones=names, group=cc["mesh"], **({"links": "ring"} if cc.get("ring") else {})))
         base = len(skin0["joints"])
         index = {c["name"]: base + i for i, c in enumerate(cloth_joints) if i >= first}
         centres = (np.arange(links) + 0.5) / links
