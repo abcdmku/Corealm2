@@ -718,14 +718,10 @@ def _descends(donor, bone, ancestor):
 
 
 def plan(sk, body, profile):
-    # profile "strideScale" multiplies the size ratio of every tip path (the bird class's
-    # strideScale): the scorpion's steps are short for its legs, and on a long shell with stumpy
-    # legs (the cinderback crag, the slag crawler) its walk barely lifts a foot while the body moves.
-    stride = float(profile.get("strideScale", 1.0))
     legs = []
     for side in ("l", "r"):
         for bones in sk.arth["legs"][side]:
-            legs.append({"chain": bones, "foot": None, "toe": None, "pivot": None, "scale": stride})
+            legs.append({"chain": bones, "foot": None, "toe": None, "pivot": None})
     return {"hips": "body", "legs": legs, "chains": [], "colliders": [], "hip_motion": profile.get("hipMotion", 1.0)}
 
 
