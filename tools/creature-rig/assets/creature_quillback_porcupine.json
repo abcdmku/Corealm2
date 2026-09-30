@@ -1,1 +1,1 @@
-{ "class": "quadruped", "profile": "porcupine" }
+{ "class": "quadruped", "profile": "porcupine", "profileOverrides": { "clips": { "Attack": { "donor": "boar", "clip": "Attack", "lift": true } } } }
