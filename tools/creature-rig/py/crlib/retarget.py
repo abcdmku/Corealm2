@@ -328,7 +328,12 @@ class Retargeter:
             out_T.append(pelvis)
         # Playback speed is a time-scale on the baked clip: the same frames at speed x the rate.
         fps = clip["fps"] * float(spec.get("speed", 1.0))
-        return {"n": n, "fps": fps, "L": out_R, "pelvis": out_T, "loop": bool(spec.get("loop")),
+        # The ground velocity the in-place removal took out of a loop: the body still travels
+        # that fast in the game, and spring chains with drag trail behind it.
+        travel = np.zeros(3)
+        if spec.get("loop") and n > 1:
+            travel = self.scale * hip_motion * (drift[-1] - drift[0]) * fps / (n - 1)
+        return {"n": n, "fps": fps, "L": out_R, "pelvis": out_T, "loop": bool(spec.get("loop")), "travel": travel,
                 "hipMode": mode, "hipSource": source, "ikMiss": self.ik_miss, "soleLift": self.sole_lift,
                 "hover": clearance}
 
@@ -484,18 +489,45 @@ class Retargeter:
         """Damped spring chains (Verlet with length constraints) for bones with no donor. Chains of
         one sheet (a cape's left and right columns) are simulated together and kept at their rest
         spacing, so the sheet cannot tear down the middle. Loops run several cycles and keep the
-        last one, so the motion is periodic; one-shots settle on their first frame first."""
+        last one, so the motion is periodic; one-shots settle on their first frame first.
+
+        Optional chain keys (without them the chain is the plain spring chain):
+          falloff     stiffness drops along the chain to (1 - falloff) at the tip, so a hem swings
+                      more freely than the part sewn to the body.
+          drag        air drag (1/s) against the clip's own travel (result["travel"], the ground
+                      velocity a loop's in-place removal took away), so cloth trails behind a
+                      moving body. The chain's damping stays relative to the body.
+          interpolate targets and colliders move smoothly between frames inside the substeps
+                      instead of stepping once per frame.
+          iterations  constraint passes per substep (links, colliders, floor, lengths); default 2.
+          links       "all" (every pair of chains in a group; the default) or "ring" (each chain
+                      to its neighbours in list order, closing the loop: a skirt round the legs).
+          linkStretch how far linked joints may part or close, a share of their rest spacing.
+          width       the sheet's half-width round its column (along "lateral", default +X at
+                      bind): colliders test that cross-line, so the sheet's edges clear the legs.
+          sided       a joint the moving collider overtakes goes back out on the side it was on
+                      (in the collider bone's frame), not the nearest way out.
+          substeps, cycles (loop passes), preroll (frames a one-shot settles on its first frame).
+        The largest value over the chains applies for the shared ones (substeps, iterations,
+        interpolate, cycles, preroll)."""
         sk = self.sk
         n = result["n"]
         dt = 1.0 / result["fps"]
-        sub = 4
+        opt = lambda key, default: max((c.get(key, default) for c in chains), default=default)
+        sub = int(opt("substeps", 4))
         h = dt / sub
+        iterations = int(opt("iterations", 2))
+        interpolate = bool(opt("interpolate", False))
+        cycles = int(opt("cycles", cycles))
+        preroll = int(opt("preroll", 30))
+        travel = np.asarray(result.get("travel", np.zeros(3)), float)
         poses = [forward(sk, dict(result["L"][f]), self.hips, result["pelvis"][f]) for f in range(n)]
 
         def targets(chain, f):
             # Where each joint would be if the chain kept its rest shape relative to its attachment
             # bone, turned only part of the way with it ("hang" keeps the rest of the way in world
-            # space, as a sheet hanging under its own weight does).
+            # space, as a sheet hanging under its own weight does). Also the sheet's lateral axis
+            # (its bind "lateral", default +X) turned the same way.
             R, P = poses[f]
             bones = chain["bones"]
             parent = sk[bones[0]].parent
@@ -505,61 +537,145 @@ class Retargeter:
             turn = R[parent] @ base.frame.T
             if chain.get("hang", 0.0) > 0:
                 turn = slerp_matrix(turn, np.eye(3), chain["hang"])
-            return [root + turn @ (sk[b].tail - root_rest) for b in bones], root
+            lateral = turn @ np.asarray(chain.get("lateral", (1.0, 0.0, 0.0)), float)
+            return np.array([root + turn @ (sk[b].tail - root_rest) for b in bones]), root, lateral
+
+        def capsules(f):
+            if not colliders:
+                return np.zeros((0, 3)), np.zeros((0, 3)), np.zeros(0), np.zeros((0, 3, 3))
+            ends = [c.ends(poses[f]) for c in colliders]
+            turns = [poses[f][0][c.bone] for c in colliders]
+            return (np.array([e[0] for e in ends]), np.array([e[1] for e in ends]),
+                    np.array([c.radius for c in colliders]), np.array(turns))
+
+        def depth(p, lateral, width, a, b, r):
+            # Per joint: how deep the sheet's cross-line (width either side of the joint along the
+            # lateral axis) reaches into the capsule, and the way out from its deepest point.
+            offs = np.linspace(-width, width, 5) if width > 0 else np.zeros(1)
+            Q = p[:, None, :] + offs[None, :, None] * lateral[None, None, :]
+            ab = b - a
+            t = np.clip((Q - a) @ ab / max(ab @ ab, 1e-12), 0, 1)
+            D = Q - (a + t[..., None] * ab)
+            pen = r - np.linalg.norm(D, axis=2)
+            k = np.argmax(pen, axis=1)
+            rows = np.arange(len(p))
+            return pen[rows, k], D[rows, k]
+
+        def collide(p, caps, lateral, width=0.0, side=None):
+            # Every joint through every capsule in order: the same as pushing the joints through
+            # the colliders one at a time. width: the sheet's half-width round its column, so its
+            # edges clear the legs, not only its middle line. side (per joint and capsule, in the
+            # capsule bone's frame) is where the joint last was clear of it: a joint the moving
+            # bone overtook goes back out on that side (a tabard in front of a striding thigh is
+            # carried forward, not left behind it); without it the nearest way out is taken.
+            A, B, rad, Rs = caps
+            for j, (a, b, r, Rj) in enumerate(zip(A, B, rad, Rs)):
+                pen, d = depth(p, lateral, width, a, b, r)
+                inside = pen > 0
+                if inside.any():
+                    if side is not None:
+                        ab = b - a
+                        u = side[:, j] @ Rj.T
+                        u = u - np.outer(u @ ab / max(ab @ ab, 1e-12), ab)
+                        known = np.linalg.norm(u, axis=1) > 1e-6
+                        d = np.where(known[:, None], u, d)
+                    safe = np.where(np.linalg.norm(d, axis=1, keepdims=True) > 1e-9, d, np.array([0, 0, -1.0]))
+                    safe = safe / np.maximum(np.linalg.norm(safe, axis=1, keepdims=True), 1e-12)
+                    p = np.where(inside[:, None], p + safe * pen[:, None], p)
+            return p
+
+        def remember(side, p, caps, lateral, width):
+            # The side of each capsule each joint is on while it is clear of it.
+            A, B, rad, Rs = caps
+            for j, (a, b, r, Rj) in enumerate(zip(A, B, rad, Rs)):
+                pen, _ = depth(p, lateral, width, a, b, r)
+                out = pen <= 1e-6
+                side[out, j] = (p[out] - a) @ Rj
 
         state = []
         for chain in chains:
-            tgt, _ = targets(chain, 0)
-            state.append({"x": [t.copy() for t in tgt], "prev": [t.copy() for t in tgt],
+            tgt, _, lat = targets(chain, 0)
+            m = len(chain["bones"])
+            fall = chain.get("falloff", 0.0) * np.arange(m) / max(m - 1, 1)
+            side = None
+            if chain.get("sided") and colliders:
+                side = np.zeros((m, len(colliders), 3))
+                remember(side, tgt, capsules(0), lat, chain.get("width", 0.0))
+            state.append({"x": tgt.copy(), "prev": tgt.copy(), "fall": 1.0 - fall, "side": side,
                           "len": [np.linalg.norm(sk[b].tail - sk[b].head) for b in chain["bones"]]})
         links = []
-        for a in range(len(chains)):
-            for b in range(a + 1, len(chains)):
-                if chains[a].get("group") and chains[a].get("group") == chains[b].get("group"):
-                    rest = [np.linalg.norm(sk[p].tail - sk[q].tail) for p, q in zip(chains[a]["bones"], chains[b]["bones"])]
-                    links.append((a, b, rest))
+        groups = {}
+        for a, c in enumerate(chains):
+            if c.get("group"):
+                groups.setdefault(c["group"], []).append(a)
+        for members in groups.values():
+            if any(chains[a].get("links") == "ring" for a in members) and len(members) > 2:
+                pairs = [(members[i], members[(i + 1) % len(members)]) for i in range(len(members))]
+            else:
+                pairs = [(a, b) for i, a in enumerate(members) for b in members[i + 1:]]
+            for a, b in pairs:
+                rest = [np.linalg.norm(sk[p].tail - sk[q].tail) for p, q in zip(chains[a]["bones"], chains[b]["bones"])]
+                stretch = min(chains[a].get("linkStretch", 0.15), chains[b].get("linkStretch", 0.15))
+                links.append((a, b, rest, stretch))
         frames = list(range(n)) * (cycles if result["loop"] else 1)
         if not result["loop"]:
-            frames = [0] * 30 + frames
+            frames = [0] * preroll + frames
         history = []
-        for f in frames:
+        for step, f in enumerate(frames):
             tg = [targets(c, f) for c in chains]
-            for _ in range(sub):
-                for c, st, (tgt, _) in zip(chains, state, tg):
+            caps = capsules(f)
+            if interpolate:
+                g = frames[step + 1] if step + 1 < len(frames) else ((f + 1) % n if result["loop"] else f)
+                tg1 = [targets(c, g) for c in chains]
+                caps1 = capsules(g)
+            for s in range(sub):
+                if interpolate:
+                    w = (s + 1) / sub
+                    tg_s = [((1 - w) * t0 + w * t1, (1 - w) * r0 + w * r1, normalize((1 - w) * l0 + w * l1))
+                            for (t0, r0, l0), (t1, r1, l1) in zip(tg, tg1)]
+                    caps_s = ((1 - w) * caps[0] + w * caps1[0], (1 - w) * caps[1] + w * caps1[1], caps[2], caps[3] if w < 0.5 else caps1[3])
+                else:
+                    tg_s, caps_s = tg, caps
+                for c, st, (tgt, _, _) in zip(chains, state, tg_s):
                     keep = np.exp(-c.get("damping", 6.0) * h)
-                    for i in range(len(st["x"])):
-                        # "ease": [start, end] clip fractions over which stiffness and gravity blend
-                        # from the chain's base values to this clip's (a wing that goes limp).
-                        k, g = c.get("stiffness", 40.0), c.get("gravity", 0.0)
-                        if c.get("ease") and n > 1:
-                            a0, a1 = c["ease"]
-                            u = float(np.clip((f / (n - 1) - a0) / max(a1 - a0, 1e-6), 0, 1))
-                            u = u * u * (3 - 2 * u)
-                            k = c["base"].get("stiffness", 40.0) + u * (k - c["base"].get("stiffness", 40.0))
-                            g = c["base"].get("gravity", 0.0) + u * (g - c["base"].get("gravity", 0.0))
-                        acc = k * (tgt[i] - st["x"][i]) + np.array([0.0, -g, 0.0])
-                        nxt = st["x"][i] + (st["x"][i] - st["prev"][i]) * keep + acc * h * h
-                        st["prev"][i], st["x"][i] = st["x"][i], nxt
-                for _ in range(2):
-                    for a, b, rest in links:
+                    # "ease": [start, end] clip fractions over which stiffness and gravity blend
+                    # from the chain's base values to this clip's (a wing that goes limp).
+                    k, g = c.get("stiffness", 40.0), c.get("gravity", 0.0)
+                    if c.get("ease") and n > 1:
+                        a0, a1 = c["ease"]
+                        u = float(np.clip((f / (n - 1) - a0) / max(a1 - a0, 1e-6), 0, 1))
+                        u = u * u * (3 - 2 * u)
+                        k0, g0 = c["base"].get("stiffness", 40.0), c["base"].get("gravity", 0.0)
+                        k = k0 + u * (k - k0)
+                        g = g0 + u * (g - g0)
+                    acc = (k * st["fall"])[:, None] * (tgt - st["x"]) + np.array([0.0, -g, 0.0])
+                    vel = st["x"] - st["prev"]
+                    if c.get("drag"):
+                        acc = acc - c["drag"] * (vel / h + travel)
+                    nxt = st["x"] + vel * keep + acc * h * h
+                    st["prev"], st["x"] = st["x"], nxt
+                for _ in range(iterations):
+                    for a, b, rest, stretch in links:
                         for i, r in enumerate(rest):
                             pa, pb = state[a]["x"][i], state[b]["x"][i]
                             d = np.linalg.norm(pb - pa)
-                            want = np.clip(d, 0.85 * r, 1.15 * r)
+                            want = np.clip(d, (1 - stretch) * r, (1 + stretch) * r)
                             if d > 1e-9 and want != d:
                                 corr = (pb - pa) * (1 - want / d) * 0.5
                                 state[a]["x"][i] = pa + corr
                                 state[b]["x"][i] = pb - corr
-                    for c, st, (_, root) in zip(chains, state, tg):
+                    for c, st, (_, root, lat) in zip(chains, state, tg_s):
+                        pts = collide(st["x"], caps_s, lat, c.get("width", 0.0), st["side"])
+                        pts[:, 1] = np.maximum(pts[:, 1], floor + c.get("clearance", 0.0))
                         prev = root
-                        for i in range(len(st["x"])):
-                            p = st["x"][i]
-                            for col in colliders:
-                                p = col.push(p, poses[f])
-                            p[1] = max(p[1], floor + c.get("clearance", 0.0))
-                            st["x"][i] = prev + normalize(p - prev) * st["len"][i]
-                            prev = st["x"][i]
-            history.append((f, [[p.copy() for p in st["x"]] for st in state]))
+                        for i in range(len(pts)):
+                            pts[i] = prev + normalize(pts[i] - prev) * st["len"][i]
+                            prev = pts[i]
+                        st["x"] = pts
+                for c, st, (_, _, lat) in zip(chains, state, tg_s):
+                    if st["side"] is not None:
+                        remember(st["side"], st["x"], caps_s, lat, c.get("width", 0.0))
+            history.append((f, [st["x"].copy() for st in state]))
         for f, all_pts in history[-n:]:
             R, P = poses[f]
             for chain, pts in zip(chains, all_pts):
@@ -618,10 +734,13 @@ class CapsuleCollider:
         self.local_a = np.zeros(3)
         self.local_b = b.frame.T @ (b.tail - b.head)
 
-    def push(self, p, pose):
+    def ends(self, pose):
         R, P = pose
         a = P[self.bone]
-        b = a + R[self.bone] @ self.local_b
+        return a, a + R[self.bone] @ self.local_b
+
+    def push(self, p, pose):
+        a, b = self.ends(pose)
         ab = b - a
         t = np.clip(np.dot(p - a, ab) / max(np.dot(ab, ab), 1e-12), 0, 1)
         c = a + t * ab
