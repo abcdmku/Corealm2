@@ -17,7 +17,16 @@
           "skirt": {
             "hang": 0.0
           }
-        }
+        },
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
       }
     },
     "skirt": {
@@ -35,7 +44,8 @@
       "gravity": 0.0,
       "hang": 0.3,
       "clearance": 0.03,
-      "colliderPad": 1.3
+      "colliderPad": 1.3,
+      "armColliders": true
     }
   },
   "notes": "Amethyst Sovereign: a crystal-crowned tree spirit with a leaf train. On the treant class (golem fit and skin, loose pieces bound to what they grow from) the crown's hundreds of loose crystals ride the head; on special_treant the crystals and a crown bud were bound to the arms and smeared sideways in the cast. The humanoid cape finder (cloth) turns the train into spring panels, so it hangs clear of the floor. It casts (Spell_Simple). In Death the train panels take the body's turn fully (hang 0), so the train lies with the fallen body instead of standing under it like a tent."

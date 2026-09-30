@@ -25,6 +25,12 @@
           0.3
         ]
       }
+    },
+    "clips": {
+      "Attack": {
+        "donor": "ual2",
+        "clip": "TreeChopping_Loop"
+      }
     }
   },
   "notes": "No source rig (the Downloads rock golem joints misplace the hips for this mesh), so the skeleton is fitted. The block feet are sparse low-poly boxes, so the ankle narrowing is not measurable and the fit put the ankle on the floor, leaving the heels on the shins; the ankles are given here."

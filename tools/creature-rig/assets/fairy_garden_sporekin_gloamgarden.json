@@ -2,7 +2,7 @@
   "class": "treant",
   "profile": "treant",
   "profileOverrides": {
-    "yaw": 30,
+    "yaw": 0,
     "clips": {
       "Attack": {
         "donor": "ual1",
@@ -19,50 +19,152 @@
     },
     "landmarks": {
       "tips": {
-        "foot_r": [
-          -0.643,
-          0.0,
-          0.118
+        "head": [
+          0.096,
+          1.99,
+          0.059
+        ],
+        "hand_l": [
+          0.245,
+          0.53,
+          0.45
+        ],
+        "hand_r": [
+          -0.152,
+          0.684,
+          -0.126
         ],
         "foot_l": [
           0.437,
           0.008,
           0.549
+        ],
+        "foot_r": [
+          -0.643,
+          0.0,
+          0.118
         ]
       },
       "joints": {
-        "calf_r": [
-          -0.33,
-          0.33,
-          -0.2
+        "pelvis": [
+          0.077,
+          0.652,
+          -0.032
         ],
-        "foot_r": [
-          -0.34,
-          0.12,
-          -0.19
+        "spine_01": [
+          0.13,
+          0.861,
+          -0.111
         ],
-        "ball_r": [
-          -0.42,
-          0.02,
-          -0.04
+        "spine_02": [
+          0.105,
+          1.054,
+          -0.156
+        ],
+        "spine_03": [
+          0.109,
+          1.274,
+          -0.075
+        ],
+        "neck_01": [
+          0.106,
+          1.544,
+          -0.046
+        ],
+        "Head": [
+          0.096,
+          1.616,
+          0.059
+        ],
+        "upperarm_l": [
+          0.278,
+          1.382,
+          -0.072
+        ],
+        "lowerarm_l": [
+          0.531,
+          1.076,
+          -0.034
+        ],
+        "hand_l": [
+          0.368,
+          0.857,
+          0.555
+        ],
+        "upperarm_r": [
+          -0.047,
+          1.353,
+          -0.129
+        ],
+        "lowerarm_r": [
+          -0.14,
+          1.221,
+          -0.188
+        ],
+        "hand_r": [
+          -0.168,
+          1.063,
+          -0.218
+        ],
+        "thigh_l": [
+          0.333,
+          0.652,
+          0.167
         ],
         "calf_l": [
-          0.35,
+          0.408,
           0.33,
-          0.03
+          0.04
         ],
         "foot_l": [
-          0.39,
-          0.12,
-          0.1
+          0.448,
+          0.014,
+          -0.001
         ],
         "ball_l": [
-          0.42,
-          0.02,
-          0.3
+          0.478,
+          0.014,
+          0.31
+        ],
+        "thigh_r": [
+          -0.178,
+          0.652,
+          -0.231
+        ],
+        "calf_r": [
+          -0.272,
+          0.33,
+          -0.19
+        ],
+        "foot_r": [
+          -0.282,
+          0.014,
+          -0.401
+        ],
+        "ball_r": [
+          -0.362,
+          0.014,
+          -0.03
         ]
       }
+    },
+    "skirt": {
+      "top": 0.6,
+      "bottom": 0.12,
+      "maxThickness": 0.03,
+      "legClear": 1.2,
+      "columns": 8,
+      "links": 4,
+      "stiffness": 30.0,
+      "damping": 5.0,
+      "gravity": 0.0,
+      "hang": 0.3,
+      "clearance": 0.01,
+      "colliderPad": 1.2,
+      "armColliders": false,
+      "seam": 0.05,
+      "armClear": 3.0
     }
   },
-  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The mesh is modelled turned 30 degrees towards its left (feet and hands both lie on a line 30 degrees off X), so it is fitted facing forward and the bind is turned to face +Z. The overhand smash and the zombie claw both fold the spine far enough to lay the wide cap over the whole body, so it casts (Spell_Simple) instead: the branch arm thrusts forward and the cap stays up. Its root feet splay from the floor and the fit ran each leg out along a sideways root, with the ankle on a root tip half a metre from the shin, so the roots near the shin rode the calf and sank; the knees, ankles, balls and forward root tips are given (faced frame)."
+  "notes": "Gloamgarden sporekin: a mushroom cap over a petal skirt. The Tripo mesh was modelled turned 30 degrees; production (the round-1 candidate) already carries the faced bind, so a re-rig from it takes yaw 0 and the joints of the production rig (shifted by the intake's recentring), since the tip finder reads the cap's drips as hands. It casts (Spell_Simple): the overhand smash and the zombie claw fold the wide cap over the body. The petal skirt is a ring of spring columns (treant skirt) with leg and arm colliders; Hit is UAL1 Hit_Head, which starts near the idle instead of with the cap thrown back."
 }

@@ -130,21 +130,24 @@ def _seam_release(body, rows, band):
 
 def _skirt_rows(body, sk, spec, label):
     """The skirt's vertices: the loose pieces nearest the given points ("pieces"), and/or the
-    surface between "top" and "bottom" (shares of the height) clear of the legs by "legClear"
-    times their radius."""
+    surface between "top" and "bottom" (shares of the height), thinner than "maxThickness" and clear
+    of the legs by "legClear" and of the forearms and hands by "armClear" times their radius."""
     V = body.verts
     rows = np.zeros(len(V), bool)
     for at in spec.get("pieces", []):
         rows |= label == label[int(np.argmin(np.linalg.norm(V - np.asarray(at, float), axis=1)))]
     if "top" in spec:
         band = (V[:, 1] <= spec["top"] * body.height) & (V[:, 1] >= spec.get("bottom", 0.0) * body.height)
+        # Only the sheet: thin through, and clear of the legs and the hanging arms.
+        band &= body.thickness() < spec.get("maxThickness", 0.03) * body.height
         for side in ("l", "r"):
-            for bone in (f"thigh_{side}", f"calf_{side}"):
+            for bone in (f"thigh_{side}", f"calf_{side}", f"lowerarm_{side}", f"hand_{side}"):
                 b = sk[bone]
                 ab = b.tail - b.head
                 t = np.clip((V - b.head) @ ab / max(ab @ ab, 1e-12), 0, 1)
                 d = np.linalg.norm(V - (b.head + t[:, None] * ab), axis=1)
-                band &= d > spec.get("legClear", 1.3) * body.radius_at(0.5 * (b.head + b.tail))
+                clear = spec.get("legClear", 1.3) if b.kind == "leg" else spec.get("armClear", 2.0)
+                band &= d > clear * body.radius_at(0.5 * (b.head + b.tail))
         rows |= band
     return np.nonzero(rows)[0]
 
@@ -217,6 +220,9 @@ def _skirt(body, sk, profile, label):
         t = np.clip((top - P[:, 1]) / (0.12 * max(np.ptp(P[:, 1]), 1e-6)), 0, 1)
         a = t * t * (3 - 2 * t) * seam
         own = W[rows] / np.maximum(W[rows].sum(1, keepdims=True), 1e-9)
+        # Petals fused to a forearm or a hand ride it: bone heat already gave them to the arm.
+        arm = [i for i, n in enumerate(names) if n.split("_")[0] in ("lowerarm", "hand")]
+        a *= np.clip(1.0 - 3.0 * own[:, arm].sum(1), 0.0, 1.0)
         W[rows] = (1 - a)[:, None] * own + a[:, None] * C
         return a > 0.5
 
@@ -228,7 +234,8 @@ def _fronds(body, sk, profile, label, sizes, taken):
     "maxShare" of the mesh get a spring chain of "links" bones from where they touch the body to
     their far end, hung from the bone that carries the body there, so they sway and lag behind
     the body instead of riding it like armour. Returns weights(W, fixed) -> (W, fixed); it adds
-    the bones once the attach step has settled which bone carries each frond's root."""
+    the bones once the skin knows which bone carries each frond's root ("parent" names it instead:
+a frond growing from the back rides the chest, not the clavicle that swings with the arm)."""
     spec = profile.get("fronds")
     if not spec:
         return None
@@ -264,7 +271,7 @@ def _fronds(body, sk, profile, label, sizes, taken):
         notes = {}
         for n, f in enumerate(found):
             names = sk.names()
-            parent = names[int(np.argmax(W[f["anchor"]]))]
+            parent = spec.get("parent") or names[int(np.argmax(W[f["anchor"]]))]
             bones, prev = [], parent
             for i in range(len(f["pts"]) - 1):
                 name = f"frond_{n}_{i + 1:02d}"
@@ -344,9 +351,18 @@ def plan(sk, body, profile):
     out = golem.plan(sk, body, profile)
     # "colliderPad" widens the leg and torso capsules, so a sheet hanging close to the legs keeps
     # its whole surface, not only its joints, clear of them.
-    pad = (profile.get("skirt") or {}).get("colliderPad", 1.0)
+    spec = profile.get("skirt") or {}
+    pad = spec.get("colliderPad", 1.0)
     for col in out["colliders"]:
         col.radius *= pad
+    if spec.get("armColliders"):
+        # Arms that hang beside a skirt brush it aside instead of sinking through it.
+        from crlib.retarget import CapsuleCollider
+
+        for bone in [f"{b}_{s}" for s in ("l", "r") for b in ("lowerarm", "hand")]:
+            if bone in sk:
+                b = sk[bone]
+                out["colliders"].append(CapsuleCollider(sk, bone, pad * (0.95 * body.radius_at(0.5 * (b.head + b.tail)) + body.h)))
     for chain in out["chains"]:
         key = {"skirt": "skirt", "frond": "fronds"}.get(chain["bones"][0].split("_")[0])
         if not key or not profile.get(key):

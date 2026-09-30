@@ -35,6 +35,19 @@
           0.2144
         ]
       }
+    },
+    "fronds": {
+      "minShare": 0.02,
+      "maxShare": 0.12,
+      "maxThickness": 0.01,
+      "minLength": 0.08,
+      "links": 3,
+      "stiffness": 60.0,
+      "damping": 6.0,
+      "gravity": 0.0,
+      "hang": 0.0,
+      "clearance": 0.01,
+      "parent": "spine_03"
     }
   },
   "notes": "One Tripo treant mesh shared with fantasy_monster_03, fairy_guardian_03_gloamgarden, fairy_garden_sapling_faeholme, creature_mossback_sentinel and creature_silverthorn_harrow (uniform scale). Its hands rest against the thighs, so the fit's armpit probe stops at the hand and the whole arm rides the clavicle; the arm joints are given here (the same proportions of the height on every copy)."
