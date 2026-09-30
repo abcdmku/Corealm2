@@ -1,1 +1,5 @@
-{ "class": "humanoid", "profile": "undead" }
+{
+  "class": "humanoid",
+  "profile": "undead",
+  "notes": "No Hit clip: the runtime's additive flinch keeps the zombie hunch, where the upright Hit_Chest popped the body straight on every hit."
+}

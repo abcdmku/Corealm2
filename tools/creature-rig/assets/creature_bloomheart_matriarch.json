@@ -1,142 +1,102 @@
 {
- "class": "special_treant",
- "profile": "matriarch",
- "studio": {
-  "rootNode": "root",
-  "map": {
-   "pelvis": {
-    "bone": "pelvis"
-   },
-   "spine_01": {
-    "bone": "spine_01"
-   },
-   "spine_02": {
-    "bone": "spine_02"
-   },
-   "spine_03": {
-    "bone": "spine_03"
-   },
-   "neck_01": {
-    "bone": "neck_01"
-   },
-   "Head": {
-    "bone": "Head"
-   },
-   "clavicle_l": {
-    "bone": "clavicle_l",
-    "kind": "arm"
-   },
-   "upperarm_l": {
-    "bone": "upperarm_l",
-    "follow": 1.0,
-    "kind": "arm"
-   },
-   "lowerarm_l": {
-    "bone": "lowerarm_l",
-    "follow": 1.0,
-    "kind": "arm"
-   },
-   "hand_l": {
-    "bone": "hand_l",
-    "follow": 1.0,
-    "kind": "arm"
-   },
-   "thigh_l": {
-    "bone": "thigh_l",
-    "follow": 1.0,
-    "kind": "leg"
-   },
-   "calf_l": {
-    "bone": "calf_l",
-    "follow": 1.0,
-    "kind": "leg"
-   },
-   "foot_l": {
-    "bone": "foot_l",
-    "kind": "leg"
-   },
-   "ball_l": {
-    "bone": "ball_l",
-    "kind": "leg"
-   },
-   "clavicle_r": {
-    "bone": "clavicle_r",
-    "kind": "arm"
-   },
-   "upperarm_r": {
-    "bone": "upperarm_r",
-    "follow": 1.0,
-    "kind": "arm"
-   },
-   "lowerarm_r": {
-    "bone": "lowerarm_r",
-    "follow": 1.0,
-    "kind": "arm"
-   },
-   "hand_r": {
-    "bone": "hand_r",
-    "follow": 1.0,
-    "kind": "arm"
-   },
-   "thigh_r": {
-    "bone": "thigh_r",
-    "follow": 1.0,
-    "kind": "leg"
-   },
-   "calf_r": {
-    "bone": "calf_r",
-    "follow": 1.0,
-    "kind": "leg"
-   },
-   "foot_r": {
-    "bone": "foot_r",
-    "kind": "leg"
-   },
-   "ball_r": {
-    "bone": "ball_r",
-    "kind": "leg"
-   }
+  "class": "treant",
+  "profile": "treant",
+  "profileOverrides": {
+    "cloth": false,
+    "clips": {
+      "Attack": {
+        "donor": "ual1",
+        "clip": [
+          "Spell_Simple_Enter",
+          "Spell_Simple_Shoot",
+          "Spell_Simple_Exit"
+        ]
+      },
+      "Death": {
+        "chains": {
+          "skirt": {
+            "hang": 0.0,
+            "clearance": 0.16
+          }
+        },
+        "layers": [
+          {
+            "donor": "ual1",
+            "clip": "Idle_Loop",
+            "kinds": [
+              "arm"
+            ]
+          }
+        ]
+      }
+    },
+    "skirt": {
+      "pieces": [
+        [
+          -0.004,
+          0.079,
+          -0.929
+        ]
+      ],
+      "columns": 8,
+      "links": 5,
+      "stiffness": 25.0,
+      "damping": 4.0,
+      "gravity": 0.0,
+      "hang": 0.3,
+      "clearance": 0.03,
+      "colliderPad": 1.3,
+      "armColliders": true
+    },
+    "landmarks": {
+      "joints": {
+        "pelvis": [
+          0.0,
+          1.48,
+          0.4
+        ],
+        "thigh_l": [
+          0.3,
+          1.4,
+          0.4
+        ],
+        "calf_l": [
+          0.46,
+          0.84,
+          0.37
+        ],
+        "foot_l": [
+          0.5,
+          0.12,
+          0.36
+        ],
+        "ball_l": [
+          0.58,
+          0.03,
+          0.72
+        ],
+        "thigh_r": [
+          -0.3,
+          1.4,
+          0.4
+        ],
+        "calf_r": [
+          -0.46,
+          0.84,
+          0.37
+        ],
+        "foot_r": [
+          -0.5,
+          0.12,
+          0.36
+        ],
+        "ball_r": [
+          -0.58,
+          0.03,
+          0.72
+        ]
+      }
+    }
   },
-  "hipMotion": 0.8,
-  "springs": [
-   {
-    "from": "cape_l_01",
-    "stiffness": 40.0,
-    "damping": 7.0,
-    "gravity": 0.0,
-    "hang": 0.6,
-    "clearance": 0.1
-   },
-   {
-    "from": "cape_r_01",
-    "stiffness": 40.0,
-    "damping": 7.0,
-    "gravity": 0.0,
-    "hang": 0.6,
-    "clearance": 0.1
-   },
-   {
-    "from": "tabard_01",
-    "stiffness": 40.0,
-    "damping": 7.0,
-    "gravity": 0.0,
-    "hang": 0.6,
-    "clearance": 0.1
-   }
-  ],
-  "replace": [
-   "Attack"
-  ],
-  "clips": {
-   "Attack": {
-    "donor": "ual1",
-    "clip": [
-     "Spell_Simple_Enter",
-     "Spell_Simple_Shoot",
-     "Spell_Simple_Exit"
-    ]
-   }
-  }
- },
- "notes": "Studio mode on the production rig: Idle, Walk, Hit and Death stay byte-identical and only the boxer's Punch_Cross Attack is replaced. A re-rig from the promoted (re-bound) mesh crumples the leaf skirt and loses the crown, so the production skin is kept. The attack is a cast (Spell_Simple): the overhand smash and the zombie claw drive the root feet through the floor and fold the skirt, while the cast keeps the skirt hanging. The skirt panels are spring chains (no leg colliders in studio mode); the cast barely moves the legs."
+  "notes": "The Bloomheart Matriarch is the Amethyst Sovereign's Tripo tree spirit, re-rigged on the treant class instead of studio mode: the production clips sank (Hit 0.20 m, Walk 0.05 m), the cape strips cut through the right leg and arm in Death, and the leaf skirt swung sideways as one sheet in the cast. The treant fit and attach step keep the crown on the head; the leaf skirt is a ring of spring columns round the pelvis (treant skirt) with leg and arm colliders, so it trails, sways and settles with the body; the hips and legs are given (the fit set them off the midline, as on the sovereign). It casts (Spell_Simple); in Death the skirt lies with the body (hang 0, raised clearance so the sheet between columns stays above the floor) and the arms hold the idle carry. It gains a Run (Jog_Fwd_Loop)."
 }

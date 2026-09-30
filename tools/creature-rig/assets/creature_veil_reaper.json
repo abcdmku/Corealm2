@@ -2,6 +2,8 @@
   "class": "humanoid",
   "profile": "spirit",
   "profileOverrides": {
-    "freeHands": true
-  }
+    "freeHands": true,
+    "clips": { "Death": { "hover": 0.0 } }
+  },
+  "notes": "A floating body: no Walk or Run clip, so the runtime keeps the Idle hover playing while it glides instead of stepping and swinging its arms. Its Death starts from the floor (no hover): falling from the hover folded the wisp tail over its shoulders as it landed."
 }

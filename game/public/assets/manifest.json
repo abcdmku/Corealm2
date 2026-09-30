@@ -23076,8 +23076,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 10111852,
-      "sha256": "6d23e80b927acd70c526cd795a317057be325862d2a44d0589508f5acf3e48c4",
+      "bytes": 10235580,
+      "sha256": "a0954037fb9f60966e7e278991c2a3e8616bdd5341136db26ee2a4f0b9b86bc6",
       "size": {
         "x": 1.469849,
         "y": 2.122559,
@@ -23202,7 +23202,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.385 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.465 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -23212,7 +23212,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_beetle_golem.glb",
-        "sourceSha256": "cb86bbbe9720e13efdbb90131e401b147e0d751a0286d4128509f9e62babc197"
+        "sourceSha256": "6d23e80b927acd70c526cd795a317057be325862d2a44d0589508f5acf3e48c4"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -23233,8 +23233,8 @@
         "tree",
         "tripo"
       ],
-      "bytes": 7601768,
-      "sha256": "424c895502b9d60df67518bb5b26046d3f4682575fb6004a1bfe02dbb3649e20",
+      "bytes": 7737492,
+      "sha256": "5f1886039cc0908898681614a6bdceea0b52b4d3193f34e20047853ac261c5aa",
       "triangles": 4478,
       "size": {
         "x": 1.617749,
@@ -23333,7 +23333,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.437 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (frond_0_01, frond_0_02, frond_0_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.451 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -23343,7 +23343,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_mossback_sentinel.glb",
-        "sourceSha256": "e5b7d8a9989c32aa7b40f7f9f52de6c188d5f556af7ef99f965fe990ce37e9e0"
+        "sourceSha256": "424c895502b9d60df67518bb5b26046d3f4682575fb6004a1bfe02dbb3649e20"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -23365,8 +23365,8 @@
         "image-generated-texture",
         "polish-candidate"
       ],
-      "bytes": 17481720,
-      "sha256": "e9481a44ccaadf89bdd036488328fc4209855f1a175a75688aeecc36bd87b50b",
+      "bytes": 17595712,
+      "sha256": "79436809c152732659a8e52427cc78378afb06d6deeb82d8479eab49579b75e6",
       "size": {
         "x": 1.945122,
         "y": 2.2,
@@ -23841,28 +23841,28 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Sword_Regular_A + Sword_Regular_B + Sword_Regular_B_Rec",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: TreeChopping_Loop",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.668 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golemPunch): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.670 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 2,
+          "Attack": 0.9666666388511658,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_lava_golem.glb",
-        "sourceSha256": "4e68c8553e27d4bd7afa3d6b7f26ae47d2a2b9e648beea40274fb4ded9c6989a"
+        "sourceSha256": "e9481a44ccaadf89bdd036488328fc4209855f1a175a75688aeecc36bd87b50b"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.379455,
       "impliedRunMps": 6.985696,
-      "attackSeconds": 2,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.15
     },
     {
@@ -25318,8 +25318,8 @@
         "rpg",
         "goblin_archer"
       ],
-      "bytes": 6103800,
-      "sha256": "9259089b9dc5f9a6070ebda77b8916975a7448312bd44b9428309d7b447ee068",
+      "bytes": 6136888,
+      "sha256": "fdf85bcc138f32d9229c2bced65b01986bd3621f81131086b21c1a38580c82fc",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -25525,7 +25525,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Shoot as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL Standard has no bow draw: Spell_Simple_Shoot (bow arm thrust forward) reads best of the native takes; the authored IK bow draw and frozen fingers are gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.074 m).",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL Standard has no bow draw: the bow arm is raised to aim and lowered (Spell_Simple_Enter then Exit); Spell_Simple_Shoot alone was a frozen aim. The authored IK bow draw and frozen fingers are gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.074 m).",
         "sources": [
           {
             "name": "Idle",
@@ -25564,9 +25564,9 @@
           },
           {
             "name": "Attack",
-            "source": "Spell_Simple_Shoot @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.5,
-            "channels": 163,
+            "source": "Spell_Simple_Enter + Spell_Simple_Exit @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 0.9666666984558105,
+            "channels": 168,
             "translationScale": 0.6728884461365268
           }
         ]
@@ -25576,7 +25576,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.622728,
       "impliedRunMps": 3.907331,
-      "attackSeconds": 0.5,
+      "attackSeconds": 0.966667,
       "contactNormalized": 0.48
     },
     {
@@ -25592,8 +25592,8 @@
         "caster",
         "candidate"
       ],
-      "bytes": 13627796,
-      "sha256": "02f14b7f270388f8771959beaba2edfc9bec06bfc6dce97d5452e3f7d65d9836",
+      "bytes": 13588900,
+      "sha256": "9b5bf70be4eeefe0e80e04e26689d410fe9327bf620ea83b01bc587542999ec0",
       "size": {
         "x": 1.338383,
         "y": 1.353161,
@@ -25602,14 +25602,13 @@
       "base": {
         "x": -0.669191,
         "y": 0.008261,
-        "z": -0.675415
+        "z": -0.330696
       },
-      "groundY": 0.0018606935011481667,
+      "groundY": 0.004193570143552962,
       "triangles": 19861,
       "animations": [
         "Idle",
         "Walk",
-        "Run",
         "Hit",
         "Death",
         "Attack"
@@ -25771,20 +25770,19 @@
         "native": [
           "Idle",
           "Walk",
-          "Run",
           "Hit",
           "Death",
           "Attack"
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The staff is re-gripped 9 cm lower on its shaft (the hand nearer its middle) so its foot clears the floor in Walk, Run and Hit. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.053 m).",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Run omitted (runtime Walk fallback): Jog_Fwd_Loop swung the staff through the head. The staff is re-gripped low on its shaft (45 cm from the source grip, the hand near its foot) so it stands up from the fist like a walking staff and swings clear of the legs and floor in Walk and Hit. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.053 m).",
         "sources": [
           {
             "name": "Idle",
-            "source": "Spell_Simple_Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 2.0999999046325684,
-            "channels": 170,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 169,
             "translationScale": 0.6728884461365268
           },
           {
@@ -25792,13 +25790,6 @@
             "source": "Walk_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
             "seconds": 1.3333333730697632,
             "channels": 167,
-            "translationScale": 0.6728884461365268
-          },
-          {
-            "name": "Run",
-            "source": "Jog_Fwd_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.9333333373069763,
-            "channels": 169,
             "translationScale": 0.6728884461365268
           },
           {
@@ -25826,9 +25817,7 @@
       },
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
-      "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.651617,
-      "impliedRunMps": 3.996409,
       "attackSeconds": 0.966667,
       "contactNormalized": 0.42
     },
@@ -25845,8 +25834,8 @@
         "candidate",
         "zombie-polish"
       ],
-      "bytes": 7528008,
-      "sha256": "524bf6a3ad8e96c87a3672ac01975a93bb3e9dbe7aa5d3e13a98c142a2f38a35",
+      "bytes": 7470100,
+      "sha256": "d83ec996b10df1964948a840e90ff801ebe5016519e865c9a0bf1b20361acd34",
       "size": {
         "x": 1.717218,
         "y": 1.814025,
@@ -25863,7 +25852,6 @@
         "Idle",
         "Walk",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -25877,7 +25865,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_zombie",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/sources/creature_zombie.glb",
-        "sourceSha256": "524bf6a3ad8e96c87a3672ac01975a93bb3e9dbe7aa5d3e13a98c142a2f38a35",
+        "sourceSha256": "d83ec996b10df1964948a840e90ff801ebe5016519e865c9a0bf1b20361acd34",
         "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
@@ -26067,12 +26055,11 @@
           "Idle",
           "Walk",
           "Attack",
-          "Hit",
           "Death"
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.066 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback). Hit omitted (runtime spine recoil from the hunched idle): the upright UAL hits popped the hunch straight. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.066 m).",
         "sources": [
           {
             "name": "Idle",
@@ -26093,13 +26080,6 @@
             "source": "Zombie_Scratch @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
             "seconds": 1.7999999523162842,
             "channels": 174,
-            "translationScale": 1.0346732616662564
-          },
-          {
-            "name": "Hit",
-            "source": "Hit_Chest @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.3333333432674408,
-            "channels": 171,
             "translationScale": 1.0346732616662564
           },
           {
@@ -26545,8 +26525,8 @@
         "rpg",
         "grave_ghoul"
       ],
-      "bytes": 5896020,
-      "sha256": "b5e2a4d528625a77fae8b72cd551a7da5c3fed466e2aa0ded56a486b50d3eb81",
+      "bytes": 5839748,
+      "sha256": "aef9619357680d548b73316fc4031994a1913ac6e0ab5ea9fb817a9da7e7edec",
       "size": {
         "x": 2.276295,
         "y": 1.556659,
@@ -26563,7 +26543,6 @@
         "Idle",
         "Walk",
         "Attack",
-        "Hit",
         "Death",
         "Run"
       ],
@@ -26711,13 +26690,12 @@
           "Idle",
           "Walk",
           "Attack",
-          "Hit",
           "Death",
           "Run"
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death, Jog_Fwd_Loop as Run. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The extra spine crouch is gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.048 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Death01 as Death, Jog_Fwd_Loop as Run. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The extra spine crouch is gone. Hit omitted (runtime spine recoil from the hunched idle): the upright UAL hits popped the hunch straight. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.048 m).",
         "sources": [
           {
             "name": "Idle",
@@ -26738,13 +26716,6 @@
             "source": "Zombie_Scratch @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
             "seconds": 1.7999999523162842,
             "channels": 174,
-            "translationScale": 0.8485861882783219
-          },
-          {
-            "name": "Hit",
-            "source": "Hit_Chest @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.3333333432674408,
-            "channels": 166,
             "translationScale": 0.8485861882783219
           },
           {
@@ -26782,8 +26753,8 @@
         "rpg",
         "wraith"
       ],
-      "bytes": 16527836,
-      "sha256": "a49bc507e466b6cf033c39ec444f8d5df362808f826c8e545bdcb910c81e22f8",
+      "bytes": 16671056,
+      "sha256": "f6eeb365d41b5f655907960564fa0af9c03697dd7133f2c0e617cb7c7bd838e4",
       "size": {
         "x": 1.798829,
         "y": 1.753337,
@@ -26794,7 +26765,7 @@
         "y": 0.129826,
         "z": -0.256182
       },
-      "groundY": 0.08447351899162099,
+      "groundY": 0,
       "triangles": 12574,
       "animations": [
         "Idle",
@@ -27034,27 +27005,27 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Sword_Attack's lunge drove the robe 27 cm through the floor and swung an empty hand; the cast matches the spell idle. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.163 m).",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Idle_Loop as Walk, Idle_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Sword_Attack's lunge drove the robe 27 cm through the floor and swung an empty hand. Hovering body: Idle_Loop as Idle, and as Walk and Run with the thigh, calf, foot and ball joints held at their first key (no stepping) while it glides at 1.4 / 3.2 m/s. The robe skirt hang on cloth joints driven by a damped spring simulation of the body motion (legs, hips and chest as colliders, floor plane), baked into every clip; air drag against the glide trails the robe in Walk and Run. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.103 m).",
         "sources": [
           {
             "name": "Idle",
-            "source": "Spell_Simple_Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 2.0999999046325684,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
             "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Walk",
-            "source": "Walk_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1.3333333730697632,
-            "channels": 176,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Run",
-            "source": "Jog_Fwd_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.9333333373069763,
-            "channels": 176,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
@@ -27081,8 +27052,8 @@
         ]
       },
       "reviewFlags": [],
-      "walkClipSeconds": 1.333333,
-      "runClipSeconds": 0.933333,
+      "walkClipSeconds": 2.5,
+      "runClipSeconds": 2.5,
       "attackSeconds": 0.966667,
       "contactNormalized": 0.3
     },
@@ -27097,8 +27068,8 @@
         "stone",
         "tripo"
       ],
-      "bytes": 17085856,
-      "sha256": "b1aa8cfccbf19df1f4b324c3aacafedb262bb7d4bf473701d136e5796d203252",
+      "bytes": 17204208,
+      "sha256": "12406e611aec2476cb48ca3c8dc2d7195dd139d1e841c9aeceac76a1ac322211",
       "triangles": 6778,
       "size": {
         "x": 1.330581,
@@ -27186,29 +27157,29 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.529 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.642 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.7999999523162842,
+          "Attack": 1.3333333730697632,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_stone_golem.glb",
-        "sourceSha256": "01ca41f67a27c46707ed81fa09a5f019f226da838c0de833a46c7268bc659361"
+        "sourceSha256": "b1aa8cfccbf19df1f4b324c3aacafedb262bb7d4bf473701d136e5796d203252"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.920299,
       "impliedRunMps": 5.508315,
-      "attackSeconds": 1.8,
-      "contactNormalized": 0.333
+      "attackSeconds": 1.333333,
+      "contactNormalized": 0.283
     },
     {
       "id": "creature_iron_golem",
@@ -27221,8 +27192,8 @@
         "rpg",
         "iron_golem"
       ],
-      "bytes": 3977820,
-      "sha256": "688e650b579a0c7b0747173c485468688fca36bc34e9f5291245e560bc7c356b",
+      "bytes": 4007272,
+      "sha256": "2d708ecd87fc27b1d47a2d20e08e5e261349caa2ca399f2b7488e50405123b3a",
       "size": {
         "x": 3.692076,
         "y": 2.172113,
@@ -27233,7 +27204,7 @@
         "y": -0.012363,
         "z": -0.508176
       },
-      "groundY": -0.022152829135635148,
+      "groundY": -0.022149111057150804,
       "triangles": 29484,
       "animations": [
         "Idle",
@@ -27641,7 +27612,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.35/x1.2/x1.3 retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.286 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.35/x1.2/x1.3 retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard. The oversized sabaton toe caps are shortened to half their reach past the ball joint (mesh only), and the boot below the ankle is weighted to the foot instead of the calf, so the toe-off in Walk and the Attack lunge no longer drive the boots through the floor. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.286 m).",
         "sources": [
           {
             "name": "Idle",
@@ -27690,8 +27661,8 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.345295,
-      "impliedRunMps": 7.998476,
+      "impliedWalkMps": 1.312142,
+      "impliedRunMps": 7.979146,
       "attackSeconds": 1.4,
       "contactNormalized": 0.38
     },
@@ -27893,8 +27864,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 10348932,
-      "sha256": "4999b68027efa0a4b1f2fcaae927ef4e34ae4863164de450a3b0b97c8f176e48",
+      "bytes": 10490188,
+      "sha256": "bcbbb98c32e7225ea9904eee0840a52c48d7762cfef76a4ec0a2488c96a396d8",
       "size": {
         "x": 0.89519,
         "y": 1.849097,
@@ -27923,7 +27894,6 @@
         "Idle",
         "Walk",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -28018,23 +27988,21 @@
           "Idle": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/undead): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.355 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/undead): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_l_01, tabard_l_02, tabard_l_03, tabard_r_01, tabard_r_02, tabard_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.355 m).",
         "clipSeconds": {
           "Idle": 1.3333333730697632,
           "Walk": 1.3333333730697632,
           "Attack": 1.7999999523162842,
-          "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_revenant.glb",
-        "sourceSha256": "f277bc271132666843cd4a0f2113e863ebec4849b396f9ce9a293701c252de9e"
+        "sourceSha256": "4999b68027efa0a4b1f2fcaae927ef4e34ae4863164de450a3b0b97c8f176e48"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.827455,
+      "impliedWalkMps": 0.827335,
       "attackSeconds": 1.8,
       "contactNormalized": 0.683
     },
@@ -28051,8 +28019,8 @@
         "candidate",
         "zombie-polish"
       ],
-      "bytes": 7673008,
-      "sha256": "27fe91ad84b93c17798f8842be96893e661de95be3edad9f21be1c3b40aeda97",
+      "bytes": 7615108,
+      "sha256": "693f9b2283011ee7f611abef1a157ad1894559aac1592464314257b566e345b4",
       "size": {
         "x": 1.73349,
         "y": 1.814013,
@@ -28069,7 +28037,6 @@
         "Idle",
         "Walk",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -28083,7 +28050,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_plague_zombie",
         "sourceFile": "game/public/assets/models/creature/creature_plague_zombie.glb",
-        "sourceSha256": "27fe91ad84b93c17798f8842be96893e661de95be3edad9f21be1c3b40aeda97",
+        "sourceSha256": "693f9b2283011ee7f611abef1a157ad1894559aac1592464314257b566e345b4",
         "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
@@ -28273,12 +28240,11 @@
           "Idle",
           "Walk",
           "Attack",
-          "Hit",
           "Death"
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Hit_Chest as Hit, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.093 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Zombie_Idle_Loop (UAL2) as Idle, Zombie_Walk_Fwd_Loop (UAL2) as Walk, Zombie_Scratch (UAL2) as Attack, Death01 as Death. No root pinning beyond the UAL root, no retime, no IK, no floor lift. UAL2 has no zombie run: Run omitted (runtime Walk fallback). Hit omitted (runtime spine recoil from the hunched idle): the upright UAL hits popped the hunch straight. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.093 m).",
         "sources": [
           {
             "name": "Idle",
@@ -28299,13 +28265,6 @@
             "source": "Zombie_Scratch @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
             "seconds": 1.7999999523162842,
             "channels": 174,
-            "translationScale": 1.0349855024785677
-          },
-          {
-            "name": "Hit",
-            "source": "Hit_Chest @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.3333333432674408,
-            "channels": 171,
             "translationScale": 1.0349855024785677
           },
           {
@@ -28341,8 +28300,8 @@
         "tripo",
         "death-collapse"
       ],
-      "bytes": 8335496,
-      "sha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32",
+      "bytes": 8404036,
+      "sha256": "f9808791d0584fea9e131e1eef2a96ed7195cdad6d5e0d137a82f28b1530ed37",
       "size": {
         "x": 1.184326,
         "y": 1.499266,
@@ -28357,7 +28316,6 @@
       "triangles": 4474,
       "animations": [
         "Idle",
-        "Walk",
         "Attack",
         "Hit",
         "Death"
@@ -28368,7 +28326,7 @@
       "sourceProvenance": {
         "sourceAssetId": "creature_banshee",
         "sourceFile": "assets/art/tripo/imports/creatures/audit-undead-family/banshee-motion-polish.glb",
-        "sourceSha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32",
+        "sourceSha256": "f9808791d0584fea9e131e1eef2a96ed7195cdad6d5e0d137a82f28b1530ed37",
         "tripoSourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
         "tripoSourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
         "builderSha256": "82081fadce65efc44707e6455e840016508f790c1eb3e647c4be35851e711384",
@@ -28922,25 +28880,21 @@
         "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.549 m). Profile humanoid/spirit. Built with two scratch prototypes of core fixes applied (D:/corealm-scratch/rig-human/corepatch.py): per-island bone heat when the joined mesh fails, and foot/toe pitch continuity with heel clearance.",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.546 m).",
         "clipSeconds": {
           "Idle": 2.5,
-          "Walk": 1.3333333730697632,
           "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_banshee.glb",
-        "sourceSha256": "97d3de81eab33263669a261320f9489ad44a32966468f56b35d080ade559748f"
+        "sourceSha256": "797f94e7504a767a8522ede158e435d54adc4a0495ae39d184ac2578afb79e32"
       },
-      "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.051981,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.8
     },
@@ -30572,8 +30526,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 2406844,
-      "sha256": "6c7c2c7944e110f22e557f5530ee4fabb8d61637b86c9ad67e254af73995f0be",
+      "bytes": 2525044,
+      "sha256": "9c488c357ec7634294947e492b6861448c0f86512495ed51fb7a8430ca421824",
       "size": {
         "x": 2.04301,
         "y": 2.659669,
@@ -30709,7 +30663,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_hollow_bough.glb",
-        "sourceSha256": "b3f356516abb63ae21bfe3700384748c1dd58b39c038e941622d1c0117f88a20"
+        "sourceSha256": "6c7c2c7944e110f22e557f5530ee4fabb8d61637b86c9ad67e254af73995f0be"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -30734,8 +30688,8 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 5814568,
-      "sha256": "28ba5877c66601fa5450596797455dfb2a29677e554626488e019170f15f1db7",
+      "bytes": 5882744,
+      "sha256": "1f5c0190da19ef46ce1e38aac6250b69626e0b8d04949c7a207c366f1c93adbd",
       "triangles": 5258,
       "size": {
         "x": 1.017993,
@@ -30762,7 +30716,6 @@
       "groundY": 0,
       "animations": [
         "Idle",
-        "Walk",
         "Attack",
         "Hit",
         "Death"
@@ -30834,24 +30787,21 @@
         "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.312 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.309 m).",
         "clipSeconds": {
           "Idle": 2.5,
-          "Walk": 1.3333333730697632,
           "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_pallid_shade.glb",
-        "sourceSha256": "68df9f3af7126a913ccf844a38a1e93b260ccd5926286bf236a8727095572616"
+        "sourceSha256": "28ba5877c66601fa5450596797455dfb2a29677e554626488e019170f15f1db7"
       },
-      "walkClipSeconds": 1.333333,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.267
     },
@@ -31040,8 +30990,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 15447960,
-      "sha256": "c080c7d5cdf21516d11cb9a74ca91d5c20018e1897deea1f79bc0fd6bda0d555",
+      "bytes": 15566312,
+      "sha256": "986aafb47447e04845a38eaeae45b37c6b5bfc9be352fa6463bf8536e233c0dc",
       "triangles": 5821,
       "size": {
         "x": 1.615829,
@@ -31133,7 +31083,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.504 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.523 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -31143,7 +31093,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_briar_harrow.glb",
-        "sourceSha256": "956d0e715446ba6f80153706b2ec9eefc181e2b57329cd6ed746eae6ea0b2000"
+        "sourceSha256": "c080c7d5cdf21516d11cb9a74ca91d5c20018e1897deea1f79bc0fd6bda0d555"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -32698,8 +32648,8 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 9285840,
-      "sha256": "9ec54d0e6131167925b593c851e9e69f2b81609a48df6000501478f09e8967b9",
+      "bytes": 9499192,
+      "sha256": "551f4d157b116041a4661323fbfe24d342548d3416bb17beb54628d455f8e6ea",
       "triangles": 4612,
       "size": {
         "x": 0.972154,
@@ -32937,7 +32887,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/caster): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.141 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/caster): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_l_01, tabard_l_02, tabard_l_03, tabard_l_04, tabard_r_01, tabard_r_02, tabard_r_03, tabard_r_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.260 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -32947,12 +32897,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_cinder_penitent.glb",
-        "sourceSha256": "54546d99bee29e71d273fde5a6f5214113941373c99cfb8c3baa3f97803fe8d2"
+        "sourceSha256": "9ec54d0e6131167925b593c851e9e69f2b81609a48df6000501478f09e8967b9"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.958193,
-      "impliedRunMps": 6.097016,
+      "impliedWalkMps": 0.958186,
+      "impliedRunMps": 6.10252,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -33092,8 +33042,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 5103656,
-      "sha256": "8f23296ddaea7c2b5918d544e96619f02f30e2419a8ef16324cc892acacc481a",
+      "bytes": 5171868,
+      "sha256": "0d5da697c7d6fdc05c71df12c396d5c7c6f09339dd170b4663cdc5a503486de4",
       "size": {
         "x": 1.411987,
         "y": 2.14895,
@@ -33121,7 +33071,6 @@
       "vertices": 3470,
       "animations": [
         "Idle",
-        "Walk",
         "Attack",
         "Hit",
         "Death"
@@ -33208,7 +33157,6 @@
         "native": [],
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
@@ -33217,15 +33165,13 @@
         "notes": "Rebuilt by tools/creature-rig (humanoid/spirit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (tail_01, tail_02, tail_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.409 m).",
         "clipSeconds": {
           "Idle": 2.5,
-          "Walk": 1.3333333730697632,
           "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_veil_reaper.glb",
-        "sourceSha256": "f5f831ed5b41fb2cbb50b0b7218e200af299973e55db2e8a72af6c09af692967"
+        "sourceSha256": "8f23296ddaea7c2b5918d544e96619f02f30e2419a8ef16324cc892acacc481a"
       },
-      "walkClipSeconds": 1.333333,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -33868,8 +33814,8 @@
         "articulated",
         "tripo"
       ],
-      "bytes": 7156960,
-      "sha256": "9e3321ffe325e3f519bf3bde4c9264dbee8c8df47c41693ba6b08bcfc3d33129",
+      "bytes": 7290024,
+      "sha256": "b1667227b6156cce76949458224b9dcd708ce4c44c0ce2285e2885d55633489d",
       "size": {
         "x": 1.150098,
         "y": 2.15,
@@ -34208,12 +34154,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_vault_custodian.glb",
-        "sourceSha256": "7f456710c6a4647c24f2f776b351c1a6927605635795bee1fe0c0a3541b83035"
+        "sourceSha256": "9e3321ffe325e3f519bf3bde4c9264dbee8c8df47c41693ba6b08bcfc3d33129"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.837347,
-      "impliedRunMps": 5.619024,
+      "impliedWalkMps": 0.837348,
+      "impliedRunMps": 5.594246,
       "attackSeconds": 1.333333,
       "contactNormalized": 0.283
     },
@@ -37222,8 +37168,8 @@
         "candidate",
         "rootheart"
       ],
-      "bytes": 14931980,
-      "sha256": "0fd8692d3ccc53e89a9036489ae980ac89444c0d48d32b96ff13f9b6ae539c2c",
+      "bytes": 15050316,
+      "sha256": "809106674e5c5b8680afd64840d803284dded25b726367d1e8c018519a3dd968",
       "size": {
         "x": 1.807177,
         "y": 2.282104,
@@ -37306,7 +37252,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.561 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.583 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -37316,7 +37262,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_rootheart.glb",
-        "sourceSha256": "44c2fab08135ab9a2b343d5b5d2e55d7683ff637fcf144cca482a1c79be9e75c"
+        "sourceSha256": "0fd8692d3ccc53e89a9036489ae980ac89444c0d48d32b96ff13f9b6ae539c2c"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -38091,8 +38037,8 @@
         "ogre",
         "tripo"
       ],
-      "bytes": 12145120,
-      "sha256": "e00fe2f314322c11d2003c55c734cdcd9043d4cf11cd18ddff52c6343c8e8920",
+      "bytes": 12299408,
+      "sha256": "4183bf9ac0abb347c3639895ff8ad8a73ee2a7394bceecc2850b48bb467fd365",
       "size": {
         "x": 1.372936,
         "y": 2.4,
@@ -38122,7 +38068,6 @@
         "Walk",
         "Run",
         "Attack",
-        "Hit",
         "Death"
       ],
       "materials": [
@@ -38202,32 +38147,30 @@
       "motionProvenance": {
         "native": [],
         "donor": {
-          "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
-          "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Idle": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Idle_Loop",
+          "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/brute): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.237 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/brute): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03, tabard_l_01, tabard_l_02, tabard_l_03, tabard_r_01, tabard_r_02, tabard_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.237 m).",
         "clipSeconds": {
-          "Idle": 2.5,
+          "Idle": 1.3333333730697632,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.3333333730697632,
-          "Hit": 0.3333333432674408,
+          "Attack": 1.7999999523162842,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_tideworn.glb",
-        "sourceSha256": "fa9626e919a26e2f962b3c3777cb9b44089f092630e530cd588e265cebec4748"
+        "sourceSha256": "e00fe2f314322c11d2003c55c734cdcd9043d4cf11cd18ddff52c6343c8e8920"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.853061,
-      "impliedRunMps": 5.348194,
-      "attackSeconds": 1.333333,
-      "contactNormalized": 0.283
+      "impliedWalkMps": 0.852777,
+      "impliedRunMps": 5.321758,
+      "attackSeconds": 1.8,
+      "contactNormalized": 0.333
     },
     {
       "id": "creature_boss_ordrun",
@@ -38245,8 +38188,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 7963948,
-      "sha256": "c843c62e83a9d07c2de50b32386b3e2bdd7f354912142222c39b250bb1bd0bd3",
+      "bytes": 8079608,
+      "sha256": "82fc48ba44faa9bc5e13193b939fde13404675b6058e2b3b253f559d06056df0",
       "size": {
         "x": 2.641131,
         "y": 2.960718,
@@ -38355,29 +38298,29 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Shield_Dash",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.801 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.980 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.7999999523162842,
+          "Attack": 1.100000023841858,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_ordrun.glb",
-        "sourceSha256": "8def94f898088ab60c8bac177d31cea1805754872a6840da960834fc35c36261"
+        "sourceSha256": "c843c62e83a9d07c2de50b32386b3e2bdd7f354912142222c39b250bb1bd0bd3"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.394462,
       "impliedRunMps": 9.283822,
-      "attackSeconds": 1.8,
-      "contactNormalized": 0.333
+      "attackSeconds": 1.1,
+      "contactNormalized": 0.15
     },
     {
       "id": "creature_boss_cinderwake",
@@ -38390,8 +38333,8 @@
         "ogre",
         "tripo"
       ],
-      "bytes": 3744552,
-      "sha256": "c0b14d80dbdc0a22c29d54c5c998166c12bb45ac277f2a6569e9c53c6bc79f04",
+      "bytes": 3910204,
+      "sha256": "6a30bb73a68389524926c579764d6d9424b4b769edf42f52c06a38b3f2e96825",
       "size": {
         "x": 1.653809,
         "y": 2.998535,
@@ -38504,7 +38447,7 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Sword_Attack",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
@@ -38514,19 +38457,19 @@
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.3333333730697632,
+          "Attack": 1.5333333015441895,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_boss_cinderwake.glb",
-        "sourceSha256": "42b3739e9d66d6707ab5e195744b146ee43058be529f03602ff3078a699ffdc2"
+        "sourceSha256": "c0b14d80dbdc0a22c29d54c5c998166c12bb45ac277f2a6569e9c53c6bc79f04"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.264476,
-      "impliedRunMps": 7.828096,
-      "attackSeconds": 1.333333,
-      "contactNormalized": 0.283
+      "impliedWalkMps": 1.262289,
+      "impliedRunMps": 7.819842,
+      "attackSeconds": 1.533333,
+      "contactNormalized": 0.567
     },
     {
       "id": "creature_baby_red_dragon",
@@ -40927,8 +40870,8 @@
         "skinned",
         "image-generated-texture"
       ],
-      "bytes": 17666524,
-      "sha256": "eb7b01659721e1fb23c82874e5e8cc2596555cebed0f190d5b5e62c11a5ac5cb",
+      "bytes": 17784872,
+      "sha256": "130da645a7cfbfffbd3a40f5ffc35b4b1d064ffca9c2c04d1161942789a3d12c",
       "triangles": 8502,
       "size": {
         "x": 2.289845,
@@ -41072,29 +41015,29 @@
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Walk_Fwd_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
-          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: Zombie_Scratch",
+          "Attack": "Quaternius Universal Animation Library 2 (Standard), CC0: OverhandThrow",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.831 m).",
+        "notes": "Rebuilt by tools/creature-rig (golem/golem): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 1.016 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
-          "Attack": 1.7999999523162842,
+          "Attack": 1.3333333730697632,
           "Hit": 0.3333333432674408,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_voidstone_colossus.glb",
-        "sourceSha256": "0d834fda392a486e00e6b20230a2d2167565420bfc64e65cb66e7a0b4598968a"
+        "sourceSha256": "eb7b01659721e1fb23c82874e5e8cc2596555cebed0f190d5b5e62c11a5ac5cb"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 1.074157,
       "impliedRunMps": 6.800975,
-      "attackSeconds": 1.8,
-      "contactNormalized": 0.333
+      "attackSeconds": 1.333333,
+      "contactNormalized": 0.283
     },
     {
       "id": "creature_gloam_wraith",
@@ -41107,11 +41050,11 @@
         "rpg",
         "banshee"
       ],
-      "bytes": 16485460,
-      "sha256": "87b5720b813f5d4dae7f3ac5c32ce93bf449a3878b68fd4c6b8e55c087b2b924",
+      "bytes": 16930596,
+      "sha256": "c5a7f8074dc5eb23948929691a89fb770f9ba3d787bd921105bf7d3b42f6a568",
       "size": {
         "x": 0.988337,
-        "y": 2.650381,
+        "y": 2.650972,
         "z": 1.858171
       },
       "base": {
@@ -41119,7 +41062,7 @@
         "y": 0.118628,
         "z": -0.699411
       },
-      "groundY": 0.11700292838685783,
+      "groundY": 0,
       "triangles": 12998,
       "animations": [
         "Idle",
@@ -41611,27 +41554,27 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.15 retime and the Idle-as-locomotion hover are gone. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.276 m).",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Idle_Loop as Walk, Idle_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.15 retime is gone. The torn arm membranes hang from the arm as cloth instead of stretching rigidly from the arm to the hip. Hovering body: Idle_Loop as Idle, and as Walk and Run with the thigh, calf, foot and ball joints held at their first key (no stepping) while it glides at 1.4 / 3.2 m/s. The robe skirt and the arm membranes hang on cloth joints driven by a damped spring simulation of the body motion (legs, hips and chest as colliders, floor plane), baked into every clip; air drag against the glide trails the robe in Walk and Run. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.089 m).",
         "sources": [
           {
             "name": "Idle",
-            "source": "Spell_Simple_Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 2.0999999046325684,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
             "channels": 172,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Walk",
-            "source": "Walk_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1.3333333730697632,
-            "channels": 174,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 172,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Run",
-            "source": "Jog_Fwd_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.9333333373069763,
-            "channels": 175,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 172,
             "translationScale": 1.0348618644977292
           },
           {
@@ -41658,8 +41601,8 @@
         ]
       },
       "reviewFlags": [],
-      "walkClipSeconds": 1.333333,
-      "runClipSeconds": 0.933333,
+      "walkClipSeconds": 2.5,
+      "runClipSeconds": 2.5,
       "attackSeconds": 0.966667,
       "contactNormalized": 0.46
     },
@@ -41678,8 +41621,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 8183836,
-      "sha256": "eea52f3e07c95bcafb421b32cc50e3de2f208eacf3c327667a164d0b77b5a131",
+      "bytes": 8307536,
+      "sha256": "f08c2dc54fc406a643e36bda865a2e21ea0ce4c8b1a2e9f3d646ddbf806aac12",
       "size": {
         "x": 1.408744,
         "y": 1.801694,
@@ -41907,7 +41850,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/beast): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.404 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/beast): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.170 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -41917,12 +41860,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
-        "sourceSha256": "0a223d75c2a8e7f88644a7eebfc9dfdf28e107552a9af78cba589c6ecdcc44db"
+        "sourceSha256": "eea52f3e07c95bcafb421b32cc50e3de2f208eacf3c327667a164d0b77b5a131"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.01059,
-      "impliedRunMps": 5.637844,
+      "impliedWalkMps": 0.72323,
+      "impliedRunMps": 4.625996,
       "attackSeconds": 1.8,
       "contactNormalized": 0.333
     },
@@ -42661,11 +42604,11 @@
         "keeper",
         "chainbound_archon"
       ],
-      "bytes": 19531736,
-      "sha256": "4d257d2e802c3eaeb742eb2d6efb5c863a8469f17f00a81af517e10bc0f75582",
+      "bytes": 19748256,
+      "sha256": "48ab15a922dfe3f2c8a384593217b100640b10cd58ad5e6eae579e8d1857ab66",
       "size": {
         "x": 2.982572,
-        "y": 3.083889,
+        "y": 3.08389,
         "z": 0.687687
       },
       "base": {
@@ -42673,7 +42616,7 @@
         "y": 0.21946,
         "z": -0.411041
       },
-      "groundY": 0.146942519719739,
+      "groundY": 0,
       "triangles": 12574,
       "animations": [
         "Idle",
@@ -43112,27 +43055,27 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Spell_Simple_Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.114 m).",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Idle_Loop as Walk, Idle_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift.  Hovering body: Idle_Loop as Idle, and as Walk and Run with the thigh, calf, foot and ball joints held at their first key (no stepping) while it glides at 1.4 / 3.2 m/s. The robe skirt hang on cloth joints driven by a damped spring simulation of the body motion (legs, hips and chest as colliders, floor plane), baked into every clip; air drag against the glide trails the robe in Walk and Run. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.023 m).",
         "sources": [
           {
             "name": "Idle",
-            "source": "Spell_Simple_Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 2.0999999046325684,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
             "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Walk",
-            "source": "Walk_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1.3333333730697632,
-            "channels": 176,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Run",
-            "source": "Jog_Fwd_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.9333333373069763,
-            "channels": 176,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
@@ -43159,8 +43102,8 @@
         ]
       },
       "reviewFlags": [],
-      "walkClipSeconds": 1.333333,
-      "runClipSeconds": 0.933333,
+      "walkClipSeconds": 2.5,
+      "runClipSeconds": 2.5,
       "attackSeconds": 0.966667,
       "contactNormalized": 0.42
     },
@@ -43177,8 +43120,8 @@
         "marshal",
         "tripo"
       ],
-      "bytes": 10084100,
-      "sha256": "3cf113c3d466533005961956467a5a4c0a25df33498e3d75035039a0dc5de69d",
+      "bytes": 10257476,
+      "sha256": "0901763d2cd3b8a2a3a3bc95c56dcf84e8d9cc1a44b7fe9b87eb4be0aef854e7",
       "size": {
         "x": 2.292695,
         "y": 3.192871,
@@ -43322,7 +43265,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.641 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.591 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -43332,12 +43275,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_nightforge_marshal.glb",
-        "sourceSha256": "efec600dc0ba1a387f75049a56c0b8f9776913063d542507eb8f50c42ce08747"
+        "sourceSha256": "3cf113c3d466533005961956467a5a4c0a25df33498e3d75035039a0dc5de69d"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.642288,
-      "impliedRunMps": 9.23362,
+      "impliedWalkMps": 1.619975,
+      "impliedRunMps": 9.276363,
       "attackSeconds": 1.4,
       "contactNormalized": 0.167
     },
@@ -50656,8 +50599,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 12015960,
-      "sha256": "10244bd527d5aca2784f9d2d746900db980dab1a8f1d3100d9caa55bb7290c39",
+      "bytes": 12175496,
+      "sha256": "303ee5cf0fd99c3a19c0ff1b32b0e66f8f6b9589081b3681953b58a525d62bc3",
       "size": {
         "x": 3.411484,
         "y": 4.535151,
@@ -50952,7 +50895,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.516 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/guard): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_01, cape_02, cape_03, tabard_01, tabard_02, tabard_03, tabard_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.516 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -50962,7 +50905,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-crown/creature_pearl_knight.glb",
-        "sourceSha256": "137ea3648ce83447c6a42c0962f0e72862e82cc42ed19d5e4175c45d546c42d0"
+        "sourceSha256": "10244bd527d5aca2784f9d2d746900db980dab1a8f1d3100d9caa55bb7290c39"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -50983,8 +50926,8 @@
         "regional_variant",
         "ivory_castellan"
       ],
-      "bytes": 7326832,
-      "sha256": "5830faf685731693e529254b28f154a2d1b3d1a0c0e777ed35620703cbece56f",
+      "bytes": 7356284,
+      "sha256": "64f3f59cbad9a77ec9146771d6ec2a88205add02b7206b31de3e077a672e9e5e",
       "size": {
         "x": 5.203684,
         "y": 3.061419,
@@ -50995,7 +50938,7 @@
         "y": -0.017424,
         "z": -0.716234
       },
-      "groundY": -0.03122263236087377,
+      "groundY": -0.031217392028052404,
       "triangles": 29484,
       "animations": [
         "Idle",
@@ -51722,7 +51665,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The inherited iron-golem retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.403 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The inherited iron-golem retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard. The oversized sabaton toe caps are shortened to half their reach past the ball joint (mesh only), and the boot below the ankle is weighted to the foot instead of the calf, so the toe-off in Walk and the Attack lunge no longer drive the boots through the floor. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.403 m).",
         "sources": [
           {
             "name": "Idle",
@@ -51771,8 +51714,8 @@
       "reviewFlags": [],
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.896085,
-      "impliedRunMps": 11.27321,
+      "impliedWalkMps": 1.849359,
+      "impliedRunMps": 11.245965,
       "attackSeconds": 1.4,
       "contactNormalized": 0.38
     },
@@ -51902,8 +51845,8 @@
         "candidate",
         "silverthorn"
       ],
-      "bytes": 6881036,
-      "sha256": "81e459c984d23ed5cfdb21cadf97116578499554a33b371e64de58900b4a89d7",
+      "bytes": 7016764,
+      "sha256": "634ce2b694aa8d8a2e0d01c7f803d2a596e355b55ae0f846a4ae4736c616143d",
       "size": {
         "x": 1.930955,
         "y": 2.565,
@@ -51990,7 +51933,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.521 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (frond_0_01, frond_0_02, frond_0_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.538 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -52000,7 +51943,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-crown/creature_silverthorn_harrow.glb",
-        "sourceSha256": "5a4c283bb7d61654614f86d9b206dd385850eda7072153f20e3b721945c863cf"
+        "sourceSha256": "81e459c984d23ed5cfdb21cadf97116578499554a33b371e64de58900b4a89d7"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -52662,8 +52605,8 @@
         "user-supplied",
         "tripo"
       ],
-      "bytes": 3109864,
-      "sha256": "7f91a165deaf902df0fcda861974c10fcd0a65512f8fe82a4a47b2544f9ef5a8",
+      "bytes": 3458324,
+      "sha256": "dc24b6b0100860c1c1c024a265cc18acce76cb33328507078e3f31e22eb2ca6f",
       "size": {
         "x": 2.814015,
         "y": 3.692775,
@@ -52679,9 +52622,10 @@
       "animations": [
         "Idle",
         "Walk",
+        "Run",
+        "Attack",
         "Hit",
-        "Death",
-        "Attack"
+        "Death"
       ],
       "materials": [
         "tripo_mat_0c874055-9610-46bd-b3f1-f6eed9ee426d"
@@ -52786,26 +52730,30 @@
         "donor": {
           "Idle": "Quaternius Universal Animation Library (Standard), CC0: Idle_Loop",
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
+          "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
+          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
           "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
-          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01",
-          "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit"
+          "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Studio rig, skin, mesh and kept clips (Idle, Walk, Hit, Death) byte-identical to production (per-clip hashes checked); Attack added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length 1.882, foot IK, no scale keys).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (skirt_0_01, skirt_0_02, skirt_0_03, skirt_0_04, skirt_0_05, skirt_1_01, skirt_1_02, skirt_1_03, skirt_1_04, skirt_1_05, skirt_2_01, skirt_2_02, skirt_2_03, skirt_2_04, skirt_2_05, skirt_3_01, skirt_3_02, skirt_3_03, skirt_3_04, skirt_3_05, skirt_4_01, skirt_4_02, skirt_4_03, skirt_4_04, skirt_4_05, skirt_5_01, skirt_5_02, skirt_5_03, skirt_5_04, skirt_5_05, skirt_6_01, skirt_6_02, skirt_6_03, skirt_6_04, skirt_6_05, skirt_7_01, skirt_7_02, skirt_7_03, skirt_7_04, skirt_7_05) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.852 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
+          "Run": 0.9333333373069763,
+          "Attack": 1.4666666984558105,
           "Hit": 0.3333333432674408,
-          "Death": 2.4000000953674316,
-          "Attack": 1.4666666984558105
+          "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-crown/creature_bloomheart_matriarch.glb",
-        "sourceSha256": "ff3f0cccbefd710c80ea72caa538e872625a6031a788f6ab24b14391d5cecb3a"
+        "sourceSha256": "7f91a165deaf902df0fcda861974c10fcd0a65512f8fe82a4a47b2544f9ef5a8"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 1.72741,
+      "runClipSeconds": 0.933333,
+      "impliedWalkMps": 1.518049,
+      "impliedRunMps": 9.047151,
       "attackSeconds": 1.466667,
-      "contactNormalized": 0.7
+      "contactNormalized": 0.783
     },
     {
       "id": "creature_prismatic_sprite",
@@ -53194,7 +53142,7 @@
       "id": "creature_amethyst_sovereign",
       "pack": "corealm-user-bloomheart",
       "category": "character",
-      "sha256": "d1f919aa540702ecf352b094f63118397269e1292bf6c204d3b5a4e7c6cf6bba",
+      "sha256": "69f7d4407bd5b3b6ec559e3024452bce335dd157d483389303413beeb89dc6d1",
       "sourceProvenance": {
         "author": "User-supplied Tripo Tree Spirit; Corealm fitted skin and motion",
         "license": "LicenseRef-Corealm-Original",
@@ -53276,7 +53224,7 @@
         "sovereign",
         "crystal"
       ],
-      "bytes": 5304280,
+      "bytes": 5647848,
       "size": {
         "x": 3.728197,
         "y": 4.181,
@@ -53348,7 +53296,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_l_04, cape_r_01, cape_r_02, cape_r_03, cape_r_04, tabard_01, tabard_02, tabard_03, tabard_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 1.650 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (skirt_0_01, skirt_0_02, skirt_0_03, skirt_0_04, skirt_0_05, skirt_1_01, skirt_1_02, skirt_1_03, skirt_1_04, skirt_1_05, skirt_2_01, skirt_2_02, skirt_2_03, skirt_2_04, skirt_2_05, skirt_3_01, skirt_3_02, skirt_3_03, skirt_3_04, skirt_3_05, skirt_4_01, skirt_4_02, skirt_4_03, skirt_4_04, skirt_4_05, skirt_5_01, skirt_5_02, skirt_5_03, skirt_5_04, skirt_5_05, skirt_6_01, skirt_6_02, skirt_6_03, skirt_6_04, skirt_6_05, skirt_7_01, skirt_7_02, skirt_7_03, skirt_7_04, skirt_7_05) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 1.100 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -53358,12 +53306,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-crown/creature_amethyst_sovereign.glb",
-        "sourceSha256": "9eca044f7dc644f75c802d77bfe9b01d81e375952fb1fbc6775e5ad718e5bf44"
+        "sourceSha256": "d1f919aa540702ecf352b094f63118397269e1292bf6c204d3b5a4e7c6cf6bba"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 1.540658,
-      "impliedRunMps": 9.545474,
+      "impliedWalkMps": 1.503707,
+      "impliedRunMps": 9.01964,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.267
     },
@@ -54672,8 +54620,8 @@
         "plant",
         "tripo"
       ],
-      "bytes": 7653692,
-      "sha256": "80029cac2e941301484ba81712c15da159a8110f1f38a80f170cdd607ccb51d7",
+      "bytes": 7789424,
+      "sha256": "53d782f525045e2598bab8908a2093cb82c6e23784b01c262f913ef0fab055c0",
       "triangles": 4478,
       "size": {
         "x": 1.655371,
@@ -54793,7 +54741,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.436 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (frond_0_01, frond_0_02, frond_0_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.451 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -54803,7 +54751,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy/fantasy_monster_03.glb",
-        "sourceSha256": "a22124b8f645d99240b9591caf6524579ff14da9556698098aa98e6f317db195"
+        "sourceSha256": "80029cac2e941301484ba81712c15da159a8110f1f38a80f170cdd607ccb51d7"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -60205,8 +60153,8 @@
         "image-generated-texture",
         "candidate"
       ],
-      "bytes": 5924040,
-      "sha256": "32e3a76a23f2040b68db28a9aab9560aa1b6c19f5c6c59c8349d1dac465dbd90",
+      "bytes": 6042392,
+      "sha256": "0432cbd72ceabd8152842259341dc19d1bf08268926308a7d818dc6a86c47413",
       "triangles": 5350,
       "size": {
         "x": 1.78955,
@@ -60376,7 +60324,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.745 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.759 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -60386,7 +60334,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_sapling_gloamgarden.glb",
-        "sourceSha256": "8ae0b58ca69823099a4ed89ccce785758fd5345a7db3f8921cead13236863ebd"
+        "sourceSha256": "32e3a76a23f2040b68db28a9aab9560aa1b6c19f5c6c59c8349d1dac465dbd90"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -61173,12 +61121,12 @@
         "tree",
         "tripo"
       ],
-      "bytes": 7490828,
-      "sha256": "6890dbe12ac4b9aab3cbab0f75c954b0657d33e9d0dd8129bba2023d181bbdc3",
+      "bytes": 7626548,
+      "sha256": "924278d2fe7b42964624edb8d5e50eb855575240100a474fbefd405e1254d1b3",
       "triangles": 4478,
       "size": {
         "x": 5.173035,
-        "y": 6.871642,
+        "y": 6.871643,
         "z": 2.299499
       },
       "base": {
@@ -61274,7 +61222,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 1.364 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (frond_0_01, frond_0_02, frond_0_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 1.409 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -61284,7 +61232,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_sapling_faeholme.glb",
-        "sourceSha256": "4a208699aa5c0e168afaea6988cb7c4ac156a8fb033a95e3b6ed068c274785fa"
+        "sourceSha256": "6890dbe12ac4b9aab3cbab0f75c954b0657d33e9d0dd8129bba2023d181bbdc3"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -61745,8 +61693,8 @@
         "plant",
         "tripo"
       ],
-      "bytes": 7945568,
-      "sha256": "5c4a9804cd222ba2265e8d252a188947e9ee622661a2986604071a0ac33851ee",
+      "bytes": 8081292,
+      "sha256": "ef8170ba83aaec84b80f22aec06fb2a4139cbaff8ed370055779bce9f0db81d2",
       "triangles": 4478,
       "size": {
         "x": 2.483057,
@@ -61861,7 +61809,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.655 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (frond_0_01, frond_0_02, frond_0_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.676 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -61871,7 +61819,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_guardian_03_gloamgarden.glb",
-        "sourceSha256": "3e347998db37736bdb38f35601b2cfe811cece9a485cd178c4a2668f62e4ae89"
+        "sourceSha256": "5c4a9804cd222ba2265e8d252a188947e9ee622661a2986604071a0ac33851ee"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -62032,8 +61980,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6708732,
-      "sha256": "64c5ed718abd61500973b9f339d1f69121fc78c9e8888dc8d9b184c54de7c46e",
+      "bytes": 6827084,
+      "sha256": "a75e1e483102d65a51ce8a7125fb746b5089fae71cc5fc6bf0784b908c767fdc",
       "size": {
         "x": 1.857837,
         "y": 2.961337,
@@ -62170,7 +62118,7 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_guardian_06_faeholme.glb",
-        "sourceSha256": "d68f121485569b91e738c2b21c8eb635fe1ebd2bd6fd70600c909600a5a3815b"
+        "sourceSha256": "64c5ed718abd61500973b9f339d1f69121fc78c9e8888dc8d9b184c54de7c46e"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -62822,17 +62770,17 @@
         "sporekin",
         "tripo"
       ],
-      "bytes": 13295340,
-      "sha256": "8e7e2d507c4e529b68849a770982edb1e3c7cc8a15e666c7d5f3312df616953f",
+      "bytes": 13605172,
+      "sha256": "ae86b63c4f947840f2c5c10a1769a00fe96787214b963d6ba6516afb2e9ffc6d",
       "size": {
         "x": 1.50755,
         "y": 1.999023,
         "z": 1.397052
       },
       "base": {
-        "x": -0.825326,
+        "x": -0.743775,
         "y": 0,
-        "z": -0.573838
+        "z": -0.559494
       },
       "groundY": 0,
       "triangles": 4713,
@@ -63022,14 +62970,14 @@
       },
       "bounds": {
         "min": [
-          -0.8253260254859924,
+          -0.743775486946106,
           0,
-          -0.5738379955291748
+          -0.5594935417175293
         ],
         "max": [
-          0.6822239756584167,
+          0.7637745141983032,
           1.9990229606628418,
-          0.8232139945030212
+          0.8375585079193115
         ]
       },
       "motionProvenance": {
@@ -63039,28 +62987,28 @@
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Head",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.504 m).",
+        "notes": "Rebuilt by tools/creature-rig (treant/treant): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (skirt_0_01, skirt_0_02, skirt_0_03, skirt_0_04, skirt_1_01, skirt_1_02, skirt_1_03, skirt_1_04, skirt_2_01, skirt_2_02, skirt_2_03, skirt_2_04, skirt_3_01, skirt_3_02, skirt_3_03, skirt_3_04, skirt_4_01, skirt_4_02, skirt_4_03, skirt_4_04, skirt_5_01, skirt_5_02, skirt_5_03, skirt_5_04, skirt_6_01, skirt_6_02, skirt_6_03, skirt_6_04, skirt_7_01, skirt_7_02, skirt_7_03, skirt_7_04) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.540 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
           "Attack": 1.4666666984558105,
-          "Hit": 0.3333333432674408,
+          "Hit": 0.4333333373069763,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_sporekin_gloamgarden.glb",
-        "sourceSha256": "68b2b0ee55e3c93228651b07694943a4fa3f27f4a00bb481eb23b89338555ca5"
+        "sourceSha256": "8e7e2d507c4e529b68849a770982edb1e3c7cc8a15e666c7d5f3312df616953f"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.755176,
-      "impliedRunMps": 4.356431,
+      "impliedWalkMps": 0.796045,
+      "impliedRunMps": 4.613122,
       "attackSeconds": 1.466667,
-      "contactNormalized": 0.783
+      "contactNormalized": 0.267
     },
     {
       "id": "fairy_garden_reliquary_gloamgarden",
@@ -63249,8 +63197,8 @@
         "veilspirit",
         "image-generated-texture"
       ],
-      "bytes": 6197296,
-      "sha256": "fbcc663ce371339a3f9edf413aa56c142ccf963ec825e42f0b9f2c9ff407145a",
+      "bytes": 6339228,
+      "sha256": "29ef474304a0f75da9e2ef4949cf3cdb4f07f3eaadb2a79605d51c07951ab406",
       "size": {
         "x": 0.983859,
         "y": 1.377305,
@@ -63374,10 +63322,10 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_veilspirit_gloamgarden.glb",
-        "sourceSha256": "8fd05dc0cfc7409af7f6de22b34693e5b10458c1144aff6b3ff9a93358bbdd02"
+        "sourceSha256": "fbcc663ce371339a3f9edf413aa56c142ccf963ec825e42f0b9f2c9ff407145a"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.549458,
+      "impliedWalkMps": 0.544504,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -63627,8 +63575,8 @@
         "image-generated-texture",
         "candidate"
       ],
-      "bytes": 8825092,
-      "sha256": "b45a1f65f656c589527b0686cbde4f57bf9998c7894281fb6e2bde3ccd9ad086",
+      "bytes": 8946132,
+      "sha256": "e021e4d88d67c054638c60ad409718bad8ba64f2a2d5212a714ccd3443b21b4a",
       "triangles": 4438,
       "size": {
         "x": 1.744385,
@@ -63794,7 +63742,7 @@
           "Walk": "Quaternius Universal Animation Library (Standard), CC0: Walk_Loop",
           "Run": "Quaternius Universal Animation Library (Standard), CC0: Jog_Fwd_Loop",
           "Attack": "Quaternius Universal Animation Library (Standard), CC0: Spell_Simple_Enter + Spell_Simple_Shoot + Spell_Simple_Exit",
-          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Chest",
+          "Hit": "Quaternius Universal Animation Library (Standard), CC0: Hit_Head",
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
@@ -63804,11 +63752,11 @@
           "Walk": 1.3333333730697632,
           "Run": 0.9333333373069763,
           "Attack": 1.4666666984558105,
-          "Hit": 0.3333333432674408,
+          "Hit": 0.4333333373069763,
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_sporekin_faeholme.glb",
-        "sourceSha256": "89358f265028697f58e897189bca6dfe4336690599362e44f0e010c28278d674"
+        "sourceSha256": "b45a1f65f656c589527b0686cbde4f57bf9998c7894281fb6e2bde3ccd9ad086"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
@@ -64004,8 +63952,8 @@
         "veilspirit",
         "image-generated-texture"
       ],
-      "bytes": 6459724,
-      "sha256": "acc0b971b67ed15f3bae2763f73bc1c33baa852f12912735d1fa0059196a043f",
+      "bytes": 6601740,
+      "sha256": "88bb7a8ad8023fdc5507b058702e16b0235b2c40136fca3e20b63e467a733fa3",
       "size": {
         "x": 1.176353,
         "y": 1.646777,
@@ -64129,10 +64077,10 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_veilspirit_faeholme.glb",
-        "sourceSha256": "9b704e4a7c4ee08c6a75a3410c30ebaa61ae62433b75489600441304fad6c8d4"
+        "sourceSha256": "acc0b971b67ed15f3bae2763f73bc1c33baa852f12912735d1fa0059196a043f"
       },
       "walkClipSeconds": 1.333333,
-      "impliedWalkMps": 0.657074,
+      "impliedWalkMps": 0.65473,
       "attackSeconds": 1.466667,
       "contactNormalized": 0.783
     },
@@ -68188,8 +68136,8 @@
         "elite",
         "candidate"
       ],
-      "bytes": 15791988,
-      "sha256": "b99cf8fc47574c8f57b4fa810745ed53a2c22556a793132bb54d7367291753b3",
+      "bytes": 15911376,
+      "sha256": "cae624a643093909fd2e33a6669658e27b1fed59a2b0443354542c1614c2b753",
       "triangles": 9162,
       "size": {
         "x": 0.822808,
@@ -68201,7 +68149,7 @@
         "y": 0.1,
         "z": -0.320868
       },
-      "groundY": 0.09862191099705757,
+      "groundY": 0,
       "bounds": {
         "min": [
           -0.38937961281414124,
@@ -68466,7 +68414,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.2 retime and Idle-as-Walk/Run are gone. Attack chains the cast enter and exit (Sword_Attack's lunge drove the robe 27 cm through the floor). Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.128 m).",
+        "notes": "Universal Animation Library takes (raw UAL1_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Idle_Loop as Walk, Idle_Loop as Run, Hit_Chest as Hit, Death01 as Death, Spell_Simple_Enter + Spell_Simple_Exit as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. The x1.2 retime is gone. Attack chains the cast enter and exit (Sword_Attack's lunge drove the robe 27 cm through the floor). Hovering body: Idle_Loop as Idle, and as Walk and Run with the thigh, calf, foot and ball joints held at their first key (no stepping) while it glides at 1.4 / 3.2 m/s. The robe skirt hang on cloth joints driven by a damped spring simulation of the body motion (legs, hips and chest as colliders, floor plane), baked into every clip; air drag against the glide trails the robe in Walk and Run. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.069 m).",
         "sources": [
           {
             "name": "Idle",
@@ -68477,16 +68425,16 @@
           },
           {
             "name": "Walk",
-            "source": "Walk_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 1.3333333730697632,
-            "channels": 174,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
             "name": "Run",
-            "source": "Jog_Fwd_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
-            "seconds": 0.9333333373069763,
-            "channels": 176,
+            "source": "Idle_Loop @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL1_Standard.glb",
+            "seconds": 2.5,
+            "channels": 173,
             "translationScale": 1.0348618644977292
           },
           {
@@ -68513,8 +68461,8 @@
         ]
       },
       "reviewFlags": [],
-      "walkClipSeconds": 1.333333,
-      "runClipSeconds": 0.933333,
+      "walkClipSeconds": 2.5,
+      "runClipSeconds": 2.5,
       "attackSeconds": 0.966667,
       "contactNormalized": 0.38
     },
@@ -69012,8 +68960,8 @@
         "vellenwood",
         "candidate"
       ],
-      "bytes": 7309532,
-      "sha256": "b9f07e6c06c17320e70c3e0e53d1b92d811c01421810251cd4fa2349e2054056",
+      "bytes": 7347568,
+      "sha256": "4ae3e9b8eb3dbbc442f506e941c04cba32fff58d13c3e34832d7b550a7abd545",
       "size": {
         "x": 1.668866,
         "y": 1.802487,
@@ -69098,7 +69046,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.087 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is an unarmed one-fist hammer blow from a braced crouch (UAL2 Sword_Regular_A and its recovery), not the Punch_Jab boxing guard nor the OverhandThrow whirl. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.087 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69137,8 +69085,8 @@
           },
           {
             "name": "Attack",
-            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
-            "seconds": 1.3333333730697632,
+            "source": "Sword_Regular_A + Sword_Regular_A_Rec @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.399999976158142,
             "channels": 176,
             "translationScale": 1.0161774193209965
           }
@@ -69149,7 +69097,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.937633,
       "impliedRunMps": 5.842613,
-      "attackSeconds": 1.333333,
+      "attackSeconds": 1.4,
       "contactNormalized": 0.233
     },
     {
@@ -69166,8 +69114,8 @@
         "karrowmoor",
         "candidate"
       ],
-      "bytes": 7404800,
-      "sha256": "e1e2102f2f0c215a84ce10da5e2eb9de8ce9bdba42764695c71acf0c3305759a",
+      "bytes": 7446768,
+      "sha256": "7ef31a8c7308d656b5d01af88703203763d738ae3bb6901dca5fdbec97f765e1",
       "size": {
         "x": 1.858865,
         "y": 1.87455,
@@ -69252,7 +69200,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.107 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is an unarmed one-fist hammer blow from a braced crouch (UAL2 Sword_Regular_A and its recovery), not the Punch_Jab boxing guard nor the OverhandThrow whirl. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.107 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69291,9 +69239,9 @@
           },
           {
             "name": "Attack",
-            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
-            "seconds": 1.3333333730697632,
-            "channels": 183,
+            "source": "Sword_Regular_A + Sword_Regular_A_Rec @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.399999976158142,
+            "channels": 185,
             "translationScale": 1.0348618672527363
           }
         ]
@@ -69303,7 +69251,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.964825,
       "impliedRunMps": 6.068796,
-      "attackSeconds": 1.333333,
+      "attackSeconds": 1.4,
       "contactNormalized": 0.233
     },
     {
@@ -69320,8 +69268,8 @@
         "kilnhalt",
         "candidate"
       ],
-      "bytes": 7366760,
-      "sha256": "e87f04b3926c621336c06ba4834c6ac286c2b9c5121e893cf0e21f7a6db0a368",
+      "bytes": 7408724,
+      "sha256": "6cd0f4838e1eb85fcd6897b3c4a3566f4adea1db4e8cc6cd86818786b654771c",
       "size": {
         "x": 1.858865,
         "y": 1.87455,
@@ -69406,7 +69354,7 @@
         ],
         "donor": {},
         "authored": [],
-        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, OverhandThrow (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.107 m).",
+        "notes": "Universal Animation Library takes (raw UAL1/UAL2_Standard.glb, not the resampled runtime library): Idle_Loop as Idle, Walk_Loop as Walk, Jog_Fwd_Loop as Run, Hit_Chest as Hit, Death01 as Death, Sword_Regular_A + Sword_Regular_A_Rec (UAL2) as Attack. No root pinning beyond the UAL root, no retime, no IK, no floor lift. Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is an unarmed one-fist hammer blow from a braced crouch (UAL2 Sword_Regular_A and its recovery), not the Punch_Jab boxing guard nor the OverhandThrow whirl. Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift Death 0.107 m).",
         "sources": [
           {
             "name": "Idle",
@@ -69445,9 +69393,9 @@
           },
           {
             "name": "Attack",
-            "source": "OverhandThrow @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
-            "seconds": 1.3333333730697632,
-            "channels": 183,
+            "source": "Sword_Regular_A + Sword_Regular_A_Rec @ C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\UAL2_Standard.glb",
+            "seconds": 1.399999976158142,
+            "channels": 185,
             "translationScale": 1.0348618672527363
           }
         ]
@@ -69457,7 +69405,7 @@
       "runClipSeconds": 0.933333,
       "impliedWalkMps": 0.964825,
       "impliedRunMps": 6.068796,
-      "attackSeconds": 1.333333,
+      "attackSeconds": 1.4,
       "contactNormalized": 0.233
     },
     {
@@ -69474,8 +69422,8 @@
         "starter",
         "user-supplied"
       ],
-      "bytes": 6262888,
-      "sha256": "0847cdc59d052399cf350ad07c8efa94cf940542e00cf96d2a5ab37c1242fe4d",
+      "bytes": 6418656,
+      "sha256": "4bbc91f160a39670915a3fe9f99342d94a161d6d2d6e64a03c9a8598ba139d47",
       "size": {
         "x": 1.151165,
         "y": 1.756563,
@@ -69583,7 +69531,7 @@
           "Death": "Quaternius Universal Animation Library (Standard), CC0: Death01"
         },
         "authored": [],
-        "notes": "Rebuilt by tools/creature-rig (humanoid/bandit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.144 m).",
+        "notes": "Rebuilt by tools/creature-rig (humanoid/bandit): production mesh, UVs and materials kept; skeleton fitted to the mesh; bone-heat weights; rest == bind. Donor clips retargeted rest-relative at 30 fps; hips translation scaled by leg length; foot IK to the donor's scaled ankle, ball and toe paths; in place; no scale keys. Follow-through chains (cape_l_01, cape_l_02, cape_l_03, cape_r_01, cape_r_02, cape_r_03) are a damped spring simulation driven by the retargeted body, with leg/torso capsules and the floor as colliders; not keyed by hand. Lying clips lift the hips by a smooth penetration envelope (end lift Death 0.133 m).",
         "clipSeconds": {
           "Idle": 2.5,
           "Walk": 1.3333333730697632,
@@ -69593,12 +69541,12 @@
           "Death": 2.4000000953674316
         },
         "sourceFile": "game/public/assets/models/creature/creature_road_bandit.glb",
-        "sourceSha256": "101352e3f596b543e3c6e8a915e3c65570ec75a70740b4a9d3fb1d6dbb597019"
+        "sourceSha256": "0847cdc59d052399cf350ad07c8efa94cf940542e00cf96d2a5ab37c1242fe4d"
       },
       "walkClipSeconds": 1.333333,
       "runClipSeconds": 0.933333,
-      "impliedWalkMps": 0.751224,
-      "impliedRunMps": 4.700015,
+      "impliedWalkMps": 0.750928,
+      "impliedRunMps": 4.67918,
       "attackSeconds": 1.533333,
       "contactNormalized": 0.567
     },

@@ -2,7 +2,7 @@
   "class": "humanoid",
   "profile": "caster",
   "profileOverrides": {
-    "cloth": false,
+    "colliderFit": "surface",
     "landmarks": {
       "tips": {
         "head": [0.0, 1.95, 0.05],
@@ -20,5 +20,5 @@
       }
     }
   },
-  "notes": "The floor-length robe fuses the legs and the hanging arms into one solid, so the landmarks cannot find the crotch or the hands; every joint and tip is given here."
+  "notes": "The floor-length robe fuses the legs and the hanging arms into one solid, so the landmarks cannot find the crotch or the hands; every joint and tip is given here. The robe's panels are spring cloth with colliders fitted to the legs' surface."
 }

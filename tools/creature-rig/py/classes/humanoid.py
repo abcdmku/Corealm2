@@ -407,18 +407,74 @@ def plan(sk, body, profile):
     if not profile.get("toePitch", True):
         legs = [leg[:3] for leg in legs]
     colliders = []
-    for bone in [n for leg in legs for n in leg[:2]] + ["pelvis", "spine_01", "spine_02", "spine_03"]:
+    bones = [n for leg in legs for n in leg[:2]] + ["pelvis", "spine_01", "spine_02", "spine_03"]
+    if profile.get("kneeForward"):
+        # The knee always folds forward (towards +Z, carried by the pelvis). A rest leg that is
+        # straight or bowed a little backwards otherwise gives the IK a backward bend plane: the
+        # knee locks backwards in Idle and the shins cross in the Walk.
+        legs = [{"chain": list(leg[:2]), "foot": leg[2], "toe": leg[3] if len(leg) > 3 else None, "bend": [0.0, 0.0, 1.0]}
+                for leg in legs]
+    surface = _surface_radii(body, sk, bones) if profile.get("colliderFit") == "surface" else {}
+    for bone in bones:
         b = sk[bone]
-        colliders.append(CapsuleCollider(sk, bone, 0.95 * body.radius_at(0.5 * (b.head + b.tail)) + body.h))
+        r = 0.95 * body.radius_at(0.5 * (b.head + b.tail)) + body.h
+        colliders.append(CapsuleCollider(sk, bone, max(r, surface.get(bone, 0.0))))
     chains = []
+    # Profile "tailSpring" / "clothSpring": spring settings merged over these defaults (softer
+    # stiffness, falloff towards the hem, drag against the body's travel; see
+    # Retarget.secondary). clothSpring "ring": true links every cloth column into one closed
+    # sheet round the body (a robe or a coat whose front and back panels are one garment).
     tail = [b.name for b in sk.bones if b.kind == "tail"]
     if tail:
-        chains.append({"bones": tail, "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.3, "clearance": 0.0})
+        chains.append({"bones": tail, "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.3, "clearance": 0.0,
+                       **(profile.get("tailSpring") or {})})
+    spring = dict(profile.get("clothSpring") or {})
+    ring = spring.pop("ring", False)
+    # clothSpring "cape" / "tabard": settings for that sheet only (a tattered tabard between the
+    # legs heavier than the cape).
+    per_group = {k: spring.pop(k) for k in ("cape", "tabard") if isinstance(spring.get(k), dict)}
+    # "widthScale": the share of each column's half-width its colliders test either side of it.
+    widths = getattr(sk, "cloth_width", {})
+    thick = spring.pop("widthScale", 0.0)
+    cloth = []
     for group in sorted({b.name.rsplit("_", 1)[0] for b in sk.bones if b.kind == "cloth"}):
         bones = [b.name for b in sk.bones if b.kind == "cloth" and b.name.rsplit("_", 1)[0] == group]
-        chains.append({"bones": bones, "group": group.split("_")[0], "stiffness": 40.0, "damping": 7.0, "gravity": 0.0, "hang": 0.6, "clearance": 0.01})
+        cloth.append({"bones": bones, "group": "cloth" if ring else group.split("_")[0], "stiffness": 40.0, "damping": 7.0,
+                      "gravity": 0.0, "hang": 0.6, "clearance": 0.01, "width": thick * widths.get(group, 0.0), **spring,
+                      **per_group.get(group.split("_")[0], {})})
+    if ring and len(cloth) > 2:
+        # Round the body in order, so the ring links neighbours (left back, left front, ...).
+        pelvis = sk["pelvis"].head
+        for c in cloth:
+            c["links"] = "ring"
+        cloth.sort(key=lambda c: np.arctan2(sk[c["bones"][-1]].tail[0] - pelvis[0], sk[c["bones"][-1]].tail[2] - pelvis[2]))
+    chains += cloth
     return {"hips": "pelvis", "legs": legs, "chains": chains, "colliders": colliders,
             "hip_motion": profile.get("hipMotion", 1.0)}
+
+
+def _surface_radii(body, sk, bones, share=80):
+    """Profile colliderFit "surface": a collider's radius reaches the body's own surface round its
+    bone (the share-th percentile distance of the solid vertices nearest that bone), not the
+    inscribed radius of the core at its middle, which sits well inside armoured or padded limbs
+    and lets a hanging sheet pass through their plates. Thin sheets (the cloth itself) are left
+    out."""
+    from crlib.skin import segment_distance
+
+    solid = body.thickness() >= 0.025 * body.height
+    deform = [b for b in sk.bones if b.kind not in ("root", "cloth")]
+    heads = np.array([b.head for b in deform])
+    tails = np.array([b.tail for b in deform])
+    V = body.verts[solid]
+    dist = segment_distance(V, heads, tails)
+    nearest = np.argmin(dist, axis=1)
+    out = {}
+    for bone in bones:
+        i = next(k for k, b in enumerate(deform) if b.name == bone)
+        own = dist[nearest == i, i]
+        if len(own) >= 8:
+            out[bone] = float(np.percentile(own, share))
+    return out
 
 
 def _floating_skirt(body, sk, profile):
@@ -513,20 +569,49 @@ def _heel_fix(body, sk):
     return override
 
 
-def cloth(body, sk, profile, heat):
-    sheet = _cloth(body, sk, profile, heat)
-    if "thigh_l" not in sk or not profile.get("heelFix", True):
-        return sheet
-    heel = _heel_fix(body, sk)
-    if sheet is None:
-        return heel
+def _side_guard(body, sk):
+    """A vertex clearly on one side of the midline never rides the other leg. The voxel-proxy
+    heat of a body whose skirt fuses the legs can hand a buckle on the inside of one knee to the
+    far leg, and it then floats between the legs on every stride. Such weight moves to the same
+    bone of this side's leg."""
+    V = body.verts
+    names = sk.names()
+    mid = sk["pelvis"].head[0]
+    margin = 0.3 * 0.5 * abs(sk["thigh_l"].head[0] - sk["thigh_r"].head[0])
+    pairs = [(names.index(f"{b}_l"), names.index(f"{b}_r")) for b in ("thigh", "calf", "foot", "ball") if f"{b}_l" in sk]
+    left = V[:, 0] > mid + margin
+    right = V[:, 0] < mid - margin
 
-    def both(W):
-        W, fixed = sheet(W)
-        W, _ = heel(W)
+    def override(W):
+        W = W.copy()
+        for l, r in pairs:
+            W[left, l] += W[left, r]
+            W[left, r] = 0.0
+            W[right, r] += W[right, l]
+            W[right, l] = 0.0
+        return W, np.zeros(len(W), bool)
+
+    return override
+
+
+def cloth(body, sk, profile, heat):
+    steps = [_cloth(body, sk, profile, heat)]
+    if "thigh_l" in sk:
+        steps.append(_side_guard(body, sk))
+        if profile.get("heelFix", True):
+            steps.append(_heel_fix(body, sk))
+    steps = [s for s in steps if s is not None]
+    if not steps:
+        return None
+
+    def run(W):
+        fixed = None
+        for step in steps:
+            W, f = step(W)
+            fixed = f if fixed is None else fixed
         return W, fixed
 
-    return both
+    return run
 
 
 def _cloth(body, sk, profile, heat):
@@ -591,6 +676,8 @@ def _cloth(body, sk, profile, heat):
     torso_sheet = torso_sheet & ~np.isin(np.arange(len(V)), np.concatenate([g[0] for g in groups.values()]))
     groups = {k: [i for i in v if len(i) >= 0.01 * len(V) and np.ptp(V[i, 1]) > 0.1 * H] for k, v in groups.items()}
     panels = []
+    # Each column's half-width round its line, for the spring chain's collision width.
+    sk.cloth_width = {}
     for side, parts in groups.items():
         if not parts:
             continue
@@ -599,7 +686,12 @@ def _cloth(body, sk, profile, heat):
         top, bottom = P[:, 1].max(), P[:, 1].min()
         parent = next((b.name for b in reversed(spine[:-1]) if b.head[1] <= top), "pelvis")
         mid_x = float(np.median(P[:, 0]))
-        columns = [("l", P[:, 0] >= mid_x), ("r", P[:, 0] < mid_x)] if np.ptp(P[:, 0]) > 0.22 * H else [("", np.ones(len(P), bool))]
+        # Two linked columns for a wide sheet, and for a front panel that spans the legs: one
+        # column down the middle is out of reach of both thigh colliders, so a striding knee
+        # passes through the panel instead of pushing its half forward.
+        hips_w = abs(sk["thigh_l"].head[0] - sk["thigh_r"].head[0])
+        wide = 0.22 * H if side == "back" else min(0.22 * H, 0.85 * hips_w)
+        columns = [("l", P[:, 0] >= mid_x), ("r", P[:, 0] < mid_x)] if np.ptp(P[:, 0]) > wide else [("", np.ones(len(P), bool))]
         name = "cape" if side == "back" else "tabard"
         chains = []
         for col, mask in columns:
@@ -613,7 +705,8 @@ def _cloth(body, sk, profile, heat):
             line = np.array(line)
             line[0][1] = Q[:, 1].max()
             line[-1][1] = Q[:, 1].min()
-            links = 4 if np.ptp(Q[:, 1]) > 0.35 * H else 3
+            # One link count per panel, so linked columns pair joint for joint.
+            links = 4 if np.ptp(P[:, 1]) > 0.35 * H else 3
             pts, _ = resample(line, links)
             bones = []
             prev = parent
@@ -623,6 +716,7 @@ def _cloth(body, sk, profile, heat):
                 bones.append(bname)
                 prev = bname
             chains.append({"bones": bones, "x": float(np.mean(Q[:, 0]))})
+            sk.cloth_width[bones[0].rsplit("_", 1)[0]] = float(np.percentile(np.abs(Q[:, 0] - np.mean(Q[:, 0])), 90))
         panels.append({"side": side, "idx": idx, "top": top, "bottom": bottom, "chains": chains})
 
     names = sk.names()

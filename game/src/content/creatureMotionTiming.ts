@@ -57,15 +57,15 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.525
   },
   "bandit_forest_ranger": {
-    "seconds": 1.333333,
+    "seconds": 1.4,
     "contactNormalized": 0.233
   },
   "bandit_highland_ranger": {
-    "seconds": 1.333333,
+    "seconds": 1.4,
     "contactNormalized": 0.233
   },
   "bandit_quarry_ranger": {
-    "seconds": 1.333333,
+    "seconds": 1.4,
     "contactNormalized": 0.233
   },
   "boss_rhino_air": {
@@ -150,11 +150,11 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "creature_bloomheart_matriarch": {
     "seconds": 1.466667,
-    "contactNormalized": 0.7
+    "contactNormalized": 0.783
   },
   "creature_boss_cinderwake": {
-    "seconds": 1.333333,
-    "contactNormalized": 0.283
+    "seconds": 1.533333,
+    "contactNormalized": 0.567
   },
   "creature_boss_galeskin": {
     "seconds": 1.366667,
@@ -165,8 +165,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5
   },
   "creature_boss_ordrun": {
-    "seconds": 1.8,
-    "contactNormalized": 0.333
+    "seconds": 1.1,
+    "contactNormalized": 0.15
   },
   "creature_boss_rootheart": {
     "seconds": 1.333333,
@@ -177,8 +177,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.567
   },
   "creature_boss_tideworn": {
-    "seconds": 1.333333,
-    "contactNormalized": 0.283
+    "seconds": 1.8,
+    "contactNormalized": 0.333
   },
   "creature_bracken_tapir": {
     "seconds": 0.666667,
@@ -269,7 +269,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.333
   },
   "creature_goblin_archer": {
-    "seconds": 0.5,
+    "seconds": 0.966667,
     "contactNormalized": 0.48
   },
   "creature_goblin_scout": {
@@ -317,7 +317,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.43
   },
   "creature_lava_golem": {
-    "seconds": 2,
+    "seconds": 0.966667,
     "contactNormalized": 0.15
   },
   "creature_marchfield_turkey": {
@@ -481,8 +481,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.15
   },
   "creature_stone_golem": {
-    "seconds": 1.8,
-    "contactNormalized": 0.333
+    "seconds": 1.333333,
+    "contactNormalized": 0.283
   },
   "creature_thorn_maw": {
     "seconds": 1.333333,
@@ -501,8 +501,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.783
   },
   "creature_voidstone_colossus": {
-    "seconds": 1.8,
-    "contactNormalized": 0.333
+    "seconds": 1.333333,
+    "contactNormalized": 0.283
   },
   "creature_webweaver_spider": {
     "seconds": 0.733333,
@@ -574,7 +574,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   },
   "fairy_garden_sporekin_gloamgarden": {
     "seconds": 1.466667,
-    "contactNormalized": 0.783
+    "contactNormalized": 0.267
   },
   "fairy_garden_spriggle_faeholme": {
     "seconds": 2.766667,
@@ -756,7 +756,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "boss_rhino_earth": 4.608,
   "boss_rhino_water": 4.608,
   "creature_amethyst_dragon": 7.4661,
-  "creature_amethyst_sovereign": 26.7273,
+  "creature_amethyst_sovereign": 25.255,
   "creature_amethyst_spider": 1.5796,
   "creature_antler_beetle": 1.9483,
   "creature_ashscale_monitor": 3.3043,
@@ -764,28 +764,27 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_baby_black_dragon": 3.0477,
   "creature_baby_lava_dragon": 3.9471,
   "creature_baby_red_dragon": 3.9471,
-  "creature_banshee": 0.2079,
   "creature_basalt_drake": 8.1567,
   "creature_basalt_maw": 10.4841,
   "creature_beetle_golem": 14.4779,
   "creature_black_wilderness_dragon": 7.4661,
   "creature_blackwater_heron": 3.259,
   "creature_blind_cave_weaver": 1.9223,
-  "creature_bloomheart_matriarch": 6.9096,
-  "creature_boss_cinderwake": 21.9187,
+  "creature_bloomheart_matriarch": 25.332,
+  "creature_boss_cinderwake": 21.8955,
   "creature_boss_galeskin": 8.4368,
   "creature_boss_mossbound": 5.5386,
   "creature_boss_ordrun": 25.9947,
   "creature_boss_rootheart": 19.157,
   "creature_boss_tempest_roc": 4.9179,
-  "creature_boss_tideworn": 14.9749,
+  "creature_boss_tideworn": 14.9009,
   "creature_bracken_tapir": 3.9872,
   "creature_briar_harrow": 16.6898,
   "creature_cairn_bighorn": 6.1281,
   "creature_cairn_treader": 7.307,
   "creature_cave_roach": 8.1581,
   "creature_chalk_warden": 8.2842,
-  "creature_cinder_penitent": 17.0716,
+  "creature_cinder_penitent": 17.087,
   "creature_cinder_ravager": 20.2245,
   "creature_cinderback_crag": 4.1904,
   "creature_cindercrest_salamander": 2.1672,
@@ -797,16 +796,16 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_furnace_grazer": 5.5277,
   "creature_furnace_regent": 9.2859,
   "creature_gloam_fox": 6.8434,
-  "creature_gloamfang_reaver": 15.786,
+  "creature_gloamfang_reaver": 12.9528,
   "creature_goblin_archer": 10.9405,
   "creature_goblin_scout": 11.1899,
-  "creature_goblin_shaman": 11.1899,
+  "creature_goblin_shaman": 2.6065,
   "creature_grave_ghoul": 14.1908,
   "creature_grave_lantern": 32.2116,
   "creature_heath_jack": 4.3563,
   "creature_hollow_bough": 21.94,
-  "creature_iron_golem": 22.3957,
-  "creature_ivory_castellan": 31.565,
+  "creature_iron_golem": 22.3416,
+  "creature_ivory_castellan": 31.4887,
   "creature_kiln_marrow": 6.0086,
   "creature_kiln_salamander": 1.646,
   "creature_lava_golem": 19.5599,
@@ -815,7 +814,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_marsh_moose": 10.6714,
   "creature_moonpetal_stalker": 11.1936,
   "creature_mossback_sentinel": 16.5118,
-  "creature_nightforge_marshal": 25.8541,
+  "creature_nightforge_marshal": 25.9738,
   "creature_orchid_reaper": 18.654,
   "creature_pearl_knight": 50.0615,
   "creature_plague_zombie": 3.9846,
@@ -829,10 +828,10 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_reed_strider": 3.0311,
   "creature_reedbank_goose": 0.6384,
   "creature_reedjaw_crocodile": 4.3705,
-  "creature_revenant": 3.3098,
+  "creature_revenant": 3.3093,
   "creature_rift_carapace": 5.6658,
   "creature_rimeback_tortoise": 2.0236,
-  "creature_road_bandit": 13.16,
+  "creature_road_bandit": 13.1017,
   "creature_rootdelve_badger": 6.3569,
   "creature_scree_bustard": 3.6824,
   "creature_scree_watcher": 26.96,
@@ -851,7 +850,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_stone_golem": 15.4233,
   "creature_thorn_maw": 1.4815,
   "creature_troll_mauler": 4.7748,
-  "creature_vault_custodian": 15.7333,
+  "creature_vault_custodian": 15.6639,
   "creature_voidstone_colossus": 19.0427,
   "creature_webweaver_spider": 2.9603,
   "creature_wild_goblin": 2.7004,
@@ -868,11 +867,11 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_garden_sapling_gloamgarden": 16.277,
   "fairy_garden_snail_faeholme": 0.1763,
   "fairy_garden_sporekin_faeholme": 19.7955,
-  "fairy_garden_sporekin_gloamgarden": 12.198,
+  "fairy_garden_sporekin_gloamgarden": 12.9167,
   "fairy_garden_spriggle_faeholme": 1.5286,
   "fairy_garden_spriggle_gloamgarden": 1.5286,
-  "fairy_garden_veilspirit_faeholme": 2.6283,
-  "fairy_garden_veilspirit_gloamgarden": 2.1978,
+  "fairy_garden_veilspirit_faeholme": 2.6189,
+  "fairy_garden_veilspirit_gloamgarden": 2.178,
   "fairy_garden_wardling_faeholme": 7.862,
   "fairy_garden_wardling_gloamgarden": 7.862,
   "fairy_guardian_02_gloamgarden": 17.2619,
@@ -928,7 +927,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "boss_rhino_earth": 3.343489,
   "boss_rhino_water": 3.343489,
   "creature_amethyst_dragon": 4.006009,
-  "creature_amethyst_sovereign": 4.930104,
+  "creature_amethyst_sovereign": 4.811861,
   "creature_amethyst_spider": 0.201283,
   "creature_antler_beetle": 0.985144,
   "creature_ashscale_monitor": 1.864592,
@@ -936,28 +935,27 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_baby_black_dragon": 1.635283,
   "creature_baby_lava_dragon": 1.021382,
   "creature_baby_red_dragon": 1.021382,
-  "creature_banshee": 0.166339,
   "creature_basalt_drake": 0.790392,
   "creature_basalt_maw": 1.503139,
   "creature_beetle_golem": 2.48599,
   "creature_black_wilderness_dragon": 4.006009,
   "creature_blackwater_heron": 2.607209,
   "creature_blind_cave_weaver": 0.333129,
-  "creature_bloomheart_matriarch": 5.527711,
-  "creature_boss_cinderwake": 4.046322,
+  "creature_bloomheart_matriarch": 4.857756,
+  "creature_boss_cinderwake": 4.039324,
   "creature_boss_galeskin": 1.973307,
   "creature_boss_mossbound": 4.430865,
   "creature_boss_ordrun": 4.462277,
   "creature_boss_rootheart": 3.718677,
   "creature_boss_tempest_roc": 0.959954,
-  "creature_boss_tideworn": 2.729795,
+  "creature_boss_tideworn": 2.728886,
   "creature_bracken_tapir": 3.897231,
   "creature_briar_harrow": 3.255218,
   "creature_cairn_bighorn": 3.147846,
   "creature_cairn_treader": 5.845602,
   "creature_cave_roach": 6.523694,
   "creature_chalk_warden": 6.627369,
-  "creature_cinder_penitent": 3.066217,
+  "creature_cinder_penitent": 3.066194,
   "creature_cinder_ravager": 6.295176,
   "creature_cinderback_crag": 1.610173,
   "creature_cindercrest_salamander": 1.777522,
@@ -969,7 +967,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_furnace_grazer": 4.012189,
   "creature_furnace_regent": 7.428753,
   "creature_gloam_fox": 2.044172,
-  "creature_gloamfang_reaver": 3.233887,
+  "creature_gloamfang_reaver": 2.314335,
   "creature_goblin_archer": 1.992729,
   "creature_goblin_scout": 2.085174,
   "creature_goblin_shaman": 2.085174,
@@ -978,8 +976,8 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_grave_lantern": 8.639664,
   "creature_heath_jack": 1.296444,
   "creature_hollow_bough": 4.293122,
-  "creature_iron_golem": 4.304943,
-  "creature_ivory_castellan": 6.06747,
+  "creature_iron_golem": 4.198853,
+  "creature_ivory_castellan": 5.917947,
   "creature_kiln_marrow": 4.806841,
   "creature_kiln_salamander": 1.341488,
   "creature_lava_golem": 4.414255,
@@ -988,7 +986,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_marsh_moose": 4.067989,
   "creature_moonpetal_stalker": 2.086044,
   "creature_mossback_sentinel": 3.178694,
-  "creature_nightforge_marshal": 5.25532,
+  "creature_nightforge_marshal": 5.183919,
   "creature_orchid_reaper": 3.340086,
   "creature_pearl_knight": 9.15779,
   "creature_plague_zombie": 3.187702,
@@ -1002,10 +1000,10 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_reed_strider": 0.995867,
   "creature_reedbank_goose": 0.478181,
   "creature_reedjaw_crocodile": 1.26829,
-  "creature_revenant": 2.647855,
+  "creature_revenant": 2.647471,
   "creature_rift_carapace": 0.723358,
   "creature_rimeback_tortoise": 1.618845,
-  "creature_road_bandit": 2.403916,
+  "creature_road_bandit": 2.402969,
   "creature_rootdelve_badger": 2.570402,
   "creature_scree_bustard": 2.580454,
   "creature_scree_watcher": 5.024744,
@@ -1024,7 +1022,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_stone_golem": 2.944956,
   "creature_thorn_maw": 1.18523,
   "creature_troll_mauler": 3.819868,
-  "creature_vault_custodian": 2.67951,
+  "creature_vault_custodian": 2.679513,
   "creature_voidstone_colossus": 3.437302,
   "creature_webweaver_spider": 0.333129,
   "creature_wild_goblin": 2.736574,
@@ -1042,11 +1040,11 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "fairy_garden_sapling_gloamgarden": 3.022134,
   "fairy_garden_snail_faeholme": 0.141008,
   "fairy_garden_sporekin_faeholme": 3.858994,
-  "fairy_garden_sporekin_gloamgarden": 2.416563,
+  "fairy_garden_sporekin_gloamgarden": 2.547343,
   "fairy_garden_spriggle_faeholme": 1.048036,
   "fairy_garden_spriggle_gloamgarden": 1.048036,
-  "fairy_garden_veilspirit_faeholme": 2.102636,
-  "fairy_garden_veilspirit_gloamgarden": 1.758265,
+  "fairy_garden_veilspirit_faeholme": 2.095135,
+  "fairy_garden_veilspirit_gloamgarden": 1.742412,
   "fairy_garden_wardling_faeholme": 2.587474,
   "fairy_garden_wardling_gloamgarden": 2.587474,
   "fairy_guardian_02_gloamgarden": 5.227794,

@@ -1,1 +1,14 @@
-{ "class": "humanoid", "profile": "beast" }
+{
+  "class": "humanoid",
+  "profile": "beast",
+  "profileOverrides": {
+    "landmarks": {
+      "tips": { "foot_l": [0.29, 0.03, 0.26], "foot_r": [-0.29, 0.03, 0.26] },
+      "joints": {
+        "calf_l": [0.2, 0.47, -0.08], "foot_l": [0.24, 0.2, -0.17], "ball_l": [0.27, 0.05, 0.08],
+        "calf_r": [-0.2, 0.47, -0.08], "foot_r": [-0.24, 0.2, -0.17], "ball_r": [-0.27, 0.05, 0.08]
+      }
+    }
+  },
+  "notes": "Digitigrade legs: the shin runs down and back to a raised hock and the long paw lies forward on the floor. The fit read the paw as the shin (the ankle at the claws, the foot bone pointing back), so the knee, hock and ball are given here."
+}

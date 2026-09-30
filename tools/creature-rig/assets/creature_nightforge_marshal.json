@@ -1,1 +1,16 @@
-{ "class": "humanoid", "profile": "guard" }
+{
+  "class": "humanoid",
+  "profile": "guard",
+  "profileOverrides": {
+    "clothSpring": {
+      "tabard": {
+        "stiffness": 110,
+        "damping": 9,
+        "falloff": 0.15,
+        "hang": 0.3
+      }
+    },
+    "kneeForward": true
+  },
+  "notes": "The tattered front tabard hangs between the legs: a heavier, stiffer panel than the cape, so the Run stride does not tear it through the floor. The cape keeps the profile's soft cloth. kneeForward: the straight rest leg otherwise gave the IK a backward bend plane (the right knee hyperextended about 35 degrees through the whole Idle)."
+}
