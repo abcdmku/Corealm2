@@ -50,7 +50,18 @@ export interface SleeveSpec extends ClothPhysics {
   segments: number;
 }
 
-export type ClothSpec = SkirtSpec | SleeveSpec;
+/** A tall soft point (a linen hood's peak) on one column rising from a joint: it keeps its shape
+ * on the body and bends where it meets the floor. */
+export interface TipSpec extends ClothPhysics {
+  kind: 'tip';
+  meshes: RegExp;
+  parent: string;
+  /** Height above the parent joint (bind, m) where the soft part starts. */
+  from: number;
+  segments: number;
+}
+
+export type ClothSpec = SkirtSpec | SleeveSpec | TipSpec;
 
 interface Chain {
   joints: Node[];
@@ -60,8 +71,10 @@ interface Chain {
   rest: THREE.Vector3[];
   parent: Node;
   spec: ClothSpec;
-  /** Index of the chain whose same-level points this one keeps its spacing to. */
-  next?: number;
+  /** How far the cloth surface reaches from each rest point (m): its floor clearance. */
+  thick: number[];
+  /** The chain whose same-level points this one keeps its spacing to (the next column of the sheet). */
+  next?: Chain;
 }
 
 export interface ClothRig { chains: Chain[]; colliders: { a: Node; b: Node; radius: number }[]; spine: Node[]; names: Set<string> }
@@ -126,7 +139,11 @@ function along(s: number, segments: number): { bone: number; weight: number }[] 
 
 function meshPrims(doc: Document, pattern: RegExp) {
   return doc.getRoot().listNodes().filter(node => node.getMesh() && node.getSkin() && pattern.test(node.getName()))
-    .flatMap(node => node.getMesh()!.listPrimitives().map(prim => ({ node, prim, skin: node.getSkin()! })));
+    .flatMap(node => node.getMesh()!.listPrimitives().map(prim => {
+      // Mirrored parts (a left and a right membrane) can share one weights accessor; each gets its own.
+      for (const semantic of ['JOINTS_0', 'WEIGHTS_0']) prim.setAttribute(semantic, prim.getAttribute(semantic)!.clone());
+      return { node, prim, skin: node.getSkin()! };
+    }));
 }
 
 const findJoint = (skin: Skin, name: string) => {
@@ -167,24 +184,33 @@ function buildSkirt(doc: Document, spec: SkirtSpec, bind: Map<Node, THREE.Matrix
     points.push(column);
   }
   const chains = points.map((column, j) => makeChain(doc, skin, parent, ibm, skinToBind, column, `${tag}_${j}`, spec));
-  chains.forEach((chain, j) => { chain.next = (j + 1) % M; });
+  chains.forEach((chain, j) => { chain.next = chains[(j + 1) % M]; });
   // Reweight: angle between two columns, height down the column.
   for (const v of below) {
     const u = (angle(v.p) + Math.PI) / sector, a = Math.floor(u) % M, b = (a + 1) % M, f = u - Math.floor(u);
     const bottom = hem[a]! * (1 - f) + hem[b]! * f, s = K * (y0 - v.p.y) / Math.max(y0 - bottom, 1e-3);
-    const cloth: Influence[] = [];
-    let share = 0;
-    for (const [chain, cw] of [[chains[a]!, 1 - f], [chains[b]!, f]] as const) for (const { bone, weight } of along(s, K)) {
-      cloth.push({ joint: skin.listJoints().indexOf(chain.joints[bone]!), weight: weight * cw }); share += weight * cw;
-    }
-    if (!cloth.length) continue;
-    // Along the first half segment the body weights fade out as the chain's first joint fades in.
-    const total = cloth.reduce((s2, c) => s2 + c.weight, 0);
-    for (const c of cloth) c.weight /= total;
-    widenJoints(v.prim, skin.listJoints().length);
-    writeWeights(v.prim, v.index, cloth, Math.min(1, share));
+    bindVertex(v.prim, skin, v.index, v.p, [[chains[a]!, 1 - f], [chains[b]!, f]], s, K);
   }
   return chains;
+}
+
+function buildTip(doc: Document, spec: TipSpec, bind: Map<Node, THREE.Matrix4>, tag: string): Chain[] {
+  const prims = meshPrims(doc, spec.meshes);
+  if (!prims.length) throw new Error(`no tip mesh ${spec.meshes}`);
+  const skin = prims[0]!.skin, parent = findJoint(skin, spec.parent), ibm = ibmOf(skin, parent), skinToBind = bind.get(parent)!.clone().multiply(ibm);
+  const verts = prims.flatMap(({ prim }) => { const P = prim.getAttribute('POSITION')!; return Array.from({ length: P.getCount() }, (_, index) => ({ prim, index, p: v3(P.getElement(index, [])).applyMatrix4(skinToBind) })); });
+  const y0 = new THREE.Vector3().setFromMatrixPosition(bind.get(parent)!).y + spec.from, K = spec.segments;
+  const above = verts.filter(v => v.p.y > y0), top = Math.max(...above.map(v => v.p.y));
+  if (process.env.DEBUG_TIP) console.log('tip', tag, 'joint y', (y0 - spec.from).toFixed(3), 'top', top.toFixed(3), 'verts', above.length);
+  // The column runs up the middle of the point, through the centroid of each height band.
+  const points = Array.from({ length: K + 1 }, (_, k) => {
+    const y = y0 + (top - y0) * k / K, band = above.filter(v => Math.abs(v.p.y - y) < (top - y0) / K * 0.5);
+    const c = band.reduce((sum, v) => sum.add(v.p), new THREE.Vector3()).divideScalar(Math.max(band.length, 1));
+    return new THREE.Vector3(band.length ? c.x : 0, y, band.length ? c.z : 0);
+  });
+  const chain = makeChain(doc, skin, parent, ibm, skinToBind, points, `${tag}_0`, spec);
+  for (const v of above) bindVertex(v.prim, skin, v.index, v.p, [[chain, 1]], K * (v.p.y - y0) / (top - y0), K);
+  return [chain];
 }
 
 function buildSleeve(doc: Document, spec: SleeveSpec, bind: Map<Node, THREE.Matrix4>, tag: string): Chain[] {
@@ -204,34 +230,48 @@ function buildSleeve(doc: Document, spec: SleeveSpec, bind: Map<Node, THREE.Matr
     for (let j = 0; j < M; j++) {
       const x = lo + width * j, near = column(x);
       tops.push(Math.max(...near.map(v => v.p.y))); bottoms.push(Math.min(...near.map(v => v.p.y)));
-      // Hang the column from the arm bone that carries the top edge there.
-      const topVerts = near.filter(v => v.p.y > tops[j]! - 0.04), tally = new Map<Node, number>();
-      for (const v of topVerts) { const jj = J.getElement(v.index, []), ww = W.getElement(v.index, []); for (let k = 0; k < 4; k++) { const joint = skin.listJoints()[jj[k]!]!; if (arm.includes(joint)) tally.set(joint, (tally.get(joint) ?? 0) + ww[k]!); } }
-      const parent = [...tally].sort((p, q) => q[1] - p[1])[0]?.[0] ?? arm[0]!;
+      // Hang the column from the arm bone it lies along in the bind pose (the last bone whose head
+      // is nearer the shoulder than the column).
+      const reach = (node: Node) => Math.abs(new THREE.Vector3().setFromMatrixPosition(bind.get(node)!).x);
+      const parent = [...arm].reverse().find(bone => reach(bone) <= Math.abs(x)) ?? arm[0]!;
       const zs = near.filter(v => v.p.y > tops[j]! - 0.04).map(v => v.p.z), z = zs.reduce((s, q) => s + q, 0) / zs.length;
       const points = Array.from({ length: K + 1 }, (_, k) => new THREE.Vector3(x, tops[j]! + (bottoms[j]! - tops[j]!) * k / K, z));
       const toBind = bind.get(parent)!.clone().multiply(ibmOf(skin, parent));
       chains.push(makeChain(doc, skin, parent, ibmOf(skin, parent), toBind, points, `${tag}_${side}_${j}`, spec));
-      if (j) chains[chains.length - 2]!.next = chains.length - 1;
+      if (j) chains[chains.length - 2]!.next = chains[chains.length - 1];
     }
     const first = chains.length - M;
     for (const v of verts) {
       const u = Math.min(M - 1 - 1e-6, Math.max(0, (v.p.x - lo) / width)), a = Math.floor(u), f = u - a;
       const top = tops[a]! * (1 - f) + tops[a + 1]! * f, bottom = bottoms[a]! * (1 - f) + bottoms[a + 1]! * f;
       const s = K * (top - v.p.y) / Math.max(top - bottom, 1e-3);
-      const cloth: Influence[] = [];
-      let share = 0;
-      for (const [chain, cw] of [[chains[first + a]!, 1 - f], [chains[first + a + 1]!, f]] as const) for (const { bone, weight } of along(s, K)) {
-        cloth.push({ joint: skin.listJoints().indexOf(chain.joints[bone]!), weight: weight * cw }); share += weight * cw;
-      }
-      if (!cloth.length) continue;
-      const total = cloth.reduce((s2, c) => s2 + c.weight, 0);
-      for (const c of cloth) c.weight /= total;
-      widenJoints(prim, skin.listJoints().length);
-      writeWeights(prim, v.index, cloth, Math.min(1, share));
+      bindVertex(prim, skin, v.index, v.p, [[chains[first + a]!, 1 - f], [chains[first + a + 1]!, f]], s, K);
     }
   }
   return chains;
+}
+
+/**
+ * Weight one vertex (bind world position `p`) onto the chains it lies between, at parameter `s`
+ * down them. Along the first half segment the body weights fade out as the chains' first joints fade
+ * in. The cloth's thickness around each chain point is recorded so the floor holds the surface, not
+ * just the chain, above it.
+ */
+function bindVertex(prim: Primitive, skin: Skin, index: number, p: THREE.Vector3, columns: [Chain, number][], s: number, K: number) {
+  const cloth: (Influence & { chain: Chain; bone: number })[] = [];
+  let share = 0;
+  for (const [chain, cw] of columns) for (const { bone, weight } of along(s, K)) {
+    cloth.push({ chain, bone, joint: skin.listJoints().indexOf(chain.joints[bone]!), weight: weight * cw }); share += weight * cw;
+  }
+  if (!cloth.length) return;
+  const total = cloth.reduce((sum, c) => sum + c.weight, 0);
+  for (const c of cloth) c.weight /= total;
+  const main = cloth.reduce((best, c) => (c.weight > best.weight ? c : best));
+  const a = main.chain.rest[main.bone]!, b = main.chain.rest[main.bone + 1]!;
+  const distance = p.distanceTo(new THREE.Line3(a, b).closestPointToPoint(p, true, new THREE.Vector3()));
+  for (const k of [main.bone, main.bone + 1]) main.chain.thick[k] = Math.max(main.chain.thick[k]!, distance);
+  widenJoints(prim, skin.listJoints().length);
+  writeWeights(prim, index, cloth, Math.min(1, share));
 }
 
 /** New joints down `points` (bind world), parented to `parent`, rest rotations identity. */
@@ -250,7 +290,7 @@ function makeChain(doc: Document, skin: Skin, parent: Node, parentIbm: THREE.Mat
     addJoint(skin, joint, new THREE.Matrix4().makeTranslation(-local[k]!.x, -local[k]!.y, -local[k]!.z).multiply(parentIbm));
     joints.push(joint); up = joint;
   }
-  return { joints, offsets, rest: points.map(p => p.clone()), parent, spec };
+  return { joints, offsets, rest: points.map(p => p.clone()), parent, spec, thick: points.map(() => 0) };
 }
 
 export interface ClothOptions { specs: ClothSpec[]; colliders: { from: string; to: string; radius: number }[]; spine: string[] }
@@ -258,7 +298,7 @@ export interface ClothOptions { specs: ClothSpec[]; colliders: { from: string; t
 /** Add cloth joints and reweight the hanging vertices. Call after the clips are in place. */
 export function rigCloth(doc: Document, options: ClothOptions): ClothRig {
   const bind = bindWorld(doc);
-  const chains = options.specs.flatMap((spec, i) => spec.kind === 'skirt' ? buildSkirt(doc, spec, bind, `skirt${i}`) : buildSleeve(doc, spec, bind, `sleeve${i}`));
+  const chains = options.specs.flatMap((spec, i) => spec.kind === 'skirt' ? buildSkirt(doc, spec, bind, `skirt${i}`) : spec.kind === 'tip' ? buildTip(doc, spec, bind, `tip${i}`) : buildSleeve(doc, spec, bind, `sleeve${i}`));
   const skin = doc.getRoot().listSkins()[0]!;
   const colliders = options.colliders.map(c => ({ a: findJoint(skin, c.from), b: findJoint(skin, c.to), radius: c.radius }));
   return { chains, colliders, spine: options.spine.map(name => findJoint(skin, name)), names: new Set(chains.flatMap(c => c.joints.map(j => j.getName()))) };
@@ -287,13 +327,16 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
   const targets = (chain: Chain, f: number, shift: number) => {
     const M = frames[f]!.get(chain.parent)!, B = bindParent.get(chain.parent)!;
     M.decompose(pos, q, scale); B.decompose(pos, qs, scale);
-    const turn = q.clone().multiply(qs.clone().invert()).slerp(new THREE.Quaternion(), chain.spec.hang);
+    // Cloth hangs in world space only while its bone stands; on a lying body its rest shape runs
+    // along the body and gravity lays it on the floor.
+    const since = q.clone().multiply(qs.clone().invert()), upright = Math.max(0, new THREE.Vector3(0, 1, 0).applyQuaternion(since).y);
+    const turn = since.slerp(new THREE.Quaternion(), chain.spec.hang * upright);
     const root = chain.rest[0]!.clone().applyMatrix4(B.clone().invert()).applyMatrix4(M);
     root.z += shift;
     return chain.rest.map(p => p.clone().sub(chain.rest[0]!).applyQuaternion(turn).add(root));
   };
   const lengths = rig.chains.map(c => c.rest.slice(1).map((p, i) => p.distanceTo(c.rest[i]!)));
-  const spacing = rig.chains.map(c => c.next === undefined ? [] : c.rest.map((p, i) => p.distanceTo(rig.chains[c.next!]!.rest[i]!)));
+  const spacing = rig.chains.map(c => c.next === undefined ? [] : c.rest.map((p, i) => p.distanceTo(c.next!.rest[i]!)));
   const glide = opts.glide ?? 0;
   const order = opts.loop ? [...Array(3)].flatMap(() => [...Array(n - 1).keys()]) : [...Array(30).fill(0), ...Array(n).keys()];
   const init = rig.chains.map(c => targets(c, order[0]!, 0));
@@ -323,7 +366,7 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
         rig.chains.forEach((chain, ci) => {
           if (chain.next === undefined) return;
           for (let i = 1; i < chain.rest.length; i++) {
-            const a = x[ci]![i]!, b = x[chain.next]![i]!, d = a.distanceTo(b), r = spacing[ci]![i]!;
+            const a = x[ci]![i]!, b = x[rig.chains.indexOf(chain.next)]![i]!, d = a.distanceTo(b), r = spacing[ci]![i]!;
             const want = Math.min(Math.max(d, 0.9 * r), 1.1 * r);
             if (d > 1e-9 && want !== d) { const corr = b.clone().sub(a).multiplyScalar((1 - want / d) * 0.5); a.add(corr); b.sub(corr); }
           }
@@ -332,9 +375,17 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
           for (let i = 1; i < chain.rest.length; i++) {
             const p = x[ci]![i]!;
             for (const c of cols) capsule(p, c.a, c.b, c.r);
-            p.y = Math.max(p.y, CLEARANCE);
             const up = x[ci]![i - 1]!, dir = p.clone().sub(up);
+            // The cloth's own thickness reaches below the chain once the segment lies down.
+            const lying = dir.lengthSq() > 1e-12 ? Math.sqrt(Math.max(0, 1 - (dir.y * dir.y) / dir.lengthSq())) : 0;
+            p.y = Math.max(p.y, CLEARANCE + chain.thick[i]! * lying);
             p.copy(up).addScaledVector(dir.lengthSq() > 1e-12 ? dir.normalize() : new THREE.Vector3(0, -1, 0), lengths[ci]![i - 1]!);
+            const floor = CLEARANCE + chain.thick[i]! * lying;
+            if (p.y <= floor) {
+              // Resting on the floor: friction takes most of the sliding speed.
+              p.y = floor;
+              const last = prev[ci]![i]!; last.x += (p.x - last.x) * 0.6; last.z += (p.z - last.z) * 0.6;
+            }
           }
         });
       }
@@ -343,6 +394,7 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
     if ((opts.loop && step >= order.length - (n - 1)) || (!opts.loop && step >= 30)) history.push(x.map(chain => chain.map(p => p.clone().setZ(p.z - shift))));
   }
   if (opts.loop) history.push(history[0]!.map(chain => chain.map(p => p.clone())));
+  if (process.env.DEBUG_CLOTH === clipName) rig.chains.forEach((c, ci) => { if (!c.joints[0]!.getName().includes(process.env.DEBUG_CHAIN ?? "")) return; const f = (p: THREE.Vector3) => p.toArray().map(v => v.toFixed(2)).join(","); console.log(c.joints[0]!.getName(), "thick", c.thick.map(t => t.toFixed(2)).join(","), "parent", c.parent.getName(), "rest", c.rest.map(f).join(" | "), "\n  T", targets(c, 0, 0).map(f).join(" | "), "\n  S", history[0]![ci]!.map(f).join(" | "), "\n  E", history.at(-1)![ci]!.map(f).join(" | ")); });
   // Bake: each joint turns (minimal arc from its rest direction) to point at the next simulated point.
   const rotations = rig.chains.map(c => c.joints.map(() => [] as number[]));
   const pose = new THREE.Matrix4(), inv = new THREE.Matrix4();

@@ -150,11 +150,13 @@ const noRetime = 'No root pinning beyond the UAL root, no retime, no IK, no floo
  * out in a frozen cast for the whole loop.
  */
 const GLIDE = { Walk: 1.4, Run: 3.2 };
-const robe = (mesh: RegExp, sleeves?: RegExp): NonNullable<Spec['cloth']> => ({
+const robe = (mesh: RegExp, sleeves?: RegExp, hood?: { mesh: RegExp; from: number }): NonNullable<Spec['cloth']> => ({
   specs: [
     // A heavy robe: soft pull, most of its hang kept in world space, real damping.
-    { kind: 'skirt', meshes: mesh, parent: 'pelvis', top: 0, chains: 12, segments: 4, stiffness: 28, damping: 4, gravity: 3, hang: 0.55, drag: 1.5 },
+    { kind: 'skirt', meshes: mesh, parent: 'pelvis', top: 0, chains: 12, segments: 4, stiffness: 45, damping: 5, gravity: 2, hang: 0.55, drag: 2 },
     // A light torn membrane lags more.
+    // A stiff linen peak keeps its shape and bends where it meets the floor.
+    ...(hood ? [{ kind: 'tip' as const, meshes: hood.mesh, parent: 'Head', from: hood.from, segments: 3, stiffness: 260, damping: 14, gravity: 1, hang: 0, drag: 0.5 }] : []),
     ...(sleeves ? [{ kind: 'sleeve' as const, meshes: sleeves, arm: ['upperarm', 'lowerarm', 'hand'], chains: 5, segments: 3, stiffness: 14, damping: 3, gravity: 6, hang: 0.8, drag: 2.5 }] : []),
   ],
   colliders: [...['l', 'r'].flatMap(side => [
@@ -192,7 +194,7 @@ export const SPECS: Record<string, Spec> = {
   creature_grave_ghoul: ubc([...zombie, ['Run', 1, 'Jog_Fwd_Loop']], `${noRetime} The extra spine crouch is gone.`),
   creature_grave_lantern: ubc([...zombie, ['Run', 1, 'Jog_Fwd_Loop']], `${noRetime} Grave-ghoul body with prefixed node names.`, 'grave_lantern_'),
   creature_wraith: hover(robe(/Male_Wizard_Body$/), `Sword_Attack's lunge drove the robe 27 cm through the floor and swung an empty hand.`),
-  creature_gloam_wraith: hover(robe(/Male_Wizard_Body$/, /torn_arm_membrane/), 'The x1.15 retime is gone. The torn arm membranes hang from the arm as cloth instead of stretching rigidly from the arm to the hip.'),
+  creature_gloam_wraith: hover(robe(/Male_Wizard_Body$/, /torn_arm_membrane/, { mesh: /Head_Hood$/, from: 0.3 }), 'The x1.15 retime is gone. The torn arm membranes hang from the arm as cloth instead of stretching rigidly from the arm to the hip.'),
   creature_chainbound_archon: hover(robe(/Male_Wizard_Body$/), ''),
   creature_ashbound_votary_elite: hover(robe(/Male_Wizard_Body$/), "The x1.2 retime is gone. Attack chains the cast enter and exit (Sword_Attack's lunge drove the robe 27 cm through the floor)."),
   // No boxing: the golem bodies club overhead with one fist (Sword_Regular_A and its recovery,
