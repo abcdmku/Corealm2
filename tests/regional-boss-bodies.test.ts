@@ -19,7 +19,8 @@ beforeAll(async () => {
 });
 
 describe('authored regional boss bodies', () => {
-  it.each(['tempest_roc', 'tideworn'])('keeps %s claws clear through the additive Hit and every base cycle', async id => {
+  // The tideworn ships no Hit: every studio hit straightens its hunch, so the runtime's own flinch plays.
+  it.each(['tempest_roc'])('keeps %s claws clear through the additive Hit and every base cycle', async id => {
     const entry = manifest.assets.find((asset: any) => asset.id === `creature_boss_${id}`);
     expect(entry.animations).toContain('Hit');
     const rows = await auditBossHitMask(id, `game/public/assets/${entry.file}`, 'Hit');

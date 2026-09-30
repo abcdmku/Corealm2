@@ -9,6 +9,7 @@ import manifest from '../game/public/assets/manifest.json' with { type: 'json' }
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 // Studio bodies ship their native takes; Run and Hit fall back at runtime when a pack has none.
 const requiredClips = ['Idle', 'Walk', 'Attack', 'Death'];
+const HOVERING = new Set(['creature_banshee', 'creature_pallid_shade', 'creature_veil_reaper']);
 
 describe('ash and northern creature production bodies', () => {
   it('keeps five independent combat identities', () => {
@@ -33,8 +34,10 @@ describe('ash and northern creature production bodies', () => {
     expect(primitives.length, `${species.id} geometry`).toBeGreaterThan(0);
     expect(root.listSkins().length, `${species.id} rig`).toBeGreaterThan(0);
     expect(root.listMaterials().some(material => material.getBaseColorTexture()), `${species.id} painted surface`).toBe(true);
+    // Hovering spirits glide on their Idle and ship no Walk (owner rule, 2026-09-29).
+    const required = HOVERING.has(species.assetId) ? requiredClips.filter(clip => clip !== 'Walk') : requiredClips;
     expect(root.listAnimations().map(clip => clip.getName()), `${species.id} actions`)
-      .toEqual(expect.arrayContaining(requiredClips));
+      .toEqual(expect.arrayContaining(required));
 
     for (const clip of root.listAnimations()) {
       expect(clip.listChannels().length, `${species.id}:${clip.getName()} channels`).toBeGreaterThan(0);
