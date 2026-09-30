@@ -198,10 +198,59 @@
     "flatProp": {
      "hand": "Bip001_R_Hand",
      "node": "MageStaff",
-     "from": 0.35
+     "from": 0.2,
+     "to": "side"
     },
     "lift": true
    }
-  }
+  },
+  "hinges": [
+   {
+    "node": "MantlePanel-1",
+    "stiffness": 30,
+    "damping": 6,
+    "gravity": 6,
+    "hang": 0.3,
+    "clearance": 0.01,
+    "group": "mantle",
+    "drag": 0.3,
+    "interpolate": true,
+    "iterations": 4,
+    "substeps": 6,
+    "sided": true
+   },
+   {
+    "node": "MantlePanel1",
+    "stiffness": 30,
+    "damping": 6,
+    "gravity": 6,
+    "hang": 0.3,
+    "clearance": 0.01,
+    "group": "mantle",
+    "drag": 0.3,
+    "interpolate": true,
+    "iterations": 4,
+    "substeps": 6,
+    "sided": true
+   }
+  ],
+  "colliders": [
+   {
+    "node": "Bip001_Spine1",
+    "radius": 0.13
+   },
+   {
+    "node": "Bip001_Spine",
+    "radius": 0.12
+   },
+   {
+    "node": "Bip001_L_Thigh",
+    "radius": 0.07
+   },
+   {
+    "node": "Bip001_R_Thigh",
+    "radius": 0.07
+   }
+  ]
  }
 }

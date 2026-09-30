@@ -28,7 +28,7 @@ import numpy as np  # noqa: E402
 from crlib import donor as donors_mod  # noqa: E402
 from crlib.glbpy import Glb  # noqa: E402
 from crlib.mathx import continuous_quats, matrix_from_quat, min_arc, normalize, orthonormalize, quat_from_matrix, slerp_matrix  # noqa: E402
-from crlib.retarget import Retargeter, forward  # noqa: E402
+from crlib.retarget import CapsuleCollider, Retargeter, forward  # noqa: E402
 from crlib.skeleton import Skeleton  # noqa: E402
 
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
@@ -128,7 +128,18 @@ def main(work, cache):
     entry = next(a for a in manifest["assets"] if a["id"] == asset_id)
     g = Glb(os.path.join(REPO, "game/public/assets", entry["file"]))
     joints = g.json["skins"][0]["joints"]
-    ref = g.clip_pose(cfg["referenceClip"], 0.0, only=set(joints)) if cfg.get("referenceClip") else None
+    # The reference pose covers the joints and every node above them: a wrapper (a Biped's Bip001)
+    # that the reference clip moves carries the whole body, so leaving it at rest would build the
+    # skeleton away from the stance the clip shows (the skeleton soldier's Death started 0.15 m
+    # above its Idle).
+    ref = None
+    if cfg.get("referenceClip"):
+        carried = set(joints)
+        for j in joints:
+            while j in g.parent:
+                j = g.parent[j]
+                carried.add(j)
+        ref = g.clip_pose(cfg["referenceClip"], 0.0, only=carried)
     world = {i: g.world(i, ref) for i in range(len(g.nodes))}
     by_name = g.name_index
 
@@ -196,6 +207,14 @@ def main(work, cache):
     # "donor" may name a bone per donor ({donor key: bone or null}) when donors of different rigs
     # drive one skeleton; the primary donor's name is the bone's own.
     bone_maps = {k: {} for k in donors}
+    if cfg["map"] == "arp":
+        # A donor that is not Auto-Rig Pro (a UAL humanoid) drives the canonical hips, spine, head
+        # and limb bones by their own names (the UE names the canonical ones are); every other
+        # joint follows its parent in that donor's clips.
+        canonical = {b for b, _ in ARP_CORE.values()} | {f"{b}_{s}" for b, _ in ARP_SIDED.values() for s in "lr"}
+        for k, d in donors.items():
+            if "root.x" not in d.bones and "rootx" not in d.bones:
+                bone_maps[k] = {b: b for b in canonical if b in d.bones}
     for n, v in mp.items():
         if isinstance(v.get("donor"), dict):
             per = v["donor"]
@@ -265,6 +284,144 @@ def main(work, cache):
             if np.linalg.norm(tail - head) < 1e-4:
                 tail = head + [0, 0.1, 0]
         sk.add(v["bone"], logical_parent(n), head, tail, donor=v["donor"] if "donor" in v else v["bone"], follow=v.get("follow", 0.0), kind=v.get("kind", "body"))
+    # "hinges": rigid hanging pieces that are not joints (a mantle panel, a tabard plate on a
+    # prop node): each becomes a one-bone spring chain from its top edge to its bottom edge on the
+    # nearest mapped ancestor, so it trails and swings with the body and settles on the floor
+    # instead of riding the torso like armour. [{node, stiffness?, damping?, gravity?, clearance?,
+    # hang?, group?}]; hinges of one group are linked so a split panel keeps its spacing.
+    hinge_rel, hinge_pivot = {}, []
+    spring_chains_cloth, cloth_joints, cloth_weights, cloth_meshes = [], [], {}, set()
+    for hc in cfg.get("hinges", []):
+        n = hc["node"]
+        i = by_name[n]
+        pts = []
+        stack = [i]
+        while stack:
+            k = stack.pop()
+            stack += g.nodes[k].get("children", [])
+            if "mesh" in g.nodes[k]:
+                for prim in g.json["meshes"][g.nodes[k]["mesh"]]["primitives"]:
+                    P = g.accessor(prim["attributes"]["POSITION"])
+                    pts.append((np.hstack([P, np.ones((len(P), 1))]) @ world[k].T)[:, :3])
+        pts = np.vstack(pts)
+        if hc.get("pivotNode"):
+            # The strap end: a named child mesh's centre (a quiver's upper rim, not its feathers);
+            # the free end is the far band of the piece from there.
+            k = by_name[hc["pivotNode"]]
+            P = g.accessor(g.json["meshes"][g.nodes[k]["mesh"]]["primitives"][0]["attributes"]["POSITION"])
+            head = (np.hstack([P, np.ones((len(P), 1))]) @ world[k].T)[:, :3].mean(0)
+            dist = np.linalg.norm(pts - head, axis=1)
+            tail = pts[dist >= 0.9 * dist.max()].mean(0)
+        else:
+            top, bottom = pts[:, 1].max(), pts[:, 1].min()
+            band = 0.1 * (top - bottom)
+            head = pts[pts[:, 1] >= top - band].mean(0)
+            tail = pts[pts[:, 1] <= bottom + band].mean(0)
+        k = i
+        while k in g.parent and g.nodes[g.parent[k]].get("name") not in mp:
+            k = g.parent[k]
+        parent_node = g.parent[k]
+        sk.add(n, mp[g.nodes[parent_node]["name"]]["bone"], head, tail, donor=None, follow=0.0, kind="cloth")
+        hinge_rel[n] = world[i][:3, 3] - head
+        # The pivot rides its parent rigidly, so the floor lift keeps it (less the piece's own
+        # clearance, its half thickness) on the floor: a body lying on its quiver rests on it.
+        hinge_pivot.append((parent_node, np.linalg.inv(world[parent_node]) @ np.append(head, 1.0), hc.get("pivotClearance", hc.get("clearance", 0.0))))
+    # "cloth": a skinned hanging sheet the studio bound to the torso only (a loincloth, a skirt):
+    # [{mesh, parent, columns?, links?, seam?, stiffness?, damping?, gravity?, clearance?, hang?}].
+    # New joints hang from the parent joint in columns round the sheet (links bones each, from the
+    # waist to the hem); the sheet's weights blend from the studio's own at the waist to the
+    # columns below it (seam: the share of the sheet's height the blend takes), and the columns
+    # are spring chains of one linked sheet. Kept clips never key the new joints, so there the
+    # sheet rides its parent as before; added clips swing it.
+    skin0 = g.json["skins"][0]
+    ibm0 = g.accessor(skin0["inverseBindMatrices"]).reshape(-1, 4, 4).transpose(0, 2, 1)
+    bind_of = {j: np.linalg.inv(ibm0[k]) for k, j in enumerate(skin0["joints"])}
+    for cc in cfg.get("cloth", []):
+        mi = by_name[cc["mesh"]]
+        cloth_meshes.add(mi)
+        per = []
+        for prim in g.json["meshes"][g.nodes[mi]["mesh"]]["primitives"]:
+            P = g.accessor(prim["attributes"]["POSITION"])
+            Jp = g.accessor(prim["attributes"]["JOINTS_0"]).astype(int)
+            Wp = g.accessor(prim["attributes"]["WEIGHTS_0"])
+            Ph = np.hstack([P, np.ones((len(P), 1))])
+            X = np.zeros((len(P), 3))
+            skin_m = np.array([bind_of[j] @ ibm0[k] for k, j in enumerate(skin0["joints"])])
+            for c in range(4):
+                X += Wp[:, c:c + 1] * np.einsum("nij,nj->ni", skin_m[Jp[:, c]], Ph)[:, :3]
+            per.append((X, Jp, Wp))
+        X = np.vstack([x for x, _, _ in per])
+        top, bottom = X[:, 1].max(), X[:, 1].min()
+        centre = X.mean(0)
+        K, links = cc.get("columns", 6), cc.get("links", 2)
+        ang = np.arctan2(X[:, 0] - centre[0], X[:, 2] - centre[2])
+        pn = by_name[cc["parent"]]
+        levels = np.linspace(top, bottom, links + 1)
+        sigma = 0.5 * (top - bottom) / links
+        columns = []
+        first = len(cloth_joints)
+        for k in range(K):
+            th = -np.pi + (k + 0.5) * 2 * np.pi / K
+            d = np.abs((ang - th + np.pi) % (2 * np.pi) - np.pi)
+            sector = d < 1.2 * np.pi / K
+            if sector.sum() < 2:
+                continue
+            Q = X[sector]
+            pts = []
+            for h in levels:
+                w = np.exp(-0.5 * ((Q[:, 1] - h) / sigma) ** 2) + 1e-9
+                q = (Q * w[:, None]).sum(0) / w.sum()
+                q[1] = h
+                pts.append(q)
+            parent_bind, parent_name, parent_ref, parent_bone = bind_of[pn], cc["parent"], world[pn], mp[cc["parent"]]["bone"]
+            names = []
+            for j in range(links):
+                jn = f"{cc['mesh']}_c{k}_{j + 1}"
+                Jb = np.eye(4)
+                Jb[:3, 3] = pts[j]
+                local = np.linalg.inv(parent_bind) @ Jb
+                Mref = parent_ref @ local
+                tail_ref = Mref[:3, :3] @ (pts[j + 1] - pts[j]) + Mref[:3, 3]
+                sk.add(jn, parent_bone, Mref[:3, 3].copy(), tail_ref, donor=None, follow=0.0, kind="cloth")
+                cloth_joints.append({"name": jn, "parent": parent_name, "local": local, "bind": Jb, "ref": Mref})
+                names.append(jn)
+                parent_bind, parent_name, parent_ref, parent_bone = Jb, jn, Mref, jn
+            columns.append({"th": th, "bones": names})
+            # "ring": the columns link to their neighbours round the sheet (a skirt round the
+            # legs); other keys (falloff, drag, sided, substeps, ...) go to crlib's spring chain.
+            spring_chains_cloth.append(dict({k2: v for k2, v in cc.items() if k2 not in ("mesh", "parent", "columns", "links", "seam", "ring")},
+                                            bones=names, group=cc["mesh"], **({"links": "ring"} if cc.get("ring") else {})))
+        base = len(skin0["joints"])
+        index = {c["name"]: base + i for i, c in enumerate(cloth_joints) if i >= first}
+        centres = (np.arange(links) + 0.5) / links
+        out_prims = []
+        for X1, Jp, Wp in per:
+            t = np.clip((top - X1[:, 1]) / max(top - bottom, 1e-9), 0, 1)
+            a = np.clip(t / cc.get("seam", 0.35), 0, 1)
+            a = a * a * (3 - 2 * a)
+            ang1 = np.arctan2(X1[:, 0] - centre[0], X1[:, 2] - centre[2])
+            rows_j, rows_w = [], []
+            for v in range(len(X1)):
+                w = {}
+                for c in range(4):
+                    if Wp[v, c] > 0:
+                        w[int(Jp[v, c])] = w.get(int(Jp[v, c]), 0.0) + (1 - a[v]) * Wp[v, c]
+                cw = np.array([max(0.0, 1 - abs((ang1[v] - col["th"] + np.pi) % (2 * np.pi) - np.pi) / (2 * np.pi / len(columns))) for col in columns])
+                cw /= max(cw.sum(), 1e-9)
+                for col, wc in zip(columns, cw):
+                    for bi, bname in enumerate(col["bones"]):
+                        hat = max(0.0, 1 - abs(t[v] - centres[bi]) * links)
+                        if (bi == 0 and t[v] < centres[0]) or (bi == links - 1 and t[v] > centres[-1]):
+                            hat = 1.0
+                        if hat * wc > 0:
+                            w[index[bname]] = w.get(index[bname], 0.0) + a[v] * wc * hat
+                top4 = sorted(w.items(), key=lambda kv: -kv[1])[:4]
+                total = sum(x for _, x in top4)
+                top4 += [(0, 0.0)] * (4 - len(top4))
+                rows_j.append([j for j, _ in top4])
+                rows_w.append([x / total for _, x in top4])
+            out_prims.append({"joints": rows_j, "weights": rows_w})
+        cloth_weights[cc["mesh"]] = out_prims
     sk.solve_frames(primary)
     if "legs" in cfg:
         # Explicit legs in node names ({chain: [...], foot?, toe?, pivot?}), e.g. a crawler's arm chains.
@@ -276,6 +433,12 @@ def main(work, cache):
             # Any other skeleton: the chains of the bones mapped as kind "leg".
             legs = leg_chains(sk, {v["bone"] for v in mp.values() if v.get("kind") == "leg"})
     plan = {"hips": hips, "legs": legs, "chains": [], "colliders": [], "hip_motion": cfg.get("hipMotion", 1.0)}
+    for hc in cfg.get("hinges", []):
+        spring_chains.append(dict({k: v for k, v in hc.items() if k not in ("node", "pivotNode", "pivotClearance")}, bones=[hc["node"]]))
+    spring_chains += spring_chains_cloth
+    # "colliders": [{node, radius}] capsules along mapped joints that spring chains and hinges
+    # cannot pass through (the torso a mantle hangs against, the legs a loincloth swings between).
+    colliders = [CapsuleCollider(sk, mp[c["node"]]["bone"], c["radius"]) for c in cfg.get("colliders", [])]
     for key in ("hipMode", "hipSource", "scale"):
         if key in cfg:
             plan[{"hipMode": "hip_mode", "hipSource": "hip_source"}.get(key, key)] = cfg[key]
@@ -293,8 +456,13 @@ def main(work, cache):
     held = [g.nodes[i]["name"] for i in joints if g.nodes[i]["name"] not in mp and g.nodes[i]["name"] not in props] if cfg.get("holdUnmapped") else []
     prop_offset = {n: np.linalg.inv(world[by_name[hand]]) @ world[by_name[n]] for n, hand in props.items()}
 
+    held_names = set(held)
+
     def rest_local(i):
-        return g.local(i, ref if cfg.get("holdUnmapped") else None)
+        # What an unkeyed node shows at runtime: its node rest, except the joints held at the
+        # reference pose (they are keyed there). A wrapper node the added clips do not key plays
+        # at its rest even when the reference clip moved it.
+        return g.local(i, ref if g.nodes[i].get("name") in held_names else None)
 
     # Long axis of each prop node in its hand's frame (from its meshes' extent).
     prop_axis = {}
@@ -319,12 +487,17 @@ def main(work, cache):
         Lp = g.local(pi)
         Rp = Lp[:3, :3] / np.linalg.norm(Lp[:3, :3], axis=0)[None, :]
         prop_axis[fp["node"]] = normalize(Rp @ axis)
+        # The long end: the axis turned to point from the hand along the prop's bulk.
+        centre = Lp[:3, :3] @ pts.mean(0) + Lp[:3, 3]
+        if np.dot(centre, prop_axis[fp["node"]]) < 0:
+            prop_axis[fp["node"]] = -prop_axis[fp["node"]]
 
     skin = g.json["skins"][0]
     ibm = g.accessor(skin["inverseBindMatrices"]).reshape(-1, 4, 4).transpose(0, 2, 1)
     skinned = []
     for ni, node in enumerate(g.nodes):
-        if "mesh" in node and "skin" in node:
+        # A cloth sheet settles on the floor by its own springs; the lift ignores it.
+        if "mesh" in node and "skin" in node and ni not in cloth_meshes:
             for prim in g.json["meshes"][node["mesh"]]["primitives"]:
                 Pp = g.accessor(prim["attributes"]["POSITION"])[::3]
                 Jp = g.accessor(prim["attributes"]["JOINTS_0"])[::3].astype(int)
@@ -350,6 +523,22 @@ def main(work, cache):
         axis = np.linalg.svd(pts - pts.mean(0), full_matrices=False)[2][0]
         prop_axis[fp["node"]] = normalize(rot_scale(prop_offset[fp["node"]])[0] @ axis)
 
+    # Rigid meshes (a staff, a quiver, a mantle plate on a joint) count for the floor too: a
+    # body lying on its back must not bury what it carries.
+    rigid = []
+    hinged = set()
+    for hc in cfg.get("hinges", []):
+        stack = [by_name[hc["node"]]]
+        while stack:
+            k = stack.pop()
+            hinged.add(k)
+            stack += g.nodes[k].get("children", [])
+    for ni, node in enumerate(g.nodes):
+        if "mesh" in node and "skin" not in node and ni not in hinged:
+            for prim in g.json["meshes"][node["mesh"]]["primitives"]:
+                Pp = g.accessor(prim["attributes"]["POSITION"])
+                rigid.append((ni, np.hstack([Pp, np.ones((len(Pp), 1))])))
+
     def skinned_min_y(wm):
         mats = np.array([wm(j) @ ibm[k] for k, j in enumerate(skin["joints"])])
         low = np.inf
@@ -358,6 +547,10 @@ def main(work, cache):
             for c in range(4):
                 ys += Wp[:, c] * np.einsum("nj,nj->n", mats[Jp[:, c], 1, :], Ph)
             low = min(low, ys.min())
+        for ni, Ph in rigid:
+            low = min(low, (Ph @ wm(ni)[1]).min())
+        for ni, p, clearance in hinge_pivot:
+            low = min(low, wm(ni)[1] @ p - clearance)
         return low
 
     # The floor is where the rest pose stands.
@@ -405,11 +598,12 @@ def main(work, cache):
                     w = float(np.clip((b2 - u) / (b2 - a), 0, 1))
                 for b in lay["bones"]:
                     res["L"][f][b] = slerp_matrix(res["L"][f][b], src[b], w)
-        if spring_chains:
-            # A clip may retune a chain: {"springs": {first node: {gravity, stiffness, ease, ...}}}.
-            tune = spec.get("springs") or {}
-            chains = [dict(c, base=c, **tune.get(c["bones"][0], {})) for c in spring_chains]
-            res = r.secondary(res, chains, [], floor=floor_y)
+        # A clip may retune a chain: {"springs": {first node: {gravity, stiffness, ease, ...}}}.
+        tune = spec.get("springs") or {}
+        chains = [dict(c, base=c, **tune.get(c["bones"][0], {})) for c in spring_chains]
+        unsprung = dict(res, L=[dict(L) for L in res["L"]])
+        if chains:
+            res = r.secondary(res, chains, colliders, floor=floor_y)
         tracks = {n: {"rotation": [], "translation": []} for n in keyed}
         pys = [p[1] for p in res["pelvis"]]
         print(f"{state}: hips y rest {sk[hips].head[1]:.3f} range {min(pys):.3f}..{max(pys):.3f} scale {r.scale:.3f} ikMiss {res['ikMiss']:.4f}", file=sys.stderr)
@@ -438,11 +632,26 @@ def main(work, cache):
                     flat = axis_w.copy(); flat[1] = 0.0
                     if fp.get("to") == "up":
                         flat = np.array([0.0, np.sign(axis_w[1]) or 1.0, 0.0])
+                    elif fp.get("to") == "side":
+                        # Laid out beside the body: the long end points away from the hips along
+                        # the body's lateral axis, on the hand's side, so a staff held over the
+                        # chest does not lie across the ribcage and head.
+                        R0, P0 = R, P
+                        lateral = (R0[hips] @ sk[hips].frame.T)[:, 0].copy()
+                        lateral[1] = 0.0
+                        side = np.sign(np.dot(Mh[:3, 3] - P0[hips], lateral)) or 1.0
+                        flat = side * lateral
                     if np.linalg.norm(flat) > 1e-6:
                         turn = slerp_matrix(np.eye(3), min_arc(axis_w, flat), w)
                         Mh[:3, :3] = (turn @ Rh) * sh[None, :]
             for n, hand in props.items():
                 new_world[by_name[n]] = new_world[by_name[hand]] @ prop_offset[n]
+            for n, rel in hinge_rel.items():
+                D = R[n] @ sk[n].frame.T
+                Mw = world[by_name[n]].copy()
+                Mw[:3, :3] = D @ Mw[:3, :3]
+                Mw[:3, 3] = P[n] + D @ rel
+                new_world[by_name[n]] = Mw
             cache_w = {}
 
             def wmat(i):
@@ -484,16 +693,28 @@ def main(work, cache):
                 env = np.array([padded[i:i + 2 * span + 1].max() for i in range(len(need))])
                 padded = np.pad(env, span // 2, mode="edge")
                 lift = np.maximum(np.array([padded[i:i + span].mean() for i in range(len(need))]), need)
+                # The clip starts from the reference stance on the floor and blends in from the
+                # clip before it: the centred envelope must not raise the first frames. Before
+                # the first frame that needs a lift it eases in from zero.
+                first = int(np.argmax(need > 0))
+                if first > 0:
+                    u = np.arange(first) / first
+                    lift[:first] *= u * u * (3 - 2 * u)
                 res["pelvis"] = [p + np.array([0.0, l, 0.0]) for p, l in zip(res["pelvis"], lift)]
                 print(f"{state}: lying lift max {lift.max():.3f} end {lift[-1]:.3f}", file=sys.stderr)
 
-        for n in list(props) + held:
+        if chains and (spec.get("land") or spec.get("lift")):
+            # Land and lift moved the hips after the springs were solved: solve them again from
+            # the moved body, so a chain or hinge settles on the floor where the body finally lies.
+            res = r.secondary(dict(unsprung, pelvis=res["pelvis"]), chains, colliders, floor=floor_y)
+
+        for n in list(props) + held + list(hinge_rel):
             tracks[n] = {"rotation": [], "translation": []}
         for f in range(res["n"]):
             # A prop on its own bone (a sword under the root, posed by the studio's child-of
             # constraint in the native takes) rides its hand at the reference offset (frame_world).
             new_world, wmat = frame_world(f, res["pelvis"][f])
-            for n in keyed + list(props):
+            for n in keyed + list(props) + list(hinge_rel):
                 i = by_name[n]
                 parent_w = wmat(g.parent[i]) if i in g.parent else np.eye(4)
                 L = np.linalg.inv(parent_w) @ new_world[i]
@@ -504,6 +725,22 @@ def main(work, cache):
                 L = g.local(by_name[n], ref)
                 tracks[n]["rotation"].append(quat_from_matrix(orthonormalize(L[:3, :3] / np.linalg.norm(L[:3, :3], axis=0)[None, :])))
                 tracks[n]["translation"].append(L[:3, 3].copy())
+        # Cloth joints (new nodes): locals against their parent's new world, in chain order.
+        cloth_tracks = {c["name"]: {"rotation": [], "translation": []} for c in cloth_joints}
+        for f in range(res["n"]) if cloth_joints else []:
+            new_world, wmat = frame_world(f, res["pelvis"][f])
+            R, P = forward(sk, res["L"][f], hips, res["pelvis"][f])
+            cw = {}
+            for c in cloth_joints:
+                n = c["name"]
+                Mw = c["ref"].copy()
+                Mw[:3, :3] = R[n] @ sk[n].frame.T @ Mw[:3, :3]
+                Mw[:3, 3] = P[n]
+                cw[n] = Mw
+                parent_w = cw[c["parent"]] if c["parent"] in cw else wmat(by_name[c["parent"]])
+                L = np.linalg.inv(parent_w) @ Mw
+                cloth_tracks[n]["rotation"].append(quat_from_matrix(orthonormalize(L[:3, :3] / np.linalg.norm(L[:3, :3], axis=0)[None, :])))
+                cloth_tracks[n]["translation"].append(L[:3, 3].copy())
         for n, clip_name in cfg.get("grip", {}).items():
             # A weapon hand keeps the native grip: its local rotation from the native clip's first
             # frame, so a sword, bow or staff points where the studio authored it.
@@ -518,7 +755,7 @@ def main(work, cache):
                 Rf = matrix_from_quat(tracks[n]["rotation"][f])
                 tracks[n]["rotation"][f] = quat_from_matrix(slerp_matrix(Rf, G, w))
         clip_out = {"name": state, "fps": res["fps"], "frames": res["n"], "donor": f"{spec['donor']}:{spec['clip']}", "tracks": {}}
-        for n in keyed + list(props) + held:
+        for n in keyed + list(props) + held + list(hinge_rel):
             i = by_name[n]
             q = continuous_quats(tracks[n]["rotation"])
             entry = {"rotation": [x.tolist() for x in q]}
@@ -532,6 +769,8 @@ def main(work, cache):
                 # offsets, an IK-parented foot), so unkeyed rest never pulls a joint off its limb.
                 entry["translation"] = t.tolist()
             clip_out["tracks"][n] = entry
+        for n, tr in cloth_tracks.items():
+            clip_out["tracks"][n] = {"rotation": [x.tolist() for x in continuous_quats(tr["rotation"])], "translation": np.array(tr["translation"]).tolist()}
         out["clips"].append(clip_out)
     # Bones the runtime hit overlay may turn (node extras hitRecoil): the joints under each listed
     # root. Never a walking limb, nor an arm that carries a prop on its own bone (the prop would stay
@@ -546,6 +785,14 @@ def main(work, cache):
             stack += g.nodes[i].get("children", [])
     out["recoil"] = sorted(recoil)
     out["props"] = props
+
+    def trs(M):
+        s3 = np.linalg.norm(M[:3, :3], axis=0)
+        return {"translation": M[:3, 3].tolist(), "rotation": quat_from_matrix(orthonormalize(M[:3, :3] / s3[None, :])).tolist(), "scale": s3.tolist()}
+    # New cloth joints (node TRS under their parent, inverse bind column-major) and the cloth
+    # meshes' new JOINTS_0 / WEIGHTS_0 per primitive, for studio.mjs.
+    out["cloth"] = {"joints": [dict(trs(c["local"]), name=c["name"], parent=c["parent"], ibm=np.linalg.inv(c["bind"]).T.flatten().tolist()) for c in cloth_joints],
+                    "weights": cloth_weights}
     out["legScale"] = out["scale"]
     out["skeleton"] = {b.name: {"head": b.head.tolist(), "tail": b.tail.tolist(), "parent": b.parent} for b in sk.bones}
     json.dump(out, open(os.path.join(work, "studio.json"), "w"))

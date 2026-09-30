@@ -106,11 +106,13 @@
      0.3,
      0.55
     ],
-    "lift": true
+    "lift": true,
+    "rest": "Idle_Loop"
    }
   },
   "grip": {
    "Bip001_R_Hand": "Idle"
   }
- }
+ },
+ "notes": " Death is UAL1 Death01 transferred as motion away from the UAL Idle_Loop stance onto the native Idle's first frame (with the Bip001 wrapper at its Idle pose), so it starts where the Idle stands instead of 0.15 m higher in the donor's rest stance."
 }

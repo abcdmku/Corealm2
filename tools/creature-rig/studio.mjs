@@ -37,6 +37,32 @@ export async function assembleStudio(assetId, work = paths.work(assetId)) {
     a.dispose();
   }
   const byName = new Map(root.listNodes().map((n) => [n.getName(), n]));
+  // Cloth joints (studio.cloth): new joints under the sheet's parent, appended to the skin with
+  // their inverse binds, and the sheet's new weights. Kept clips never key them.
+  const cloth = data.cloth ?? { joints: [], weights: {} };
+  if (cloth.joints.length) {
+    const skin = root.listSkins()[0];
+    for (const j of cloth.joints) {
+      const node = doc.createNode(j.name).setTranslation(j.translation).setRotation(j.rotation).setScale(j.scale);
+      const parent = byName.get(j.parent);
+      if (!parent) throw new Error(`${assetId}: no cloth parent ${j.parent}`);
+      parent.addChild(node);
+      byName.set(j.name, node);
+      skin.addJoint(node);
+    }
+    const old = skin.getInverseBindMatrices();
+    const ibm = Float32Array.from([...old.getArray(), ...cloth.joints.flatMap((j) => j.ibm)]);
+    skin.setInverseBindMatrices(doc.createAccessor(`${old.getName() || "ibm"}_cloth`).setType("MAT4").setArray(ibm).setBuffer(buffer));
+    if (old.listParents().every((p) => p === root)) old.dispose();
+    for (const [meshNode, prims] of Object.entries(cloth.weights)) {
+      const mesh = byName.get(meshNode)?.getMesh();
+      if (!mesh) throw new Error(`${assetId}: no cloth mesh ${meshNode}`);
+      mesh.listPrimitives().forEach((prim, i) => {
+        prim.setAttribute("JOINTS_0", doc.createAccessor().setType("VEC4").setArray(Uint16Array.from(prims[i].joints.flat())).setBuffer(buffer));
+        prim.setAttribute("WEIGHTS_0", doc.createAccessor().setType("VEC4").setArray(Float32Array.from(prims[i].weights.flat())).setBuffer(buffer));
+      });
+    }
+  }
   // The runtime hit overlay (creatureHitOverlay.ts) turns only bones marked hitRecoil.
   for (const name of data.recoil ?? []) {
     const node = byName.get(name);
@@ -144,10 +170,12 @@ export function stageStudio(assetId, work = paths.work(assetId)) {
       donor,
       authored,
       notes: [
-        `Studio rig, skin, mesh and kept clips (${[...native, ...Object.keys(keptDonor), ...authored].join(", ") || "none"}) byte-identical to production (per-clip hashes checked); ${added.join(", ")} added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length ${data.legScale.toFixed(3)}, foot IK, no scale keys).`,
+        `Studio rig, skin, mesh${data.cloth?.joints?.length ? " (but the cloth weights below)" : ""} and kept clips (${[...native, ...Object.keys(keptDonor), ...authored].join(", ") || "none"}) byte-identical to production (per-clip hashes checked); ${added.join(", ")} added by tools/creature-rig studio mode: a rest-relative retarget onto the existing skeleton (hips scaled by leg length ${data.legScale.toFixed(3)}, foot IK, no scale keys).`,
         config.studio.grip ? `Weapon hands keep their native grip (${Object.keys(config.studio.grip).join(", ")}).` : null,
         Object.keys(data.props ?? {}).length ? `Props on their own bones ride their hands at the reference offset (${Object.entries(data.props).map(([p, h]) => `${p} on ${h}`).join(", ")}).` : null,
         data.recoil?.length ? `hitRecoil marks ${data.recoil.length} joints under ${(config.studio.recoil ?? []).join(", ")}.` : null,
+        data.cloth?.joints?.length ? `Cloth: ${Object.keys(data.cloth.weights).join(", ")} re-weighted below the waist onto ${data.cloth.joints.length} added spring joints (kept clips do not key them, so the kept clips' motion is unchanged; the sheet rides its parent there).` : null,
+        config.studio.hinges?.length ? `Hanging pieces on spring hinges in the added clips: ${config.studio.hinges.map((h) => h.node).join(", ")}.` : null,
         Object.values(config.studio.clips ?? {}).some((c) => c.lift) ? "Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration." : null,
       ].filter(Boolean).join(" "),
       clipSeconds: m.clipSeconds,

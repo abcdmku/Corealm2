@@ -1,5 +1,17 @@
 {
   "class": "arthropod",
   "profile": "hexapod",
-  "maxRunCadenceHz": 5
+  "profileOverrides": {
+    "legRebase": [
+      "Death"
+    ],
+    "liftLead": 0,
+    "clips": {
+      "Death": {
+        "ik": false
+      }
+    }
+  },
+  "maxRunCadenceHz": 5,
+  "notes": "Death is the spider's roll onto its back without leg IK, legs rebased on the take's first frame (legRebase), so they curl up in the upturned shell's frame instead of reaching for world tip paths scaled from a flat spider (which buried them in the belly); liftLead 0 keeps the start on the floor."
 }

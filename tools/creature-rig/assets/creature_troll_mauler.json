@@ -1,7 +1,7 @@
 {
  "class": "humanoid",
  "profile": "knight",
- "notes": "Only Idle is native (the piacenti source has one breathing take). Attack is the UAL1 Sword_Attack, read as a one-arm overhead club swipe: OverhandThrow, Zombie_Scratch and the Sword_Regular takes drive the long arms and hunched rest up to 0.9 m through the floor, TreeChopping_Loop starts and ends with the arm raised, and Punch_Cross held a boxer guard. Run is omitted (the runtime falls back to Walk): Jog_Fwd_Loop and Sprint_Loop both split the belly and loincloth skin at every knee lift.",
+ "notes": "Only Idle is native (the piacenti source has one breathing take). Walk is the UAL1 Walk_Loop with both arms held at the native Idle pose (studio still): the donor's arm swing on these floor-length arms drove the knuckles into the shins on every frame. Hit is the UAL1 Hit_Chest with the arms held the same way (the flinch threw the right hand through the thigh). Attack is the UAL1 Sword_Attack, read as a one-arm overhead club swipe: OverhandThrow, Zombie_Scratch and the Sword_Regular takes drive the long arms and hunched rest up to 0.9 m through the floor, TreeChopping_Loop starts and ends with the arm raised, and Punch_Cross held a boxer guard. Death is the UAL1 Death01. Run is omitted (the runtime falls back to Walk): Jog_Fwd_Loop and Sprint_Loop both split the belly and loincloth skin at every knee lift. The loincloth (studio cloth) was bound to the hips and belly only, so it rode the body and flipped up over the belly in Death: below the waist it is re-weighted onto six two-link spring columns under Bone, with the thighs, shins and hips as colliders, so it hangs, swings and settles in the added clips; the native Idle does not key the new joints and plays as before.",
  "studio": {
   "rootNode": "Armature",
   "map": {
@@ -122,7 +122,11 @@
    "Walk": {
     "donor": "ual1",
     "clip": "Walk_Loop",
-    "loop": true
+    "loop": true,
+    "still": [
+     "shoulderL",
+     "shoulderR"
+    ]
    },
    "Attack": {
     "donor": "ual1",
@@ -130,13 +134,61 @@
    },
    "Hit": {
     "donor": "ual1",
-    "clip": "Hit_Chest"
+    "clip": "Hit_Chest",
+    "still": [
+     "shoulderL",
+     "shoulderR"
+    ]
    },
    "Death": {
     "donor": "ual1",
     "clip": "Death01",
     "lift": true
    }
-  }
+  },
+  "cloth": [
+   {
+    "mesh": "cloth",
+    "parent": "Bone",
+    "columns": 6,
+    "links": 2,
+    "seam": 0.4,
+    "stiffness": 25,
+    "damping": 5,
+    "gravity": 6,
+    "hang": 0.3,
+    "clearance": 0.1,
+    "falloff": 0.3,
+    "drag": 0.3,
+    "interpolate": true,
+    "iterations": 4,
+    "cycles": 4,
+    "substeps": 6,
+    "sided": true,
+    "ring": true
+   }
+  ],
+  "colliders": [
+   {
+    "node": "thighL",
+    "radius": 0.36
+   },
+   {
+    "node": "thighR",
+    "radius": 0.36
+   },
+   {
+    "node": "shinL",
+    "radius": 0.28
+   },
+   {
+    "node": "shinR",
+    "radius": 0.28
+   },
+   {
+    "node": "Bone",
+    "radius": 0.55
+   }
+  ]
  }
 }
