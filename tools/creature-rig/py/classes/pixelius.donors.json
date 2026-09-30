@@ -29,6 +29,22 @@
     },
     "salamander": {
       "ref": "animal_firesalamander"
+    },
+    "ual1": {
+      "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library[Standard].zip",
+      "member": "Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb",
+      "files": [
+        "D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"
+      ],
+      "source": "Quaternius Universal Animation Library (Standard), CC0"
+    },
+    "ual2": {
+      "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library_2[Standard].zip",
+      "member": "Universal Animation Library 2[Standard]/Unreal-Godot/UAL2_Standard.glb",
+      "files": [
+        "D:/corealm-scratch/anim-audit/refs/ual/UAL2_Standard.glb"
+      ],
+      "source": "Quaternius Universal Animation Library 2 (Standard), CC0"
     }
   },
   "primary": "pixelius_02",

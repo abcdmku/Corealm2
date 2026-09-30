@@ -128,7 +128,18 @@ def main(work, cache):
     entry = next(a for a in manifest["assets"] if a["id"] == asset_id)
     g = Glb(os.path.join(REPO, "game/public/assets", entry["file"]))
     joints = g.json["skins"][0]["joints"]
-    ref = g.clip_pose(cfg["referenceClip"], 0.0, only=set(joints)) if cfg.get("referenceClip") else None
+    # The reference pose covers the joints and every node above them: a wrapper (a Biped's Bip001)
+    # that the reference clip moves carries the whole body, so leaving it at rest would build the
+    # skeleton away from the stance the clip shows (the skeleton soldier's Death started 0.15 m
+    # above its Idle).
+    ref = None
+    if cfg.get("referenceClip"):
+        carried = set(joints)
+        for j in joints:
+            while j in g.parent:
+                j = g.parent[j]
+                carried.add(j)
+        ref = g.clip_pose(cfg["referenceClip"], 0.0, only=carried)
     world = {i: g.world(i, ref) for i in range(len(g.nodes))}
     by_name = g.name_index
 
@@ -196,6 +207,14 @@ def main(work, cache):
     # "donor" may name a bone per donor ({donor key: bone or null}) when donors of different rigs
     # drive one skeleton; the primary donor's name is the bone's own.
     bone_maps = {k: {} for k in donors}
+    if cfg["map"] == "arp":
+        # A donor that is not Auto-Rig Pro (a UAL humanoid) drives the canonical hips, spine, head
+        # and limb bones by their own names (the UE names the canonical ones are); every other
+        # joint follows its parent in that donor's clips.
+        canonical = {b for b, _ in ARP_CORE.values()} | {f"{b}_{s}" for b, _ in ARP_SIDED.values() for s in "lr"}
+        for k, d in donors.items():
+            if "root.x" not in d.bones and "rootx" not in d.bones:
+                bone_maps[k] = {b: b for b in canonical if b in d.bones}
     for n, v in mp.items():
         if isinstance(v.get("donor"), dict):
             per = v["donor"]
@@ -434,8 +453,13 @@ def main(work, cache):
     held = [g.nodes[i]["name"] for i in joints if g.nodes[i]["name"] not in mp and g.nodes[i]["name"] not in props] if cfg.get("holdUnmapped") else []
     prop_offset = {n: np.linalg.inv(world[by_name[hand]]) @ world[by_name[n]] for n, hand in props.items()}
 
+    held_names = set(held)
+
     def rest_local(i):
-        return g.local(i, ref if cfg.get("holdUnmapped") else None)
+        # What an unkeyed node shows at runtime: its node rest, except the joints held at the
+        # reference pose (they are keyed there). A wrapper node the added clips do not key plays
+        # at its rest even when the reference clip moved it.
+        return g.local(i, ref if g.nodes[i].get("name") in held_names else None)
 
     # Long axis of each prop node in its hand's frame (from its meshes' extent).
     prop_axis = {}
