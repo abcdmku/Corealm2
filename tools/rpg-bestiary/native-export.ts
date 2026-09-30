@@ -212,10 +212,10 @@ export const SPECS: Record<string, Spec> = {
   creature_ivory_castellan: armouredToes(ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} The inherited iron-golem retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard.`)),
   creature_scree_watcher: ubc([...humanoid, ['Attack', 2, 'OverhandThrow']], `${noRetime} The x1.07 retime and head/spine sines are gone. Attack is the overhand hurl as a stone-palm smash, not the Punch_Cross boxing guard.`),
   ...Object.fromEntries(['forest', 'highland', 'quarry'].map(region => [`bandit_${region}_ranger`,
-    // Unarmed: a crouched lunge with the striking arm driven at the target (Sword_Dash in place).
-    // OverhandThrow read as an empty-handed whirl; Sword_Regular and Shield_Dash start in a combat
-    // stance, not from the idle; Shield_OneShot is a held forearm block.
-    ubc([...humanoid, ['Attack', 2, 'Sword_Dash']], `${noRetime} Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 dash lunge in place (the root is pinned), an unarmed lunging strike from the idle and back; not the Punch_Jab boxing guard nor the OverhandThrow whirl.`)])),
+    // Unarmed: a braced one-fist hammer blow (Sword_Regular_A and its recovery, as the golems club).
+    // OverhandThrow read as an empty-handed whirl; Sword_Dash in place dropped to a crawl with a hand
+    // on the floor; Sword_Regular_B and Shield_Dash start in a combat stance; Shield_OneShot is a held block.
+    ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is an unarmed one-fist hammer blow from a braced crouch (UAL2 Sword_Regular_A and its recovery), not the Punch_Jab boxing guard nor the OverhandThrow whirl.`)])),
   creature_kiln_marrow: lava(),
   creature_furnace_regent: lava(),
 };

@@ -201,7 +201,6 @@ function buildTip(doc: Document, spec: TipSpec, bind: Map<Node, THREE.Matrix4>, 
   const verts = prims.flatMap(({ prim }) => { const P = prim.getAttribute('POSITION')!; return Array.from({ length: P.getCount() }, (_, index) => ({ prim, index, p: v3(P.getElement(index, [])).applyMatrix4(skinToBind) })); });
   const y0 = new THREE.Vector3().setFromMatrixPosition(bind.get(parent)!).y + spec.from, K = spec.segments;
   const above = verts.filter(v => v.p.y > y0), top = Math.max(...above.map(v => v.p.y));
-  if (process.env.DEBUG_TIP) console.log('tip', tag, 'joint y', (y0 - spec.from).toFixed(3), 'top', top.toFixed(3), 'verts', above.length);
   // The column runs up the middle of the point, through the centroid of each height band.
   const points = Array.from({ length: K + 1 }, (_, k) => {
     const y = y0 + (top - y0) * k / K, band = above.filter(v => Math.abs(v.p.y - y) < (top - y0) / K * 0.5);
@@ -338,6 +337,8 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
   const lengths = rig.chains.map(c => c.rest.slice(1).map((p, i) => p.distanceTo(c.rest[i]!)));
   const spacing = rig.chains.map(c => c.next === undefined ? [] : c.rest.map((p, i) => p.distanceTo(c.next!.rest[i]!)));
   const glide = opts.glide ?? 0;
+  // Every simulated point with its sheet and the spacing it keeps from the rest of that sheet.
+  const points = rig.chains.flatMap((chain, ci) => chain.rest.map((_, i) => ({ chain: ci, i, spec: chain.spec, gap: 0.6 * Math.min(...spacing[ci]!.filter(Boolean), lengths[ci]![0]!) })).slice(1));
   const order = opts.loop ? [...Array(3)].flatMap(() => [...Array(n - 1).keys()]) : [...Array(30).fill(0), ...Array(n).keys()];
   const init = rig.chains.map(c => targets(c, order[0]!, 0));
   const x = init.map(t => t.map(p => p.clone())), prev = init.map(t => t.map(p => p.clone()));
@@ -363,6 +364,13 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
         x[ci]![0]!.copy(tg[ci]![0]!);
       });
       for (let iteration = 0; iteration < 3; iteration++) {
+        // The cloth does not pass through itself: points of one sheet keep apart by its thickness.
+        for (let a = 0; a < points.length; a++) for (let b = a + 1; b < points.length; b++) {
+          const A = points[a]!, B = points[b]!;
+          if (A.spec !== B.spec || (A.chain === B.chain && Math.abs(A.i - B.i) < 2)) continue;
+          const pa = x[A.chain]![A.i]!, pb = x[B.chain]![B.i]!, d = pa.distanceTo(pb), want = Math.max(A.gap, B.gap);
+          if (d < want && d > 1e-9) { const corr = pb.clone().sub(pa).multiplyScalar((want - d) / d * 0.5); pa.sub(corr); pb.add(corr); }
+        }
         rig.chains.forEach((chain, ci) => {
           if (chain.next === undefined) return;
           for (let i = 1; i < chain.rest.length; i++) {
@@ -394,7 +402,6 @@ export function simulateCloth(doc: Document, rig: ClothRig, clipName: string, op
     if ((opts.loop && step >= order.length - (n - 1)) || (!opts.loop && step >= 30)) history.push(x.map(chain => chain.map(p => p.clone().setZ(p.z - shift))));
   }
   if (opts.loop) history.push(history[0]!.map(chain => chain.map(p => p.clone())));
-  if (process.env.DEBUG_CLOTH === clipName) rig.chains.forEach((c, ci) => { if (!c.joints[0]!.getName().includes(process.env.DEBUG_CHAIN ?? "")) return; const f = (p: THREE.Vector3) => p.toArray().map(v => v.toFixed(2)).join(","); console.log(c.joints[0]!.getName(), "thick", c.thick.map(t => t.toFixed(2)).join(","), "parent", c.parent.getName(), "rest", c.rest.map(f).join(" | "), "\n  T", targets(c, 0, 0).map(f).join(" | "), "\n  S", history[0]![ci]!.map(f).join(" | "), "\n  E", history.at(-1)![ci]!.map(f).join(" | ")); });
   // Bake: each joint turns (minimal arc from its rest direction) to point at the next simulated point.
   const rotations = rig.chains.map(c => c.joints.map(() => [] as number[]));
   const pose = new THREE.Matrix4(), inv = new THREE.Matrix4();
