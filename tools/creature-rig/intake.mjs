@@ -233,10 +233,11 @@ function translateAll(nodes, offset) {
   }
 }
 
-/** Ground the lowest vertex on y=0 and centre the lowest 15% of the body (feet, hem) on the origin. */
-function groundAndCentre(nodes) {
+/** Ground the lowest vertex on y=0 and centre the lowest 15% of the body (feet, hem) on the origin;
+ * with centre "bounds", the whole body's bounds (a body whose legs on one side are modelled short). */
+function groundAndCentre(nodes, centre) {
   const { min, max, points } = boundsOf(nodes);
-  const band = min[1] + (max[1] - min[1]) * 0.15;
+  const band = centre === "bounds" ? max[1] : min[1] + (max[1] - min[1]) * 0.15;
   const low = points.filter((p) => p[1] <= band);
   const lx = low.map((p) => p[0]);
   const lz = low.map((p) => p[2]);
@@ -290,7 +291,7 @@ function matchingSources(production) {
 
 /** What an intake depends on: the forced source and the production file. */
 export function intakeKey(config, productionBytes) {
-  return createHash("sha256").update(JSON.stringify({ source: config.source ?? null, bind: config.bind ?? null, tool: 2, orient: config.orient })).update(productionBytes).digest("hex").slice(0, 16);
+  return createHash("sha256").update(JSON.stringify({ source: config.source ?? null, bind: config.bind ?? null, tool: 2, orient: config.orient, centre: config.centre })).update(productionBytes).digest("hex").slice(0, 16);
 }
 
 /** True when <work>/intake.json is missing or was made from another source or production file. */
@@ -316,7 +317,7 @@ export async function intake(assetId, work = paths.work(assetId)) {
   const bindClip = config.bind && typeof config.bind === "object" ? config.bind.clip : null;
   const meshNodes = bakeBindMesh(doc, { pose: config.bind === "rest" || bindClip ? "rest" : "bind", clip: bindClip });
   if (config.orient) orientMesh(meshNodes, config.orient);
-  const grounded = groundAndCentre(meshNodes);
+  const grounded = groundAndCentre(meshNodes, config.centre);
   const vertexCount = meshNodes.reduce((n, node) => n + node.getMesh().listPrimitives().reduce((m, p) => m + p.getAttribute("POSITION").getCount(), 0), 0);
   mkdirSync(work, { recursive: true });
   await io.write(path.join(work, "mesh.glb"), doc);
@@ -343,7 +344,7 @@ export async function intake(assetId, work = paths.work(assetId)) {
 
   const record = {
     assetId,
-    // Only the config fields intake uses (source, bind, orient). Class, profile and profileOverrides are read again by
+    // Only the config fields intake uses (source, bind, orient, centre). Class, profile and profileOverrides are read again by
     // rig.py at rig time; run.mjs repeats the intake when these or the production file change.
     intakeKey: intakeKey(config, productionBytes),
     production: {
