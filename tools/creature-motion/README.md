@@ -41,5 +41,19 @@ Root tools in this folder:
   new hash, so its shipped thumbnails are stale: rerun `npx tsx tools/bake-art-thumbnails.ts` against
   the running devdocs, or every Art page renders those creatures in the author's browser.
 
+- `joint-sanity.mjs [<glb> ...] [--ids a,b] [--json out.json]` checks limb joints across every clip
+  (sampled at 30 fps) and in the bind pose. With no paths it runs every manifest creature (every GLB
+  with a Death clip) across all cores in a few seconds. It reports:
+  - hinges that bend back past straight (`hyperextension`), fold shut (`overfold`) or swing out of
+    their plane (`outOfPlane`);
+  - limb skin that wrings round the bone (`wrap`, the candy-wrapper);
+  - biped knees and elbows, and bird heels, whose fold points the wrong way (`role`);
+  - joints outside the mesh, off the limb's centre or away from its crease, and bones whose skin
+    lies off their segment.
+  Defaults are tuned so studio-native bodies stay quiet. Findings carry the clip, time and angle,
+  and whether the clip is native. They point at frames to render; they do not accept or reject
+  anything. Confirm each one on a contact sheet at that clip and time before acting.
+  Quadruped roles are not judged, because rigs disagree on what their leg bones are.
+
 `pose.ts` (sample and pose a glTF clip, copy tracks), `source-clips.ts` (read FBX takes) and
 `validate-deformation.ts` (skinned bounds) are shared helpers for the importers.
