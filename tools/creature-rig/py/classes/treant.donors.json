@@ -53,7 +53,16 @@
         },
         "Death": {
           "donor": "ual1",
-          "clip": "Death01"
+          "clip": "Death01",
+          "layers": [
+            {
+              "donor": "ual1",
+              "clip": "Idle_Loop",
+              "kinds": [
+                "arm"
+              ]
+            }
+          ]
         }
       },
       "heelPivot": true,

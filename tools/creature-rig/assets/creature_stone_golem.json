@@ -1,1 +1,12 @@
-{ "class": "golem", "profile": "golem" }
+{
+  "class": "golem",
+  "profile": "golem",
+  "profileOverrides": {
+    "clips": {
+      "Attack": {
+        "donor": "ual2",
+        "clip": "OverhandThrow"
+      }
+    }
+  }
+}
