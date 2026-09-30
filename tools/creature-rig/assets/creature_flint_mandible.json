@@ -1,5 +1,18 @@
 {
   "class": "arthropod",
   "profile": "hexapod",
-  "maxRunCadenceHz": 5
+  "maxRunCadenceHz": 5,
+  "profileOverrides": {
+    "legRebase": [
+      "Death"
+    ],
+    "liftLead": 0,
+    "clips": {
+      "Death": {
+        "ik": false,
+        "hipMotion": 1.3
+      }
+    }
+  },
+  "notes": "Six legs (the joint-sanity report read the overlapping front and middle legs as one four-leg front). Death is the spider's roll onto its back without leg IK, legs rebased on the take's first frame (legRebase) so they curl up off the upturned shell instead of into it; hipMotion 1.3 brings the thin shell down to the floor (the lying lift then clears it exactly); liftLead 0 keeps the start on the floor."
 }

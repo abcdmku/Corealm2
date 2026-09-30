@@ -376,7 +376,7 @@ def fit(body, donor, profile, source=None):
             h, t = g["joints"][2], g["joints"][3]
             pads.append(np.median([body.radius_at(h + u * (t - h)) for u in (0.3, 0.5, 0.7)]) / max(np.linalg.norm(t - h), 1e-9))
     notes["footPad"] = round(float(np.median(pads)), 3) if pads else 0.0
-    sk.arth = {"pad": notes["footPad"], "subset": subset, "legs": {s: [g.get("bones") for g in fitted[s] if g.get("bones")] for s in fitted}, "blob": blob,
+    sk.arth = {"pad": notes["footPad"], "subset": subset, "subsets": {donor.key: subset}, "legs": {s: [g.get("bones") for g in fitted[s] if g.get("bones")] for s in fitted}, "blob": blob,
                "bodyLength": float(np.ptp(V[:, 2])), "belly": float(bp[:, 1].min())}
     return sk, notes
 
@@ -392,6 +392,18 @@ def _symmetrise(fitted, mid_x, tolerance):
             L["joints"][k], R["joints"][k] = avg, mirror(avg)
         L["hip"], L["tip"] = L["joints"][0], L["joints"][-1]
         R["hip"], R["tip"] = R["joints"][0], R["joints"][-1]
+
+
+def _pairs(sk, donor):
+    """The donor's leg pairs (front to back) that drive the target's pairs. Each donor gets its own
+    choice from its own walk and leg directions: the scorpion's first three pairs are its gait's
+    tripod, but the same indices on the Quaternius spider hand a backward hind leg the spider's
+    sideways third pair, which swings the leg out of its hinge plane."""
+    subsets = sk.arth.setdefault("subsets", {})
+    if donor.key not in subsets:
+        targets = {s: [(sk[bones[0]].head, sk[bones[-1]].tail) for bones in sk.arth["legs"][s]] for s in ("l", "r")}
+        subsets[donor.key], _ = choose_pairs(donor, targets)
+    return subsets[donor.key]
 
 
 def donor_map(sk, donor, profile):
@@ -413,7 +425,7 @@ def donor_map(sk, donor, profile):
             out[b.name] = lay.get("abdomen")
         elif b.name.startswith("leg_"):
             side, order, k = b.name[4], int(b.name[5]), int(b.name.split("_")[-1]) - 1
-            idx = sk.arth["subset"][order]
+            idx = _pairs(sk, donor)[order]
             chains = lay["legs"][side]
             out[b.name] = chains[idx][k] if idx < len(chains) else None
         elif b.name.startswith("palp_"):
@@ -565,7 +577,7 @@ def _rebase_legs(sk, donor, lay, profile):
         frames = donor.clips[spec["clip"]]["frames"]
         for side in ("l", "r"):
             for o in range(len(sk.arth["legs"][side])):
-                for b in lay["legs"][side][sk.arth["subset"][o]]:
+                for b in lay["legs"][side][_pairs(sk, donor)[o]]:
                     i = donor.index(b)
                     frames[:, i] = frames[:, i] @ (frames[0, i].T @ donor.rest_frame[b])
         done.add(spec["clip"])
@@ -579,7 +591,7 @@ def _leg_scale(sk, donor, lay):
     for side in ("l", "r"):
         for o, bones in enumerate(sk.arth["legs"][side]):
             t.append(sum(np.linalg.norm(sk[b].tail - sk[b].head) for b in bones))
-            chain = lay["legs"][side][sk.arth["subset"][o]]
+            chain = lay["legs"][side][_pairs(sk, donor)[o]]
             J = [donor.rest_head[b] for b in chain] + [donor.rest_tail[chain[-1]]]
             d.append(sum(np.linalg.norm(J[i + 1] - J[i]) for i in range(len(J) - 1)))
     return float(np.mean(t) / np.mean(d)), float(np.mean(t))
@@ -666,7 +678,7 @@ def _hit_beat(sk, donor, lay, profile):
     # tilt on a long, short-legged shell (the slag crawler) lifts the front legs off the floor and
     # folds the back ones through it.
     ang_cap = np.arcsin(min(1.0, (0.06 if stumpy else 0.2) * leg / max(0.5 * sk.arth["bodyLength"], 1e-9)))
-    legs_used = {b for side in ("l", "r") for o in range(len(sk.arth["legs"][side])) for b in lay["legs"][side][sk.arth["subset"][o]]}
+    legs_used = {b for side in ("l", "r") for o in range(len(sk.arth["legs"][side])) for b in lay["legs"][side][_pairs(sk, donor)[o]]}
     ride = [j for j in below_h if donor.bones[j] not in legs_used]
     for f in range(len(frames)):
         D = frames[f][hub] @ frames[0][hub].T
@@ -685,7 +697,7 @@ def _hit_beat(sk, donor, lay, profile):
     frames = np.array(frames)
     for side in ("l", "r"):
         for o in range(len(sk.arth["legs"][side])):
-            chain = lay["legs"][side][sk.arth["subset"][o]]
+            chain = lay["legs"][side][_pairs(sk, donor)[o]]
             for bone in chain:
                 frames[:, donor.index(bone)] = frames[0, donor.index(bone)]
             last = chain[-1]
