@@ -13,6 +13,12 @@
       "files": ["D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"],
       "source": "Quaternius Universal Animation Library (Standard), CC0"
     },
+    "ual1_legs": {
+      "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library[Standard].zip",
+      "member": "Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb",
+      "files": ["D:/corealm-scratch/anim-audit/refs/ual/UAL1_Standard.glb"],
+      "source": "Quaternius Universal Animation Library (Standard), CC0"
+    },
     "ual2": {
       "zip": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Universal_Animation_Library_2[Standard].zip",
       "member": "Universal Animation Library 2[Standard]/Unreal-Godot/UAL2_Standard.glb",
@@ -26,8 +32,6 @@
       "body": "insect",
       "hipMode": "vertical",
       "hover": 0.055,
-      "wingSplit": [0.1, 0.85],
-      "wingSpring": {},
       "liftLead": 3,
       "clips": {
         "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
@@ -35,12 +39,12 @@
         "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Attack": { "donor": "wasp", "clip": "Wasp_Attack" },
         "Hit": { "donor": "wasp_hit", "clip": "Wasp_Hit" },
-        "Death": { "donor": "wasp", "clip": "Wasp_Death",
-                   "chains": { "wing_": { "stiffness": 25.0, "gravity": 30.0, "damping": 8.0, "ease": [0.3, 0.6] } } }
+        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
       }
     },
     "fae": {
       "body": "fae",
+      "heldLegs": true,
       "wingSplit": [0.1, 0.85],
       "wingSpring": {},
       "liftLead": 3,
@@ -58,14 +62,15 @@
                                { "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "bones": ["pelvis", "spine", "Head"] }] },
         "Hit": { "donor": "ual1", "clip": "Hit_Chest",
                  "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
-        "Death": { "donor": "ual1", "clip": "Death01",
+        "Death": { "donor": "ual1_legs", "clip": "Death01",
                    "layers": [{ "donor": "ual1", "clip": "Idle_Loop", "bones": ["Head"] }],
                    "chains": { "wing_": { "stiffness": 25.0, "gravity": 30.0, "damping": 8.0, "ease": [0.25, 0.5] },
-                               "tail_": { "stiffness": 60.0, "gravity": 10.0, "damping": 8.0, "ease": [0.25, 0.5] } } }
+                               "tail_": { "stiffness": 60.0, "gravity": 10.0, "damping": 8.0, "ease": [0.1, 0.3] } } }
       }
     },
     "imp": {
       "body": "fae",
+      "heldLegs": true,
       "wingSplit": [0.1, 0.85],
       "wingSpring": {},
       "liftLead": 3,
@@ -82,10 +87,10 @@
                     "layers": [{ "donor": "ual2", "clip": "Zombie_Scratch", "kinds": ["arm"] }] },
         "Hit": { "donor": "ual1", "clip": "Hit_Chest",
                  "layers": [{ "donor": "wasp", "clip": "Wasp_Flying", "loop": true, "kinds": ["wing"] }] },
-        "Death": { "donor": "ual1", "clip": "Death01",
+        "Death": { "donor": "ual1_legs", "clip": "Death01",
                    "layers": [{ "donor": "ual1", "clip": "Idle_Loop", "bones": ["Head"] }],
                    "chains": { "wing_": { "stiffness": 25.0, "gravity": 30.0, "damping": 8.0, "ease": [0.25, 0.5] },
-                               "tail_": { "stiffness": 60.0, "gravity": 10.0, "damping": 8.0, "ease": [0.25, 0.5] } } }
+                               "tail_": { "stiffness": 60.0, "gravity": 10.0, "damping": 8.0, "ease": [0.1, 0.3] } } }
       }
     }
   }

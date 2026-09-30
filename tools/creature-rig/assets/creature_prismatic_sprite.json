@@ -1,1 +1,2 @@
-{ "class": "winged", "profile": "fae", "profileOverrides": { "hover": 0.28 } }
+{ "class": "winged", "profile": "fae", "profileOverrides": { "hover": 0.28,
+  "clips": { "Death": { "layers": [{ "donor": "ual1", "clip": "Idle_Loop", "bones": ["Head", "lowerarm_l", "lowerarm_r"] }] } } } }

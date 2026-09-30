@@ -605,7 +605,10 @@ def plan(sk, body, profile):
     hips = "thorax" if "thorax" in sk else "pelvis"
     chains, colliders = [], []
     legs = [[f"{n}_{s}" for n in ("thigh", "calf", "foot")] for s in ("l", "r") if f"thigh_{s}" in sk]
-    for bones in legs:
+    # A spring leg has no knee limit: when the body lands on it in Death it folds backwards. With
+    # heldLegs the legs ride the pelvis in their modelled hang (a hovering body holds its legs) and
+    # take a humanoid donor's legs only where the clip's donor is LEG_DONOR (a Death01 collapse).
+    for bones in ([] if profile.get("heldLegs") else legs):
         chains.append({"bones": bones, "stiffness": profile.get("legStiffness", 30.0), "damping": 6.0,
                        "gravity": 0.0, "hang": profile.get("legHang", 0.2), "clearance": 0.0})
     # Wings: the outer two bones of each wing are a spring chain on the donor-driven root. Stiff
@@ -623,17 +626,28 @@ def plan(sk, body, profile):
                        "gravity": 0.0, "hang": 0.0, "clearance": 0.01})
     # The torso pushes dangling legs and limp wings out of the body.
     torso = ("pelvis", "spine") if legs else (("thorax", "abdomen_01", "abdomen_02") if chains else ())
-    for bone in (b for b in torso if b in sk):
+    # A tail hanging between the legs (the sprite's abdomen) is pushed out of donor-driven legs.
+    limbs = [f"{n}_{s}" for n in ("thigh", "calf") for s in ("l", "r")] if getattr(sk, "winged", {}).get("tails") else []
+    for bone in (b for b in (*torso, *limbs) if b in sk):
         b = sk[bone]
-        colliders.append(CapsuleCollider(sk, bone, 0.9 * body.radius_at(0.5 * (b.head + b.tail))))
+        # A limb capsule is widened by the tail's own half-thickness: it pushes the tail's joints,
+        # and the tail's surface must clear the limb's.
+        grow = 1.6 if bone in limbs else 0.9
+        colliders.append(CapsuleCollider(sk, bone, grow * body.radius_at(0.5 * (b.head + b.tail))))
     return {"hips": hips, "legs": [], "chains": chains, "colliders": colliders,
             "hip_motion": profile.get("hipMotion", 1.0), "hip_mode": profile.get("hipMode", "vertical")}
 
 
+LEG_DONOR = "ual1_legs"
+UAL_LEGS = {f"{b}_{s}": f"{b}_{s}" for b in ("thigh", "calf", "foot") for s in ("l", "r")}
+
+
 def donor_map(sk, donor, profile):
-    """A humanoid (UAL) donor drives the fae's torso, head and arms by their humanoid names."""
+    """A humanoid (UAL) donor drives the fae's torso, head and arms by their humanoid names; the
+    LEG_DONOR copy of it drives the legs too."""
     if donor.key.startswith("ual"):
-        return {name: UAL_MAP.get(name) for name in sk.names()}
+        names = {**UAL_MAP, **(UAL_LEGS if donor.key == LEG_DONOR else {})}
+        return {name: names.get(name) for name in sk.names()}
     return None
 
 
