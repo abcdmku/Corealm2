@@ -621,10 +621,11 @@ def plan(sk, body, profile):
     for t in getattr(sk, "winged", {}).get("tails", []):
         chains.append({"bones": t["bones"], "stiffness": profile.get("tailStiffness", 4000.0), "damping": 120.0,
                        "gravity": 0.0, "hang": 0.0, "clearance": 0.01})
-    if legs:
-        for bone in ("pelvis", "spine"):
-            b = sk[bone]
-            colliders.append(CapsuleCollider(sk, bone, 0.9 * body.radius_at(0.5 * (b.head + b.tail))))
+    # The torso pushes dangling legs and limp wings out of the body.
+    torso = ("pelvis", "spine") if legs else (("thorax", "abdomen_01", "abdomen_02") if chains else ())
+    for bone in (b for b in torso if b in sk):
+        b = sk[bone]
+        colliders.append(CapsuleCollider(sk, bone, 0.9 * body.radius_at(0.5 * (b.head + b.tail))))
     return {"hips": hips, "legs": [], "chains": chains, "colliders": colliders,
             "hip_motion": profile.get("hipMotion", 1.0), "hip_mode": profile.get("hipMode", "vertical")}
 

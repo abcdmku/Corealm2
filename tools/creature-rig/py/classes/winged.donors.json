@@ -25,14 +25,18 @@
     "wasp": {
       "body": "insect",
       "hipMode": "vertical",
-      "hover": 0.045,
+      "hover": 0.055,
+      "wingSplit": [0.1, 0.85],
+      "wingSpring": {},
+      "liftLead": 3,
       "clips": {
         "Idle": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Walk": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Run": { "donor": "wasp", "clip": "Wasp_Flying", "loop": true },
         "Attack": { "donor": "wasp", "clip": "Wasp_Attack" },
         "Hit": { "donor": "wasp_hit", "clip": "Wasp_Hit" },
-        "Death": { "donor": "wasp", "clip": "Wasp_Death" }
+        "Death": { "donor": "wasp", "clip": "Wasp_Death",
+                   "chains": { "wing_": { "stiffness": 25.0, "gravity": 30.0, "damping": 8.0, "ease": [0.3, 0.6] } } }
       }
     },
     "fae": {
