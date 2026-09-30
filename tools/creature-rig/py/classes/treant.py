@@ -192,6 +192,9 @@ def _skirt(body, sk, profile, label):
     if not cols:
         return None
     seam = _seam_release(body, rows, spec.get("seam", 0.04) * H)
+    inside = np.zeros(len(V), bool)
+    inside[rows] = True
+    fused = np.isin(label[rows], np.unique(label[~inside]))
     sk.notes["skirt"] = {"vertices": int(len(rows)), "columns": [c["bones"][0].rsplit("_", 1)[0] for c in cols]}
 
     def weights(W):
@@ -220,9 +223,10 @@ def _skirt(body, sk, profile, label):
         t = np.clip((top - P[:, 1]) / (0.12 * max(np.ptp(P[:, 1]), 1e-6)), 0, 1)
         a = t * t * (3 - 2 * t) * seam
         own = W[rows] / np.maximum(W[rows].sum(1, keepdims=True), 1e-9)
-        # Petals fused to a forearm or a hand ride it: bone heat already gave them to the arm.
+        # Petals fused to a forearm or a hand (one surface with it) ride it: bone heat already
+        # gave them to the arm. A loose skirt piece a hand only rests on keeps its chains.
         arm = [i for i, n in enumerate(names) if n.split("_")[0] in ("lowerarm", "hand")]
-        a *= np.clip(1.0 - 3.0 * own[:, arm].sum(1), 0.0, 1.0)
+        a *= np.where(fused, np.clip(1.0 - 3.0 * own[:, arm].sum(1), 0.0, 1.0), 1.0)
         W[rows] = (1 - a)[:, None] * own + a[:, None] * C
         return a > 0.5
 

@@ -15,7 +15,8 @@
       "Death": {
         "chains": {
           "skirt": {
-            "hang": 0.0
+            "hang": 0.0,
+            "clearance": 0.16
           }
         },
         "layers": [
@@ -46,7 +47,56 @@
       "clearance": 0.03,
       "colliderPad": 1.3,
       "armColliders": true
+    },
+    "landmarks": {
+      "joints": {
+        "pelvis": [
+          0.0,
+          1.48,
+          0.4
+        ],
+        "thigh_l": [
+          0.3,
+          1.4,
+          0.4
+        ],
+        "calf_l": [
+          0.46,
+          0.84,
+          0.37
+        ],
+        "foot_l": [
+          0.5,
+          0.12,
+          0.36
+        ],
+        "ball_l": [
+          0.58,
+          0.03,
+          0.72
+        ],
+        "thigh_r": [
+          -0.3,
+          1.4,
+          0.4
+        ],
+        "calf_r": [
+          -0.46,
+          0.84,
+          0.37
+        ],
+        "foot_r": [
+          -0.5,
+          0.12,
+          0.36
+        ],
+        "ball_r": [
+          -0.58,
+          0.03,
+          0.72
+        ]
+      }
     }
   },
-  "notes": "Amethyst Sovereign: a crystal-crowned tree spirit with a leaf train. On the treant class (golem fit and skin, loose pieces bound to what they grow from) the crown's hundreds of loose crystals ride the head; on special_treant the crystals and a crown bud were bound to the arms and smeared sideways in the cast. The humanoid cape finder (cloth) turns the train into spring panels, so it hangs clear of the floor. It casts (Spell_Simple). In Death the train panels take the body's turn fully (hang 0), so the train lies with the fallen body instead of standing under it like a tent."
+  "notes": "Amethyst Sovereign: a crystal-crowned tree spirit with a leaf train. On the treant class (golem fit and skin, loose pieces bound to what they grow from) the crown's hundreds of loose crystals ride the head; the humanoid-plan class it had before bound the crystals and a crown bud to the arms and smeared them sideways in the cast. The leaf train is a ring of spring columns round the pelvis (treant skirt) with leg and arm colliders, so it trails, swings and settles with the body; in Death its columns take the body's turn fully (hang 0) and the arms hold the idle carry (Death01 laid both forearms into the belly). The fit set the pelvis and legs a quarter metre off the midline (the right leg joints ran along the outer edge of the leg), so the hips and legs are given."
 }
