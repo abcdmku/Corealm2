@@ -261,8 +261,10 @@ export const clipSeconds = (clip: Animation) => Math.max(...clip.listSamplers().
  * hips drop below half their rest height, lift the hips by a smooth envelope of the skinned mesh's
  * floor penetration (sliding max, then a sliding mean of the same span, never below the need).
  * Standing clips are never touched. Returns the lift at the last key (0 when nothing was needed).
+ * `lead` (crlib liftLead): keys of look-ahead only, so a falling body is not lifted before it lands.
+ * `minY`: the lowest point to keep off the floor (default: the whole skinned mesh).
  */
-export function lyingLift(doc: Document, clipName: string, rootNames: string[]): number {
+export function lyingLift(doc: Document, clipName: string, rootNames: string[], options: { lead?: number; minY?: () => number } = {}): number {
   // rootNames: the hips first, then any other top joints that do not hang from it (IK leg roots).
   const root = doc.getRoot(), clip = root.listAnimations().find(c => c.getName() === clipName);
   const roots = rootNames.map(name => root.listNodes().find(n => n.getName() === name));
@@ -277,15 +279,16 @@ export function lyingLift(doc: Document, clipName: string, rootNames: string[]):
   for (let i = 0; i < times.length; i++) {
     restorePose(stored); applyClip(clip, times[i]!);
     hipsY.push(hips.getWorldMatrix()[13]!);
-    need.push(Math.max(-deformedBounds(doc).min[1]!, 0));
+    need.push(Math.max(-(options.minY ? options.minY() : deformedBounds(doc).min[1]!), 0));
   }
   restorePose(stored);
   if (Math.max(...hipsY.map(y => restY - y)) < 0.5 * restY) return 0;
   const floor = need.map(n => (n < 0.003 * height ? 0 : n));
   if (!floor.some(Boolean)) return 0;
-  const span = 9, at = (a: number[], i: number) => a[Math.min(a.length - 1, Math.max(0, i))]!;
-  const envelope = floor.map((_, i) => Math.max(...Array.from({ length: 2 * span + 1 }, (_, k) => at(floor, i - span + k))));
-  const lift = envelope.map((_, i) => Math.max(floor[i]!, Array.from({ length: span }, (_, k) => at(envelope, i - (span >> 1) + k)).reduce((a, b) => a + b) / span));
+  const span = 9, lead = options.lead, at = (a: number[], i: number) => a[Math.min(a.length - 1, Math.max(0, i))]!;
+  const mean = (a: number[], from: number, count: number) => Array.from({ length: count }, (_, k) => at(a, from + k)).reduce((x, y) => x + y) / count;
+  const envelope = floor.map((_, i) => Math.max(...Array.from({ length: span + (lead ?? span) + 1 }, (_, k) => at(floor, i - span + k))));
+  const lift = envelope.map((_, i) => Math.max(floor[i]!, lead === undefined ? mean(envelope, i - (span >> 1), span) : mean(envelope, i - (span >> 1), (span >> 1) + 1)));
   roots.forEach((node, index) => {
     const sampler = channels[index]!.getSampler()!, output = sampler.getOutput()!;
     const values = times.flatMap(time => sample(sampler, time));

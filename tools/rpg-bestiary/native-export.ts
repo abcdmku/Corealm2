@@ -12,9 +12,11 @@ import { existsSync, readFileSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import type { Document } from '@gltf-transform/core';
 import { applyClip, restorePose, storedPose } from '../creature-motion/pose.js';
 import { deformedBounds } from '../creature-motion/validate-deformation.js';
 import { repoRoot } from '../lib/paths.js';
+import { bodyMinY, type ClothOptions, rigCloth, simulateCloth } from './native/cloth.js';
 import { clipSeconds, compact, fbxSource, gltfSource, io, lyingLift, type NativeSource, type NativeState, sourceJson, type TakePart, transplant, type TransplantOptions } from './native/transplant.js';
 
 const MAIN = process.env.COREALM_MAIN ?? 'C:/Users/Borg/Documents/GitHub/Corealm2';
@@ -49,8 +51,13 @@ const ual = (library: 1 | 2) => once(`ual${library}`, () => gltfSource(derived(`
 type Provenance = { native: string[]; donor: Record<string, string>; authored: string[]; retained?: Record<string, string>; notes: string };
 /** `lift`: lying clips whose hips drop get the crlib lying-lift envelope (thicker bodies than the mannequin). */
 /** `grip`: set a rigid prop's offset along its own axis inside the hand (a re-grip; no motion change). */
-interface Spec { options: () => Promise<TransplantOptions>; provenance: Provenance; flags?: string[]; lift?: { roots: string[]; clips: string[] };
-  grip?: { node: string; translation: [number, number, number]; note: string } }
+/** `hold`: joints held at their first key in the listed clips (a hovering body's legs under its robe). */
+/** `cloth`: robe/sleeve spring chains simulated from the body motion; `glide` m/s per clip for a body that floats while it moves. */
+/** `hover`: the body floats; it stands on its own origin (groundY 0), not on its lowest idle point. */
+/** `toes`: shorten the boot toe caps in front of the ball joint (a mesh fix; the motion is untouched). */
+interface Spec { toes?: { meshes: RegExp; scale: number; note: string }; options: () => Promise<TransplantOptions>; provenance: Provenance; flags?: string[]; lift?: { roots: string[]; clips: string[]; lead?: number };
+  grip?: { node: string; translation: [number, number, number]; note: string };
+  hold?: { joints: RegExp; clips: string[] }; cloth?: ClothOptions & { glide: Record<string, number> }; hover?: boolean }
 const state = async (as: string, source: Promise<NativeSource>, clip: string, range?: readonly [number, number]): Promise<NativeState> => ({ as, source: await source, clip, range });
 
 // ---- Dungeon Skeletons Demo: the demo ships only the onehand Idle/Walk/Attack takes.
@@ -131,12 +138,43 @@ const ubc = (takes: UalTake[], notes: string, prefix = ''): Spec => ({
 });
 const humanoid: UalTake[] = [['Idle', 1, 'Idle_Loop'], ['Walk', 1, 'Walk_Loop'], ['Run', 1, 'Jog_Fwd_Loop'], ['Hit', 1, 'Hit_Chest'], ['Death', 1, 'Death01']];
 const zombie: UalTake[] = [['Idle', 2, 'Zombie_Idle_Loop'], ['Walk', 2, 'Zombie_Walk_Fwd_Loop'], ['Attack', 2, 'Zombie_Scratch'], ['Hit', 1, 'Hit_Chest'], ['Death', 1, 'Death01']];
+/** Hunched bodies have no Hit: every UAL hit starts upright, and the runtime overlays a Hit as
+ * inverse(Idle@0) * Hit(t) on the spine, so Hit_Chest (or Hit_Head) straightened the hunch for the
+ * whole flinch. Without one the runtime recoils the spine from the hunched idle itself. */
+const hunched = zombie.filter(([as]) => as !== 'Hit');
+const noHit = 'Hit omitted (runtime spine recoil from the hunched idle): the upright UAL hits popped the hunch straight.';
 const spell: UalTake[] = [['Idle', 1, 'Spell_Simple_Idle_Loop'], ['Walk', 1, 'Walk_Loop'], ['Run', 1, 'Jog_Fwd_Loop'], ['Hit', 1, 'Hit_Chest'], ['Death', 1, 'Death01']];
 /** The UAL cast gesture, raise then lower (Enter ends exactly where Exit starts). Spell_Simple_Shoot
  * alone is a 0.5 s held arm, and chained between them it pops the forearm 28 degrees. */
 const cast: UalTake = ['Attack', 1, 'Spell_Simple_Enter', undefined, [['Spell_Simple_Exit']]];
 const noRetime = 'No root pinning beyond the UAL root, no retime, no IK, no floor lift.';
-const goblinArcherAttack = (process.env.ARCHER_ATTACK ?? 'Spell_Simple_Shoot') as string;
+/**
+ * Robed spirits float: the robe hangs to the floor with no feet under it. They do not walk: Walk
+ * and Run play the plain standing idle with the legs held under the robe while the body glides,
+ * and the robe (and any sleeve membrane) is cloth simulated from the body's motion, trailing
+ * from the glide's drag. Their Idle is Idle_Loop, not Spell_Simple_Idle_Loop, which held one arm
+ * out in a frozen cast for the whole loop.
+ */
+const GLIDE = { Walk: 1.4, Run: 3.2 };
+const robe = (mesh: RegExp, sleeves?: RegExp, hood?: { mesh: RegExp; from: number }): NonNullable<Spec['cloth']> => ({
+  specs: [
+    // A heavy robe: soft pull, most of its hang kept in world space, real damping.
+    { kind: 'skirt', meshes: mesh, parent: 'pelvis', top: 0, chains: 12, segments: 4, stiffness: 45, damping: 5, gravity: 2, hang: 0.55, drag: 2 },
+    // A light torn membrane lags more.
+    // A stiff linen peak keeps its shape and bends where it meets the floor.
+    ...(hood ? [{ kind: 'tip' as const, meshes: hood.mesh, parent: 'Head', from: hood.from, segments: 3, stiffness: 260, damping: 14, gravity: 1, hang: 0, drag: 0.5 }] : []),
+    ...(sleeves ? [{ kind: 'sleeve' as const, meshes: sleeves, arm: ['upperarm', 'lowerarm', 'hand'], chains: 5, segments: 3, stiffness: 14, damping: 3, gravity: 6, hang: 0.8, drag: 2.5 }] : []),
+  ],
+  colliders: [...['l', 'r'].flatMap(side => [
+    { from: `thigh_${side}`, to: `calf_${side}`, radius: 0.1 }, { from: `calf_${side}`, to: `foot_${side}`, radius: 0.075 }, { from: `foot_${side}`, to: `ball_${side}`, radius: 0.05 }]),
+    { from: 'pelvis', to: 'spine_02', radius: 0.15 }, { from: 'spine_02', to: 'neck_01', radius: 0.15 }],
+  spine: [], glide: GLIDE,
+});
+const hoverTakes: UalTake[] = [['Idle', 1, 'Idle_Loop'], ['Walk', 1, 'Idle_Loop'], ['Run', 1, 'Idle_Loop'], ['Hit', 1, 'Hit_Chest'], ['Death', 1, 'Death01']];
+const hover = (cloth: NonNullable<Spec['cloth']>, notes: string): Spec => {
+  const spec = ubc([...hoverTakes, cast], `${noRetime} ${notes} Hovering body: Idle_Loop as Idle, and as Walk and Run with the thigh, calf, foot and ball joints held at their first key (no stepping) while it glides at ${GLIDE.Walk} / ${GLIDE.Run} m/s. The robe skirt${cloth.specs.length > 1 ? ' and the arm membranes' : ''} hang on cloth joints driven by a damped spring simulation of the body motion (legs, hips and chest as colliders, floor plane), baked into every clip; air drag against the glide trails the robe in Walk and Run.`);
+  return { ...spec, hover: true, cloth, hold: { joints: /(thigh|calf|foot|ball)/, clips: ['Walk', 'Run'] }, lift: { ...spec.lift!, lead: 14 } };
+};
 
 export const SPECS: Record<string, Spec> = {
   ...Object.fromEntries(Object.entries({
@@ -151,31 +189,101 @@ export const SPECS: Record<string, Spec> = {
   creature_boss_mossbound: beetle(),
   creature_goblin_scout: ubc([...humanoid, ['Attack', 1, 'Sword_Attack']], noRetime),
   creature_moonpetal_stalker: ubc([...humanoid, ['Attack', 1, 'Sword_Attack']], `${noRetime} The heath-jack x1.08 retime is gone.`),
-  creature_goblin_archer: ubc([...humanoid, ['Attack', goblinArcherAttack === 'OverhandThrow' ? 2 : 1, goblinArcherAttack]],
-    `${noRetime} UAL Standard has no bow draw: Spell_Simple_Shoot (bow arm thrust forward) reads best of the native takes; the authored IK bow draw and frozen fingers are gone.`),
+  // The bow arm rises to aim and drops again (the cast enter and exit); Spell_Simple_Shoot alone
+  // held the aimed arm still for the whole attack.
+  creature_goblin_archer: ubc([...humanoid, cast],
+    `${noRetime} UAL Standard has no bow draw: the bow arm is raised to aim and lowered (Spell_Simple_Enter then Exit); Spell_Simple_Shoot alone was a frozen aim. The authored IK bow draw and frozen fingers are gone.`),
   // The staff hung 60% of its length below the hand, so its foot scraped 2-6 cm through the floor in Walk, Run and Hit.
-  creature_goblin_shaman: { ...ubc([...spell, cast], noRetime),
-    grip: { node: 'prop_0', translation: [0, 0.2, 0], note: 'The staff is re-gripped 9 cm lower on its shaft (the hand nearer its middle) so its foot clears the floor in Walk, Run and Hit.' } },
-  creature_zombie: ubc(zombie, `${noRetime} UAL2 has no zombie run: Run omitted (runtime Walk fallback).`),
-  creature_plague_zombie: ubc(zombie, `${noRetime} UAL2 has no zombie run: Run omitted (runtime Walk fallback).`),
-  creature_grave_ghoul: ubc([...zombie, ['Run', 1, 'Jog_Fwd_Loop']], `${noRetime} The extra spine crouch is gone.`),
+  // Idle_Loop, not Spell_Simple_Idle_Loop (a cast arm held out for the whole loop). No Run: the
+  // jog pumps the staff hand to the chest, which drives the staff through the head at any grip.
+  creature_goblin_shaman: { ...ubc([...humanoid.filter(([as]) => as !== 'Run'), cast], `${noRetime} Run omitted (runtime Walk fallback): Jog_Fwd_Loop swung the staff through the head.`),
+    grip: { node: 'prop_0', translation: [0, 0.95, 0], note: 'The staff is re-gripped low on its shaft (45 cm from the source grip, the hand near its foot) so it stands up from the fist like a walking staff and swings clear of the legs and floor in Walk and Hit.' } },
+  creature_zombie: ubc(hunched, `${noRetime} UAL2 has no zombie run: Run omitted (runtime Walk fallback). ${noHit}`),
+  creature_plague_zombie: ubc(hunched, `${noRetime} UAL2 has no zombie run: Run omitted (runtime Walk fallback). ${noHit}`),
+  creature_grave_ghoul: ubc([...hunched, ['Run', 1, 'Jog_Fwd_Loop']], `${noRetime} The extra spine crouch is gone. ${noHit}`),
   creature_grave_lantern: ubc([...zombie, ['Run', 1, 'Jog_Fwd_Loop']], `${noRetime} Grave-ghoul body with prefixed node names.`, 'grave_lantern_'),
-  creature_wraith: ubc([...spell, cast], `${noRetime} Sword_Attack's lunge drove the robe 27 cm through the floor and swung an empty hand; the cast matches the spell idle.`),
-  creature_gloam_wraith: ubc([...spell, cast], `${noRetime} The x1.15 retime and the Idle-as-locomotion hover are gone.`),
-  creature_chainbound_archon: ubc([...spell, cast], noRetime),
-  creature_ashbound_votary_elite: ubc([...humanoid, cast],
-    `${noRetime} The x1.2 retime and Idle-as-Walk/Run are gone. Attack chains the cast enter and exit (Sword_Attack's lunge drove the robe 27 cm through the floor).`),
+  creature_wraith: hover(robe(/Male_Wizard_Body$/), `Sword_Attack's lunge drove the robe 27 cm through the floor and swung an empty hand.`),
+  creature_gloam_wraith: hover(robe(/Male_Wizard_Body$/, /torn_arm_membrane/, { mesh: /Head_Hood$/, from: 0.3 }), 'The x1.15 retime is gone. The torn arm membranes hang from the arm as cloth instead of stretching rigidly from the arm to the hip.'),
+  creature_chainbound_archon: hover(robe(/Male_Wizard_Body$/), ''),
+  creature_ashbound_votary_elite: hover(robe(/Male_Wizard_Body$/), "The x1.2 retime is gone. Attack chains the cast enter and exit (Sword_Attack's lunge drove the robe 27 cm through the floor)."),
   // No boxing: the golem bodies club overhead with one fist (Sword_Regular_A and its recovery,
   // unarmed); OverhandThrow put their long arms 28 cm through the floor, TreeChopping held both fists at the chest.
-  creature_iron_golem: ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} The x1.35/x1.2/x1.3 retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard.`),
-  creature_ivory_castellan: ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} The inherited iron-golem retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard.`),
+  creature_iron_golem: armouredToes(ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} The x1.35/x1.2/x1.3 retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard.`)),
+  creature_ivory_castellan: armouredToes(ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} The inherited iron-golem retimes are gone. Attack is an unarmed one-fist overhead blow, not the Punch_Cross boxing guard.`)),
   creature_scree_watcher: ubc([...humanoid, ['Attack', 2, 'OverhandThrow']], `${noRetime} The x1.07 retime and head/spine sines are gone. Attack is the overhand hurl as a stone-palm smash, not the Punch_Cross boxing guard.`),
   ...Object.fromEntries(['forest', 'highland', 'quarry'].map(region => [`bandit_${region}_ranger`,
-    // Unarmed: an overhand hurl (a stone) instead of the Punch_Jab boxing guard.
-    ubc([...humanoid, ['Attack', 2, 'OverhandThrow']], `${noRetime} Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is the UAL2 overhand hurl, not the Punch_Jab boxing guard.`)])),
+    // Unarmed: a braced one-fist hammer blow (Sword_Regular_A and its recovery, as the golems club).
+    // OverhandThrow read as an empty-handed whirl; Sword_Dash in place dropped to a crawl with a hand
+    // on the floor; Sword_Regular_B and Shield_Dash start in a combat stance; Shield_OneShot is a held block.
+    ubc([...humanoid, ['Attack', 2, 'Sword_Regular_A', undefined, [['Sword_Regular_A_Rec']]]], `${noRetime} Replaces the f2969ad clips, which came from the resampled animation_library_1 (Death01 57 of 73 keys), and the later studio_contact_correction lift. Attack is an unarmed one-fist hammer blow from a braced crouch (UAL2 Sword_Regular_A and its recovery), not the Punch_Jab boxing guard nor the OverhandThrow whirl.`)])),
   creature_kiln_marrow: lava(),
   creature_furnace_regent: lava(),
 };
+
+const LOOPS = new Set(['Idle', 'Walk', 'Run']);
+/** Hold every channel of the matching joints at its first key (a held pose, no new motion). */
+function holdJoints(doc: Document, joints: RegExp, clips: string[]) {
+  for (const clip of doc.getRoot().listAnimations()) {
+    if (!clips.includes(clip.getName())) continue;
+    for (const channel of clip.listChannels()) {
+      if (!joints.test(channel.getTargetNode()?.getName() ?? '')) continue;
+      const sampler = channel.getSampler()!, output = sampler.getOutput()!, width = output.getElementSize(), values = output.getArray()!.slice();
+      for (let i = width; i < values.length; i++) values[i] = values[i % width]!;
+      sampler.setOutput(doc.createAccessor().setType(output.getType()).setArray(values).setBuffer(output.getBuffer()));
+    }
+  }
+}
+
+/** The knight sabatons reach 29 cm past the ball joint (the mannequin's toe is ~7 cm), so at toe-off,
+ * when the studio walk points the whole foot down, the toe spike cut 15-22 cm into the floor. */
+function armouredToes(spec: Spec): Spec {
+  return { ...spec, toes: { meshes: /Feet_Armor$|SuperHero_Male$/, scale: 0.5, note: 'The oversized sabaton toe caps are shortened to half their reach past the ball joint (mesh only), and the boot below the ankle is weighted to the foot instead of the calf, so the toe-off in Walk and the Attack lunge no longer drive the boots through the floor.' } };
+}
+
+/** Scale the reach of boot vertices in front of each ball joint and move the boot below the ankle
+ * onto the foot (bind pose, skin space). */
+function shortenToes(doc: Document, meshes: RegExp, scale: number) {
+  for (const node of doc.getRoot().listNodes()) {
+    const skin = node.getSkin();
+    if (!skin || !node.getMesh() || !meshes.test(node.getName())) continue;
+    const joints = skin.listJoints(), index = (name: string) => joints.findIndex(j => j.getName() === name);
+    // Joint origins in skin space: the inverse of each inverse bind.
+    const origin = (joint: number) => invert4(skin.getInverseBindMatrices()!.getElement(joint, []));
+    const sides = ['l', 'r'].map(side => {
+      const feet = ['foot', 'ball', 'ball_leaf'].map(n => index(`${n}_${side}`));
+      return { feet, calf: index(`calf_${side}`), foot: feet[0]!, z: origin(feet[1]!)[14]!, ankle: origin(feet[0]!)[13]! };
+    });
+    const band = 0.06;
+    for (const prim of node.getMesh()!.listPrimitives()) {
+      const P = prim.getAttribute('POSITION')!.clone(), J = prim.getAttribute('JOINTS_0')!.clone(), W = prim.getAttribute('WEIGHTS_0')!.clone();
+      prim.setAttribute('POSITION', P).setAttribute('JOINTS_0', J).setAttribute('WEIGHTS_0', W);
+      for (let i = 0; i < P.getCount(); i++) {
+        const j = J.getElement(i, [] as number[]), w = W.getElement(i, [] as number[]), q = P.getElement(i, [] as number[]);
+        // The boot below the ankle rides the foot: calf weight there fades out over a band above the
+        // ankle, so a deep knee bend no longer swings the instep and heel cuff into the floor.
+        for (const s of sides) {
+          const k = j.findIndex((joint, n) => joint === s.calf && w[n]! > 0);
+          if (k < 0) continue;
+          const keep = Math.min(1, Math.max(0, (q[1]! - s.ankle) / band));
+          if (keep >= 1) continue;
+          const moved = w[k]! * (1 - keep), f = j.findIndex((joint, n) => joint === s.foot && w[n]! > 0);
+          w[k] = w[k]! * keep;
+          if (f >= 0) w[f] = w[f]! + moved; else { const free = w.findIndex(x => x === 0); if (free >= 0) { j[free] = s.foot; w[free] = moved; } else w[k] = w[k]! + moved; }
+          J.setElement(i, j); W.setElement(i, w);
+        }
+        const side = sides.find(s => [0, 1, 2, 3].reduce((sum, k) => sum + (s.feet.includes(j[k]!) ? w[k]! : 0), 0) > 0.99);
+        const p = P.getElement(i, []);
+        if (side && p[2]! > side.z) P.setElement(i, [p[0]!, p[1]!, side.z + (p[2]! - side.z) * scale]);
+      }
+    }
+  }
+}
+function invert4(m: number[]): number[] {
+  // Rigid inverse bind (rotation + translation, uniform scale): origin = -R^T t / s^2.
+  const s2 = m[0]! * m[0]! + m[1]! * m[1]! + m[2]! * m[2]!, t = [m[12]!, m[13]!, m[14]!];
+  const o = [0, 1, 2].map(c => -(m[c * 4]! * t[0]! + m[c * 4 + 1]! * t[1]! + m[c * 4 + 2]! * t[2]!) / s2);
+  return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, o[0]!, o[1]!, o[2]!, 1];
+}
 
 // ---- Export
 const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
@@ -194,8 +302,13 @@ for (const id of ids) {
     if (!prop) throw new Error(`${id}: no prop node ${spec.grip.node}`);
     prop.setTranslation(spec.grip.translation); // absolute, so re-exporting a promoted file is idempotent
   }
+  if (spec.toes) shortenToes(doc, spec.toes.meshes, spec.toes.scale);
   const report = transplant(doc, await spec.options());
-  const lifts = Object.fromEntries((spec.lift?.clips ?? []).map(clip => [clip, lyingLift(doc, clip, spec.lift!.roots)]).filter(([, lift]) => (lift as number) > 0));
+  if (spec.hold) holdJoints(doc, spec.hold.joints, spec.hold.clips);
+  const cloth = spec.cloth ? rigCloth(doc, spec.cloth) : undefined;
+  const lifts = Object.fromEntries((spec.lift?.clips ?? []).map(clip => [clip, lyingLift(doc, clip, spec.lift!.roots,
+    { lead: spec.lift!.lead, minY: cloth ? () => bodyMinY(doc, cloth.names) : undefined })]).filter(([, lift]) => (lift as number) > 0));
+  if (cloth) for (const clip of doc.getRoot().listAnimations()) simulateCloth(doc, cloth, clip.getName(), { loop: LOOPS.has(clip.getName()), glide: spec.cloth!.glide[clip.getName()] });
   await compact(doc);
   const clips = doc.getRoot().listAnimations(), idle = clips.find(clip => clip.getName() === 'Idle')!;
   const pose = storedPose(doc); applyClip(idle, 0); const bounds = deformedBounds(doc); restorePose(pose);
@@ -208,11 +321,11 @@ for (const id of ids) {
   const { motionRepair: _retired, ...kept } = entry;
   const asset: Record<string, unknown> = { ...kept, bytes: glb.byteLength, sha256: sha(glb),
     size: { x: bounds.max[0]! - bounds.min[0]!, y: bounds.max[1]! - bounds.min[1]!, z: bounds.max[2]! - bounds.min[2]! },
-    base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] }, groundY: bounds.min[1],
+    base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] }, groundY: spec.hover ? 0 : bounds.min[1], ...(spec.hover ? { hover: true } : {}),
     animations: clips.map(clip => clip.getName()), materials: doc.getRoot().listMaterials().map(material => material.getName()),
     walkClipSeconds: seconds('Walk'), runClipSeconds: seconds('Run'), attackSeconds: seconds('Attack'),
     candidateFile, reviewFlags: spec.flags ?? [],
-    motionProvenance: { ...spec.provenance, sources: report.clips, notes: spec.provenance.notes + (spec.grip ? ` ${spec.grip.note}` : '') + (Object.keys(lifts).length
+    motionProvenance: { ...spec.provenance, sources: report.clips, notes: spec.provenance.notes + (spec.grip ? ` ${spec.grip.note}` : '') + (spec.toes ? ` ${spec.toes.note}` : '') + (Object.keys(lifts).length
       ? ` Lying clips lift the hips by a smooth envelope of the skinned mesh's floor penetration, as the creature-rig retarget does for bodies thicker than the donor (end lift ${Object.entries(lifts).map(([c, l]) => `${c} ${(l as number).toFixed(3)} m`).join(', ')}).` : '') } };
   if (asset.runClipSeconds === undefined) delete asset.runClipSeconds;
   catalog.assets = catalog.assets.filter(other => other.id !== id).concat(asset);
